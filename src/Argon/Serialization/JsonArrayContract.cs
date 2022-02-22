@@ -35,13 +35,11 @@ public class JsonArrayContract : JsonContainerContract
     /// <summary>
     /// Gets the <see cref="System.Type"/> of the collection items.
     /// </summary>
-    /// <value>The <see cref="System.Type"/> of the collection items.</value>
     public Type? CollectionItemType { get; }
 
     /// <summary>
     /// Gets a value indicating whether the collection type is a multidimensional array.
     /// </summary>
-    /// <value><c>true</c> if the collection type is a multidimensional array; otherwise, <c>false</c>.</value>
     public bool IsMultidimensionalArray { get; }
 
     readonly Type? _genericCollectionDefinitionType;
@@ -75,7 +73,6 @@ public class JsonArrayContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
     /// </summary>
-    /// <value>The function used to create the object.</value>
     public ObjectConstructor<object>? OverrideCreator
     {
         get => _overrideCreator;
@@ -90,7 +87,6 @@ public class JsonArrayContract : JsonContainerContract
     /// <summary>
     /// Gets a value indicating whether the creator has a parameter with the collection values.
     /// </summary>
-    /// <value><c>true</c> if the creator has a parameter with the collection values; otherwise, <c>false</c>.</value>
     public bool HasParameterizedCreator { get; set; }
 
     internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || _parameterizedCreator != null || _parameterizedConstructor != null;

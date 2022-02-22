@@ -35,7 +35,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
     protected override IList<JToken> ChildrenTokens => _values;
 
     internal override int IndexOfItem(JToken? item)
@@ -65,13 +64,11 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Gets or sets the name of this constructor.
     /// </summary>
-    /// <value>The constructor name.</value>
     public string? Name { get; set; }
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type => JTokenType.Constructor;
 
     /// <summary>
@@ -162,7 +159,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public override JToken? this[object key]
     {
         get

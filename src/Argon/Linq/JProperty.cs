@@ -136,19 +136,16 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
     protected override IList<JToken> ChildrenTokens => _content;
 
     /// <summary>
     /// Gets the property name.
     /// </summary>
-    /// <value>The property name.</value>
     public string Name { [DebuggerStepThrough] get; }
 
     /// <summary>
     /// Gets or sets the property value.
     /// </summary>
-    /// <value>The property value.</value>
     public JToken Value
     {
         [DebuggerStepThrough]
@@ -278,7 +275,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type
     {
         [DebuggerStepThrough]

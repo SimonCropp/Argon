@@ -1195,7 +1195,7 @@ public class JsonConvertTest : TestFixtureBase
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(ClobberValueString + "-" + ClobberValueInt.ToString() + "-" + value.ToString());
+            writer.WriteValue($"{ClobberValueString}-{ClobberValueInt}-{value}");
         }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)

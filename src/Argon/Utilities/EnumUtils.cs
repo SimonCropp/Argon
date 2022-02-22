@@ -318,13 +318,9 @@ static class EnumUtils
             var valueSubstringLength = endIndexNoWhitespace - valueIndex;
 
             // match with case sensitivity
-            matchingIndex = MatchName(value, enumNames, resolvedNames, valueIndex, valueSubstringLength, StringComparison.Ordinal);
-
-            // if no match found, attempt case insensitive search
-            if (matchingIndex == null)
-            {
-                matchingIndex = MatchName(value, enumNames, resolvedNames, valueIndex, valueSubstringLength, StringComparison.OrdinalIgnoreCase);
-            }
+            matchingIndex = MatchName(value, enumNames, resolvedNames, valueIndex, valueSubstringLength, StringComparison.Ordinal) ??
+                            // if no match found, attempt case insensitive search
+                            MatchName(value, enumNames, resolvedNames, valueIndex, valueSubstringLength, StringComparison.OrdinalIgnoreCase);
 
             if (matchingIndex == null)
             {
@@ -351,13 +347,8 @@ static class EnumUtils
 
     static int? MatchName(string value, string[] enumNames, string[] resolvedNames, int valueIndex, int valueSubstringLength, StringComparison comparison)
     {
-        var matchingIndex = FindIndexByName(resolvedNames, value, valueIndex, valueSubstringLength, comparison);
-        if (matchingIndex == null)
-        {
-            matchingIndex = FindIndexByName(enumNames, value, valueIndex, valueSubstringLength, comparison);
-        }
-
-        return matchingIndex;
+        return FindIndexByName(resolvedNames, value, valueIndex, valueSubstringLength, comparison) ??
+               FindIndexByName(enumNames, value, valueIndex, valueSubstringLength, comparison);
     }
 
     static int? FindIndexByName(string[] enumNames, string value, int valueIndex, int valueSubstringLength, StringComparison comparison)

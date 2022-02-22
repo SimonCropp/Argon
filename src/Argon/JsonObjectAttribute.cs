@@ -41,13 +41,11 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// <summary>
     /// Gets or sets the member serialization.
     /// </summary>
-    /// <value>The member serialization.</value>
     public MemberSerialization MemberSerialization { get; set; } = MemberSerialization.OptOut;
 
     /// <summary>
     /// Gets or sets the missing member handling used when deserializing this object.
     /// </summary>
-    /// <value>The missing member handling.</value>
     public MissingMemberHandling MissingMemberHandling
     {
         get => _missingMemberHandling ?? default;
@@ -57,7 +55,6 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// <summary>
     /// Gets or sets how the object's properties with null values are handled during serialization and deserialization.
     /// </summary>
-    /// <value>How the object's properties with null values are handled during serialization and deserialization.</value>
     public NullValueHandling ItemNullValueHandling
     {
         get => _itemNullValueHandling ?? default;
@@ -67,9 +64,6 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// <summary>
     /// Gets or sets a value that indicates whether the object's properties are required.
     /// </summary>
-    /// <value>
-    /// 	A value indicating whether the object's properties are required.
-    /// </value>
     public Required ItemRequired
     {
         get => _itemRequired ?? default;

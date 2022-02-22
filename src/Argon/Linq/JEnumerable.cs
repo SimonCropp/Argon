@@ -66,7 +66,6 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// <summary>
     /// Gets the <see cref="IJEnumerable{T}"/> of <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value></value>
     public IJEnumerable<JToken> this[object key]
     {
         get

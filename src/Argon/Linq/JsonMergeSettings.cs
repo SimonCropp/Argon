@@ -45,7 +45,6 @@ public class JsonMergeSettings
     /// <summary>
     /// Gets or sets the method used when merging JSON arrays.
     /// </summary>
-    /// <value>The method used when merging JSON arrays.</value>
     public MergeArrayHandling MergeArrayHandling
     {
         get => _mergeArrayHandling;
@@ -63,7 +62,6 @@ public class JsonMergeSettings
     /// <summary>
     /// Gets or sets how null value properties are merged.
     /// </summary>
-    /// <value>How null value properties are merged.</value>
     public MergeNullValueHandling MergeNullValueHandling
     {
         get => _mergeNullValueHandling;
@@ -83,7 +81,6 @@ public class JsonMergeSettings
     /// The exact property name will be searched for first and if no matching property is found then
     /// the <see cref="StringComparison"/> will be used to match a property.
     /// </summary>
-    /// <value>The comparison used to match property names while merging.</value>
     public StringComparison PropertyNameComparison
     {
         get => _propertyNameComparison;

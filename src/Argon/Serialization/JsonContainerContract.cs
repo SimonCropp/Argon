@@ -56,25 +56,21 @@ public class JsonContainerContract : JsonContract
     /// <summary>
     /// Gets or sets the default collection items <see cref="JsonConverter" />.
     /// </summary>
-    /// <value>The converter.</value>
     public JsonConverter? ItemConverter { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the collection items preserve object references.
     /// </summary>
-    /// <value><c>true</c> if collection items preserve object references; otherwise, <c>false</c>.</value>
     public bool? ItemIsReference { get; set; }
 
     /// <summary>
     /// Gets or sets the collection item reference loop handling.
     /// </summary>
-    /// <value>The reference loop handling.</value>
     public ReferenceLoopHandling? ItemReferenceLoopHandling { get; set; }
 
     /// <summary>
     /// Gets or sets the collection item type name handling.
     /// </summary>
-    /// <value>The type name handling.</value>
     public TypeNameHandling? ItemTypeNameHandling { get; set; }
 
     /// <summary>
@@ -95,7 +91,7 @@ public class JsonContainerContract : JsonContract
                     jsonContainerAttribute.ItemConverterParameters);
             }
 
-            ItemIsReference = jsonContainerAttribute._itemIsReference;
+            ItemIsReference = jsonContainerAttribute.itemIsReference;
             ItemReferenceLoopHandling = jsonContainerAttribute._itemReferenceLoopHandling;
             ItemTypeNameHandling = jsonContainerAttribute._itemTypeNameHandling;
         }

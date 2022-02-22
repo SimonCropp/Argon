@@ -34,7 +34,6 @@ public sealed class JsonArrayAttribute : JsonContainerAttribute
     /// <summary>
     /// Gets or sets a value indicating whether null items are allowed in the collection.
     /// </summary>
-    /// <value><c>true</c> if null items are allowed in the collection; otherwise, <c>false</c>.</value>
     public bool AllowNullItems { get; set; }
 
     /// <summary>

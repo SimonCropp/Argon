@@ -143,7 +143,7 @@ class Base64Encoder
         _writer.Write(chars, index, count);
     }
 
-    public async Task EncodeAsync(byte[] buffer, int index, int count, CancellationToken cancellationToken)
+    public async Task EncodeAsync(byte[] buffer, int index, int count, CancellationToken cancellation)
     {
         ValidateEncode(buffer, index, count);
 
@@ -155,7 +155,7 @@ class Base64Encoder
             }
 
             var num2 = Convert.ToBase64CharArray(_leftOverBytes, 0, 3, _charsLine, 0);
-            await WriteCharsAsync(_charsLine, 0, num2, cancellationToken).ConfigureAwait(false);
+            await WriteCharsAsync(_charsLine, 0, num2, cancellation).ConfigureAwait(false);
         }
 
         StoreLeftOverBytes(buffer, index, ref count);
@@ -169,28 +169,28 @@ class Base64Encoder
                 length = num4 - index;
             }
             var num6 = Convert.ToBase64CharArray(buffer, index, length, _charsLine, 0);
-            await WriteCharsAsync(_charsLine, 0, num6, cancellationToken).ConfigureAwait(false);
+            await WriteCharsAsync(_charsLine, 0, num6, cancellation).ConfigureAwait(false);
             index += length;
         }
     }
 
-    Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellationToken)
+    Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellation)
     {
-        return _writer.WriteAsync(chars, index, count, cancellationToken);
+        return _writer.WriteAsync(chars, index, count, cancellation);
     }
 
-    public Task FlushAsync(CancellationToken cancellationToken)
+    public Task FlushAsync(CancellationToken cancellation)
     {
-        if (cancellationToken.IsCancellationRequested)
+        if (cancellation.IsCancellationRequested)
         {
-            return cancellationToken.FromCanceled();
+            return cancellation.FromCanceled();
         }
 
         if (_leftOverBytesCount > 0)
         {
             var count = Convert.ToBase64CharArray(_leftOverBytes, 0, _leftOverBytesCount, _charsLine, 0);
             _leftOverBytesCount = 0;
-            return WriteCharsAsync(_charsLine, 0, count, cancellationToken);
+            return WriteCharsAsync(_charsLine, 0, count, cancellation);
         }
 
         return AsyncUtils.CompletedTask;

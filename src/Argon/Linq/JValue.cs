@@ -34,13 +34,13 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JValue : JToken, IEquatable<JValue>, IFormattable, IComparable, IComparable<JValue>, IConvertible
 {
-    JTokenType _valueType;
-    object? _value;
+    JTokenType valueType;
+    object? value;
 
     internal JValue(object? value, JTokenType type)
     {
-        _value = value;
-        _valueType = type;
+        this.value = value;
+        valueType = type;
     }
 
     /// <summary>
@@ -193,9 +193,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Gets a value indicating whether this token has child tokens.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this token has child values; otherwise, <c>false</c>.
-    /// </value>
     public override bool HasValues => false;
 
     static int CompareBigInteger(BigInteger i1, object i2)
@@ -377,7 +374,9 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             if (operation is ExpressionType.Add or ExpressionType.AddAssign)
             {
+                // ReSharper disable RedundantToStringCall
                 result = objA?.ToString() + objB?.ToString();
+                // ReSharper restore RedundantToStringCall
                 return true;
             }
         }
@@ -647,27 +646,25 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
-    public override JTokenType Type => _valueType;
+    public override JTokenType Type => valueType;
 
     /// <summary>
     /// Gets or sets the underlying token value.
     /// </summary>
-    /// <value>The underlying token value.</value>
     public object? Value
     {
-        get => _value;
+        get => value;
         set
         {
-            var currentType = _value?.GetType();
+            var currentType = this.value?.GetType();
             var newType = value?.GetType();
 
             if (currentType != newType)
             {
-                _valueType = GetValueType(_valueType, value);
+                valueType = GetValueType(valueType, value);
             }
 
-            _value = value;
+            this.value = value;
         }
     }
 
@@ -678,23 +675,23 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <param name="converters">A collection of <see cref="JsonConverter"/>s which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
-        if (converters is {Length: > 0} && _value != null)
+        if (converters is {Length: > 0} && value != null)
         {
-            var matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
+            var matchingConverter = JsonSerializer.GetMatchingConverter(converters, value.GetType());
             if (matchingConverter is {CanWrite: true})
             {
-                matchingConverter.WriteJson(writer, _value, JsonSerializer.CreateDefault());
+                matchingConverter.WriteJson(writer, value, JsonSerializer.CreateDefault());
                 return;
             }
         }
 
-        switch (_valueType)
+        switch (valueType)
         {
             case JTokenType.Comment:
-                writer.WriteComment(_value?.ToString());
+                writer.WriteComment(value?.ToString());
                 return;
             case JTokenType.Raw:
-                writer.WriteRawValue(_value?.ToString());
+                writer.WriteRawValue(value?.ToString());
                 return;
             case JTokenType.Null:
                 writer.WriteNull();
@@ -703,89 +700,89 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 writer.WriteUndefined();
                 return;
             case JTokenType.Integer:
-                if (_value is int i)
+                if (value is int i)
                 {
                     writer.WriteValue(i);
                 }
-                else if (_value is long l)
+                else if (value is long l)
                 {
                     writer.WriteValue(l);
                 }
-                else if (_value is ulong ul)
+                else if (value is ulong ul)
                 {
                     writer.WriteValue(ul);
                 }
-                else if (_value is BigInteger integer)
+                else if (value is BigInteger integer)
                 {
                     writer.WriteValue(integer);
                 }
                 else
                 {
-                    writer.WriteValue(Convert.ToInt64(_value, CultureInfo.InvariantCulture));
+                    writer.WriteValue(Convert.ToInt64(value, CultureInfo.InvariantCulture));
                 }
                 return;
             case JTokenType.Float:
-                if (_value is decimal dec)
+                if (value is decimal dec)
                 {
                     writer.WriteValue(dec);
                 }
-                else if (_value is double d)
+                else if (value is double d)
                 {
                     writer.WriteValue(d);
                 }
-                else if (_value is float f)
+                else if (value is float f)
                 {
                     writer.WriteValue(f);
                 }
                 else
                 {
-                    writer.WriteValue(Convert.ToDouble(_value, CultureInfo.InvariantCulture));
+                    writer.WriteValue(Convert.ToDouble(value, CultureInfo.InvariantCulture));
                 }
                 return;
             case JTokenType.String:
-                writer.WriteValue(_value?.ToString());
+                writer.WriteValue(value?.ToString());
                 return;
             case JTokenType.Boolean:
-                writer.WriteValue(Convert.ToBoolean(_value, CultureInfo.InvariantCulture));
+                writer.WriteValue(Convert.ToBoolean(value, CultureInfo.InvariantCulture));
                 return;
             case JTokenType.Date:
-                if (_value is DateTimeOffset offset)
+                if (value is DateTimeOffset offset)
                 {
                     writer.WriteValue(offset);
                 }
                 else
                 {
-                    writer.WriteValue(Convert.ToDateTime(_value, CultureInfo.InvariantCulture));
+                    writer.WriteValue(Convert.ToDateTime(value, CultureInfo.InvariantCulture));
                 }
                 return;
             case JTokenType.Bytes:
-                writer.WriteValue((byte[]?)_value);
+                writer.WriteValue((byte[]?)value);
                 return;
             case JTokenType.Guid:
-                writer.WriteValue(_value != null ? (Guid?)_value : null);
+                writer.WriteValue(value != null ? (Guid?)value : null);
                 return;
             case JTokenType.TimeSpan:
-                writer.WriteValue(_value != null ? (TimeSpan?)_value : null);
+                writer.WriteValue(value != null ? (TimeSpan?)value : null);
                 return;
             case JTokenType.Uri:
-                writer.WriteValue((Uri?)_value);
+                writer.WriteValue((Uri?)value);
                 return;
         }
 
-        throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(Type), _valueType, "Unexpected token type.");
+        throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(Type), valueType, "Unexpected token type.");
     }
 
     internal override int GetDeepHashCode()
     {
-        var valueHashCode = _value != null ? _value.GetHashCode() : 0;
+        var valueHashCode = value != null ? value.GetHashCode() : 0;
 
         // GetHashCode on an enum boxes so cast to int
-        return ((int)_valueType).GetHashCode() ^ valueHashCode;
+        return ((int)valueType).GetHashCode() ^ valueHashCode;
     }
 
     static bool ValuesEquals(JValue v1, JValue v2)
     {
-        return v1 == v2 || (v1._valueType == v2._valueType && Compare(v1._valueType, v1._value, v2._value) == 0);
+        return v1 == v2 || (v1.valueType == v2.valueType && Compare(v1.valueType, v1.value, v2.value) == 0);
     }
 
     /// <summary>
@@ -826,12 +823,12 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// </returns>
     public override int GetHashCode()
     {
-        if (_value == null)
+        if (value == null)
         {
             return 0;
         }
 
-        return _value.GetHashCode();
+        return value.GetHashCode();
     }
 
     /// <summary>
@@ -846,12 +843,12 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// </returns>
     public override string ToString()
     {
-        if (_value == null)
+        if (value == null)
         {
             return string.Empty;
         }
 
-        return _value.ToString();
+        return value.ToString();
     }
 
     /// <summary>
@@ -888,17 +885,17 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// </returns>
     public string ToString(string? format, IFormatProvider formatProvider)
     {
-        if (_value == null)
+        if (value == null)
         {
             return string.Empty;
         }
 
-        if (_value is IFormattable formattable)
+        if (value is IFormattable formattable)
         {
             return formattable.ToString(format, formatProvider);
         }
 
-        return _value.ToString();
+        return value.ToString();
     }
 
     /// <summary>
@@ -992,17 +989,17 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         if (obj is JValue value)
         {
             otherValue = value.Value;
-            comparisonType = _valueType == JTokenType.String && _valueType != value._valueType
-                ? value._valueType
-                : _valueType;
+            comparisonType = valueType == JTokenType.String && valueType != value.valueType
+                ? value.valueType
+                : valueType;
         }
         else
         {
             otherValue = obj;
-            comparisonType = _valueType;
+            comparisonType = valueType;
         }
 
-        return Compare(comparisonType, _value, otherValue);
+        return Compare(comparisonType, this.value, otherValue);
     }
 
     /// <summary>
@@ -1030,21 +1027,21 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             return 1;
         }
 
-        var comparisonType = _valueType == JTokenType.String && _valueType != obj._valueType
-            ? obj._valueType
-            : _valueType;
+        var comparisonType = valueType == JTokenType.String && valueType != obj.valueType
+            ? obj.valueType
+            : valueType;
 
-        return Compare(comparisonType, _value, obj._value);
+        return Compare(comparisonType, value, obj.value);
     }
 
     TypeCode IConvertible.GetTypeCode()
     {
-        if (_value == null)
+        if (value == null)
         {
             return TypeCode.Empty;
         }
 
-        if (_value is IConvertible convertable)
+        if (value is IConvertible convertable)
         {
             return convertable.GetTypeCode();
         }

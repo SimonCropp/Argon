@@ -43,7 +43,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Gets the token being written.
     /// </summary>
-    /// <value>The token being written.</value>
     public JToken? Token
     {
         get

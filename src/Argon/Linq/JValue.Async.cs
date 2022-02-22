@@ -31,92 +31,92 @@ public partial class JValue
     /// Writes this token to a <see cref="JsonWriter"/> asynchronously.
     /// </summary>
     /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests.</param>
     /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
-    public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
+    public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
     {
-        if (converters is {Length: > 0} && _value != null)
+        if (converters is {Length: > 0} && value != null)
         {
-            var matchingConverter = JsonSerializer.GetMatchingConverter(converters, _value.GetType());
+            var matchingConverter = JsonSerializer.GetMatchingConverter(converters, value.GetType());
             if (matchingConverter is {CanWrite: true})
             {
                 // TODO: Call WriteJsonAsync when it exists.
-                matchingConverter.WriteJson(writer, _value, JsonSerializer.CreateDefault());
+                matchingConverter.WriteJson(writer, value, JsonSerializer.CreateDefault());
                 return AsyncUtils.CompletedTask;
             }
         }
 
-        switch (_valueType)
+        switch (valueType)
         {
             case JTokenType.Comment:
-                return writer.WriteCommentAsync(_value?.ToString(), cancellationToken);
+                return writer.WriteCommentAsync(value?.ToString(), cancellation);
             case JTokenType.Raw:
-                return writer.WriteRawValueAsync(_value?.ToString(), cancellationToken);
+                return writer.WriteRawValueAsync(value?.ToString(), cancellation);
             case JTokenType.Null:
-                return writer.WriteNullAsync(cancellationToken);
+                return writer.WriteNullAsync(cancellation);
             case JTokenType.Undefined:
-                return writer.WriteUndefinedAsync(cancellationToken);
+                return writer.WriteUndefinedAsync(cancellation);
             case JTokenType.Integer:
-                if (_value is int i)
+                if (value is int i)
                 {
-                    return writer.WriteValueAsync(i, cancellationToken);
+                    return writer.WriteValueAsync(i, cancellation);
                 }
 
-                if (_value is long l)
+                if (value is long l)
                 {
-                    return writer.WriteValueAsync(l, cancellationToken);
+                    return writer.WriteValueAsync(l, cancellation);
                 }
 
-                if (_value is ulong ul)
+                if (value is ulong ul)
                 {
-                    return writer.WriteValueAsync(ul, cancellationToken);
+                    return writer.WriteValueAsync(ul, cancellation);
                 }
 
-                if (_value is BigInteger integer)
+                if (value is BigInteger integer)
                 {
-                    return writer.WriteValueAsync(integer, cancellationToken);
+                    return writer.WriteValueAsync(integer, cancellation);
                 }
 
-                return writer.WriteValueAsync(Convert.ToInt64(_value, CultureInfo.InvariantCulture), cancellationToken);
+                return writer.WriteValueAsync(Convert.ToInt64(value, CultureInfo.InvariantCulture), cancellation);
             case JTokenType.Float:
-                if (_value is decimal dec)
+                if (value is decimal dec)
                 {
-                    return writer.WriteValueAsync(dec, cancellationToken);
+                    return writer.WriteValueAsync(dec, cancellation);
                 }
 
-                if (_value is double d)
+                if (value is double d)
                 {
-                    return writer.WriteValueAsync(d, cancellationToken);
+                    return writer.WriteValueAsync(d, cancellation);
                 }
 
-                if (_value is float f)
+                if (value is float f)
                 {
-                    return writer.WriteValueAsync(f, cancellationToken);
+                    return writer.WriteValueAsync(f, cancellation);
                 }
 
-                return writer.WriteValueAsync(Convert.ToDouble(_value, CultureInfo.InvariantCulture), cancellationToken);
+                return writer.WriteValueAsync(Convert.ToDouble(value, CultureInfo.InvariantCulture), cancellation);
             case JTokenType.String:
-                return writer.WriteValueAsync(_value?.ToString(), cancellationToken);
+                return writer.WriteValueAsync(value?.ToString(), cancellation);
             case JTokenType.Boolean:
-                return writer.WriteValueAsync(Convert.ToBoolean(_value, CultureInfo.InvariantCulture), cancellationToken);
+                return writer.WriteValueAsync(Convert.ToBoolean(value, CultureInfo.InvariantCulture), cancellation);
             case JTokenType.Date:
-                if (_value is DateTimeOffset offset)
+                if (value is DateTimeOffset offset)
                 {
-                    return writer.WriteValueAsync(offset, cancellationToken);
+                    return writer.WriteValueAsync(offset, cancellation);
                 }
 
-                return writer.WriteValueAsync(Convert.ToDateTime(_value, CultureInfo.InvariantCulture), cancellationToken);
+                return writer.WriteValueAsync(Convert.ToDateTime(value, CultureInfo.InvariantCulture), cancellation);
             case JTokenType.Bytes:
-                return writer.WriteValueAsync((byte[]?)_value, cancellationToken);
+                return writer.WriteValueAsync((byte[]?)value, cancellation);
             case JTokenType.Guid:
-                return writer.WriteValueAsync(_value != null ? (Guid?)_value : null, cancellationToken);
+                return writer.WriteValueAsync(value != null ? (Guid?)value : null, cancellation);
             case JTokenType.TimeSpan:
-                return writer.WriteValueAsync(_value != null ? (TimeSpan?)_value : null, cancellationToken);
+                return writer.WriteValueAsync(value != null ? (TimeSpan?)value : null, cancellation);
             case JTokenType.Uri:
-                return writer.WriteValueAsync((Uri?)_value, cancellationToken);
+                return writer.WriteValueAsync((Uri?)value, cancellation);
         }
 
-        throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(Type), _valueType, "Unexpected token type.");
+        throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(Type), valueType, "Unexpected token type.");
     }
 }

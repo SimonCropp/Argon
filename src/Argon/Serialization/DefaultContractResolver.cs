@@ -59,31 +59,21 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Gets or sets a value indicating whether compiler generated members should be serialized.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if serialized compiler generated members; otherwise, <c>false</c>.
-    /// </value>
     public bool SerializeCompilerGeneratedMembers { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to ignore IsSpecified members when serializing and deserializing types.
     /// </summary>
-    /// <value>
-    ///     <c>true</c> if the IsSpecified members will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
-    /// </value>
     public bool IgnoreIsSpecifiedMembers { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to ignore ShouldSerialize members when serializing and deserializing types.
     /// </summary>
-    /// <value>
-    ///     <c>true</c> if the ShouldSerialize members will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
-    /// </value>
     public bool IgnoreShouldSerializeMembers { get; set; }
 
     /// <summary>
     /// Gets or sets the naming strategy used to resolve how property names and dictionary keys are serialized.
     /// </summary>
-    /// <value>The naming strategy used to resolve how property names and dictionary keys are serialized.</value>
     public NamingStrategy? NamingStrategy { get; set; }
 
     /// <summary>
@@ -657,7 +647,7 @@ public class DefaultContractResolver : IContractResolver
         }
         else
         {
-            contract.IsReference = containerAttribute._isReference;
+            contract.IsReference = containerAttribute.isReference;
         }
 
         contract.Converter = ResolveContractConverter(contract.NonNullableUnderlyingType);

@@ -46,7 +46,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
     protected override IList<JToken> ChildrenTokens => _properties;
 
     /// <summary>
@@ -225,7 +224,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type => JTokenType.Object;
 
     /// <summary>
@@ -295,7 +293,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public override JToken? this[object key]
     {
         get
@@ -321,7 +318,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Gets or sets the <see cref="JToken"/> with the specified property name.
     /// </summary>
-    /// <value></value>
     public JToken? this[string propertyName]
     {
         get

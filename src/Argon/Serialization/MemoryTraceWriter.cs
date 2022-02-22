@@ -14,9 +14,6 @@ public class MemoryTraceWriter : ITraceWriter
     /// For example a filter level of <see cref="TraceLevel.Info"/> will exclude <see cref="TraceLevel.Verbose"/> messages and include <see cref="TraceLevel.Info"/>,
     /// <see cref="TraceLevel.Warning"/> and <see cref="TraceLevel.Error"/> messages.
     /// </summary>
-    /// <value>
-    /// The <see cref="TraceLevel"/> that will be used to filter the trace messages passed to the writer.
-    /// </value>
     public TraceLevel LevelFilter { get; set; }
 
     /// <summary>

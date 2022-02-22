@@ -60,16 +60,11 @@ abstract class JsonSerializerInternalBase
         {
             // override equality comparer for object key dictionary
             // object will be modified as it deserializes and might have mutable hashcode
-            if (_mappings == null)
-            {
-                _mappings = new BidirectionalDictionary<string, object>(
-                    EqualityComparer<string>.Default,
-                    new ReferenceEqualsEqualityComparer(),
-                    "A different value already has the Id '{0}'.",
-                    "A different Id has already been assigned for value '{0}'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.");
-            }
-
-            return _mappings;
+            return _mappings ??= new BidirectionalDictionary<string, object>(
+                EqualityComparer<string>.Default,
+                new ReferenceEqualsEqualityComparer(),
+                "A different value already has the Id '{0}'.",
+                "A different Id has already been assigned for value '{0}'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.");
         }
     }
 

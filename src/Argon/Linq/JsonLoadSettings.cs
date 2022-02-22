@@ -5,74 +5,21 @@
 /// </summary>
 public class JsonLoadSettings
 {
-    CommentHandling _commentHandling;
-    LineInfoHandling _lineInfoHandling;
-    DuplicatePropertyNameHandling _duplicatePropertyNameHandling;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonLoadSettings"/> class.
-    /// </summary>
-    public JsonLoadSettings()
-    {
-        _lineInfoHandling = LineInfoHandling.Load;
-        _commentHandling = CommentHandling.Ignore;
-        _duplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace;
-    }
-
     /// <summary>
     /// Gets or sets how JSON comments are handled when loading JSON.
     /// The default value is <see cref="Argon.Linq.CommentHandling.Ignore" />.
     /// </summary>
-    /// <value>The JSON comment handling.</value>
-    public CommentHandling CommentHandling
-    {
-        get => _commentHandling;
-        set
-        {
-            if (value is < CommentHandling.Ignore or > CommentHandling.Load)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            _commentHandling = value;
-        }
-    }
+    public CommentHandling CommentHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how JSON line info is handled when loading JSON.
     /// The default value is <see cref="Argon.Linq.LineInfoHandling.Load" />.
     /// </summary>
-    /// <value>The JSON line info handling.</value>
-    public LineInfoHandling LineInfoHandling
-    {
-        get => _lineInfoHandling;
-        set
-        {
-            if (value is < LineInfoHandling.Ignore or > LineInfoHandling.Load)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            _lineInfoHandling = value;
-        }
-    }
+    public LineInfoHandling LineInfoHandling { get; set; } = LineInfoHandling.Load;
 
     /// <summary>
     /// Gets or sets how duplicate property names in JSON objects are handled when loading JSON.
     /// The default value is <see cref="Argon.Linq.DuplicatePropertyNameHandling.Replace" />.
     /// </summary>
-    /// <value>The JSON duplicate property name handling.</value>
-    public DuplicatePropertyNameHandling DuplicatePropertyNameHandling
-    {
-        get => _duplicatePropertyNameHandling;
-        set
-        {
-            if (value is < DuplicatePropertyNameHandling.Replace or > DuplicatePropertyNameHandling.Error)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            _duplicatePropertyNameHandling = value;
-        }
-    }
+    public DuplicatePropertyNameHandling DuplicatePropertyNameHandling { get; set; }
 }

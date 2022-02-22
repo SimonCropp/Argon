@@ -307,80 +307,80 @@ static class JavaScriptUtils
         return -1;
     }
 
-    public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string s, char delimiter, bool appendDelimiters, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken = default)
+    public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string s, char delimiter, bool appendDelimiters, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation = default)
     {
-        if (cancellationToken.IsCancellationRequested)
+        if (cancellation.IsCancellationRequested)
         {
-            return cancellationToken.FromCanceled();
+            return cancellation.FromCanceled();
         }
 
         if (appendDelimiters)
         {
-            return WriteEscapedJavaScriptStringWithDelimitersAsync(writer, s, delimiter, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
+            return WriteEscapedJavaScriptStringWithDelimitersAsync(writer, s, delimiter, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
         }
 
         if (StringUtils.IsNullOrEmpty(s))
         {
-            return cancellationToken.CancelIfRequestedAsync() ?? AsyncUtils.CompletedTask;
+            return cancellation.CancelIfRequestedAsync() ?? AsyncUtils.CompletedTask;
         }
 
-        return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
+        return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
     }
 
     static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter,
-        bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
+        bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
     {
-        var task = writer.WriteAsync(delimiter, cancellationToken);
+        var task = writer.WriteAsync(delimiter, cancellation);
         if (!task.IsCompletedSucessfully())
         {
-            return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, s, delimiter, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
+            return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, s, delimiter, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
         }
 
         if (!StringUtils.IsNullOrEmpty(s))
         {
-            task = WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
+            task = WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
             if (task.IsCompletedSucessfully())
             {
-                return writer.WriteAsync(delimiter, cancellationToken);
+                return writer.WriteAsync(delimiter, cancellation);
             }
         }
 
-        return WriteCharAsync(task, writer, delimiter, cancellationToken);
+        return WriteCharAsync(task, writer, delimiter, cancellation);
     }
 
     static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string s, char delimiter,
-        bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
+        bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
 
         if (!StringUtils.IsNullOrEmpty(s))
         {
-            await WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken).ConfigureAwait(false);
+            await WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation).ConfigureAwait(false);
         }
 
         await writer.WriteAsync(delimiter).ConfigureAwait(false);
     }
 
-    public static async Task WriteCharAsync(Task task, TextWriter writer, char c, CancellationToken cancellationToken)
+    public static async Task WriteCharAsync(Task task, TextWriter writer, char c, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await writer.WriteAsync(c, cancellationToken).ConfigureAwait(false);
+        await writer.WriteAsync(c, cancellation).ConfigureAwait(false);
     }
 
     static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(
         TextWriter writer, string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling,
-        JsonTextWriter client, char[] writeBuffer, CancellationToken cancellationToken)
+        JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
     {
         var i = FirstCharToEscape(s, charEscapeFlags, stringEscapeHandling);
         return i == -1
-            ? writer.WriteAsync(s, cancellationToken)
-            : WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellationToken);
+            ? writer.WriteAsync(s, cancellation)
+            : WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
     }
 
     static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(
         TextWriter writer, string s, int lastWritePosition, bool[] charEscapeFlags,
         StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer,
-        CancellationToken cancellationToken)
+        CancellationToken cancellation)
     {
         if (writeBuffer == null || writeBuffer.Length < lastWritePosition)
         {
@@ -392,7 +392,7 @@ static class JavaScriptUtils
             s.CopyTo(0, writeBuffer, 0, lastWritePosition);
 
             // write unchanged chars at start of text.
-            await writer.WriteAsync(writeBuffer, 0, lastWritePosition, cancellationToken).ConfigureAwait(false);
+            await writer.WriteAsync(writeBuffer, 0, lastWritePosition, cancellation).ConfigureAwait(false);
         }
 
         int length;
@@ -480,18 +480,18 @@ static class JavaScriptUtils
                 s.CopyTo(lastWritePosition, writeBuffer, start, length - start);
 
                 // write unchanged chars before writing escaped text
-                await writer.WriteAsync(writeBuffer, start, length - start, cancellationToken).ConfigureAwait(false);
+                await writer.WriteAsync(writeBuffer, start, length - start, cancellation).ConfigureAwait(false);
             }
 
             lastWritePosition = i + 1;
             if (isEscapedUnicodeText)
             {
-                await writer.WriteAsync(writeBuffer, 0, UnicodeTextLength, cancellationToken).ConfigureAwait(false);
+                await writer.WriteAsync(writeBuffer, 0, UnicodeTextLength, cancellation).ConfigureAwait(false);
                 isEscapedUnicodeText = false;
             }
             else
             {
-                await writer.WriteAsync(escapedValue!, cancellationToken).ConfigureAwait(false);
+                await writer.WriteAsync(escapedValue!, cancellation).ConfigureAwait(false);
             }
         }
 
@@ -507,7 +507,7 @@ static class JavaScriptUtils
             s.CopyTo(lastWritePosition, writeBuffer, 0, length);
 
             // write remaining text
-            await writer.WriteAsync(writeBuffer, 0, length, cancellationToken).ConfigureAwait(false);
+            await writer.WriteAsync(writeBuffer, 0, length, cancellation).ConfigureAwait(false);
         }
     }
 

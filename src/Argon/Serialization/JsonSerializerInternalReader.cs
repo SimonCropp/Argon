@@ -177,12 +177,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     JsonSerializerProxy GetInternalSerializer()
     {
-        if (InternalSerializer == null)
-        {
-            InternalSerializer = new JsonSerializerProxy(this);
-        }
-
-        return InternalSerializer;
+        return InternalSerializer ??= new JsonSerializerProxy(this);
     }
 
     static JToken? CreateJToken(JsonReader reader, JsonContract? contract)

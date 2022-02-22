@@ -36,7 +36,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     , ICloneable
     , IDynamicMetaObjectProvider
 {
-    static JTokenEqualityComparer? _equalityComparer;
+    static JTokenEqualityComparer? equalityComparer;
 
     object? _annotations;
 
@@ -54,30 +54,16 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets a comparer that can compare two tokens for value equality.
     /// </summary>
-    /// <value>A <see cref="JTokenEqualityComparer"/> that can compare two nodes for value equality.</value>
-    public static JTokenEqualityComparer EqualityComparer
-    {
-        get
-        {
-            if (_equalityComparer == null)
-            {
-                _equalityComparer = new JTokenEqualityComparer();
-            }
-
-            return _equalityComparer;
-        }
-    }
+    public static JTokenEqualityComparer EqualityComparer => equalityComparer ??= new JTokenEqualityComparer();
 
     /// <summary>
     /// Gets or sets the parent.
     /// </summary>
-    /// <value>The parent.</value>
     public JContainer? Parent { [DebuggerStepThrough] get; internal set; }
 
     /// <summary>
     /// Gets the root <see cref="JToken"/> of this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The root <see cref="JToken"/> of this <see cref="JToken"/>.</value>
     public JToken Root
     {
         get
@@ -103,15 +89,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public abstract JTokenType Type { get; }
 
     /// <summary>
     /// Gets a value indicating whether this token has child tokens.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this token has child values; otherwise, <c>false</c>.
-    /// </value>
     public abstract bool HasValues { get; }
 
     /// <summary>
@@ -128,13 +110,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets the next sibling token of this node.
     /// </summary>
-    /// <value>The <see cref="JToken"/> that contains the next sibling token.</value>
     public JToken? Next { get; internal set; }
 
     /// <summary>
     /// Gets the previous sibling token of this node.
     /// </summary>
-    /// <value>The <see cref="JToken"/> that contains the previous sibling token.</value>
     public JToken? Previous { get; internal set; }
 
     /// <summary>
@@ -276,7 +256,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public virtual JToken? this[object key]
     {
         get => throw new InvalidOperationException($"Cannot access child value on {GetType()}.");
@@ -300,13 +279,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Get the first child token of this token.
     /// </summary>
-    /// <value>A <see cref="JToken"/> containing the first child token of the <see cref="JToken"/>.</value>
     public virtual JToken? First => throw new InvalidOperationException($"Cannot access child value on {GetType()}.");
 
     /// <summary>
     /// Get the last child token of this token.
     /// </summary>
-    /// <value>A <see cref="JToken"/> containing the last child token of the <see cref="JToken"/>.</value>
     public virtual JToken? Last => throw new InvalidOperationException($"Cannot access child value on {GetType()}.");
 
     /// <summary>
@@ -1954,7 +1931,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         // This is required because the serializer won't update settings when used inside of a converter.
         if (jsonSerializer is JsonSerializerProxy proxy)
         {
-            proxy._serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
+            proxy.serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
         }
 
         return jsonSerializer.Deserialize(jsonReader, type);

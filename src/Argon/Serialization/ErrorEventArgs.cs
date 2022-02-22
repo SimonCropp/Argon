@@ -33,13 +33,11 @@ public class ErrorEventArgs : EventArgs
     /// <summary>
     /// Gets the current object the error event is being raised against.
     /// </summary>
-    /// <value>The current object the error event is being raised against.</value>
     public object? CurrentObject { get; }
 
     /// <summary>
     /// Gets the error context.
     /// </summary>
-    /// <value>The error context.</value>
     public ErrorContext ErrorContext { get; }
 
     /// <summary>

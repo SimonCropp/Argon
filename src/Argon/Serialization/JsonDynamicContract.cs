@@ -35,13 +35,11 @@ public class JsonDynamicContract : JsonContainerContract
     /// <summary>
     /// Gets the object's properties.
     /// </summary>
-    /// <value>The object's properties.</value>
     public JsonPropertyCollection Properties { get; }
 
     /// <summary>
     /// Gets or sets the property name resolver.
     /// </summary>
-    /// <value>The property name resolver.</value>
     public Func<string, string>? PropertyNameResolver { get; set; }
 
     readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =

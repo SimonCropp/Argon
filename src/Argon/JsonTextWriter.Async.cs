@@ -29,65 +29,65 @@ public partial class JsonTextWriter
 {
     // It's not safe to perform the async methods here in a derived class as if the synchronous equivalent
     // has been overriden then the asychronous method will no longer be doing the same operation.
-    readonly bool _safeAsync;
+    readonly bool safeAsync;
 
     /// <summary>
     /// Asynchronously flushes whatever is in the buffer to the destination and also flushes the destination.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task FlushAsync(CancellationToken cancellationToken = default)
+    public override Task FlushAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoFlushAsync(cancellationToken) : base.FlushAsync(cancellationToken);
+        return safeAsync ? DoFlushAsync(cancellation) : base.FlushAsync(cancellation);
     }
 
-    internal Task DoFlushAsync(CancellationToken cancellationToken)
+    internal Task DoFlushAsync(CancellationToken cancellation)
     {
-        return cancellationToken.CancelIfRequestedAsync() ?? _writer.FlushAsync();
+        return cancellation.CancelIfRequestedAsync() ?? writer.FlushAsync();
     }
 
     /// <summary>
     /// Asynchronously writes the JSON value delimiter.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    protected override Task WriteValueDelimiterAsync(CancellationToken cancellationToken)
+    protected override Task WriteValueDelimiterAsync(CancellationToken cancellation)
     {
-        return _safeAsync ? DoWriteValueDelimiterAsync(cancellationToken) : base.WriteValueDelimiterAsync(cancellationToken);
+        return safeAsync ? DoWriteValueDelimiterAsync(cancellation) : base.WriteValueDelimiterAsync(cancellation);
     }
 
-    internal Task DoWriteValueDelimiterAsync(CancellationToken cancellationToken)
+    internal Task DoWriteValueDelimiterAsync(CancellationToken cancellation)
     {
-        return _writer.WriteAsync(',', cancellationToken);
+        return writer.WriteAsync(',', cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes the specified end token.
     /// </summary>
     /// <param name="token">The end token to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellationToken)
+    protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
     {
-        return _safeAsync ? DoWriteEndAsync(token, cancellationToken) : base.WriteEndAsync(token, cancellationToken);
+        return safeAsync ? DoWriteEndAsync(token, cancellation) : base.WriteEndAsync(token, cancellation);
     }
 
-    internal Task DoWriteEndAsync(JsonToken token, CancellationToken cancellationToken)
+    internal Task DoWriteEndAsync(JsonToken token, CancellationToken cancellation)
     {
         switch (token)
         {
             case JsonToken.EndObject:
-                return _writer.WriteAsync('}', cancellationToken);
+                return writer.WriteAsync('}', cancellation);
             case JsonToken.EndArray:
-                return _writer.WriteAsync(']', cancellationToken);
+                return writer.WriteAsync(']', cancellation);
             case JsonToken.EndConstructor:
-                return _writer.WriteAsync(')', cancellationToken);
+                return writer.WriteAsync(')', cancellation);
             default:
                 throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}", null);
         }
@@ -97,25 +97,25 @@ public partial class JsonTextWriter
     /// Asynchronously closes this writer.
     /// If <see cref="JsonWriter.CloseOutput"/> is set to <c>true</c>, the destination is also closed.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task CloseAsync(CancellationToken cancellationToken = default)
+    public override Task CloseAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoCloseAsync(cancellationToken) : base.CloseAsync(cancellationToken);
+        return safeAsync ? DoCloseAsync(cancellation) : base.CloseAsync(cancellation);
     }
 
-    internal async Task DoCloseAsync(CancellationToken cancellationToken)
+    internal async Task DoCloseAsync(CancellationToken cancellation)
     {
         if (Top == 0) // otherwise will happen in calls to WriteEndAsync
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            cancellation.ThrowIfCancellationRequested();
         }
 
         while (Top > 0)
         {
-            await WriteEndAsync(cancellationToken).ConfigureAwait(false);
+            await WriteEndAsync(cancellation).ConfigureAwait(false);
         }
 
         CloseBufferAndWriter();
@@ -124,153 +124,163 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of the current JSON object or array.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteEndAsync(CancellationToken cancellationToken = default)
+    public override Task WriteEndAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteEndInternalAsync(cancellationToken) : base.WriteEndAsync(cancellationToken);
+        return safeAsync ? WriteEndInternalAsync(cancellation) : base.WriteEndAsync(cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes indent characters.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    protected override Task WriteIndentAsync(CancellationToken cancellationToken)
+    protected override Task WriteIndentAsync(CancellationToken cancellation)
     {
-        return _safeAsync ? DoWriteIndentAsync(cancellationToken) : base.WriteIndentAsync(cancellationToken);
+        return safeAsync ? DoWriteIndentAsync(cancellation) : base.WriteIndentAsync(cancellation);
     }
 
-    internal Task DoWriteIndentAsync(CancellationToken cancellationToken)
+    internal Task DoWriteIndentAsync(CancellationToken cancellation)
     {
         // levels of indentation multiplied by the indent count
-        var currentIndentCount = Top * _indentation;
+        var currentIndentCount = Top * indentation;
 
         var newLineLen = SetIndentChars();
-        MiscellaneousUtils.Assert(_indentChars != null);
+        MiscellaneousUtils.Assert(indentChars != null);
 
-        if (currentIndentCount <= IndentCharBufferSize)
+        if (currentIndentCount <= indentCharBufferSize)
         {
-            return _writer.WriteAsync(_indentChars, 0, newLineLen + currentIndentCount, cancellationToken);
+            return writer.WriteAsync(indentChars, 0, newLineLen + currentIndentCount, cancellation);
         }
 
-        return WriteIndentAsync(currentIndentCount, newLineLen, cancellationToken);
+        return WriteIndentAsync(currentIndentCount, newLineLen, cancellation);
     }
 
-    async Task WriteIndentAsync(int currentIndentCount, int newLineLen, CancellationToken cancellationToken)
+    async Task WriteIndentAsync(int currentIndentCount, int newLineLen, CancellationToken cancellation)
     {
-        MiscellaneousUtils.Assert(_indentChars != null);
+        MiscellaneousUtils.Assert(indentChars != null);
 
-        await _writer.WriteAsync(_indentChars, 0, newLineLen + Math.Min(currentIndentCount, IndentCharBufferSize), cancellationToken).ConfigureAwait(false);
+        await writer.WriteAsync(indentChars, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize), cancellation).ConfigureAwait(false);
 
-        while ((currentIndentCount -= IndentCharBufferSize) > 0)
+        while ((currentIndentCount -= indentCharBufferSize) > 0)
         {
-            await _writer.WriteAsync(_indentChars, newLineLen, Math.Min(currentIndentCount, IndentCharBufferSize), cancellationToken).ConfigureAwait(false);
+            await writer.WriteAsync(indentChars, newLineLen, Math.Min(currentIndentCount, indentCharBufferSize), cancellation).ConfigureAwait(false);
         }
     }
 
-    Task WriteValueInternalAsync(JsonToken token, string value, CancellationToken cancellationToken)
+    Task WriteValueInternalAsync(JsonToken token, string value, CancellationToken cancellation)
     {
-        var task = InternalWriteValueAsync(token, cancellationToken);
+        var task = InternalWriteValueAsync(token, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return _writer.WriteAsync(value, cancellationToken);
+            return writer.WriteAsync(value, cancellation);
         }
 
-        return WriteValueInternalAsync(task, value, cancellationToken);
+        return WriteValueInternalAsync(task, value, cancellation);
     }
 
-    async Task WriteValueInternalAsync(Task task, string value, CancellationToken cancellationToken)
+    async Task WriteValueInternalAsync(Task task, string value, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await _writer.WriteAsync(value, cancellationToken).ConfigureAwait(false);
+        await writer.WriteAsync(value, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes an indent space.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    protected override Task WriteIndentSpaceAsync(CancellationToken cancellationToken)
+    protected override Task WriteIndentSpaceAsync(CancellationToken cancellation)
     {
-        return _safeAsync ? DoWriteIndentSpaceAsync(cancellationToken) : base.WriteIndentSpaceAsync(cancellationToken);
+        if (safeAsync)
+        {
+            return DoWriteIndentSpaceAsync(cancellation);
+        }
+
+        return base.WriteIndentSpaceAsync(cancellation);
     }
 
-    internal Task DoWriteIndentSpaceAsync(CancellationToken cancellationToken)
+    internal Task DoWriteIndentSpaceAsync(CancellationToken cancellation)
     {
-        return _writer.WriteAsync(' ', cancellationToken);
+        return writer.WriteAsync(' ', cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes raw JSON without changing the writer's state.
     /// </summary>
     /// <param name="json">The raw JSON to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteRawAsync(string? json, CancellationToken cancellationToken = default)
+    public override Task WriteRawAsync(string? json, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteRawAsync(json, cancellationToken) : base.WriteRawAsync(json, cancellationToken);
+        if (safeAsync)
+        {
+            return DoWriteRawAsync(json, cancellation);
+        }
+
+        return base.WriteRawAsync(json, cancellation);
     }
 
-    internal Task DoWriteRawAsync(string? json, CancellationToken cancellationToken)
+    internal Task DoWriteRawAsync(string? json, CancellationToken cancellation)
     {
-        return _writer.WriteAsync(json, cancellationToken);
+        return writer.WriteAsync(json, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a null value.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteNullAsync(CancellationToken cancellationToken = default)
+    public override Task WriteNullAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteNullAsync(cancellationToken) : base.WriteNullAsync(cancellationToken);
+        return safeAsync ? DoWriteNullAsync(cancellation) : base.WriteNullAsync(cancellation);
     }
 
-    internal Task DoWriteNullAsync(CancellationToken cancellationToken)
+    internal Task DoWriteNullAsync(CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.Null, JsonConvert.Null, cancellationToken);
+        return WriteValueInternalAsync(JsonToken.Null, JsonConvert.Null, cancellation);
     }
 
-    Task WriteDigitsAsync(ulong uvalue, bool negative, CancellationToken cancellationToken)
+    Task WriteDigitsAsync(ulong uvalue, bool negative, CancellationToken cancellation)
     {
         if (uvalue <= 9 & !negative)
         {
-            return _writer.WriteAsync((char)('0' + uvalue), cancellationToken);
+            return writer.WriteAsync((char)('0' + uvalue), cancellation);
         }
 
         var length = WriteNumberToBuffer(uvalue, negative);
-        return _writer.WriteAsync(_writeBuffer!, 0, length, cancellationToken);
+        return writer.WriteAsync(writeBuffer!, 0, length, cancellation);
     }
 
-    Task WriteIntegerValueAsync(ulong uvalue, bool negative, CancellationToken cancellationToken)
+    Task WriteIntegerValueAsync(ulong uvalue, bool negative, CancellationToken cancellation)
     {
-        var task = InternalWriteValueAsync(JsonToken.Integer, cancellationToken);
+        var task = InternalWriteValueAsync(JsonToken.Integer, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return WriteDigitsAsync(uvalue, negative, cancellationToken);
+            return WriteDigitsAsync(uvalue, negative, cancellation);
         }
 
-        return WriteIntegerValueAsync(task, uvalue, negative, cancellationToken);
+        return WriteIntegerValueAsync(task, uvalue, negative, cancellation);
     }
 
-    async Task WriteIntegerValueAsync(Task task, ulong uvalue, bool negative, CancellationToken cancellationToken)
+    async Task WriteIntegerValueAsync(Task task, ulong uvalue, bool negative, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await WriteDigitsAsync(uvalue, negative, cancellationToken).ConfigureAwait(false);
+        await WriteDigitsAsync(uvalue, negative, cancellation).ConfigureAwait(false);
     }
 
-    internal Task WriteIntegerValueAsync(long value, CancellationToken cancellationToken)
+    internal Task WriteIntegerValueAsync(long value, CancellationToken cancellation)
     {
         var negative = value < 0;
         if (negative)
@@ -278,56 +288,56 @@ public partial class JsonTextWriter
             value = -value;
         }
 
-        return WriteIntegerValueAsync((ulong)value, negative, cancellationToken);
+        return WriteIntegerValueAsync((ulong)value, negative, cancellation);
     }
 
-    internal Task WriteIntegerValueAsync(ulong uvalue, CancellationToken cancellationToken)
+    internal Task WriteIntegerValueAsync(ulong uvalue, CancellationToken cancellation)
     {
-        return WriteIntegerValueAsync(uvalue, false, cancellationToken);
+        return WriteIntegerValueAsync(uvalue, false, cancellation);
     }
 
-    Task WriteEscapedStringAsync(string value, bool quote, CancellationToken cancellationToken)
+    Task WriteEscapedStringAsync(string value, bool quote, CancellationToken cancellation)
     {
-        return JavaScriptUtils.WriteEscapedJavaScriptStringAsync(_writer, value, _quoteChar, quote, _charEscapeFlags!, StringEscapeHandling, this, _writeBuffer!, cancellationToken);
+        return JavaScriptUtils.WriteEscapedJavaScriptStringAsync(writer, value, quoteChar, quote, charEscapeFlags!, StringEscapeHandling, this, writeBuffer!, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
     /// </summary>
     /// <param name="name">The name of the property.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WritePropertyNameAsync(string name, CancellationToken cancellationToken = default)
+    public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWritePropertyNameAsync(name, cancellationToken) : base.WritePropertyNameAsync(name, cancellationToken);
+        return safeAsync ? DoWritePropertyNameAsync(name, cancellation) : base.WritePropertyNameAsync(name, cancellation);
     }
 
-    internal Task DoWritePropertyNameAsync(string name, CancellationToken cancellationToken)
+    internal Task DoWritePropertyNameAsync(string name, CancellationToken cancellation)
     {
-        var task = InternalWritePropertyNameAsync(name, cancellationToken);
+        var task = InternalWritePropertyNameAsync(name, cancellation);
         if (!task.IsCompletedSucessfully())
         {
-            return DoWritePropertyNameAsync(task, name, cancellationToken);
+            return DoWritePropertyNameAsync(task, name, cancellation);
         }
 
-        task = WriteEscapedStringAsync(name, QuoteName, cancellationToken);
+        task = WriteEscapedStringAsync(name, QuoteName, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return _writer.WriteAsync(':', cancellationToken);
+            return writer.WriteAsync(':', cancellation);
         }
 
-        return JavaScriptUtils.WriteCharAsync(task, _writer, ':', cancellationToken);
+        return JavaScriptUtils.WriteCharAsync(task, writer, ':', cancellation);
     }
 
-    async Task DoWritePropertyNameAsync(Task task, string name, CancellationToken cancellationToken)
+    async Task DoWritePropertyNameAsync(Task task, string name, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
 
-        await WriteEscapedStringAsync(name, QuoteName, cancellationToken).ConfigureAwait(false);
+        await WriteEscapedStringAsync(name, QuoteName, cancellation).ConfigureAwait(false);
 
-        await _writer.WriteAsync(':').ConfigureAwait(false);
+        await writer.WriteAsync(':').ConfigureAwait(false);
     }
 
     /// <summary>
@@ -335,325 +345,325 @@ public partial class JsonTextWriter
     /// </summary>
     /// <param name="name">The name of the property.</param>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellationToken = default)
+    public override Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWritePropertyNameAsync(name, escape, cancellationToken) : base.WritePropertyNameAsync(name, escape, cancellationToken);
+        return safeAsync ? DoWritePropertyNameAsync(name, escape, cancellation) : base.WritePropertyNameAsync(name, escape, cancellation);
     }
 
-    internal async Task DoWritePropertyNameAsync(string name, bool escape, CancellationToken cancellationToken)
+    internal async Task DoWritePropertyNameAsync(string name, bool escape, CancellationToken cancellation)
     {
-        await InternalWritePropertyNameAsync(name, cancellationToken).ConfigureAwait(false);
+        await InternalWritePropertyNameAsync(name, cancellation).ConfigureAwait(false);
 
         if (escape)
         {
-            await WriteEscapedStringAsync(name, QuoteName, cancellationToken).ConfigureAwait(false);
+            await WriteEscapedStringAsync(name, QuoteName, cancellation).ConfigureAwait(false);
         }
         else
         {
             if (QuoteName)
             {
-                await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
+                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
             }
 
-            await _writer.WriteAsync(name, cancellationToken).ConfigureAwait(false);
+            await writer.WriteAsync(name, cancellation).ConfigureAwait(false);
 
             if (QuoteName)
             {
-                await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
+                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
             }
         }
 
-        await _writer.WriteAsync(':').ConfigureAwait(false);
+        await writer.WriteAsync(':').ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes the beginning of a JSON array.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteStartArrayAsync(CancellationToken cancellationToken = default)
+    public override Task WriteStartArrayAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteStartArrayAsync(cancellationToken) : base.WriteStartArrayAsync(cancellationToken);
+        return safeAsync ? DoWriteStartArrayAsync(cancellation) : base.WriteStartArrayAsync(cancellation);
     }
 
-    internal Task DoWriteStartArrayAsync(CancellationToken cancellationToken)
+    internal Task DoWriteStartArrayAsync(CancellationToken cancellation)
     {
-        var task = InternalWriteStartAsync(JsonToken.StartArray, JsonContainerType.Array, cancellationToken);
+        var task = InternalWriteStartAsync(JsonToken.StartArray, JsonContainerType.Array, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return _writer.WriteAsync('[', cancellationToken);
+            return writer.WriteAsync('[', cancellation);
         }
 
-        return DoWriteStartArrayAsync(task, cancellationToken);
+        return DoWriteStartArrayAsync(task, cancellation);
     }
 
-    internal async Task DoWriteStartArrayAsync(Task task, CancellationToken cancellationToken)
+    internal async Task DoWriteStartArrayAsync(Task task, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
 
-        await _writer.WriteAsync('[', cancellationToken).ConfigureAwait(false);
+        await writer.WriteAsync('[', cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes the beginning of a JSON object.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteStartObjectAsync(CancellationToken cancellationToken = default)
+    public override Task WriteStartObjectAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteStartObjectAsync(cancellationToken) : base.WriteStartObjectAsync(cancellationToken);
+        return safeAsync ? DoWriteStartObjectAsync(cancellation) : base.WriteStartObjectAsync(cancellation);
     }
 
-    internal Task DoWriteStartObjectAsync(CancellationToken cancellationToken)
+    internal Task DoWriteStartObjectAsync(CancellationToken cancellation)
     {
-        var task = InternalWriteStartAsync(JsonToken.StartObject, JsonContainerType.Object, cancellationToken);
+        var task = InternalWriteStartAsync(JsonToken.StartObject, JsonContainerType.Object, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return _writer.WriteAsync('{', cancellationToken);
+            return writer.WriteAsync('{', cancellation);
         }
 
-        return DoWriteStartObjectAsync(task, cancellationToken);
+        return DoWriteStartObjectAsync(task, cancellation);
     }
 
-    internal async Task DoWriteStartObjectAsync(Task task, CancellationToken cancellationToken)
+    internal async Task DoWriteStartObjectAsync(Task task, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
 
-        await _writer.WriteAsync('{', cancellationToken).ConfigureAwait(false);
+        await writer.WriteAsync('{', cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes the start of a constructor with the given name.
     /// </summary>
     /// <param name="name">The name of the constructor.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteStartConstructorAsync(string name, CancellationToken cancellationToken = default)
+    public override Task WriteStartConstructorAsync(string name, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteStartConstructorAsync(name, cancellationToken) : base.WriteStartConstructorAsync(name, cancellationToken);
+        return safeAsync ? DoWriteStartConstructorAsync(name, cancellation) : base.WriteStartConstructorAsync(name, cancellation);
     }
 
-    internal async Task DoWriteStartConstructorAsync(string name, CancellationToken cancellationToken)
+    internal async Task DoWriteStartConstructorAsync(string name, CancellationToken cancellation)
     {
-        await InternalWriteStartAsync(JsonToken.StartConstructor, JsonContainerType.Constructor, cancellationToken).ConfigureAwait(false);
+        await InternalWriteStartAsync(JsonToken.StartConstructor, JsonContainerType.Constructor, cancellation).ConfigureAwait(false);
 
-        await _writer.WriteAsync("new ", cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(name, cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync('(').ConfigureAwait(false);
+        await writer.WriteAsync("new ", cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(name, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync('(').ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes an undefined value.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteUndefinedAsync(CancellationToken cancellationToken = default)
+    public override Task WriteUndefinedAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteUndefinedAsync(cancellationToken) : base.WriteUndefinedAsync(cancellationToken);
+        return safeAsync ? DoWriteUndefinedAsync(cancellation) : base.WriteUndefinedAsync(cancellation);
     }
 
-    internal Task DoWriteUndefinedAsync(CancellationToken cancellationToken)
+    internal Task DoWriteUndefinedAsync(CancellationToken cancellation)
     {
-        var task = InternalWriteValueAsync(JsonToken.Undefined, cancellationToken);
+        var task = InternalWriteValueAsync(JsonToken.Undefined, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return _writer.WriteAsync(JsonConvert.Undefined, cancellationToken);
+            return writer.WriteAsync(JsonConvert.Undefined, cancellation);
         }
 
-        return DoWriteUndefinedAsync(task, cancellationToken);
+        return DoWriteUndefinedAsync(task, cancellation);
     }
 
-    async Task DoWriteUndefinedAsync(Task task, CancellationToken cancellationToken)
+    async Task DoWriteUndefinedAsync(Task task, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await _writer.WriteAsync(JsonConvert.Undefined, cancellationToken).ConfigureAwait(false);
+        await writer.WriteAsync(JsonConvert.Undefined, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes the given white space.
     /// </summary>
     /// <param name="ws">The string of white space characters.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteWhitespaceAsync(string ws, CancellationToken cancellationToken = default)
+    public override Task WriteWhitespaceAsync(string ws, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteWhitespaceAsync(ws, cancellationToken) : base.WriteWhitespaceAsync(ws, cancellationToken);
+        return safeAsync ? DoWriteWhitespaceAsync(ws, cancellation) : base.WriteWhitespaceAsync(ws, cancellation);
     }
 
-    internal Task DoWriteWhitespaceAsync(string ws, CancellationToken cancellationToken)
+    internal Task DoWriteWhitespaceAsync(string ws, CancellationToken cancellation)
     {
         InternalWriteWhitespace(ws);
-        return _writer.WriteAsync(ws, cancellationToken);
+        return writer.WriteAsync(ws, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="bool"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="bool"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(bool value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(bool value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(bool value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(bool value, CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.Boolean, JsonConvert.ToString(value), cancellationToken);
+        return WriteValueInternalAsync(JsonToken.Boolean, JsonConvert.ToString(value), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="bool"/> value.
     /// </summary>
     /// <param name="value">The <see cref="bool"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(bool? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(bool? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(bool? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(bool? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : DoWriteValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="byte"/> value.
     /// </summary>
     /// <param name="value">The <see cref="byte"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(byte value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(byte value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="byte"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="byte"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(byte? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(byte? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(byte? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(byte? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="byte"/>[] value.
     /// </summary>
     /// <param name="value">The <see cref="byte"/>[] value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(byte[]? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(byte[]? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? value == null ? WriteNullAsync(cancellationToken) : WriteValueNonNullAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? value == null ? WriteNullAsync(cancellation) : WriteValueNonNullAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal async Task WriteValueNonNullAsync(byte[] value, CancellationToken cancellationToken)
+    internal async Task WriteValueNonNullAsync(byte[] value, CancellationToken cancellation)
     {
-        await InternalWriteValueAsync(JsonToken.Bytes, cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
-        await Base64Encoder.EncodeAsync(value, 0, value.Length, cancellationToken).ConfigureAwait(false);
-        await Base64Encoder.FlushAsync(cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.Bytes, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        await Base64Encoder.EncodeAsync(value, 0, value.Length, cancellation).ConfigureAwait(false);
+        await Base64Encoder.FlushAsync(cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="char"/> value.
     /// </summary>
     /// <param name="value">The <see cref="char"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(char value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(char value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(char value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(char value, CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.String, JsonConvert.ToString(value), cancellationToken);
+        return WriteValueInternalAsync(JsonToken.String, JsonConvert.ToString(value), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="char"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="char"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(char? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(char? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(char? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(char? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : DoWriteValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="DateTime"/> value.
     /// </summary>
     /// <param name="value">The <see cref="DateTime"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(DateTime value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(DateTime value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal async Task DoWriteValueAsync(DateTime value, CancellationToken cancellationToken)
+    internal async Task DoWriteValueAsync(DateTime value, CancellationToken cancellation)
     {
-        await InternalWriteValueAsync(JsonToken.Date, cancellationToken).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.Date, cancellation).ConfigureAwait(false);
         value = DateTimeUtils.EnsureDateTime(value, DateTimeZoneHandling);
 
         if (StringUtils.IsNullOrEmpty(DateFormatString))
         {
             var length = WriteValueToBuffer(value);
 
-            await _writer.WriteAsync(_writeBuffer!, 0, length, cancellationToken).ConfigureAwait(false);
+            await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
         }
         else
         {
-            await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
-            await _writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellationToken).ConfigureAwait(false);
-            await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            await writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellation).ConfigureAwait(false);
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
         }
     }
 
@@ -661,48 +671,48 @@ public partial class JsonTextWriter
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTime"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="DateTime"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(DateTime? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(DateTime? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(DateTime? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(DateTime? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : DoWriteValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="DateTimeOffset"/> value.
     /// </summary>
     /// <param name="value">The <see cref="DateTimeOffset"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(DateTimeOffset value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(DateTimeOffset value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal async Task DoWriteValueAsync(DateTimeOffset value, CancellationToken cancellationToken)
+    internal async Task DoWriteValueAsync(DateTimeOffset value, CancellationToken cancellation)
     {
-        await InternalWriteValueAsync(JsonToken.Date, cancellationToken).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.Date, cancellation).ConfigureAwait(false);
 
         if (StringUtils.IsNullOrEmpty(DateFormatString))
         {
             var length = WriteValueToBuffer(value);
 
-            await _writer.WriteAsync(_writeBuffer!, 0, length, cancellationToken).ConfigureAwait(false);
+            await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
         }
         else
         {
-            await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
-            await _writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellationToken).ConfigureAwait(false);
-            await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            await writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellation).ConfigureAwait(false);
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
         }
     }
 
@@ -710,600 +720,600 @@ public partial class JsonTextWriter
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(DateTimeOffset? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(DateTimeOffset? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(DateTimeOffset? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(DateTimeOffset? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : DoWriteValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="decimal"/> value.
     /// </summary>
     /// <param name="value">The <see cref="decimal"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(decimal value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(decimal value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(decimal value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(decimal value, CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value), cancellationToken);
+        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="decimal"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="decimal"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(decimal? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(decimal? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(decimal? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(decimal? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : DoWriteValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="double"/> value.
     /// </summary>
     /// <param name="value">The <see cref="double"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(double value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(double value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteValueAsync(value, false, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteValueAsync(value, false, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task WriteValueAsync(double value, bool nullable, CancellationToken cancellationToken)
+    internal Task WriteValueAsync(double value, bool nullable, CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellationToken);
+        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="double"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="double"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(double? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(double? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellationToken) : WriteNullAsync(cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellation) : WriteNullAsync(cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="float"/> value.
     /// </summary>
     /// <param name="value">The <see cref="float"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(float value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(float value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteValueAsync(value, false, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteValueAsync(value, false, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task WriteValueAsync(float value, bool nullable, CancellationToken cancellationToken)
+    internal Task WriteValueAsync(float value, bool nullable, CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellationToken);
+        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="float"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="float"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(float? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(float? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellationToken) : WriteNullAsync(cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellation) : WriteNullAsync(cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Guid"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Guid"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(Guid value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(Guid value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal async Task DoWriteValueAsync(Guid value, CancellationToken cancellationToken)
+    internal async Task DoWriteValueAsync(Guid value, CancellationToken cancellation)
     {
-        await InternalWriteValueAsync(JsonToken.String, cancellationToken).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.String, cancellation).ConfigureAwait(false);
 
-        await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
-        await _writer.WriteAsync(value.ToString("D", CultureInfo.InvariantCulture), cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(_quoteChar).ConfigureAwait(false);
+        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        await writer.WriteAsync(value.ToString("D", CultureInfo.InvariantCulture), cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="Guid"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="Guid"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(Guid? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(Guid? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(Guid? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(Guid? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : DoWriteValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="int"/> value.
     /// </summary>
     /// <param name="value">The <see cref="int"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(int value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(int value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="int"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="int"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(int? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(int? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(int? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(int? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="long"/> value.
     /// </summary>
     /// <param name="value">The <see cref="long"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(long value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(long value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="long"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="long"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(long? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(long? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(long? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(long? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
-    internal Task WriteValueAsync(BigInteger value, CancellationToken cancellationToken)
+    internal Task WriteValueAsync(BigInteger value, CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.Integer, value.ToString(CultureInfo.InvariantCulture), cancellationToken);
+        return WriteValueInternalAsync(JsonToken.Integer, value.ToString(CultureInfo.InvariantCulture), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="object"/> value.
     /// </summary>
     /// <param name="value">The <see cref="object"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(object? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(object? value, CancellationToken cancellation = default)
     {
-        if (_safeAsync)
+        if (safeAsync)
         {
             if (value == null)
             {
-                return WriteNullAsync(cancellationToken);
+                return WriteNullAsync(cancellation);
             }
             if (value is BigInteger i)
             {
-                return WriteValueAsync(i, cancellationToken);
+                return WriteValueAsync(i, cancellation);
             }
 
-            return WriteValueAsync(this, ConvertUtils.GetTypeCode(value.GetType()), value, cancellationToken);
+            return WriteValueAsync(this, ConvertUtils.GetTypeCode(value.GetType()), value, cancellation);
         }
 
-        return base.WriteValueAsync(value, cancellationToken);
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="sbyte"/> value.
     /// </summary>
     /// <param name="value">The <see cref="sbyte"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(sbyte value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(sbyte value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="sbyte"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="sbyte"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(sbyte? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(sbyte? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(sbyte? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(sbyte? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="short"/> value.
     /// </summary>
     /// <param name="value">The <see cref="short"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(short value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(short value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="short"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="short"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(short? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(short? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(short? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(short? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="string"/> value.
     /// </summary>
     /// <param name="value">The <see cref="string"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(string? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(string? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(string? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(string? value, CancellationToken cancellation)
     {
-        var task = InternalWriteValueAsync(JsonToken.String, cancellationToken);
+        var task = InternalWriteValueAsync(JsonToken.String, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return value == null ? _writer.WriteAsync(JsonConvert.Null, cancellationToken) : WriteEscapedStringAsync(value, true, cancellationToken);
+            return value == null ? writer.WriteAsync(JsonConvert.Null, cancellation) : WriteEscapedStringAsync(value, true, cancellation);
         }
 
-        return DoWriteValueAsync(task, value, cancellationToken);
+        return DoWriteValueAsync(task, value, cancellation);
     }
 
-    async Task DoWriteValueAsync(Task task, string? value, CancellationToken cancellationToken)
+    async Task DoWriteValueAsync(Task task, string? value, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await (value == null ? _writer.WriteAsync(JsonConvert.Null, cancellationToken) : WriteEscapedStringAsync(value, true, cancellationToken)).ConfigureAwait(false);
+        await (value == null ? writer.WriteAsync(JsonConvert.Null, cancellation) : WriteEscapedStringAsync(value, true, cancellation)).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="TimeSpan"/> value.
     /// </summary>
     /// <param name="value">The <see cref="TimeSpan"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(TimeSpan value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(TimeSpan value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal async Task DoWriteValueAsync(TimeSpan value, CancellationToken cancellationToken)
+    internal async Task DoWriteValueAsync(TimeSpan value, CancellationToken cancellation)
     {
-        await InternalWriteValueAsync(JsonToken.String, cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(_quoteChar, cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(value.ToString(null, CultureInfo.InvariantCulture), cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(_quoteChar, cancellationToken).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.String, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(value.ToString(null, CultureInfo.InvariantCulture), cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(TimeSpan? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(TimeSpan? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(TimeSpan? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(TimeSpan? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : DoWriteValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="uint"/> value.
     /// </summary>
     /// <param name="value">The <see cref="uint"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(uint value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(uint value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="uint"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="uint"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(uint? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(uint? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(uint? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(uint? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="ulong"/> value.
     /// </summary>
     /// <param name="value">The <see cref="ulong"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(ulong value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(ulong value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ulong"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="ulong"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(ulong? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(ulong? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(ulong? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(ulong? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Uri"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Uri"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteValueAsync(Uri? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(Uri? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? value == null ? WriteNullAsync(cancellationToken) : WriteValueNotNullAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? value == null ? WriteNullAsync(cancellation) : WriteValueNotNullAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task WriteValueNotNullAsync(Uri value, CancellationToken cancellationToken)
+    internal Task WriteValueNotNullAsync(Uri value, CancellationToken cancellation)
     {
-        var task = InternalWriteValueAsync(JsonToken.String, cancellationToken);
+        var task = InternalWriteValueAsync(JsonToken.String, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return WriteEscapedStringAsync(value.OriginalString, true, cancellationToken);
+            return WriteEscapedStringAsync(value.OriginalString, true, cancellation);
         }
 
-        return WriteValueNotNullAsync(task, value, cancellationToken);
+        return WriteValueNotNullAsync(task, value, cancellation);
     }
 
-    internal async Task WriteValueNotNullAsync(Task task, Uri value, CancellationToken cancellationToken)
+    internal async Task WriteValueNotNullAsync(Task task, Uri value, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await WriteEscapedStringAsync(value.OriginalString, true, cancellationToken).ConfigureAwait(false);
+        await WriteEscapedStringAsync(value.OriginalString, true, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="ushort"/> value.
     /// </summary>
     /// <param name="value">The <see cref="ushort"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(ushort value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(ushort value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? WriteIntegerValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ushort"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="ushort"/> value to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
-    public override Task WriteValueAsync(ushort? value, CancellationToken cancellationToken = default)
+    public override Task WriteValueAsync(ushort? value, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteValueAsync(value, cancellationToken) : base.WriteValueAsync(value, cancellationToken);
+        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
     }
 
-    internal Task DoWriteValueAsync(ushort? value, CancellationToken cancellationToken)
+    internal Task DoWriteValueAsync(ushort? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellationToken) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellationToken);
+        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
     /// <param name="text">Text to place inside the comment.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteCommentAsync(string? text, CancellationToken cancellationToken = default)
+    public override Task WriteCommentAsync(string? text, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteCommentAsync(text, cancellationToken) : base.WriteCommentAsync(text, cancellationToken);
+        return safeAsync ? DoWriteCommentAsync(text, cancellation) : base.WriteCommentAsync(text, cancellation);
     }
 
-    internal async Task DoWriteCommentAsync(string? text, CancellationToken cancellationToken)
+    internal async Task DoWriteCommentAsync(string? text, CancellationToken cancellation)
     {
-        await InternalWriteCommentAsync(cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync("/*", cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync(text ?? string.Empty, cancellationToken).ConfigureAwait(false);
-        await _writer.WriteAsync("*/", cancellationToken).ConfigureAwait(false);
+        await InternalWriteCommentAsync(cancellation).ConfigureAwait(false);
+        await writer.WriteAsync("/*", cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(text ?? string.Empty, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync("*/", cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Asynchronously writes the end of an array.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteEndArrayAsync(CancellationToken cancellationToken = default)
+    public override Task WriteEndArrayAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? InternalWriteEndAsync(JsonContainerType.Array, cancellationToken) : base.WriteEndArrayAsync(cancellationToken);
+        return safeAsync ? InternalWriteEndAsync(JsonContainerType.Array, cancellation) : base.WriteEndArrayAsync(cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes the end of a constructor.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteEndConstructorAsync(CancellationToken cancellationToken = default)
+    public override Task WriteEndConstructorAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? InternalWriteEndAsync(JsonContainerType.Constructor, cancellationToken) : base.WriteEndConstructorAsync(cancellationToken);
+        return safeAsync ? InternalWriteEndAsync(JsonContainerType.Constructor, cancellation) : base.WriteEndConstructorAsync(cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes the end of a JSON object.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteEndObjectAsync(CancellationToken cancellationToken = default)
+    public override Task WriteEndObjectAsync(CancellationToken cancellation = default)
     {
-        return _safeAsync ? InternalWriteEndAsync(JsonContainerType.Object, cancellationToken) : base.WriteEndObjectAsync(cancellationToken);
+        return safeAsync ? InternalWriteEndAsync(JsonContainerType.Object, cancellation) : base.WriteEndObjectAsync(cancellation);
     }
 
     /// <summary>
     /// Asynchronously writes raw JSON where a value is expected and updates the writer's state.
     /// </summary>
     /// <param name="json">The raw JSON to write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteRawValueAsync(string? json, CancellationToken cancellationToken = default)
+    public override Task WriteRawValueAsync(string? json, CancellationToken cancellation = default)
     {
-        return _safeAsync ? DoWriteRawValueAsync(json, cancellationToken) : base.WriteRawValueAsync(json, cancellationToken);
+        return safeAsync ? DoWriteRawValueAsync(json, cancellation) : base.WriteRawValueAsync(json, cancellation);
     }
 
-    internal Task DoWriteRawValueAsync(string? json, CancellationToken cancellationToken)
+    internal Task DoWriteRawValueAsync(string? json, CancellationToken cancellation)
     {
         UpdateScopeWithFinishedValue();
-        var task = AutoCompleteAsync(JsonToken.Undefined, cancellationToken);
+        var task = AutoCompleteAsync(JsonToken.Undefined, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return WriteRawAsync(json, cancellationToken);
+            return WriteRawAsync(json, cancellation);
         }
 
-        return DoWriteRawValueAsync(task, json, cancellationToken);
+        return DoWriteRawValueAsync(task, json, cancellation);
     }
 
-    async Task DoWriteRawValueAsync(Task task, string? json, CancellationToken cancellationToken)
+    async Task DoWriteRawValueAsync(Task task, string? json, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await WriteRawAsync(json, cancellationToken).ConfigureAwait(false);
+        await WriteRawAsync(json, cancellation).ConfigureAwait(false);
     }
 
     internal char[] EnsureWriteBuffer(int length, int copyTo)
@@ -1313,10 +1323,10 @@ public partial class JsonTextWriter
             length = 35;
         }
 
-        var buffer = _writeBuffer;
+        var buffer = writeBuffer;
         if (buffer == null)
         {
-            return _writeBuffer = BufferUtils.RentBuffer(_arrayPool, length);
+            return writeBuffer = BufferUtils.RentBuffer(arrayPool, length);
         }
 
         if (buffer.Length >= length)
@@ -1324,14 +1334,14 @@ public partial class JsonTextWriter
             return buffer;
         }
 
-        var newBuffer = BufferUtils.RentBuffer(_arrayPool, length);
+        var newBuffer = BufferUtils.RentBuffer(arrayPool, length);
         if (copyTo != 0)
         {
             Array.Copy(buffer, newBuffer, copyTo);
         }
 
-        BufferUtils.ReturnBuffer(_arrayPool, buffer);
-        _writeBuffer = newBuffer;
+        BufferUtils.ReturnBuffer(arrayPool, buffer);
+        writeBuffer = newBuffer;
         return newBuffer;
     }
 }

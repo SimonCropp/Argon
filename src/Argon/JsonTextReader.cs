@@ -75,7 +75,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         _reader = reader;
         _lineNumber = 1;
 
-        _safeAsync = GetType() == typeof(JsonTextReader);
+        safeAsync = GetType() == typeof(JsonTextReader);
     }
 
     internal char[]? CharBuffer { get; set; }
@@ -166,7 +166,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 var text = _stringReference.ToString();
 
                 SetToken(JsonToken.String, text, false);
-                _quoteChar = quote;
+                quoteChar = quote;
                 break;
             case ReadType.ReadAsInt32:
             case ReadType.ReadAsDecimal:
@@ -174,7 +174,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 // caller will convert result
                 break;
             default:
-                if (_dateParseHandling != DateParseHandling.None)
+                if (DateParseHandling != DateParseHandling.None)
                 {
                     DateParseHandling dateParseHandling;
                     if (readType == ReadType.ReadAsDateTime)
@@ -187,7 +187,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        dateParseHandling = _dateParseHandling;
+                        dateParseHandling = base.DateParseHandling;
                     }
 
                     if (dateParseHandling == DateParseHandling.DateTime)
@@ -209,7 +209,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
 
                 SetToken(JsonToken.String, _stringReference.ToString(), false);
-                _quoteChar = quote;
+                quoteChar = quote;
                 break;
         }
     }
@@ -381,7 +381,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         while (true)
         {
-            switch (_currentState)
+            switch (currentState)
             {
                 case State.Start:
                 case State.Property:
@@ -464,7 +464,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         var isWrapped = false;
 
-        switch (_currentState)
+        switch (currentState)
         {
             case State.PostValue:
                 if (ParsePostValue(true))
@@ -526,7 +526,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
+                            if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -568,7 +568,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
 
-        switch (_currentState)
+        switch (currentState)
         {
             case State.PostValue:
                 if (ParsePostValue(true))
@@ -654,7 +654,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
+                            if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -731,7 +731,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
 
-        switch (_currentState)
+        switch (currentState)
         {
             case State.PostValue:
                 if (ParsePostValue(true))
@@ -808,7 +808,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
+                            if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -849,7 +849,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         CharPos++;
 
-        if (_currentState != State.PostValue)
+        if (currentState != State.PostValue)
         {
             SetToken(JsonToken.Undefined);
             var ex = CreateUnexpectedCharacterException(',');
@@ -867,7 +867,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
 
-        switch (_currentState)
+        switch (currentState)
         {
             case State.PostValue:
                 if (ParsePostValue(true))
@@ -934,7 +934,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             CharPos++;
-                            if (_currentState is State.Array or State.ArrayStart or State.PostValue)
+                            if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
@@ -1401,7 +1401,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         if (ReadData(false) == 0)
                         {
-                            _currentState = State.Finished;
+                            currentState = State.Finished;
                             return false;
                         }
                     }
@@ -1551,19 +1551,15 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         string? propertyName;
 
-        if (PropertyNameTable != null)
+        if (PropertyNameTable == null)
         {
-            propertyName = PropertyNameTable.Get(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length);
-
-            // no match in name table
-            if (propertyName == null)
-            {
-                propertyName = _stringReference.ToString();
-            }
+            propertyName = _stringReference.ToString();
         }
         else
         {
-            propertyName = _stringReference.ToString();
+            propertyName = PropertyNameTable.Get(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length) ??
+                           // no match in name table
+                           _stringReference.ToString();
         }
 
         EatWhitespace();
@@ -1576,7 +1572,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         CharPos++;
 
         SetToken(JsonToken.PropertyName, propertyName);
-        _quoteChar = quoteChar;
+        base.quoteChar = quoteChar;
         ClearRecentString();
 
         return true;
@@ -2141,7 +2137,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        if (_floatParseHandling == FloatParseHandling.Decimal)
+                        if (FloatParseHandling == FloatParseHandling.Decimal)
                         {
                             parseResult = ConvertUtils.DecimalTryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var d);
                             if (parseResult == ParseResult.Success)
@@ -2455,7 +2451,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             {
                 case ReadType.Read:
                 case ReadType.ReadAsDouble:
-                    if (_floatParseHandling == FloatParseHandling.Double)
+                    if (FloatParseHandling == FloatParseHandling.Double)
                     {
                         SetToken(JsonToken.Float, double.NegativeInfinity);
                         return double.NegativeInfinity;
@@ -2484,7 +2480,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             {
                 case ReadType.Read:
                 case ReadType.ReadAsDouble:
-                    if (_floatParseHandling == FloatParseHandling.Double)
+                    if (FloatParseHandling == FloatParseHandling.Double)
                     {
                         SetToken(JsonToken.Float, double.PositiveInfinity);
                         return double.PositiveInfinity;
@@ -2514,7 +2510,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             {
                 case ReadType.Read:
                 case ReadType.ReadAsDouble:
-                    if (_floatParseHandling == FloatParseHandling.Double)
+                    if (FloatParseHandling == FloatParseHandling.Double)
                     {
                         SetToken(JsonToken.Float, double.NaN);
                         return double.NaN;
@@ -2567,9 +2563,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// <summary>
     /// Gets the current line number.
     /// </summary>
-    /// <value>
-    /// The current line number or 0 if no line information is available (for example, <see cref="JsonTextReader.HasLineInfo"/> returns <c>false</c>).
-    /// </value>
     public int LineNumber
     {
         get
@@ -2586,8 +2579,5 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// <summary>
     /// Gets the current line position.
     /// </summary>
-    /// <value>
-    /// The current line position or 0 if no line information is available (for example, <see cref="JsonTextReader.HasLineInfo"/> returns <c>false</c>).
-    /// </value>
     public int LinePosition => CharPos - _lineStartPos;
 }

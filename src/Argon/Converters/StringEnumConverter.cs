@@ -35,14 +35,12 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Gets or sets the naming strategy used to resolve how enum text is written.
     /// </summary>
-    /// <value>The naming strategy used to resolve how enum text is written.</value>
     public NamingStrategy? NamingStrategy { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether integer values are allowed when serializing and deserializing.
     /// The default value is <c>true</c>.
     /// </summary>
-    /// <value><c>true</c> if integers are allowed when serializing and deserializing; otherwise, <c>false</c>.</value>
     public bool AllowIntegerValues { get; set; } = true;
 
     /// <summary>

@@ -23,236 +23,234 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-namespace Argon;
-
 class JsonSerializerProxy : JsonSerializer
 {
-    readonly JsonSerializerInternalReader? _serializerReader;
-    readonly JsonSerializerInternalWriter? _serializerWriter;
-    internal readonly JsonSerializer _serializer;
+    readonly JsonSerializerInternalReader? serializerReader;
+    readonly JsonSerializerInternalWriter? serializerWriter;
+    internal readonly JsonSerializer serializer;
 
     public override event EventHandler<ErrorEventArgs>? Error
     {
-        add => _serializer.Error += value;
-        remove => _serializer.Error -= value;
+        add => serializer.Error += value;
+        remove => serializer.Error -= value;
     }
 
     public override IReferenceResolver? ReferenceResolver
     {
-        get => _serializer.ReferenceResolver;
-        set => _serializer.ReferenceResolver = value;
+        get => serializer.ReferenceResolver;
+        set => serializer.ReferenceResolver = value;
     }
 
     public override ITraceWriter? TraceWriter
     {
-        get => _serializer.TraceWriter;
-        set => _serializer.TraceWriter = value;
+        get => serializer.TraceWriter;
+        set => serializer.TraceWriter = value;
     }
 
     public override IEqualityComparer? EqualityComparer
     {
-        get => _serializer.EqualityComparer;
-        set => _serializer.EqualityComparer = value;
+        get => serializer.EqualityComparer;
+        set => serializer.EqualityComparer = value;
     }
 
-    public override JsonConverterCollection Converters => _serializer.Converters;
+    public override JsonConverterCollection Converters => serializer.Converters;
 
     public override DefaultValueHandling DefaultValueHandling
     {
-        get => _serializer.DefaultValueHandling;
-        set => _serializer.DefaultValueHandling = value;
+        get => serializer.DefaultValueHandling;
+        set => serializer.DefaultValueHandling = value;
     }
 
     public override IContractResolver ContractResolver
     {
-        get => _serializer.ContractResolver;
-        set => _serializer.ContractResolver = value;
+        get => serializer.ContractResolver;
+        set => serializer.ContractResolver = value;
     }
 
     public override MissingMemberHandling MissingMemberHandling
     {
-        get => _serializer.MissingMemberHandling;
-        set => _serializer.MissingMemberHandling = value;
+        get => serializer.MissingMemberHandling;
+        set => serializer.MissingMemberHandling = value;
     }
 
     public override NullValueHandling NullValueHandling
     {
-        get => _serializer.NullValueHandling;
-        set => _serializer.NullValueHandling = value;
+        get => serializer.NullValueHandling;
+        set => serializer.NullValueHandling = value;
     }
 
     public override ObjectCreationHandling ObjectCreationHandling
     {
-        get => _serializer.ObjectCreationHandling;
-        set => _serializer.ObjectCreationHandling = value;
+        get => serializer.ObjectCreationHandling;
+        set => serializer.ObjectCreationHandling = value;
     }
 
     public override ReferenceLoopHandling ReferenceLoopHandling
     {
-        get => _serializer.ReferenceLoopHandling;
-        set => _serializer.ReferenceLoopHandling = value;
+        get => serializer.ReferenceLoopHandling;
+        set => serializer.ReferenceLoopHandling = value;
     }
 
     public override PreserveReferencesHandling PreserveReferencesHandling
     {
-        get => _serializer.PreserveReferencesHandling;
-        set => _serializer.PreserveReferencesHandling = value;
+        get => serializer.PreserveReferencesHandling;
+        set => serializer.PreserveReferencesHandling = value;
     }
 
     public override TypeNameHandling TypeNameHandling
     {
-        get => _serializer.TypeNameHandling;
-        set => _serializer.TypeNameHandling = value;
+        get => serializer.TypeNameHandling;
+        set => serializer.TypeNameHandling = value;
     }
 
     public override MetadataPropertyHandling MetadataPropertyHandling
     {
-        get => _serializer.MetadataPropertyHandling;
-        set => _serializer.MetadataPropertyHandling = value;
+        get => serializer.MetadataPropertyHandling;
+        set => serializer.MetadataPropertyHandling = value;
     }
 
     public override TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
     {
-        get => _serializer.TypeNameAssemblyFormatHandling;
-        set => _serializer.TypeNameAssemblyFormatHandling = value;
+        get => serializer.TypeNameAssemblyFormatHandling;
+        set => serializer.TypeNameAssemblyFormatHandling = value;
     }
 
     public override ConstructorHandling ConstructorHandling
     {
-        get => _serializer.ConstructorHandling;
-        set => _serializer.ConstructorHandling = value;
+        get => serializer.ConstructorHandling;
+        set => serializer.ConstructorHandling = value;
     }
 
     public override ISerializationBinder SerializationBinder
     {
-        get => _serializer.SerializationBinder;
-        set => _serializer.SerializationBinder = value;
+        get => serializer.SerializationBinder;
+        set => serializer.SerializationBinder = value;
     }
 
     public override StreamingContext Context
     {
-        get => _serializer.Context;
-        set => _serializer.Context = value;
+        get => serializer.Context;
+        set => serializer.Context = value;
     }
 
     public override Formatting Formatting
     {
-        get => _serializer.Formatting;
-        set => _serializer.Formatting = value;
+        get => serializer.Formatting;
+        set => serializer.Formatting = value;
     }
 
     public override DateFormatHandling DateFormatHandling
     {
-        get => _serializer.DateFormatHandling;
-        set => _serializer.DateFormatHandling = value;
+        get => serializer.DateFormatHandling;
+        set => serializer.DateFormatHandling = value;
     }
 
     public override DateTimeZoneHandling DateTimeZoneHandling
     {
-        get => _serializer.DateTimeZoneHandling;
-        set => _serializer.DateTimeZoneHandling = value;
+        get => serializer.DateTimeZoneHandling;
+        set => serializer.DateTimeZoneHandling = value;
     }
 
     public override DateParseHandling DateParseHandling
     {
-        get => _serializer.DateParseHandling;
-        set => _serializer.DateParseHandling = value;
+        get => serializer.DateParseHandling;
+        set => serializer.DateParseHandling = value;
     }
 
     public override FloatFormatHandling FloatFormatHandling
     {
-        get => _serializer.FloatFormatHandling;
-        set => _serializer.FloatFormatHandling = value;
+        get => serializer.FloatFormatHandling;
+        set => serializer.FloatFormatHandling = value;
     }
 
     public override FloatParseHandling FloatParseHandling
     {
-        get => _serializer.FloatParseHandling;
-        set => _serializer.FloatParseHandling = value;
+        get => serializer.FloatParseHandling;
+        set => serializer.FloatParseHandling = value;
     }
 
     public override StringEscapeHandling StringEscapeHandling
     {
-        get => _serializer.StringEscapeHandling;
-        set => _serializer.StringEscapeHandling = value;
+        get => serializer.StringEscapeHandling;
+        set => serializer.StringEscapeHandling = value;
     }
 
     public override string DateFormatString
     {
-        get => _serializer.DateFormatString;
-        set => _serializer.DateFormatString = value;
+        get => serializer.DateFormatString;
+        set => serializer.DateFormatString = value;
     }
 
     public override CultureInfo Culture
     {
-        get => _serializer.Culture;
-        set => _serializer.Culture = value;
+        get => serializer.Culture;
+        set => serializer.Culture = value;
     }
 
     public override int? MaxDepth
     {
-        get => _serializer.MaxDepth;
-        set => _serializer.MaxDepth = value;
+        get => serializer.MaxDepth;
+        set => serializer.MaxDepth = value;
     }
 
     public override bool CheckAdditionalContent
     {
-        get => _serializer.CheckAdditionalContent;
-        set => _serializer.CheckAdditionalContent = value;
+        get => serializer.CheckAdditionalContent;
+        set => serializer.CheckAdditionalContent = value;
     }
 
     internal JsonSerializerInternalBase GetInternalSerializer()
     {
-        if (_serializerReader == null)
+        if (serializerReader == null)
         {
-            return _serializerWriter!;
+            return serializerWriter!;
         }
 
-        return _serializerReader;
+        return serializerReader;
     }
 
     public JsonSerializerProxy(JsonSerializerInternalReader serializerReader)
     {
-        _serializerReader = serializerReader;
-        _serializer = serializerReader.Serializer;
+        this.serializerReader = serializerReader;
+        serializer = serializerReader.Serializer;
     }
 
     public JsonSerializerProxy(JsonSerializerInternalWriter serializerWriter)
     {
-        _serializerWriter = serializerWriter;
-        _serializer = serializerWriter.Serializer;
+        this.serializerWriter = serializerWriter;
+        serializer = serializerWriter.Serializer;
     }
 
     internal override object? DeserializeInternal(JsonReader reader, Type? type)
     {
-        if (_serializerReader == null)
+        if (serializerReader == null)
         {
-            return _serializer.Deserialize(reader, type);
+            return serializer.Deserialize(reader, type);
         }
 
-        return _serializerReader.Deserialize(reader, type, false);
+        return serializerReader.Deserialize(reader, type, false);
     }
 
     internal override void PopulateInternal(JsonReader reader, object target)
     {
-        if (_serializerReader == null)
+        if (serializerReader == null)
         {
-            _serializer.Populate(reader, target);
+            serializer.Populate(reader, target);
             return;
         }
 
-        _serializerReader.Populate(reader, target);
+        serializerReader.Populate(reader, target);
     }
 
     internal override void SerializeInternal(JsonWriter jsonWriter, object? value, Type? rootType)
     {
-        if (_serializerWriter != null)
+        if (serializerWriter != null)
         {
-            _serializerWriter.Serialize(jsonWriter, value, rootType);
+            serializerWriter.Serialize(jsonWriter, value, rootType);
         }
         else
         {
-            _serializer.Serialize(jsonWriter, value);
+            serializer.Serialize(jsonWriter, value);
         }
     }
 }

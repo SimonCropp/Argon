@@ -40,28 +40,28 @@ public class JsonSerializer
     internal NullValueHandling _nullValueHandling;
     internal DefaultValueHandling _defaultValueHandling;
     internal ConstructorHandling _constructorHandling;
-    internal MetadataPropertyHandling _metadataPropertyHandling;
-    internal JsonConverterCollection? _converters;
+    MetadataPropertyHandling metadataPropertyHandling;
+    JsonConverterCollection? converters;
     internal IContractResolver _contractResolver;
-    internal ITraceWriter? _traceWriter;
+    ITraceWriter? traceWriter;
     internal IEqualityComparer? _equalityComparer;
     internal ISerializationBinder _serializationBinder;
     internal StreamingContext _context;
-    IReferenceResolver? _referenceResolver;
+    IReferenceResolver? referenceResolver;
 
-    Formatting? _formatting;
-    DateFormatHandling? _dateFormatHandling;
-    DateTimeZoneHandling? _dateTimeZoneHandling;
-    DateParseHandling? _dateParseHandling;
-    FloatFormatHandling? _floatFormatHandling;
-    FloatParseHandling? _floatParseHandling;
-    StringEscapeHandling? _stringEscapeHandling;
-    CultureInfo _culture;
-    int? _maxDepth;
-    bool _maxDepthSet;
-    bool? _checkAdditionalContent;
-    string? _dateFormatString;
-    bool _dateFormatStringSet;
+    Formatting? formatting;
+    DateFormatHandling? dateFormatHandling;
+    DateTimeZoneHandling? dateTimeZoneHandling;
+    DateParseHandling? dateParseHandling;
+    FloatFormatHandling? floatFormatHandling;
+    FloatParseHandling? floatParseHandling;
+    StringEscapeHandling? stringEscapeHandling;
+    CultureInfo culture;
+    int? maxDepth;
+    bool maxDepthSet;
+    bool? checkAdditionalContent;
+    string? dateFormatString;
+    bool dateFormatStringSet;
 
     /// <summary>
     /// Occurs when the <see cref="JsonSerializer"/> errors during serialization and deserialization.
@@ -81,7 +81,7 @@ public class JsonSerializer
                 throw new ArgumentNullException(nameof(value), "Reference resolver cannot be null.");
             }
 
-            _referenceResolver = value;
+            referenceResolver = value;
         }
     }
 
@@ -105,17 +105,15 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="ITraceWriter"/> used by the serializer when writing trace messages.
     /// </summary>
-    /// <value>The trace writer.</value>
     public virtual ITraceWriter? TraceWriter
     {
-        get => _traceWriter;
-        set => _traceWriter = value;
+        get => traceWriter;
+        set => traceWriter = value;
     }
 
     /// <summary>
     /// Gets or sets the equality comparer used by the serializer when comparing references.
     /// </summary>
-    /// <value>The equality comparer.</value>
     public virtual IEqualityComparer? EqualityComparer
     {
         get => _equalityComparer;
@@ -149,7 +147,6 @@ public class JsonSerializer
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
     /// The default value is <see cref="Argon.TypeNameAssemblyFormatHandling.Simple" />.
     /// </summary>
-    /// <value>The type name assembly format.</value>
     public virtual TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
     {
         get => _typeNameAssemblyFormatHandling;
@@ -209,11 +206,6 @@ public class JsonSerializer
         get => _missingMemberHandling;
         set
         {
-            if (value is < MissingMemberHandling.Ignore or > MissingMemberHandling.Error)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
             _missingMemberHandling = value;
         }
     }
@@ -258,7 +250,6 @@ public class JsonSerializer
     /// Gets or sets how objects are created during deserialization.
     /// The default value is <see cref="Argon.ObjectCreationHandling.Auto" />.
     /// </summary>
-    /// <value>The object creation handling.</value>
     public virtual ObjectCreationHandling ObjectCreationHandling
     {
         get => _objectCreationHandling;
@@ -277,7 +268,6 @@ public class JsonSerializer
     /// Gets or sets how constructors are used during deserialization.
     /// The default value is <see cref="Argon.ConstructorHandling.Default" />.
     /// </summary>
-    /// <value>The constructor handling.</value>
     public virtual ConstructorHandling ConstructorHandling
     {
         get => _constructorHandling;
@@ -296,10 +286,9 @@ public class JsonSerializer
     /// Gets or sets how metadata properties are used during deserialization.
     /// The default value is <see cref="Argon.MetadataPropertyHandling.Default" />.
     /// </summary>
-    /// <value>The metadata properties handling.</value>
     public virtual MetadataPropertyHandling MetadataPropertyHandling
     {
-        get => _metadataPropertyHandling;
+        get => metadataPropertyHandling;
         set
         {
             if (value is < MetadataPropertyHandling.Default or > MetadataPropertyHandling.Ignore)
@@ -307,26 +296,14 @@ public class JsonSerializer
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _metadataPropertyHandling = value;
+            metadataPropertyHandling = value;
         }
     }
 
     /// <summary>
     /// Gets a collection <see cref="JsonConverter"/> that will be used during serialization.
     /// </summary>
-    /// <value>Collection <see cref="JsonConverter"/> that will be used during serialization.</value>
-    public virtual JsonConverterCollection Converters
-    {
-        get
-        {
-            if (_converters == null)
-            {
-                _converters = new JsonConverterCollection();
-            }
-
-            return _converters;
-        }
-    }
+    public virtual JsonConverterCollection Converters => converters ??= new JsonConverterCollection();
 
     /// <summary>
     /// Gets or sets the contract resolver used by the serializer when
@@ -341,7 +318,6 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="StreamingContext"/> used by the serializer when invoking serialization callback methods.
     /// </summary>
-    /// <value>The context.</value>
     public virtual StreamingContext Context
     {
         get => _context;
@@ -354,8 +330,8 @@ public class JsonSerializer
     /// </summary>
     public virtual Formatting Formatting
     {
-        get => _formatting ?? JsonSerializerSettings.DefaultFormatting;
-        set => _formatting = value;
+        get => formatting ?? JsonSerializerSettings.DefaultFormatting;
+        set => formatting = value;
     }
 
     /// <summary>
@@ -364,8 +340,8 @@ public class JsonSerializer
     /// </summary>
     public virtual DateFormatHandling DateFormatHandling
     {
-        get => _dateFormatHandling ?? JsonSerializerSettings.DefaultDateFormatHandling;
-        set => _dateFormatHandling = value;
+        get => dateFormatHandling ?? JsonSerializerSettings.DefaultDateFormatHandling;
+        set => dateFormatHandling = value;
     }
 
     /// <summary>
@@ -374,8 +350,8 @@ public class JsonSerializer
     /// </summary>
     public virtual DateTimeZoneHandling DateTimeZoneHandling
     {
-        get => _dateTimeZoneHandling ?? JsonSerializerSettings.DefaultDateTimeZoneHandling;
-        set => _dateTimeZoneHandling = value;
+        get => dateTimeZoneHandling ?? JsonSerializerSettings.DefaultDateTimeZoneHandling;
+        set => dateTimeZoneHandling = value;
     }
 
     /// <summary>
@@ -384,8 +360,8 @@ public class JsonSerializer
     /// </summary>
     public virtual DateParseHandling DateParseHandling
     {
-        get => _dateParseHandling ?? JsonSerializerSettings.DefaultDateParseHandling;
-        set => _dateParseHandling = value;
+        get => dateParseHandling ?? JsonSerializerSettings.DefaultDateParseHandling;
+        set => dateParseHandling = value;
     }
 
     /// <summary>
@@ -394,8 +370,8 @@ public class JsonSerializer
     /// </summary>
     public virtual FloatParseHandling FloatParseHandling
     {
-        get => _floatParseHandling ?? JsonSerializerSettings.DefaultFloatParseHandling;
-        set => _floatParseHandling = value;
+        get => floatParseHandling ?? JsonSerializerSettings.DefaultFloatParseHandling;
+        set => floatParseHandling = value;
     }
 
     /// <summary>
@@ -406,8 +382,8 @@ public class JsonSerializer
     /// </summary>
     public virtual FloatFormatHandling FloatFormatHandling
     {
-        get => _floatFormatHandling ?? JsonSerializerSettings.DefaultFloatFormatHandling;
-        set => _floatFormatHandling = value;
+        get => floatFormatHandling ?? JsonSerializerSettings.DefaultFloatFormatHandling;
+        set => floatFormatHandling = value;
     }
 
     /// <summary>
@@ -416,8 +392,8 @@ public class JsonSerializer
     /// </summary>
     public virtual StringEscapeHandling StringEscapeHandling
     {
-        get => _stringEscapeHandling ?? JsonSerializerSettings.DefaultStringEscapeHandling;
-        set => _stringEscapeHandling = value;
+        get => stringEscapeHandling ?? JsonSerializerSettings.DefaultStringEscapeHandling;
+        set => stringEscapeHandling = value;
     }
 
     /// <summary>
@@ -427,11 +403,11 @@ public class JsonSerializer
     /// </summary>
     public virtual string DateFormatString
     {
-        get => _dateFormatString ?? JsonSerializerSettings.DefaultDateFormatString;
+        get => dateFormatString ?? JsonSerializerSettings.DefaultDateFormatString;
         set
         {
-            _dateFormatString = value;
-            _dateFormatStringSet = true;
+            dateFormatString = value;
+            dateFormatStringSet = true;
         }
     }
 
@@ -441,8 +417,8 @@ public class JsonSerializer
     /// </summary>
     public virtual CultureInfo Culture
     {
-        get => _culture ?? JsonSerializerSettings.DefaultCulture;
-        set => _culture = value;
+        get => culture ?? JsonSerializerSettings.DefaultCulture;
+        set => culture = value;
     }
 
     /// <summary>
@@ -452,7 +428,7 @@ public class JsonSerializer
     /// </summary>
     public virtual int? MaxDepth
     {
-        get => _maxDepth;
+        get => maxDepth;
         set
         {
             if (value <= 0)
@@ -460,8 +436,8 @@ public class JsonSerializer
                 throw new ArgumentException("Value must be positive.", nameof(value));
             }
 
-            _maxDepth = value;
-            _maxDepthSet = true;
+            maxDepth = value;
+            maxDepthSet = true;
         }
     }
 
@@ -469,18 +445,15 @@ public class JsonSerializer
     /// Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.
     /// The default value is <c>false</c>.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if there will be a check for additional JSON content after deserializing an object; otherwise, <c>false</c>.
-    /// </value>
     public virtual bool CheckAdditionalContent
     {
-        get => _checkAdditionalContent ?? JsonSerializerSettings.DefaultCheckAdditionalContent;
-        set => _checkAdditionalContent = value;
+        get => checkAdditionalContent ?? JsonSerializerSettings.DefaultCheckAdditionalContent;
+        set => checkAdditionalContent = value;
     }
 
     internal bool IsCheckAdditionalContentSet()
     {
-        return _checkAdditionalContent != null;
+        return checkAdditionalContent != null;
     }
 
     /// <summary>
@@ -496,11 +469,11 @@ public class JsonSerializer
         _preserveReferencesHandling = JsonSerializerSettings.DefaultPreserveReferencesHandling;
         _constructorHandling = JsonSerializerSettings.DefaultConstructorHandling;
         _typeNameHandling = JsonSerializerSettings.DefaultTypeNameHandling;
-        _metadataPropertyHandling = JsonSerializerSettings.DefaultMetadataPropertyHandling;
+        metadataPropertyHandling = JsonSerializerSettings.DefaultMetadataPropertyHandling;
         _context = JsonSerializerSettings.DefaultContext;
         _serializationBinder = DefaultSerializationBinder.Instance;
 
-        _culture = JsonSerializerSettings.DefaultCulture;
+        culture = JsonSerializerSettings.DefaultCulture;
         _contractResolver = DefaultContractResolver.Instance;
     }
 
@@ -641,7 +614,7 @@ public class JsonSerializer
         }
         if (settings._checkAdditionalContent != null)
         {
-            serializer._checkAdditionalContent = settings._checkAdditionalContent;
+            serializer.checkAdditionalContent = settings._checkAdditionalContent;
         }
 
         if (settings.Error != null)
@@ -674,45 +647,45 @@ public class JsonSerializer
         // unset values won't override reader/writer set values
         if (settings._formatting != null)
         {
-            serializer._formatting = settings._formatting;
+            serializer.formatting = settings._formatting;
         }
         if (settings._dateFormatHandling != null)
         {
-            serializer._dateFormatHandling = settings._dateFormatHandling;
+            serializer.dateFormatHandling = settings._dateFormatHandling;
         }
         if (settings._dateTimeZoneHandling != null)
         {
-            serializer._dateTimeZoneHandling = settings._dateTimeZoneHandling;
+            serializer.dateTimeZoneHandling = settings._dateTimeZoneHandling;
         }
         if (settings._dateParseHandling != null)
         {
-            serializer._dateParseHandling = settings._dateParseHandling;
+            serializer.dateParseHandling = settings._dateParseHandling;
         }
         if (settings._dateFormatStringSet)
         {
-            serializer._dateFormatString = settings._dateFormatString;
-            serializer._dateFormatStringSet = settings._dateFormatStringSet;
+            serializer.dateFormatString = settings._dateFormatString;
+            serializer.dateFormatStringSet = settings._dateFormatStringSet;
         }
         if (settings._floatFormatHandling != null)
         {
-            serializer._floatFormatHandling = settings._floatFormatHandling;
+            serializer.floatFormatHandling = settings._floatFormatHandling;
         }
         if (settings._floatParseHandling != null)
         {
-            serializer._floatParseHandling = settings._floatParseHandling;
+            serializer.floatParseHandling = settings._floatParseHandling;
         }
         if (settings._stringEscapeHandling != null)
         {
-            serializer._stringEscapeHandling = settings._stringEscapeHandling;
+            serializer.stringEscapeHandling = settings._stringEscapeHandling;
         }
         if (settings._culture != null)
         {
-            serializer._culture = settings._culture;
+            serializer.culture = settings._culture;
         }
         if (settings._maxDepthSet)
         {
-            serializer._maxDepth = settings._maxDepth;
-            serializer._maxDepthSet = settings._maxDepthSet;
+            serializer.maxDepth = settings._maxDepth;
+            serializer.maxDepthSet = settings._maxDepthSet;
         }
     }
 
@@ -844,60 +817,60 @@ public class JsonSerializer
 
     internal void SetupReader(JsonReader reader, out CultureInfo? previousCulture, out DateTimeZoneHandling? previousDateTimeZoneHandling, out DateParseHandling? previousDateParseHandling, out FloatParseHandling? previousFloatParseHandling, out int? previousMaxDepth, out string? previousDateFormatString)
     {
-        if (_culture != null && !_culture.Equals(reader.Culture))
+        if (culture != null && !culture.Equals(reader.Culture))
         {
             previousCulture = reader.Culture;
-            reader.Culture = _culture;
+            reader.Culture = culture;
         }
         else
         {
             previousCulture = null;
         }
 
-        if (_dateTimeZoneHandling != null && reader.DateTimeZoneHandling != _dateTimeZoneHandling)
+        if (dateTimeZoneHandling != null && reader.DateTimeZoneHandling != dateTimeZoneHandling)
         {
             previousDateTimeZoneHandling = reader.DateTimeZoneHandling;
-            reader.DateTimeZoneHandling = _dateTimeZoneHandling.GetValueOrDefault();
+            reader.DateTimeZoneHandling = dateTimeZoneHandling.GetValueOrDefault();
         }
         else
         {
             previousDateTimeZoneHandling = null;
         }
 
-        if (_dateParseHandling != null && reader.DateParseHandling != _dateParseHandling)
+        if (dateParseHandling != null && reader.DateParseHandling != dateParseHandling)
         {
             previousDateParseHandling = reader.DateParseHandling;
-            reader.DateParseHandling = _dateParseHandling.GetValueOrDefault();
+            reader.DateParseHandling = dateParseHandling.GetValueOrDefault();
         }
         else
         {
             previousDateParseHandling = null;
         }
 
-        if (_floatParseHandling != null && reader.FloatParseHandling != _floatParseHandling)
+        if (floatParseHandling != null && reader.FloatParseHandling != floatParseHandling)
         {
             previousFloatParseHandling = reader.FloatParseHandling;
-            reader.FloatParseHandling = _floatParseHandling.GetValueOrDefault();
+            reader.FloatParseHandling = floatParseHandling.GetValueOrDefault();
         }
         else
         {
             previousFloatParseHandling = null;
         }
 
-        if (_maxDepthSet && reader.MaxDepth != _maxDepth)
+        if (maxDepthSet && reader.MaxDepth != maxDepth)
         {
             previousMaxDepth = reader.MaxDepth;
-            reader.MaxDepth = _maxDepth;
+            reader.MaxDepth = maxDepth;
         }
         else
         {
             previousMaxDepth = null;
         }
 
-        if (_dateFormatStringSet && reader.DateFormatString != _dateFormatString)
+        if (dateFormatStringSet && reader.DateFormatString != dateFormatString)
         {
             previousDateFormatString = reader.DateFormatString;
-            reader.DateFormatString = _dateFormatString;
+            reader.DateFormatString = dateFormatString;
         }
         else
         {
@@ -932,11 +905,11 @@ public class JsonSerializer
         {
             reader.FloatParseHandling = previousFloatParseHandling.GetValueOrDefault();
         }
-        if (_maxDepthSet)
+        if (maxDepthSet)
         {
             reader.MaxDepth = previousMaxDepth;
         }
-        if (_dateFormatStringSet)
+        if (dateFormatStringSet)
         {
             reader.DateFormatString = previousDateFormatString;
         }
@@ -1016,52 +989,52 @@ public class JsonSerializer
     {
         // set serialization options onto writer
         Formatting? previousFormatting = null;
-        if (_formatting != null && jsonWriter.Formatting != _formatting)
+        if (formatting != null && jsonWriter.Formatting != formatting)
         {
             previousFormatting = jsonWriter.Formatting;
-            jsonWriter.Formatting = _formatting.GetValueOrDefault();
+            jsonWriter.Formatting = formatting.GetValueOrDefault();
         }
 
         DateFormatHandling? previousDateFormatHandling = null;
-        if (_dateFormatHandling != null && jsonWriter.DateFormatHandling != _dateFormatHandling)
+        if (dateFormatHandling != null && jsonWriter.DateFormatHandling != dateFormatHandling)
         {
             previousDateFormatHandling = jsonWriter.DateFormatHandling;
-            jsonWriter.DateFormatHandling = _dateFormatHandling.GetValueOrDefault();
+            jsonWriter.DateFormatHandling = dateFormatHandling.GetValueOrDefault();
         }
 
         DateTimeZoneHandling? previousDateTimeZoneHandling = null;
-        if (_dateTimeZoneHandling != null && jsonWriter.DateTimeZoneHandling != _dateTimeZoneHandling)
+        if (dateTimeZoneHandling != null && jsonWriter.DateTimeZoneHandling != dateTimeZoneHandling)
         {
             previousDateTimeZoneHandling = jsonWriter.DateTimeZoneHandling;
-            jsonWriter.DateTimeZoneHandling = _dateTimeZoneHandling.GetValueOrDefault();
+            jsonWriter.DateTimeZoneHandling = dateTimeZoneHandling.GetValueOrDefault();
         }
 
         FloatFormatHandling? previousFloatFormatHandling = null;
-        if (_floatFormatHandling != null && jsonWriter.FloatFormatHandling != _floatFormatHandling)
+        if (floatFormatHandling != null && jsonWriter.FloatFormatHandling != floatFormatHandling)
         {
             previousFloatFormatHandling = jsonWriter.FloatFormatHandling;
-            jsonWriter.FloatFormatHandling = _floatFormatHandling.GetValueOrDefault();
+            jsonWriter.FloatFormatHandling = floatFormatHandling.GetValueOrDefault();
         }
 
         StringEscapeHandling? previousStringEscapeHandling = null;
-        if (_stringEscapeHandling != null && jsonWriter.StringEscapeHandling != _stringEscapeHandling)
+        if (stringEscapeHandling != null && jsonWriter.StringEscapeHandling != stringEscapeHandling)
         {
             previousStringEscapeHandling = jsonWriter.StringEscapeHandling;
-            jsonWriter.StringEscapeHandling = _stringEscapeHandling.GetValueOrDefault();
+            jsonWriter.StringEscapeHandling = stringEscapeHandling.GetValueOrDefault();
         }
 
         CultureInfo? previousCulture = null;
-        if (_culture != null && !_culture.Equals(jsonWriter.Culture))
+        if (culture != null && !culture.Equals(jsonWriter.Culture))
         {
             previousCulture = jsonWriter.Culture;
-            jsonWriter.Culture = _culture;
+            jsonWriter.Culture = culture;
         }
 
         string? previousDateFormatString = null;
-        if (_dateFormatStringSet && jsonWriter.DateFormatString != _dateFormatString)
+        if (dateFormatStringSet && jsonWriter.DateFormatString != dateFormatString)
         {
             previousDateFormatString = jsonWriter.DateFormatString;
-            jsonWriter.DateFormatString = _dateFormatString;
+            jsonWriter.DateFormatString = dateFormatString;
         }
 
         var traceJsonWriter = TraceWriter is {LevelFilter: >= TraceLevel.Verbose}
@@ -1097,7 +1070,7 @@ public class JsonSerializer
         {
             jsonWriter.StringEscapeHandling = previousStringEscapeHandling.GetValueOrDefault();
         }
-        if (_dateFormatStringSet)
+        if (dateFormatStringSet)
         {
             jsonWriter.DateFormatString = previousDateFormatString;
         }
@@ -1109,17 +1082,12 @@ public class JsonSerializer
 
     internal IReferenceResolver GetReferenceResolver()
     {
-        if (_referenceResolver == null)
-        {
-            _referenceResolver = new DefaultReferenceResolver();
-        }
-
-        return _referenceResolver;
+        return referenceResolver ??= new DefaultReferenceResolver();
     }
 
     internal JsonConverter? GetMatchingConverter(Type type)
     {
-        return GetMatchingConverter(_converters, type);
+        return GetMatchingConverter(converters, type);
     }
 
     internal static JsonConverter? GetMatchingConverter(IList<JsonConverter>? converters, Type type)

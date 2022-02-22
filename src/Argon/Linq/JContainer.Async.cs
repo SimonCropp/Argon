@@ -27,16 +27,16 @@ namespace Argon.Linq;
 
 public abstract partial class JContainer
 {
-    internal async Task ReadTokenFromAsync(JsonReader reader, JsonLoadSettings? options, CancellationToken cancellationToken = default)
+    internal async Task ReadTokenFromAsync(JsonReader reader, JsonLoadSettings? options, CancellationToken cancellation = default)
     {
         var startDepth = reader.Depth;
 
-        if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+        if (!await reader.ReadAsync(cancellation).ConfigureAwait(false))
         {
             throw JsonReaderException.Create(reader, $"Error reading {GetType().Name} from JsonReader.");
         }
 
-        await ReadContentFromAsync(reader, options, cancellationToken).ConfigureAwait(false);
+        await ReadContentFromAsync(reader, options, cancellation).ConfigureAwait(false);
 
         if (reader.Depth > startDepth)
         {
@@ -44,7 +44,7 @@ public abstract partial class JContainer
         }
     }
 
-    async Task ReadContentFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
+    async Task ReadContentFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
     {
         var lineInfo = reader as IJsonLineInfo;
 
@@ -154,6 +154,6 @@ public abstract partial class JContainer
                 default:
                     throw new InvalidOperationException($"The JsonReader should not be on a token of type {reader.TokenType}.");
             }
-        } while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false));
+        } while (await reader.ReadAsync(cancellation).ConfigureAwait(false));
     }
 }

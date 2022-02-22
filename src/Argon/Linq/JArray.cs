@@ -38,13 +38,11 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
     protected override IList<JToken> ChildrenTokens => _values;
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type => JTokenType.Array;
 
     /// <summary>
@@ -217,7 +215,6 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public override JToken? this[object key]
     {
         get
@@ -243,7 +240,6 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Gets or sets the <see cref="Argon.Linq.JToken"/> at the specified index.
     /// </summary>
-    /// <value></value>
     public JToken this[int index]
     {
         get => GetItem(index);

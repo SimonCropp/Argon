@@ -269,7 +269,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
             {
                 return 0;
             }
-            
+
             return info.LineNumber;
         }
     }

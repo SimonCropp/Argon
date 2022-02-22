@@ -135,10 +135,6 @@ public class JPropertyDescriptor : PropertyDescriptor
     /// <summary>
     /// Gets the hash code for the name of the member.
     /// </summary>
-    /// <value></value>
-    /// <returns>
-    /// The hash code for the name of the member.
-    /// </returns>
     protected override int NameHashCode
     {
         get

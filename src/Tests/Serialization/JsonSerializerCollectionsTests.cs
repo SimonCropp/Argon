@@ -2144,11 +2144,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         public string Name { get; }
 
         public KeyValuePair<string, string>[] Dimensions =>
-            metricDimensions ?? (metricDimensions = new KeyValuePair<string, string>[]
+            metricDimensions ??= new KeyValuePair<string, string>[]
             {
-                new("Endpoint", Endpoint.ToString()),
+                new("Endpoint", Endpoint),
                 new("Name", Name)
-            });
+            };
     }
 
     public class MyClass : IList<string>
@@ -2349,7 +2349,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         }
 
-
         void ParseReplyXML(string xmlString)
         {
             try
@@ -2360,10 +2359,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
                 var ns = "http://www.yale.edu/tp/cas";
 
-                var auth = root.Element(XName.Get("authenticationSuccess", ns));
-
-                if (auth == null)
-                    auth = root.Element(XName.Get("authenticationFailure", ns));
+                var auth = root.Element(XName.Get("authenticationSuccess", ns)) ??
+                           root.Element(XName.Get("authenticationFailure", ns));
 
                 var xNodeUser = auth.Element(XName.Get("user", ns));
 

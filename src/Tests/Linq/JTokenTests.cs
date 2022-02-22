@@ -534,7 +534,7 @@ public class JTokenTests : TestFixtureBase
         Assert.True(JToken.DeepEquals(JValue.CreateNull(), (JValue)(double?)null));
 
         Assert.False(JToken.DeepEquals(new JValue(true), (JValue)(bool?)null));
-        Assert.False(JToken.DeepEquals(JValue.CreateNull(), (JValue?)null));
+        Assert.False(JToken.DeepEquals(JValue.CreateNull(), null));
 
         var emptyData = new byte[0];
         Assert.True(JToken.DeepEquals(new JValue(emptyData), (JValue)emptyData));

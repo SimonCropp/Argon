@@ -84,12 +84,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     JsonSerializerProxy GetInternalSerializer()
     {
-        if (InternalSerializer == null)
-        {
-            InternalSerializer = new JsonSerializerProxy(this);
-        }
-
-        return InternalSerializer;
+        return InternalSerializer ??= new JsonSerializerProxy(this);
     }
 
     JsonContract? GetContractSafe(object? value)
@@ -209,12 +204,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             isReference = collectionContract.ItemIsReference;
         }
 
-        if (isReference == null)
-        {
-            isReference = contract.IsReference;
-        }
-
-        return isReference;
+        return isReference ?? contract.IsReference;
     }
 
     bool ShouldWriteReference(object? value, JsonProperty? property, JsonContract? valueContract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)

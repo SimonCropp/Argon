@@ -33,19 +33,16 @@ public class JsonSerializationException : JsonException
     /// <summary>
     /// Gets the line number indicating where the error occurred.
     /// </summary>
-    /// <value>The line number indicating where the error occurred.</value>
     public int LineNumber { get; }
 
     /// <summary>
     /// Gets the line position indicating where the error occurred.
     /// </summary>
-    /// <value>The line position indicating where the error occurred.</value>
     public int LinePosition { get; }
 
     /// <summary>
     /// Gets the path to the JSON where the error occurred.
     /// </summary>
-    /// <value>The path to the JSON where the error occurred.</value>
     public string? Path { get; }
 
     /// <summary>

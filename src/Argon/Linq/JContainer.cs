@@ -70,7 +70,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
     protected abstract IList<JToken> ChildrenTokens { get; }
 
     object? _syncRoot;
@@ -162,9 +161,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Gets a value indicating whether this token has child tokens.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this token has child values; otherwise, <c>false</c>.
-    /// </value>
     public override bool HasValues => ChildrenTokens.Count > 0;
 
     internal bool ContentsEqual(JContainer container)
@@ -196,9 +192,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Get the first child token of this token.
     /// </summary>
-    /// <value>
-    /// A <see cref="JToken"/> containing the first child token of the <see cref="JToken"/>.
-    /// </value>
     public override JToken? First
     {
         get
@@ -211,9 +204,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Get the last child token of this token.
     /// </summary>
-    /// <value>
-    /// A <see cref="JToken"/> containing the last child token of the <see cref="JToken"/>.
-    /// </value>
     public override JToken? Last
     {
         get
@@ -1023,7 +1013,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Gets the count of child JSON tokens.
     /// </summary>
-    /// <value>The count of child JSON tokens.</value>
     public int Count => ChildrenTokens.Count;
 
     bool ICollection.IsSynchronized => false;

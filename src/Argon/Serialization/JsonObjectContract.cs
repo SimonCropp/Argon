@@ -33,56 +33,37 @@ public class JsonObjectContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the object member serialization.
     /// </summary>
-    /// <value>The member object serialization.</value>
     public MemberSerialization MemberSerialization { get; set; }
 
     /// <summary>
     /// Gets or sets the missing member handling used when deserializing this object.
     /// </summary>
-    /// <value>The missing member handling.</value>
     public MissingMemberHandling? MissingMemberHandling { get; set; }
 
     /// <summary>
     /// Gets or sets a value that indicates whether the object's properties are required.
     /// </summary>
-    /// <value>
-    /// 	A value indicating whether the object's properties are required.
-    /// </value>
     public Required? ItemRequired { get; set; }
 
     /// <summary>
     /// Gets or sets how the object's properties with null values are handled during serialization and deserialization.
     /// </summary>
-    /// <value>How the object's properties with null values are handled during serialization and deserialization.</value>
     public NullValueHandling? ItemNullValueHandling { get; set; }
 
     /// <summary>
     /// Gets the object's properties.
     /// </summary>
-    /// <value>The object's properties.</value>
     public JsonPropertyCollection Properties { get; }
 
     /// <summary>
     /// Gets a collection of <see cref="JsonProperty"/> instances that define the parameters used with <see cref="JsonObjectContract.OverrideCreator"/>.
     /// </summary>
-    public JsonPropertyCollection CreatorParameters
-    {
-        get
-        {
-            if (_creatorParameters == null)
-            {
-                _creatorParameters = new JsonPropertyCollection(UnderlyingType);
-            }
-
-            return _creatorParameters;
-        }
-    }
+    public JsonPropertyCollection CreatorParameters => creatorParameters ??= new JsonPropertyCollection(UnderlyingType);
 
     /// <summary>
     /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
     /// This function is called with a collection of arguments which are defined by the <see cref="JsonObjectContract.CreatorParameters"/> collection.
     /// </summary>
-    /// <value>The function used to create the object.</value>
     public ObjectConstructor<object>? OverrideCreator { get; set; }
 
     internal ObjectConstructor<object>? ParameterizedCreator { get; set; }
@@ -113,12 +94,11 @@ public class JsonObjectContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the extension data name resolver.
     /// </summary>
-    /// <value>The extension data name resolver.</value>
     public Func<string, string>? ExtensionDataNameResolver { get; set; }
 
     internal bool ExtensionDataIsJToken;
     bool? _hasRequiredOrDefaultValueProperties;
-    JsonPropertyCollection? _creatorParameters;
+    JsonPropertyCollection? creatorParameters;
     Type? _extensionDataValueType;
 
     internal bool HasRequiredOrDefaultValueProperties

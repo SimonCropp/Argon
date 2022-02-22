@@ -31,29 +31,29 @@ static class AsyncUtils
 
     internal static Task<bool> ToAsync(this bool value) => value ? True : False;
 
-    public static Task? CancelIfRequestedAsync(this CancellationToken cancellationToken)
+    public static Task? CancelIfRequestedAsync(this CancellationToken cancellation)
     {
-        return cancellationToken.IsCancellationRequested ? FromCanceled(cancellationToken) : null;
+        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : null;
     }
 
-    public static Task<T>? CancelIfRequestedAsync<T>(this CancellationToken cancellationToken)
+    public static Task<T>? CancelIfRequestedAsync<T>(this CancellationToken cancellation)
     {
-        return cancellationToken.IsCancellationRequested ? FromCanceled<T>(cancellationToken) : null;
+        return cancellation.IsCancellationRequested ? FromCanceled<T>(cancellation) : null;
     }
 
     // From 4.6 on we could use Task.FromCanceled(), but we need an equivalent for
     // previous frameworks.
-    public static Task FromCanceled(this CancellationToken cancellationToken)
+    public static Task FromCanceled(this CancellationToken cancellation)
     {
-        MiscellaneousUtils.Assert(cancellationToken.IsCancellationRequested);
-        return new Task(() => {}, cancellationToken);
+        MiscellaneousUtils.Assert(cancellation.IsCancellationRequested);
+        return new Task(() => {}, cancellation);
     }
 
-    public static Task<T> FromCanceled<T>(this CancellationToken cancellationToken)
+    public static Task<T> FromCanceled<T>(this CancellationToken cancellation)
     {
-        MiscellaneousUtils.Assert(cancellationToken.IsCancellationRequested);
+        MiscellaneousUtils.Assert(cancellation.IsCancellationRequested);
 #pragma warning disable CS8603 // Possible null reference return.
-        return new Task<T>(() => default, cancellationToken);
+        return new Task<T>(() => default, cancellation);
 #pragma warning restore CS8603 // Possible null reference return.
     }
 
@@ -62,28 +62,28 @@ static class AsyncUtils
     // our own cached field for previous frameworks.
     internal static readonly Task CompletedTask = Task.Delay(0);
 
-    public static Task WriteAsync(this TextWriter writer, char value, CancellationToken cancellationToken)
+    public static Task WriteAsync(this TextWriter writer, char value, CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(writer != null);
-        return cancellationToken.IsCancellationRequested ? FromCanceled(cancellationToken) : writer.WriteAsync(value);
+        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
     }
 
-    public static Task WriteAsync(this TextWriter writer, string? value, CancellationToken cancellationToken)
+    public static Task WriteAsync(this TextWriter writer, string? value, CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(writer != null);
-        return cancellationToken.IsCancellationRequested ? FromCanceled(cancellationToken) : writer.WriteAsync(value);
+        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
     }
 
-    public static Task WriteAsync(this TextWriter writer, char[] value, int start, int count, CancellationToken cancellationToken)
+    public static Task WriteAsync(this TextWriter writer, char[] value, int start, int count, CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(writer != null);
-        return cancellationToken.IsCancellationRequested ? FromCanceled(cancellationToken) : writer.WriteAsync(value, start, count);
+        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value, start, count);
     }
 
-    public static Task<int> ReadAsync(this TextReader reader, char[] buffer, int index, int count, CancellationToken cancellationToken)
+    public static Task<int> ReadAsync(this TextReader reader, char[] buffer, int index, int count, CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(reader != null);
-        return cancellationToken.IsCancellationRequested ? FromCanceled<int>(cancellationToken) : reader.ReadAsync(buffer, index, count);
+        return cancellation.IsCancellationRequested ? FromCanceled<int>(cancellation) : reader.ReadAsync(buffer, index, count);
     }
 
     public static bool IsCompletedSucessfully(this Task task)

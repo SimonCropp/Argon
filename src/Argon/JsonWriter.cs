@@ -108,23 +108,16 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Gets or sets a value indicating whether the destination should be closed when this writer is closed.
     /// </summary>
-    /// <value>
-    /// <c>true</c> to close the destination when this writer is closed; otherwise <c>false</c>. The default is <c>true</c>.
-    /// </value>
     public bool CloseOutput { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the JSON should be auto-completed when this writer is closed.
     /// </summary>
-    /// <value>
-    /// <c>true</c> to auto-complete the JSON when this writer is closed; otherwise <c>false</c>. The default is <c>true</c>.
-    /// </value>
     public bool AutoCompleteOnClose { get; set; }
 
     /// <summary>
     /// Gets the top.
     /// </summary>
-    /// <value>The top.</value>
     protected internal int Top
     {
         get

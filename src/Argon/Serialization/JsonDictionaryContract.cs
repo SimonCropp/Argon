@@ -35,19 +35,16 @@ public class JsonDictionaryContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the dictionary key resolver.
     /// </summary>
-    /// <value>The dictionary key resolver.</value>
     public Func<string, string>? DictionaryKeyResolver { get; set; }
 
     /// <summary>
     /// Gets the <see cref="System.Type"/> of the dictionary keys.
     /// </summary>
-    /// <value>The <see cref="System.Type"/> of the dictionary keys.</value>
     public Type? DictionaryKeyType { get; }
 
     /// <summary>
     /// Gets the <see cref="System.Type"/> of the dictionary values.
     /// </summary>
-    /// <value>The <see cref="System.Type"/> of the dictionary values.</value>
     public Type? DictionaryValueType { get; }
 
     internal JsonContract? KeyContract { get; set; }
@@ -81,13 +78,11 @@ public class JsonDictionaryContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
     /// </summary>
-    /// <value>The function used to create the object.</value>
     public ObjectConstructor<object>? OverrideCreator { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the creator has a parameter with the dictionary values.
     /// </summary>
-    /// <value><c>true</c> if the creator has a parameter with the dictionary values; otherwise, <c>false</c>.</value>
     public bool HasParameterizedCreator { get; set; }
 
     internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || _parameterizedCreator != null || _parameterizedConstructor != null;

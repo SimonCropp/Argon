@@ -44,20 +44,17 @@ public class XmlNodeConverter : JsonConverter
     /// <summary>
     /// Gets or sets the name of the root element to insert when deserializing to XML if the JSON structure has produced multiple root elements.
     /// </summary>
-    /// <value>The name of the deserialized root element.</value>
     public string? DeserializeRootElementName { get; set; }
 
     /// <summary>
     /// Gets or sets a value to indicate whether to write the Json.NET array attribute.
     /// This attribute helps preserve arrays when converting the written XML back to JSON.
     /// </summary>
-    /// <value><c>true</c> if the array attribute is written to the XML; otherwise, <c>false</c>.</value>
     public bool WriteArrayAttribute { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to write the root JSON object.
     /// </summary>
-    /// <value><c>true</c> if the JSON root object is omitted; otherwise, <c>false</c>.</value>
     public bool OmitRootObject { get; set; }
 
     /// <summary>
@@ -66,7 +63,6 @@ public class XmlNodeConverter : JsonConverter
     /// XML namespaces, attributes or processing directives. Instead special characters are encoded and written
     /// as part of the XML element name.
     /// </summary>
-    /// <value><c>true</c> if special characters are encoded; otherwise, <c>false</c>.</value>
     public bool EncodeSpecialCharacters { get; set; }
 
     #region Writing

@@ -34,7 +34,6 @@ public sealed class JsonConverterAttribute : Attribute
     /// <summary>
     /// Gets the <see cref="Type"/> of the <see cref="JsonConverter"/>.
     /// </summary>
-    /// <value>The <see cref="Type"/> of the <see cref="JsonConverter"/>.</value>
     public Type ConverterType { get; }
 
     /// <summary>

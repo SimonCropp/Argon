@@ -33,7 +33,6 @@ public class JsonWriterException : JsonException
     /// <summary>
     /// Gets the path to the JSON where the error occurred.
     /// </summary>
-    /// <value>The path to the JSON where the error occurred.</value>
     public string? Path { get; }
 
     /// <summary>
