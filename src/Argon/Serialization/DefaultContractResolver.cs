@@ -352,39 +352,40 @@ public class DefaultContractResolver : IContractResolver
             return;
         }
 
-        var t = ReflectionUtils.GetMemberUnderlyingType(member);
+        var type = ReflectionUtils.GetMemberUnderlyingType(member);
 
-        ReflectionUtils.ImplementsGenericDefinition(t, typeof(IDictionary<,>), out var dictionaryType);
+        if (!ReflectionUtils.ImplementsGenericDefinition(type, typeof(IDictionary<,>), out var dictionaryType))
+        {
+            throw new JsonSerializationException($"Cannot use '{member.Name}' for extension data. It must be a IDictionary<,>.");
+        }
 
-        var keyType = dictionaryType!.GetGenericArguments()[0];
-        var valueType = dictionaryType!.GetGenericArguments()[1];
+        var keyType = dictionaryType.GetGenericArguments()[0];
+        var valueType = dictionaryType.GetGenericArguments()[1];
 
         Type createdType;
 
         // change type to a class if it is the base interface so it can be instantiated if needed
-        if (ReflectionUtils.IsGenericDefinition(t, typeof(IDictionary<,>)))
+        if (ReflectionUtils.IsGenericDefinition(type, typeof(IDictionary<,>)))
         {
             createdType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
         }
         else
         {
-            createdType = t;
+            createdType = type;
         }
 
         var getExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(member);
 
         if (extensionDataAttribute.ReadData)
         {
-            var setExtensionDataDictionary = ReflectionUtils.CanSetMemberValue(member, true, false)
-                ? JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(member)
-                : null;
+            var setExtensionDataDictionary = BuildSetExtensionDataDictionary(member);
             var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
-            var setMethod = t.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
+            var setMethod = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
             if (setMethod == null)
             {
                 // Item is explicitly implemented and non-public
                 // get from dictionary interface
-                setMethod = dictionaryType!.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
+                setMethod = dictionaryType.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
             }
 
             var setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
@@ -430,6 +431,13 @@ public class DefaultContractResolver : IContractResolver
         }
 
         contract.ExtensionDataValueType = valueType;
+    }
+
+    private static Action<object, object?>? BuildSetExtensionDataDictionary(MemberInfo member)
+    {
+        if (ReflectionUtils.CanSetMemberValue(member, true, false))
+            return JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(member);
+        return null;
     }
 
     // leave as class instead of struct

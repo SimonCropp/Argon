@@ -85,7 +85,7 @@ public class DiscriminatedUnionConverter : JsonConverter
     {
         var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, type, null), new List<UnionCase>());
 
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null)!;
+        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
 
         foreach (var unionCaseInfo in cases)
         {
@@ -129,7 +129,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         writer.WriteValue(caseInfo.Name);
         if (caseInfo.Fields is {Length: > 0})
         {
-            var fields = (object[])caseInfo.FieldReader.Invoke(value)!;
+            var fields = (object[])caseInfo.FieldReader.Invoke(value);
 
             writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(FieldsPropertyName) : FieldsPropertyName);
             writer.WriteStartArray();

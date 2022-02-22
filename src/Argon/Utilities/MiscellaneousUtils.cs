@@ -78,7 +78,12 @@ static class MiscellaneousUtils
             return "{null}";
         }
 
-        return value is string s ? $@"""{s}""" : value!.ToString();
+        if (value is string s)
+        {
+            return $@"""{s}""";
+        }
+
+        return value.ToString();
     }
 
     public static int ByteArrayCompare(byte[] a1, byte[] a2)

@@ -436,7 +436,7 @@ class JPath
 
         _currentIndex++;
 
-        if (ParsePath(expressionPath!, _currentIndex, true))
+        if (ParsePath(expressionPath, _currentIndex, true))
         {
             throw new JsonException("Path ended with open query.");
         }
