@@ -27,9 +27,9 @@ namespace TestObjects;
 
 public class MultipleParametrizedConstructorsJsonConstructor
 {
-    public string Value { get; private set; }
-    public int Age { get; private set; }
-    public string Constructor { get; private set; }
+    public string Value { get; }
+    public int Age { get; }
+    public string Constructor { get; }
 
     public MultipleParametrizedConstructorsJsonConstructor(string value)
     {

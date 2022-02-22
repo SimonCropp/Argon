@@ -7,8 +7,8 @@ This sample uses the `Argon.JsonConstructorAttribute` to specify that a construc
 ```cs
 public class User
 {
-    public string UserName { get; private set; }
-    public bool Enabled { get; private set; }
+    public string UserName { get; }
+    public bool Enabled { get; }
 
     public User()
     {

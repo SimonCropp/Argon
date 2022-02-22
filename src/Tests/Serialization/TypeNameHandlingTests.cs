@@ -997,7 +997,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class TypeNameSerializationBinder : ISerializationBinder
     {
-        public string TypeFormat { get; private set; }
+        public string TypeFormat { get; }
 
         public TypeNameSerializationBinder(string typeFormat)
         {
@@ -1086,7 +1086,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class NewTypeNameSerializationBinder : ISerializationBinder
     {
-        public string TypeFormat { get; private set; }
+        public string TypeFormat { get; }
 
         public NewTypeNameSerializationBinder(string typeFormat)
         {
@@ -2177,7 +2177,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         }
 
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto, TypeNameHandling = TypeNameHandling.Auto)]
-        public Dictionary<string, IEnumerable<IMyInterfaceType>> Rows { get; private set; }
+        public Dictionary<string, IEnumerable<IMyInterfaceType>> Rows { get; }
     }
 
     public interface IMyInterfaceType

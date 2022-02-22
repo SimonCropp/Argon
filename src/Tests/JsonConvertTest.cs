@@ -1178,9 +1178,9 @@ public class JsonConvertTest : TestFixtureBase
 
     public class ClobberingJsonConverter : JsonConverter
     {
-        public string ClobberValueString { get; private set; }
+        public string ClobberValueString { get; }
 
-        public int ClobberValueInt { get; private set; }
+        public int ClobberValueInt { get; }
 
         public ClobberingJsonConverter(string clobberValueString, int clobberValueInt)
         {

@@ -109,7 +109,7 @@ public class ExtensionDataTests : TestFixtureBase
         }
 
         [JsonExtensionData]
-        public IDictionary<string, object> Data { get; private set; }
+        public IDictionary<string, object> Data { get; }
     }
 
     [Fact]

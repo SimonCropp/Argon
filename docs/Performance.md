@@ -94,7 +94,7 @@ public class Person
     }
 
     public string Name { get; set; }
-    public IList<string> Likes { get; private set; }
+    public IList<string> Likes { get; }
 }
 ```
 <sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L28-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>

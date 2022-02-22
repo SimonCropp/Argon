@@ -34,5 +34,5 @@ public class DerivedConstructorType : BaseConstructorType
     }
 
     [JsonProperty]
-    public string DerivedProperty { get; private set; }
+    public string DerivedProperty { get; }
 }

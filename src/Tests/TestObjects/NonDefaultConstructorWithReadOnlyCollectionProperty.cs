@@ -28,7 +28,7 @@ namespace TestObjects;
 public class NonDefaultConstructorWithReadOnlyCollectionProperty
 {
     public string Title { get; set; }
-    public IList<string> Categories { get; private set; }
+    public IList<string> Categories { get; }
 
     public NonDefaultConstructorWithReadOnlyCollectionProperty(string title)
     {

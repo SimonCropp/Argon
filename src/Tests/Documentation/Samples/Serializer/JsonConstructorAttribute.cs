@@ -30,8 +30,8 @@ public class JsonConstructorAttribute : TestFixtureBase
     #region JsonConstructorAttributeTypes
     public class User
     {
-        public string UserName { get; private set; }
-        public bool Enabled { get; private set; }
+        public string UserName { get; }
+        public bool Enabled { get; }
 
         public User()
         {

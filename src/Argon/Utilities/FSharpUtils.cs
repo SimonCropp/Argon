@@ -88,16 +88,16 @@ class FSharpUtils
     MethodInfo _ofSeq;
     Type _mapType;
 
-    public Assembly FSharpCoreAssembly { get; private set; }
-    public MethodCall<object?, object> IsUnion { get; private set; }
-    public MethodCall<object?, object> GetUnionCases { get; private set; }
-    public MethodCall<object?, object> PreComputeUnionTagReader { get; private set; }
-    public MethodCall<object?, object> PreComputeUnionReader { get; private set; }
-    public MethodCall<object?, object> PreComputeUnionConstructor { get; private set; }
-    public Func<object, object> GetUnionCaseInfoDeclaringType { get; private set; }
-    public Func<object, object> GetUnionCaseInfoName { get; private set; }
-    public Func<object, object> GetUnionCaseInfoTag { get; private set; }
-    public MethodCall<object, object?> GetUnionCaseInfoFields { get; private set; }
+    public Assembly FSharpCoreAssembly { get; }
+    public MethodCall<object?, object> IsUnion { get; }
+    public MethodCall<object?, object> GetUnionCases { get; }
+    public MethodCall<object?, object> PreComputeUnionTagReader { get; }
+    public MethodCall<object?, object> PreComputeUnionReader { get; }
+    public MethodCall<object?, object> PreComputeUnionConstructor { get; }
+    public Func<object, object> GetUnionCaseInfoDeclaringType { get; }
+    public Func<object, object> GetUnionCaseInfoName { get; }
+    public Func<object, object> GetUnionCaseInfoTag { get; }
+    public MethodCall<object, object?> GetUnionCaseInfoFields { get; }
 
     public const string FSharpSetTypeName = "FSharpSet`1";
     public const string FSharpListTypeName = "FSharpList`1";

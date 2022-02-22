@@ -35,7 +35,7 @@ public class Person
     }
 
     public string Name { get; set; }
-    public IList<string> Likes { get; private set; }
+    public IList<string> Likes { get; }
 }
 #endregion
 

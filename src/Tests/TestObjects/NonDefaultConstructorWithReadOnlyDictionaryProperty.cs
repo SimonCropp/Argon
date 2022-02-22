@@ -28,7 +28,7 @@ namespace TestObjects;
 public class NonDefaultConstructorWithReadOnlyDictionaryProperty
 {
     public string Title { get; set; }
-    public IDictionary<string, int> Categories { get; private set; }
+    public IDictionary<string, int> Categories { get; }
 
     public NonDefaultConstructorWithReadOnlyDictionaryProperty(string title)
     {

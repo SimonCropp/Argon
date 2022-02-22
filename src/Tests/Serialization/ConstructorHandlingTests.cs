@@ -151,10 +151,10 @@ public class ConstructorHandlingTests : TestFixtureBase
     public class ConstructorParametersRespectDefaultValueAttributes
     {
         [DefaultValue("parameter1_default")]
-        public string Parameter1 { get; private set; }
+        public string Parameter1 { get; }
 
         [DefaultValue("parameter2_default")]
-        public string Parameter2 { get; private set; }
+        public string Parameter2 { get; }
 
         [DefaultValue("parameter3_default")]
         public string Parameter3 { get; set; }
@@ -197,8 +197,8 @@ public class ConstructorHandlingTests : TestFixtureBase
     {
         public const string DefaultValue = "Default Value";
 
-        public string Parameter1 { get; private set; }
-        public string Parameter2 { get; private set; }
+        public string Parameter1 { get; }
+        public string Parameter2 { get; }
 
         public ConstructorParametersRespectDefaultValue(string parameter1, string parameter2)
         {

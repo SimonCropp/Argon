@@ -8,7 +8,7 @@ This sample deserializes JSON with `Argon.ObjectCreationHandling` set to Replace
 public class UserViewModel
 {
     public string Name { get; set; }
-    public IList<string> Offices { get; private set; }
+    public IList<string> Offices { get; }
 
     public UserViewModel()
     {

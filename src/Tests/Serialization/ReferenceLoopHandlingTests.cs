@@ -139,7 +139,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
     public class DictionaryDynamicObject : DynamicObject
     {
-        public IDictionary<string, object> Values { get; private set; }
+        public IDictionary<string, object> Values { get; }
 
         public DictionaryDynamicObject()
         {
