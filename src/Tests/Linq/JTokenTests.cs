@@ -25,7 +25,6 @@
 
 using TestCase = Xunit.InlineDataAttribute;
 
-
 public class JTokenTests : TestFixtureBase
 {
     [Fact]
@@ -1169,16 +1168,18 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void ParseAdditionalContent()
     {
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var json = @"[
+        XUnitAssert.Throws<JsonReaderException>(
+            () =>
+            {
+                var json = @"[
 ""Small"",
 ""Medium"",
 ""Large""
 ],";
 
-            JToken.Parse(json);
-        }, "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
+                JToken.Parse(json);
+            },
+            "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
     }
 
     [Fact]
