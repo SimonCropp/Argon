@@ -146,7 +146,7 @@ public class JsonProperty
             {
                 return _defaultValue;
             }
-            
+
             return null;
         }
         set

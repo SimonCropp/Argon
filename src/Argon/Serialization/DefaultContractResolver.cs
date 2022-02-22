@@ -492,7 +492,7 @@ public class DefaultContractResolver : IContractResolver
             {
                 return null;
             }
-            
+
             var parameters = constructor.GetParameters();
             if (parameters.Length > 0)
             {

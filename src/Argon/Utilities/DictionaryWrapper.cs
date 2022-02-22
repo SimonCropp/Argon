@@ -310,7 +310,7 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
             {
                 return GenericDictionary.IsReadOnly;
             }
-            
+
             return true;
         }
     }

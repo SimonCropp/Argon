@@ -198,7 +198,7 @@ public class XmlJsonReader : JsonReader
         {
             return Value != null ? Convert.ToInt32(Value) : null;
         }
-        
+
         return null;
     }
 
@@ -208,7 +208,7 @@ public class XmlJsonReader : JsonReader
         {
             return (string) Value;
         }
-        
+
         return null;
     }
 
@@ -218,7 +218,7 @@ public class XmlJsonReader : JsonReader
         {
             return (byte[]) Value;
         }
-        
+
         return null;
     }
 
@@ -228,7 +228,7 @@ public class XmlJsonReader : JsonReader
         {
             return Value != null ? Convert.ToDecimal(Value) : null;
         }
-        
+
         return null;
     }
 
@@ -238,7 +238,7 @@ public class XmlJsonReader : JsonReader
         {
             return Value != null ? Convert.ToDateTime(Value) : null;
         }
-        
+
         return null;
     }
 
@@ -248,7 +248,7 @@ public class XmlJsonReader : JsonReader
         {
             return Value != null ? Convert.ToDateTime(Value) : null;
         }
-        
+
         return null;
     }
 }

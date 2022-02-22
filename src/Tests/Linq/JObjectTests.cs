@@ -365,7 +365,7 @@ Parameter name: arrayIndex",
             };
 
             ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[3], 1);
-        }, 
+        },
             @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
     }
 
@@ -899,7 +899,7 @@ Parameter name: arrayIndex",
             IList l = new JObject(p1, p2);
 
             l.Add(new JValue("Bad!"));
-        }, 
+        },
             "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
@@ -931,7 +931,7 @@ Parameter name: arrayIndex",
             var p3 = new JProperty("Test2", "II");
 
             l.Add(p3);
-        }, 
+        },
             "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
@@ -1036,7 +1036,7 @@ Parameter name: arrayIndex",
 
             l[0] = p3;
             l[1] = p3;
-        }, 
+        },
             "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
@@ -1051,7 +1051,7 @@ Parameter name: arrayIndex",
             IList l = new JObject(p1, p2);
 
             l[0] = new JValue(true);
-        }, 
+        },
             @"Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
@@ -1165,7 +1165,7 @@ Parameter name: arrayIndex",
 
             // string is implicitly converted to JValue
             l.Add("Bad!");
-        }, 
+        },
             "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
@@ -1182,7 +1182,7 @@ Parameter name: arrayIndex",
             var p3 = new JProperty("Test2", "II");
 
             l.Add(p3);
-        }, 
+        },
             "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
     }
 
@@ -1579,7 +1579,7 @@ Parameter name: arrayIndex",
             {
                 [0] = new JValue(3)
             };
-        }, 
+        },
             "Set JObject values with invalid key value: 0. Object property name expected.");
     }
 
@@ -1712,7 +1712,7 @@ Parameter name: arrayIndex",
             var o = JObject.Parse(json);
 
             var name = (string) o.Property("responseData");
-        }, 
+        },
             "Can not convert Object to String.");
     }
 

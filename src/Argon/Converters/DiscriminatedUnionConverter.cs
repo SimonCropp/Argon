@@ -269,7 +269,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         {
             return (bool) FSharpUtils.Instance.IsUnion(null, type, null);
         }
-        
+
         return false;
     }
 }

@@ -497,7 +497,7 @@ public class DataTableConverterTests : TestFixtureBase
         var pair = new KeyValuePair<DataTable, int>(table, 1);
         var settings = new JsonSerializerSettings
         {
-            Formatting = Formatting.Indented, 
+            Formatting = Formatting.Indented,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 

@@ -207,7 +207,7 @@ class JsonSerializerProxy : JsonSerializer
         {
             return _serializerWriter!;
         }
-        
+
         return _serializerReader;
     }
 
@@ -229,7 +229,7 @@ class JsonSerializerProxy : JsonSerializer
         {
             return _serializer.Deserialize(reader, type);
         }
-        
+
         return _serializerReader.Deserialize(reader, type, false);
     }
 
