@@ -96,29 +96,29 @@ static class ConvertUtils
         new(typeof(string), PrimitiveTypeCode.String)
     };
 
-    public static PrimitiveTypeCode GetTypeCode(Type t)
+    public static PrimitiveTypeCode GetTypeCode(Type type)
     {
-        return GetTypeCode(t, out _);
+        return GetTypeCode(type, out _);
     }
 
-    public static PrimitiveTypeCode GetTypeCode(Type t, out bool isEnum)
+    public static PrimitiveTypeCode GetTypeCode(Type type, out bool isEnum)
     {
-        if (TypeCodeMap.TryGetValue(t, out var typeCode))
+        if (TypeCodeMap.TryGetValue(type, out var typeCode))
         {
             isEnum = false;
             return typeCode;
         }
 
-        if (t.IsEnum)
+        if (type.IsEnum)
         {
             isEnum = true;
-            return GetTypeCode(Enum.GetUnderlyingType(t));
+            return GetTypeCode(Enum.GetUnderlyingType(type));
         }
 
         // performance?
-        if (ReflectionUtils.IsNullableType(t))
+        if (ReflectionUtils.IsNullableType(type))
         {
-            var nonNullable = Nullable.GetUnderlyingType(t);
+            var nonNullable = Nullable.GetUnderlyingType(type);
             if (nonNullable.IsEnum)
             {
                 var nullableUnderlyingType = typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(nonNullable));
@@ -137,9 +137,9 @@ static class ConvertUtils
         return typeInformation;
     }
 
-    public static bool IsConvertible(Type t)
+    public static bool IsConvertible(this Type type)
     {
-        return typeof(IConvertible).IsAssignableFrom(t);
+        return typeof(IConvertible).IsAssignableFrom(type);
     }
 
     public static TimeSpan ParseTimeSpan(string input)

@@ -199,7 +199,7 @@ public abstract class JsonContract
 
         _createdType = CreatedType = NonNullableUnderlyingType;
 
-        IsConvertable = ConvertUtils.IsConvertible(NonNullableUnderlyingType);
+        IsConvertable = NonNullableUnderlyingType.IsConvertible();
         IsEnum = NonNullableUnderlyingType.IsEnum;
 
         InternalReadType = ReadType.Read;

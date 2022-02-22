@@ -657,22 +657,23 @@ public class DefaultContractResolver : IContractResolver
         // then see whether object is compatible with any of the built in converters
         contract.InternalConverter = JsonSerializer.GetMatchingConverter(BuiltInConverters, contract.NonNullableUnderlyingType);
 
+        var createdType = contract.CreatedType;
         if (contract.IsInstantiable
-            && (ReflectionUtils.HasDefaultConstructor(contract.CreatedType, true) || contract.CreatedType.IsValueType))
+            && (ReflectionUtils.HasDefaultConstructor(createdType, true) || createdType.IsValueType))
         {
-            contract.DefaultCreator = GetDefaultCreator(contract.CreatedType);
+            contract.DefaultCreator = GetDefaultCreator(createdType);
 
-            contract.DefaultCreatorNonPublic = !contract.CreatedType.IsValueType &&
-                                               ReflectionUtils.GetDefaultConstructor(contract.CreatedType) == null;
+            contract.DefaultCreatorNonPublic = !createdType.IsValueType &&
+                                               createdType.GetDefaultConstructor() == null;
         }
 
         ResolveCallbackMethods(contract, contract.NonNullableUnderlyingType);
     }
 
-    static void ResolveCallbackMethods(JsonContract contract, Type t)
+    static void ResolveCallbackMethods(JsonContract contract, Type type)
     {
         GetCallbackMethodsForType(
-            t,
+            type,
             out var onSerializing,
             out var onSerialized,
             out var onDeserializing,
@@ -771,11 +772,11 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    static bool IsConcurrentOrObservableCollection(Type t)
+    static bool IsConcurrentOrObservableCollection(Type type)
     {
-        if (t.IsGenericType)
+        if (type.IsGenericType)
         {
-            var definition = t.GetGenericTypeDefinition();
+            var definition = type.GetGenericTypeDefinition();
 
             switch (definition.FullName)
             {
@@ -791,27 +792,27 @@ public class DefaultContractResolver : IContractResolver
         return false;
     }
 
-    static bool ShouldSkipDeserialized(Type t)
+    static bool ShouldSkipDeserialized(Type type)
     {
         // ConcurrentDictionary throws an error in its OnDeserialized so ignore - http://json.codeplex.com/discussions/257093
-        if (IsConcurrentOrObservableCollection(t))
+        if (IsConcurrentOrObservableCollection(type))
         {
             return true;
         }
 
-        return t.Name is
+        return type.Name is
             FSharpUtils.FSharpSetTypeName or
             FSharpUtils.FSharpMapTypeName;
     }
 
-    static bool ShouldSkipSerializing(Type t)
+    static bool ShouldSkipSerializing(Type type)
     {
-        if (IsConcurrentOrObservableCollection(t))
+        if (IsConcurrentOrObservableCollection(type))
         {
             return true;
         }
 
-        return t.Name is
+        return type.Name is
             FSharpUtils.FSharpSetTypeName or
             FSharpUtils.FSharpMapTypeName;
     }
@@ -1049,9 +1050,9 @@ public class DefaultContractResolver : IContractResolver
         return CreateObjectContract(type);
     }
 
-    internal static bool IsJsonPrimitiveType(Type t)
+    internal static bool IsJsonPrimitiveType(Type type)
     {
-        var typeCode = ConvertUtils.GetTypeCode(t);
+        var typeCode = ConvertUtils.GetTypeCode(type);
 
         return typeCode != PrimitiveTypeCode.Empty && typeCode != PrimitiveTypeCode.Object;
     }

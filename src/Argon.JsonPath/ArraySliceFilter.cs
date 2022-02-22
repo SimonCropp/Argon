@@ -11,9 +11,9 @@ class ArraySliceFilter : PathFilter
             throw new JsonException("Step cannot be zero.");
         }
 
-        foreach (var t in current)
+        foreach (var token in current)
         {
-            if (t is JArray a)
+            if (token is JArray a)
             {
                 // set defaults for null arguments
                 var stepCount = Step ?? 1;
@@ -61,7 +61,7 @@ class ArraySliceFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException($"Array slice is not valid on {t.GetType().Name}.");
+                    throw new JsonException($"Array slice is not valid on {token.GetType().Name}.");
                 }
             }
         }

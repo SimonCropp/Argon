@@ -35,13 +35,13 @@ public class KeyValuePairConverter : JsonConverter
 
     static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new(InitializeReflectionObject);
 
-    static ReflectionObject InitializeReflectionObject(Type t)
+    static ReflectionObject InitializeReflectionObject(Type type)
     {
-        var genericArguments = t.GetGenericArguments();
+        var genericArguments = type.GetGenericArguments();
         var keyType = genericArguments[0];
         var valueType = genericArguments[1];
 
-        return ReflectionObject.Create(t, t.GetConstructor(new[] { keyType, valueType }), KeyName, ValueName);
+        return ReflectionObject.Create(type, type.GetConstructor(new[] { keyType, valueType }), KeyName, ValueName);
     }
 
     /// <summary>

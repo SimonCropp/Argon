@@ -39,11 +39,11 @@ public static class JTokenExtensions
     /// <returns>A <see cref="JToken"/>.</returns>
     public static JToken? SelectToken(this JToken token, string path, JsonSelectSettings? settings)
     {
-        var p = new JPath(path);
+        var jPath = new JPath(path);
 
         settings ??= DefaultSettings;
         JToken? result = null;
-        foreach (var t in p.Evaluate(token, token, settings))
+        foreach (var t in jPath.Evaluate(token, token, settings))
         {
             if (result != null)
             {

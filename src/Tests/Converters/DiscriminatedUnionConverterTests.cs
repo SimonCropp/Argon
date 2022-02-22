@@ -172,15 +172,15 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         public Converter<object[], object> Constructor;
     }
 
-    static Union CreateUnion(Type t)
+    static Union CreateUnion(Type type)
     {
         var u = new Union
         {
-            TagReader = s => FSharpValue.PreComputeUnionTagReader(t, null).Invoke(s),
+            TagReader = s => FSharpValue.PreComputeUnionTagReader(type, null).Invoke(s),
             Cases = new List<UnionCase>()
         };
 
-        var cases = FSharpType.GetUnionCases(t, null);
+        var cases = FSharpType.GetUnionCases(type, null);
 
         foreach (var unionCaseInfo in cases)
         {

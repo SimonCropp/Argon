@@ -37,15 +37,15 @@ public class CustomJsonConverter : TestFixtureBase
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var t = JToken.FromObject(value);
+            var token = JToken.FromObject(value);
 
-            if (t.Type != JTokenType.Object)
+            if (token.Type != JTokenType.Object)
             {
-                t.WriteTo(writer);
+                token.WriteTo(writer);
             }
             else
             {
-                var o = (JObject)t;
+                var o = (JObject)token;
                 var propertyNames = o.Properties().Select(p => p.Name).ToList();
 
                 o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));

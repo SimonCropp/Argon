@@ -62,9 +62,9 @@ static class ReflectionUtils
         return v?.GetType();
     }
 
-    public static string GetTypeName(Type t, TypeNameAssemblyFormatHandling assemblyFormat, ISerializationBinder? binder)
+    public static string GetTypeName(Type type, TypeNameAssemblyFormatHandling assemblyFormat, ISerializationBinder? binder)
     {
-        var fullyQualifiedTypeName = GetFullyQualifiedTypeName(t, binder);
+        var fullyQualifiedTypeName = GetFullyQualifiedTypeName(type, binder);
 
         return assemblyFormat switch
         {
@@ -74,14 +74,14 @@ static class ReflectionUtils
         };
     }
 
-    static string GetFullyQualifiedTypeName(Type t, ISerializationBinder? binder)
+    static string GetFullyQualifiedTypeName(Type type, ISerializationBinder? binder)
     {
         if (binder == null)
         {
-            return t.AssemblyQualifiedName;
+            return type.AssemblyQualifiedName;
         }
 
-        binder.BindToName(t, out var assemblyName, out var typeName);
+        binder.BindToName(type, out var assemblyName, out var typeName);
         return typeName + (assemblyName == null ? "" : $", {assemblyName}");
     }
 
@@ -138,22 +138,22 @@ static class ReflectionUtils
         return builder.ToString();
     }
 
-    public static bool HasDefaultConstructor(Type t, bool nonPublic)
+    public static bool HasDefaultConstructor(Type type, bool nonPublic)
     {
-        if (t.IsValueType)
+        if (type.IsValueType)
         {
             return true;
         }
 
-        return GetDefaultConstructor(t, nonPublic) != null;
+        return GetDefaultConstructor(type, nonPublic) != null;
     }
 
-    public static ConstructorInfo GetDefaultConstructor(Type t)
+    public static ConstructorInfo GetDefaultConstructor(this Type type)
     {
-        return GetDefaultConstructor(t, false);
+        return GetDefaultConstructor(type, false);
     }
 
-    public static ConstructorInfo GetDefaultConstructor(Type t, bool nonPublic)
+    public static ConstructorInfo GetDefaultConstructor(this Type type, bool nonPublic)
     {
         var bindingFlags = BindingFlags.Instance | BindingFlags.Public;
         if (nonPublic)
@@ -161,37 +161,39 @@ static class ReflectionUtils
             bindingFlags |= BindingFlags.NonPublic;
         }
 
-        return t.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any());
+        return type.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any());
     }
 
-    public static bool IsNullable(Type t)
+    public static bool IsNullable(Type type)
     {
-        return !t.IsValueType || IsNullableType(t);
+        return !type.IsValueType || IsNullableType(type);
     }
 
-    public static bool IsNullableType(Type t)
+    public static bool IsNullableType(Type type)
     {
-        return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(Nullable<>);
+        return type.IsGenericType &&
+               type.GetGenericTypeDefinition() == typeof(Nullable<>);
     }
 
-    public static Type EnsureNotNullableType(Type t)
+    public static Type EnsureNotNullableType(Type type)
     {
-        if (IsNullableType(t))
+        if (IsNullableType(type))
         {
-            return Nullable.GetUnderlyingType(t);
+            return Nullable.GetUnderlyingType(type);
         }
 
-        return t;
+        return type;
     }
 
-    public static Type EnsureNotByRefType(Type t)
+    public static Type EnsureNotByRefType(Type type)
     {
-        if (t.IsByRef && t.HasElementType)
+        if (type.IsByRef &&
+            type.HasElementType)
         {
-            return t.GetElementType();
+            return type.GetElementType();
         }
 
-        return t;
+        return type;
     }
 
     public static bool IsGenericDefinition(Type type, Type genericInterfaceDefinition)
@@ -281,6 +283,7 @@ static class ReflectionUtils
         {
             return type.GetElementType();
         }
+
         if (ImplementsGenericDefinition(type, typeof(IEnumerable<>), out var genericListType))
         {
             if (genericListType!.IsGenericTypeDefinition)

@@ -151,9 +151,9 @@ class FSharpUtils
         return createFunction;
     }
 
-    public ObjectConstructor<object> CreateSeq(Type t)
+    public ObjectConstructor<object> CreateSeq(Type type)
     {
-        var seqType = _ofSeq.MakeGenericMethod(t);
+        var seqType = _ofSeq.MakeGenericMethod(type);
 
         return JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(seqType);
     }

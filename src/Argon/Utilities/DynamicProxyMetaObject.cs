@@ -190,12 +190,12 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     static ConstantExpression Constant(DynamicMetaObjectBinder binder)
     {
-        var t = binder.GetType();
-        while (!t.IsVisible)
+        var type = binder.GetType();
+        while (!type.IsVisible)
         {
-            t = t.BaseType;
+            type = type.BaseType;
         }
-        return Expression.Constant(binder, t);
+        return Expression.Constant(binder, type);
     }
 
     /// <summary>

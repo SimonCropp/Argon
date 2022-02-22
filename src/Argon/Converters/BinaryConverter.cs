@@ -34,7 +34,7 @@ public class BinaryConverter : JsonConverter
 {
     const string BinaryTypeName = "System.Data.Linq.Binary";
     const string BinaryToArrayName = "ToArray";
-    static ReflectionObject? _reflectionObject;
+    static ReflectionObject? reflectionObject;
 
     /// <summary>
     /// Writes the JSON representation of the object.
@@ -60,9 +60,9 @@ public class BinaryConverter : JsonConverter
         if (value.GetType().FullName == BinaryTypeName)
         {
             EnsureReflectionObject(value.GetType());
-            MiscellaneousUtils.Assert(_reflectionObject != null);
+            MiscellaneousUtils.Assert(reflectionObject != null);
 
-            return (byte[])_reflectionObject.GetValue(value, BinaryToArrayName)!;
+            return (byte[])reflectionObject.GetValue(value, BinaryToArrayName)!;
         }
         if (value is SqlBinary binary)
         {
@@ -72,9 +72,9 @@ public class BinaryConverter : JsonConverter
         throw new JsonSerializationException($"Unexpected value type when writing binary: {value.GetType()}");
     }
 
-    static void EnsureReflectionObject(Type t)
+    static void EnsureReflectionObject(Type type)
     {
-        _reflectionObject ??= ReflectionObject.Create(t, t.GetConstructor(new[] {typeof(byte[])}), BinaryToArrayName);
+        reflectionObject ??= ReflectionObject.Create(type, type.GetConstructor(new[] {typeof(byte[])}), BinaryToArrayName);
     }
 
     /// <summary>
@@ -115,19 +115,19 @@ public class BinaryConverter : JsonConverter
             throw JsonSerializationException.Create(reader, $"Unexpected token parsing binary. Expected String or StartArray, got {reader.TokenType}.");
         }
 
-        var t = ReflectionUtils.IsNullableType(type)
+        var underlyingType = ReflectionUtils.IsNullableType(type)
             ? Nullable.GetUnderlyingType(type)
             : type;
 
-        if (t.FullName == BinaryTypeName)
+        if (underlyingType.FullName == BinaryTypeName)
         {
-            EnsureReflectionObject(t);
-            MiscellaneousUtils.Assert(_reflectionObject != null);
+            EnsureReflectionObject(underlyingType);
+            MiscellaneousUtils.Assert(reflectionObject != null);
 
-            return _reflectionObject.Creator!(data);
+            return reflectionObject.Creator!(data);
         }
 
-        if (t == typeof(SqlBinary))
+        if (underlyingType == typeof(SqlBinary))
         {
             return new SqlBinary(data);
         }

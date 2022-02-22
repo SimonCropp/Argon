@@ -58,12 +58,12 @@ class ReflectionObject
         return Members[member].MemberType!;
     }
 
-    public static ReflectionObject Create(Type t, params string[] memberNames)
+    public static ReflectionObject Create(Type type, params string[] memberNames)
     {
-        return Create(t, null, memberNames);
+        return Create(type, null, memberNames);
     }
 
-    public static ReflectionObject Create(Type t, MethodBase? creator, params string[] memberNames)
+    public static ReflectionObject Create(Type type, MethodBase? creator, params string[] memberNames)
     {
         var delegateFactory = JsonTypeReflector.ReflectionDelegateFactory;
 
@@ -74,9 +74,9 @@ class ReflectionObject
         }
         else
         {
-            if (ReflectionUtils.HasDefaultConstructor(t, false))
+            if (ReflectionUtils.HasDefaultConstructor(type, false))
             {
-                var ctor = delegateFactory.CreateDefaultConstructor<object>(t);
+                var ctor = delegateFactory.CreateDefaultConstructor<object>(type);
 
                 creatorConstructor = _ => ctor();
             }
@@ -86,7 +86,7 @@ class ReflectionObject
 
         foreach (var memberName in memberNames)
         {
-            var members = t.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public);
+            var members = type.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public);
             if (members.Length != 1)
             {
                 throw new ArgumentException($"Expected a single member with the name '{memberName}'.");

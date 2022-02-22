@@ -1492,9 +1492,9 @@ keyword such as type of business.""
         });
         serializer.Serialize(writer, o);
 
-        var t = writer.Token;
+        var token = writer.Token;
 
-        if (t is JContainer container)
+        if (token is JContainer container)
         {
             // find all the $id properties in the JSON
             var ids = container.Descendants().OfType<JProperty>().Where(d => d.Name == "$id").ToList();
@@ -1518,7 +1518,7 @@ keyword such as type of business.""
             }
         }
 
-        return t.ToString();
+        return token.ToString();
     }
 
     [Fact]

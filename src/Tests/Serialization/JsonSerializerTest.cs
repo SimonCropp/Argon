@@ -563,9 +563,9 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void SerializeValueTuple()
     {
-        var t = ValueTuple.Create(1, 2, "string");
+        var tuple = ValueTuple.Create(1, 2, "string");
 
-        var json = JsonConvert.SerializeObject(t, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(tuple, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Item1"": 1,

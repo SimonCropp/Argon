@@ -9,9 +9,9 @@ class FieldMultipleFilter : PathFilter
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {
-        foreach (var t in current)
+        foreach (var token in current)
         {
-            if (t is JObject o)
+            if (token is JObject o)
             {
                 foreach (var name in Names)
                 {
@@ -32,7 +32,7 @@ class FieldMultipleFilter : PathFilter
             {
                 if (settings?.ErrorWhenNoMatch ?? false)
                 {
-                    throw new JsonException($"Properties {string.Join(", ", Names.Select(n => $"'{n}'"))} not valid on {t.GetType().Name}.");
+                    throw new JsonException($"Properties {string.Join(", ", Names.Select(n => $"'{n}'"))} not valid on {token.GetType().Name}.");
                 }
             }
         }

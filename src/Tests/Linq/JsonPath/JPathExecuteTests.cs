@@ -423,8 +423,8 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("", 1));
 
-        var t = o.SelectToken("['']");
-        Assert.Equal(1, (int)t);
+        var token = o.SelectToken("['']");
+        Assert.Equal(1, (int)token);
     }
 
     [Fact]
@@ -433,11 +433,11 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        var t = o.SelectToken("");
-        Assert.Equal(o, t);
+        var token = o.SelectToken("");
+        Assert.Equal(o, token);
 
-        t = o.SelectToken("['']");
-        Assert.Equal(null, t);
+        token = o.SelectToken("['']");
+        Assert.Equal(null, token);
     }
 
     [Fact]
@@ -446,8 +446,8 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty(" ", 1));
 
-        var t = o.SelectToken("[' ']");
-        Assert.Equal(1, (int)t);
+        var token = o.SelectToken("[' ']");
+        Assert.Equal(1, (int)token);
     }
 
     [Fact]
@@ -456,8 +456,8 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        var t = o.SelectToken(" ");
-        Assert.Equal(o, t);
+        var token = o.SelectToken(" ");
+        Assert.Equal(o, token);
     }
 
     [Fact]
@@ -466,8 +466,8 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        var t = o.SelectToken("$");
-        Assert.Equal(o, t);
+        var token = o.SelectToken("$");
+        Assert.Equal(o, token);
     }
 
     [Fact]
@@ -476,8 +476,8 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("$values", new JArray(1, 2, 3)));
 
-        var t = o.SelectToken("$values[1]");
-        Assert.Equal(2, (int)t);
+        var token = o.SelectToken("$values[1]");
+        Assert.Equal(2, (int)token);
     }
 
     [Fact]
@@ -486,10 +486,10 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        var t = o.SelectToken("Blah");
-        Assert.NotNull(t);
-        Assert.Equal(JTokenType.Integer, t.Type);
-        Assert.Equal(1, (int)t);
+        var token = o.SelectToken("Blah");
+        Assert.NotNull(token);
+        Assert.Equal(JTokenType.Integer, token.Type);
+        Assert.Equal(1, (int)token);
     }
 
     [Fact]
@@ -499,11 +499,11 @@ public class JPathExecuteTests : TestFixtureBase
             new JProperty("Blah", 1),
             new JProperty("Blah2", 2));
 
-        var t = o.SelectTokens("$.*").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(2, t.Count);
-        Assert.Equal(1, (int)t[0]);
-        Assert.Equal(2, (int)t[1]);
+        var tokens = o.SelectTokens("$.*").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(2, tokens.Count);
+        Assert.Equal(1, (int)tokens[0]);
+        Assert.Equal(2, (int)tokens[1]);
     }
 
     [Fact]
@@ -512,10 +512,10 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        var t = o.SelectToken("['Blah']");
-        Assert.NotNull(t);
-        Assert.Equal(JTokenType.Integer, t.Type);
-        Assert.Equal(1, (int)t);
+        var token = o.SelectToken("['Blah']");
+        Assert.NotNull(token);
+        Assert.Equal(JTokenType.Integer, token.Type);
+        Assert.Equal(1, (int)token);
     }
 
     [Fact]
@@ -524,8 +524,8 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        var t = o.SelectToken("Missing[1]");
-        Assert.Null(t);
+        var token = o.SelectToken("Missing[1]");
+        Assert.Null(token);
     }
 
     [Fact]
@@ -534,8 +534,8 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", 1));
 
-        var t = o.SelectToken("[1]");
-        Assert.Null(t);
+        var token = o.SelectToken("[1]");
+        Assert.Null(token);
     }
 
     [Fact]
@@ -576,8 +576,8 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        var t = a.SelectToken("BlahBlah");
-        Assert.Null(t);
+        var token = a.SelectToken("BlahBlah");
+        Assert.Null(token);
     }
 
     [Fact]
@@ -699,8 +699,8 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
-        var t = a.SelectToken("[1000].Ha");
-        Assert.Null(t);
+        var token = a.SelectToken("[1000].Ha");
+        Assert.Null(token);
     }
 
     [Fact]
@@ -718,10 +718,10 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4);
 
-        var t = a.SelectToken("[1]");
-        Assert.NotNull(t);
-        Assert.Equal(JTokenType.Integer, t.Type);
-        Assert.Equal(2, (int)t);
+        var token = a.SelectToken("[1]");
+        Assert.NotNull(token);
+        Assert.Equal(JTokenType.Integer, token.Type);
+        Assert.Equal(2, (int)token);
     }
 
     [Fact]
@@ -729,46 +729,46 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-        var t = a.SelectTokens("[-3:]").ToList();
-        Assert.Equal(3, t.Count);
-        Assert.Equal(7, (int)t[0]);
-        Assert.Equal(8, (int)t[1]);
-        Assert.Equal(9, (int)t[2]);
+        var tokens = a.SelectTokens("[-3:]").ToList();
+        Assert.Equal(3, tokens.Count);
+        Assert.Equal(7, (int)tokens[0]);
+        Assert.Equal(8, (int)tokens[1]);
+        Assert.Equal(9, (int)tokens[2]);
 
-        t = a.SelectTokens("[-1:-2:-1]").ToList();
-        Assert.Equal(1, t.Count);
-        Assert.Equal(9, (int)t[0]);
+        tokens = a.SelectTokens("[-1:-2:-1]").ToList();
+        Assert.Equal(1, tokens.Count);
+        Assert.Equal(9, (int)tokens[0]);
 
-        t = a.SelectTokens("[-2:-1]").ToList();
-        Assert.Equal(1, t.Count);
-        Assert.Equal(8, (int)t[0]);
+        tokens = a.SelectTokens("[-2:-1]").ToList();
+        Assert.Equal(1, tokens.Count);
+        Assert.Equal(8, (int)tokens[0]);
 
-        t = a.SelectTokens("[1:1]").ToList();
-        Assert.Equal(0, t.Count);
+        tokens = a.SelectTokens("[1:1]").ToList();
+        Assert.Equal(0, tokens.Count);
 
-        t = a.SelectTokens("[1:2]").ToList();
-        Assert.Equal(1, t.Count);
-        Assert.Equal(2, (int)t[0]);
+        tokens = a.SelectTokens("[1:2]").ToList();
+        Assert.Equal(1, tokens.Count);
+        Assert.Equal(2, (int)tokens[0]);
 
-        t = a.SelectTokens("[::-1]").ToList();
-        Assert.Equal(9, t.Count);
-        Assert.Equal(9, (int)t[0]);
-        Assert.Equal(8, (int)t[1]);
-        Assert.Equal(7, (int)t[2]);
-        Assert.Equal(6, (int)t[3]);
-        Assert.Equal(5, (int)t[4]);
-        Assert.Equal(4, (int)t[5]);
-        Assert.Equal(3, (int)t[6]);
-        Assert.Equal(2, (int)t[7]);
-        Assert.Equal(1, (int)t[8]);
+        tokens = a.SelectTokens("[::-1]").ToList();
+        Assert.Equal(9, tokens.Count);
+        Assert.Equal(9, (int)tokens[0]);
+        Assert.Equal(8, (int)tokens[1]);
+        Assert.Equal(7, (int)tokens[2]);
+        Assert.Equal(6, (int)tokens[3]);
+        Assert.Equal(5, (int)tokens[4]);
+        Assert.Equal(4, (int)tokens[5]);
+        Assert.Equal(3, (int)tokens[6]);
+        Assert.Equal(2, (int)tokens[7]);
+        Assert.Equal(1, (int)tokens[8]);
 
-        t = a.SelectTokens("[::-2]").ToList();
-        Assert.Equal(5, t.Count);
-        Assert.Equal(9, (int)t[0]);
-        Assert.Equal(7, (int)t[1]);
-        Assert.Equal(5, (int)t[2]);
-        Assert.Equal(3, (int)t[3]);
-        Assert.Equal(1, (int)t[4]);
+        tokens = a.SelectTokens("[::-2]").ToList();
+        Assert.Equal(5, tokens.Count);
+        Assert.Equal(9, (int)tokens[0]);
+        Assert.Equal(7, (int)tokens[1]);
+        Assert.Equal(5, (int)tokens[2]);
+        Assert.Equal(3, (int)tokens[3]);
+        Assert.Equal(1, (int)tokens[4]);
     }
 
     [Fact]
@@ -776,13 +776,13 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4);
 
-        var t = a.SelectTokens("[*]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(4, t.Count);
-        Assert.Equal(1, (int)t[0]);
-        Assert.Equal(2, (int)t[1]);
-        Assert.Equal(3, (int)t[2]);
-        Assert.Equal(4, (int)t[3]);
+        var tokens = a.SelectTokens("[*]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(4, tokens.Count);
+        Assert.Equal(1, (int)tokens[0]);
+        Assert.Equal(2, (int)tokens[1]);
+        Assert.Equal(3, (int)tokens[2]);
+        Assert.Equal(4, (int)tokens[3]);
     }
 
     [Fact]
@@ -790,12 +790,12 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4);
 
-        var t = a.SelectTokens("[1,2,0]");
-        Assert.NotNull(t);
-        Assert.Equal(3, t.Count());
-        Assert.Equal(2, (int)t.ElementAt(0));
-        Assert.Equal(3, (int)t.ElementAt(1));
-        Assert.Equal(1, (int)t.ElementAt(2));
+        var tokens = a.SelectTokens("[1,2,0]");
+        Assert.NotNull(tokens);
+        Assert.Equal(3, tokens.Count());
+        Assert.Equal(2, (int)tokens.ElementAt(0));
+        Assert.Equal(3, (int)tokens.ElementAt(1));
+        Assert.Equal(1, (int)tokens.ElementAt(2));
     }
 
     [Fact]
@@ -805,11 +805,11 @@ public class JPathExecuteTests : TestFixtureBase
         var o2 = new JObject { { "Name", 2 } };
         var a = new JArray(o1, o2);
 
-        var t = a.SelectTokens("$..Name").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(2, t.Count);
-        Assert.Equal(1, (int)t[0]);
-        Assert.Equal(2, (int)t[1]);
+        var tokens = a.SelectTokens("$..Name").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(2, tokens.Count);
+        Assert.Equal(1, (int)tokens[0]);
+        Assert.Equal(2, (int)tokens[1]);
     }
 
     [Fact]
@@ -819,14 +819,14 @@ public class JPathExecuteTests : TestFixtureBase
         var o2 = new JObject { { "Name", 2 } };
         var a = new JArray(o1, o2);
 
-        var t = a.SelectTokens("$..*").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(5, t.Count);
-        Assert.True(JToken.DeepEquals(a, t[0]));
-        Assert.True(JToken.DeepEquals(o1, t[1]));
-        Assert.Equal(1, (int)t[2]);
-        Assert.True(JToken.DeepEquals(o2, t[3]));
-        Assert.Equal(2, (int)t[4]);
+        var tokens = a.SelectTokens("$..*").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(5, tokens.Count);
+        Assert.True(JToken.DeepEquals(a, tokens[0]));
+        Assert.True(JToken.DeepEquals(o1, tokens[1]));
+        Assert.Equal(1, (int)tokens[2]);
+        Assert.True(JToken.DeepEquals(o2, tokens[3]));
+        Assert.Equal(2, (int)tokens[4]);
     }
 
     [Fact]
@@ -837,13 +837,13 @@ public class JPathExecuteTests : TestFixtureBase
         var o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
         var a = new JArray(o1, o2, o3);
 
-        var t = a.SelectTokens("$..Name").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(4, t.Count);
-        Assert.Equal(1, (int)t[0]);
-        Assert.Equal(2, (int)t[1]);
-        Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[2]));
-        Assert.True(JToken.DeepEquals(new JArray(3), t[3]));
+        var tokens = a.SelectTokens("$..Name").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(4, tokens.Count);
+        Assert.Equal(1, (int)tokens[0]);
+        Assert.Equal(2, (int)tokens[1]);
+        Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, tokens[2]));
+        Assert.True(JToken.DeepEquals(new JArray(3), tokens[3]));
     }
 
     [Fact]
@@ -854,19 +854,19 @@ public class JPathExecuteTests : TestFixtureBase
         var o3 = new JObject { { "Name", new JObject { { "Name", new JArray(3) } } } };
         var a = new JArray(o1, o2, o3);
 
-        var t = a.SelectTokens("$..*").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(9, t.Count);
+        var tokens = a.SelectTokens("$..*").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(9, tokens.Count);
 
-        Assert.True(JToken.DeepEquals(a, t[0]));
-        Assert.True(JToken.DeepEquals(o1, t[1]));
-        Assert.Equal(1, (int)t[2]);
-        Assert.True(JToken.DeepEquals(o2, t[3]));
-        Assert.Equal(2, (int)t[4]);
-        Assert.True(JToken.DeepEquals(o3, t[5]));
-        Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, t[6]));
-        Assert.True(JToken.DeepEquals(new JArray(3), t[7]));
-        Assert.Equal(3, (int)t[8]);
+        Assert.True(JToken.DeepEquals(a, tokens[0]));
+        Assert.True(JToken.DeepEquals(o1, tokens[1]));
+        Assert.Equal(1, (int)tokens[2]);
+        Assert.True(JToken.DeepEquals(o2, tokens[3]));
+        Assert.Equal(2, (int)tokens[4]);
+        Assert.True(JToken.DeepEquals(o3, tokens[5]));
+        Assert.True(JToken.DeepEquals(new JObject { { "Name", new JArray(3) } }, tokens[6]));
+        Assert.True(JToken.DeepEquals(new JArray(3), tokens[7]));
+        Assert.Equal(3, (int)tokens[8]);
     }
 
     [Fact]
@@ -875,13 +875,13 @@ public class JPathExecuteTests : TestFixtureBase
         var o = new JObject(
             new JProperty("Blah", new[] { 1, 2, 3 }));
 
-        var t = o.SelectToken("Blah");
-        Assert.NotNull(t);
-        Assert.Equal(JTokenType.Array, t.Type);
+        var token = o.SelectToken("Blah");
+        Assert.NotNull(token);
+        Assert.Equal(JTokenType.Array, token.Type);
 
-        t = o.SelectToken("Blah[2]");
-        Assert.Equal(JTokenType.Integer, t.Type);
-        Assert.Equal(3, (int)t);
+        token = o.SelectToken("Blah[2]");
+        Assert.Equal(JTokenType.Integer, token.Type);
+        Assert.Equal(3, (int)token);
     }
 
     [Fact]
@@ -898,10 +898,10 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(new JObject(new JProperty("hi", "ho")), new JObject(new JProperty("hi2", "ha")));
 
-        var t = a.SelectTokens("[ ?( @.hi ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(1, t.Count);
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), t[0]));
+        var tokens = a.SelectTokens("[ ?( @.hi ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(1, tokens.Count);
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), tokens[0]));
     }
 
     [Fact]
@@ -911,10 +911,10 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", "ho")),
             new JObject(new JProperty("hi", "ha")));
 
-        var t = a.SelectTokens("[ ?( @.['hi'] == 'ha' ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(1, t.Count);
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), t[0]));
+        var tokens = a.SelectTokens("[ ?( @.['hi'] == 'ha' ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(1, tokens.Count);
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), tokens[0]));
     }
 
     [Fact]
@@ -924,10 +924,10 @@ public class JPathExecuteTests : TestFixtureBase
             new JArray(new JObject(new JProperty("hi", "ho"))),
             new JArray(new JObject(new JProperty("hi", "ha"))));
 
-        var t = a.SelectTokens("[ ?( @..hi <> 'ha' ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(1, t.Count);
-        Assert.True(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), t[0]));
+        var tokens = a.SelectTokens("[ ?( @..hi <> 'ha' ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(1, tokens.Count);
+        Assert.True(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), tokens[0]));
     }
 
     [Fact]
@@ -935,11 +935,11 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3);
 
-        var t = a.SelectTokens("[ ?( @ > 1 ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(2, t.Count);
-        Assert.Equal(2, (int)t[0]);
-        Assert.Equal(3, (int)t[1]);
+        var tokens = a.SelectTokens("[ ?( @ > 1 ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(2, tokens.Count);
+        Assert.Equal(2, (int)tokens[0]);
+        Assert.Equal(3, (int)tokens[1]);
     }
 
     [Fact]
@@ -950,9 +950,9 @@ public class JPathExecuteTests : TestFixtureBase
         // json path does item based evaluation - http://www.sitepen.com/blog/2008/03/17/jsonpath-support/
         // first query resolves array to ints
         // int has no children to query
-        var t = a.SelectTokens("[?(@ <> 1)][?(@ <> 4)][?(@ < 7)]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(0, t.Count);
+        var tokens = a.SelectTokens("[?(@ <> 1)][?(@ <> 4)][?(@ < 7)]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(0, tokens.Count);
     }
 
     [Fact]
@@ -963,11 +963,11 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", 2)),
             new JObject(new JProperty("hi", 3)));
 
-        var t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(2, t.Count);
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
+        var tokens = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(2, tokens.Count);
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), tokens[0]));
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), tokens[1]));
     }
 
     [Fact]
@@ -978,11 +978,11 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", 2)),
             new JObject(new JProperty("hi", 3)));
 
-        var t = a.SelectTokens("[ ?( 1 < @.hi ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(2, t.Count);
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
+        var tokens = a.SelectTokens("[ ?( 1 < @.hi ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(2, tokens.Count);
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), tokens[0]));
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), tokens[1]));
     }
 
     [Fact]
@@ -993,11 +993,11 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", new BigInteger(2))),
             new JObject(new JProperty("hi", new BigInteger(3))));
 
-        var t = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(2, t.Count);
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[0]));
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[1]));
+        var tokens = a.SelectTokens("[ ?( @.hi > 1 ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(2, tokens.Count);
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), tokens[0]));
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), tokens[1]));
     }
 
     [Fact]
@@ -1009,13 +1009,13 @@ public class JPathExecuteTests : TestFixtureBase
             new JObject(new JProperty("hi", 2.0)),
             new JObject(new JProperty("hi", 3)));
 
-        var t = a.SelectTokens("[ ?( @.hi >= 1 ) ]").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(4, t.Count);
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 1)), t[0]));
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), t[1]));
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2.0)), t[2]));
-        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), t[3]));
+        var tokens = a.SelectTokens("[ ?( @.hi >= 1 ) ]").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(4, tokens.Count);
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 1)), tokens[0]));
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2)), tokens[1]));
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 2.0)), tokens[2]));
+        Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", 3)), tokens[3]));
     }
 
     [Fact]
@@ -1036,11 +1036,11 @@ public class JPathExecuteTests : TestFixtureBase
                     new JObject(new JProperty("name", "Nick Cage")))))
         );
 
-        var t = a.SelectTokens("[?(@.cast[?(@.name=='Will Smith')])].name").ToList();
-        Assert.NotNull(t);
-        Assert.Equal(2, t.Count);
-        Assert.Equal("Bad Boys", (string)t[0]);
-        Assert.Equal("Independence Day", (string)t[1]);
+        var tokens = a.SelectTokens("[?(@.cast[?(@.name=='Will Smith')])].name").ToList();
+        Assert.NotNull(tokens);
+        Assert.Equal(2, tokens.Count);
+        Assert.Equal("Bad Boys", (string)tokens[0]);
+        Assert.Equal("Independence Day", (string)tokens[1]);
     }
 
     [Fact]
@@ -1217,23 +1217,23 @@ public class JPathExecuteTests : TestFixtureBase
             )
         );
 
-        var t = o.SelectTokens("$.prop[?(@.childProp =='ff2dc672-6e15-4aa2-afb0-18f4f69596ad')]").ToList();
-        Assert.Equal(2, t.Count);
+        var tokens = o.SelectTokens("$.prop[?(@.childProp =='ff2dc672-6e15-4aa2-afb0-18f4f69596ad')]").ToList();
+        Assert.Equal(2, tokens.Count);
 
-        t = o.SelectTokens("$.prop[?(@.childProp =='http://localhost')]").ToList();
-        Assert.Equal(2, t.Count);
+        tokens = o.SelectTokens("$.prop[?(@.childProp =='http://localhost')]").ToList();
+        Assert.Equal(2, tokens.Count);
 
-        t = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59Z')]").ToList();
-        Assert.Equal(2, t.Count);
+        tokens = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59Z')]").ToList();
+        Assert.Equal(2, tokens.Count);
 
-        t = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59-10:00')]").ToList();
-        Assert.Equal(2, t.Count);
+        tokens = o.SelectTokens("$.prop[?(@.childProp =='2000-12-05T05:07:59-10:00')]").ToList();
+        Assert.Equal(2, tokens.Count);
 
-        t = o.SelectTokens("$.prop[?(@.childProp =='SGVsbG8gd29ybGQ=')]").ToList();
-        Assert.Equal(2, t.Count);
+        tokens = o.SelectTokens("$.prop[?(@.childProp =='SGVsbG8gd29ybGQ=')]").ToList();
+        Assert.Equal(2, tokens.Count);
 
-        t = o.SelectTokens("$.prop[?(@.childProp =='365.23:59:59')]").ToList();
-        Assert.Equal(2, t.Count);
+        tokens = o.SelectTokens("$.prop[?(@.childProp =='365.23:59:59')]").ToList();
+        Assert.Equal(2, tokens.Count);
     }
 
     [Fact]
@@ -1513,7 +1513,7 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void QueryWithEscapedPath()
     {
-        var t = JToken.Parse(@"{
+        var token = JToken.Parse(@"{
 ""Property"": [
           {
             ""@Name"": ""x"",
@@ -1523,14 +1523,14 @@ public class JPathExecuteTests : TestFixtureBase
    ]
 }");
 
-        var tokens = t.SelectTokens("$..[?(@.['@Type'] == 'FindMe')]").ToList();
+        var tokens = token.SelectTokens("$..[?(@.['@Type'] == 'FindMe')]").ToList();
         Assert.Equal(1, tokens.Count);
     }
 
     [Fact]
     public void Equals_FloatWithInt()
     {
-        var t = JToken.Parse(@"{
+        var token = JToken.Parse(@"{
   ""Values"": [
     {
       ""Property"": 1
@@ -1538,7 +1538,7 @@ public class JPathExecuteTests : TestFixtureBase
   ]
 }");
 
-        Assert.NotNull(t.SelectToken(@"Values[?(@.Property == 1.0)]"));
+        Assert.NotNull(token.SelectToken(@"Values[?(@.Property == 1.0)]"));
     }
 
     [Theory]
@@ -1555,12 +1555,12 @@ public class JPathExecuteTests : TestFixtureBase
         var completeEqualsStrictPath = $"$.Values[?(@.Property === {value2})]";
         var completeNotEqualsStrictPath = $"$.Values[?(@.Property !== {value2})]";
 
-        var t = JToken.Parse(completeJson);
+        var token = JToken.Parse(completeJson);
 
-        var hasEqualsStrict = t.SelectTokens(completeEqualsStrictPath).Any();
+        var hasEqualsStrict = token.SelectTokens(completeEqualsStrictPath).Any();
         Assert.Equal(matchStrict, hasEqualsStrict);
 
-        var hasNotEqualsStrict = t.SelectTokens(completeNotEqualsStrictPath).Any();
+        var hasNotEqualsStrict = token.SelectTokens(completeNotEqualsStrictPath).Any();
         Assert.NotEqual(matchStrict, hasNotEqualsStrict);
     }
 

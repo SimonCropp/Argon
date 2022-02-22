@@ -376,9 +376,9 @@ public abstract partial class JsonReader : IDisposable
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Int32"/>. This method will return <c>null</c> at the end of an array.</returns>
     public virtual int? ReadAsInt32()
     {
-        var t = GetContentToken();
+        var token = GetContentToken();
 
-        switch (t)
+        switch (token)
         {
             case JsonToken.None:
             case JsonToken.Null:
@@ -416,7 +416,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadInt32String(s);
         }
 
-        throw JsonReaderException.Create(this, $"Error reading integer. Unexpected token: {t}.");
+        throw JsonReaderException.Create(this, $"Error reading integer. Unexpected token: {token}.");
     }
 
     internal int? ReadInt32String(string? s)
@@ -443,9 +443,9 @@ public abstract partial class JsonReader : IDisposable
     /// <returns>A <see cref="String"/>. This method will return <c>null</c> at the end of an array.</returns>
     public virtual string? ReadAsString()
     {
-        var t = GetContentToken();
+        var token = GetContentToken();
 
-        switch (t)
+        switch (token)
         {
             case JsonToken.None:
             case JsonToken.Null:
@@ -455,7 +455,7 @@ public abstract partial class JsonReader : IDisposable
                 return (string?)Value;
         }
 
-        if (JsonTokenUtils.IsPrimitiveToken(t))
+        if (JsonTokenUtils.IsPrimitiveToken(token))
         {
             var v = Value;
             if (v != null)
@@ -475,7 +475,7 @@ public abstract partial class JsonReader : IDisposable
             }
         }
 
-        throw JsonReaderException.Create(this, $"Error reading string. Unexpected token: {t}.");
+        throw JsonReaderException.Create(this, $"Error reading string. Unexpected token: {token}.");
     }
 
     /// <summary>
@@ -484,9 +484,9 @@ public abstract partial class JsonReader : IDisposable
     /// <returns>A <see cref="Byte"/>[] or <c>null</c> if the next JSON token is null. This method will return <c>null</c> at the end of an array.</returns>
     public virtual byte[]? ReadAsBytes()
     {
-        var t = GetContentToken();
+        var token = GetContentToken();
 
-        switch (t)
+        switch (token)
         {
             case JsonToken.StartObject:
             {
@@ -544,7 +544,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadArrayIntoByteArray();
         }
 
-        throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {t}.");
+        throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {token}.");
     }
 
     internal byte[] ReadArrayIntoByteArray()
@@ -591,9 +591,9 @@ public abstract partial class JsonReader : IDisposable
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Double"/>. This method will return <c>null</c> at the end of an array.</returns>
     public virtual double? ReadAsDouble()
     {
-        var t = GetContentToken();
+        var token = GetContentToken();
 
-        switch (t)
+        switch (token)
         {
             case JsonToken.None:
             case JsonToken.Null:
@@ -623,7 +623,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadDoubleString((string?)Value);
         }
 
-        throw JsonReaderException.Create(this, $"Error reading double. Unexpected token: {t}.");
+        throw JsonReaderException.Create(this, $"Error reading double. Unexpected token: {token}.");
     }
 
     internal double? ReadDoubleString(string? s)
@@ -650,9 +650,9 @@ public abstract partial class JsonReader : IDisposable
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Boolean"/>. This method will return <c>null</c> at the end of an array.</returns>
     public virtual bool? ReadAsBoolean()
     {
-        var t = GetContentToken();
+        var token = GetContentToken();
 
-        switch (t)
+        switch (token)
         {
             case JsonToken.None:
             case JsonToken.Null:
@@ -678,7 +678,7 @@ public abstract partial class JsonReader : IDisposable
                 return (bool)Value!;
         }
 
-        throw JsonReaderException.Create(this, $"Error reading boolean. Unexpected token: {t}.");
+        throw JsonReaderException.Create(this, $"Error reading boolean. Unexpected token: {token}.");
     }
 
     internal bool? ReadBooleanString(string? s)
@@ -705,9 +705,9 @@ public abstract partial class JsonReader : IDisposable
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="Decimal"/>. This method will return <c>null</c> at the end of an array.</returns>
     public virtual decimal? ReadAsDecimal()
     {
-        var t = GetContentToken();
+        var token = GetContentToken();
 
-        switch (t)
+        switch (token)
         {
             case JsonToken.None:
             case JsonToken.Null:
@@ -744,7 +744,7 @@ public abstract partial class JsonReader : IDisposable
                 return ReadDecimalString((string?)Value);
         }
 
-        throw JsonReaderException.Create(this, $"Error reading decimal. Unexpected token: {t}.");
+        throw JsonReaderException.Create(this, $"Error reading decimal. Unexpected token: {token}.");
     }
 
     internal decimal? ReadDecimalString(string? s)
@@ -829,9 +829,9 @@ public abstract partial class JsonReader : IDisposable
     /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>. This method will return <c>null</c> at the end of an array.</returns>
     public virtual DateTimeOffset? ReadAsDateTimeOffset()
     {
-        var t = GetContentToken();
+        var token = GetContentToken();
 
-        switch (t)
+        switch (token)
         {
             case JsonToken.None:
             case JsonToken.Null:
@@ -848,7 +848,7 @@ public abstract partial class JsonReader : IDisposable
                 var s = (string?)Value;
                 return ReadDateTimeOffsetString(s);
             default:
-                throw JsonReaderException.Create(this, $"Error reading date. Unexpected token: {t}.");
+                throw JsonReaderException.Create(this, $"Error reading date. Unexpected token: {token}.");
         }
     }
 
@@ -1195,15 +1195,15 @@ public abstract partial class JsonReader : IDisposable
 
     internal bool MoveToContent()
     {
-        var t = TokenType;
-        while (t is JsonToken.None or JsonToken.Comment)
+        var tokenType = TokenType;
+        while (tokenType is JsonToken.None or JsonToken.Comment)
         {
             if (!Read())
             {
                 return false;
             }
 
-            t = TokenType;
+            tokenType = TokenType;
         }
 
         return true;

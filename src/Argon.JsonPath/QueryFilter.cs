@@ -9,9 +9,9 @@ class QueryFilter : PathFilter
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {
-        foreach (var t in current)
+        foreach (var token in current)
         {
-            foreach (var v in t)
+            foreach (var v in token)
             {
                 if (Expression.IsMatch(root, v, settings))
                 {

@@ -9,11 +9,11 @@ class ArrayMultipleIndexFilter : PathFilter
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {
-        foreach (var t in current)
+        foreach (var token in current)
         {
-            foreach (var i in Indexes)
+            foreach (var index in Indexes)
             {
-                var v = GetTokenIndex(t, settings, i);
+                var v = GetTokenIndex(token, settings, index);
 
                 if (v != null)
                 {

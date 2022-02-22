@@ -30,13 +30,13 @@ public class Issue1404 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        var t = typeof(FileSystemInfo);
+        var type = typeof(FileSystemInfo);
 
-        Assert.True(t.ImplementInterface(typeof(ISerializable)));
+        Assert.True(type.ImplementInterface(typeof(ISerializable)));
 
         var resolver = new DefaultContractResolver();
 
-        var contract = resolver.ResolveContract(t);
+        var contract = resolver.ResolveContract(type);
 
         Assert.Equal(JsonContractType.Object, contract.ContractType);
     }

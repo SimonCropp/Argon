@@ -396,8 +396,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (reader is not JTokenReader tokenReader)
             {
-                var t = JToken.ReadFrom(reader);
-                tokenReader = (JTokenReader)t.CreateReader();
+                var token = JToken.ReadFrom(reader);
+                tokenReader = (JTokenReader)token.CreateReader();
                 tokenReader.Culture = reader.Culture;
                 tokenReader.DateFormatString = reader.DateFormatString;
                 tokenReader.DateParseHandling = reader.DateParseHandling;

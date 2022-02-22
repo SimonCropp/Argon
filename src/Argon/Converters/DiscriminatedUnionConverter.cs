@@ -68,13 +68,13 @@ public class DiscriminatedUnionConverter : JsonConverter
     static readonly ThreadSafeStore<Type, Union> UnionCache = new(CreateUnion);
     static readonly ThreadSafeStore<Type, Type> UnionTypeLookupCache = new(CreateUnionTypeLookup);
 
-    static Type CreateUnionTypeLookup(Type t)
+    static Type CreateUnionTypeLookup(Type type)
     {
         // this lookup is because cases with fields are derived from union type
         // need to get declaring type to avoid duplicate Unions in cache
 
         // hacky but I can't find an API to get the declaring type without GetUnionCases
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, t, null)!;
+        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null)!;
 
         var caseInfo = cases.First();
 
@@ -82,11 +82,11 @@ public class DiscriminatedUnionConverter : JsonConverter
         return unionType;
     }
 
-    static Union CreateUnion(Type t)
+    static Union CreateUnion(Type type)
     {
-        var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, t, null), new List<UnionCase>());
+        var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, type, null), new List<UnionCase>());
 
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, t, null)!;
+        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null)!;
 
         foreach (var unionCaseInfo in cases)
         {
@@ -222,10 +222,10 @@ public class DiscriminatedUnionConverter : JsonConverter
 
             for (var i = 0; i < fields.Count; i++)
             {
-                var t = fields[i];
+                var field = fields[i];
                 var fieldProperty = caseInfo.Fields[i];
 
-                typedFieldValues[i] = t.ToObject(fieldProperty.PropertyType, serializer);
+                typedFieldValues[i] = field.ToObject(fieldProperty.PropertyType, serializer);
             }
         }
 

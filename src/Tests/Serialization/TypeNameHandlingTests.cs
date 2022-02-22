@@ -213,9 +213,9 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var tupleRef = ReflectionUtils.GetTypeName(typeof(ValueTuple<int, int, string>), TypeNameAssemblyFormatHandling.Simple, null);
 
-        var t = ValueTuple.Create(1, 2, "string");
+        var tuple = ValueTuple.Create(1, 2, "string");
 
-        var json = JsonConvert.SerializeObject(t, Formatting.Indented, new JsonSerializerSettings
+        var json = JsonConvert.SerializeObject(tuple, Formatting.Indented, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All
         });
