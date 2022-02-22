@@ -58,7 +58,7 @@ class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
             return () => (T)Activator.CreateInstance(type);
         }
 
-        var constructorInfo = ReflectionUtils.GetDefaultConstructor(type, true);
+        var constructorInfo = type.GetDefaultConstructor(true);
 
         return () => (T)constructorInfo.Invoke(null);
     }
