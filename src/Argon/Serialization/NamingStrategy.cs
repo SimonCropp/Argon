@@ -105,7 +105,6 @@ public abstract class NamingStrategy
     /// <summary>
     /// Hash code calculation
     /// </summary>
-    /// <returns></returns>
     public override int GetHashCode()
     {
         unchecked
@@ -121,15 +120,11 @@ public abstract class NamingStrategy
     /// <summary>
     /// Object equality implementation
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
-    public override bool Equals(object obj) => Equals(obj as NamingStrategy);
+    public override bool Equals(object? obj) => Equals(obj as NamingStrategy);
 
     /// <summary>
     /// Compare to another NamingStrategy
     /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
     protected bool Equals(NamingStrategy? other)
     {
         if (other == null)

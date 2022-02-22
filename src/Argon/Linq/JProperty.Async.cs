@@ -59,7 +59,7 @@ public partial class JProperty
         {
             return writer.WriteNullAsync(cancellationToken);
         }
-        
+
         return value.WriteToAsync(writer, cancellationToken, converters);
     }
 
