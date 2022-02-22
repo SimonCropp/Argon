@@ -121,7 +121,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             {
                 var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Type));
                 create();
-            }, 
+            },
             "Cannot create an abstract class.",
             "Cannot create an abstract class 'System.Type'.",
             "Cannot dynamically create an instance of type 'System.Type'. Reason: Cannot create an abstract class.");
@@ -301,7 +301,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
                 var setter = ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(p);
-            }, 
+            },
             "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
             "Cannot cast from source type to destination type.");
     }
@@ -324,8 +324,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
                 setter(p, "Hi");
 
                 Assert.Equal(p.Name, "Hi");
-            }, 
-            "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.", 
+            },
+            "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
             "Cannot cast from source type to destination type.");
     }
 
@@ -340,7 +340,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
                 var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(m, new Version("1.1.1.1"));
-            }, 
+            },
             "Unable to cast object of type 'System.Version' to type 'System.String'.",
             "Cannot cast from source type to destination type.");
     }

@@ -355,8 +355,8 @@ public class ExceptionHandlingTests : TestFixtureBase
     public void NullTextReader()
     {
         XUnitAssert.Throws<ArgumentNullException>(
-            () => new JsonTextReader(null), 
-            $"Value cannot be null.{Environment.NewLine}Parameter name: reader", 
+            () => new JsonTextReader(null),
+            $"Value cannot be null.{Environment.NewLine}Parameter name: reader",
             $"Argument cannot be null.{Environment.NewLine}Parameter name: reader", "Value cannot be null. (Parameter 'reader')");
     }
 
@@ -548,7 +548,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         Assert.Equal(JsonToken.StartArray, jsonTextReader.TokenType);
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => jsonTextReader.ReadAsInt32(), 
+            () => jsonTextReader.ReadAsInt32(),
             "JSON integer 333333333333333333333333333333333333333 is too large or small for an Int32. Path '[0]', line 2, position 41.");
 
         XUnitAssert.Throws<JsonReaderException>(

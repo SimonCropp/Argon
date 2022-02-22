@@ -237,7 +237,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     public void DeserializeBasicUnion_NoMatch()
     {
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"), 
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"),
             "No union type found with the name 'abcdefg'. Path 'Case', line 1, position 17.");
     }
 
@@ -245,7 +245,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     public void DeserializeBasicUnion_MismatchedFieldCount()
     {
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"), 
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"),
             "The number of field values does not match the number of properties defined by union 'AUD'. Path '', line 1, position 27.");
     }
 
@@ -277,7 +277,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     public void DeserializeBasicUnion_UnexpectedProperty()
     {
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"), 
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"),
             "Unexpected property 'Case123' found when reading union. Path 'Case123', line 1, position 11.");
     }
 

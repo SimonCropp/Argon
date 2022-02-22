@@ -5126,7 +5126,7 @@ Path '', line 1, position 1.");
         Assert.Equal(-2, StaticTestClass.y);
         Assert.Equal(-3, StaticTestClass.z);
     }
-    
+
     [Fact]
     public void DeserializeDecimalsWithCulture()
     {

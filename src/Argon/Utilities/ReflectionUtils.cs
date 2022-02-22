@@ -80,7 +80,7 @@ static class ReflectionUtils
         {
             return t.AssemblyQualifiedName;
         }
-        
+
         binder.BindToName(t, out var assemblyName, out var typeName);
         return typeName + (assemblyName == null ? "" : $", {assemblyName}");
     }

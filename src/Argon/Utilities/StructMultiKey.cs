@@ -45,7 +45,7 @@ readonly struct StructMultiKey<T1, T2> : IEquatable<StructMultiKey<T1, T2>>
         {
             return Equals(key);
         }
-        
+
         return false;
     }
 

@@ -76,7 +76,7 @@ public abstract class NamingStrategy
         {
             return ResolvePropertyName(name);
         }
-        
+
         return name;
     }
 
@@ -91,7 +91,7 @@ public abstract class NamingStrategy
         {
             return ResolvePropertyName(key);
         }
-        
+
         return key;
     }
 

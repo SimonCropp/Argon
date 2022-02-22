@@ -148,7 +148,7 @@ static class ImmutableCollectionsUtils
                         var parameters = m.GetParameters();
 
                         return m.Name == "CreateRange" &&
-                               parameters.Length == 1 && 
+                               parameters.Length == 1 &&
                                parameters[0].ParameterType.IsGenericType &&
                                parameters[0].ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
                     });

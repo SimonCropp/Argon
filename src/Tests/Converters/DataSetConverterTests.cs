@@ -173,7 +173,7 @@ public class DataSetConverterTests : TestFixtureBase
         var ds = new DataSet();
         ds.Tables.Add(CreateDataTable("FirstTable", 2));
         ds.Tables.Add(CreateDataTable("SecondTable", 1));
-        
+
         var settings = new JsonSerializerSettings
         {
             Formatting = Formatting.Indented
@@ -487,7 +487,7 @@ public class DataSetConverterTests : TestFixtureBase
   ],
   ""After"": ""After""
 }", json);
-   
+
         var c2 = JsonConvert.DeserializeObject<DataSetAndTableTestClass>(json, settings);
 
         Assert.Equal(c.Before, c2.Before);
@@ -539,7 +539,7 @@ public class DataSetConverterTests : TestFixtureBase
 
     [Fact]
     public void DeserializedTypedDataSet()
-    {       
+    {
         var settings = new JsonSerializerSettings();
 
         settings.AddDataSetConverters();

@@ -514,7 +514,7 @@ Parameter name: index",
     public void ParseIncomplete()
     {
         XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse("[1"), 
+            () => JArray.Parse("[1"),
             "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
     }
 
@@ -540,7 +540,7 @@ Parameter name: index",
 ], 987987";
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse(json), 
+            () => JArray.Parse(json),
             "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
     }
 
