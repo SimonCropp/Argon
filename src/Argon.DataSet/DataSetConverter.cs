@@ -78,10 +78,7 @@ public class DataSetConverter : JsonConverter
             return null;
         }
 
-        // handle typed datasets
-        var ds = type == typeof(DataSet)
-            ? new DataSet()
-            : (DataSet)Activator.CreateInstance(type);
+        var set = GetDataSet(type);
 
         var converter = new DataTableConverter();
 
@@ -89,20 +86,31 @@ public class DataSetConverter : JsonConverter
 
         while (reader.TokenType == JsonToken.PropertyName)
         {
-            var dt = ds.Tables[(string)reader.Value!];
-            var exists = dt != null;
+            var table = set.Tables[(string)reader.Value!];
+            var exists = table != null;
 
-            dt = (DataTable)converter.ReadJson(reader, typeof(DataTable), dt, serializer)!;
+            table = (DataTable)converter.ReadJson(reader, typeof(DataTable), table, serializer)!;
 
             if (!exists)
             {
-                ds.Tables.Add(dt);
+                set.Tables.Add(table);
             }
 
             reader.ReadAndAssert();
         }
 
-        return ds;
+        return set;
+    }
+
+    static DataSet GetDataSet(Type type)
+    {
+        // handle typed datasets
+        if (type == typeof(DataSet))
+        {
+            return new DataSet();
+        }
+
+        return (DataSet) Activator.CreateInstance(type);
     }
 
     /// <summary>
@@ -110,7 +118,7 @@ public class DataSetConverter : JsonConverter
     /// </summary>
     /// <param name="valueType">Type of the value.</param>
     /// <returns>
-    /// 	<c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
+    ///   <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type valueType)
     {

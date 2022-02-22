@@ -87,25 +87,30 @@ public class DataTableConverter : JsonConverter
             return null;
         }
 
-        if (existingValue is not DataTable dt)
+        if (existingValue is not DataTable table)
         {
             // handle typed datasets
-            dt = type == typeof(DataTable)
-                ? new DataTable()
-                : (DataTable)Activator.CreateInstance(type);
+            if (type == typeof(DataTable))
+            {
+                table = new DataTable();
+            }
+            else
+            {
+                table = (DataTable) Activator.CreateInstance(type);
+            }
         }
 
         // DataTable is inside a DataSet
         // populate the name from the property name
         if (reader.TokenType == JsonToken.PropertyName)
         {
-            dt.TableName = (string)reader.Value!;
+            table.TableName = (string)reader.Value!;
 
             reader.ReadAndAssert();
 
             if (reader.TokenType == JsonToken.Null)
             {
-                return dt;
+                return table;
             }
         }
 
@@ -118,17 +123,17 @@ public class DataTableConverter : JsonConverter
 
         while (reader.TokenType != JsonToken.EndArray)
         {
-            CreateRow(reader, dt, serializer);
+            CreateRow(reader, table, serializer);
 
             reader.ReadAndAssert();
         }
 
-        return dt;
+        return table;
     }
 
-    static void CreateRow(JsonReader reader, DataTable dt, JsonSerializer serializer)
+    static void CreateRow(JsonReader reader, DataTable table, JsonSerializer serializer)
     {
-        var dr = dt.NewRow();
+        var row = table.NewRow();
         reader.ReadAndAssert();
 
         while (reader.TokenType == JsonToken.PropertyName)
@@ -137,13 +142,7 @@ public class DataTableConverter : JsonConverter
 
             reader.ReadAndAssert();
 
-            var column = dt.Columns[columnName];
-            if (column == null)
-            {
-                var columnType = GetColumnDataType(reader);
-                column = new DataColumn(columnName, columnType);
-                dt.Columns.Add(column);
-            }
+            var column = GetColumn(reader, table, columnName);
 
             if (column.DataType == typeof(DataTable))
             {
@@ -152,51 +151,75 @@ public class DataTableConverter : JsonConverter
                     reader.ReadAndAssert();
                 }
 
-                var nestedDt = new DataTable();
+                var nestedTable = new DataTable();
 
                 while (reader.TokenType != JsonToken.EndArray)
                 {
-                    CreateRow(reader, nestedDt, serializer);
+                    CreateRow(reader, nestedTable, serializer);
 
                     reader.ReadAndAssert();
                 }
 
-                dr[columnName] = nestedDt;
+                row[columnName] = nestedTable;
             }
-            else if (column.DataType.IsArray && column.DataType != typeof(byte[]))
+            else if (column.DataType.IsArray &&
+                     column.DataType != typeof(byte[]))
             {
                 if (reader.TokenType == JsonToken.StartArray)
                 {
                     reader.ReadAndAssert();
                 }
 
-                var o = new List<object?>();
+                var list = new List<object?>();
 
                 while (reader.TokenType != JsonToken.EndArray)
                 {
-                    o.Add(reader.Value);
+                    list.Add(reader.Value);
                     reader.ReadAndAssert();
                 }
 
-                var destinationArray = Array.CreateInstance(column.DataType.GetElementType(), o.Count);
-                ((IList)o).CopyTo(destinationArray, 0);
+                var destinationArray = Array.CreateInstance(column.DataType.GetElementType(), list.Count);
+                ((IList)list).CopyTo(destinationArray, 0);
 
-                dr[columnName] = destinationArray;
+                row[columnName] = destinationArray;
             }
             else
             {
-                var columnValue = reader.Value != null
-                    ? serializer.Deserialize(reader, column.DataType) ?? DBNull.Value
-                    : DBNull.Value;
+                var columnValue = GetColumnValue(reader, serializer, column);
 
-                dr[columnName] = columnValue;
+                row[columnName] = columnValue;
             }
 
             reader.ReadAndAssert();
         }
 
-        dr.EndEdit();
-        dt.Rows.Add(dr);
+        row.EndEdit();
+        table.Rows.Add(row);
+    }
+
+    static object GetColumnValue(JsonReader reader, JsonSerializer serializer, DataColumn column)
+    {
+        if (reader.Value == null)
+        {
+            return DBNull.Value;
+        }
+
+        return serializer.Deserialize(reader, column.DataType) ?? DBNull.Value;
+    }
+
+    static DataColumn GetColumn(JsonReader reader, DataTable table, string name)
+    {
+        var column = table.Columns[name];
+        if (column != null)
+        {
+            return column;
+        }
+
+        var columnType = GetColumnDataType(reader);
+        column = new DataColumn(name, columnType);
+        table.Columns.Add(column);
+
+        return column;
     }
 
     static Type GetColumnDataType(JsonReader reader)
@@ -220,7 +243,8 @@ public class DataTableConverter : JsonConverter
                 reader.ReadAndAssert();
                 if (reader.TokenType == JsonToken.StartObject)
                 {
-                    return typeof(DataTable); // nested datatable
+                    // nested datatable
+                    return typeof(DataTable);
                 }
 
                 var arrayType = GetColumnDataType(reader);
@@ -235,7 +259,7 @@ public class DataTableConverter : JsonConverter
     /// </summary>
     /// <param name="valueType">Type of the value.</param>
     /// <returns>
-    /// 	<c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
+    ///   <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type valueType)
     {
