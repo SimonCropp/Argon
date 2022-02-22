@@ -10,8 +10,8 @@
   <ItemGroup>
     <Using Include="System.Globalization" />
     <Using Include="Argon" />
-    <Using Include="System.Runtime.Serialization" />
     <Using Include="Argon.Linq" />
+    <Using Include="System.Runtime.Serialization" />
     <Using Include="System.Numerics" />
     <Using Include="System.Diagnostics.CodeAnalysis" />
   </ItemGroup>
