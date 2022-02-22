@@ -124,6 +124,7 @@ static class ReflectionUtils
                     {
                         skippingAssemblyDetails = true;
                     }
+
                     break;
                 default:
                     followBrackets = false;
@@ -131,6 +132,7 @@ static class ReflectionUtils
                     {
                         builder.Append(current);
                     }
+
                     break;
             }
         }
@@ -212,7 +214,7 @@ static class ReflectionUtils
         return ImplementsGenericDefinition(type, genericInterfaceDefinition, out _);
     }
 
-    public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition, [NotNullWhen(true)]out Type? implementingType)
+    public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition, [NotNullWhen(true)] out Type? implementingType)
     {
         if (!genericInterfaceDefinition.IsInterface || !genericInterfaceDefinition.IsGenericTypeDefinition)
         {
@@ -266,8 +268,7 @@ static class ReflectionUtils
             }
 
             type = type.BaseType;
-        }
-        while (type != null);
+        } while (type != null);
 
         return false;
     }
@@ -286,13 +287,14 @@ static class ReflectionUtils
 
         if (ImplementsGenericDefinition(type, typeof(IEnumerable<>), out var genericListType))
         {
-            if (genericListType!.IsGenericTypeDefinition)
+            if (genericListType.IsGenericTypeDefinition)
             {
                 throw new($"Type {type} is not a collection.");
             }
 
-            return genericListType!.GetGenericArguments()[0];
+            return genericListType.GetGenericArguments()[0];
         }
+
         if (typeof(IEnumerable).IsAssignableFrom(type))
         {
             return null;
@@ -305,17 +307,18 @@ static class ReflectionUtils
     {
         if (ImplementsGenericDefinition(dictionaryType, typeof(IDictionary<,>), out var genericDictionaryType))
         {
-            if (genericDictionaryType!.IsGenericTypeDefinition)
+            if (genericDictionaryType.IsGenericTypeDefinition)
             {
                 throw new($"Type {dictionaryType} is not a dictionary.");
             }
 
-            var dictionaryGenericArguments = genericDictionaryType!.GetGenericArguments();
+            var dictionaryGenericArguments = genericDictionaryType.GetGenericArguments();
 
             keyType = dictionaryGenericArguments[0];
             valueType = dictionaryGenericArguments[1];
             return;
         }
+
         if (typeof(IDictionary).IsAssignableFrom(dictionaryType))
         {
             keyType = null;
@@ -386,11 +389,11 @@ static class ReflectionUtils
         switch (member.MemberType)
         {
             case MemberTypes.Field:
-                return ((FieldInfo)member).GetValue(target);
+                return ((FieldInfo) member).GetValue(target);
             case MemberTypes.Property:
                 try
                 {
-                    return ((PropertyInfo)member).GetValue(target, null);
+                    return ((PropertyInfo) member).GetValue(target, null);
                 }
                 catch (TargetParameterCountException e)
                 {
@@ -412,10 +415,10 @@ static class ReflectionUtils
         switch (member.MemberType)
         {
             case MemberTypes.Field:
-                ((FieldInfo)member).SetValue(target, value);
+                ((FieldInfo) member).SetValue(target, value);
                 break;
             case MemberTypes.Property:
-                ((PropertyInfo)member).SetValue(target, value, null);
+                ((PropertyInfo) member).SetValue(target, value, null);
                 break;
             default:
                 throw new ArgumentException($"MemberInfo '{member.Name}' must be of type FieldInfo or PropertyInfo", nameof(member));
@@ -435,21 +438,23 @@ static class ReflectionUtils
         switch (member.MemberType)
         {
             case MemberTypes.Field:
-                var field = (FieldInfo)member;
+                var field = (FieldInfo) member;
 
                 return nonPublic || field.IsPublic;
 
             case MemberTypes.Property:
-                var property = (PropertyInfo)member;
+                var property = (PropertyInfo) member;
 
                 if (!property.CanRead)
                 {
                     return false;
                 }
+
                 if (nonPublic)
                 {
                     return true;
                 }
+
                 return property.GetGetMethod(nonPublic) != null;
             default:
                 return false;
@@ -470,28 +475,32 @@ static class ReflectionUtils
         switch (member.MemberType)
         {
             case MemberTypes.Field:
-                var field = (FieldInfo)member;
+                var field = (FieldInfo) member;
 
                 if (field.IsLiteral)
                 {
                     return false;
                 }
+
                 if (field.IsInitOnly && !canSetReadOnly)
                 {
                     return false;
                 }
+
                 return nonPublic || field.IsPublic;
             case MemberTypes.Property:
-                var property = (PropertyInfo)member;
+                var property = (PropertyInfo) member;
 
                 if (!property.CanWrite)
                 {
                     return false;
                 }
+
                 if (nonPublic)
                 {
                     return true;
                 }
+
                 return property.GetSetMethod(nonPublic) != null;
             default:
                 return false;
@@ -558,7 +567,7 @@ static class ReflectionUtils
             return false;
         }
 
-        var property = (PropertyInfo)member;
+        var property = (PropertyInfo) member;
         if (!IsVirtual(property))
         {
             return false;
@@ -569,16 +578,19 @@ static class ReflectionUtils
         {
             return false;
         }
+
         var genericTypeDefinition = declaringType.GetGenericTypeDefinition();
         if (genericTypeDefinition == null)
         {
             return false;
         }
+
         var members = genericTypeDefinition.GetMember(property.Name, bindingAttr);
         if (members.Length == 0)
         {
             return false;
         }
+
         var memberUnderlyingType = GetMemberUnderlyingType(members[0]);
         return memberUnderlyingType.IsGenericParameter;
     }
@@ -629,10 +641,10 @@ static class ReflectionUtils
             case ParameterInfo p:
                 return attributeType != null ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
             default:
-                var customAttributeProvider = (ICustomAttributeProvider)attributeProvider;
+                var customAttributeProvider = (ICustomAttributeProvider) attributeProvider;
                 var result = attributeType != null ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
 
-                return (Attribute[])result;
+                return (Attribute[]) result;
         }
     }
 
@@ -678,6 +690,7 @@ static class ReflectionUtils
                     {
                         return i;
                     }
+
                     break;
             }
         }
@@ -692,7 +705,7 @@ static class ReflectionUtils
         switch (member.MemberType)
         {
             case MemberTypes.Property:
-                var property = (PropertyInfo)member;
+                var property = (PropertyInfo) member;
 
                 var types = property.GetIndexParameters().Select(p => p.ParameterType).ToArray();
 
@@ -753,7 +766,7 @@ static class ReflectionUtils
             var member = propertys[i];
             if (member.DeclaringType != targetType)
             {
-                var declaredMember = (PropertyInfo)GetMemberInfoFromType(member.DeclaringType, member);
+                var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType, member);
                 propertys[i] = declaredMember;
             }
         }

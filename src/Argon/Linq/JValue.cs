@@ -321,10 +321,9 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     throw new ArgumentException("Object must be of type byte[].");
                 }
 
-                var bytesA = objA as byte[];
-                MiscellaneousUtils.Assert(bytesA != null);
+                var bytesA = (byte[])objA;
 
-                return MiscellaneousUtils.ByteArrayCompare(bytesA!, bytesB);
+                return MiscellaneousUtils.ByteArrayCompare(bytesA, bytesB);
             case JTokenType.Guid:
                 if (objB is not Guid guid2)
                 {

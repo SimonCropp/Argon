@@ -74,19 +74,18 @@ public class DiscriminatedUnionConverter : JsonConverter
         // need to get declaring type to avoid duplicate Unions in cache
 
         // hacky but I can't find an API to get the declaring type without GetUnionCases
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null)!;
+        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
 
         var caseInfo = cases.First();
 
-        var unionType = (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo)!;
-        return unionType;
+        return (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo)!;
     }
 
     static Union CreateUnion(Type type)
     {
         var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, type, null), new List<UnionCase>());
 
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null)!;
+        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
 
         foreach (var unionCaseInfo in cases)
         {
@@ -130,7 +129,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         writer.WriteValue(caseInfo.Name);
         if (caseInfo.Fields is {Length: > 0})
         {
-            var fields = (object[])caseInfo.FieldReader.Invoke(value)!;
+            var fields = (object[])caseInfo.FieldReader.Invoke(value);
 
             writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(FieldsPropertyName) : FieldsPropertyName);
             writer.WriteStartArray();

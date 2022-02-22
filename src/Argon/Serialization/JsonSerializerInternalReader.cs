@@ -686,7 +686,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                             if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
                             {
-                                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved object reference '{reference}' to {newValue!.GetType()}."), null);
+                                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved object reference '{reference}' to {newValue.GetType()}."), null);
                             }
 
                             return true;
@@ -1715,7 +1715,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             object? value;
                             if (dynamicMemberConverter is {CanRead: true})
                             {
-                                value = DeserializeConvertable(dynamicMemberConverter!, reader, t, null);
+                                value = DeserializeConvertable(dynamicMemberConverter, reader, t, null);
                             }
                             else
                             {

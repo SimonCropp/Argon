@@ -181,7 +181,7 @@ static class JavaScriptUtils
                                         writeBuffer = BufferUtils.EnsureBufferSize(bufferPool, UnicodeTextLength, writeBuffer);
                                     }
 
-                                    StringUtils.ToCharAsUnicode(c, writeBuffer!);
+                                    StringUtils.ToCharAsUnicode(c, writeBuffer);
 
                                     // slightly hacky but it saves multiple conditions in if test
                                     escapedValue = EscapedUnicodeText;
