@@ -36,9 +36,7 @@ class FSharpFunction
 
     public object Invoke(params object[] args)
     {
-        var o = _invoker(_instance, args);
-
-        return o;
+        return _invoker(_instance, args);
     }
 }
 
