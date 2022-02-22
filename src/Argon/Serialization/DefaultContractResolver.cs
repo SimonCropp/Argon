@@ -638,11 +638,7 @@ public class DefaultContractResolver : IContractResolver
     void InitializeContract(JsonContract contract)
     {
         var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(contract.NonNullableUnderlyingType);
-        if (containerAttribute != null)
-        {
-            contract.IsReference = containerAttribute._isReference;
-        }
-        else
+        if (containerAttribute == null)
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(contract.NonNullableUnderlyingType);
             // doesn't have a null value
@@ -650,6 +646,10 @@ public class DefaultContractResolver : IContractResolver
             {
                 contract.IsReference = true;
             }
+        }
+        else
+        {
+            contract.IsReference = containerAttribute._isReference;
         }
 
         contract.Converter = ResolveContractConverter(contract.NonNullableUnderlyingType);
@@ -844,14 +844,14 @@ public class DefaultContractResolver : IContractResolver
         InitializeContract(contract);
 
         var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(type);
-        if (containerAttribute?.NamingStrategyType != null)
+        if (containerAttribute?.NamingStrategyType == null)
         {
-            var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
-            contract.DictionaryKeyResolver = s => namingStrategy.GetDictionaryKey(s);
+            contract.DictionaryKeyResolver = ResolveDictionaryKey;
         }
         else
         {
-            contract.DictionaryKeyResolver = ResolveDictionaryKey;
+            var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
+            contract.DictionaryKeyResolver = s => namingStrategy.GetDictionaryKey(s);
         }
 
         var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
@@ -1212,16 +1212,16 @@ public class DefaultContractResolver : IContractResolver
 
         SetPropertySettingsFromAttributes(property, member, member.Name, member.DeclaringType, memberSerialization, out var allowNonPublicAccess);
 
-        if (memberSerialization != MemberSerialization.Fields)
-        {
-            property.Readable = ReflectionUtils.CanReadMemberValue(member, allowNonPublicAccess);
-            property.Writable = ReflectionUtils.CanSetMemberValue(member, allowNonPublicAccess, property.HasMemberAttribute);
-        }
-        else
+        if (memberSerialization == MemberSerialization.Fields)
         {
             // write to readonly fields
             property.Readable = true;
             property.Writable = true;
+        }
+        else
+        {
+            property.Readable = ReflectionUtils.CanReadMemberValue(member, allowNonPublicAccess);
+            property.Writable = ReflectionUtils.CanSetMemberValue(member, allowNonPublicAccess, property.HasMemberAttribute);
         }
 
         if (!IgnoreShouldSerializeMembers)
@@ -1244,13 +1244,13 @@ public class DefaultContractResolver : IContractResolver
         var member = attributeProvider as MemberInfo;
 
         DataMemberAttribute? dataMemberAttribute;
-        if (dataContractAttribute != null && member != null)
+        if (dataContractAttribute == null || member == null)
         {
-            dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute(member);
+            dataMemberAttribute = null;
         }
         else
         {
-            dataMemberAttribute = null;
+            dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute(member);
         }
 
         var propertyAttribute = JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(attributeProvider);
@@ -1290,13 +1290,13 @@ public class DefaultContractResolver : IContractResolver
             namingStrategy = NamingStrategy;
         }
 
-        if (namingStrategy != null)
+        if (namingStrategy == null)
         {
-            property.PropertyName = namingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
+            property.PropertyName = ResolvePropertyName(mappedName);
         }
         else
         {
-            property.PropertyName = ResolvePropertyName(mappedName);
+            property.PropertyName = namingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
         }
 
         property.UnderlyingName = name;

@@ -333,15 +333,15 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         set
         {
             var property = Property(propertyName, StringComparison.Ordinal);
-            if (property != null)
-            {
-                property.Value = value!;
-            }
-            else
+            if (property == null)
             {
                 OnPropertyChanging(propertyName);
                 Add(propertyName, value);
                 OnPropertyChanged(propertyName);
+            }
+            else
+            {
+                property.Value = value!;
             }
         }
     }

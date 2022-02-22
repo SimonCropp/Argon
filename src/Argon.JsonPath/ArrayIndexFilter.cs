@@ -6,16 +6,7 @@ class ArrayIndexFilter : PathFilter
     {
         foreach (var t in current)
         {
-            if (Index != null)
-            {
-                var v = GetTokenIndex(t, settings, Index.GetValueOrDefault());
-
-                if (v != null)
-                {
-                    yield return v;
-                }
-            }
-            else
+            if (Index == null)
             {
                 if (t is JArray or JConstructor)
                 {
@@ -30,6 +21,15 @@ class ArrayIndexFilter : PathFilter
                     {
                         throw new JsonException($"Index * not valid on {t.GetType().Name}.");
                     }
+                }
+            }
+            else
+            {
+                var v = GetTokenIndex(t, settings, Index.GetValueOrDefault());
+
+                if (v != null)
+                {
+                    yield return v;
                 }
             }
         }

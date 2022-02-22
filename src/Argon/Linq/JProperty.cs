@@ -325,13 +325,13 @@ public partial class JProperty : JContainer
         writer.WritePropertyName(Name);
 
         var value = Value;
-        if (value != null)
+        if (value == null)
         {
-            value.WriteTo(writer, converters);
+            writer.WriteNull();
         }
         else
         {
-            writer.WriteNull();
+            value.WriteTo(writer, converters);
         }
     }
 

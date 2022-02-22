@@ -575,16 +575,16 @@ class JPath
                 {
                     var numberText = stringBuilder.ToString();
 
-                    if (numberText.IndexOfAny(FloatCharacters) != -1)
+                    if (numberText.IndexOfAny(FloatCharacters) == -1)
                     {
-                        var result = double.TryParse(numberText, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var d);
-                        value = d;
+                        var result = long.TryParse(numberText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var l);
+                        value = l;
                         return result;
                     }
                     else
                     {
-                        var result = long.TryParse(numberText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var l);
-                        value = l;
+                        var result = double.TryParse(numberText, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var d);
+                        value = d;
                         return result;
                     }
                 }

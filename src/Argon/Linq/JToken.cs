@@ -2148,12 +2148,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         get
         {
             var annotation = Annotation<LineInfoAnnotation>();
-            if (annotation != null)
+            if (annotation == null)
             {
-                return annotation.LineNumber;
+                return 0;
             }
 
-            return 0;
+            return annotation.LineNumber;
         }
     }
 
@@ -2162,12 +2162,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         get
         {
             var annotation = Annotation<LineInfoAnnotation>();
-            if (annotation != null)
+            if (annotation == null)
             {
-                return annotation.LinePosition;
+                return 0;
             }
 
-            return 0;
+            return annotation.LinePosition;
         }
     }
 
@@ -2431,16 +2431,16 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     index++;
                 }
 
-                if (keepCount != 0)
+                if (keepCount == 0)
+                {
+                    _annotations = null;
+                }
+                else
                 {
                     while (keepCount < index)
                     {
                         annotations[keepCount++] = null;
                     }
-                }
-                else
-                {
-                    _annotations = null;
                 }
             }
             else
@@ -2486,16 +2486,16 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     index++;
                 }
 
-                if (keepCount != 0)
+                if (keepCount == 0)
+                {
+                    _annotations = null;
+                }
+                else
                 {
                     while (keepCount < index)
                     {
                         annotations[keepCount++] = null;
                     }
-                }
-                else
-                {
-                    _annotations = null;
                 }
             }
             else

@@ -13,7 +13,14 @@ class FieldFilter : PathFilter
         {
             if (token is JObject o)
             {
-                if (Name != null)
+                if (Name == null)
+                {
+                    foreach (var p in o)
+                    {
+                        yield return p.Value!;
+                    }
+                }
+                else
                 {
                     var v = o[Name];
 
@@ -24,13 +31,6 @@ class FieldFilter : PathFilter
                     else if (settings?.ErrorWhenNoMatch ?? false)
                     {
                         throw new JsonException($"Property '{Name}' does not exist on JObject.");
-                    }
-                }
-                else
-                {
-                    foreach (var p in o)
-                    {
-                        yield return p.Value!;
                     }
                 }
             }

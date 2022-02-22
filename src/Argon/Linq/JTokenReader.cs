@@ -265,12 +265,12 @@ public class JTokenReader : JsonReader, IJsonLineInfo
             }
 
             IJsonLineInfo? info = CurrentToken;
-            if (info != null)
+            if (info == null)
             {
-                return info.LineNumber;
+                return 0;
             }
-
-            return 0;
+            
+            return info.LineNumber;
         }
     }
 
@@ -284,12 +284,12 @@ public class JTokenReader : JsonReader, IJsonLineInfo
             }
 
             IJsonLineInfo? info = CurrentToken;
-            if (info != null)
+            if (info == null)
             {
-                return info.LinePosition;
+                return 0;
             }
 
-            return 0;
+            return info.LinePosition;
         }
     }
 

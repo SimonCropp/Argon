@@ -183,25 +183,24 @@ public partial class JTokenWriter : JsonWriter
 
     internal void AddValue(JValue? value, JsonToken token)
     {
-        if (_parent != null)
-        {
-            // TryAdd will return false if an invalid JToken type is added.
-            // For example, a JComment can't be added to a JObject.
-            // If there is an invalid JToken type then skip it.
-            if (_parent.TryAdd(value))
-            {
-                CurrentToken = _parent.Last;
-
-                if (_parent.Type == JTokenType.Property)
-                {
-                    _parent = _parent.Parent;
-                }
-            }
-        }
-        else
+        if (_parent == null)
         {
             _value = value ?? JValue.CreateNull();
             CurrentToken = _value;
+            return;
+        }
+
+        // TryAdd will return false if an invalid JToken type is added.
+        // For example, a JComment can't be added to a JObject.
+        // If there is an invalid JToken type then skip it.
+        if (_parent.TryAdd(value))
+        {
+            CurrentToken = _parent.Last;
+
+            if (_parent.Type == JTokenType.Property)
+            {
+                _parent = _parent.Parent;
+            }
         }
     }
 
@@ -484,7 +483,17 @@ public partial class JTokenWriter : JsonWriter
 
             var value = tokenReader.CurrentToken!.CloneToken();
 
-            if (_parent != null)
+            if (_parent == null)
+            {
+                CurrentToken = value;
+
+                if (_token == null && _value == null)
+                {
+                    _token = value as JContainer;
+                    _value = value as JValue;
+                }
+            }
+            else
             {
                 _parent.Add(value);
                 CurrentToken = _parent.Last;
@@ -494,16 +503,6 @@ public partial class JTokenWriter : JsonWriter
                 {
                     _parent = _parent.Parent;
                     InternalWriteValue(JsonToken.Null);
-                }
-            }
-            else
-            {
-                CurrentToken = value;
-
-                if (_token == null && _value == null)
-                {
-                    _token = value as JContainer;
-                    _value = value as JValue;
                 }
             }
 
