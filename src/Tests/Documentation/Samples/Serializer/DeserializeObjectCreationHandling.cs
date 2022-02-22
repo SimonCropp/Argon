@@ -29,7 +29,7 @@ public class DeserializeObjectCreationHandling : TestFixtureBase
     public class UserViewModel
     {
         public string Name { get; set; }
-        public IList<string> Offices { get; private set; }
+        public IList<string> Offices { get; }
 
         public UserViewModel()
         {

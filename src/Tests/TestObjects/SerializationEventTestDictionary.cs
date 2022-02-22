@@ -28,7 +28,7 @@ namespace TestObjects;
 public class SerializationEventTestDictionary : Dictionary<decimal, string>
 {
     // This member is serialized and deserialized with no change.
-    public int Member1 { get; private set; }
+    public int Member1 { get; }
 
     // The value of this field is set and reset during and
     // after serialization.

@@ -403,7 +403,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
     public class SerializationEventOrderTestObject
     {
-        protected IList<string> Events { get; private set; }
+        protected IList<string> Events { get; }
 
         public SerializationEventOrderTestObject()
         {

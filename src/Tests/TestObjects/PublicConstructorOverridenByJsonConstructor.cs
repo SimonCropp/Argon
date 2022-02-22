@@ -27,8 +27,8 @@ namespace TestObjects;
 
 public class PublicConstructorOverridenByJsonConstructor
 {
-    public string Value { get; private set; }
-    public string Constructor { get; private set; }
+    public string Value { get; }
+    public string Constructor { get; }
 
     public PublicConstructorOverridenByJsonConstructor()
     {
