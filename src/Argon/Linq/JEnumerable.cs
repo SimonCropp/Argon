@@ -41,7 +41,6 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// <summary>
     /// Initializes a new instance of the <see cref="JEnumerable{T}"/> struct.
     /// </summary>
-    /// <param name="enumerable">The enumerable.</param>
     public JEnumerable(IEnumerable<T> enumerable)
     {
         this.enumerable = enumerable;
@@ -108,12 +107,6 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
         return false;
     }
 
-    /// <summary>
-    /// Returns a hash code for this instance.
-    /// </summary>
-    /// <returns>
-    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-    /// </returns>
     public override int GetHashCode()
     {
         if (enumerable == null)

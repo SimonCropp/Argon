@@ -332,7 +332,6 @@ static class ReflectionUtils
     /// <summary>
     /// Gets the member's underlying type.
     /// </summary>
-    /// <param name="member">The member.</param>
     /// <returns>The underlying type of the member.</returns>
     public static Type GetMemberUnderlyingType(MemberInfo member)
     {
@@ -373,7 +372,6 @@ static class ReflectionUtils
     /// <summary>
     /// Gets the member's value on the object.
     /// </summary>
-    /// <param name="member">The member.</param>
     /// <param name="target">The target object.</param>
     /// <returns>The member's value on the object.</returns>
     public static object GetMemberValue(MemberInfo member, object target)

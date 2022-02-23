@@ -93,7 +93,6 @@ public class DefaultJsonNameTable : JsonNameTable
     /// <summary>
     /// Adds the specified string into name table.
     /// </summary>
-    /// <param name="key">The string to add.</param>
     /// <remarks>This method is not thread-safe.</remarks>
     /// <returns>The resolved string.</returns>
     public string Add(string key)

@@ -197,7 +197,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonObjectContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonObjectContract"/> for the given type.</returns>
     protected virtual JsonObjectContract CreateObjectContract(Type type)
     {
@@ -621,7 +620,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Resolves the default <see cref="JsonConverter" /> for the contract.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>The contract's default <see cref="JsonConverter" />.</returns>
     protected virtual JsonConverter? ResolveContractConverter(Type type)
     {
@@ -834,7 +832,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonDictionaryContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonDictionaryContract"/> for the given type.</returns>
     protected virtual JsonDictionaryContract CreateDictionaryContract(Type type)
     {
@@ -883,7 +880,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonArrayContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonArrayContract"/> for the given type.</returns>
     protected virtual JsonArrayContract CreateArrayContract(Type type)
     {
@@ -921,7 +917,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonPrimitiveContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonPrimitiveContract"/> for the given type.</returns>
     protected virtual JsonPrimitiveContract CreatePrimitiveContract(Type type)
     {
@@ -934,7 +929,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonLinqContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonLinqContract"/> for the given type.</returns>
     protected virtual JsonLinqContract CreateLinqContract(Type type)
     {
@@ -947,7 +941,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonDynamicContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonDynamicContract"/> for the given type.</returns>
     protected virtual JsonDynamicContract CreateDynamicContract(Type type)
     {
@@ -973,7 +966,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonStringContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonStringContract"/> for the given type.</returns>
     protected virtual JsonStringContract CreateStringContract(Type type)
     {
@@ -986,7 +978,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Determines which contract type is created for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonContract"/> for the given type.</returns>
     protected virtual JsonContract CreateContract(Type type)
     {
@@ -1179,7 +1170,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates the <see cref="IValueProvider"/> used by the serializer to get and set values from a member.
     /// </summary>
-    /// <param name="member">The member.</param>
     /// <returns>The <see cref="IValueProvider"/> used by the serializer to get and set values from a member.</returns>
     protected virtual IValueProvider CreateMemberValueProvider(MemberInfo member)
     {

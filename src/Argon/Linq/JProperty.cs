@@ -290,8 +290,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JProperty"/> class.
     /// </summary>
-    /// <param name="name">The property name.</param>
-    /// <param name="content">The property content.</param>
     public JProperty(string name, params object[] content)
         : this(name, (object)content)
     {
@@ -300,8 +298,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JProperty"/> class.
     /// </summary>
-    /// <param name="name">The property name.</param>
-    /// <param name="content">The property content.</param>
     public JProperty(string name, object? content)
     {
         Name = name;
@@ -314,8 +310,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         writer.WritePropertyName(Name);

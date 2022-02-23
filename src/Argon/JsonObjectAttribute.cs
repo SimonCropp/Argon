@@ -80,7 +80,6 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonObjectAttribute"/> class with the specified member serialization.
     /// </summary>
-    /// <param name="memberSerialization">The member serialization.</param>
     public JsonObjectAttribute(MemberSerialization memberSerialization)
     {
         MemberSerialization = memberSerialization;
@@ -89,7 +88,6 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonObjectAttribute"/> class with the specified container Id.
     /// </summary>
-    /// <param name="id">The container Id.</param>
     public JsonObjectAttribute(string id)
         : base(id)
     {

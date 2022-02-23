@@ -60,7 +60,6 @@ public interface IReferenceResolver
     /// Adds a reference to the specified object.
     /// </summary>
     /// <param name="context">The serialization context.</param>
-    /// <param name="reference">The reference.</param>
     /// <param name="value">The object to reference.</param>
     void AddReference(object context, string reference, object value);
 }

@@ -632,7 +632,6 @@ public abstract partial class JContainer :
     /// <summary>
     /// Replaces the child nodes of this token with the specified content.
     /// </summary>
-    /// <param name="content">The content.</param>
     public void ReplaceAll(object content)
     {
         ClearItems();
@@ -652,7 +651,6 @@ public abstract partial class JContainer :
     /// <summary>
     /// Merge the specified content into this <see cref="JToken"/>.
     /// </summary>
-    /// <param name="content">The content to be merged.</param>
     public void Merge(object? content)
     {
         if (content == null)
@@ -667,8 +665,6 @@ public abstract partial class JContainer :
     /// <summary>
     /// Merge the specified content into this <see cref="JToken"/> using <see cref="JsonMergeSettings"/>.
     /// </summary>
-    /// <param name="content">The content to be merged.</param>
-    /// <param name="settings">The <see cref="JsonMergeSettings"/> used to merge the content.</param>
     public void Merge(object? content, JsonMergeSettings? settings)
     {
         if (content == null)

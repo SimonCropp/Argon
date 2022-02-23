@@ -54,7 +54,6 @@ public class ReflectionAttributeProvider : IAttributeProvider
     /// <summary>
     /// Returns a collection of attributes, identified by type, or an empty collection if there are no attributes.
     /// </summary>
-    /// <param name="attributeType">The type of the attributes.</param>
     /// <param name="inherit">When <c>true</c>, look up the hierarchy chain for the inherited custom attribute.</param>
     /// <returns>A collection of <see cref="Attribute"/>s, or an empty collection.</returns>
     public IList<Attribute> GetAttributes(Type attributeType, bool inherit)

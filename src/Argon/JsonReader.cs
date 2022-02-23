@@ -882,7 +882,6 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Sets the current token.
     /// </summary>
-    /// <param name="newToken">The new token.</param>
     protected void SetToken(JsonToken newToken)
     {
         SetToken(newToken, null, true);
@@ -891,8 +890,6 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Sets the current token and value.
     /// </summary>
-    /// <param name="newToken">The new token.</param>
-    /// <param name="value">The value.</param>
     protected void SetToken(JsonToken newToken, object? value)
     {
         SetToken(newToken, value, true);
@@ -901,8 +898,6 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Sets the current token and value.
     /// </summary>
-    /// <param name="newToken">The new token.</param>
-    /// <param name="value">The value.</param>
     /// <param name="updateIndex">A flag indicating whether the position index inside an array should be updated.</param>
     protected void SetToken(JsonToken newToken, object? value, bool updateIndex)
     {
@@ -1047,10 +1042,6 @@ public abstract partial class JsonReader : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
-    /// </summary>
-    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
     {
         if (currentState != State.Closed && disposing)

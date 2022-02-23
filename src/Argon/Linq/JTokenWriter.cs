@@ -141,7 +141,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes the start of a constructor with the given name.
     /// </summary>
-    /// <param name="name">The name of the constructor.</param>
     public override void WriteStartConstructor(string name)
     {
         base.WriteStartConstructor(name);
@@ -152,7 +151,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes the end.
     /// </summary>
-    /// <param name="token">The token.</param>
     protected override void WriteEnd(JsonToken token)
     {
         RemoveParent();
@@ -161,7 +159,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
     public override void WritePropertyName(string name)
     {
         // avoid duplicate property name exception
@@ -208,7 +205,6 @@ public partial class JTokenWriter : JsonWriter
     /// Writes a <see cref="Object"/> value.
     /// An error will be raised if the value cannot be written as a single JSON token.
     /// </summary>
-    /// <param name="value">The <see cref="Object"/> value to write.</param>
     public override void WriteValue(object? value)
     {
         if (value is BigInteger)
@@ -243,7 +239,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
-    /// <param name="json">The raw JSON to write.</param>
     public override void WriteRaw(string? json)
     {
         base.WriteRaw(json);
@@ -253,7 +248,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
-    /// <param name="text">Text to place inside the comment.</param>
     public override void WriteComment(string? text)
     {
         base.WriteComment(text);
@@ -263,7 +257,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="String"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="String"/> value to write.</param>
     public override void WriteValue(string? value)
     {
         base.WriteValue(value);
@@ -273,7 +266,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int32"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int32"/> value to write.</param>
     public override void WriteValue(int value)
     {
         base.WriteValue(value);
@@ -283,7 +275,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt32"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt32"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(uint value)
     {
@@ -294,7 +285,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int64"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int64"/> value to write.</param>
     public override void WriteValue(long value)
     {
         base.WriteValue(value);
@@ -304,7 +294,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt64"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt64"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(ulong value)
     {
@@ -315,7 +304,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Single"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Single"/> value to write.</param>
     public override void WriteValue(float value)
     {
         base.WriteValue(value);
@@ -325,7 +313,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Double"/> value to write.</param>
     public override void WriteValue(double value)
     {
         base.WriteValue(value);
@@ -335,7 +322,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Boolean"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Boolean"/> value to write.</param>
     public override void WriteValue(bool value)
     {
         base.WriteValue(value);
@@ -345,7 +331,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int16"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int16"/> value to write.</param>
     public override void WriteValue(short value)
     {
         base.WriteValue(value);
@@ -355,7 +340,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt16"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt16"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(ushort value)
     {
@@ -366,7 +350,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Char"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Char"/> value to write.</param>
     public override void WriteValue(char value)
     {
         base.WriteValue(value);
@@ -377,7 +360,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Byte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Byte"/> value to write.</param>
     public override void WriteValue(byte value)
     {
         base.WriteValue(value);
@@ -387,7 +369,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="SByte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="SByte"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(sbyte value)
     {
@@ -398,7 +379,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Decimal"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Decimal"/> value to write.</param>
     public override void WriteValue(decimal value)
     {
         base.WriteValue(value);
@@ -408,7 +388,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="DateTime"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTime"/> value to write.</param>
     public override void WriteValue(DateTime value)
     {
         base.WriteValue(value);
@@ -419,7 +398,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="DateTimeOffset"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTimeOffset"/> value to write.</param>
     public override void WriteValue(DateTimeOffset value)
     {
         base.WriteValue(value);
@@ -429,7 +407,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Byte"/>[] value.
     /// </summary>
-    /// <param name="value">The <see cref="Byte"/>[] value to write.</param>
     public override void WriteValue(byte[]? value)
     {
         base.WriteValue(value);
@@ -439,7 +416,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="TimeSpan"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="TimeSpan"/> value to write.</param>
     public override void WriteValue(TimeSpan value)
     {
         base.WriteValue(value);
@@ -449,7 +425,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Guid"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Guid"/> value to write.</param>
     public override void WriteValue(Guid value)
     {
         base.WriteValue(value);
@@ -459,7 +434,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Uri"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Uri"/> value to write.</param>
     public override void WriteValue(Uri? value)
     {
         base.WriteValue(value);

@@ -50,7 +50,6 @@ public static class JsonXmlConvert
     /// Serializes the <see cref="XmlNode"/> to a JSON string using formatting.
     /// </summary>
     /// <param name="node">The node to serialize.</param>
-    /// <param name="formatting">Indicates how the output should be formatted.</param>
     /// <returns>A JSON string of the <see cref="XmlNode"/>.</returns>
     public static string SerializeXmlNode(XmlNode? node, Formatting formatting)
     {
@@ -63,7 +62,6 @@ public static class JsonXmlConvert
     /// Serializes the <see cref="XmlNode"/> to a JSON string using formatting and omits the root object if <paramref name="omitRootObject"/> is <c>true</c>.
     /// </summary>
     /// <param name="node">The node to serialize.</param>
-    /// <param name="formatting">Indicates how the output should be formatted.</param>
     /// <param name="omitRootObject">Omits writing the root object.</param>
     /// <returns>A JSON string of the <see cref="XmlNode"/>.</returns>
     public static string SerializeXmlNode(XmlNode? node, Formatting formatting, bool omitRootObject)
@@ -153,7 +151,6 @@ public static class JsonXmlConvert
     /// Serializes the <see cref="XNode"/> to a JSON string using formatting.
     /// </summary>
     /// <param name="node">The node to convert to JSON.</param>
-    /// <param name="formatting">Indicates how the output should be formatted.</param>
     /// <returns>A JSON string of the <see cref="XNode"/>.</returns>
     public static string SerializeXNode(XObject? node, Formatting formatting)
     {
@@ -164,7 +161,6 @@ public static class JsonXmlConvert
     /// Serializes the <see cref="XNode"/> to a JSON string using formatting and omits the root object if <paramref name="omitRootObject"/> is <c>true</c>.
     /// </summary>
     /// <param name="node">The node to serialize.</param>
-    /// <param name="formatting">Indicates how the output should be formatted.</param>
     /// <param name="omitRootObject">Omits writing the root object.</param>
     /// <returns>A JSON string of the <see cref="XNode"/>.</returns>
     public static string SerializeXNode(XObject? node, Formatting formatting, bool omitRootObject)

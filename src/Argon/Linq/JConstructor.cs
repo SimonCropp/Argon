@@ -91,8 +91,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JConstructor"/> class with the specified name and content.
     /// </summary>
-    /// <param name="name">The constructor name.</param>
-    /// <param name="content">The contents of the constructor.</param>
     public JConstructor(string name, params object[] content)
         : this(name, (object)content)
     {
@@ -101,8 +99,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JConstructor"/> class with the specified name and content.
     /// </summary>
-    /// <param name="name">The constructor name.</param>
-    /// <param name="content">The contents of the constructor.</param>
     public JConstructor(string name, object content)
         : this(name)
     {
@@ -112,7 +108,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JConstructor"/> class with the specified name.
     /// </summary>
-    /// <param name="name">The constructor name.</param>
     public JConstructor(string name)
     {
         if (name.Length == 0)
@@ -136,8 +131,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         writer.WriteStartConstructor(Name!);

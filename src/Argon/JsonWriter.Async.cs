@@ -100,10 +100,6 @@ public abstract partial class JsonWriter
     /// Asynchronously closes this writer.
     /// If <see cref="JsonWriter.CloseOutput"/> is set to <c>true</c>, the destination is also closed.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task CloseAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -118,10 +114,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously flushes whatever is in the buffer to the destination and also flushes the destination.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task FlushAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -136,11 +128,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the specified end token.
     /// </summary>
-    /// <param name="token">The end token to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     protected virtual Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
     {
         if (cancellation.IsCancellationRequested)
@@ -155,10 +142,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes indent characters.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     protected virtual Task WriteIndentAsync(CancellationToken cancellation)
     {
         if (cancellation.IsCancellationRequested)
@@ -173,10 +156,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the JSON value delimiter.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     protected virtual Task WriteValueDelimiterAsync(CancellationToken cancellation)
     {
         if (cancellation.IsCancellationRequested)
@@ -191,10 +170,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes an indent space.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     protected virtual Task WriteIndentSpaceAsync(CancellationToken cancellation)
     {
         if (cancellation.IsCancellationRequested)
@@ -209,11 +184,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes raw JSON without changing the writer's state.
     /// </summary>
-    /// <param name="json">The raw JSON to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteRawAsync(string? json, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -228,10 +198,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the end of the current JSON object or array.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteEndAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -383,10 +349,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the end of an array.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteEndArrayAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -401,10 +363,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the end of a constructor.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteEndConstructorAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -419,10 +377,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the end of a JSON object.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteEndObjectAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -437,10 +391,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a null value.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteNullAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -455,11 +405,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WritePropertyNameAsync(string name, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -474,12 +419,7 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -505,10 +445,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the beginning of a JSON array.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteStartArrayAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -530,11 +466,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
-    /// <param name="text">Text to place inside the comment.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteCommentAsync(string? text, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -554,11 +485,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes raw JSON where a value is expected and updates the writer's state.
     /// </summary>
-    /// <param name="json">The raw JSON to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteRawValueAsync(string? json, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -573,11 +499,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the start of a constructor with the given name.
     /// </summary>
-    /// <param name="name">The name of the constructor.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteStartConstructorAsync(string name, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -592,10 +513,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the beginning of a JSON object.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteStartObjectAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -610,11 +527,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the current <see cref="JsonReader"/> token.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read the token from.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public Task WriteTokenAsync(JsonReader reader, CancellationToken cancellation = default)
     {
         return WriteTokenAsync(reader, true, cancellation);
@@ -623,12 +535,7 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the current <see cref="JsonReader"/> token.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read the token from.</param>
     /// <param name="writeChildren">A flag indicating whether the current token's children should be written.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public Task WriteTokenAsync(JsonReader reader, bool writeChildren, CancellationToken cancellation = default)
     {
         return WriteTokenAsync(reader, writeChildren, true, true, cancellation);
@@ -637,11 +544,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the <see cref="JsonToken"/> token and its value.
     /// </summary>
-    /// <param name="token">The <see cref="JsonToken"/> to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public Task WriteTokenAsync(JsonToken token, CancellationToken cancellation = default)
     {
         return WriteTokenAsync(token, null, cancellation);
@@ -650,16 +552,11 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the <see cref="JsonToken"/> token and its value.
     /// </summary>
-    /// <param name="token">The <see cref="JsonToken"/> to write.</param>
     /// <param name="value">
     /// The value to write.
     /// A value is only required for tokens that have an associated value, e.g. the <see cref="String"/> property name for <see cref="JsonToken.PropertyName"/>.
     /// <c>null</c> can be passed to the method for tokens that don't have a value, e.g. <see cref="JsonToken.StartObject"/>.
     /// </param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public Task WriteTokenAsync(JsonToken token, object? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -824,11 +721,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="bool"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="bool"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(bool value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -843,11 +735,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="bool"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="bool"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(bool? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -862,11 +749,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="byte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="byte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(byte value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -881,11 +763,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="byte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="byte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(byte? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -900,11 +777,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="byte"/>[] value.
     /// </summary>
-    /// <param name="value">The <see cref="byte"/>[] value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(byte[]? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -919,11 +791,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="char"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="char"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(char value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -938,11 +805,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="char"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="char"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(char? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -957,11 +819,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="DateTime"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTime"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(DateTime value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -976,11 +833,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTime"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="DateTime"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(DateTime? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -995,11 +847,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="DateTimeOffset"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTimeOffset"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(DateTimeOffset value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1014,11 +861,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(DateTimeOffset? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1033,11 +875,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="decimal"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="decimal"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(decimal value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1052,11 +889,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="decimal"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="decimal"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(decimal? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1071,11 +903,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="double"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(double value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1090,11 +917,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="double"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(double? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1109,11 +931,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="float"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="float"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(float value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1128,11 +945,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="float"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="float"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(float? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1147,11 +959,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Guid"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Guid"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(Guid value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1166,11 +973,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="Guid"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="Guid"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(Guid? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1185,11 +987,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="int"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="int"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(int value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1204,11 +1001,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="int"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="int"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(int? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1223,11 +1015,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="long"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="long"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(long value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1242,11 +1029,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="long"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="long"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(long? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1261,11 +1043,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="object"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="object"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(object? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1280,11 +1057,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="sbyte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="sbyte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(sbyte value, CancellationToken cancellation = default)
     {
@@ -1300,11 +1072,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="sbyte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="sbyte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(sbyte? value, CancellationToken cancellation = default)
     {
@@ -1320,11 +1087,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="short"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="short"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(short value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1339,11 +1101,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="short"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="short"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(short? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1358,11 +1115,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="string"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="string"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(string? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1377,11 +1129,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="TimeSpan"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="TimeSpan"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(TimeSpan value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1396,11 +1143,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(TimeSpan? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1415,11 +1157,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="uint"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="uint"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(uint value, CancellationToken cancellation = default)
     {
@@ -1435,11 +1172,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="uint"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="uint"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(uint? value, CancellationToken cancellation = default)
     {
@@ -1455,11 +1187,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="ulong"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="ulong"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ulong value, CancellationToken cancellation = default)
     {
@@ -1475,11 +1202,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ulong"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="ulong"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ulong? value, CancellationToken cancellation = default)
     {
@@ -1495,11 +1217,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Uri"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Uri"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteValueAsync(Uri? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1514,11 +1231,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="ushort"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="ushort"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ushort value, CancellationToken cancellation = default)
     {
@@ -1534,11 +1246,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ushort"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="ushort"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ushort? value, CancellationToken cancellation = default)
     {
@@ -1554,10 +1261,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes an undefined value.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteUndefinedAsync(CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1572,11 +1275,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the given white space.
     /// </summary>
-    /// <param name="ws">The string of white space characters.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     public virtual Task WriteWhitespaceAsync(string ws, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1602,12 +1300,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously ets the state of the <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="token">The <see cref="JsonToken"/> being written.</param>
-    /// <param name="value">The value being written.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    /// <remarks>The default behaviour is to execute synchronously, returning an already-completed task. Derived
-    /// classes can override this behaviour for true asynchronicity.</remarks>
     protected Task SetWriteStateAsync(JsonToken token, object value, CancellationToken cancellation)
     {
         if (cancellation.IsCancellationRequested)

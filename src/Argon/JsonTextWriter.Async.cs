@@ -34,8 +34,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously flushes whatever is in the buffer to the destination and also flushes the destination.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task FlushAsync(CancellationToken cancellation = default)
@@ -51,8 +49,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the JSON value delimiter.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     protected override Task WriteValueDelimiterAsync(CancellationToken cancellation)
@@ -69,8 +65,6 @@ public partial class JsonTextWriter
     /// Asynchronously writes the specified end token.
     /// </summary>
     /// <param name="token">The end token to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
@@ -97,8 +91,6 @@ public partial class JsonTextWriter
     /// Asynchronously closes this writer.
     /// If <see cref="JsonWriter.CloseOutput"/> is set to <c>true</c>, the destination is also closed.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task CloseAsync(CancellationToken cancellation = default)
@@ -124,8 +116,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of the current JSON object or array.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteEndAsync(CancellationToken cancellation = default)
@@ -136,8 +126,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes indent characters.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     protected override Task WriteIndentAsync(CancellationToken cancellation)
@@ -193,8 +181,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes an indent space.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     protected override Task WriteIndentSpaceAsync(CancellationToken cancellation)
@@ -215,9 +201,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes raw JSON without changing the writer's state.
     /// </summary>
-    /// <param name="json">The raw JSON to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteRawAsync(string? json, CancellationToken cancellation = default)
@@ -238,8 +221,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a null value.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteNullAsync(CancellationToken cancellation = default)
@@ -304,9 +285,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default)
@@ -343,10 +321,7 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
@@ -383,8 +358,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the beginning of a JSON array.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteStartArrayAsync(CancellationToken cancellation = default)
@@ -413,8 +386,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the beginning of a JSON object.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteStartObjectAsync(CancellationToken cancellation = default)
@@ -443,9 +414,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the start of a constructor with the given name.
     /// </summary>
-    /// <param name="name">The name of the constructor.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteStartConstructorAsync(string name, CancellationToken cancellation = default)
@@ -465,8 +433,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes an undefined value.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteUndefinedAsync(CancellationToken cancellation = default)
@@ -494,9 +460,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the given white space.
     /// </summary>
-    /// <param name="ws">The string of white space characters.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteWhitespaceAsync(string ws, CancellationToken cancellation = default)
@@ -513,9 +476,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="bool"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="bool"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(bool value, CancellationToken cancellation = default)
@@ -531,9 +491,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="bool"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="bool"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(bool? value, CancellationToken cancellation = default)
@@ -549,9 +506,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="byte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="byte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(byte value, CancellationToken cancellation = default)
@@ -563,8 +517,6 @@ public partial class JsonTextWriter
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="byte"/> value.
     /// </summary>
     /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="byte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(byte? value, CancellationToken cancellation = default)
@@ -580,9 +532,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="byte"/>[] value.
     /// </summary>
-    /// <param name="value">The <see cref="byte"/>[] value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(byte[]? value, CancellationToken cancellation = default)
@@ -602,9 +551,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="char"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="char"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(char value, CancellationToken cancellation = default)
@@ -620,9 +566,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="char"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="char"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(char? value, CancellationToken cancellation = default)
@@ -638,9 +581,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="DateTime"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTime"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTime value, CancellationToken cancellation = default)
@@ -670,9 +610,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTime"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="DateTime"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTime? value, CancellationToken cancellation = default)
@@ -688,9 +625,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="DateTimeOffset"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTimeOffset"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTimeOffset value, CancellationToken cancellation = default)
@@ -719,9 +653,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTimeOffset? value, CancellationToken cancellation = default)
@@ -737,9 +668,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="decimal"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="decimal"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(decimal value, CancellationToken cancellation = default)
@@ -755,9 +683,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="decimal"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="decimal"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(decimal? value, CancellationToken cancellation = default)
@@ -773,9 +698,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="double"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(double value, CancellationToken cancellation = default)
@@ -791,9 +713,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="double"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(double? value, CancellationToken cancellation = default)
@@ -804,9 +723,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="float"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="float"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(float value, CancellationToken cancellation = default)
@@ -822,9 +738,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="float"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="float"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(float? value, CancellationToken cancellation = default)
@@ -835,9 +748,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Guid"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Guid"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(Guid value, CancellationToken cancellation = default)
@@ -857,9 +767,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="Guid"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="Guid"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(Guid? value, CancellationToken cancellation = default)
@@ -875,9 +782,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="int"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="int"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(int value, CancellationToken cancellation = default)
@@ -888,9 +792,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="int"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="int"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(int? value, CancellationToken cancellation = default)
@@ -906,9 +807,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="long"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="long"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(long value, CancellationToken cancellation = default)
@@ -919,9 +817,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="long"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="long"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(long? value, CancellationToken cancellation = default)
@@ -942,9 +837,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="object"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="object"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(object? value, CancellationToken cancellation = default)
@@ -969,9 +861,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="sbyte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="sbyte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -983,9 +872,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="sbyte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="sbyte"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -1002,9 +888,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="short"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="short"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(short value, CancellationToken cancellation = default)
@@ -1015,9 +898,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="short"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="short"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(short? value, CancellationToken cancellation = default)
@@ -1033,9 +913,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="string"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="string"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(string? value, CancellationToken cancellation = default)
@@ -1063,9 +940,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="TimeSpan"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="TimeSpan"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(TimeSpan value, CancellationToken cancellation = default)
@@ -1084,9 +958,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(TimeSpan? value, CancellationToken cancellation = default)
@@ -1102,9 +973,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="uint"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="uint"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -1116,9 +984,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="uint"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="uint"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -1135,9 +1000,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="ulong"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="ulong"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -1149,9 +1011,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ulong"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="ulong"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -1168,9 +1027,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Uri"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Uri"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(Uri? value, CancellationToken cancellation = default)
@@ -1198,9 +1054,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="ushort"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="ushort"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -1212,9 +1065,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ushort"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="ushort"/> value to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     [CLSCompliant(false)]
@@ -1231,9 +1081,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
-    /// <param name="text">Text to place inside the comment.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteCommentAsync(string? text, CancellationToken cancellation = default)
@@ -1252,8 +1099,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of an array.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteEndArrayAsync(CancellationToken cancellation = default)
@@ -1264,8 +1109,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of a constructor.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteEndConstructorAsync(CancellationToken cancellation = default)
@@ -1276,8 +1119,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of a JSON object.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteEndObjectAsync(CancellationToken cancellation = default)
@@ -1288,9 +1129,6 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes raw JSON where a value is expected and updates the writer's state.
     /// </summary>
-    /// <param name="json">The raw JSON to write.</param>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteRawValueAsync(string? json, CancellationToken cancellation = default)

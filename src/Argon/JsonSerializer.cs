@@ -484,7 +484,6 @@ public class JsonSerializer
     /// The <see cref="JsonSerializer"/> will not use default settings
     /// from <see cref="JsonConvert.DefaultSettings"/>.
     /// </summary>
-    /// <param name="settings">The settings to be applied to the <see cref="JsonSerializer"/>.</param>
     /// <returns>
     /// A new <see cref="JsonSerializer"/> instance using the specified <see cref="JsonSerializerSettings"/>.
     /// The <see cref="JsonSerializer"/> will not use default settings
@@ -525,7 +524,6 @@ public class JsonSerializer
     /// The <see cref="JsonSerializer"/> will use default settings
     /// from <see cref="JsonConvert.DefaultSettings"/> as well as the specified <see cref="JsonSerializerSettings"/>.
     /// </summary>
-    /// <param name="settings">The settings to be applied to the <see cref="JsonSerializer"/>.</param>
     /// <returns>
     /// A new <see cref="JsonSerializer"/> instance using the specified <see cref="JsonSerializerSettings"/>.
     /// The <see cref="JsonSerializer"/> will use default settings
@@ -680,7 +678,6 @@ public class JsonSerializer
     /// Populates the JSON values onto the target object.
     /// </summary>
     /// <param name="reader">The <see cref="TextReader"/> that contains the JSON structure to read values from.</param>
-    /// <param name="target">The target object to populate values onto.</param>
     [DebuggerStepThrough]
     public void Populate(TextReader reader, object target)
     {
@@ -690,8 +687,6 @@ public class JsonSerializer
     /// <summary>
     /// Populates the JSON values onto the target object.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> that contains the JSON structure to read values from.</param>
-    /// <param name="target">The target object to populate values onto.</param>
     [DebuggerStepThrough]
     public void Populate(JsonReader reader, object target)
     {
@@ -727,7 +722,6 @@ public class JsonSerializer
     /// <summary>
     /// Deserializes the JSON structure contained by the specified <see cref="JsonReader"/>.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> that contains the JSON structure to deserialize.</param>
     /// <returns>The <see cref="Object"/> being deserialized.</returns>
     [DebuggerStepThrough]
     public object? Deserialize(JsonReader reader)
@@ -739,9 +733,6 @@ public class JsonSerializer
     /// Deserializes the JSON structure contained by the specified <see cref="TextReader"/>
     /// into an instance of the specified type.
     /// </summary>
-    /// <param name="reader">The <see cref="TextReader"/> containing the object.</param>
-    /// <param name="type">The <see cref="Type"/> of object being deserialized.</param>
-    /// <returns>The instance of <paramref name="type"/> being deserialized.</returns>
     [DebuggerStepThrough]
     public object? Deserialize(TextReader reader, Type type)
     {
@@ -752,9 +743,6 @@ public class JsonSerializer
     /// Deserializes the JSON structure contained by the specified <see cref="JsonReader"/>
     /// into an instance of the specified type.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> containing the object.</param>
-    /// <typeparam name="T">The type of the object to deserialize.</typeparam>
-    /// <returns>The instance of <typeparamref name="T"/> being deserialized.</returns>
     [DebuggerStepThrough]
     public T? Deserialize<T>(JsonReader reader)
     {
@@ -765,9 +753,6 @@ public class JsonSerializer
     /// Deserializes the JSON structure contained by the specified <see cref="JsonReader"/>
     /// into an instance of the specified type.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> containing the object.</param>
-    /// <param name="type">The <see cref="Type"/> of object being deserialized.</param>
-    /// <returns>The instance of <paramref name="type"/> being deserialized.</returns>
     [DebuggerStepThrough]
     public object? Deserialize(JsonReader reader, Type? type)
     {
@@ -911,8 +896,6 @@ public class JsonSerializer
     /// Serializes the specified <see cref="Object"/> and writes the JSON structure
     /// using the specified <see cref="TextWriter"/>.
     /// </summary>
-    /// <param name="textWriter">The <see cref="TextWriter"/> used to write the JSON structure.</param>
-    /// <param name="value">The <see cref="Object"/> to serialize.</param>
     public void Serialize(TextWriter textWriter, object? value)
     {
         Serialize(new JsonTextWriter(textWriter), value);
@@ -922,8 +905,6 @@ public class JsonSerializer
     /// Serializes the specified <see cref="Object"/> and writes the JSON structure
     /// using the specified <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="jsonWriter">The <see cref="JsonWriter"/> used to write the JSON structure.</param>
-    /// <param name="value">The <see cref="Object"/> to serialize.</param>
     /// <param name="type">
     /// The type of the value being serialized.
     /// This parameter is used when <see cref="JsonSerializer.TypeNameHandling"/> is <see cref="Argon.TypeNameHandling.Auto"/> to write out the type name if the type of the value does not match.
@@ -938,8 +919,6 @@ public class JsonSerializer
     /// Serializes the specified <see cref="Object"/> and writes the JSON structure
     /// using the specified <see cref="TextWriter"/>.
     /// </summary>
-    /// <param name="textWriter">The <see cref="TextWriter"/> used to write the JSON structure.</param>
-    /// <param name="value">The <see cref="Object"/> to serialize.</param>
     /// <param name="type">
     /// The type of the value being serialized.
     /// This parameter is used when <see cref="TypeNameHandling"/> is Auto to write out the type name if the type of the value does not match.
@@ -954,8 +933,6 @@ public class JsonSerializer
     /// Serializes the specified <see cref="Object"/> and writes the JSON structure
     /// using the specified <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="jsonWriter">The <see cref="JsonWriter"/> used to write the JSON structure.</param>
-    /// <param name="value">The <see cref="Object"/> to serialize.</param>
     public void Serialize(JsonWriter jsonWriter, object? value)
     {
         SerializeInternal(jsonWriter, value, null);

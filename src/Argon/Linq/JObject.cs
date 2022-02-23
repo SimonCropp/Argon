@@ -79,7 +79,6 @@ public partial class JObject :
     /// <summary>
     /// Initializes a new instance of the <see cref="JObject"/> class with the specified content.
     /// </summary>
-    /// <param name="content">The contents of the object.</param>
     public JObject(params object[] content)
         : this((object)content)
     {
@@ -88,7 +87,6 @@ public partial class JObject :
     /// <summary>
     /// Initializes a new instance of the <see cref="JObject"/> class with the specified content.
     /// </summary>
-    /// <param name="content">The contents of the object.</param>
     public JObject(object content)
     {
         Add(content);
@@ -240,7 +238,6 @@ public partial class JObject :
     /// <summary>
     /// Gets a <see cref="JProperty"/> with the specified name.
     /// </summary>
-    /// <param name="name">The property name.</param>
     /// <returns>A <see cref="JProperty"/> with the specified name or <c>null</c>.</returns>
     public JProperty? Property(string name)
     {
@@ -252,7 +249,6 @@ public partial class JObject :
     /// The exact name will be searched for first and if no matching property is found then
     /// the <see cref="StringComparison"/> will be used to match a property.
     /// </summary>
-    /// <param name="name">The property name.</param>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
     /// <returns>A <see cref="JProperty"/> matched with the specified name or <c>null</c>.</returns>
     public JProperty? Property(string name, StringComparison comparison)
@@ -465,8 +461,6 @@ public partial class JObject :
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         writer.WriteStartObject();
@@ -516,7 +510,6 @@ public partial class JObject :
     /// the <see cref="StringComparison"/> will be used to match a property.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <param name="value">The value.</param>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
     /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
     public bool TryGetValue(string propertyName, StringComparison comparison, [NotNullWhen(true)]out JToken? value)
@@ -530,7 +523,6 @@ public partial class JObject :
     /// Adds the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <param name="value">The value.</param>
     public void Add(string propertyName, JToken? value)
     {
         Add(new JProperty(propertyName, value));
@@ -569,7 +561,6 @@ public partial class JObject :
     /// Tries to get the <see cref="Argon.Linq.JToken"/> with the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <param name="value">The value.</param>
     /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
     public bool TryGetValue(string propertyName, [NotNullWhen(true)]out JToken? value)
     {

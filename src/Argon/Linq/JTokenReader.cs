@@ -42,7 +42,6 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     /// <summary>
     /// Initializes a new instance of the <see cref="JTokenReader"/> class.
     /// </summary>
-    /// <param name="token">The token to read from.</param>
     public JTokenReader(JToken token)
     {
         root = token;
@@ -51,7 +50,6 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     /// <summary>
     /// Initializes a new instance of the <see cref="JTokenReader"/> class.
     /// </summary>
-    /// <param name="token">The token to read from.</param>
     /// <param name="initialPath">The initial path of the token. It is prepended to the returned <see cref="Path"/>.</param>
     public JTokenReader(JToken token, string initialPath)
         : this(token)

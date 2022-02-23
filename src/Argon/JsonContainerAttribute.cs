@@ -155,7 +155,6 @@ public abstract class JsonContainerAttribute : Attribute
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonContainerAttribute"/> class with the specified container Id.
     /// </summary>
-    /// <param name="id">The container Id.</param>
     protected JsonContainerAttribute(string id)
     {
         Id = id;

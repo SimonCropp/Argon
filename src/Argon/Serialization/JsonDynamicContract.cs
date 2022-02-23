@@ -65,7 +65,6 @@ public class JsonDynamicContract : JsonContainerContract
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonDynamicContract"/> class.
     /// </summary>
-    /// <param name="underlyingType">The underlying type for the contract.</param>
     public JsonDynamicContract(Type underlyingType)
         : base(underlyingType)
     {

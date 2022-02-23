@@ -55,7 +55,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(long value)
         : this(value, JTokenType.Integer)
     {
@@ -64,7 +63,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(decimal value)
         : this(value, JTokenType.Float)
     {
@@ -73,7 +71,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(char value)
         : this(value, JTokenType.String)
     {
@@ -82,7 +79,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     [CLSCompliant(false)]
     public JValue(ulong value)
         : this(value, JTokenType.Integer)
@@ -92,7 +88,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(double value)
         : this(value, JTokenType.Float)
     {
@@ -101,7 +96,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(float value)
         : this(value, JTokenType.Float)
     {
@@ -110,7 +104,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(DateTime value)
         : this(value, JTokenType.Date)
     {
@@ -119,7 +112,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(DateTimeOffset value)
         : this(value, JTokenType.Date)
     {
@@ -128,7 +120,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(bool value)
         : this(value, JTokenType.Boolean)
     {
@@ -137,7 +128,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(string? value)
         : this(value, JTokenType.String)
     {
@@ -146,7 +136,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(Guid value)
         : this(value, JTokenType.Guid)
     {
@@ -155,7 +144,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(Uri? value)
         : this(value, value != null ? JTokenType.Uri : JTokenType.Null)
     {
@@ -164,7 +152,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(TimeSpan value)
         : this(value, JTokenType.TimeSpan)
     {
@@ -173,7 +160,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     public JValue(object? value)
         : this(value, GetValueType(null, value))
     {
@@ -520,7 +506,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Creates a <see cref="JValue"/> comment with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>A <see cref="JValue"/> comment with the given value.</returns>
     public static JValue CreateComment(string? value)
     {
@@ -530,7 +515,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Creates a <see cref="JValue"/> string with the given value.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>A <see cref="JValue"/> string with the given value.</returns>
     public static JValue CreateString(string? value)
     {
@@ -670,7 +654,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
     /// <param name="converters">A collection of <see cref="JsonConverter"/>s which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
@@ -853,7 +836,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Returns a <see cref="String"/> that represents this instance.
     /// </summary>
-    /// <param name="format">The format.</param>
     /// <returns>
     /// A <see cref="String"/> that represents this instance.
     /// </returns>
@@ -865,7 +847,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Returns a <see cref="String"/> that represents this instance.
     /// </summary>
-    /// <param name="formatProvider">The format provider.</param>
     /// <returns>
     /// A <see cref="String"/> that represents this instance.
     /// </returns>
@@ -877,8 +858,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Returns a <see cref="String"/> that represents this instance.
     /// </summary>
-    /// <param name="format">The format.</param>
-    /// <param name="formatProvider">The format provider.</param>
     /// <returns>
     /// A <see cref="String"/> that represents this instance.
     /// </returns>

@@ -43,8 +43,6 @@ public class ErrorEventArgs : EventArgs
     /// <summary>
     /// Initializes a new instance of the <see cref="ErrorEventArgs"/> class.
     /// </summary>
-    /// <param name="currentObject">The current object.</param>
-    /// <param name="errorContext">The error context.</param>
     public ErrorEventArgs(object? currentObject, ErrorContext errorContext)
     {
         CurrentObject = currentObject;

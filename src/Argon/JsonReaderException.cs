@@ -49,8 +49,6 @@ public class JsonReaderException : JsonException
     /// Initializes a new instance of the <see cref="JsonReaderException"/> class
     /// with a specified error message and a reference to the inner exception that is the cause of this exception.
     /// </summary>
-    /// <param name="message">The error message that explains the reason for the exception.</param>
-    /// <param name="innerException">The exception that is the cause of the current exception, or <c>null</c> if no inner exception is specified.</param>
     public JsonReaderException(string message, Exception innerException)
         : base(message, innerException)
     {
@@ -64,7 +62,6 @@ public class JsonReaderException : JsonException
     /// <param name="path">The path to the JSON where the error occurred.</param>
     /// <param name="lineNumber">The line number indicating where the error occurred.</param>
     /// <param name="linePosition">The line position indicating where the error occurred.</param>
-    /// <param name="innerException">The exception that is the cause of the current exception, or <c>null</c> if no inner exception is specified.</param>
     public JsonReaderException(string message, string path, int lineNumber, int linePosition, Exception? innerException)
         : base(message, innerException)
     {

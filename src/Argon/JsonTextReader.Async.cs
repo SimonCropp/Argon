@@ -34,7 +34,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns <c>true</c> if the next token was read successfully; <c>false</c> if there are no more tokens to read.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1398,7 +1397,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="bool"/>.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="Nullable{T}"/> of <see cref="bool"/>. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1532,7 +1530,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="byte"/>[].
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="byte"/>[]. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1675,7 +1672,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="DateTime"/>.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="Nullable{T}"/> of <see cref="DateTime"/>. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1693,7 +1689,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1711,7 +1706,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="decimal"/>.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="Nullable{T}"/> of <see cref="decimal"/>. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1729,7 +1723,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="double"/>.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="Nullable{T}"/> of <see cref="double"/>. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1747,7 +1740,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="int"/>.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="Nullable{T}"/> of <see cref="int"/>. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
@@ -1765,7 +1757,6 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="string"/>.
     /// </summary>
-    /// <param name="cancellation">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
     /// property returns the <see cref="string"/>. This result will be <c>null</c> at the end of an array.</returns>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will

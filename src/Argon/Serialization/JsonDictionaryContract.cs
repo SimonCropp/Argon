@@ -90,7 +90,6 @@ public class JsonDictionaryContract : JsonContainerContract
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonDictionaryContract"/> class.
     /// </summary>
-    /// <param name="underlyingType">The underlying type for the contract.</param>
     public JsonDictionaryContract(Type underlyingType)
         : base(underlyingType)
     {

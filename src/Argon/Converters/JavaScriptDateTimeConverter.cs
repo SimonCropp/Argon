@@ -33,9 +33,6 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-    /// <param name="value">The value.</param>
-    /// <param name="serializer">The calling serializer.</param>
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
         long ticks;
@@ -63,11 +60,6 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="type">Type of the object.</param>
-    /// <param name="existingValue">The existing property value of the JSON that is being converted.</param>
-    /// <param name="serializer">The calling serializer.</param>
-    /// <returns>The object value.</returns>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)

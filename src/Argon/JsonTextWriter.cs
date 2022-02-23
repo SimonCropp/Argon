@@ -119,7 +119,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextWriter"/> class using the specified <see cref="TextWriter"/>.
     /// </summary>
-    /// <param name="textWriter">The <see cref="TextWriter"/> to write to.</param>
     public JsonTextWriter(TextWriter textWriter)
     {
         writer = textWriter;
@@ -190,7 +189,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the start of a constructor with the given name.
     /// </summary>
-    /// <param name="name">The name of the constructor.</param>
     public override void WriteStartConstructor(string name)
     {
         InternalWriteStart(JsonToken.StartConstructor, JsonContainerType.Constructor);
@@ -203,7 +201,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the specified end token.
     /// </summary>
-    /// <param name="token">The end token to write.</param>
     protected override void WriteEnd(JsonToken token)
     {
         switch (token)
@@ -225,7 +222,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
     public override void WritePropertyName(string name)
     {
         InternalWritePropertyName(name);
@@ -238,7 +234,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
     public override void WritePropertyName(string name, bool escape)
     {
@@ -348,7 +343,6 @@ public partial class JsonTextWriter : JsonWriter
     /// Writes a <see cref="Object"/> value.
     /// An error will raised if the value cannot be written as a single JSON token.
     /// </summary>
-    /// <param name="value">The <see cref="Object"/> value to write.</param>
     public override void WriteValue(object? value)
     {
         if (value is BigInteger i)
@@ -383,7 +377,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
-    /// <param name="json">The raw JSON to write.</param>
     public override void WriteRaw(string? json)
     {
         InternalWriteRaw();
@@ -394,7 +387,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="String"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="String"/> value to write.</param>
     public override void WriteValue(string? value)
     {
         InternalWriteValue(JsonToken.String);
@@ -418,7 +410,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int32"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int32"/> value to write.</param>
     public override void WriteValue(int value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -428,7 +419,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt32"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt32"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(uint value)
     {
@@ -439,7 +429,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int64"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int64"/> value to write.</param>
     public override void WriteValue(long value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -449,7 +438,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt64"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt64"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(ulong value)
     {
@@ -460,7 +448,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Single"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Single"/> value to write.</param>
     public override void WriteValue(float value)
     {
         InternalWriteValue(JsonToken.Float);
@@ -470,7 +457,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="Single"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="Single"/> value to write.</param>
     public override void WriteValue(float? value)
     {
         if (value == null)
@@ -487,7 +473,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Double"/> value to write.</param>
     public override void WriteValue(double value)
     {
         InternalWriteValue(JsonToken.Float);
@@ -497,7 +482,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="Double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="Double"/> value to write.</param>
     public override void WriteValue(double? value)
     {
         if (value == null)
@@ -514,7 +498,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Boolean"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Boolean"/> value to write.</param>
     public override void WriteValue(bool value)
     {
         InternalWriteValue(JsonToken.Boolean);
@@ -524,7 +507,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int16"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int16"/> value to write.</param>
     public override void WriteValue(short value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -534,7 +516,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt16"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt16"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(ushort value)
     {
@@ -545,7 +526,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Char"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Char"/> value to write.</param>
     public override void WriteValue(char value)
     {
         InternalWriteValue(JsonToken.String);
@@ -555,7 +535,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Byte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Byte"/> value to write.</param>
     public override void WriteValue(byte value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -565,7 +544,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="SByte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="SByte"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(sbyte value)
     {
@@ -576,7 +554,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Decimal"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Decimal"/> value to write.</param>
     public override void WriteValue(decimal value)
     {
         InternalWriteValue(JsonToken.Float);
@@ -586,7 +563,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="DateTime"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTime"/> value to write.</param>
     public override void WriteValue(DateTime value)
     {
         InternalWriteValue(JsonToken.Date);
@@ -621,7 +597,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Byte"/>[] value.
     /// </summary>
-    /// <param name="value">The <see cref="Byte"/>[] value to write.</param>
     public override void WriteValue(byte[]? value)
     {
         if (value == null)
@@ -641,7 +616,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="DateTimeOffset"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTimeOffset"/> value to write.</param>
     public override void WriteValue(DateTimeOffset value)
     {
         InternalWriteValue(JsonToken.Date);
@@ -675,7 +649,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Guid"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Guid"/> value to write.</param>
     public override void WriteValue(Guid value)
     {
         InternalWriteValue(JsonToken.String);
@@ -690,7 +663,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="TimeSpan"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="TimeSpan"/> value to write.</param>
     public override void WriteValue(TimeSpan value)
     {
         InternalWriteValue(JsonToken.String);
@@ -705,7 +677,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Uri"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Uri"/> value to write.</param>
     public override void WriteValue(Uri? value)
     {
         if (value == null)
@@ -723,7 +694,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
-    /// <param name="text">Text to place inside the comment.</param>
     public override void WriteComment(string? text)
     {
         InternalWriteComment();
@@ -736,7 +706,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the given white space.
     /// </summary>
-    /// <param name="ws">The string of white space characters.</param>
     public override void WriteWhitespace(string ws)
     {
         InternalWriteWhitespace(ws);
