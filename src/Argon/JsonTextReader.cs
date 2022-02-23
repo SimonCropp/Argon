@@ -64,7 +64,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextReader"/> class with the specified <see cref="TextReader"/>.
     /// </summary>
-    /// <param name="reader">The <see cref="TextReader"/> containing the JSON data to read.</param>
     public JsonTextReader(TextReader reader)
     {
         this.reader = reader;
