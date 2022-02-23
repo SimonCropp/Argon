@@ -123,7 +123,7 @@ public class ReadTests : TestFixtureBase
 ]";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[10];
 #endif
 
@@ -235,7 +235,7 @@ public class ReadTests : TestFixtureBase
         var json = @"{""Message"":""Hi,I\u0092ve send you smth""}";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[5];
 #endif
 
@@ -277,7 +277,7 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(JsonToken.EndObject, reader.TokenType);
     }
 
-#if DEBUG
+#if !RELEASE
     [Fact]
     public void ReadLargeObjects()
     {
@@ -738,7 +738,7 @@ public class ReadTests : TestFixtureBase
 ]";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[5];
 #endif
 
@@ -766,7 +766,7 @@ public class ReadTests : TestFixtureBase
       } /*comment*/";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[5];
 #endif
 
@@ -1305,7 +1305,7 @@ third line", jsonTextReader.Value);
         var sr = new StringReader(input);
 
         using var jsonReader = new JsonTextReader(sr);
-#if DEBUG
+#if !RELEASE
         jsonReader.CharBuffer = new char[5];
 #endif
 

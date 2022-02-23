@@ -1641,8 +1641,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Creates a <see cref="JToken"/> from an object.
     /// </summary>
-    /// <param name="o">The object that will be used to create <see cref="JToken"/>.</param>
-    /// <returns>A <see cref="JToken"/> with the value of the specified object.</returns>
     public static JToken FromObject(object o)
     {
         return FromObjectInternal(o, JsonSerializer.CreateDefault());

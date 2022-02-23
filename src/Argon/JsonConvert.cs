@@ -558,7 +558,6 @@ public static class JsonConvert
     /// <summary>
     /// Deserializes the JSON to a .NET object.
     /// </summary>
-    
     [DebuggerStepThrough]
     public static object? DeserializeObject(string value)
     {
@@ -568,7 +567,6 @@ public static class JsonConvert
     /// <summary>
     /// Deserializes the JSON to a .NET object using <see cref="JsonSerializerSettings"/>.
     /// </summary>
-    
     /// <param name="settings">
     /// The <see cref="JsonSerializerSettings"/> used to deserialize the object.
     /// If this is <c>null</c>, default serialization settings will be used.

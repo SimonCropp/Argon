@@ -6,6 +6,7 @@
     <PackageTags>Json</PackageTags>
     <Description>Json serialization library. Hard fork of Json.net.</Description>
     <NoWarn>CS1591</NoWarn>
+    <Configurations>Debug;Release;DebugNet6</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="System.Globalization" />

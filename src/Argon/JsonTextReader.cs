@@ -46,10 +46,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 {
     const char unicodeReplacementChar = '\uFFFD';
     const int maximumJavascriptIntegerCharacterLength = 380;
-#if DEBUG
-    internal int LargeBufferLength { get; set; } = int.MaxValue / 2;
-#else
+#if RELEASE
     const int LargeBufferLength = int.MaxValue / 2;
+#else
+    internal int LargeBufferLength { get; set; } = int.MaxValue / 2;
 #endif
 
     readonly TextReader reader;

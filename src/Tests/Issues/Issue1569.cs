@@ -33,7 +33,7 @@ public class Issue1569 : TestFixtureBase
         Stream s = new AsyncOnlyStream(new MemoryStream(Encoding.UTF8.GetBytes(json)));
         var sr = new StreamReader(s, Encoding.UTF8, true, 2);
         var reader = new JsonTextReader(sr);
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[2];
 #endif
 

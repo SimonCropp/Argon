@@ -56,7 +56,7 @@ public class DynamicValueProvider : IValueProvider
         {
             setter ??= DynamicReflectionDelegateFactory.Instance.CreateSet<object>(member);
 
-#if DEBUG
+#if !RELEASE
             // dynamic method doesn't check whether the type is 'legal' to set
             // add this check for unit tests
             if (value == null)

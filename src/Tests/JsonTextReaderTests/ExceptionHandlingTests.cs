@@ -415,7 +415,7 @@ public class ExceptionHandlingTests : TestFixtureBase
 ]content";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[2];
 #endif
 
