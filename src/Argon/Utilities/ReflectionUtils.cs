@@ -354,16 +354,8 @@ static class ReflectionUtils
         }
 
         // IsByRefLike flag on type is not available in netstandard2.0
-        var attributes = GetAttributes(type, null, false);
-        for (var i = 0; i < attributes.Length; i++)
-        {
-            if (string.Equals(attributes[i].GetType().FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        var attributes = type.GetCustomAttributesData();
+        return attributes.Any(t => string.Equals(t.AttributeType.FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal));
     }
 
     /// <summary>
