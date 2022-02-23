@@ -64,21 +64,6 @@ static class DateTimeUtils
         }
     }
 
-    public static string ToDateTimeFormat(DateTimeKind kind)
-    {
-        switch (kind)
-        {
-            case DateTimeKind.Local:
-                return IsoDateFormat;
-            case DateTimeKind.Unspecified:
-                return "yyyy-MM-ddTHH:mm:ss.FFFFFFF";
-            case DateTimeKind.Utc:
-                return "yyyy-MM-ddTHH:mm:ss.FFFFFFFZ";
-            default:
-                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
-        }
-    }
-
     internal static DateTime EnsureDateTime(DateTime value, DateTimeZoneHandling timeZone)
     {
         switch (timeZone)

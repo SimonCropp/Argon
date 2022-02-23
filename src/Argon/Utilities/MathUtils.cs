@@ -119,48 +119,6 @@ static class MathUtils
         return (char)(n - 10 + 97);
     }
 
-    public static int? Min(int? val1, int? val2)
-    {
-        if (val1 == null)
-        {
-            return val2;
-        }
-        if (val2 == null)
-        {
-            return val1;
-        }
-
-        return Math.Min(val1.GetValueOrDefault(), val2.GetValueOrDefault());
-    }
-
-    public static int? Max(int? val1, int? val2)
-    {
-        if (val1 == null)
-        {
-            return val2;
-        }
-        if (val2 == null)
-        {
-            return val1;
-        }
-
-        return Math.Max(val1.GetValueOrDefault(), val2.GetValueOrDefault());
-    }
-
-    public static double? Max(double? val1, double? val2)
-    {
-        if (val1 == null)
-        {
-            return val2;
-        }
-        if (val2 == null)
-        {
-            return val1;
-        }
-
-        return Math.Max(val1.GetValueOrDefault(), val2.GetValueOrDefault());
-    }
-
     public static bool ApproxEquals(double d1, double d2)
     {
         const double epsilon = 2.2204460492503131E-16;

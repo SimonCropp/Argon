@@ -47,12 +47,6 @@ class ReflectionObject
         return getter(target);
     }
 
-    public void SetValue(object target, string member, object? value)
-    {
-        var setter = Members[member].Setter!;
-        setter(target, value);
-    }
-
     public Type GetType(string member)
     {
         return Members[member].MemberType!;
