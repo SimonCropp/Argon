@@ -49,7 +49,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 #if DEBUG
     internal int LargeBufferLength { get; set; } = int.MaxValue / 2;
 #else
-    const int largeBufferLength = int.MaxValue / 2;
+    const int LargeBufferLength = int.MaxValue / 2;
 #endif
 
     readonly TextReader reader;
@@ -224,7 +224,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         // shift the remaining content to the start to avoid unnecessarily increasing
         // the buffer size when reading numbers/strings
         var length = CharBuffer.Length;
-        if (length - CharPos <= length * 0.1 || length >= largeBufferLength)
+        if (length - CharPos <= length * 0.1 || length >= LargeBufferLength)
         {
             var count = charsUsed - CharPos;
             if (count > 0)

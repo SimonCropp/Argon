@@ -54,30 +54,30 @@ public class JsonSerializerSettings
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
     internal const int DefaultMaxDepth = 64;
 
-    internal Formatting? _formatting;
-    internal DateFormatHandling? _dateFormatHandling;
-    internal DateTimeZoneHandling? _dateTimeZoneHandling;
-    internal DateParseHandling? _dateParseHandling;
-    internal FloatFormatHandling? _floatFormatHandling;
-    internal FloatParseHandling? _floatParseHandling;
-    internal StringEscapeHandling? _stringEscapeHandling;
-    internal CultureInfo? _culture;
-    internal bool? _checkAdditionalContent;
-    internal int? _maxDepth;
-    internal bool _maxDepthSet;
-    internal string? _dateFormatString;
-    internal bool _dateFormatStringSet;
-    internal TypeNameAssemblyFormatHandling? _typeNameAssemblyFormatHandling;
-    internal DefaultValueHandling? _defaultValueHandling;
-    internal PreserveReferencesHandling? _preserveReferencesHandling;
-    internal NullValueHandling? _nullValueHandling;
-    internal ObjectCreationHandling? _objectCreationHandling;
-    internal MissingMemberHandling? _missingMemberHandling;
-    internal ReferenceLoopHandling? _referenceLoopHandling;
-    internal StreamingContext? _context;
-    internal ConstructorHandling? _constructorHandling;
-    internal TypeNameHandling? _typeNameHandling;
-    internal MetadataPropertyHandling? _metadataPropertyHandling;
+    internal Formatting? formatting;
+    internal DateFormatHandling? dateFormatHandling;
+    internal DateTimeZoneHandling? dateTimeZoneHandling;
+    internal DateParseHandling? dateParseHandling;
+    internal FloatFormatHandling? floatFormatHandling;
+    internal FloatParseHandling? floatParseHandling;
+    internal StringEscapeHandling? stringEscapeHandling;
+    internal CultureInfo? culture;
+    internal bool? checkAdditionalContent;
+    internal int? maxDepth;
+    internal bool maxDepthSet;
+    internal string? dateFormatString;
+    internal bool dateFormatStringSet;
+    internal TypeNameAssemblyFormatHandling? typeNameAssemblyFormatHandling;
+    internal DefaultValueHandling? defaultValueHandling;
+    internal PreserveReferencesHandling? preserveReferencesHandling;
+    internal NullValueHandling? nullValueHandling;
+    internal ObjectCreationHandling? objectCreationHandling;
+    internal MissingMemberHandling? missingMemberHandling;
+    internal ReferenceLoopHandling? referenceLoopHandling;
+    internal StreamingContext? context;
+    internal ConstructorHandling? constructorHandling;
+    internal TypeNameHandling? typeNameHandling;
+    internal MetadataPropertyHandling? metadataPropertyHandling;
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) are handled.
@@ -85,8 +85,8 @@ public class JsonSerializerSettings
     /// </summary>
     public ReferenceLoopHandling ReferenceLoopHandling
     {
-        get => _referenceLoopHandling ?? DefaultReferenceLoopHandling;
-        set => _referenceLoopHandling = value;
+        get => referenceLoopHandling ?? DefaultReferenceLoopHandling;
+        set => referenceLoopHandling = value;
     }
 
     /// <summary>
@@ -95,8 +95,8 @@ public class JsonSerializerSettings
     /// </summary>
     public MissingMemberHandling MissingMemberHandling
     {
-        get => _missingMemberHandling ?? DefaultMissingMemberHandling;
-        set => _missingMemberHandling = value;
+        get => missingMemberHandling ?? DefaultMissingMemberHandling;
+        set => missingMemberHandling = value;
     }
 
     /// <summary>
@@ -105,8 +105,8 @@ public class JsonSerializerSettings
     /// </summary>
     public ObjectCreationHandling ObjectCreationHandling
     {
-        get => _objectCreationHandling ?? DefaultObjectCreationHandling;
-        set => _objectCreationHandling = value;
+        get => objectCreationHandling ?? DefaultObjectCreationHandling;
+        set => objectCreationHandling = value;
     }
 
     /// <summary>
@@ -115,8 +115,8 @@ public class JsonSerializerSettings
     /// </summary>
     public NullValueHandling NullValueHandling
     {
-        get => _nullValueHandling ?? DefaultNullValueHandling;
-        set => _nullValueHandling = value;
+        get => nullValueHandling ?? DefaultNullValueHandling;
+        set => nullValueHandling = value;
     }
 
     /// <summary>
@@ -125,8 +125,8 @@ public class JsonSerializerSettings
     /// </summary>
     public DefaultValueHandling DefaultValueHandling
     {
-        get => _defaultValueHandling ?? DefaultDefaultValueHandling;
-        set => _defaultValueHandling = value;
+        get => defaultValueHandling ?? DefaultDefaultValueHandling;
+        set => defaultValueHandling = value;
     }
 
     /// <summary>
@@ -140,8 +140,8 @@ public class JsonSerializerSettings
     /// </summary>
     public PreserveReferencesHandling PreserveReferencesHandling
     {
-        get => _preserveReferencesHandling ?? DefaultPreserveReferencesHandling;
-        set => _preserveReferencesHandling = value;
+        get => preserveReferencesHandling ?? DefaultPreserveReferencesHandling;
+        set => preserveReferencesHandling = value;
     }
 
     /// <summary>
@@ -155,8 +155,8 @@ public class JsonSerializerSettings
     /// </remarks>
     public TypeNameHandling TypeNameHandling
     {
-        get => _typeNameHandling ?? DefaultTypeNameHandling;
-        set => _typeNameHandling = value;
+        get => typeNameHandling ?? DefaultTypeNameHandling;
+        set => typeNameHandling = value;
     }
 
     /// <summary>
@@ -165,8 +165,8 @@ public class JsonSerializerSettings
     /// </summary>
     public MetadataPropertyHandling MetadataPropertyHandling
     {
-        get => _metadataPropertyHandling ?? DefaultMetadataPropertyHandling;
-        set => _metadataPropertyHandling = value;
+        get => metadataPropertyHandling ?? DefaultMetadataPropertyHandling;
+        set => metadataPropertyHandling = value;
     }
 
     /// <summary>
@@ -175,8 +175,8 @@ public class JsonSerializerSettings
     /// </summary>
     public TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
     {
-        get => _typeNameAssemblyFormatHandling ?? DefaultTypeNameAssemblyFormatHandling;
-        set => _typeNameAssemblyFormatHandling = value;
+        get => typeNameAssemblyFormatHandling ?? DefaultTypeNameAssemblyFormatHandling;
+        set => typeNameAssemblyFormatHandling = value;
     }
 
     /// <summary>
@@ -185,8 +185,8 @@ public class JsonSerializerSettings
     /// </summary>
     public ConstructorHandling ConstructorHandling
     {
-        get => _constructorHandling ?? DefaultConstructorHandling;
-        set => _constructorHandling = value;
+        get => constructorHandling ?? DefaultConstructorHandling;
+        set => constructorHandling = value;
     }
 
     /// <summary>
@@ -225,8 +225,8 @@ public class JsonSerializerSettings
     /// </summary>
     public StreamingContext Context
     {
-        get => _context ?? DefaultContext;
-        set => _context = value;
+        get => context ?? DefaultContext;
+        set => context = value;
     }
 
     /// <summary>
@@ -236,11 +236,11 @@ public class JsonSerializerSettings
     /// </summary>
     public string DateFormatString
     {
-        get => _dateFormatString ?? DefaultDateFormatString;
+        get => dateFormatString ?? DefaultDateFormatString;
         set
         {
-            _dateFormatString = value;
-            _dateFormatStringSet = true;
+            dateFormatString = value;
+            dateFormatStringSet = true;
         }
     }
 
@@ -251,7 +251,7 @@ public class JsonSerializerSettings
     /// </summary>
     public int? MaxDepth
     {
-        get => _maxDepthSet ? _maxDepth : DefaultMaxDepth;
+        get => maxDepthSet ? maxDepth : DefaultMaxDepth;
         set
         {
             if (value <= 0)
@@ -259,8 +259,8 @@ public class JsonSerializerSettings
                 throw new ArgumentException("Value must be positive.", nameof(value));
             }
 
-            _maxDepth = value;
-            _maxDepthSet = true;
+            maxDepth = value;
+            maxDepthSet = true;
         }
     }
 
@@ -270,8 +270,8 @@ public class JsonSerializerSettings
     /// </summary>
     public Formatting Formatting
     {
-        get => _formatting ?? DefaultFormatting;
-        set => _formatting = value;
+        get => formatting ?? DefaultFormatting;
+        set => formatting = value;
     }
 
     /// <summary>
@@ -280,8 +280,8 @@ public class JsonSerializerSettings
     /// </summary>
     public DateFormatHandling DateFormatHandling
     {
-        get => _dateFormatHandling ?? DefaultDateFormatHandling;
-        set => _dateFormatHandling = value;
+        get => dateFormatHandling ?? DefaultDateFormatHandling;
+        set => dateFormatHandling = value;
     }
 
     /// <summary>
@@ -290,8 +290,8 @@ public class JsonSerializerSettings
     /// </summary>
     public DateTimeZoneHandling DateTimeZoneHandling
     {
-        get => _dateTimeZoneHandling ?? DefaultDateTimeZoneHandling;
-        set => _dateTimeZoneHandling = value;
+        get => dateTimeZoneHandling ?? DefaultDateTimeZoneHandling;
+        set => dateTimeZoneHandling = value;
     }
 
     /// <summary>
@@ -300,8 +300,8 @@ public class JsonSerializerSettings
     /// </summary>
     public DateParseHandling DateParseHandling
     {
-        get => _dateParseHandling ?? DefaultDateParseHandling;
-        set => _dateParseHandling = value;
+        get => dateParseHandling ?? DefaultDateParseHandling;
+        set => dateParseHandling = value;
     }
 
     /// <summary>
@@ -312,8 +312,8 @@ public class JsonSerializerSettings
     /// </summary>
     public FloatFormatHandling FloatFormatHandling
     {
-        get => _floatFormatHandling ?? DefaultFloatFormatHandling;
-        set => _floatFormatHandling = value;
+        get => floatFormatHandling ?? DefaultFloatFormatHandling;
+        set => floatFormatHandling = value;
     }
 
     /// <summary>
@@ -322,8 +322,8 @@ public class JsonSerializerSettings
     /// </summary>
     public FloatParseHandling FloatParseHandling
     {
-        get => _floatParseHandling ?? DefaultFloatParseHandling;
-        set => _floatParseHandling = value;
+        get => floatParseHandling ?? DefaultFloatParseHandling;
+        set => floatParseHandling = value;
     }
 
     /// <summary>
@@ -332,8 +332,8 @@ public class JsonSerializerSettings
     /// </summary>
     public StringEscapeHandling StringEscapeHandling
     {
-        get => _stringEscapeHandling ?? DefaultStringEscapeHandling;
-        set => _stringEscapeHandling = value;
+        get => stringEscapeHandling ?? DefaultStringEscapeHandling;
+        set => stringEscapeHandling = value;
     }
 
     /// <summary>
@@ -342,8 +342,8 @@ public class JsonSerializerSettings
     /// </summary>
     public CultureInfo Culture
     {
-        get => _culture ?? DefaultCulture;
-        set => _culture = value;
+        get => culture ?? DefaultCulture;
+        set => culture = value;
     }
 
     /// <summary>
@@ -352,8 +352,8 @@ public class JsonSerializerSettings
     /// </summary>
     public bool CheckAdditionalContent
     {
-        get => _checkAdditionalContent ?? DefaultCheckAdditionalContent;
-        set => _checkAdditionalContent = value;
+        get => checkAdditionalContent ?? DefaultCheckAdditionalContent;
+        set => checkAdditionalContent = value;
     }
 
     static JsonSerializerSettings()

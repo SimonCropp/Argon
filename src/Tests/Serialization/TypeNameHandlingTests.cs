@@ -2331,13 +2331,13 @@ public class TypeNameHandlingTests : TestFixtureBase
     [DataContract]
     public class ReportItemKeys : ApplicationItemKeys
     {
-        protected ulong _wantedUnit;
+        protected ulong wantedUnit;
 
         [DataMember]
         public ulong WantedUnitID
         {
-            get => _wantedUnit;
-            set => _wantedUnit = value;
+            get => wantedUnit;
+            set => wantedUnit = value;
         }
     }
 }

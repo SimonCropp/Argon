@@ -33,12 +33,12 @@ namespace Argon.Linq;
 /// </example>
 public partial class JArray : JContainer, IList<JToken>
 {
-    readonly List<JToken> _values = new();
+    readonly List<JToken> values = new();
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    protected override IList<JToken> ChildrenTokens => _values;
+    protected override IList<JToken> ChildrenTokens => values;
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
@@ -204,9 +204,9 @@ public partial class JArray : JContainer, IList<JToken>
     {
         writer.WriteStartArray();
 
-        for (var i = 0; i < _values.Count; i++)
+        for (var i = 0; i < values.Count; i++)
         {
-            _values[i].WriteTo(writer, converters);
+            values[i].WriteTo(writer, converters);
         }
 
         writer.WriteEndArray();
@@ -253,7 +253,7 @@ public partial class JArray : JContainer, IList<JToken>
             return -1;
         }
 
-        return _values.IndexOfReference(item);
+        return values.IndexOfReference(item);
     }
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)

@@ -2,7 +2,7 @@
 
 class XElementWrapper : XContainerWrapper, IXmlElement
 {
-    List<IXmlNode>? _attributes;
+    List<IXmlNode>? attributes;
 
     XElement Element => (XElement)WrappedNode!;
 
@@ -15,7 +15,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
     {
         var wrapper = (XObjectWrapper)attribute;
         Element.Add(wrapper.WrappedNode);
-        _attributes = null;
+        attributes = null;
     }
 
     public override List<IXmlNode> Attributes
@@ -24,14 +24,14 @@ class XElementWrapper : XContainerWrapper, IXmlElement
         {
             // attributes is read multiple times
             // cache results to prevent multiple reads which kills perf in large documents
-            if (_attributes == null)
+            if (attributes == null)
             {
                 if (Element.HasAttributes || HasImplicitNamespaceAttribute(NamespaceUri!))
                 {
-                    _attributes = new List<IXmlNode>();
+                    attributes = new List<IXmlNode>();
                     foreach (var attribute in Element.Attributes())
                     {
-                        _attributes.Add(new XAttributeWrapper(attribute));
+                        attributes.Add(new XAttributeWrapper(attribute));
                     }
 
                     // ensure elements created with a namespace but no namespace attribute are converted correctly
@@ -39,16 +39,16 @@ class XElementWrapper : XContainerWrapper, IXmlElement
                     var namespaceUri = NamespaceUri!;
                     if (HasImplicitNamespaceAttribute(namespaceUri))
                     {
-                        _attributes.Insert(0, new XAttributeWrapper(new XAttribute("xmlns", namespaceUri)));
+                        attributes.Insert(0, new XAttributeWrapper(new XAttribute("xmlns", namespaceUri)));
                     }
                 }
                 else
                 {
-                    _attributes = XmlNodeConverter.EmptyChildNodes;
+                    attributes = XmlNodeConverter.EmptyChildNodes;
                 }
             }
 
-            return _attributes;
+            return attributes;
         }
     }
 
@@ -86,7 +86,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
     public override IXmlNode AppendChild(IXmlNode newChild)
     {
         var result = base.AppendChild(newChild);
-        _attributes = null;
+        attributes = null;
         return result;
     }
 

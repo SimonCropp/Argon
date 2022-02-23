@@ -194,18 +194,15 @@ public class DependencyInjectionTests : TestFixtureBase
 
     public class TaskController
     {
-        readonly ITaskRepository _repository;
-        readonly ILogger _logger;
-
         public TaskController(ITaskRepository repository, ILogger logger)
         {
-            _repository = repository;
-            _logger = logger;
+            Repository = repository;
+            Logger = logger;
         }
 
-        public ITaskRepository Repository => _repository;
+        public ITaskRepository Repository { get; }
 
-        public ILogger Logger => _logger;
+        public ILogger Logger { get; }
     }
 
     public class HasSettableProperty

@@ -25,18 +25,18 @@
 
 class FSharpFunction
 {
-    readonly object? _instance;
-    readonly MethodCall<object?, object> _invoker;
+    readonly object? instance;
+    readonly MethodCall<object?, object> invoker;
 
     public FSharpFunction(object? instance, MethodCall<object?, object> invoker)
     {
-        _instance = instance;
-        _invoker = invoker;
+        this.instance = instance;
+        this.invoker = invoker;
     }
 
     public object Invoke(params object[] args)
     {
-        return _invoker(_instance, args);
+        return invoker(instance, args);
     }
 }
 
@@ -68,25 +68,25 @@ class FSharpUtils
         GetUnionCaseInfoFields = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(unionCaseInfo.GetMethod("GetFields"));
 
         var listModule = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.ListModule");
-        _ofSeq = listModule.GetMethod("OfSeq");
+        ofSeq = listModule.GetMethod("OfSeq");
 
-        _mapType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.FSharpMap`2");
+        mapType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.FSharpMap`2");
     }
 
     static readonly object Lock = new();
-    static FSharpUtils? _instance;
+    static FSharpUtils? instance;
 
     public static FSharpUtils Instance
     {
         get
         {
-            MiscellaneousUtils.Assert(_instance != null);
-            return _instance;
+            MiscellaneousUtils.Assert(instance != null);
+            return instance;
         }
     }
 
-    MethodInfo _ofSeq;
-    Type _mapType;
+    MethodInfo ofSeq;
+    Type mapType;
 
     public Assembly FSharpCoreAssembly { get; }
     public MethodCall<object?, object> IsUnion { get; }
@@ -105,11 +105,11 @@ class FSharpUtils
 
     public static void EnsureInitialized(Assembly fsharpCoreAssembly)
     {
-        if (_instance == null)
+        if (instance == null)
         {
             lock (Lock)
             {
-                _instance ??= new FSharpUtils(fsharpCoreAssembly);
+                instance ??= new FSharpUtils(fsharpCoreAssembly);
             }
         }
     }
@@ -151,7 +151,7 @@ class FSharpUtils
 
     public ObjectConstructor<object> CreateSeq(Type type)
     {
-        var seqType = _ofSeq.MakeGenericMethod(type);
+        var seqType = ofSeq.MakeGenericMethod(type);
 
         return JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(seqType);
     }
@@ -167,7 +167,7 @@ class FSharpUtils
 
     public ObjectConstructor<object> BuildMapCreator<TKey, TValue>()
     {
-        var genericMapType = _mapType.MakeGenericType(typeof(TKey), typeof(TValue));
+        var genericMapType = mapType.MakeGenericType(typeof(TKey), typeof(TValue));
         var ctor = genericMapType.GetConstructor(new[] { typeof(IEnumerable<Tuple<TKey, TValue>>) });
         var ctorDelegate = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(ctor);
 

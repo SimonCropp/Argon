@@ -25,17 +25,17 @@
 
 class ThreadSafeStore<TKey, TValue>
 {
-    readonly ConcurrentDictionary<TKey, TValue> _concurrentStore;
-    readonly Func<TKey, TValue> _creator;
+    readonly ConcurrentDictionary<TKey, TValue> concurrentStore;
+    readonly Func<TKey, TValue> creator;
 
     public ThreadSafeStore(Func<TKey, TValue> creator)
     {
-        _creator = creator;
-        _concurrentStore = new ConcurrentDictionary<TKey, TValue>();
+        this.creator = creator;
+        concurrentStore = new ConcurrentDictionary<TKey, TValue>();
     }
 
     public TValue Get(TKey key)
     {
-        return _concurrentStore.GetOrAdd(key, _creator);
+        return concurrentStore.GetOrAdd(key, creator);
     }
 }

@@ -52,21 +52,21 @@ public class Issue1552 : TestFixtureBase
 
 public class RefAndRefReadonlyTestClass
 {
-    int _refField;
-    readonly int _refReadonlyField;
+    int refField;
+    readonly int refReadonlyField;
 
     public RefAndRefReadonlyTestClass(int refReadonlyField)
     {
-        _refReadonlyField = refReadonlyField;
+        this.refReadonlyField = refReadonlyField;
     }
 
-    public ref int RefField => ref _refField;
+    public ref int RefField => ref refField;
 
-    public ref readonly int RefReadonlyField => ref _refReadonlyField;
+    public ref readonly int RefReadonlyField => ref refReadonlyField;
 
     public void SetRefField(int value)
     {
-        _refField = value;
+        refField = value;
     }
 }
 

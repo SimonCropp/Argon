@@ -29,7 +29,7 @@ public abstract partial class JsonWriter
 {
     internal Task AutoCompleteAsync(JsonToken tokenBeingWritten, CancellationToken cancellation)
     {
-        var oldState = _currentState;
+        var oldState = currentState;
 
         // gets new state based on the current state and what is being written
         var newState = StateArray[(int)tokenBeingWritten][(int)oldState];
@@ -39,9 +39,9 @@ public abstract partial class JsonWriter
             throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {oldState.ToString()} would result in an invalid JSON object.", null);
         }
 
-        _currentState = newState;
+        currentState = newState;
 
-        if (_formatting == Formatting.Indented)
+        if (formatting == Formatting.Indented)
         {
             switch (oldState)
             {
@@ -277,7 +277,7 @@ public abstract partial class JsonWriter
             var token = GetCloseTokenForType(Pop());
 
             Task t;
-            if (_currentState == State.Property)
+            if (currentState == State.Property)
             {
                 t = WriteNullAsync(cancellation);
                 if (!t.IsCompletedSucessfully())
@@ -286,9 +286,9 @@ public abstract partial class JsonWriter
                 }
             }
 
-            if (_formatting == Formatting.Indented)
+            if (formatting == Formatting.Indented)
             {
-                if (_currentState != State.ObjectStart && _currentState != State.ArrayStart)
+                if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                 {
                     t = WriteIndentAsync(cancellation);
                     if (!t.IsCompletedSucessfully())
@@ -315,9 +315,9 @@ public abstract partial class JsonWriter
             await task.ConfigureAwait(false);
 
             //  Finish current loop
-            if (_formatting == Formatting.Indented)
+            if (formatting == Formatting.Indented)
             {
-                if (_currentState != State.ObjectStart && _currentState != State.ArrayStart)
+                if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                 {
                     await WriteIndentAsync(cancellation).ConfigureAwait(false);
                 }
@@ -360,14 +360,14 @@ public abstract partial class JsonWriter
             {
                 var token = GetCloseTokenForType(Pop());
 
-                if (_currentState == State.Property)
+                if (currentState == State.Property)
                 {
                     await WriteNullAsync(cancellation).ConfigureAwait(false);
                 }
 
-                if (_formatting == Formatting.Indented)
+                if (formatting == Formatting.Indented)
                 {
-                    if (_currentState != State.ObjectStart && _currentState != State.ArrayStart)
+                    if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                     {
                         await WriteIndentAsync(cancellation).ConfigureAwait(false);
                     }
@@ -498,7 +498,7 @@ public abstract partial class JsonWriter
             return cancellation.FromCanceled();
         }
 
-        _currentPosition.PropertyName = name;
+        currentPosition.PropertyName = name;
         return AutoCompleteAsync(JsonToken.PropertyName, cancellation);
     }
 

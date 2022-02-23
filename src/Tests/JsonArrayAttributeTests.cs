@@ -31,15 +31,15 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void IsReferenceTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.Equal(null, attribute._isReference);
+        Assert.Equal(null, attribute.isReference);
         XUnitAssert.False(attribute.IsReference);
 
         attribute.IsReference = false;
-        XUnitAssert.False(attribute._isReference);
+        XUnitAssert.False(attribute.isReference);
         XUnitAssert.False(attribute.IsReference);
 
         attribute.IsReference = true;
-        XUnitAssert.True(attribute._isReference);
+        XUnitAssert.True(attribute.isReference);
         XUnitAssert.True(attribute.IsReference);
     }
 
@@ -47,11 +47,11 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void NullValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.Equal(null, attribute._nullValueHandling);
+        Assert.Equal(null, attribute.nullValueHandling);
         Assert.Equal(NullValueHandling.Include, attribute.NullValueHandling);
 
         attribute.NullValueHandling = NullValueHandling.Ignore;
-        Assert.Equal(NullValueHandling.Ignore, attribute._nullValueHandling);
+        Assert.Equal(NullValueHandling.Ignore, attribute.nullValueHandling);
         Assert.Equal(NullValueHandling.Ignore, attribute.NullValueHandling);
     }
 
@@ -59,11 +59,11 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void DefaultValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.Equal(null, attribute._defaultValueHandling);
+        Assert.Equal(null, attribute.defaultValueHandling);
         Assert.Equal(DefaultValueHandling.Include, attribute.DefaultValueHandling);
 
         attribute.DefaultValueHandling = DefaultValueHandling.Ignore;
-        Assert.Equal(DefaultValueHandling.Ignore, attribute._defaultValueHandling);
+        Assert.Equal(DefaultValueHandling.Ignore, attribute.defaultValueHandling);
         Assert.Equal(DefaultValueHandling.Ignore, attribute.DefaultValueHandling);
     }
 }

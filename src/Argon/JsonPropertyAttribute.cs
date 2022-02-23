@@ -33,17 +33,17 @@ public sealed class JsonPropertyAttribute : Attribute
 {
     // yuck. can't set nullable properties on an attribute in C#
     // have to use this approach to get an unset default state
-    internal NullValueHandling? _nullValueHandling;
-    internal DefaultValueHandling? _defaultValueHandling;
-    internal ReferenceLoopHandling? _referenceLoopHandling;
-    internal ObjectCreationHandling? _objectCreationHandling;
-    internal TypeNameHandling? _typeNameHandling;
-    internal bool? _isReference;
-    internal int? _order;
-    internal Required? _required;
-    internal bool? _itemIsReference;
-    internal ReferenceLoopHandling? _itemReferenceLoopHandling;
-    internal TypeNameHandling? _itemTypeNameHandling;
+    internal NullValueHandling? nullValueHandling;
+    internal DefaultValueHandling? defaultValueHandling;
+    internal ReferenceLoopHandling? referenceLoopHandling;
+    internal ObjectCreationHandling? objectCreationHandling;
+    internal TypeNameHandling? typeNameHandling;
+    internal bool? isReference;
+    internal int? order;
+    internal Required? required;
+    internal bool? itemIsReference;
+    internal ReferenceLoopHandling? itemReferenceLoopHandling;
+    internal TypeNameHandling? itemTypeNameHandling;
 
     /// <summary>
     /// Gets or sets the <see cref="JsonConverter"/> type used when serializing the property's collection items.
@@ -86,8 +86,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public NullValueHandling NullValueHandling
     {
-        get => _nullValueHandling ?? default;
-        set => _nullValueHandling = value;
+        get => nullValueHandling ?? default;
+        set => nullValueHandling = value;
     }
 
     /// <summary>
@@ -95,8 +95,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public DefaultValueHandling DefaultValueHandling
     {
-        get => _defaultValueHandling ?? default;
-        set => _defaultValueHandling = value;
+        get => defaultValueHandling ?? default;
+        set => defaultValueHandling = value;
     }
 
     /// <summary>
@@ -104,8 +104,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public ReferenceLoopHandling ReferenceLoopHandling
     {
-        get => _referenceLoopHandling ?? default;
-        set => _referenceLoopHandling = value;
+        get => referenceLoopHandling ?? default;
+        set => referenceLoopHandling = value;
     }
 
     /// <summary>
@@ -113,8 +113,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public ObjectCreationHandling ObjectCreationHandling
     {
-        get => _objectCreationHandling ?? default;
-        set => _objectCreationHandling = value;
+        get => objectCreationHandling ?? default;
+        set => objectCreationHandling = value;
     }
 
     /// <summary>
@@ -122,8 +122,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public TypeNameHandling TypeNameHandling
     {
-        get => _typeNameHandling ?? default;
-        set => _typeNameHandling = value;
+        get => typeNameHandling ?? default;
+        set => typeNameHandling = value;
     }
 
     /// <summary>
@@ -131,8 +131,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public bool IsReference
     {
-        get => _isReference ?? default;
-        set => _isReference = value;
+        get => isReference ?? default;
+        set => isReference = value;
     }
 
     /// <summary>
@@ -140,8 +140,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public int Order
     {
-        get => _order ?? default;
-        set => _order = value;
+        get => order ?? default;
+        set => order = value;
     }
 
     /// <summary>
@@ -149,8 +149,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public Required Required
     {
-        get => _required ?? Required.Default;
-        set => _required = value;
+        get => required ?? Required.Default;
+        set => required = value;
     }
 
     /// <summary>
@@ -163,8 +163,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public ReferenceLoopHandling ItemReferenceLoopHandling
     {
-        get => _itemReferenceLoopHandling ?? default;
-        set => _itemReferenceLoopHandling = value;
+        get => itemReferenceLoopHandling ?? default;
+        set => itemReferenceLoopHandling = value;
     }
 
     /// <summary>
@@ -172,8 +172,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public TypeNameHandling ItemTypeNameHandling
     {
-        get => _itemTypeNameHandling ?? default;
-        set => _itemTypeNameHandling = value;
+        get => itemTypeNameHandling ?? default;
+        set => itemTypeNameHandling = value;
     }
 
     /// <summary>
@@ -181,8 +181,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// </summary>
     public bool ItemIsReference
     {
-        get => _itemIsReference ?? default;
-        set => _itemIsReference = value;
+        get => itemIsReference ?? default;
+        set => itemIsReference = value;
     }
 
     /// <summary>

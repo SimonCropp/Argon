@@ -28,7 +28,7 @@ public class ErrorHandlingAttribute : TestFixtureBase
     #region ErrorHandlingAttributeTypes
     public class Employee
     {
-        List<string> _roles;
+        List<string> roles;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -37,14 +37,14 @@ public class ErrorHandlingAttribute : TestFixtureBase
         {
             get
             {
-                if (_roles == null)
+                if (roles == null)
                 {
                     throw new("Roles not loaded!");
                 }
 
-                return _roles;
+                return roles;
             }
-            set => _roles = value;
+            set => roles = value;
         }
 
         public string Title { get; set; }

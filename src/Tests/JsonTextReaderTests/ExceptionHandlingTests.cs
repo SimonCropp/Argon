@@ -352,15 +352,6 @@ public class ExceptionHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void NullTextReader()
-    {
-        XUnitAssert.Throws<ArgumentNullException>(
-            () => new JsonTextReader(null),
-            $"Value cannot be null.{Environment.NewLine}Parameter name: reader",
-            $"Argument cannot be null.{Environment.NewLine}Parameter name: reader", "Value cannot be null. (Parameter 'reader')");
-    }
-
-    [Fact]
     public void ParseConstructorWithBadCharacter()
     {
         var json = "new Date,()";

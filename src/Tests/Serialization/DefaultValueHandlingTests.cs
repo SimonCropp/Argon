@@ -405,32 +405,32 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
     public sealed class FieldExportFormat
     {
-        string _format;
-        ExportFormat? _exportFormat;
+        string format;
+        ExportFormat? exportFormat;
 
         [JsonProperty]
         public ExportFormat? ExportFormat
         {
-            get => _exportFormat;
+            get => exportFormat;
             set
             {
                 if (!value.HasValue)
                 {
                     throw new ArgumentNullException("ExportFormat");
                 }
-                _exportFormat = value;
-                _format = null;
+                exportFormat = value;
+                format = null;
             }
         }
 
         [JsonProperty]
         public string Format
         {
-            get => _format;
+            get => format;
             set
             {
-                _format = value;
-                _exportFormat = null;
+                format = value;
+                exportFormat = null;
             }
         }
 

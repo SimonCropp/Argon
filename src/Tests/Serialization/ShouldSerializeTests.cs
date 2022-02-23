@@ -142,7 +142,7 @@ public class ShouldSerializeTests : TestFixtureBase
   ""Age"": 27
 }", json);
 
-        c._shouldSerializeName = true;
+        c.shouldSerializeName = true;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -454,7 +454,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class ShouldSerializeTestClass
     {
-        internal bool _shouldSerializeName;
+        internal bool shouldSerializeName;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -466,13 +466,13 @@ public class ShouldSerializeTests : TestFixtureBase
 
         public bool ShouldSerializeName()
         {
-            return _shouldSerializeName;
+            return shouldSerializeName;
         }
     }
 
     public class SpecifiedTestClass
     {
-        bool _nameSpecified;
+        bool nameSpecified;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -486,8 +486,8 @@ public class ShouldSerializeTests : TestFixtureBase
         [JsonIgnore]
         public bool NameSpecified
         {
-            get => _nameSpecified;
-            set => _nameSpecified = value;
+            get => nameSpecified;
+            set => nameSpecified = value;
         }
 
         [JsonIgnore] public bool WeightSpecified;

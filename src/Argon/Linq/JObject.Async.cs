@@ -42,9 +42,9 @@ public partial class JObject
             return AwaitProperties(t, 0, writer, cancellation, converters);
         }
 
-        for (var i = 0; i < _properties.Count; i++)
+        for (var i = 0; i < properties.Count; i++)
         {
-            t = _properties[i].WriteToAsync(writer, cancellation, converters);
+            t = properties[i].WriteToAsync(writer, cancellation, converters);
             if (!t.IsCompletedSucessfully())
             {
                 return AwaitProperties(t, i + 1, writer, cancellation, converters);
@@ -57,9 +57,9 @@ public partial class JObject
         async Task AwaitProperties(Task task, int i, JsonWriter Writer, CancellationToken CancellationToken, JsonConverter[] Converters)
         {
             await task.ConfigureAwait(false);
-            for (; i < _properties.Count; i++)
+            for (; i < properties.Count; i++)
             {
-                await _properties[i].WriteToAsync(Writer, CancellationToken, Converters).ConfigureAwait(false);
+                await properties[i].WriteToAsync(Writer, CancellationToken, Converters).ConfigureAwait(false);
             }
 
             await Writer.WriteEndObjectAsync(CancellationToken).ConfigureAwait(false);

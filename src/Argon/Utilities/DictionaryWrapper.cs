@@ -31,44 +31,44 @@ interface IWrappedDictionary
 
 class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDictionary
 {
-    readonly IDictionary? _dictionary;
-    readonly IDictionary<TKey, TValue>? _genericDictionary;
-    readonly IReadOnlyDictionary<TKey, TValue>? _readOnlyDictionary;
-    object? _syncRoot;
+    readonly IDictionary? dictionary;
+    readonly IDictionary<TKey, TValue>? genericDictionary;
+    readonly IReadOnlyDictionary<TKey, TValue>? readOnlyDictionary;
+    object? syncRoot;
 
     public DictionaryWrapper(IDictionary dictionary)
     {
-        _dictionary = dictionary;
+        this.dictionary = dictionary;
     }
 
     public DictionaryWrapper(IDictionary<TKey, TValue> dictionary)
     {
-        _genericDictionary = dictionary;
+        genericDictionary = dictionary;
     }
 
     public DictionaryWrapper(IReadOnlyDictionary<TKey, TValue> dictionary)
     {
-        _readOnlyDictionary = dictionary;
+        readOnlyDictionary = dictionary;
     }
 
     internal IDictionary<TKey, TValue> GenericDictionary
     {
         get
         {
-            MiscellaneousUtils.Assert(_genericDictionary != null);
-            return _genericDictionary;
+            MiscellaneousUtils.Assert(genericDictionary != null);
+            return genericDictionary;
         }
     }
 
     public void Add(TKey key, TValue value)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            _dictionary.Add(key, value);
+            dictionary.Add(key, value);
         }
-        else if (_genericDictionary != null)
+        else if (genericDictionary != null)
         {
-            _genericDictionary.Add(key, value);
+            genericDictionary.Add(key, value);
         }
         else
         {
@@ -78,14 +78,14 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     public bool ContainsKey(TKey key)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            return _dictionary.Contains(key);
+            return dictionary.Contains(key);
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
-            return _readOnlyDictionary.ContainsKey(key);
+            return readOnlyDictionary.ContainsKey(key);
         }
 
         return GenericDictionary.ContainsKey(key);
@@ -95,14 +95,14 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return _dictionary.Keys.Cast<TKey>().ToList();
+                return dictionary.Keys.Cast<TKey>().ToList();
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary.Keys.ToList();
+                return readOnlyDictionary.Keys.ToList();
             }
             return GenericDictionary.Keys;
         }
@@ -110,18 +110,18 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     public bool Remove(TKey key)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            if (_dictionary.Contains(key))
+            if (dictionary.Contains(key))
             {
-                _dictionary.Remove(key);
+                dictionary.Remove(key);
                 return true;
             }
 
             return false;
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -132,9 +132,9 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     public bool TryGetValue(TKey key, out TValue? value)
 #pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            if (!_dictionary.Contains(key))
+            if (!dictionary.Contains(key))
             {
 #pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
                 value = default;
@@ -142,11 +142,11 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
                 return false;
             }
 
-            value = (TValue)_dictionary[key];
+            value = (TValue)dictionary[key];
             return true;
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -158,14 +158,14 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return _dictionary.Values.Cast<TValue>().ToList();
+                return dictionary.Values.Cast<TValue>().ToList();
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary.Values.ToList();
+                return readOnlyDictionary.Values.ToList();
             }
 
             return GenericDictionary.Values;
@@ -176,24 +176,24 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return (TValue)_dictionary[key];
+                return (TValue)dictionary[key];
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary[key];
+                return readOnlyDictionary[key];
             }
             return GenericDictionary[key];
         }
         set
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                _dictionary[key] = value;
+                dictionary[key] = value;
             }
-            else if (_readOnlyDictionary != null)
+            else if (readOnlyDictionary != null)
             {
                 throw new NotSupportedException();
             }
@@ -206,27 +206,27 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     public void Add(KeyValuePair<TKey, TValue> item)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            ((IList)_dictionary).Add(item);
+            ((IList)dictionary).Add(item);
         }
-        else if (_readOnlyDictionary != null)
+        else if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
         else
         {
-            _genericDictionary?.Add(item);
+            genericDictionary?.Add(item);
         }
     }
 
     public void Clear()
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            _dictionary.Clear();
+            dictionary.Clear();
         }
-        else if (_readOnlyDictionary != null)
+        else if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -238,24 +238,24 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     public bool Contains(KeyValuePair<TKey, TValue> item)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            return ((IList)_dictionary).Contains(item);
+            return ((IList)dictionary).Contains(item);
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
-            return _readOnlyDictionary.Contains(item);
+            return readOnlyDictionary.Contains(item);
         }
         return GenericDictionary.Contains(item);
     }
 
     public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
             // Manual use of IDictionaryEnumerator instead of foreach to avoid DictionaryEntry box allocations.
-            var e = _dictionary.GetEnumerator();
+            var e = dictionary.GetEnumerator();
             try
             {
                 while (e.MoveNext())
@@ -269,7 +269,7 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
                 (e as IDisposable)?.Dispose();
             }
         }
-        else if (_readOnlyDictionary != null)
+        else if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -283,14 +283,14 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return _dictionary.Count;
+                return dictionary.Count;
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary.Count;
+                return readOnlyDictionary.Count;
             }
 
             return GenericDictionary.Count;
@@ -301,12 +301,12 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return _dictionary.IsReadOnly;
+                return dictionary.IsReadOnly;
             }
 
-            if (_readOnlyDictionary == null)
+            if (readOnlyDictionary == null)
             {
                 return GenericDictionary.IsReadOnly;
             }
@@ -317,15 +317,15 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     public bool Remove(KeyValuePair<TKey, TValue> item)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            if (_dictionary.Contains(item.Key))
+            if (dictionary.Contains(item.Key))
             {
-                var value = _dictionary[item.Key];
+                var value = dictionary[item.Key];
 
                 if (Equals(value, item.Value))
                 {
-                    _dictionary.Remove(item.Key);
+                    dictionary.Remove(item.Key);
                     return true;
                 }
 
@@ -335,7 +335,7 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
             return true;
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -344,14 +344,14 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            return _dictionary.Cast<DictionaryEntry>().Select(de => new KeyValuePair<TKey, TValue>((TKey)de.Key, (TValue)de.Value)).GetEnumerator();
+            return dictionary.Cast<DictionaryEntry>().Select(de => new KeyValuePair<TKey, TValue>((TKey)de.Key, (TValue)de.Value)).GetEnumerator();
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
-            return _readOnlyDictionary.GetEnumerator();
+            return readOnlyDictionary.GetEnumerator();
         }
         return GenericDictionary.GetEnumerator();
     }
@@ -363,11 +363,11 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     void IDictionary.Add(object key, object value)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            _dictionary.Add(key, value);
+            dictionary.Add(key, value);
         }
-        else if (_readOnlyDictionary != null)
+        else if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -381,24 +381,24 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return _dictionary[key];
+                return dictionary[key];
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary[(TKey)key];
+                return readOnlyDictionary[(TKey)key];
             }
             return GenericDictionary[(TKey)key];
         }
         set
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                _dictionary[key] = value;
+                dictionary[key] = value;
             }
-            else if (_readOnlyDictionary != null)
+            else if (readOnlyDictionary != null)
             {
                 throw new NotSupportedException();
             }
@@ -417,11 +417,11 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
     readonly struct DictionaryEnumerator<TEnumeratorKey, TEnumeratorValue> : IDictionaryEnumerator
     {
-        readonly IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> _e;
+        readonly IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
 
         public DictionaryEnumerator(IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
         {
-            _e = e;
+            this.e = e;
         }
 
         public DictionaryEntry Entry => (DictionaryEntry)Current;
@@ -430,61 +430,61 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
         public object Value => Entry.Value;
 
-        public object Current => new DictionaryEntry(_e.Current.Key, _e.Current.Value);
+        public object Current => new DictionaryEntry(e.Current.Key, e.Current.Value);
 
         public bool MoveNext()
         {
-            return _e.MoveNext();
+            return e.MoveNext();
         }
 
         public void Reset()
         {
-            _e.Reset();
+            e.Reset();
         }
     }
 
     IDictionaryEnumerator IDictionary.GetEnumerator()
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            return _dictionary.GetEnumerator();
+            return dictionary.GetEnumerator();
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
-            return new DictionaryEnumerator<TKey, TValue>(_readOnlyDictionary.GetEnumerator());
+            return new DictionaryEnumerator<TKey, TValue>(readOnlyDictionary.GetEnumerator());
         }
         return new DictionaryEnumerator<TKey, TValue>(GenericDictionary.GetEnumerator());
     }
 
     bool IDictionary.Contains(object key)
     {
-        if (_genericDictionary != null)
+        if (genericDictionary != null)
         {
-            return _genericDictionary.ContainsKey((TKey)key);
+            return genericDictionary.ContainsKey((TKey)key);
         }
 
-        if (_readOnlyDictionary != null)
+        if (readOnlyDictionary != null)
         {
-            return _readOnlyDictionary.ContainsKey((TKey)key);
+            return readOnlyDictionary.ContainsKey((TKey)key);
         }
-        return _dictionary!.Contains(key);
+        return dictionary!.Contains(key);
     }
 
     bool IDictionary.IsFixedSize
     {
         get
         {
-            if (_genericDictionary != null)
+            if (genericDictionary != null)
             {
                 return false;
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
                 return true;
             }
-            return _dictionary!.IsFixedSize;
+            return dictionary!.IsFixedSize;
         }
     }
 
@@ -492,26 +492,26 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_genericDictionary != null)
+            if (genericDictionary != null)
             {
-                return _genericDictionary.Keys.ToList();
+                return genericDictionary.Keys.ToList();
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary.Keys.ToList();
+                return readOnlyDictionary.Keys.ToList();
             }
-            return _dictionary!.Keys;
+            return dictionary!.Keys;
         }
     }
 
     public void Remove(object key)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            _dictionary.Remove(key);
+            dictionary.Remove(key);
         }
-        else if (_readOnlyDictionary != null)
+        else if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -525,26 +525,26 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_genericDictionary != null)
+            if (genericDictionary != null)
             {
-                return _genericDictionary.Values.ToList();
+                return genericDictionary.Values.ToList();
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary.Values.ToList();
+                return readOnlyDictionary.Values.ToList();
             }
-            return _dictionary!.Values;
+            return dictionary!.Values;
         }
     }
 
     void ICollection.CopyTo(Array array, int index)
     {
-        if (_dictionary != null)
+        if (dictionary != null)
         {
-            _dictionary.CopyTo(array, index);
+            dictionary.CopyTo(array, index);
         }
-        else if (_readOnlyDictionary != null)
+        else if (readOnlyDictionary != null)
         {
             throw new NotSupportedException();
         }
@@ -558,9 +558,9 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return _dictionary.IsSynchronized;
+                return dictionary.IsSynchronized;
             }
 
             return false;
@@ -571,12 +571,12 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_syncRoot == null)
+            if (syncRoot == null)
             {
-                Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+                Interlocked.CompareExchange(ref syncRoot, new object(), null);
             }
 
-            return _syncRoot;
+            return syncRoot;
         }
     }
 
@@ -584,14 +584,14 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                return _dictionary;
+                return dictionary;
             }
 
-            if (_readOnlyDictionary != null)
+            if (readOnlyDictionary != null)
             {
-                return _readOnlyDictionary;
+                return readOnlyDictionary;
             }
             return GenericDictionary;
         }

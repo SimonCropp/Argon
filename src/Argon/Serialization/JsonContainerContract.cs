@@ -30,18 +30,18 @@ namespace Argon;
 /// </summary>
 public class JsonContainerContract : JsonContract
 {
-    JsonContract? _itemContract;
+    JsonContract? itemContract;
 
     // will be null for containers that don't have an item type (e.g. IList) or for complex objects
     internal JsonContract? ItemContract
     {
-        get => _itemContract;
+        get => itemContract;
         set
         {
-            _itemContract = value;
-            if (_itemContract != null)
+            itemContract = value;
+            if (itemContract != null)
             {
-                FinalItemContract = _itemContract.UnderlyingType.IsSealed ? _itemContract : null;
+                FinalItemContract = itemContract.UnderlyingType.IsSealed ? itemContract : null;
             }
             else
             {
@@ -92,8 +92,8 @@ public class JsonContainerContract : JsonContract
             }
 
             ItemIsReference = jsonContainerAttribute.itemIsReference;
-            ItemReferenceLoopHandling = jsonContainerAttribute._itemReferenceLoopHandling;
-            ItemTypeNameHandling = jsonContainerAttribute._itemTypeNameHandling;
+            ItemReferenceLoopHandling = jsonContainerAttribute.itemReferenceLoopHandling;
+            ItemTypeNameHandling = jsonContainerAttribute.itemTypeNameHandling;
         }
     }
 }

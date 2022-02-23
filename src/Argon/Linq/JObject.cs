@@ -41,12 +41,12 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     , ICustomTypeDescriptor
     , INotifyPropertyChanging
 {
-    readonly JPropertyKeyedCollection _properties = new();
+    readonly JPropertyKeyedCollection properties = new();
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    protected override IList<JToken> ChildrenTokens => _properties;
+    protected override IList<JToken> ChildrenTokens => properties;
 
     /// <summary>
     /// Occurs when a property value changes.
@@ -99,7 +99,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             return false;
         }
 
-        return _properties.Compare(t._properties);
+        return properties.Compare(t.properties);
     }
 
     internal override int IndexOfItem(JToken? item)
@@ -109,7 +109,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             return -1;
         }
 
-        return _properties.IndexOfReference(item);
+        return properties.IndexOfReference(item);
     }
 
     internal override bool InsertItem(int index, JToken? item, bool skipParentCheck)
@@ -142,7 +142,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             }
         }
 
-        if (_properties.TryGetValue(newProperty.Name, out existing))
+        if (properties.TryGetValue(newProperty.Name, out existing))
         {
             throw new ArgumentException($"Can not add property {newProperty.Name} to {GetType()}. Property with the same name already exists on object.");
         }
@@ -201,11 +201,11 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     internal void InternalPropertyChanged(JProperty childProperty)
     {
         OnPropertyChanged(childProperty.Name);
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, IndexOfItem(childProperty)));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, childProperty, childProperty, IndexOfItem(childProperty)));
         }
@@ -232,7 +232,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JProperty"/> of this object's properties.</returns>
     public IEnumerable<JProperty> Properties()
     {
-        return _properties.Cast<JProperty>();
+        return properties.Cast<JProperty>();
     }
 
     /// <summary>
@@ -260,7 +260,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             return null;
         }
 
-        if (_properties.TryGetValue(name, out var property))
+        if (properties.TryGetValue(name, out var property))
         {
             return (JProperty)property;
         }
@@ -268,9 +268,9 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         // test above already uses this comparison so no need to repeat
         if (comparison != StringComparison.Ordinal)
         {
-            for (var i = 0; i < _properties.Count; i++)
+            for (var i = 0; i < properties.Count; i++)
             {
-                var p = (JProperty)_properties[i];
+                var p = (JProperty)properties[i];
                 if (string.Equals(p.Name, name, comparison))
                 {
                     return p;
@@ -469,9 +469,9 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     {
         writer.WriteStartObject();
 
-        for (var i = 0; i < _properties.Count; i++)
+        for (var i = 0; i < properties.Count; i++)
         {
-            _properties[i].WriteTo(writer, converters);
+            properties[i].WriteTo(writer, converters);
         }
 
         writer.WriteEndObject();
@@ -541,10 +541,10 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <returns><c>true</c> if the JSON object has the specified property name; otherwise, <c>false</c>.</returns>
     public bool ContainsKey(string propertyName)
     {
-        return _properties.Contains(propertyName);
+        return properties.Contains(propertyName);
     }
 
-    ICollection<string> IDictionary<string, JToken?>.Keys => _properties.Keys;
+    ICollection<string> IDictionary<string, JToken?>.Keys => properties.Keys;
 
     /// <summary>
     /// Removes the property with the specified name.
@@ -628,7 +628,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         }
 
         var index = 0;
-        foreach (JProperty property in _properties)
+        foreach (JProperty property in properties)
         {
             array[arrayIndex + index] = new KeyValuePair<string, JToken?>(property.Name, property.Value);
             index++;
@@ -662,7 +662,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// </returns>
     public IEnumerator<KeyValuePair<string, JToken?>> GetEnumerator()
     {
-        foreach (JProperty property in _properties)
+        foreach (JProperty property in properties)
         {
             yield return new KeyValuePair<string, JToken?>(property.Name, property.Value);
         }

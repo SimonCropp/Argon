@@ -33,14 +33,14 @@ public class DefaultSerializationBinder :
 {
     internal static readonly DefaultSerializationBinder Instance = new();
 
-    readonly ThreadSafeStore<StructMultiKey<string?, string>, Type> _typeCache;
+    readonly ThreadSafeStore<StructMultiKey<string?, string>, Type> typeCache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultSerializationBinder"/> class.
     /// </summary>
     public DefaultSerializationBinder()
     {
-        _typeCache = new ThreadSafeStore<StructMultiKey<string?, string>, Type>(GetTypeFromTypeNameKey);
+        typeCache = new ThreadSafeStore<StructMultiKey<string?, string>, Type>(GetTypeFromTypeNameKey);
     }
 
     Type GetTypeFromTypeNameKey(StructMultiKey<string?, string> typeNameKey)
@@ -153,7 +153,7 @@ public class DefaultSerializationBinder :
 
     Type GetTypeByName(StructMultiKey<string?, string> typeNameKey)
     {
-        return _typeCache.Get(typeNameKey);
+        return typeCache.Get(typeNameKey);
     }
 
     /// <summary>

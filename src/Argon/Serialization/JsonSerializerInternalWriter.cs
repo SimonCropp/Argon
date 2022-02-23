@@ -27,9 +27,9 @@ using System.Dynamic;
 
 class JsonSerializerInternalWriter : JsonSerializerInternalBase
 {
-    Type? _rootType;
-    int _rootLevel;
-    readonly List<object> _serializeStack = new();
+    Type? rootType;
+    int rootLevel;
+    readonly List<object> serializeStack = new();
 
     public JsonSerializerInternalWriter(JsonSerializer serializer)
         : base(serializer)
@@ -38,8 +38,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     public void Serialize(JsonWriter jsonWriter, object? value, Type? type)
     {
-        _rootType = type;
-        _rootLevel = _serializeStack.Count + 1;
+        rootType = type;
+        rootLevel = serializeStack.Count + 1;
 
         var contract = GetContractSafe(value);
 
@@ -73,7 +73,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             // clear root contract to ensure that if level was > 1 then it won't
             // accidentally be used for non root values
-            _rootType = null;
+            rootType = null;
         }
     }
 
@@ -94,7 +94,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     JsonContract GetContract(object value)
     {
-        return Serializer._contractResolver.ResolveContract(value.GetType());
+        return Serializer.contractResolver.ResolveContract(value.GetType());
     }
 
     void SerializePrimitive(JsonWriter writer, object value, JsonPrimitiveContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
@@ -222,11 +222,11 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             if (valueContract.ContractType == JsonContractType.Array)
             {
-                isReference = HasFlag(Serializer._preserveReferencesHandling, PreserveReferencesHandling.Arrays);
+                isReference = HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Arrays);
             }
             else
             {
-                isReference = HasFlag(Serializer._preserveReferencesHandling, PreserveReferencesHandling.Objects);
+                isReference = HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Objects);
             }
         }
 
@@ -245,7 +245,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
-        return !HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer._defaultValueHandling), DefaultValueHandling.Ignore) ||
+        return !HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Ignore) ||
                !MiscellaneousUtils.ValueEquals(memberValue, property.GetResolvedDefaultValue());
     }
 
@@ -280,9 +280,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             referenceLoopHandling = containerContract.ItemReferenceLoopHandling;
         }
 
-        var exists = Serializer._equalityComparer != null
-            ? _serializeStack.Contains(value, Serializer._equalityComparer)
-            : _serializeStack.Contains(value);
+        var exists = Serializer.equalityComparer != null
+            ? serializeStack.Contains(value, Serializer.equalityComparer)
+            : serializeStack.Contains(value);
 
         if (exists)
         {
@@ -293,7 +293,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
             message += $" with type '{value.GetType()}'.";
 
-            switch (referenceLoopHandling.GetValueOrDefault(Serializer._referenceLoopHandling))
+            switch (referenceLoopHandling.GetValueOrDefault(Serializer.referenceLoopHandling))
             {
                 case ReferenceLoopHandling.Error:
                     throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);
@@ -387,7 +387,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Started serializing {contract.UnderlyingType}"), null);
         }
 
-        contract.InvokeOnSerializing(value, Serializer._context);
+        contract.InvokeOnSerializing(value, Serializer.context);
     }
 
     void OnSerialized(JsonWriter writer, JsonContract contract, object value)
@@ -397,14 +397,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Finished serializing {contract.UnderlyingType}"), null);
         }
 
-        contract.InvokeOnSerialized(value, Serializer._context);
+        contract.InvokeOnSerialized(value, Serializer.context);
     }
 
     void SerializeObject(JsonWriter writer, object value, JsonObjectContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
         OnSerializing(writer, contract, value);
 
-        _serializeStack.Add(value);
+        serializeStack.Add(value);
 
         WriteObjectStart(writer, value, contract, member, collectionContract, containerProperty);
 
@@ -471,7 +471,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         writer.WriteEndObject();
 
-        _serializeStack.RemoveAt(_serializeStack.Count - 1);
+        serializeStack.RemoveAt(serializeStack.Count - 1);
 
         OnSerialized(writer, contract, value);
     }
@@ -480,7 +480,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (!property.Ignored && property.Readable && ShouldSerialize(writer, property, value) && IsSpecified(writer, property, value))
         {
-            property.PropertyContract ??= Serializer._contractResolver.ResolveContract(property.PropertyType!);
+            property.PropertyContract ??= Serializer.contractResolver.ResolveContract(property.PropertyType!);
 
             memberValue = property.ValueProvider!.GetValue(value);
             memberContract = property.PropertyContract.IsSealed ? property.PropertyContract : GetContractSafe(memberValue);
@@ -502,7 +502,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 if (memberValue == null)
                 {
                     var objectContract = contract as JsonObjectContract;
-                    var resolvedRequired = property._required ?? objectContract?.ItemRequired ?? Required.Default;
+                    var resolvedRequired = property.required ?? objectContract?.ItemRequired ?? Required.Default;
                     if (resolvedRequired == Required.Always)
                     {
                         throw JsonSerializationException.Create(null, writer.ContainerPath, $"Cannot write a null value for property '{property.PropertyName}'. Property requires a value.", null);
@@ -528,7 +528,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         writer.WriteStartObject();
 
-        var isReference = ResolveIsReference(contract, member, collectionContract, containerProperty) ?? HasFlag(Serializer._preserveReferencesHandling, PreserveReferencesHandling.Objects);
+        var isReference = ResolveIsReference(contract, member, collectionContract, containerProperty) ?? HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Objects);
         // don't make readonly fields that aren't creator parameters the referenced value because they can't be deserialized to
         if (isReference && (member == null || member.Writable || HasCreatorParameter(collectionContract, member)))
         {
@@ -565,7 +565,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     void WriteTypeProperty(JsonWriter writer, Type type)
     {
-        var typeName = ReflectionUtils.GetTypeName(type, Serializer._typeNameAssemblyFormatHandling, Serializer._serializationBinder);
+        var typeName = ReflectionUtils.GetTypeName(type, Serializer.typeNameAssemblyFormatHandling, Serializer.serializationBinder);
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
@@ -604,7 +604,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 return;
             }
 
-            _serializeStack.Add(value);
+            serializeStack.Add(value);
 
             if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
             {
@@ -618,7 +618,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Finished serializing {value.GetType()} with converter {converter.GetType()}."), null);
             }
 
-            _serializeStack.RemoveAt(_serializeStack.Count - 1);
+            serializeStack.RemoveAt(serializeStack.Count - 1);
         }
     }
 
@@ -628,7 +628,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         OnSerializing(writer, contract, underlyingList);
 
-        _serializeStack.Add(underlyingList);
+        serializeStack.Add(underlyingList);
 
         var hasWrittenMetadataObject = WriteStartArray(writer, underlyingList, contract, member, collectionContract, containerProperty);
 
@@ -680,7 +680,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             writer.WriteEndObject();
         }
 
-        _serializeStack.RemoveAt(_serializeStack.Count - 1);
+        serializeStack.RemoveAt(serializeStack.Count - 1);
 
         OnSerialized(writer, contract, underlyingList);
     }
@@ -689,7 +689,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         OnSerializing(writer, contract, values);
 
-        _serializeStack.Add(values);
+        serializeStack.Add(values);
 
         var hasWrittenMetadataObject = WriteStartArray(writer, values, contract, member, collectionContract, containerProperty);
 
@@ -700,7 +700,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             writer.WriteEndObject();
         }
 
-        _serializeStack.RemoveAt(_serializeStack.Count - 1);
+        serializeStack.RemoveAt(serializeStack.Count - 1);
 
         OnSerialized(writer, contract, values);
     }
@@ -764,7 +764,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     bool WriteStartArray(JsonWriter writer, object values, JsonArrayContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
-        var isReference = ResolveIsReference(contract, member, containerContract, containerProperty) ?? HasFlag(Serializer._preserveReferencesHandling, PreserveReferencesHandling.Arrays);
+        var isReference = ResolveIsReference(contract, member, containerContract, containerProperty) ?? HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Arrays);
         // don't make readonly fields that aren't creator parameters the referenced value because they can't be deserialized to
         isReference = isReference && (member == null || member.Writable || HasCreatorParameter(containerContract, member));
 
@@ -786,7 +786,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             writer.WritePropertyName(JsonTypeReflector.ArrayValuesPropertyName, false);
         }
 
-        contract.ItemContract ??= Serializer._contractResolver.ResolveContract(contract.CollectionItemType ?? typeof(object));
+        contract.ItemContract ??= Serializer.contractResolver.ResolveContract(contract.CollectionItemType ?? typeof(object));
 
         return writeMetadataObject;
     }
@@ -794,7 +794,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     void SerializeDynamic(JsonWriter writer, IDynamicMetaObjectProvider value, JsonDynamicContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
         OnSerializing(writer, contract, value);
-        _serializeStack.Add(value);
+        serializeStack.Add(value);
 
         WriteObjectStart(writer, value, contract, member, collectionContract, containerProperty);
 
@@ -870,18 +870,18 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         writer.WriteEndObject();
 
-        _serializeStack.RemoveAt(_serializeStack.Count - 1);
+        serializeStack.RemoveAt(serializeStack.Count - 1);
         OnSerialized(writer, contract, value);
     }
 
     bool ShouldWriteDynamicProperty(object? memberValue)
     {
-        if (Serializer._nullValueHandling == NullValueHandling.Ignore && memberValue == null)
+        if (Serializer.nullValueHandling == NullValueHandling.Ignore && memberValue == null)
         {
             return false;
         }
 
-        return !HasFlag(Serializer._defaultValueHandling, DefaultValueHandling.Ignore) ||
+        return !HasFlag(Serializer.defaultValueHandling, DefaultValueHandling.Ignore) ||
                (memberValue != null && !MiscellaneousUtils.ValueEquals(memberValue, ReflectionUtils.GetDefaultValue(memberValue.GetType())));
     }
 
@@ -891,7 +891,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             member?.TypeNameHandling
             ?? containerProperty?.ItemTypeNameHandling
             ?? containerContract?.ItemTypeNameHandling
-            ?? Serializer._typeNameHandling;
+            ?? Serializer.typeNameHandling;
 
         if (HasFlag(resolvedTypeNameHandling, typeNameHandlingFlag))
         {
@@ -915,9 +915,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     return true;
                 }
             }
-            else if (_rootType != null && _serializeStack.Count == _rootLevel)
+            else if (rootType != null && serializeStack.Count == rootLevel)
             {
-                var rootContract = Serializer._contractResolver.ResolveContract(_rootType);
+                var rootContract = Serializer.contractResolver.ResolveContract(rootType);
 
                 if (contract.NonNullableUnderlyingType != rootContract.CreatedType)
                 {
@@ -935,13 +935,13 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         var underlyingDictionary = values is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : values;
 
         OnSerializing(writer, contract, underlyingDictionary);
-        _serializeStack.Add(underlyingDictionary);
+        serializeStack.Add(underlyingDictionary);
 
         WriteObjectStart(writer, underlyingDictionary, contract, member, collectionContract, containerProperty);
 
-        contract.ItemContract ??= Serializer._contractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
+        contract.ItemContract ??= Serializer.contractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
 
-        contract.KeyContract ??= Serializer._contractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
+        contract.KeyContract ??= Serializer.contractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
 
         var initialDepth = writer.Top;
 
@@ -1001,7 +1001,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         writer.WriteEndObject();
 
-        _serializeStack.RemoveAt(_serializeStack.Count - 1);
+        serializeStack.RemoveAt(serializeStack.Count - 1);
 
         OnSerialized(writer, contract, underlyingDictionary);
 #pragma warning restore CS8600, CS8602, CS8604

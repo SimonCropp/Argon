@@ -31,12 +31,12 @@ namespace Argon;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface)]
 public sealed class JsonObjectAttribute : JsonContainerAttribute
 {
-    internal MissingMemberHandling? _missingMemberHandling;
+    internal MissingMemberHandling? missingMemberHandling;
 
     // yuck. can't set nullable properties on an attribute in C#
     // have to use this approach to get an unset default state
-    internal Required? _itemRequired;
-    internal NullValueHandling? _itemNullValueHandling;
+    internal Required? itemRequired;
+    internal NullValueHandling? itemNullValueHandling;
 
     /// <summary>
     /// Gets or sets the member serialization.
@@ -48,8 +48,8 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// </summary>
     public MissingMemberHandling MissingMemberHandling
     {
-        get => _missingMemberHandling ?? default;
-        set => _missingMemberHandling = value;
+        get => missingMemberHandling ?? default;
+        set => missingMemberHandling = value;
     }
 
     /// <summary>
@@ -57,8 +57,8 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// </summary>
     public NullValueHandling ItemNullValueHandling
     {
-        get => _itemNullValueHandling ?? default;
-        set => _itemNullValueHandling = value;
+        get => itemNullValueHandling ?? default;
+        set => itemNullValueHandling = value;
     }
 
     /// <summary>
@@ -66,8 +66,8 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// </summary>
     public Required ItemRequired
     {
-        get => _itemRequired ?? default;
-        set => _itemRequired = value;
+        get => itemRequired ?? default;
+        set => itemRequired = value;
     }
 
     /// <summary>

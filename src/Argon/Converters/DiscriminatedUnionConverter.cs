@@ -62,11 +62,11 @@ public class DiscriminatedUnionConverter : JsonConverter
     }
     #endregion
 
-    const string CasePropertyName = "Case";
-    const string FieldsPropertyName = "Fields";
+    const string casePropertyName = "Case";
+    const string fieldsPropertyName = "Fields";
 
-    static readonly ThreadSafeStore<Type, Union> UnionCache = new(CreateUnion);
-    static readonly ThreadSafeStore<Type, Type> UnionTypeLookupCache = new(CreateUnionTypeLookup);
+    static readonly ThreadSafeStore<Type, Union> unionCache = new(CreateUnion);
+    static readonly ThreadSafeStore<Type, Type> unionTypeLookupCache = new(CreateUnionTypeLookup);
 
     static Type CreateUnionTypeLookup(Type type)
     {
@@ -118,20 +118,20 @@ public class DiscriminatedUnionConverter : JsonConverter
 
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
-        var unionType = UnionTypeLookupCache.Get(value.GetType());
-        var union = UnionCache.Get(unionType);
+        var unionType = unionTypeLookupCache.Get(value.GetType());
+        var union = unionCache.Get(unionType);
 
         var tag = (int)union.TagReader.Invoke(value);
         var caseInfo = union.Cases.Single(c => c.Tag == tag);
 
         writer.WriteStartObject();
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(CasePropertyName) : CasePropertyName);
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(casePropertyName) : casePropertyName);
         writer.WriteValue(caseInfo.Name);
         if (caseInfo.Fields is {Length: > 0})
         {
             var fields = (object[])caseInfo.FieldReader.Invoke(value);
 
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(FieldsPropertyName) : FieldsPropertyName);
+            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(fieldsPropertyName) : fieldsPropertyName);
             writer.WriteStartArray();
             foreach (var field in fields)
             {
@@ -167,11 +167,11 @@ public class DiscriminatedUnionConverter : JsonConverter
         while (reader.TokenType == JsonToken.PropertyName)
         {
             var propertyName = reader.Value!.ToString();
-            if (string.Equals(propertyName, CasePropertyName, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(propertyName, casePropertyName, StringComparison.OrdinalIgnoreCase))
             {
                 reader.ReadAndAssert();
 
-                var union = UnionCache.Get(type);
+                var union = unionCache.Get(type);
 
                 caseName = reader.Value!.ToString();
 
@@ -182,7 +182,7 @@ public class DiscriminatedUnionConverter : JsonConverter
                     throw JsonSerializationException.Create(reader, $"No union type found with the name '{caseName}'.");
                 }
             }
-            else if (string.Equals(propertyName, FieldsPropertyName, StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(propertyName, fieldsPropertyName, StringComparison.OrdinalIgnoreCase))
             {
                 reader.ReadAndAssert();
                 if (reader.TokenType != JsonToken.StartArray)
@@ -202,14 +202,14 @@ public class DiscriminatedUnionConverter : JsonConverter
 
         if (caseInfo == null)
         {
-            throw JsonSerializationException.Create(reader, $"No '{CasePropertyName}' property with union name found.");
+            throw JsonSerializationException.Create(reader, $"No '{casePropertyName}' property with union name found.");
         }
 
         var typedFieldValues = new object?[caseInfo.Fields.Length];
 
         if (caseInfo.Fields.Length > 0 && fields == null)
         {
-            throw JsonSerializationException.Create(reader, $"No '{FieldsPropertyName}' property with union fields found.");
+            throw JsonSerializationException.Create(reader, $"No '{fieldsPropertyName}' property with union fields found.");
         }
 
         if (fields != null)

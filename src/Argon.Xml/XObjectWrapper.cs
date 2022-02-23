@@ -3,16 +3,16 @@ using System.Xml.Linq;
 
 class XObjectWrapper : IXmlNode
 {
-    readonly XObject? _xmlObject;
+    readonly XObject? xmlObject;
 
     public XObjectWrapper(XObject? xmlObject)
     {
-        _xmlObject = xmlObject;
+        this.xmlObject = xmlObject;
     }
 
-    public object? WrappedNode => _xmlObject;
+    public object? WrappedNode => xmlObject;
 
-    public virtual XmlNodeType NodeType => _xmlObject?.NodeType ?? XmlNodeType.None;
+    public virtual XmlNodeType NodeType => xmlObject?.NodeType ?? XmlNodeType.None;
 
     public virtual string? LocalName => null;
 

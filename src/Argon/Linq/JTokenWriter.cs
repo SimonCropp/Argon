@@ -30,10 +30,10 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JTokenWriter : JsonWriter
 {
-    JContainer? _token;
-    JContainer? _parent;
+    JContainer? token;
+    JContainer? parent;
     // used when writer is writing single value and the value has no containing parent
-    JValue? _value;
+    JValue? value;
 
     /// <summary>
     /// Gets the <see cref="JToken"/> at the writer's current position.
@@ -47,12 +47,12 @@ public partial class JTokenWriter : JsonWriter
     {
         get
         {
-            if (_token != null)
+            if (token != null)
             {
-                return _token;
+                return token;
             }
 
-            return _value;
+            return value;
         }
     }
 
@@ -62,8 +62,8 @@ public partial class JTokenWriter : JsonWriter
     /// <param name="container">The container being written to.</param>
     public JTokenWriter(JContainer container)
     {
-        _token = container;
-        _parent = container;
+        token = container;
+        parent = container;
     }
 
     /// <summary>
@@ -104,27 +104,27 @@ public partial class JTokenWriter : JsonWriter
 
     void AddParent(JContainer container)
     {
-        if (_parent == null)
+        if (parent == null)
         {
-            _token = container;
+            token = container;
         }
         else
         {
-            _parent.AddAndSkipParentCheck(container);
+            parent.AddAndSkipParentCheck(container);
         }
 
-        _parent = container;
+        parent = container;
         CurrentToken = container;
     }
 
     void RemoveParent()
     {
-        CurrentToken = _parent;
-        _parent = _parent!.Parent;
+        CurrentToken = parent;
+        parent = parent!.Parent;
 
-        if (_parent is {Type: JTokenType.Property})
+        if (parent is {Type: JTokenType.Property})
         {
-            _parent = _parent.Parent;
+            parent = parent.Parent;
         }
     }
 
@@ -166,7 +166,7 @@ public partial class JTokenWriter : JsonWriter
     {
         // avoid duplicate property name exception
         // last property name wins
-        (_parent as JObject)?.Remove(name);
+        (parent as JObject)?.Remove(name);
 
         AddParent(new JProperty(name));
 
@@ -182,23 +182,23 @@ public partial class JTokenWriter : JsonWriter
 
     internal void AddValue(JValue? value, JsonToken token)
     {
-        if (_parent == null)
+        if (parent == null)
         {
-            _value = value ?? JValue.CreateNull();
-            CurrentToken = _value;
+            this.value = value ?? JValue.CreateNull();
+            CurrentToken = this.value;
             return;
         }
 
         // TryAdd will return false if an invalid JToken type is added.
         // For example, a JComment can't be added to a JObject.
         // If there is an invalid JToken type then skip it.
-        if (_parent.TryAdd(value))
+        if (parent.TryAdd(value))
         {
-            CurrentToken = _parent.Last;
+            CurrentToken = parent.Last;
 
-            if (_parent.Type == JTokenType.Property)
+            if (parent.Type == JTokenType.Property)
             {
-                _parent = _parent.Parent;
+                parent = parent.Parent;
             }
         }
     }
@@ -482,25 +482,25 @@ public partial class JTokenWriter : JsonWriter
 
             var value = tokenReader.CurrentToken!.CloneToken();
 
-            if (_parent == null)
+            if (parent == null)
             {
                 CurrentToken = value;
 
-                if (_token == null && _value == null)
+                if (token == null && this.value == null)
                 {
-                    _token = value as JContainer;
-                    _value = value as JValue;
+                    token = value as JContainer;
+                    this.value = value as JValue;
                 }
             }
             else
             {
-                _parent.Add(value);
-                CurrentToken = _parent.Last;
+                parent.Add(value);
+                CurrentToken = parent.Last;
 
                 // if the writer was in a property then move out of it and up to its parent object
-                if (_parent.Type == JTokenType.Property)
+                if (parent.Type == JTokenType.Property)
                 {
-                    _parent = _parent.Parent;
+                    parent = parent.Parent;
                     InternalWriteValue(JsonToken.Null);
                 }
             }

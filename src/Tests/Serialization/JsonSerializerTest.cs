@@ -3318,22 +3318,22 @@ Path '', line 1, position 1.");
 
     public class DynamicDictionary : DynamicObject
     {
-        readonly IDictionary<string, object> _values = new Dictionary<string, object>();
+        readonly IDictionary<string, object> values = new Dictionary<string, object>();
 
         public override IEnumerable<string> GetDynamicMemberNames()
         {
-            return _values.Keys;
+            return values.Keys;
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            result = _values[binder.Name];
+            result = values[binder.Name];
             return true;
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            _values[binder.Name] = value;
+            values[binder.Name] = value;
             return true;
         }
     }
@@ -7345,14 +7345,14 @@ This is just junk, though.";
 
         var settings = new JsonSerializerSettings();
         Assert.Equal(64, settings.MaxDepth);
-        XUnitAssert.False(settings._maxDepthSet);
+        XUnitAssert.False(settings.maxDepthSet);
 
         // Default should be the same
         Assert.Equal(reader.MaxDepth, settings.MaxDepth);
 
         settings.MaxDepth = 2;
         Assert.Equal(2, settings.MaxDepth);
-        XUnitAssert.True(settings._maxDepthSet);
+        XUnitAssert.True(settings.maxDepthSet);
 
         var serializer = JsonSerializer.Create(settings);
         Assert.Equal(2, serializer.MaxDepth);

@@ -83,10 +83,10 @@ public class JsonObjectContract : JsonContainerContract
     /// </summary>
     public Type? ExtensionDataValueType
     {
-        get => _extensionDataValueType;
+        get => extensionDataValueType;
         set
         {
-            _extensionDataValueType = value;
+            extensionDataValueType = value;
             ExtensionDataIsJToken = value != null && typeof(JToken).IsAssignableFrom(value);
         }
     }
@@ -97,21 +97,21 @@ public class JsonObjectContract : JsonContainerContract
     public Func<string, string>? ExtensionDataNameResolver { get; set; }
 
     internal bool ExtensionDataIsJToken;
-    bool? _hasRequiredOrDefaultValueProperties;
+    bool? hasRequiredOrDefaultValueProperties;
     JsonPropertyCollection? creatorParameters;
-    Type? _extensionDataValueType;
+    Type? extensionDataValueType;
 
     internal bool HasRequiredOrDefaultValueProperties
     {
         get
         {
-            if (_hasRequiredOrDefaultValueProperties == null)
+            if (hasRequiredOrDefaultValueProperties == null)
             {
-                _hasRequiredOrDefaultValueProperties = false;
+                hasRequiredOrDefaultValueProperties = false;
 
                 if (ItemRequired.GetValueOrDefault(Required.Default) != Required.Default)
                 {
-                    _hasRequiredOrDefaultValueProperties = true;
+                    hasRequiredOrDefaultValueProperties = true;
                 }
                 else
                 {
@@ -119,14 +119,14 @@ public class JsonObjectContract : JsonContainerContract
                     {
                         if (property.Required != Required.Default || (property.DefaultValueHandling & DefaultValueHandling.Populate) == DefaultValueHandling.Populate)
                         {
-                            _hasRequiredOrDefaultValueProperties = true;
+                            hasRequiredOrDefaultValueProperties = true;
                             break;
                         }
                     }
                 }
             }
 
-            return _hasRequiredOrDefaultValueProperties.GetValueOrDefault();
+            return hasRequiredOrDefaultValueProperties.GetValueOrDefault();
         }
     }
 

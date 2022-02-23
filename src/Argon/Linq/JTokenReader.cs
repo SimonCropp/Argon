@@ -30,9 +30,9 @@ namespace Argon.Linq;
 /// </summary>
 public class JTokenReader : JsonReader, IJsonLineInfo
 {
-    readonly JToken _root;
-    string? _initialPath;
-    JToken? _parent;
+    readonly JToken root;
+    string? initialPath;
+    JToken? parent;
 
     /// <summary>
     /// Gets the <see cref="JToken"/> at the reader's current position.
@@ -45,7 +45,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     /// <param name="token">The token to read from.</param>
     public JTokenReader(JToken token)
     {
-        _root = token;
+        root = token;
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     public JTokenReader(JToken token, string initialPath)
         : this(token)
     {
-        _initialPath = initialPath;
+        this.initialPath = initialPath;
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 return false;
             }
 
-            if (CurrentToken is JContainer container && _parent != container)
+            if (CurrentToken is JContainer container && parent != container)
             {
                 return ReadInto(container);
             }
@@ -83,19 +83,19 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
 
         // The current value could already be the root value if it is a comment
-        if (CurrentToken == _root)
+        if (CurrentToken == root)
         {
             return false;
         }
 
-        CurrentToken = _root;
+        CurrentToken = root;
         SetToken(CurrentToken);
         return true;
     }
 
     bool ReadOver(JToken t)
     {
-        if (t == _root)
+        if (t == root)
         {
             return ReadToEnd();
         }
@@ -150,7 +150,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
 
         SetToken(firstChild);
         CurrentToken = firstChild;
-        _parent = c;
+        parent = c;
         return true;
     }
 
@@ -164,7 +164,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
 
         SetToken(endToken.GetValueOrDefault());
         CurrentToken = c;
-        _parent = c;
+        parent = c;
         return true;
     }
 
@@ -302,22 +302,22 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         {
             var path = base.Path;
 
-            _initialPath ??= _root.Path;
+            initialPath ??= root.Path;
 
-            if (!StringUtils.IsNullOrEmpty(_initialPath))
+            if (!StringUtils.IsNullOrEmpty(initialPath))
             {
                 if (StringUtils.IsNullOrEmpty(path))
                 {
-                    return _initialPath;
+                    return initialPath;
                 }
 
                 if (path.StartsWith('['))
                 {
-                    path = _initialPath + path;
+                    path = initialPath + path;
                 }
                 else
                 {
-                    path = $"{_initialPath}.{path}";
+                    path = $"{initialPath}.{path}";
                 }
             }
 

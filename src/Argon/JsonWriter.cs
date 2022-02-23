@@ -100,10 +100,10 @@ public abstract partial class JsonWriter : IDisposable
         StateArray = BuildStateArray();
     }
 
-    List<JsonPosition>? _stack;
-    JsonPosition _currentPosition;
-    State _currentState;
-    Formatting _formatting;
+    List<JsonPosition>? stack;
+    JsonPosition currentPosition;
+    State currentState;
+    Formatting formatting;
 
     /// <summary>
     /// Gets or sets a value indicating whether the destination should be closed when this writer is closed.
@@ -122,7 +122,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         get
         {
-            var depth = _stack?.Count ?? 0;
+            var depth = stack?.Count ?? 0;
             if (Peek() != JsonContainerType.None)
             {
                 depth++;
@@ -139,7 +139,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         get
         {
-            switch (_currentState)
+            switch (currentState)
             {
                 case State.Error:
                     return WriteState.Error;
@@ -159,7 +159,7 @@ public abstract partial class JsonWriter : IDisposable
                 case State.Start:
                     return WriteState.Start;
                 default:
-                    throw JsonWriterException.Create(this, $"Invalid state: {_currentState}", null);
+                    throw JsonWriterException.Create(this, $"Invalid state: {currentState}", null);
             }
         }
     }
@@ -168,12 +168,12 @@ public abstract partial class JsonWriter : IDisposable
     {
         get
         {
-            if (_currentPosition.Type == JsonContainerType.None || _stack == null)
+            if (currentPosition.Type == JsonContainerType.None || stack == null)
             {
                 return string.Empty;
             }
 
-            return JsonPosition.BuildPath(_stack, null);
+            return JsonPosition.BuildPath(stack, null);
         }
     }
 
@@ -184,33 +184,33 @@ public abstract partial class JsonWriter : IDisposable
     {
         get
         {
-            if (_currentPosition.Type == JsonContainerType.None)
+            if (currentPosition.Type == JsonContainerType.None)
             {
                 return string.Empty;
             }
 
-            var insideContainer = _currentState != State.ArrayStart
-                                  && _currentState != State.ConstructorStart
-                                  && _currentState != State.ObjectStart;
+            var insideContainer = currentState != State.ArrayStart
+                                  && currentState != State.ConstructorStart
+                                  && currentState != State.ObjectStart;
 
-            var current = insideContainer ? (JsonPosition?)_currentPosition : null;
+            var current = insideContainer ? (JsonPosition?)currentPosition : null;
 
-            return JsonPosition.BuildPath(_stack!, current);
+            return JsonPosition.BuildPath(stack!, current);
         }
     }
 
-    DateFormatHandling _dateFormatHandling;
-    DateTimeZoneHandling _dateTimeZoneHandling;
-    StringEscapeHandling _stringEscapeHandling;
-    FloatFormatHandling _floatFormatHandling;
-    CultureInfo? _culture;
+    DateFormatHandling dateFormatHandling;
+    DateTimeZoneHandling dateTimeZoneHandling;
+    StringEscapeHandling stringEscapeHandling;
+    FloatFormatHandling floatFormatHandling;
+    CultureInfo? culture;
 
     /// <summary>
     /// Gets or sets a value indicating how JSON text output should be formatted.
     /// </summary>
     public Formatting Formatting
     {
-        get => _formatting;
+        get => formatting;
         set
         {
             if (value is < Formatting.None or > Formatting.Indented)
@@ -218,7 +218,7 @@ public abstract partial class JsonWriter : IDisposable
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _formatting = value;
+            formatting = value;
         }
     }
 
@@ -227,7 +227,7 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     public DateFormatHandling DateFormatHandling
     {
-        get => _dateFormatHandling;
+        get => dateFormatHandling;
         set
         {
             if (value is < DateFormatHandling.IsoDateFormat or > DateFormatHandling.MicrosoftDateFormat)
@@ -235,7 +235,7 @@ public abstract partial class JsonWriter : IDisposable
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _dateFormatHandling = value;
+            dateFormatHandling = value;
         }
     }
 
@@ -244,7 +244,7 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     public DateTimeZoneHandling DateTimeZoneHandling
     {
-        get => _dateTimeZoneHandling;
+        get => dateTimeZoneHandling;
         set
         {
             if (value is < DateTimeZoneHandling.Local or > DateTimeZoneHandling.RoundtripKind)
@@ -252,7 +252,7 @@ public abstract partial class JsonWriter : IDisposable
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _dateTimeZoneHandling = value;
+            dateTimeZoneHandling = value;
         }
     }
 
@@ -261,7 +261,7 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     public StringEscapeHandling StringEscapeHandling
     {
-        get => _stringEscapeHandling;
+        get => stringEscapeHandling;
         set
         {
             if (value is < StringEscapeHandling.Default or > StringEscapeHandling.EscapeHtml)
@@ -269,7 +269,7 @@ public abstract partial class JsonWriter : IDisposable
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _stringEscapeHandling = value;
+            stringEscapeHandling = value;
             OnStringEscapeHandlingChanged();
         }
     }
@@ -286,7 +286,7 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     public FloatFormatHandling FloatFormatHandling
     {
-        get => _floatFormatHandling;
+        get => floatFormatHandling;
         set
         {
             if (value is < FloatFormatHandling.String or > FloatFormatHandling.DefaultValue)
@@ -294,7 +294,7 @@ public abstract partial class JsonWriter : IDisposable
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _floatFormatHandling = value;
+            floatFormatHandling = value;
         }
     }
 
@@ -308,8 +308,8 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     public CultureInfo Culture
     {
-        get => _culture ?? CultureInfo.InvariantCulture;
-        set => _culture = value;
+        get => culture ?? CultureInfo.InvariantCulture;
+        set => culture = value;
     }
 
     /// <summary>
@@ -317,9 +317,9 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     protected JsonWriter()
     {
-        _currentState = State.Start;
-        _formatting = Formatting.None;
-        _dateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
+        currentState = State.Start;
+        formatting = Formatting.None;
+        dateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
 
         CloseOutput = true;
         AutoCompleteOnClose = true;
@@ -327,36 +327,36 @@ public abstract partial class JsonWriter : IDisposable
 
     internal void UpdateScopeWithFinishedValue()
     {
-        if (_currentPosition.HasIndex)
+        if (currentPosition.HasIndex)
         {
-            _currentPosition.Position++;
+            currentPosition.Position++;
         }
     }
 
     void Push(JsonContainerType value)
     {
-        if (_currentPosition.Type != JsonContainerType.None)
+        if (currentPosition.Type != JsonContainerType.None)
         {
-            _stack ??= new List<JsonPosition>();
+            stack ??= new List<JsonPosition>();
 
-            _stack.Add(_currentPosition);
+            stack.Add(currentPosition);
         }
 
-        _currentPosition = new JsonPosition(value);
+        currentPosition = new JsonPosition(value);
     }
 
     JsonContainerType Pop()
     {
-        var oldPosition = _currentPosition;
+        var oldPosition = currentPosition;
 
-        if (_stack is {Count: > 0})
+        if (stack is {Count: > 0})
         {
-            _currentPosition = _stack[_stack.Count - 1];
-            _stack.RemoveAt(_stack.Count - 1);
+            currentPosition = stack[stack.Count - 1];
+            stack.RemoveAt(stack.Count - 1);
         }
         else
         {
-            _currentPosition = new JsonPosition();
+            currentPosition = new JsonPosition();
         }
 
         return oldPosition.Type;
@@ -364,7 +364,7 @@ public abstract partial class JsonWriter : IDisposable
 
     JsonContainerType Peek()
     {
-        return _currentPosition.Type;
+        return currentPosition.Type;
     }
 
     /// <summary>
@@ -717,14 +717,14 @@ public abstract partial class JsonWriter : IDisposable
         {
             var token = GetCloseTokenForType(Pop());
 
-            if (_currentState == State.Property)
+            if (currentState == State.Property)
             {
                 WriteNull();
             }
 
-            if (_formatting == Formatting.Indented)
+            if (formatting == Formatting.Indented)
             {
-                if (_currentState != State.ObjectStart && _currentState != State.ArrayStart)
+                if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                 {
                     WriteIndent();
                 }
@@ -740,7 +740,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         var levelsToComplete = 0;
 
-        if (_currentPosition.Type == type)
+        if (currentPosition.Type == type)
         {
             levelsToComplete = 1;
         }
@@ -751,7 +751,7 @@ public abstract partial class JsonWriter : IDisposable
             {
                 var currentLevel = top - i;
 
-                if (_stack![currentLevel].Type == type)
+                if (stack![currentLevel].Type == type)
                 {
                     levelsToComplete = i + 2;
                     break;
@@ -774,16 +774,16 @@ public abstract partial class JsonWriter : IDisposable
         switch (currentLevelType)
         {
             case JsonContainerType.Object:
-                _currentState = State.Object;
+                currentState = State.Object;
                 break;
             case JsonContainerType.Array:
-                _currentState = State.Array;
+                currentState = State.Array;
                 break;
             case JsonContainerType.Constructor:
-                _currentState = State.Array;
+                currentState = State.Array;
                 break;
             case JsonContainerType.None:
-                _currentState = State.Start;
+                currentState = State.Start;
                 break;
             default:
                 throw JsonWriterException.Create(this, $"Unknown JsonType: {currentLevelType}", null);
@@ -822,33 +822,33 @@ public abstract partial class JsonWriter : IDisposable
     internal void AutoComplete(JsonToken tokenBeingWritten)
     {
         // gets new state based on the current state and what is being written
-        var newState = StateArray[(int)tokenBeingWritten][(int)_currentState];
+        var newState = StateArray[(int)tokenBeingWritten][(int)currentState];
 
         if (newState == State.Error)
         {
-            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {_currentState.ToString()} would result in an invalid JSON object.", null);
+            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {currentState.ToString()} would result in an invalid JSON object.", null);
         }
 
-        if (_currentState is State.Object or State.Array or State.Constructor && tokenBeingWritten != JsonToken.Comment)
+        if (currentState is State.Object or State.Array or State.Constructor && tokenBeingWritten != JsonToken.Comment)
         {
             WriteValueDelimiter();
         }
 
-        if (_formatting == Formatting.Indented)
+        if (formatting == Formatting.Indented)
         {
-            if (_currentState == State.Property)
+            if (currentState == State.Property)
             {
                 WriteIndentSpace();
             }
 
             // don't indent a property when it is the first token to be written (i.e. at the start)
-            if (_currentState is State.Array or State.ArrayStart or State.Constructor or State.ConstructorStart || (tokenBeingWritten == JsonToken.PropertyName && _currentState != State.Start))
+            if (currentState is State.Array or State.ArrayStart or State.Constructor or State.ConstructorStart || (tokenBeingWritten == JsonToken.PropertyName && currentState != State.Start))
             {
                 WriteIndent();
             }
         }
 
-        _currentState = newState;
+        currentState = newState;
     }
 
     #region WriteValue methods
@@ -1418,7 +1418,7 @@ public abstract partial class JsonWriter : IDisposable
     /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (_currentState != State.Closed && disposing)
+        if (currentState != State.Closed && disposing)
         {
             Close();
         }
@@ -1688,7 +1688,7 @@ public abstract partial class JsonWriter : IDisposable
 
     internal void InternalWritePropertyName(string name)
     {
-        _currentPosition.PropertyName = name;
+        currentPosition.PropertyName = name;
         AutoComplete(JsonToken.PropertyName);
     }
 

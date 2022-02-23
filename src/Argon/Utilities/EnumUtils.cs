@@ -99,10 +99,10 @@ static class EnumUtils
     }
 
     // Used by Newtonsoft.Json.Schema
-    static CamelCaseNamingStrategy _camelCaseNamingStrategy = new();
+    static CamelCaseNamingStrategy camelCaseNamingStrategy = new();
     public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)]out string? name)
     {
-        return TryToString(enumType, value, camelCase ? _camelCaseNamingStrategy : null, out name);
+        return TryToString(enumType, value, camelCase ? camelCaseNamingStrategy : null, out name);
     }
 
     public static bool TryToString(Type enumType, object value, NamingStrategy? namingStrategy, [NotNullWhen(true)]out string? name)

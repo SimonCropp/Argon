@@ -25,7 +25,7 @@
 
 class DefaultReferenceResolver : IReferenceResolver
 {
-    int _referenceCount;
+    int referenceCount;
 
     static BidirectionalDictionary<string, object> GetMappings(object context)
     {
@@ -56,8 +56,8 @@ class DefaultReferenceResolver : IReferenceResolver
 
         if (!mappings.TryGetBySecond(value, out var reference))
         {
-            _referenceCount++;
-            reference = _referenceCount.ToString(CultureInfo.InvariantCulture);
+            referenceCount++;
+            reference = referenceCount.ToString(CultureInfo.InvariantCulture);
             mappings.Set(reference, value);
         }
 

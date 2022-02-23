@@ -38,9 +38,9 @@ public partial class JConstructor
     {
         await writer.WriteStartConstructorAsync(Name ?? string.Empty, cancellation).ConfigureAwait(false);
 
-        for (var i = 0; i < _values.Count; i++)
+        for (var i = 0; i < values.Count; i++)
         {
-            await _values[i].WriteToAsync(writer, cancellation, converters).ConfigureAwait(false);
+            await values[i].WriteToAsync(writer, cancellation, converters).ConfigureAwait(false);
         }
 
         await writer.WriteEndConstructorAsync(cancellation).ConfigureAwait(false);

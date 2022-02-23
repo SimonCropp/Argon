@@ -27,13 +27,11 @@ namespace TestObjects;
 
 public class PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass
 {
-    readonly NameContainer _nameContainer;
-
     public PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass(NameContainer name)
     {
-        _nameContainer = name;
+        Name = name;
     }
 
     [JsonConverter(typeof(NameContainerConverter))]
-    public NameContainer Name => _nameContainer;
+    public NameContainer Name { get; }
 }

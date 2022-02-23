@@ -29,7 +29,7 @@ static class JavaScriptUtils
     internal static readonly bool[] DoubleQuoteCharEscapeFlags = new bool[128];
     internal static readonly bool[] HtmlCharEscapeFlags = new bool[128];
 
-    const int UnicodeTextLength = 6;
+    const int unicodeTextLength = 6;
 
     static JavaScriptUtils()
     {
@@ -56,7 +56,7 @@ static class JavaScriptUtils
         }
     }
 
-    const string EscapedUnicodeText = "!";
+    const string escapedUnicodeText = "!";
 
     public static bool[] GetCharEscapeFlags(StringEscapeHandling stringEscapeHandling, char quoteChar)
     {
@@ -176,15 +176,15 @@ static class JavaScriptUtils
                                 }
                                 else
                                 {
-                                    if (writeBuffer == null || writeBuffer.Length < UnicodeTextLength)
+                                    if (writeBuffer == null || writeBuffer.Length < unicodeTextLength)
                                     {
-                                        writeBuffer = BufferUtils.EnsureBufferSize(bufferPool, UnicodeTextLength, writeBuffer);
+                                        writeBuffer = BufferUtils.EnsureBufferSize(bufferPool, unicodeTextLength, writeBuffer);
                                     }
 
                                     StringUtils.ToCharAsUnicode(c, writeBuffer);
 
                                     // slightly hacky but it saves multiple conditions in if test
-                                    escapedValue = EscapedUnicodeText;
+                                    escapedValue = escapedUnicodeText;
                                 }
                             }
                             else
@@ -199,12 +199,12 @@ static class JavaScriptUtils
                         continue;
                     }
 
-                    var isEscapedUnicodeText = string.Equals(escapedValue, EscapedUnicodeText, StringComparison.Ordinal);
+                    var isEscapedUnicodeText = string.Equals(escapedValue, escapedUnicodeText, StringComparison.Ordinal);
 
                     if (i > lastWritePosition)
                     {
-                        length = i - lastWritePosition + (isEscapedUnicodeText ? UnicodeTextLength : 0);
-                        var start = isEscapedUnicodeText ? UnicodeTextLength : 0;
+                        length = i - lastWritePosition + (isEscapedUnicodeText ? unicodeTextLength : 0);
+                        var start = isEscapedUnicodeText ? unicodeTextLength : 0;
 
                         if (writeBuffer == null || writeBuffer.Length < length)
                         {
@@ -216,7 +216,7 @@ static class JavaScriptUtils
                             {
                                 MiscellaneousUtils.Assert(writeBuffer != null, "Write buffer should never be null because it is set when the escaped unicode text is encountered.");
 
-                                Array.Copy(writeBuffer, newBuffer, UnicodeTextLength);
+                                Array.Copy(writeBuffer, newBuffer, unicodeTextLength);
                             }
 
                             BufferUtils.ReturnBuffer(bufferPool, writeBuffer);
@@ -233,7 +233,7 @@ static class JavaScriptUtils
                     lastWritePosition = i + 1;
                     if (isEscapedUnicodeText)
                     {
-                        writer.Write(writeBuffer, 0, UnicodeTextLength);
+                        writer.Write(writeBuffer, 0, unicodeTextLength);
                     }
                     else
                     {
@@ -384,7 +384,7 @@ static class JavaScriptUtils
     {
         if (writeBuffer == null || writeBuffer.Length < lastWritePosition)
         {
-            writeBuffer = client.EnsureWriteBuffer(lastWritePosition, UnicodeTextLength);
+            writeBuffer = client.EnsureWriteBuffer(lastWritePosition, unicodeTextLength);
         }
 
         if (lastWritePosition != 0)
@@ -450,9 +450,9 @@ static class JavaScriptUtils
                         }
                         else
                         {
-                            if (writeBuffer.Length < UnicodeTextLength)
+                            if (writeBuffer.Length < unicodeTextLength)
                             {
-                                writeBuffer = client.EnsureWriteBuffer(UnicodeTextLength, 0);
+                                writeBuffer = client.EnsureWriteBuffer(unicodeTextLength, 0);
                             }
 
                             StringUtils.ToCharAsUnicode(c, writeBuffer);
@@ -469,12 +469,12 @@ static class JavaScriptUtils
 
             if (i > lastWritePosition)
             {
-                length = i - lastWritePosition + (isEscapedUnicodeText ? UnicodeTextLength : 0);
-                var start = isEscapedUnicodeText ? UnicodeTextLength : 0;
+                length = i - lastWritePosition + (isEscapedUnicodeText ? unicodeTextLength : 0);
+                var start = isEscapedUnicodeText ? unicodeTextLength : 0;
 
                 if (writeBuffer.Length < length)
                 {
-                    writeBuffer = client.EnsureWriteBuffer(length, UnicodeTextLength);
+                    writeBuffer = client.EnsureWriteBuffer(length, unicodeTextLength);
                 }
 
                 s.CopyTo(lastWritePosition, writeBuffer, start, length - start);
@@ -486,7 +486,7 @@ static class JavaScriptUtils
             lastWritePosition = i + 1;
             if (isEscapedUnicodeText)
             {
-                await writer.WriteAsync(writeBuffer, 0, UnicodeTextLength, cancellation).ConfigureAwait(false);
+                await writer.WriteAsync(writeBuffer, 0, unicodeTextLength, cancellation).ConfigureAwait(false);
                 isEscapedUnicodeText = false;
             }
             else

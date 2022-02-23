@@ -38,7 +38,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 {
     static JTokenEqualityComparer? equalityComparer;
 
-    object? _annotations;
+    object? annotations;
 
     static readonly JTokenType[] BooleanTypes = { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
     static readonly JTokenType[] NumberTypes = { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
@@ -2187,13 +2187,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="annotation">The annotation to add.</param>
     public void AddAnnotation(object annotation)
     {
-        if (_annotations == null)
+        if (annotations == null)
         {
-            _annotations = annotation is object[] ? new[] { annotation } : annotation;
+            annotations = annotation is object[] ? new[] { annotation } : annotation;
         }
         else
         {
-            if (_annotations is object[] annotations)
+            if (this.annotations is object[] annotations)
             {
                 var index = 0;
                 while (index < annotations.Length && annotations[index] != null)
@@ -2204,14 +2204,14 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 if (index == annotations.Length)
                 {
                     Array.Resize(ref annotations, index * 2);
-                    _annotations = annotations;
+                    this.annotations = annotations;
                 }
 
                 annotations[index] = annotation;
             }
             else
             {
-                _annotations = new[] {_annotations, annotation};
+                this.annotations = new[] {this.annotations, annotation};
             }
         }
     }
@@ -2223,11 +2223,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The first annotation object that matches the specified type, or <c>null</c> if no annotation is of the specified type.</returns>
     public T? Annotation<T>() where T : class
     {
-        if (_annotations != null)
+        if (annotations != null)
         {
-            if (_annotations is not object[] annotations)
+            if (this.annotations is not object[] annotations)
             {
-                return _annotations as T;
+                return this.annotations as T;
             }
             for (var i = 0; i < annotations.Length; i++)
             {
@@ -2254,9 +2254,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The first annotation object that matches the specified type, or <c>null</c> if no annotation is of the specified type.</returns>
     public object? Annotation(Type type)
     {
-        if (_annotations != null)
+        if (annotations != null)
         {
-            if (_annotations is object[] annotations)
+            if (this.annotations is object[] annotations)
             {
                 for (var i = 0; i < annotations.Length; i++)
                 {
@@ -2274,9 +2274,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             }
             else
             {
-                if (type.IsInstanceOfType(_annotations))
+                if (type.IsInstanceOfType(this.annotations))
                 {
-                    return _annotations;
+                    return this.annotations;
                 }
             }
         }
@@ -2291,12 +2291,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>An <see cref="IEnumerable{T}"/> that contains the annotations for this <see cref="JToken"/>.</returns>
     public IEnumerable<T> Annotations<T>() where T : class
     {
-        if (_annotations == null)
+        if (this.annotations == null)
         {
             yield break;
         }
 
-        if (_annotations is object[] annotations)
+        if (this.annotations is object[] annotations)
         {
             for (var i = 0; i < annotations.Length; i++)
             {
@@ -2314,7 +2314,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             yield break;
         }
 
-        if (_annotations is not T annotation)
+        if (this.annotations is not T annotation)
         {
             yield break;
         }
@@ -2329,12 +2329,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Object"/> that contains the annotations that match the specified type for this <see cref="JToken"/>.</returns>
     public IEnumerable<object> Annotations(Type type)
     {
-        if (_annotations == null)
+        if (this.annotations == null)
         {
             yield break;
         }
 
-        if (_annotations is object[] annotations)
+        if (this.annotations is object[] annotations)
         {
             for (var i = 0; i < annotations.Length; i++)
             {
@@ -2352,12 +2352,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             yield break;
         }
 
-        if (!type.IsInstanceOfType(_annotations))
+        if (!type.IsInstanceOfType(this.annotations))
         {
             yield break;
         }
 
-        yield return _annotations;
+        yield return this.annotations;
     }
 
     /// <summary>
@@ -2366,9 +2366,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <typeparam name="T">The type of annotations to remove.</typeparam>
     public void RemoveAnnotations<T>() where T : class
     {
-        if (_annotations != null)
+        if (annotations != null)
         {
-            if (_annotations is object?[] annotations)
+            if (this.annotations is object?[] annotations)
             {
                 var index = 0;
                 var keepCount = 0;
@@ -2390,7 +2390,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
                 if (keepCount == 0)
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
                 else
                 {
@@ -2402,9 +2402,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             }
             else
             {
-                if (_annotations is T)
+                if (this.annotations is T)
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
             }
         }
@@ -2416,9 +2416,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="type">The <see cref="Type"/> of annotations to remove.</param>
     public void RemoveAnnotations(Type type)
     {
-        if (_annotations != null)
+        if (annotations != null)
         {
-            if (_annotations is object?[] annotations)
+            if (this.annotations is object?[] annotations)
             {
                 var index = 0;
                 var keepCount = 0;
@@ -2440,7 +2440,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
                 if (keepCount == 0)
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
                 else
                 {
@@ -2452,9 +2452,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             }
             else
             {
-                if (type.IsInstanceOfType(_annotations))
+                if (type.IsInstanceOfType(this.annotations))
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
             }
         }
@@ -2462,13 +2462,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     internal void CopyAnnotations(JToken target, JToken source)
     {
-        if (source._annotations is object[] annotations)
+        if (source.annotations is object[] annotations)
         {
-            target._annotations = annotations.ToArray();
+            target.annotations = annotations.ToArray();
         }
         else
         {
-            target._annotations = source._annotations;
+            target.annotations = source.annotations;
         }
     }
 }

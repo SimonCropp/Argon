@@ -147,7 +147,7 @@ static class ConvertUtils
         return TimeSpan.Parse(input, CultureInfo.InvariantCulture);
     }
 
-    static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> CastConverters =
+    static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> castConverters =
         new(CreateCastConverter);
 
     static Func<object?, object?>? CreateCastConverter(StructMultiKey<Type, Type> t)
@@ -487,7 +487,7 @@ static class ConvertUtils
                 return value;
             }
 
-            var castConverter = CastConverters.Get(new StructMultiKey<Type, Type>(valueType, targetType));
+            var castConverter = castConverters.Get(new StructMultiKey<Type, Type>(valueType, targetType));
             if (castConverter != null)
             {
                 return castConverter(value);

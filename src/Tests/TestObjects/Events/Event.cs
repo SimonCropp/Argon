@@ -45,94 +45,57 @@ public sealed class Event
         return "";
     }
 
-    string _sublocation;
-    int _userId;
-    EventType _type;
-    string _summary;
-    string _details;
-    string _stackTrace;
-    string _tag;
-    DateTime _time;
-
     public Event(string summary)
     {
-        _summary = summary;
-        _time = DateTime.Now;
+        Summary = summary;
+        Time = DateTime.Now;
 
-        if (_userId == 0)
+        if (UserId == 0)
         {
-            _userId = GetCurrentUserId();
+            UserId = GetCurrentUserId();
         }
         //This call only works at top level for now.
         //If _stackTrace = Nothing Then _stackTrace = Environment.StackTrace
-        _sublocation = GetCurrentSubLocation();
+        Sublocation = GetCurrentSubLocation();
     }
 
-    public Event(string sublocation, int userId, EventType type, string summary, string details, string stackTrace, string tag)
+    public Event(string subLocation, int userId, EventType type, string summary, string details, string stackTrace, string tag)
     {
-        _sublocation = sublocation;
-        _userId = userId;
-        _type = type;
-        _summary = summary;
-        _details = details;
-        _stackTrace = stackTrace;
-        _tag = tag;
-        _time = DateTime.Now;
+        Sublocation = subLocation;
+        UserId = userId;
+        Type = type;
+        Summary = summary;
+        Details = details;
+        this.stackTrace = stackTrace;
+        Tag = tag;
+        Time = DateTime.Now;
 
-        if (_userId == 0)
+        if (UserId == 0)
         {
-            _userId = GetCurrentUserId();
+            UserId = GetCurrentUserId();
         }
         //If _stackTrace = Nothing Then _stackTrace = Environment.StackTrace
-        _sublocation ??= GetCurrentSubLocation();
+        this.Sublocation ??= GetCurrentSubLocation();
     }
 
     public override string ToString()
     {
-        return $"{{ sublocation = {_sublocation}, userId = {_userId}, type = {_type}, summary = {_summary}, details = {_details}, stackTrace = {_stackTrace}, tag = {_tag} }}";
+        return $"{{ subLocation = {Sublocation}, userId = {UserId}, type = {Type}, summary = {Summary}, details = {Details}, stackTrace = {stackTrace}, tag = {Tag} }}";
     }
 
-    public string sublocation
-    {
-        get => _sublocation;
-        set => _sublocation = value;
-    }
+    public string Sublocation { get; set; }
 
-    public int userId
-    {
-        get => _userId;
-        set => _userId = value;
-    }
+    public int UserId { get; set; }
 
-    public EventType type
-    {
-        get => _type;
-        set => _type = value;
-    }
+    public EventType Type { get; set; }
 
-    public string summary
-    {
-        get => _summary;
-        set => _summary = value;
-    }
+    public string Summary { get; set; }
 
-    public string details
-    {
-        get => _details;
-        set => _details = value;
-    }
+    public string Details { get; set; }
 
-    public string stackTrace
-    {
-        get => _stackTrace;
-        set => _stackTrace = value;
-    }
+    public string stackTrace { get; set; }
 
-    public string tag
-    {
-        get => _tag;
-        set => _tag = value;
-    }
+    public string Tag { get; set; }
 
-    public DateTime time => _time;
+    public DateTime Time { get; }
 }

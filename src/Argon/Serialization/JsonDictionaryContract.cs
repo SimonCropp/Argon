@@ -49,29 +49,29 @@ public class JsonDictionaryContract : JsonContainerContract
 
     internal JsonContract? KeyContract { get; set; }
 
-    readonly Type? _genericCollectionDefinitionType;
+    readonly Type? genericCollectionDefinitionType;
 
-    Type? _genericWrapperType;
-    ObjectConstructor<object>? _genericWrapperCreator;
+    Type? genericWrapperType;
+    ObjectConstructor<object>? genericWrapperCreator;
 
-    Func<object>? _genericTemporaryDictionaryCreator;
+    Func<object>? genericTemporaryDictionaryCreator;
 
     internal bool ShouldCreateWrapper { get; }
 
-    readonly ConstructorInfo? _parameterizedConstructor;
+    readonly ConstructorInfo? parameterizedConstructor;
 
-    ObjectConstructor<object>? _parameterizedCreator;
+    ObjectConstructor<object>? parameterizedCreator;
 
     internal ObjectConstructor<object>? ParameterizedCreator
     {
         get
         {
-            if (_parameterizedCreator == null && _parameterizedConstructor != null)
+            if (parameterizedCreator == null && parameterizedConstructor != null)
             {
-                _parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(_parameterizedConstructor);
+                parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructor);
             }
 
-            return _parameterizedCreator;
+            return parameterizedCreator;
         }
     }
 
@@ -85,7 +85,7 @@ public class JsonDictionaryContract : JsonContainerContract
     /// </summary>
     public bool HasParameterizedCreator { get; set; }
 
-    internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || _parameterizedCreator != null || _parameterizedConstructor != null;
+    internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || parameterizedCreator != null || parameterizedConstructor != null;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonDictionaryContract"/> class.
@@ -99,10 +99,10 @@ public class JsonDictionaryContract : JsonContainerContract
         Type? keyType;
         Type? valueType;
 
-        if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>), out _genericCollectionDefinitionType))
+        if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>), out genericCollectionDefinitionType))
         {
-            keyType = _genericCollectionDefinitionType.GetGenericArguments()[0];
-            valueType = _genericCollectionDefinitionType.GetGenericArguments()[1];
+            keyType = genericCollectionDefinitionType.GetGenericArguments()[0];
+            valueType = genericCollectionDefinitionType.GetGenericArguments()[1];
 
             if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>)))
             {
@@ -123,10 +123,10 @@ public class JsonDictionaryContract : JsonContainerContract
             IsReadOnlyOrFixedSize = ReflectionUtils.InheritsGenericDefinition(NonNullableUnderlyingType, typeof(ReadOnlyDictionary<,>));
 
         }
-        else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>), out _genericCollectionDefinitionType))
+        else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>), out genericCollectionDefinitionType))
         {
-            keyType = _genericCollectionDefinitionType.GetGenericArguments()[0];
-            valueType = _genericCollectionDefinitionType.GetGenericArguments()[1];
+            keyType = genericCollectionDefinitionType.GetGenericArguments()[0];
+            valueType = genericCollectionDefinitionType.GetGenericArguments()[1];
 
             if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>)))
             {
@@ -147,7 +147,7 @@ public class JsonDictionaryContract : JsonContainerContract
 
         if (keyType != null && valueType != null)
         {
-            _parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(
+            parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(
                 CreatedType,
                 typeof(KeyValuePair<,>).MakeGenericType(keyType, valueType),
                 typeof(IDictionary<,>).MakeGenericType(keyType, valueType));
@@ -155,7 +155,7 @@ public class JsonDictionaryContract : JsonContainerContract
             if (!HasParameterizedCreatorInternal && NonNullableUnderlyingType.Name == FSharpUtils.FSharpMapTypeName)
             {
                 FSharpUtils.EnsureInitialized(NonNullableUnderlyingType.Assembly);
-                _parameterizedCreator = FSharpUtils.Instance.CreateMap(keyType, valueType);
+                parameterizedCreator = FSharpUtils.Instance.CreateMap(keyType, valueType);
             }
         }
 
@@ -177,33 +177,33 @@ public class JsonDictionaryContract : JsonContainerContract
                 out var immutableParameterizedCreator))
         {
             CreatedType = immutableCreatedType;
-            _parameterizedCreator = immutableParameterizedCreator;
+            parameterizedCreator = immutableParameterizedCreator;
             IsReadOnlyOrFixedSize = true;
         }
     }
 
     internal IWrappedDictionary CreateWrapper(object dictionary)
     {
-        if (_genericWrapperCreator == null)
+        if (genericWrapperCreator == null)
         {
-            _genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType, DictionaryValueType);
+            genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType, DictionaryValueType);
 
-            var genericWrapperConstructor = _genericWrapperType.GetConstructor(new[] { _genericCollectionDefinitionType! });
-            _genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
+            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] { genericCollectionDefinitionType! });
+            genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 
-        return (IWrappedDictionary)_genericWrapperCreator(dictionary);
+        return (IWrappedDictionary)genericWrapperCreator(dictionary);
     }
 
     internal IDictionary CreateTemporaryDictionary()
     {
-        if (_genericTemporaryDictionaryCreator == null)
+        if (genericTemporaryDictionaryCreator == null)
         {
             var temporaryDictionaryType = typeof(Dictionary<,>).MakeGenericType(DictionaryKeyType ?? typeof(object), DictionaryValueType ?? typeof(object));
 
-            _genericTemporaryDictionaryCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
+            genericTemporaryDictionaryCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
         }
 
-        return (IDictionary)_genericTemporaryDictionaryCreator();
+        return (IDictionary)genericTemporaryDictionaryCreator();
     }
 }

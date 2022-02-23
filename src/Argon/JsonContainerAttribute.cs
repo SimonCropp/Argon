@@ -104,8 +104,8 @@ public abstract class JsonContainerAttribute : Attribute
     // have to use this approach to get an unset default state
     internal bool? isReference;
     internal bool? itemIsReference;
-    internal ReferenceLoopHandling? _itemReferenceLoopHandling;
-    internal TypeNameHandling? _itemTypeNameHandling;
+    internal ReferenceLoopHandling? itemReferenceLoopHandling;
+    internal TypeNameHandling? itemTypeNameHandling;
     Type? namingStrategyType;
     object[]? namingStrategyParameters;
 
@@ -132,8 +132,8 @@ public abstract class JsonContainerAttribute : Attribute
     /// </summary>
     public ReferenceLoopHandling ItemReferenceLoopHandling
     {
-        get => _itemReferenceLoopHandling ?? default;
-        set => _itemReferenceLoopHandling = value;
+        get => itemReferenceLoopHandling ?? default;
+        set => itemReferenceLoopHandling = value;
     }
 
     /// <summary>
@@ -141,8 +141,8 @@ public abstract class JsonContainerAttribute : Attribute
     /// </summary>
     public TypeNameHandling ItemTypeNameHandling
     {
-        get => _itemTypeNameHandling ?? default;
-        set => _itemTypeNameHandling = value;
+        get => itemTypeNameHandling ?? default;
+        set => itemTypeNameHandling = value;
     }
 
     /// <summary>

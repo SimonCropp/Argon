@@ -42,10 +42,10 @@ public class JsonDynamicContract : JsonContainerContract
     /// </summary>
     public Func<string, string>? PropertyNameResolver { get; set; }
 
-    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =
+    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> callSiteGetters =
         new(CreateCallSiteGetter);
 
-    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> _callSiteSetters =
+    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> callSiteSetters =
         new(CreateCallSiteSetter);
 
     static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
@@ -76,7 +76,7 @@ public class JsonDynamicContract : JsonContainerContract
 
     internal bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)
     {
-        var callSite = _callSiteGetters.Get(name);
+        var callSite = callSiteGetters.Get(name);
 
         var result = callSite.Target(callSite, dynamicProvider);
 
@@ -92,7 +92,7 @@ public class JsonDynamicContract : JsonContainerContract
 
     internal bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)
     {
-        var callSite = _callSiteSetters.Get(name);
+        var callSite = callSiteSetters.Get(name);
 
         var result = callSite.Target(callSite, dynamicProvider, value);
 

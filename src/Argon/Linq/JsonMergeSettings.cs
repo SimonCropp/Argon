@@ -30,16 +30,16 @@ namespace Argon.Linq;
 /// </summary>
 public class JsonMergeSettings
 {
-    MergeArrayHandling _mergeArrayHandling;
-    MergeNullValueHandling _mergeNullValueHandling;
-    StringComparison _propertyNameComparison;
+    MergeArrayHandling mergeArrayHandling;
+    MergeNullValueHandling mergeNullValueHandling;
+    StringComparison propertyNameComparison;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonMergeSettings"/> class.
     /// </summary>
     public JsonMergeSettings()
     {
-        _propertyNameComparison = StringComparison.Ordinal;
+        propertyNameComparison = StringComparison.Ordinal;
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class JsonMergeSettings
     /// </summary>
     public MergeArrayHandling MergeArrayHandling
     {
-        get => _mergeArrayHandling;
+        get => mergeArrayHandling;
         set
         {
             if (value is < MergeArrayHandling.Concat or > MergeArrayHandling.Merge)
@@ -55,7 +55,7 @@ public class JsonMergeSettings
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _mergeArrayHandling = value;
+            mergeArrayHandling = value;
         }
     }
 
@@ -64,7 +64,7 @@ public class JsonMergeSettings
     /// </summary>
     public MergeNullValueHandling MergeNullValueHandling
     {
-        get => _mergeNullValueHandling;
+        get => mergeNullValueHandling;
         set
         {
             if (value is < MergeNullValueHandling.Ignore or > MergeNullValueHandling.Merge)
@@ -72,7 +72,7 @@ public class JsonMergeSettings
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _mergeNullValueHandling = value;
+            mergeNullValueHandling = value;
         }
     }
 
@@ -83,7 +83,7 @@ public class JsonMergeSettings
     /// </summary>
     public StringComparison PropertyNameComparison
     {
-        get => _propertyNameComparison;
+        get => propertyNameComparison;
         set
         {
             if (value is < StringComparison.CurrentCulture or > StringComparison.OrdinalIgnoreCase)
@@ -91,7 +91,7 @@ public class JsonMergeSettings
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _propertyNameComparison = value;
+            propertyNameComparison = value;
         }
     }
 }

@@ -38,9 +38,9 @@ public partial class JArray
     {
         await writer.WriteStartArrayAsync(cancellation).ConfigureAwait(false);
 
-        for (var i = 0; i < _values.Count; i++)
+        for (var i = 0; i < values.Count; i++)
         {
-            await _values[i].WriteToAsync(writer, cancellation, converters).ConfigureAwait(false);
+            await values[i].WriteToAsync(writer, cancellation, converters).ConfigureAwait(false);
         }
 
         await writer.WriteEndArrayAsync(cancellation).ConfigureAwait(false);

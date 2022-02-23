@@ -41,7 +41,7 @@ static class JsonTypeReflector
     static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
 
     static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new(GetAssociateMetadataTypeFromAttribute);
-    static ReflectionObject? _metadataTypeAttributeReflectionObject;
+    static ReflectionObject? metadataTypeAttributeReflectionObject;
 
     public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
     {
@@ -255,9 +255,9 @@ static class JsonTypeReflector
             {
                 const string metadataClassTypeName = "MetadataClassType";
 
-                _metadataTypeAttributeReflectionObject ??= ReflectionObject.Create(attributeType, metadataClassTypeName);
+                metadataTypeAttributeReflectionObject ??= ReflectionObject.Create(attributeType, metadataClassTypeName);
 
-                return (Type?)_metadataTypeAttributeReflectionObject.GetValue(attribute, metadataClassTypeName);
+                return (Type?)metadataTypeAttributeReflectionObject.GetValue(attribute, metadataClassTypeName);
             }
         }
 

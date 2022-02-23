@@ -2,25 +2,25 @@
 
 class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
 {
-    readonly XmlDeclaration _declaration;
+    readonly XmlDeclaration declaration;
 
     public XmlDeclarationWrapper(XmlDeclaration declaration)
         : base(declaration)
     {
-        _declaration = declaration;
+        this.declaration = declaration;
     }
 
-    public string Version => _declaration.Version;
+    public string Version => declaration.Version;
 
     public string Encoding
     {
-        get => _declaration.Encoding;
-        set => _declaration.Encoding = value;
+        get => declaration.Encoding;
+        set => declaration.Encoding = value;
     }
 
     public string Standalone
     {
-        get => _declaration.Standalone;
-        set => _declaration.Standalone = value;
+        get => declaration.Standalone;
+        set => declaration.Standalone = value;
     }
 }

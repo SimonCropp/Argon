@@ -30,14 +30,14 @@ namespace Argon;
 /// </summary>
 public class JsonProperty
 {
-    internal Required? _required;
-    internal bool _hasExplicitDefaultValue;
+    internal Required? required;
+    internal bool hasExplicitDefaultValue;
 
-    object? _defaultValue;
-    bool _hasGeneratedDefaultValue;
-    string? _propertyName;
-    internal bool _skipPropertyNameEscape;
-    Type? _propertyType;
+    object? defaultValue;
+    bool hasGeneratedDefaultValue;
+    string? propertyName;
+    internal bool skipPropertyNameEscape;
+    Type? propertyType;
 
     // use to cache contract during deserialization
     internal JsonContract? PropertyContract { get; set; }
@@ -47,11 +47,11 @@ public class JsonProperty
     /// </summary>
     public string? PropertyName
     {
-        get => _propertyName;
+        get => propertyName;
         set
         {
-            _propertyName = value;
-            _skipPropertyNameEscape = !JavaScriptUtils.ShouldEscapeJavaScriptString(_propertyName, JavaScriptUtils.HtmlCharEscapeFlags);
+            propertyName = value;
+            skipPropertyNameEscape = !JavaScriptUtils.ShouldEscapeJavaScriptString(propertyName, JavaScriptUtils.HtmlCharEscapeFlags);
         }
     }
 
@@ -85,13 +85,13 @@ public class JsonProperty
     /// </summary>
     public Type? PropertyType
     {
-        get => _propertyType;
+        get => propertyType;
         set
         {
-            if (_propertyType != value)
+            if (propertyType != value)
             {
-                _propertyType = value;
-                _hasGeneratedDefaultValue = false;
+                propertyType = value;
+                hasGeneratedDefaultValue = false;
             }
         }
     }
@@ -129,34 +129,34 @@ public class JsonProperty
     {
         get
         {
-            if (_hasExplicitDefaultValue)
+            if (hasExplicitDefaultValue)
             {
-                return _defaultValue;
+                return defaultValue;
             }
 
             return null;
         }
         set
         {
-            _hasExplicitDefaultValue = true;
-            _defaultValue = value;
+            hasExplicitDefaultValue = true;
+            defaultValue = value;
         }
     }
 
     internal object? GetResolvedDefaultValue()
     {
-        if (_propertyType == null)
+        if (propertyType == null)
         {
             return null;
         }
 
-        if (!_hasExplicitDefaultValue && !_hasGeneratedDefaultValue)
+        if (!hasExplicitDefaultValue && !hasGeneratedDefaultValue)
         {
-            _defaultValue = ReflectionUtils.GetDefaultValue(_propertyType);
-            _hasGeneratedDefaultValue = true;
+            defaultValue = ReflectionUtils.GetDefaultValue(propertyType);
+            hasGeneratedDefaultValue = true;
         }
 
-        return _defaultValue;
+        return defaultValue;
     }
 
     /// <summary>
@@ -164,14 +164,14 @@ public class JsonProperty
     /// </summary>
     public Required Required
     {
-        get => _required ?? Required.Default;
-        set => _required = value;
+        get => required ?? Required.Default;
+        set => required = value;
     }
 
     /// <summary>
     /// Gets a value indicating whether <see cref="Required"/> has a value specified.
     /// </summary>
-    public bool IsRequiredSpecified => _required != null;
+    public bool IsRequiredSpecified => required != null;
 
     /// <summary>
     /// Gets or sets a value indicating whether this property preserves object references.
@@ -259,7 +259,7 @@ public class JsonProperty
         var propertyName = PropertyName;
         MiscellaneousUtils.Assert(propertyName != null);
 
-        if (_skipPropertyNameEscape)
+        if (skipPropertyNameEscape)
         {
             writer.WritePropertyName(propertyName, false);
         }

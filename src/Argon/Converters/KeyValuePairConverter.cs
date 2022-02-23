@@ -30,10 +30,10 @@ namespace Argon;
 /// </summary>
 public class KeyValuePairConverter : JsonConverter
 {
-    const string KeyName = "Key";
-    const string ValueName = "Value";
+    const string keyName = "Key";
+    const string valueName = "Value";
 
-    static readonly ThreadSafeStore<Type, ReflectionObject> ReflectionObjectPerType = new(InitializeReflectionObject);
+    static readonly ThreadSafeStore<Type, ReflectionObject> reflectionObjectPerType = new(InitializeReflectionObject);
 
     static ReflectionObject InitializeReflectionObject(Type type)
     {
@@ -41,7 +41,7 @@ public class KeyValuePairConverter : JsonConverter
         var keyType = genericArguments[0];
         var valueType = genericArguments[1];
 
-        return ReflectionObject.Create(type, type.GetConstructor(new[] { keyType, valueType }), KeyName, ValueName);
+        return ReflectionObject.Create(type, type.GetConstructor(new[] { keyType, valueType }), keyName, valueName);
     }
 
     /// <summary>
@@ -58,15 +58,15 @@ public class KeyValuePairConverter : JsonConverter
             return;
         }
 
-        var reflectionObject = ReflectionObjectPerType.Get(value.GetType());
+        var reflectionObject = reflectionObjectPerType.Get(value.GetType());
 
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
         writer.WriteStartObject();
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(KeyName) : KeyName);
-        serializer.Serialize(writer, reflectionObject.GetValue(value, KeyName), reflectionObject.GetType(KeyName));
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(ValueName) : ValueName);
-        serializer.Serialize(writer, reflectionObject.GetValue(value, ValueName), reflectionObject.GetType(ValueName));
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(keyName) : keyName);
+        serializer.Serialize(writer, reflectionObject.GetValue(value, keyName), reflectionObject.GetType(keyName));
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(valueName) : valueName);
+        serializer.Serialize(writer, reflectionObject.GetValue(value, valueName), reflectionObject.GetType(valueName));
         writer.WriteEndObject();
     }
 
@@ -99,20 +99,20 @@ public class KeyValuePairConverter : JsonConverter
             ? Nullable.GetUnderlyingType(type)
             : type;
 
-        var reflectionObject = ReflectionObjectPerType.Get(t);
-        var keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(KeyName));
-        var valueContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(ValueName));
+        var reflectionObject = reflectionObjectPerType.Get(t);
+        var keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(keyName));
+        var valueContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(valueName));
 
         while (reader.TokenType == JsonToken.PropertyName)
         {
             var propertyName = reader.Value!.ToString();
-            if (string.Equals(propertyName, KeyName, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(propertyName, keyName, StringComparison.OrdinalIgnoreCase))
             {
                 reader.ReadForTypeAndAssert(keyContract, false);
 
                 key = serializer.Deserialize(reader, keyContract.UnderlyingType);
             }
-            else if (string.Equals(propertyName, ValueName, StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(propertyName, valueName, StringComparison.OrdinalIgnoreCase))
             {
                 reader.ReadForTypeAndAssert(valueContract, false);
 

@@ -30,12 +30,12 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JConstructor : JContainer
 {
-    readonly List<JToken> _values = new();
+    readonly List<JToken> values = new();
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    protected override IList<JToken> ChildrenTokens => _values;
+    protected override IList<JToken> ChildrenTokens => values;
 
     internal override int IndexOfItem(JToken? item)
     {
@@ -44,7 +44,7 @@ public partial class JConstructor : JContainer
             return -1;
         }
 
-        return _values.IndexOfReference(item);
+        return values.IndexOfReference(item);
     }
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)
@@ -142,10 +142,10 @@ public partial class JConstructor : JContainer
     {
         writer.WriteStartConstructor(Name!);
 
-        var count = _values.Count;
+        var count = values.Count;
         for (var i = 0; i < count; i++)
         {
-            _values[i].WriteTo(writer, converters);
+            values[i].WriteTo(writer, converters);
         }
 
         writer.WriteEndConstructor();

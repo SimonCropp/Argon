@@ -27,9 +27,9 @@ using System.Linq.Expressions;
 
 class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 {
-    static readonly ExpressionReflectionDelegateFactory _instance = new();
+    static readonly ExpressionReflectionDelegateFactory instance = new();
 
-    internal static ReflectionDelegateFactory Instance => _instance;
+    internal static ReflectionDelegateFactory Instance => instance;
 
     public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
     {

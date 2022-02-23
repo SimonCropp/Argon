@@ -52,9 +52,9 @@ public class DefaultContractResolver : IContractResolver
         new RegexConverter()
     };
 
-    readonly DefaultJsonNameTable _nameTable = new();
+    readonly DefaultJsonNameTable nameTable = new();
 
-    readonly ThreadSafeStore<Type, JsonContract> _contractCache;
+    readonly ThreadSafeStore<Type, JsonContract> contractCache;
 
     /// <summary>
     /// Gets or sets a value indicating whether compiler generated members should be serialized.
@@ -81,7 +81,7 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     public DefaultContractResolver()
     {
-        _contractCache = new ThreadSafeStore<Type, JsonContract>(CreateContract);
+        contractCache = new ThreadSafeStore<Type, JsonContract>(CreateContract);
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>The contract for a given type.</returns>
     public virtual JsonContract ResolveContract(Type type)
     {
-        return _contractCache.Get(type);
+        return contractCache.Get(type);
     }
 
     static bool FilterMembers(MemberInfo member)
@@ -212,9 +212,9 @@ public class DefaultContractResolver : IContractResolver
         var attribute = JsonTypeReflector.GetCachedAttribute<JsonObjectAttribute>(contract.NonNullableUnderlyingType);
         if (attribute != null)
         {
-            contract.ItemRequired = attribute._itemRequired;
-            contract.ItemNullValueHandling = attribute._itemNullValueHandling;
-            contract.MissingMemberHandling = attribute._missingMemberHandling;
+            contract.ItemRequired = attribute.itemRequired;
+            contract.ItemNullValueHandling = attribute.itemNullValueHandling;
+            contract.MissingMemberHandling = attribute.missingMemberHandling;
 
             if (attribute.NamingStrategyType != null)
             {
@@ -434,16 +434,16 @@ public class DefaultContractResolver : IContractResolver
     // will be always return as an interface and boxed
     internal class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue> : IEnumerable<KeyValuePair<object, object>>
     {
-        readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> _e;
+        readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
 
         public EnumerableDictionaryWrapper(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
         {
-            _e = e;
+            this.e = e;
         }
 
         public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
         {
-            foreach (var item in _e)
+            foreach (var item in e)
             {
                 yield return new KeyValuePair<object, object>(item.Key!, item.Value!);
             }
@@ -601,12 +601,12 @@ public class DefaultContractResolver : IContractResolver
             property.PropertyName = property.PropertyName != parameterInfo.Name ? property.PropertyName : matchingMemberProperty.PropertyName;
             property.Converter ??= matchingMemberProperty.Converter;
 
-            if (!property._hasExplicitDefaultValue && matchingMemberProperty._hasExplicitDefaultValue)
+            if (!property.hasExplicitDefaultValue && matchingMemberProperty.hasExplicitDefaultValue)
             {
                 property.DefaultValue = matchingMemberProperty.DefaultValue;
             }
 
-            property._required ??= matchingMemberProperty._required;
+            property.required ??= matchingMemberProperty.required;
             property.IsReference ??= matchingMemberProperty.IsReference;
             property.NullValueHandling ??= matchingMemberProperty.NullValueHandling;
             property.DefaultValueHandling ??= matchingMemberProperty.DefaultValueHandling;
@@ -1173,7 +1173,7 @@ public class DefaultContractResolver : IContractResolver
 
     internal virtual DefaultJsonNameTable GetNameTable()
     {
-        return _nameTable;
+        return nameTable;
     }
 
     /// <summary>
@@ -1302,20 +1302,20 @@ public class DefaultContractResolver : IContractResolver
         var hasMemberAttribute = false;
         if (propertyAttribute != null)
         {
-            property._required = propertyAttribute._required;
-            property.Order = propertyAttribute._order;
-            property.DefaultValueHandling = propertyAttribute._defaultValueHandling;
+            property.required = propertyAttribute.required;
+            property.Order = propertyAttribute.order;
+            property.DefaultValueHandling = propertyAttribute.defaultValueHandling;
             hasMemberAttribute = true;
-            property.NullValueHandling = propertyAttribute._nullValueHandling;
-            property.ReferenceLoopHandling = propertyAttribute._referenceLoopHandling;
-            property.ObjectCreationHandling = propertyAttribute._objectCreationHandling;
-            property.TypeNameHandling = propertyAttribute._typeNameHandling;
-            property.IsReference = propertyAttribute._isReference;
+            property.NullValueHandling = propertyAttribute.nullValueHandling;
+            property.ReferenceLoopHandling = propertyAttribute.referenceLoopHandling;
+            property.ObjectCreationHandling = propertyAttribute.objectCreationHandling;
+            property.TypeNameHandling = propertyAttribute.typeNameHandling;
+            property.IsReference = propertyAttribute.isReference;
 
-            property.ItemIsReference = propertyAttribute._itemIsReference;
+            property.ItemIsReference = propertyAttribute.itemIsReference;
             property.ItemConverter = propertyAttribute.ItemConverterType != null ? JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters) : null;
-            property.ItemReferenceLoopHandling = propertyAttribute._itemReferenceLoopHandling;
-            property.ItemTypeNameHandling = propertyAttribute._itemTypeNameHandling;
+            property.ItemReferenceLoopHandling = propertyAttribute.itemReferenceLoopHandling;
+            property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
         }
         else
         {
@@ -1330,7 +1330,7 @@ public class DefaultContractResolver : IContractResolver
             property.ItemTypeNameHandling = null;
             if (dataMemberAttribute != null)
             {
-                property._required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
+                property.required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
                 property.Order = dataMemberAttribute.Order != -1 ? dataMemberAttribute.Order : null;
                 property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? DefaultValueHandling.Ignore : null;
                 hasMemberAttribute = true;
@@ -1339,7 +1339,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (requiredAttribute != null)
         {
-            property._required = Required.Always;
+            property.required = Required.Always;
             hasMemberAttribute = true;
         }
 

@@ -32,8 +32,8 @@ namespace Argon;
 /// </summary>
 public class RegexConverter : JsonConverter
 {
-    const string PatternName = "Pattern";
-    const string OptionsName = "Options";
+    const string patternName = "Pattern";
+    const string optionsName = "Options";
 
     /// <summary>
     /// Writes the JSON representation of the object.
@@ -59,9 +59,9 @@ public class RegexConverter : JsonConverter
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
         writer.WriteStartObject();
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(PatternName) : PatternName);
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(patternName) : patternName);
         writer.WriteValue(regex.ToString());
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(OptionsName) : OptionsName);
+        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(optionsName) : optionsName);
         serializer.Serialize(writer, regex.Options);
         writer.WriteEndObject();
     }
@@ -128,11 +128,11 @@ public class RegexConverter : JsonConverter
                         throw JsonSerializationException.Create(reader, "Unexpected end when reading Regex.");
                     }
 
-                    if (string.Equals(propertyName, PatternName, StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(propertyName, patternName, StringComparison.OrdinalIgnoreCase))
                     {
                         pattern = (string?)reader.Value;
                     }
-                    else if (string.Equals(propertyName, OptionsName, StringComparison.OrdinalIgnoreCase))
+                    else if (string.Equals(propertyName, optionsName, StringComparison.OrdinalIgnoreCase))
                     {
                         options = serializer.Deserialize<RegexOptions>(reader);
                     }

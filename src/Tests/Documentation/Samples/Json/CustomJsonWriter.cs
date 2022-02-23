@@ -30,24 +30,24 @@ namespace Argon;
 #region CustomJsonWriterTypes
 public class XmlJsonWriter : JsonWriter
 {
-    readonly XmlWriter _writer;
-    string _propertyName;
+    readonly XmlWriter writer;
+    string propertyName;
 
     public XmlJsonWriter(XmlWriter writer)
     {
-        _writer = writer;
+        this.writer = writer;
     }
 
     public override void WriteComment(string text)
     {
         base.WriteComment(text);
-        _writer.WriteComment(text);
+        writer.WriteComment(text);
     }
 
     public override void WritePropertyName(string name)
     {
         base.WritePropertyName(name);
-        _propertyName = name;
+        propertyName = name;
     }
 
     public override void WriteNull()
@@ -55,7 +55,7 @@ public class XmlJsonWriter : JsonWriter
         base.WriteNull();
 
         WriteValueElement(JTokenType.Null);
-        _writer.WriteEndElement();
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(DateTime value)
@@ -63,8 +63,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Date);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(DateTimeOffset value)
@@ -72,8 +72,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Date);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(Guid value)
@@ -81,8 +81,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Guid);
-        _writer.WriteValue(value.ToString());
-        _writer.WriteEndElement();
+        writer.WriteValue(value.ToString());
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(TimeSpan value)
@@ -90,8 +90,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.TimeSpan);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(Uri value)
@@ -99,8 +99,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Uri);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(string value)
@@ -108,8 +108,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.String);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(int value)
@@ -117,8 +117,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Integer);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(long value)
@@ -126,8 +126,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Integer);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(short value)
@@ -135,8 +135,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Integer);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(byte value)
@@ -144,8 +144,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Integer);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(bool value)
@@ -153,8 +153,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Boolean);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(char value)
@@ -162,8 +162,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.String);
-        _writer.WriteValue(value.ToString(CultureInfo.InvariantCulture));
-        _writer.WriteEndElement();
+        writer.WriteValue(value.ToString(CultureInfo.InvariantCulture));
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(decimal value)
@@ -171,8 +171,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Float);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(double value)
@@ -180,8 +180,8 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Float);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     public override void WriteValue(float value)
@@ -189,16 +189,16 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.Float);
-        _writer.WriteValue(value);
-        _writer.WriteEndElement();
+        writer.WriteValue(value);
+        writer.WriteEndElement();
     }
 
     void WriteValueElement(JTokenType type)
     {
-        if (_propertyName != null)
+        if (propertyName != null)
         {
-            WriteValueElement(_propertyName, type);
-            _propertyName = null;
+            WriteValueElement(propertyName, type);
+            propertyName = null;
         }
         else
         {
@@ -208,8 +208,8 @@ public class XmlJsonWriter : JsonWriter
 
     void WriteValueElement(string elementName, JTokenType type)
     {
-        _writer.WriteStartElement(elementName);
-        _writer.WriteAttributeString("type", type.ToString());
+        writer.WriteStartElement(elementName);
+        writer.WriteAttributeString("type", type.ToString());
     }
 
     public override void WriteStartArray()
@@ -259,35 +259,35 @@ public class XmlJsonWriter : JsonWriter
             WriteValueElement(JTokenType.Constructor);
         }
 
-        _writer.WriteAttributeString("name", name);
+        writer.WriteAttributeString("name", name);
     }
 
     public override void WriteEndArray()
     {
         base.WriteEndArray();
-        _writer.WriteEndElement();
+        writer.WriteEndElement();
     }
 
     public override void WriteEndObject()
     {
         base.WriteEndObject();
-        _writer.WriteEndElement();
+        writer.WriteEndElement();
     }
 
     public override void WriteEndConstructor()
     {
         base.WriteEndConstructor();
-        _writer.WriteEndElement();
+        writer.WriteEndElement();
     }
 
     public override void Flush()
     {
-        _writer.Flush();
+        writer.Flush();
     }
 
     protected override void WriteIndent()
     {
-        _writer.WriteWhitespace(Environment.NewLine);
+        writer.WriteWhitespace(Environment.NewLine);
 
         // levels of indentation multiplied by the indent count
         var currentIndentCount = Top * 2;
@@ -297,7 +297,7 @@ public class XmlJsonWriter : JsonWriter
             // write up to a max of 10 characters at once to avoid creating too many new strings
             var writeCount = Math.Min(currentIndentCount, 10);
 
-            _writer.WriteWhitespace(new string(' ', writeCount));
+            writer.WriteWhitespace(new string(' ', writeCount));
 
             currentIndentCount -= writeCount;
         }

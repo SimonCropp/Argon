@@ -29,11 +29,11 @@ using System.Text.RegularExpressions;
 
 public class DynamicContractResolver : DefaultContractResolver
 {
-    readonly char _startingWithChar;
+    readonly char startingWithChar;
 
     public DynamicContractResolver(char startingWithChar)
     {
-        _startingWithChar = startingWithChar;
+        this.startingWithChar = startingWithChar;
     }
 
     protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
@@ -42,7 +42,7 @@ public class DynamicContractResolver : DefaultContractResolver
 
         // only serializer properties that start with the specified character
         properties =
-            properties.Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
+            properties.Where(p => p.PropertyName.StartsWith(startingWithChar.ToString())).ToList();
 
         return properties;
     }
@@ -344,61 +344,61 @@ public class ContractResolverTests : TestFixtureBase
     public void CalculatingPropertyNameEscapedSkipping()
     {
         var p = new JsonProperty {PropertyName = "abc"};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "123"};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "._-"};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "!@#"};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "$%^"};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "?*("};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = ")_+"};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "=:,"};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = null};
-        Assert.True(p._skipPropertyNameEscape);
+        Assert.True(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "&"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "<"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = ">"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "'"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = @""""};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = Environment.NewLine};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "\0"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "\n"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "\v"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
 
         p = new JsonProperty {PropertyName = "\u00B9"};
-        Assert.False(p._skipPropertyNameEscape);
+        Assert.False(p.skipPropertyNameEscape);
     }
 
     [Fact]

@@ -36,16 +36,16 @@ public abstract partial class JContainer : JToken, IList<JToken>
     , IList
     , INotifyCollectionChanged
 {
-    internal ListChangedEventHandler? _listChanged;
-    internal AddingNewEventHandler? _addingNew;
+    internal ListChangedEventHandler? listChanged;
+    internal AddingNewEventHandler? addingNew;
 
     /// <summary>
     /// Occurs when the list changes or an item in the list changes.
     /// </summary>
     public event ListChangedEventHandler ListChanged
     {
-        add => _listChanged += value;
-        remove => _listChanged -= value;
+        add => listChanged += value;
+        remove => listChanged -= value;
     }
 
     /// <summary>
@@ -53,18 +53,18 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// </summary>
     public event AddingNewEventHandler AddingNew
     {
-        add => _addingNew += value;
-        remove => _addingNew -= value;
+        add => addingNew += value;
+        remove => addingNew -= value;
     }
-    internal NotifyCollectionChangedEventHandler? _collectionChanged;
+    internal NotifyCollectionChangedEventHandler? collectionChanged;
 
     /// <summary>
     /// Occurs when the items list of the collection has changed, or the collection is reset.
     /// </summary>
     public event NotifyCollectionChangedEventHandler CollectionChanged
     {
-        add => _collectionChanged += value;
-        remove => _collectionChanged -= value;
+        add => collectionChanged += value;
+        remove => collectionChanged -= value;
     }
 
     /// <summary>
@@ -72,8 +72,8 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// </summary>
     protected abstract IList<JToken> ChildrenTokens { get; }
 
-    object? _syncRoot;
-    bool _busy;
+    object? syncRoot;
+    bool busy;
 
     internal JContainer()
     {
@@ -94,7 +94,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
     internal void CheckReentrancy()
     {
-        if (_busy)
+        if (busy)
         {
             throw new InvalidOperationException($"Cannot change {GetType()} during a collection change event.");
         }
@@ -111,7 +111,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <param name="e">The <see cref="AddingNewEventArgs"/> instance containing the event data.</param>
     protected virtual void OnAddingNew(AddingNewEventArgs e)
     {
-        _addingNew?.Invoke(this, e);
+        addingNew?.Invoke(this, e);
     }
 
     /// <summary>
@@ -120,18 +120,18 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <param name="e">The <see cref="ListChangedEventArgs"/> instance containing the event data.</param>
     protected virtual void OnListChanged(ListChangedEventArgs e)
     {
-        var handler = _listChanged;
+        var handler = listChanged;
 
         if (handler != null)
         {
-            _busy = true;
+            busy = true;
             try
             {
                 handler(this, e);
             }
             finally
             {
-                _busy = false;
+                busy = false;
             }
         }
     }
@@ -142,18 +142,18 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
     protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
-        var handler = _collectionChanged;
+        var handler = collectionChanged;
 
         if (handler != null)
         {
-            _busy = true;
+            busy = true;
             try
             {
                 handler(this, e);
             }
             finally
             {
-                _busy = false;
+                busy = false;
             }
         }
     }
@@ -341,11 +341,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         children.Insert(index, item);
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemAdded, index));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
         }
@@ -387,11 +387,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         children.RemoveAt(index);
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemDeleted, index));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
         }
@@ -466,11 +466,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
         existing.Previous = null;
         existing.Next = null;
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, index));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, existing, index));
         }
@@ -491,11 +491,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         children.Clear();
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
@@ -1017,12 +1017,12 @@ public abstract partial class JContainer : JToken, IList<JToken>
     {
         get
         {
-            if (_syncRoot == null)
+            if (syncRoot == null)
             {
-                Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+                Interlocked.CompareExchange(ref syncRoot, new object(), null);
             }
 
-            return _syncRoot;
+            return syncRoot;
         }
     }
     #endregion

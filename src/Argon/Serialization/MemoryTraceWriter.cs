@@ -6,8 +6,8 @@
 /// </summary>
 public class MemoryTraceWriter : ITraceWriter
 {
-    readonly Queue<string> _traceMessages;
-    readonly object _lock;
+    readonly Queue<string> traceMessages;
+    readonly object @lock;
 
     /// <summary>
     /// Gets the <see cref="TraceLevel"/> that will be used to filter the trace messages passed to the writer.
@@ -22,8 +22,8 @@ public class MemoryTraceWriter : ITraceWriter
     public MemoryTraceWriter()
     {
         LevelFilter = TraceLevel.Verbose;
-        _traceMessages = new Queue<string>();
-        _lock = new object();
+        traceMessages = new Queue<string>();
+        @lock = new object();
     }
 
     /// <summary>
@@ -43,14 +43,14 @@ public class MemoryTraceWriter : ITraceWriter
 
         var s = stringBuilder.ToString();
 
-        lock (_lock)
+        lock (@lock)
         {
-            if (_traceMessages.Count >= 1000)
+            if (traceMessages.Count >= 1000)
             {
-                _traceMessages.Dequeue();
+                traceMessages.Dequeue();
             }
 
-            _traceMessages.Enqueue(s);
+            traceMessages.Enqueue(s);
         }
     }
 
@@ -60,7 +60,7 @@ public class MemoryTraceWriter : ITraceWriter
     /// <returns>An enumeration of the most recent trace messages.</returns>
     public IEnumerable<string> GetTraceMessages()
     {
-        return _traceMessages;
+        return traceMessages;
     }
 
     /// <summary>
@@ -71,10 +71,10 @@ public class MemoryTraceWriter : ITraceWriter
     /// </returns>
     public override string ToString()
     {
-        lock (_lock)
+        lock (@lock)
         {
             var stringBuilder = new StringBuilder();
-            foreach (var traceMessage in _traceMessages)
+            foreach (var traceMessage in traceMessages)
             {
                 if (stringBuilder.Length > 0)
                 {

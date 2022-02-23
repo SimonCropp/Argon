@@ -108,17 +108,6 @@ public class JArrayTests : TestFixtureBase
     }
 
     [Fact]
-    public void GenericCollectionCopyToNullArrayShouldThrow()
-    {
-        var j = new JArray();
-
-        XUnitAssert.Throws<ArgumentNullException>(() => { ((ICollection<JToken>)j).CopyTo(null, 0); },
-            @"Value cannot be null.
-Parameter name: array",
-            "Value cannot be null. (Parameter 'array')");
-    }
-
-    [Fact]
     public void GenericCollectionCopyToNegativeArrayIndexShouldThrow()
     {
         var j = new JArray();

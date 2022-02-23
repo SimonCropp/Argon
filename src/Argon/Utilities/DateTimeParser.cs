@@ -55,8 +55,8 @@ struct DateTimeParser
     public int ZoneMinute;
     public ParserTimeZone Zone;
 
-    char[] _text;
-    int _end;
+    char[] text;
+    int end;
 
     static readonly int[] Power10;
 
@@ -78,8 +78,8 @@ struct DateTimeParser
 
     public bool Parse(char[] text, int startIndex, int length)
     {
-        _text = text;
-        _end = startIndex + length;
+        this.text = text;
+        end = startIndex + length;
 
         return ParseDate(startIndex) &&
                ParseChar(Lzyyyy_MM_dd + startIndex, 'T') &&
@@ -125,9 +125,9 @@ struct DateTimeParser
             Fraction = 0;
             var numberOfDigits = 0;
 
-            while (++start < _end && numberOfDigits < MaxFractionDigits)
+            while (++start < end && numberOfDigits < MaxFractionDigits)
             {
-                var digit = _text[start] - '0';
+                var digit = text[start] - '0';
                 if (digit is < 0 or > 9)
                 {
                     break;
@@ -158,9 +158,9 @@ struct DateTimeParser
 
     bool ParseZone(int start)
     {
-        if (start < _end)
+        if (start < end)
         {
-            var ch = _text[start];
+            var ch = text[start];
             if (ch is 'Z' or 'z')
             {
                 Zone = ParserTimeZone.Utc;
@@ -168,7 +168,7 @@ struct DateTimeParser
             }
             else
             {
-                if (start + 2 < _end
+                if (start + 2 < end
                     && Parse2Digit(start + Lz_, out ZoneHour)
                     && ZoneHour <= 99)
                 {
@@ -186,13 +186,13 @@ struct DateTimeParser
                     }
                 }
 
-                if (start < _end)
+                if (start < end)
                 {
                     if (ParseChar(start, ':'))
                     {
                         start += 1;
 
-                        if (start + 1 < _end
+                        if (start + 1 < end
                             && Parse2Digit(start, out ZoneMinute)
                             && ZoneMinute <= 99)
                         {
@@ -201,7 +201,7 @@ struct DateTimeParser
                     }
                     else
                     {
-                        if (start + 1 < _end
+                        if (start + 1 < end
                             && Parse2Digit(start, out ZoneMinute)
                             && ZoneMinute <= 99)
                         {
@@ -212,17 +212,17 @@ struct DateTimeParser
             }
         }
 
-        return start == _end;
+        return start == end;
     }
 
     bool Parse4Digit(int start, out int num)
     {
-        if (start + 3 < _end)
+        if (start + 3 < end)
         {
-            var digit1 = _text[start] - '0';
-            var digit2 = _text[start + 1] - '0';
-            var digit3 = _text[start + 2] - '0';
-            var digit4 = _text[start + 3] - '0';
+            var digit1 = text[start] - '0';
+            var digit2 = text[start + 1] - '0';
+            var digit3 = text[start + 2] - '0';
+            var digit4 = text[start + 3] - '0';
             if (digit1 is >= 0 and < 10 && digit2 is >= 0 and < 10 && digit3 is >= 0 and < 10 && digit4 is >= 0 and < 10)
             {
                 num = ((digit1 * 10 + digit2) * 10 + digit3) * 10 + digit4;
@@ -235,10 +235,10 @@ struct DateTimeParser
 
     bool Parse2Digit(int start, out int num)
     {
-        if (start + 1 < _end)
+        if (start + 1 < end)
         {
-            var digit1 = _text[start] - '0';
-            var digit2 = _text[start + 1] - '0';
+            var digit1 = text[start] - '0';
+            var digit2 = text[start + 1] - '0';
             if (digit1 is >= 0 and < 10 && digit2 is >= 0 and < 10)
             {
                 num = digit1 * 10 + digit2;
@@ -251,6 +251,6 @@ struct DateTimeParser
 
     bool ParseChar(int start, char ch)
     {
-        return start < _end && _text[start] == ch;
+        return start < end && text[start] == ch;
     }
 }

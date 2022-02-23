@@ -2,25 +2,25 @@
 
 class XmlElementWrapper : XmlNodeWrapper, IXmlElement
 {
-    readonly XmlElement _element;
+    readonly XmlElement element;
 
     public XmlElementWrapper(XmlElement element)
         : base(element)
     {
-        _element = element;
+        this.element = element;
     }
 
     public void SetAttributeNode(IXmlNode attribute)
     {
         var xmlAttributeWrapper = (XmlNodeWrapper)attribute;
 
-        _element.SetAttributeNode((XmlAttribute)xmlAttributeWrapper.WrappedNode!);
+        element.SetAttributeNode((XmlAttribute)xmlAttributeWrapper.WrappedNode!);
     }
 
     public string GetPrefixOfNamespace(string namespaceUri)
     {
-        return _element.GetPrefixOfNamespace(namespaceUri);
+        return element.GetPrefixOfNamespace(namespaceUri);
     }
 
-    public bool IsEmpty => _element.IsEmpty;
+    public bool IsEmpty => element.IsEmpty;
 }

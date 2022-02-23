@@ -35,14 +35,14 @@ public class DirectoryAccount
     public string Domain { get; set; }
 
     [JsonExtensionData]
-    IDictionary<string, JToken> _additionalData;
+    IDictionary<string, JToken> additionalData;
 
     [OnDeserialized]
     void OnDeserialized(StreamingContext context)
     {
         // SAMAccountName is not deserialized to any property
         // and so it is added to the extension data dictionary
-        var samAccountName = (string)_additionalData["SAMAccountName"];
+        var samAccountName = (string)additionalData["SAMAccountName"];
 
         Domain = samAccountName.Split('\\')[0];
         UserName = samAccountName.Split('\\')[1];
@@ -50,6 +50,6 @@ public class DirectoryAccount
 
     public DirectoryAccount()
     {
-        _additionalData = new Dictionary<string, JToken>();
+        additionalData = new Dictionary<string, JToken>();
     }
 }

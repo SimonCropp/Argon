@@ -32,8 +32,8 @@ namespace Argon;
 /// </summary>
 public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
 {
-    readonly Type _type;
-    readonly List<JsonProperty> _list;
+    readonly Type type;
+    readonly List<JsonProperty> list;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonPropertyCollection"/> class.
@@ -42,10 +42,10 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     public JsonPropertyCollection(Type type)
         : base(StringComparer.Ordinal)
     {
-        _type = type;
+        this.type = type;
 
         // foreach over List<T> to avoid boxing the Enumerator
-        _list = (List<JsonProperty>)Items;
+        list = (List<JsonProperty>)Items;
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
                         return;
                     }
 
-                    if (_type.ImplementInterface(existingProperty.DeclaringType) && _type.ImplementInterface(property.DeclaringType))
+                    if (type.ImplementInterface(existingProperty.DeclaringType) && type.ImplementInterface(property.DeclaringType))
                     {
                         // current property was already defined on another interface
                         return;
@@ -111,7 +111,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
 
             if (duplicateProperty)
             {
-                throw new JsonSerializationException($"A member with the name '{property.PropertyName}' already exists on '{_type}'. Use the JsonPropertyAttribute to specify another name.");
+                throw new JsonSerializationException($"A member with the name '{property.PropertyName}' already exists on '{type}'. Use the JsonPropertyAttribute to specify another name.");
             }
         }
 
@@ -161,9 +161,9 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
             return null;
         }
 
-        for (var i = 0; i < _list.Count; i++)
+        for (var i = 0; i < list.Count; i++)
         {
-            var property = _list[i];
+            var property = list[i];
             if (string.Equals(propertyName, property.PropertyName, comparisonType))
             {
                 return property;

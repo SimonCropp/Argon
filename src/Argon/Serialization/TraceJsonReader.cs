@@ -25,122 +25,122 @@
 
 class TraceJsonReader : JsonReader, IJsonLineInfo
 {
-    readonly JsonReader _innerReader;
-    readonly JsonTextWriter _textWriter;
-    readonly StringWriter _sw;
+    readonly JsonReader innerReader;
+    readonly JsonTextWriter textWriter;
+    readonly StringWriter stringWriter;
 
     public TraceJsonReader(JsonReader innerReader)
     {
-        _innerReader = innerReader;
+        this.innerReader = innerReader;
 
-        _sw = new StringWriter(CultureInfo.InvariantCulture);
+        stringWriter = new StringWriter(CultureInfo.InvariantCulture);
         // prefix the message in the stringwriter to avoid concat with a potentially large JSON string
-        _sw.Write($"Deserialized JSON: {Environment.NewLine}");
+        stringWriter.Write($"Deserialized JSON: {Environment.NewLine}");
 
-        _textWriter = new JsonTextWriter(_sw);
-        _textWriter.Formatting = Formatting.Indented;
+        textWriter = new JsonTextWriter(stringWriter);
+        textWriter.Formatting = Formatting.Indented;
     }
 
     public string GetDeserializedJsonMessage()
     {
-        return _sw.ToString();
+        return stringWriter.ToString();
     }
 
     public override bool Read()
     {
-        var value = _innerReader.Read();
+        var value = innerReader.Read();
         WriteCurrentToken();
         return value;
     }
 
     public override int? ReadAsInt32()
     {
-        var value = _innerReader.ReadAsInt32();
+        var value = innerReader.ReadAsInt32();
         WriteCurrentToken();
         return value;
     }
 
     public override string? ReadAsString()
     {
-        var value = _innerReader.ReadAsString();
+        var value = innerReader.ReadAsString();
         WriteCurrentToken();
         return value;
     }
 
     public override byte[]? ReadAsBytes()
     {
-        var value = _innerReader.ReadAsBytes();
+        var value = innerReader.ReadAsBytes();
         WriteCurrentToken();
         return value;
     }
 
     public override decimal? ReadAsDecimal()
     {
-        var value = _innerReader.ReadAsDecimal();
+        var value = innerReader.ReadAsDecimal();
         WriteCurrentToken();
         return value;
     }
 
     public override double? ReadAsDouble()
     {
-        var value = _innerReader.ReadAsDouble();
+        var value = innerReader.ReadAsDouble();
         WriteCurrentToken();
         return value;
     }
 
     public override bool? ReadAsBoolean()
     {
-        var value = _innerReader.ReadAsBoolean();
+        var value = innerReader.ReadAsBoolean();
         WriteCurrentToken();
         return value;
     }
 
     public override DateTime? ReadAsDateTime()
     {
-        var value = _innerReader.ReadAsDateTime();
+        var value = innerReader.ReadAsDateTime();
         WriteCurrentToken();
         return value;
     }
 
     public override DateTimeOffset? ReadAsDateTimeOffset()
     {
-        var value = _innerReader.ReadAsDateTimeOffset();
+        var value = innerReader.ReadAsDateTimeOffset();
         WriteCurrentToken();
         return value;
     }
 
     public void WriteCurrentToken()
     {
-        _textWriter.WriteToken(_innerReader, false, false, true);
+        textWriter.WriteToken(innerReader, false, false, true);
     }
 
-    public override int Depth => _innerReader.Depth;
+    public override int Depth => innerReader.Depth;
 
-    public override string Path => _innerReader.Path;
+    public override string Path => innerReader.Path;
 
     public override char QuoteChar
     {
-        get => _innerReader.QuoteChar;
-        protected internal set => _innerReader.QuoteChar = value;
+        get => innerReader.QuoteChar;
+        protected internal set => innerReader.QuoteChar = value;
     }
 
-    public override JsonToken TokenType => _innerReader.TokenType;
+    public override JsonToken TokenType => innerReader.TokenType;
 
-    public override object? Value => _innerReader.Value;
+    public override object? Value => innerReader.Value;
 
-    public override Type? ValueType => _innerReader.ValueType;
+    public override Type? ValueType => innerReader.ValueType;
 
     public override void Close()
     {
-        _innerReader.Close();
+        innerReader.Close();
     }
 
     bool IJsonLineInfo.HasLineInfo()
     {
-        return _innerReader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
+        return innerReader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
     }
 
-    int IJsonLineInfo.LineNumber => _innerReader is IJsonLineInfo lineInfo ? lineInfo.LineNumber : 0;
+    int IJsonLineInfo.LineNumber => innerReader is IJsonLineInfo lineInfo ? lineInfo.LineNumber : 0;
 
-    int IJsonLineInfo.LinePosition => _innerReader is IJsonLineInfo lineInfo ? lineInfo.LinePosition : 0;
+    int IJsonLineInfo.LinePosition => innerReader is IJsonLineInfo lineInfo ? lineInfo.LinePosition : 0;
 }

@@ -30,17 +30,17 @@ namespace Argon.Utilities;
 
 internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 {
-    readonly DynamicProxy<T> _proxy;
+    readonly DynamicProxy<T> proxy;
 
     internal DynamicProxyMetaObject(Expression expression, T value, DynamicProxy<T> proxy)
         : base(expression, BindingRestrictions.Empty, value)
     {
-        _proxy = proxy;
+        this.proxy = proxy;
     }
 
     bool IsOverridden(string method)
     {
-        return ReflectionUtils.IsMethodOverridden(_proxy.GetType(), typeof(DynamicProxy<T>), method);
+        return ReflectionUtils.IsMethodOverridden(proxy.GetType(), typeof(DynamicProxy<T>), method);
     }
 
     public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
@@ -253,7 +253,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
                 new[] { result },
                 Expression.Condition(
                     Expression.Call(
-                        Expression.Constant(_proxy),
+                        Expression.Constant(proxy),
                         typeof(DynamicProxy<T>).GetMethod(methodName),
                         callArgs
                     ),
@@ -303,7 +303,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
                 new[] { result },
                 Expression.Condition(
                     Expression.Call(
-                        Expression.Constant(_proxy),
+                        Expression.Constant(proxy),
                         typeof(DynamicProxy<T>).GetMethod(methodName),
                         callArgs
                     ),
@@ -343,7 +343,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         return new DynamicMetaObject(
             Expression.Condition(
                 Expression.Call(
-                    Expression.Constant(_proxy),
+                    Expression.Constant(proxy),
                     typeof(DynamicProxy<T>).GetMethod(methodName),
                     callArgs
                 ),
@@ -368,7 +368,7 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     public override IEnumerable<string> GetDynamicMemberNames()
     {
-        return _proxy.GetDynamicMemberNames((T)Value);
+        return proxy.GetDynamicMemberNames((T)Value);
     }
 
     // It is okay to throw NotSupported from this binder. This object
