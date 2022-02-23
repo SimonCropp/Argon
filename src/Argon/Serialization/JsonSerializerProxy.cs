@@ -23,6 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using ErrorEventArgs = Argon.ErrorEventArgs;
+
 class JsonSerializerProxy : JsonSerializer
 {
     readonly JsonSerializerInternalReader? serializerReader;
