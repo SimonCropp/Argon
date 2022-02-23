@@ -49,16 +49,16 @@ public partial class JConstructor : JContainer
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)
     {
-        if (content is not JConstructor c)
+        if (content is not JConstructor constructor)
         {
             return;
         }
 
-        if (c.Name != null)
+        if (constructor.Name != null)
         {
-            Name = c.Name;
+            Name = constructor.Name;
         }
-        MergeEnumerableContent(this, c, settings);
+        MergeEnumerableContent(this, constructor, settings);
     }
 
     /// <summary>
@@ -215,11 +215,11 @@ public partial class JConstructor : JContainer
             throw JsonReaderException.Create(reader, $"Error reading JConstructor from JsonReader. Current JsonReader item is not a constructor: {reader.TokenType}");
         }
 
-        var c = new JConstructor((string)reader.Value!);
-        c.SetLineInfo(reader as IJsonLineInfo, settings);
+        var constructor = new JConstructor((string)reader.Value!);
+        constructor.SetLineInfo(reader as IJsonLineInfo, settings);
 
-        c.ReadTokenFrom(reader, settings);
+        constructor.ReadTokenFrom(reader, settings);
 
-        return c;
+        return constructor;
     }
 }

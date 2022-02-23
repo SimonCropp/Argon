@@ -31,10 +31,12 @@ namespace Argon.Linq;
 /// <summary>
 /// Represents a token that can contain other tokens.
 /// </summary>
-public abstract partial class JContainer : JToken, IList<JToken>
-    , ITypedList, IBindingList
-    , IList
-    , INotifyCollectionChanged
+public abstract partial class JContainer :
+    JToken, IList<JToken>,
+    ITypedList,
+    IBindingList,
+    IList,
+    INotifyCollectionChanged
 {
     internal ListChangedEventHandler? listChanged;
     internal AddingNewEventHandler? addingNew;
@@ -98,11 +100,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
         {
             throw new InvalidOperationException($"Cannot change {GetType()} during a collection change event.");
         }
-    }
-
-    internal virtual IList<JToken> CreateChildrenCollection()
-    {
-        return new List<JToken>();
     }
 
     /// <summary>

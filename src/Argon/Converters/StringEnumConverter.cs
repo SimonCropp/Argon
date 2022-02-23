@@ -118,20 +118,19 @@ public class StringEnumConverter : JsonConverter
 
         var e = (Enum)value;
 
-        if (!EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out var enumName))
-        {
-            if (!AllowIntegerValues)
-            {
-                throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
-            }
-
-            // enum value has no name so write number
-            writer.WriteValue(value);
-        }
-        else
+        if (EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out var enumName))
         {
             writer.WriteValue(enumName);
+            return;
         }
+
+        if (!AllowIntegerValues)
+        {
+            throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
+        }
+
+        // enum value has no name so write number
+        writer.WriteValue(value);
     }
 
     /// <summary>
@@ -199,10 +198,11 @@ public class StringEnumConverter : JsonConverter
     /// </returns>
     public override bool CanConvert(Type type)
     {
-        var t = ReflectionUtils.IsNullableType(type)
-            ? Nullable.GetUnderlyingType(type)
-            : type;
+        if (ReflectionUtils.IsNullableType(type))
+        {
+            return Nullable.GetUnderlyingType(type).IsEnum;
+        }
 
-        return t.IsEnum;
+        return type.IsEnum;
     }
 }

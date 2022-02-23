@@ -56,12 +56,21 @@ public class RegexConverter : JsonConverter
 
     static void WriteJson(JsonWriter writer, Regex regex, JsonSerializer serializer)
     {
-        var resolver = serializer.ContractResolver as DefaultContractResolver;
-
         writer.WriteStartObject();
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(patternName) : patternName);
-        writer.WriteValue(regex.ToString());
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(optionsName) : optionsName);
+        var value = regex.ToString();
+        if (serializer.ContractResolver is DefaultContractResolver resolver)
+        {
+            writer.WritePropertyName(resolver.GetResolvedPropertyName(patternName));
+            writer.WriteValue(value);
+            writer.WritePropertyName(resolver.GetResolvedPropertyName(optionsName));
+        }
+        else
+        {
+            writer.WritePropertyName(patternName);
+            writer.WriteValue(value);
+            writer.WritePropertyName(optionsName);
+        }
+
         serializer.Serialize(writer, regex.Options);
         writer.WriteEndObject();
     }

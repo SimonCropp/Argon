@@ -41,15 +41,16 @@ public class VersionConverter : JsonConverter
         if (value == null)
         {
             writer.WriteNull();
+            return;
         }
-        else if (value is Version)
+
+        if (value is Version)
         {
             writer.WriteValue(value.ToString());
+            return;
         }
-        else
-        {
-            throw new JsonSerializationException("Expected Version object value");
-        }
+
+        throw new JsonSerializationException("Expected Version object value");
     }
 
     /// <summary>
@@ -71,8 +72,7 @@ public class VersionConverter : JsonConverter
         {
             try
             {
-                var v = new Version((string)reader.Value!);
-                return v;
+                return new Version((string)reader.Value!);
             }
             catch (Exception ex)
             {

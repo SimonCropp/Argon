@@ -44,6 +44,7 @@ public abstract class DateTimeConverterBase : JsonConverter
         {
             return true;
         }
+
         return type == typeof(DateTimeOffset) ||
                type == typeof(DateTimeOffset?);
     }
