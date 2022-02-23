@@ -29,49 +29,19 @@ namespace TestObjects;
 public class TestClass
 {
     [DataMember]
-    public string Name
-    {
-        get => _Name;
-        set => _Name = value;
-    }
-
-    string _Name = "Rick";
+    public string Name { get; set; } = "Rick";
 
     [DataMember]
-    public DateTime Now
-    {
-        get => _Now;
-        set => _Now = value;
-    }
-
-    DateTime _Now = DateTime.Now;
+    public DateTime Now { get; set; } = DateTime.Now;
 
     [DataMember]
-    public decimal BigNumber
-    {
-        get => _BigNumber;
-        set => _BigNumber = value;
-    }
-
-    decimal _BigNumber = 1212121.22M;
+    public decimal BigNumber { get; set; } = 1212121.22M;
 
     [DataMember]
-    public Address Address1
-    {
-        get => _Address1;
-        set => _Address1 = value;
-    }
-
-    Address _Address1 = new();
+    public Address Address1 { get; set; } = new();
 
     [DataMember]
-    public List<Address> Addresses
-    {
-        get => _Addresses;
-        set => _Addresses = value;
-    }
-
-    List<Address> _Addresses = new();
+    public List<Address> Addresses { get; set; } = new();
 
     [DataMember]
     public List<string> strings = new();

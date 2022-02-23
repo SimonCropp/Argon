@@ -27,12 +27,10 @@ namespace TestObjects;
 
 public class PublicParameterizedConstructorWithPropertyNameConflict
 {
-    readonly int _value;
-
     public PublicParameterizedConstructorWithPropertyNameConflict(string name)
     {
-        _value = Convert.ToInt32(name);
+        Name = Convert.ToInt32(name);
     }
 
-    public int Name => _value;
+    public int Name { get; }
 }

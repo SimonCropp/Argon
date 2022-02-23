@@ -43,7 +43,6 @@ public class JsonSerializer
     MetadataPropertyHandling metadataPropertyHandling;
     JsonConverterCollection? converters;
     internal IContractResolver contractResolver;
-    ITraceWriter? traceWriter;
     internal IEqualityComparer? equalityComparer;
     internal ISerializationBinder serializationBinder;
     internal StreamingContext context;
@@ -97,11 +96,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="ITraceWriter"/> used by the serializer when writing trace messages.
     /// </summary>
-    public virtual ITraceWriter? TraceWriter
-    {
-        get => traceWriter;
-        set => traceWriter = value;
-    }
+    public virtual ITraceWriter? TraceWriter { get; set; }
 
     /// <summary>
     /// Gets or sets the equality comparer used by the serializer when comparing references.

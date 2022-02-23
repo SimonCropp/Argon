@@ -27,12 +27,10 @@ namespace TestObjects;
 
 public class PublicParameterizedConstructorWithNonPropertyParameterTestClass
 {
-    readonly string _name;
-
     public PublicParameterizedConstructorWithNonPropertyParameterTestClass(string nameParameter)
     {
-        _name = nameParameter;
+        Name = nameParameter;
     }
 
-    public string Name => _name;
+    public string Name { get; }
 }

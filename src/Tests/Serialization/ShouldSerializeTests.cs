@@ -534,21 +534,9 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         [JsonIgnore] public bool ShouldSerializemyBazCalled { get; set; }
 
-        Baz1[] myBazField;
+        public Baz1[] myBaz { get; set; }
 
-        public Baz1[] myBaz
-        {
-            get => myBazField;
-            set => myBazField = value;
-        }
-
-        string nameField;
-
-        public string name
-        {
-            get => nameField;
-            set => nameField = value;
-        }
+        public string name { get; set; }
 
         public virtual bool ShouldSerializemyBaz()
         {
@@ -564,21 +552,9 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class Baz1
     {
-        Frob1[] myFrobField;
+        public Frob1[] myFrob { get; set; }
 
-        public Frob1[] myFrob
-        {
-            get => myFrobField;
-            set => myFrobField = value;
-        }
-
-        string nameField;
-
-        public string name
-        {
-            get => nameField;
-            set => nameField = value;
-        }
+        public string name { get; set; }
 
         public virtual bool ShouldSerializename()
         {
@@ -593,13 +569,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class Frob1
     {
-        string nameField;
-
-        public string name
-        {
-            get => nameField;
-            set => nameField = value;
-        }
+        public string name { get; set; }
 
         public virtual bool ShouldSerializename()
         {
