@@ -40,9 +40,6 @@ static class JsonTypeReflector
 
     static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
 
-    static readonly ThreadSafeStore<Type, Type?> AssociatedMetadataTypesCache = new(GetAssociateMetadataTypeFromAttribute);
-    static ReflectionObject? metadataTypeAttributeReflectionObject;
-
     public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
     {
         return CachedAttributeGetter<T>.GetAttribute(attributeProvider);
@@ -236,49 +233,9 @@ static class JsonTypeReflector
         };
     }
 
-    static Type? GetAssociatedMetadataType(Type type)
-    {
-        return AssociatedMetadataTypesCache.Get(type);
-    }
-
-    static Type? GetAssociateMetadataTypeFromAttribute(Type type)
-    {
-        var customAttributes = type.GetCustomAttributes(true);
-
-        foreach (var attribute in customAttributes)
-        {
-            var attributeType = attribute.GetType();
-
-            // only test on attribute type name
-            // attribute assembly could change because of type forwarding, etc
-            if (string.Equals(attributeType.FullName, "System.ComponentModel.DataAnnotations.MetadataTypeAttribute", StringComparison.Ordinal))
-            {
-                const string metadataClassTypeName = "MetadataClassType";
-
-                metadataTypeAttributeReflectionObject ??= ReflectionObject.Create(attributeType, metadataClassTypeName);
-
-                return (Type?)metadataTypeAttributeReflectionObject.GetValue(attribute, metadataClassTypeName);
-            }
-        }
-
-        return null;
-    }
-
     static T? GetAttribute<T>(Type type) where T : Attribute
     {
-        T? attribute;
-
-        var metadataType = GetAssociatedMetadataType(type);
-        if (metadataType != null)
-        {
-            attribute = metadataType.GetCustomAttribute<T>(true);
-            if (attribute != null)
-            {
-                return attribute;
-            }
-        }
-
-        attribute = type.GetCustomAttribute<T>(true);
+        var attribute = type.GetCustomAttribute<T>(true);
         if (attribute != null)
         {
             return attribute;
@@ -298,24 +255,7 @@ static class JsonTypeReflector
 
     static T? GetAttribute<T>(MemberInfo member) where T : Attribute
     {
-        T? attribute;
-
-        var metadataType = GetAssociatedMetadataType(member.DeclaringType);
-        if (metadataType != null)
-        {
-            var metadataTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(metadataType, member);
-
-            if (metadataTypeMemberInfo != null)
-            {
-                attribute = metadataTypeMemberInfo.GetCustomAttribute<T>(true);
-                if (attribute != null)
-                {
-                    return attribute;
-                }
-            }
-        }
-
-        attribute = member.GetCustomAttribute<T>(true);
+        var attribute = member.GetCustomAttribute<T>(true);
         if (attribute != null)
         {
             return attribute;

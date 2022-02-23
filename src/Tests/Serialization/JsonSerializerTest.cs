@@ -599,81 +599,6 @@ public class JsonSerializerTest : TestFixtureBase
         public string Value { get; }
     }
 
-#if !NET5_0_OR_GREATER
-    [Fact]
-    public void SerializeMetadataType()
-    {
-        var c = new CustomerWithMetadataType
-        {
-            UpdatedBy_Id = Guid.NewGuid()
-        };
-        var json = JsonConvert.SerializeObject(c);
-
-        Assert.Equal("{}", json);
-
-        var c2 = JsonConvert.DeserializeObject<CustomerWithMetadataType>("{'UpdatedBy_Id':'F6E0666D-13C7-4745-B486-800812C8F6DE'}");
-
-        Assert.Equal(Guid.Empty, c2.UpdatedBy_Id);
-    }
-
-    [Fact]
-    public void SerializeMetadataType2()
-    {
-        var c = new FaqItem
-        {
-            FaqId = 1,
-            Sections =
-            {
-                new FaqSection()
-            }
-        };
-
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""FaqId"": 1,
-  ""Name"": null,
-  ""IsDeleted"": false,
-  ""FullSectionsProp"": [
-    {}
-  ]
-}", json);
-
-        var c2 = JsonConvert.DeserializeObject<FaqItem>(json);
-
-        Assert.Equal(1, c2.FaqId);
-        Assert.Equal(1, c2.Sections.Count);
-    }
-
-    [Fact]
-    public void SerializeMetadataTypeInheritance()
-    {
-        var c = new FaqItemProxy
-        {
-            FaqId = 1
-        };
-        c.Sections.Add(new FaqSection());
-        c.IsProxy = true;
-
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""IsProxy"": true,
-  ""FaqId"": 1,
-  ""Name"": null,
-  ""IsDeleted"": false,
-  ""FullSectionsProp"": [
-    {}
-  ]
-}", json);
-
-        var c2 = JsonConvert.DeserializeObject<FaqItemProxy>(json);
-
-        Assert.Equal(1, c2.FaqId);
-        Assert.Equal(1, c2.Sections.Count);
-    }
-#endif
-
     [Fact]
     public void DeserializeNullToJTokenProperty()
     {
@@ -2949,35 +2874,6 @@ keyword such as type of business.""
         Assert.Equal("id", n.FidOrder[0]);
         Assert.Equal("titleId", n.FidOrder[n.FidOrder.Count - 1]);
     }
-
-#if !NET5_0_OR_GREATER
-    [Fact]
-    public void OptInClassMetadataSerialization()
-    {
-        var optInClass = new OptInClass
-        {
-            Age = 26,
-            Name = "James NK",
-            NotIncluded = "Poor me :("
-        };
-
-        var json = JsonConvert.SerializeObject(optInClass, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""James NK"",
-  ""Age"": 26
-}", json);
-
-        var newOptInClass = JsonConvert.DeserializeObject<OptInClass>(@"{
-  ""Name"": ""James NK"",
-  ""NotIncluded"": ""Ignore me!"",
-  ""Age"": 26
-}");
-        Assert.Equal(26, newOptInClass.Age);
-        Assert.Equal("James NK", newOptInClass.Name);
-        Assert.Equal(null, newOptInClass.NotIncluded);
-    }
-#endif
 
     [Fact]
     public void SerializeDataContractPrivateMembers()
