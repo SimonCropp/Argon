@@ -44,22 +44,22 @@ enum ReadType
 /// </summary>
 public partial class JsonTextReader : JsonReader, IJsonLineInfo
 {
-    const char UnicodeReplacementChar = '\uFFFD';
-    const int MaximumJavascriptIntegerCharacterLength = 380;
+    const char unicodeReplacementChar = '\uFFFD';
+    const int maximumJavascriptIntegerCharacterLength = 380;
 #if DEBUG
     internal int LargeBufferLength { get; set; } = int.MaxValue / 2;
 #else
-    const int LargeBufferLength = int.MaxValue / 2;
+    const int largeBufferLength = int.MaxValue / 2;
 #endif
 
-    readonly TextReader _reader;
-    int _charsUsed;
-    int _lineStartPos;
-    int _lineNumber;
-    bool _isEndOfFile;
-    StringBuffer _stringBuffer;
-    StringReference _stringReference;
-    IArrayPool<char>? _arrayPool;
+    readonly TextReader reader;
+    int charsUsed;
+    int lineStartPos;
+    int lineNumber;
+    bool isEndOfFile;
+    StringBuffer stringBuffer;
+    StringReference stringReference;
+    IArrayPool<char>? arrayPool;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextReader"/> class with the specified <see cref="TextReader"/>.
@@ -67,13 +67,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// <param name="reader">The <see cref="TextReader"/> containing the JSON data to read.</param>
     public JsonTextReader(TextReader reader)
     {
-        if (reader == null)
-        {
-            throw new ArgumentNullException(nameof(reader));
-        }
-
-        _reader = reader;
-        _lineNumber = 1;
+        this.reader = reader;
+        lineNumber = 1;
 
         safeAsync = GetType() == typeof(JsonTextReader);
     }
@@ -92,7 +87,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// </summary>
     public IArrayPool<char>? ArrayPool
     {
-        get => _arrayPool;
+        get => arrayPool;
         set
         {
             if (value == null)
@@ -100,15 +95,15 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 throw new ArgumentNullException(nameof(value));
             }
 
-            _arrayPool = value;
+            arrayPool = value;
         }
     }
 
     void EnsureBufferNotEmpty()
     {
-        if (_stringBuffer.IsEmpty)
+        if (stringBuffer.IsEmpty)
         {
-            _stringBuffer = new StringBuffer(_arrayPool, 1024);
+            stringBuffer = new StringBuffer(arrayPool, 1024);
         }
     }
 
@@ -126,8 +121,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void OnNewLine(int pos)
     {
-        _lineNumber++;
-        _lineStartPos = pos;
+        lineNumber++;
+        lineStartPos = pos;
     }
 
     void ParseString(char quote, ReadType readType)
@@ -147,23 +142,23 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         {
             case ReadType.ReadAsBytes:
                 byte[] data;
-                if (_stringReference.Length == 0)
+                if (stringReference.Length == 0)
                 {
                     data = CollectionUtils.ArrayEmpty<byte>();
                 }
-                else if (_stringReference.Length == 36 && ConvertUtils.TryConvertGuid(_stringReference.ToString(), out var g))
+                else if (stringReference.Length == 36 && ConvertUtils.TryConvertGuid(stringReference.ToString(), out var g))
                 {
                     data = g.ToByteArray();
                 }
                 else
                 {
-                    data = Convert.FromBase64CharArray(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length);
+                    data = Convert.FromBase64CharArray(stringReference.Chars, stringReference.StartIndex, stringReference.Length);
                 }
 
                 SetToken(JsonToken.Bytes, data, false);
                 break;
             case ReadType.ReadAsString:
-                var text = _stringReference.ToString();
+                var text = stringReference.ToString();
 
                 SetToken(JsonToken.String, text, false);
                 quoteChar = quote;
@@ -192,7 +187,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                     if (dateParseHandling == DateParseHandling.DateTime)
                     {
-                        if (DateTimeUtils.TryParseDateTime(_stringReference, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
+                        if (DateTimeUtils.TryParseDateTime(stringReference, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
                         {
                             SetToken(JsonToken.Date, dt, false);
                             return;
@@ -200,7 +195,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        if (DateTimeUtils.TryParseDateTimeOffset(_stringReference, DateFormatString, Culture, out var dt))
+                        if (DateTimeUtils.TryParseDateTimeOffset(stringReference, DateFormatString, Culture, out var dt))
                         {
                             SetToken(JsonToken.Date, dt, false);
                             return;
@@ -208,7 +203,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                 }
 
-                SetToken(JsonToken.String, _stringReference.ToString(), false);
+                SetToken(JsonToken.String, stringReference.ToString(), false);
                 quoteChar = quote;
                 break;
         }
@@ -229,18 +224,18 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         // shift the remaining content to the start to avoid unnecessarily increasing
         // the buffer size when reading numbers/strings
         var length = CharBuffer.Length;
-        if (length - CharPos <= length * 0.1 || length >= LargeBufferLength)
+        if (length - CharPos <= length * 0.1 || length >= largeBufferLength)
         {
-            var count = _charsUsed - CharPos;
+            var count = charsUsed - CharPos;
             if (count > 0)
             {
                 BlockCopyChars(CharBuffer, CharPos, CharBuffer, 0, count);
             }
 
-            _lineStartPos -= CharPos;
+            lineStartPos -= CharPos;
             CharPos = 0;
-            _charsUsed = count;
-            CharBuffer[_charsUsed] = '\0';
+            charsUsed = count;
+            CharBuffer[charsUsed] = '\0';
         }
     }
 
@@ -254,7 +249,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         MiscellaneousUtils.Assert(CharBuffer != null);
 
         // char buffer is full
-        if (_charsUsed + charsRequired >= CharBuffer.Length - 1)
+        if (charsUsed + charsRequired >= CharBuffer.Length - 1)
         {
             if (append)
             {
@@ -263,32 +258,32 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 // copy to new array either double the size of the current or big enough to fit required content
                 var newArrayLength = Math.Max(
                     doubledArrayLength < 0 ? int.MaxValue : doubledArrayLength, // handle overflow
-                    _charsUsed + charsRequired + 1);
+                    charsUsed + charsRequired + 1);
 
                 // increase the size of the buffer
-                var dst = BufferUtils.RentBuffer(_arrayPool, newArrayLength);
+                var dst = BufferUtils.RentBuffer(arrayPool, newArrayLength);
 
                 BlockCopyChars(CharBuffer, 0, dst, 0, CharBuffer.Length);
 
-                BufferUtils.ReturnBuffer(_arrayPool, CharBuffer);
+                BufferUtils.ReturnBuffer(arrayPool, CharBuffer);
 
                 CharBuffer = dst;
             }
             else
             {
-                var remainingCharCount = _charsUsed - CharPos;
+                var remainingCharCount = charsUsed - CharPos;
 
                 if (remainingCharCount + charsRequired + 1 >= CharBuffer.Length)
                 {
                     // the remaining count plus the required is bigger than the current buffer size
-                    var dst = BufferUtils.RentBuffer(_arrayPool, remainingCharCount + charsRequired + 1);
+                    var dst = BufferUtils.RentBuffer(arrayPool, remainingCharCount + charsRequired + 1);
 
                     if (remainingCharCount > 0)
                     {
                         BlockCopyChars(CharBuffer, CharPos, dst, 0, remainingCharCount);
                     }
 
-                    BufferUtils.ReturnBuffer(_arrayPool, CharBuffer);
+                    BufferUtils.ReturnBuffer(arrayPool, CharBuffer);
 
                     CharBuffer = dst;
                 }
@@ -301,16 +296,16 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                 }
 
-                _lineStartPos -= CharPos;
+                lineStartPos -= CharPos;
                 CharPos = 0;
-                _charsUsed = remainingCharCount;
+                charsUsed = remainingCharCount;
             }
         }
     }
 
     int ReadData(bool append, int charsRequired)
     {
-        if (_isEndOfFile)
+        if (isEndOfFile)
         {
             return 0;
         }
@@ -318,35 +313,35 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         PrepareBufferForReadData(append, charsRequired);
         MiscellaneousUtils.Assert(CharBuffer != null);
 
-        var attemptCharReadCount = CharBuffer.Length - _charsUsed - 1;
+        var attemptCharReadCount = CharBuffer.Length - charsUsed - 1;
 
-        var charsRead = _reader.Read(CharBuffer, _charsUsed, attemptCharReadCount);
+        var charsRead = reader.Read(CharBuffer, charsUsed, attemptCharReadCount);
 
-        _charsUsed += charsRead;
+        charsUsed += charsRead;
 
         if (charsRead == 0)
         {
-            _isEndOfFile = true;
+            isEndOfFile = true;
         }
 
-        CharBuffer[_charsUsed] = '\0';
+        CharBuffer[charsUsed] = '\0';
         return charsRead;
     }
 
     bool EnsureChars(int relativePosition, bool append)
     {
-        return CharPos + relativePosition < _charsUsed ||
+        return CharPos + relativePosition < charsUsed ||
                ReadChars(relativePosition, append);
     }
 
     bool ReadChars(int relativePosition, bool append)
     {
-        if (_isEndOfFile)
+        if (isEndOfFile)
         {
             return false;
         }
 
-        var charsRequired = CharPos + relativePosition - _charsUsed + 1;
+        var charsRequired = CharPos + relativePosition - charsUsed + 1;
 
         var totalCharsRead = 0;
 
@@ -405,7 +400,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     if (EnsureChars(0, false))
                     {
                         EatWhitespace();
-                        if (_isEndOfFile)
+                        if (isEndOfFile)
                         {
                             SetToken(JsonToken.None);
                             return false;
@@ -761,7 +756,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case '"':
                         case '\'':
                             ParseString(currentChar, ReadType.Read);
-                            return ReadBooleanString(_stringReference.ToString());
+                            return ReadBooleanString(stringReference.ToString());
                         case 'n':
                             HandleNull();
                             return null;
@@ -976,11 +971,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         switch (readType)
         {
             case ReadType.ReadAsInt32:
-                return ReadInt32String(_stringReference.ToString());
+                return ReadInt32String(stringReference.ToString());
             case ReadType.ReadAsDecimal:
-                return ReadDecimalString(_stringReference.ToString());
+                return ReadDecimalString(stringReference.ToString());
             case ReadType.ReadAsDouble:
-                return ReadDoubleString(_stringReference.ToString());
+                return ReadDoubleString(stringReference.ToString());
             default:
                 throw new ArgumentOutOfRangeException(nameof(readType));
         }
@@ -1031,7 +1026,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             throw CreateUnexpectedCharacterException(CharBuffer[CharPos - 1]);
         }
 
-        CharPos = _charsUsed;
+        CharPos = charsUsed;
         throw CreateUnexpectedEndException();
     }
 
@@ -1042,7 +1037,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         if (EnsureChars(0, false))
         {
             EatWhitespace();
-            if (_isEndOfFile)
+            if (isEndOfFile)
             {
                 return;
             }
@@ -1061,11 +1056,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     bool ReadNullChar()
     {
-        if (_charsUsed == CharPos)
+        if (charsUsed == CharPos)
         {
             if (ReadData(false) == 0)
             {
-                _isEndOfFile = true;
+                isEndOfFile = true;
                 return true;
             }
         }
@@ -1081,7 +1076,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (CharBuffer == null)
         {
-            CharBuffer = BufferUtils.RentBuffer(_arrayPool, 1024);
+            CharBuffer = BufferUtils.RentBuffer(arrayPool, 1024);
             CharBuffer[0] = '\0';
         }
     }
@@ -1093,14 +1088,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         var charPos = CharPos;
         var initialPosition = CharPos;
         var lastWritePosition = CharPos;
-        _stringBuffer.Position = 0;
+        stringBuffer.Position = 0;
 
         while (true)
         {
             switch (CharBuffer[charPos++])
             {
                 case '\0':
-                    if (_charsUsed == charPos - 1)
+                    if (charsUsed == charPos - 1)
                     {
                         charPos--;
 
@@ -1158,7 +1153,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             if (StringUtils.IsLowSurrogate(writeChar))
                             {
                                 // low surrogate with no preceding high surrogate; this char is replaced
-                                writeChar = UnicodeReplacementChar;
+                                writeChar = unicodeReplacementChar;
                             }
                             else if (StringUtils.IsHighSurrogate(writeChar))
                             {
@@ -1184,13 +1179,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                         else if (StringUtils.IsHighSurrogate(writeChar))
                                         {
                                             // another high surrogate; replace current and start check over
-                                            highSurrogate = UnicodeReplacementChar;
+                                            highSurrogate = unicodeReplacementChar;
                                             anotherHighSurrogate = true;
                                         }
                                         else
                                         {
                                             // high surrogate not followed by low surrogate; original char is replaced
-                                            highSurrogate = UnicodeReplacementChar;
+                                            highSurrogate = unicodeReplacementChar;
                                         }
 
                                         EnsureBufferNotEmpty();
@@ -1202,7 +1197,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                     {
                                         // there are not enough remaining chars for the low surrogate or is not follow by unicode sequence
                                         // replace high surrogate and continue on as usual
-                                        writeChar = UnicodeReplacementChar;
+                                        writeChar = unicodeReplacementChar;
                                     }
                                 } while (anotherHighSurrogate);
                             }
@@ -1247,7 +1242,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (initialPosition == lastWritePosition)
         {
-            _stringReference = new StringReference(CharBuffer, initialPosition, charPos - initialPosition);
+            stringReference = new StringReference(CharBuffer, initialPosition, charPos - initialPosition);
         }
         else
         {
@@ -1255,10 +1250,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
             if (charPos > lastWritePosition)
             {
-                _stringBuffer.Append(_arrayPool, CharBuffer, lastWritePosition, charPos - lastWritePosition);
+                stringBuffer.Append(arrayPool, CharBuffer, lastWritePosition, charPos - lastWritePosition);
             }
 
-            _stringReference = new StringReference(_stringBuffer.InternalBuffer!, 0, _stringBuffer.Position);
+            stringReference = new StringReference(stringBuffer.InternalBuffer!, 0, stringBuffer.Position);
         }
 
         CharPos = charPos + 1;
@@ -1270,10 +1265,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (writeToPosition > lastWritePosition)
         {
-            _stringBuffer.Append(_arrayPool, CharBuffer, lastWritePosition, writeToPosition - lastWritePosition);
+            stringBuffer.Append(arrayPool, CharBuffer, lastWritePosition, writeToPosition - lastWritePosition);
         }
 
-        _stringBuffer.Append(_arrayPool, writeChar);
+        stringBuffer.Append(arrayPool, writeChar);
     }
 
     char ConvertUnicode(bool enoughChars)
@@ -1313,7 +1308,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             {
                 CharPos = charPos;
 
-                if (_charsUsed == charPos)
+                if (charsUsed == charPos)
                 {
                     if (ReadData(true) == 0)
                     {
@@ -1382,8 +1377,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void ClearRecentString()
     {
-        _stringBuffer.Position = 0;
-        _stringReference = new StringReference();
+        stringBuffer.Position = 0;
+        stringReference = new StringReference();
     }
 
     bool ParsePostValue(bool ignoreComments)
@@ -1397,7 +1392,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == CharPos)
+                    if (charsUsed == CharPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1479,7 +1474,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == CharPos)
+                    if (charsUsed == CharPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1553,13 +1548,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (PropertyNameTable == null)
         {
-            propertyName = _stringReference.ToString();
+            propertyName = stringReference.ToString();
         }
         else
         {
-            propertyName = PropertyNameTable.Get(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length) ??
+            propertyName = PropertyNameTable.Get(stringReference.Chars, stringReference.StartIndex, stringReference.Length) ??
                            // no match in name table
-                           _stringReference.ToString();
+                           stringReference.ToString();
         }
 
         EatWhitespace();
@@ -1595,7 +1590,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             var currentChar = CharBuffer[CharPos];
             if (currentChar == '\0')
             {
-                if (_charsUsed == CharPos)
+                if (charsUsed == CharPos)
                 {
                     if (ReadData(true) == 0)
                     {
@@ -1605,7 +1600,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     continue;
                 }
 
-                _stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
+                stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
                 return;
             }
 
@@ -1628,7 +1623,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (char.IsWhiteSpace(currentChar) || currentChar == ':')
         {
-            _stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
+            stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
             return true;
         }
 
@@ -1646,7 +1641,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == CharPos)
+                    if (charsUsed == CharPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1788,7 +1783,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             switch (currentChar)
             {
                 case '\0':
-                    if (_charsUsed == CharPos)
+                    if (charsUsed == CharPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1836,7 +1831,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 var currentChar = CharBuffer[CharPos];
                 if (currentChar == '\0')
                 {
-                    if (_charsUsed == CharPos)
+                    if (charsUsed == CharPos)
                     {
                         if (ReadData(true) == 0)
                         {
@@ -1883,8 +1878,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
             }
 
-            _stringReference = new StringReference(CharBuffer, initialPosition, endPosition - initialPosition);
-            var constructorName = _stringReference.ToString();
+            stringReference = new StringReference(CharBuffer, initialPosition, endPosition - initialPosition);
+            var constructorName = stringReference.ToString();
 
             EatWhitespace();
 
@@ -1925,19 +1920,19 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         // set state to PostValue now so that if there is an error parsing the number then the reader can continue
         SetPostValueState(true);
 
-        _stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
+        stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
 
         object numberValue;
         JsonToken numberType;
 
-        var singleDigit = char.IsDigit(firstChar) && _stringReference.Length == 1;
-        var nonBase10 = firstChar == '0' && _stringReference.Length > 1 && _stringReference.Chars[_stringReference.StartIndex + 1] != '.' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'e' && _stringReference.Chars[_stringReference.StartIndex + 1] != 'E';
+        var singleDigit = char.IsDigit(firstChar) && stringReference.Length == 1;
+        var nonBase10 = firstChar == '0' && stringReference.Length > 1 && stringReference.Chars[stringReference.StartIndex + 1] != '.' && stringReference.Chars[stringReference.StartIndex + 1] != 'e' && stringReference.Chars[stringReference.StartIndex + 1] != 'E';
 
         switch (readType)
         {
             case ReadType.ReadAsString:
             {
-                var number = _stringReference.ToString();
+                var number = stringReference.ToString();
 
                 // validate that the string is a valid number
                 if (nonBase10)
@@ -1962,7 +1957,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     if (!double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
                     {
-                        throw ThrowReaderError($"Input string '{_stringReference.ToString()}' is not a valid number.");
+                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid number.");
                     }
                 }
 
@@ -1979,7 +1974,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else if (nonBase10)
                 {
-                    var number = _stringReference.ToString();
+                    var number = stringReference.ToString();
 
                     try
                     {
@@ -1994,18 +1989,18 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else
                 {
-                    var parseResult = ConvertUtils.Int32TryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var value);
+                    var parseResult = ConvertUtils.Int32TryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var value);
                     if (parseResult == ParseResult.Success)
                     {
                         numberValue = value;
                     }
                     else if (parseResult == ParseResult.Overflow)
                     {
-                        throw ThrowReaderError($"JSON integer {_stringReference.ToString()} is too large or small for an Int32.");
+                        throw ThrowReaderError($"JSON integer {stringReference.ToString()} is too large or small for an Int32.");
                     }
                     else
                     {
-                        throw ThrowReaderError($"Input string '{_stringReference.ToString()}' is not a valid integer.");
+                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid integer.");
                     }
                 }
 
@@ -2021,7 +2016,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else if (nonBase10)
                 {
-                    var number = _stringReference.ToString();
+                    var number = stringReference.ToString();
 
                     try
                     {
@@ -2037,14 +2032,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else
                 {
-                    var parseResult = ConvertUtils.DecimalTryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var value);
+                    var parseResult = ConvertUtils.DecimalTryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var value);
                     if (parseResult == ParseResult.Success)
                     {
                         numberValue = value;
                     }
                     else
                     {
-                        throw ThrowReaderError($"Input string '{_stringReference.ToString()}' is not a valid decimal.");
+                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid decimal.");
                     }
                 }
 
@@ -2060,7 +2055,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else if (nonBase10)
                 {
-                    var number = _stringReference.ToString();
+                    var number = stringReference.ToString();
 
                     try
                     {
@@ -2076,7 +2071,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else
                 {
-                    var number = _stringReference.ToString();
+                    var number = stringReference.ToString();
 
                     if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
                     {
@@ -2084,7 +2079,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        throw ThrowReaderError($"Input string '{_stringReference.ToString()}' is not a valid double.");
+                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid double.");
                     }
                 }
 
@@ -2102,7 +2097,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else if (nonBase10)
                 {
-                    var number = _stringReference.ToString();
+                    var number = stringReference.ToString();
 
                     try
                     {
@@ -2117,7 +2112,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else
                 {
-                    var parseResult = ConvertUtils.Int64TryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var value);
+                    var parseResult = ConvertUtils.Int64TryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var value);
                     if (parseResult == ParseResult.Success)
                     {
                         numberValue = value;
@@ -2125,11 +2120,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else if (parseResult == ParseResult.Overflow)
                     {
-                        var number = _stringReference.ToString();
+                        var number = stringReference.ToString();
 
-                        if (number.Length > MaximumJavascriptIntegerCharacterLength)
+                        if (number.Length > maximumJavascriptIntegerCharacterLength)
                         {
-                            throw ThrowReaderError($"JSON integer {_stringReference.ToString()} is too large to parse.");
+                            throw ThrowReaderError($"JSON integer {stringReference.ToString()} is too large to parse.");
                         }
 
                         numberValue = BigIntegerParse(number, CultureInfo.InvariantCulture);
@@ -2139,19 +2134,19 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         if (FloatParseHandling == FloatParseHandling.Decimal)
                         {
-                            parseResult = ConvertUtils.DecimalTryParse(_stringReference.Chars, _stringReference.StartIndex, _stringReference.Length, out var d);
+                            parseResult = ConvertUtils.DecimalTryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var d);
                             if (parseResult == ParseResult.Success)
                             {
                                 numberValue = d;
                             }
                             else
                             {
-                                throw ThrowReaderError($"Input string '{_stringReference.ToString()}' is not a valid decimal.");
+                                throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid decimal.");
                             }
                         }
                         else
                         {
-                            var number = _stringReference.ToString();
+                            var number = stringReference.ToString();
 
                             if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out var d))
                             {
@@ -2159,7 +2154,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             }
                             else
                             {
-                                throw ThrowReaderError($"Input string '{_stringReference.ToString()}' is not a valid number.");
+                                throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid number.");
                             }
                         }
 
@@ -2230,7 +2225,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             switch (CharBuffer[CharPos])
             {
                 case '\0':
-                    if (_charsUsed == CharPos)
+                    if (charsUsed == CharPos)
                     {
                         if (ReadData(true) == 0)
                         {
@@ -2307,7 +2302,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (!enoughChars)
         {
-            CharPos = _charsUsed;
+            CharPos = charsUsed;
             throw CreateUnexpectedEndException();
         }
 
@@ -2537,16 +2532,16 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (CharBuffer != null)
         {
-            BufferUtils.ReturnBuffer(_arrayPool, CharBuffer);
+            BufferUtils.ReturnBuffer(arrayPool, CharBuffer);
             CharBuffer = null;
         }
 
         if (CloseInput)
         {
-            _reader?.Close();
+            reader?.Close();
         }
 
-        _stringBuffer.Clear(_arrayPool);
+        stringBuffer.Clear(arrayPool);
     }
 
     /// <summary>
@@ -2572,12 +2567,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 return 0;
             }
 
-            return _lineNumber;
+            return lineNumber;
         }
     }
 
     /// <summary>
     /// Gets the current line position.
     /// </summary>
-    public int LinePosition => CharPos - _lineStartPos;
+    public int LinePosition => CharPos - lineStartPos;
 }

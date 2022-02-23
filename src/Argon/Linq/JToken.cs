@@ -385,11 +385,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     static JValue? EnsureValue(JToken value)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
-
         if (value is JProperty property)
         {
             value = property.Value;
@@ -2192,11 +2187,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="annotation">The annotation to add.</param>
     public void AddAnnotation(object annotation)
     {
-        if (annotation == null)
-        {
-            throw new ArgumentNullException(nameof(annotation));
-        }
-
         if (_annotations == null)
         {
             _annotations = annotation is object[] ? new[] { annotation } : annotation;
@@ -2264,11 +2254,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The first annotation object that matches the specified type, or <c>null</c> if no annotation is of the specified type.</returns>
     public object? Annotation(Type type)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
         if (_annotations != null)
         {
             if (_annotations is object[] annotations)
@@ -2344,11 +2329,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Object"/> that contains the annotations that match the specified type for this <see cref="JToken"/>.</returns>
     public IEnumerable<object> Annotations(Type type)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
         if (_annotations == null)
         {
             yield break;
@@ -2436,11 +2416,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="type">The <see cref="Type"/> of annotations to remove.</param>
     public void RemoveAnnotations(Type type)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
         if (_annotations != null)
         {
             if (_annotations is object?[] annotations)

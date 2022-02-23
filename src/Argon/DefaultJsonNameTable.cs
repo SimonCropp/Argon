@@ -98,11 +98,6 @@ public class DefaultJsonNameTable : JsonNameTable
     /// <returns>The resolved string.</returns>
     public string Add(string key)
     {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
         var length = key.Length;
         if (length == 0)
         {

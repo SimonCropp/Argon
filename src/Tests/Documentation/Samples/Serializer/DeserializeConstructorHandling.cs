@@ -36,11 +36,6 @@ public class DeserializeConstructorHandling : TestFixtureBase
 
         public Website(Website website)
         {
-            if (website == null)
-            {
-                throw new ArgumentNullException(nameof(website));
-            }
-
             Url = website.Url;
         }
     }

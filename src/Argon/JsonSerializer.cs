@@ -91,15 +91,7 @@ public class JsonSerializer
     public virtual ISerializationBinder SerializationBinder
     {
         get => _serializationBinder;
-        set
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value), "Serialization binder cannot be null.");
-            }
-
-            _serializationBinder = value;
-        }
+        set => _serializationBinder = value;
     }
 
     /// <summary>

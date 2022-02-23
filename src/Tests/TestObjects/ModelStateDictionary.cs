@@ -35,11 +35,6 @@ public class ModelStateDictionary<T> : IDictionary<string, T>
 
     public ModelStateDictionary(ModelStateDictionary<T> dictionary)
     {
-        if (dictionary == null)
-        {
-            throw new ArgumentNullException(nameof(dictionary));
-        }
-
         foreach (var entry in dictionary)
         {
             _innerDictionary.Add(entry.Key, entry.Value);

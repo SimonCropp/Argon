@@ -72,11 +72,6 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     public bool Contains(string key)
     {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
         if (_dictionary != null)
         {
             return _dictionary.ContainsKey(key);
@@ -114,11 +109,6 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     public bool Remove(string key)
     {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
         if (_dictionary != null)
         {
             return _dictionary.TryGetValue(key, out var value) && Remove(value);
@@ -167,11 +157,6 @@ class JPropertyKeyedCollection : Collection<JToken>
     {
         get
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
             if (_dictionary != null)
             {
                 return _dictionary[key];

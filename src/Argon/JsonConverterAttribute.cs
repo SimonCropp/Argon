@@ -48,11 +48,6 @@ public sealed class JsonConverterAttribute : Attribute
     /// <param name="converterType">Type of the <see cref="JsonConverter"/>.</param>
     public JsonConverterAttribute(Type converterType)
     {
-        if (converterType == null)
-        {
-            throw new ArgumentNullException(nameof(converterType));
-        }
-
         ConverterType = converterType;
     }
 

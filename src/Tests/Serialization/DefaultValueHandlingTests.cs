@@ -429,10 +429,6 @@ public class DefaultValueHandlingTests : TestFixtureBase
             get => _format;
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("Format");
-                }
                 _format = value;
                 _exportFormat = null;
             }

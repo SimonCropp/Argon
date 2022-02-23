@@ -115,11 +115,6 @@ public partial class JConstructor : JContainer
     /// <param name="name">The constructor name.</param>
     public JConstructor(string name)
     {
-        if (name == null)
-        {
-            throw new ArgumentNullException(nameof(name));
-        }
-
         if (name.Length == 0)
         {
             throw new ArgumentException("Constructor name cannot be empty.", nameof(name));

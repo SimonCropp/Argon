@@ -519,10 +519,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
     internal virtual void CopyItemsTo(Array array, int arrayIndex)
     {
-        if (array == null)
-        {
-            throw new ArgumentNullException(nameof(array));
-        }
         if (arrayIndex < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(arrayIndex), "arrayIndex is less than 0.");

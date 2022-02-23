@@ -2153,8 +2153,6 @@ public class TypeNameHandlingTests : TestFixtureBase
         [Argon.JsonConstructor]
         public Message2(string value)
         {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-
             Value = value;
         }
     }

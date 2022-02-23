@@ -32,11 +32,6 @@ public class FooConstructor
 
     public FooConstructor(string bar)
     {
-        if (bar == null)
-        {
-            throw new ArgumentNullException(nameof(bar));
-        }
-
         Bar = bar;
     }
 }

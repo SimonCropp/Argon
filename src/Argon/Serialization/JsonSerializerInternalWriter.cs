@@ -38,11 +38,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     public void Serialize(JsonWriter jsonWriter, object? value, Type? type)
     {
-        if (jsonWriter == null)
-        {
-            throw new ArgumentNullException(nameof(jsonWriter));
-        }
-
         _rootType = type;
         _rootLevel = _serializeStack.Count + 1;
 

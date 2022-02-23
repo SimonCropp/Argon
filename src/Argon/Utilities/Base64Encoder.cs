@@ -41,11 +41,6 @@ class Base64Encoder
 
     static void ValidateEncode(byte[] buffer, int index, int count)
     {
-        if (buffer == null)
-        {
-            throw new ArgumentNullException(nameof(buffer));
-        }
-
         if (index < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(index));

@@ -48,11 +48,6 @@ static class CollectionUtils
     /// <param name="collection">The collection of elements to add.</param>
     public static void AddRange<T>(this IList<T> initial, IEnumerable<T> collection)
     {
-        if (initial == null)
-        {
-            throw new ArgumentNullException(nameof(initial));
-        }
-
         if (collection == null)
         {
             return;

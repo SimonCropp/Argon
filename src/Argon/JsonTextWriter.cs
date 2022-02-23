@@ -122,11 +122,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <param name="textWriter">The <see cref="TextWriter"/> to write to.</param>
     public JsonTextWriter(TextWriter textWriter)
     {
-        if (textWriter == null)
-        {
-            throw new ArgumentNullException(nameof(textWriter));
-        }
-
         writer = textWriter;
         quoteChar = '"';
         QuoteName = true;

@@ -53,12 +53,7 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
     /// <returns>The contract for a given type.</returns>
     public override JsonContract ResolveContract(Type type)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
-        // for backwards compadibility the CamelCasePropertyNamesContractResolver shares contracts between instances
+        // for backwards compatibility the CamelCasePropertyNamesContractResolver shares contracts between instances
         var key = new StructMultiKey<Type, Type>(GetType(), type);
         var cache = _contractCache;
         if (cache == null || !cache.TryGetValue(key, out var contract))

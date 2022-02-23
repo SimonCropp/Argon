@@ -114,11 +114,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     public object? Deserialize(JsonReader reader, Type? type, bool checkAdditionalContent)
     {
-        if (reader == null)
-        {
-            throw new ArgumentNullException(nameof(reader));
-        }
-
         var contract = GetContractSafe(type);
 
         try
