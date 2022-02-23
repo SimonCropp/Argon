@@ -271,14 +271,14 @@ static class JsonTypeReflector
         var metadataType = GetAssociatedMetadataType(type);
         if (metadataType != null)
         {
-            attribute = ReflectionUtils.GetAttribute<T>(metadataType, true);
+            attribute = metadataType.GetCustomAttribute<T>(true);
             if (attribute != null)
             {
                 return attribute;
             }
         }
 
-        attribute = ReflectionUtils.GetAttribute<T>(type, true);
+        attribute = type.GetCustomAttribute<T>(true);
         if (attribute != null)
         {
             return attribute;
@@ -286,7 +286,7 @@ static class JsonTypeReflector
 
         foreach (var typeInterface in type.GetInterfaces())
         {
-            attribute = ReflectionUtils.GetAttribute<T>(typeInterface, true);
+            attribute = typeInterface.GetCustomAttribute<T>(true);
             if (attribute != null)
             {
                 return attribute;
@@ -307,7 +307,7 @@ static class JsonTypeReflector
 
             if (metadataTypeMemberInfo != null)
             {
-                attribute = ReflectionUtils.GetAttribute<T>(metadataTypeMemberInfo, true);
+                attribute = metadataTypeMemberInfo.GetCustomAttribute<T>(true);
                 if (attribute != null)
                 {
                     return attribute;
@@ -315,7 +315,7 @@ static class JsonTypeReflector
             }
         }
 
-        attribute = ReflectionUtils.GetAttribute<T>(member, true);
+        attribute = member.GetCustomAttribute<T>(true);
         if (attribute != null)
         {
             return attribute;
@@ -329,7 +329,7 @@ static class JsonTypeReflector
 
                 if (interfaceTypeMemberInfo != null)
                 {
-                    attribute = ReflectionUtils.GetAttribute<T>(interfaceTypeMemberInfo, true);
+                    attribute = interfaceTypeMemberInfo.GetCustomAttribute<T>(true);
                     if (attribute != null)
                     {
                         return attribute;

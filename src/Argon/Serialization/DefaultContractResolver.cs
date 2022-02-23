@@ -336,7 +336,7 @@ public class DefaultContractResolver : IContractResolver
 
     static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
     {
-        var extensionDataAttribute = ReflectionUtils.GetAttribute<JsonExtensionDataAttribute>(member);
+        var extensionDataAttribute = member.GetCustomAttribute<JsonExtensionDataAttribute>(true);
         if (extensionDataAttribute == null)
         {
             return;

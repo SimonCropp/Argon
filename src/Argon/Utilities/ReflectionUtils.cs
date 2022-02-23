@@ -589,11 +589,6 @@ static class ReflectionUtils
         return memberUnderlyingType.IsGenericParameter;
     }
 
-    public static T? GetAttribute<T>(object attributeProvider) where T : Attribute
-    {
-        return GetAttribute<T>(attributeProvider, true);
-    }
-
     public static T? GetAttribute<T>(object attributeProvider, bool inherit) where T : Attribute
     {
         var attributes = GetAttributes<T>(attributeProvider, inherit);
@@ -741,31 +736,31 @@ static class ReflectionUtils
 
     public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr)
     {
-        var propertys = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
+        var properties = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
 
         // GetProperties on an interface doesn't return properties from its interfaces
         if (targetType.IsInterface)
         {
             foreach (var i in targetType.GetInterfaces())
             {
-                propertys.AddRange(i.GetProperties(bindingAttr));
+                properties.AddRange(i.GetProperties(bindingAttr));
             }
         }
 
-        GetChildPrivateProperties(propertys, targetType, bindingAttr);
+        GetChildPrivateProperties(properties, targetType, bindingAttr);
 
         // a base class private getter/setter will be inaccessible unless the property was gotten from the base class
-        for (var i = 0; i < propertys.Count; i++)
+        for (var i = 0; i < properties.Count; i++)
         {
-            var member = propertys[i];
+            var member = properties[i];
             if (member.DeclaringType != targetType)
             {
                 var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType, member);
-                propertys[i] = declaredMember;
+                properties[i] = declaredMember;
             }
         }
 
-        return propertys;
+        return properties;
     }
 
     static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag)
@@ -786,56 +781,52 @@ static class ReflectionUtils
         {
             foreach (var property in targetType.GetProperties(bindingAttr))
             {
-                var subTypeProperty = property;
-
-                if (subTypeProperty.IsVirtual())
+                if (property.IsVirtual())
                 {
-                    var subTypePropertyDeclaringType = subTypeProperty.GetBaseDefinition()?.DeclaringType ?? subTypeProperty.DeclaringType;
+                    var subTypePropertyDeclaringType = property.GetBaseDefinition()?.DeclaringType ?? property.DeclaringType;
 
-                    var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
-                                                               && p.IsVirtual()
-                                                               && (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
+                    var index = initialProperties.IndexOf(p =>
+                        p.Name == property.Name &&
+                        p.IsVirtual() &&
+                        (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
 
                     // don't add a virtual property that has an override
                     if (index == -1)
                     {
-                        initialProperties.Add(subTypeProperty);
+                        initialProperties.Add(property);
                     }
+                    continue;
                 }
-                else
-                {
-                    if (!IsPublic(subTypeProperty))
-                    {
-                        // have to test on name rather than reference because instances are different
-                        // depending on the type that GetProperties was called on
-                        var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name);
-                        if (index == -1)
-                        {
-                            initialProperties.Add(subTypeProperty);
-                        }
-                        else
-                        {
-                            var childProperty = initialProperties[index];
-                            // don't replace public child with private base
-                            if (!IsPublic(childProperty))
-                            {
-                                // replace nonpublic properties for a child, but gotten from
-                                // the parent with the one from the child
-                                // the property gotten from the child will have access to private getter/setter
-                                initialProperties[index] = subTypeProperty;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
-                                                                   && p.DeclaringType == subTypeProperty.DeclaringType);
 
-                        if (index == -1)
-                        {
-                            initialProperties.Add(subTypeProperty);
-                        }
+                if (IsPublic(property))
+                {
+                    var publicIndex = initialProperties.IndexOf(p => p.Name == property.Name
+                                                               && p.DeclaringType == property.DeclaringType);
+
+                    if (publicIndex == -1)
+                    {
+                        initialProperties.Add(property);
                     }
+                    continue;
+                }
+
+                // have to test on name rather than reference because instances are different
+                // depending on the type that GetProperties was called on
+                var nonPublicIndex  = initialProperties.IndexOf(p => p.Name == property.Name);
+                if (nonPublicIndex == -1)
+                {
+                    initialProperties.Add(property);
+                    continue;
+                }
+
+                var childProperty = initialProperties[nonPublicIndex];
+                // don't replace public child with private base
+                if (!IsPublic(childProperty))
+                {
+                    // replace nonpublic properties for a child, but gotten from
+                    // the parent with the one from the child
+                    // the property gotten from the child will have access to private getter/setter
+                    initialProperties[nonPublicIndex] = property;
                 }
             }
         }
