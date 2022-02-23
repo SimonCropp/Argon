@@ -23,7 +23,7 @@ class BooleanQueryExpression : QueryExpression
             return JPath.Evaluate(pathFilters, root, t, JTokenExtensions.DefaultSettings);
         }
 
-        return CollectionUtils.ArrayEmpty<JToken>();
+        return Array.Empty<JToken>();
     }
 
     public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)

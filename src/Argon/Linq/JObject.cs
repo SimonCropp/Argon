@@ -34,11 +34,14 @@ namespace Argon.Linq;
 /// Represents a JSON object.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
 /// </example>
-public partial class JObject : JContainer, IDictionary<string, JToken?>, INotifyPropertyChanged
-    , ICustomTypeDescriptor
-    , INotifyPropertyChanging
+public partial class JObject :
+    JContainer,
+    IDictionary<string, JToken?>,
+    INotifyPropertyChanged,
+    ICustomTypeDescriptor,
+    INotifyPropertyChanging
 {
     readonly JPropertyKeyedCollection properties = new();
 
@@ -398,7 +401,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     ///     <paramref name="json"/> is not valid JSON.
     /// </exception>
     /// <example>
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
     public new static JObject Parse(string json)
     {
@@ -416,7 +419,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     ///     <paramref name="json"/> is not valid JSON.
     /// </exception>
     /// <example>
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
     public new static JObject Parse(string json, JsonLoadSettings? settings)
     {

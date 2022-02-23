@@ -31,8 +31,8 @@ namespace Argon;
 /// Specifies default value handling options for the <see cref="JsonSerializer"/>.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingObject" title="DefaultValueHandling Class" />
-///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingExample" title="DefaultValueHandling Ignore Example" />
+///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingObject" title="DefaultValueHandling Class" />
+///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingExample" title="DefaultValueHandling Ignore Example" />
 /// </example>
 [Flags]
 public enum DefaultValueHandling

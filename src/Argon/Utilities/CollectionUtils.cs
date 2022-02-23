@@ -251,21 +251,8 @@ static class CollectionUtils
         }
 
         var multidimensionalArray = Array.CreateInstance(type, dimensions.ToArray());
-        CopyFromJaggedToMultidimensionalArray(values, multidimensionalArray, ArrayEmpty<int>());
+        CopyFromJaggedToMultidimensionalArray(values, multidimensionalArray, Array.Empty<int>());
 
         return multidimensionalArray;
-    }
-
-    public static T[] ArrayEmpty<T>()
-    {
-        // Enumerable.Empty<T> no longer returns an empty array in .NET Core 3.0
-        return EmptyArrayContainer<T>.Empty;
-    }
-
-    static class EmptyArrayContainer<T>
-    {
-#pragma warning disable CA1825 // Avoid zero-length array allocations.
-        public static readonly T[] Empty = new T[0];
-#pragma warning restore CA1825 // Avoid zero-length array allocations.
     }
 }

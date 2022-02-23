@@ -690,7 +690,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         var hasWrittenMetadataObject = WriteStartArray(writer, values, contract, member, collectionContract, containerProperty);
 
-        SerializeMultidimensionalArray(writer, values, contract, member, writer.Top, CollectionUtils.ArrayEmpty<int>());
+        SerializeMultidimensionalArray(writer, values, contract, member, writer.Top, Array.Empty<int>());
 
         if (hasWrittenMetadataObject)
         {

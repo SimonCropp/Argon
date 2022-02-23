@@ -29,7 +29,7 @@ class DynamicProxy<T>
 {
     public virtual IEnumerable<string> GetDynamicMemberNames(T instance)
     {
-        return CollectionUtils.ArrayEmpty<string>();
+        return Array.Empty<string>();
     }
 
     public virtual bool TryBinaryOperation(T instance, BinaryOperationBinder binder, object arg, out object? result)

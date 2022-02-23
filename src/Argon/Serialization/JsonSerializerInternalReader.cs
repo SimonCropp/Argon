@@ -2100,7 +2100,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 return CreateObjectUsingCreatorWithParameters(reader, objectContract, containerMember, objectContract.OverrideCreator, id);
             }
 
-            newObject = objectContract.OverrideCreator(CollectionUtils.ArrayEmpty<object>());
+            newObject = objectContract.OverrideCreator(Array.Empty<object>());
         }
         else if (objectContract.DefaultCreator != null &&
                  (!objectContract.DefaultCreatorNonPublic || Serializer.constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor || objectContract.ParameterizedCreator == null))

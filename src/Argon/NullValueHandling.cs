@@ -29,8 +29,8 @@ namespace Argon;
 /// Specifies null value handling options for the <see cref="JsonSerializer"/>.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingObject" title="NullValueHandling Class" />
-///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingExample" title="NullValueHandling Ignore Example" />
+///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingObject" title="NullValueHandling Class" />
+///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeNullValueHandlingExample" title="NullValueHandling Ignore Example" />
 /// </example>
 public enum NullValueHandling
 {

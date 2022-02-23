@@ -29,7 +29,7 @@ namespace Argon;
 /// Specifies reference handling options for the <see cref="JsonSerializer"/>.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\Src\Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesOn" title="Preserve Object References" />
+///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="PreservingObjectReferencesOn" title="Preserve Object References" />
 /// </example>
 [Flags]
 public enum PreserveReferencesHandling

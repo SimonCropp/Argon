@@ -190,7 +190,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     delegate DynamicMetaObject Fallback(DynamicMetaObject? errorSuggestion);
 
-    static Expression[] NoArgs => CollectionUtils.ArrayEmpty<Expression>();
+    static Expression[] NoArgs => Array.Empty<Expression>();
 
     static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args)
     {
