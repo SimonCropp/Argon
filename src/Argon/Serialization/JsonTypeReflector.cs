@@ -243,7 +243,7 @@ static class JsonTypeReflector
 
     static Type? GetAssociateMetadataTypeFromAttribute(Type type)
     {
-        var customAttributes = ReflectionUtils.GetAttributes(type, null, true);
+        var customAttributes = type.GetCustomAttributes(true);
 
         foreach (var attribute in customAttributes)
         {
