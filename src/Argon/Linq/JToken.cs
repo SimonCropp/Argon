@@ -1745,12 +1745,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     internal static JToken FromObjectInternal(object o, JsonSerializer jsonSerializer)
     {
-        JToken token;
         using var jsonWriter = new JTokenWriter();
         jsonSerializer.Serialize(jsonWriter, o);
-        token = jsonWriter.Token!;
-
-        return token;
+        return jsonWriter.Token!;
     }
 
     /// <summary>
