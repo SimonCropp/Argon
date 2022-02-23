@@ -231,16 +231,17 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                 writer.WritePropertyName(propertyName);
                 writer.WriteToken(reader, true, true, false);
+                continue;
             }
-            else if (reader.TokenType == JsonToken.Comment)
+
+            if (reader.TokenType == JsonToken.Comment)
             {
                 // eat
+                continue;
             }
-            else
-            {
-                writer.WriteEndObject();
-                return writer.Token!;
-            }
+
+            writer.WriteEndObject();
+            return writer.Token!;
         } while (reader.Read());
 
         throw JsonSerializationException.Create(reader, "Unexpected end when deserializing object.");
@@ -336,39 +337,44 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     JsonConverter? GetConverter(JsonContract? contract, JsonConverter? memberConverter, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
-        JsonConverter? converter = null;
         if (memberConverter != null)
         {
             // member attribute converter
-            converter = memberConverter;
+            return memberConverter;
         }
-        else if (containerProperty?.ItemConverter != null)
+
+        if (containerProperty?.ItemConverter != null)
         {
-            converter = containerProperty.ItemConverter;
+            return containerProperty.ItemConverter;
         }
-        else if (containerContract?.ItemConverter != null)
+
+        if (containerContract?.ItemConverter != null)
         {
-            converter = containerContract.ItemConverter;
+            return containerContract.ItemConverter;
         }
-        else if (contract != null)
+
+        if (contract != null)
         {
             if (contract.Converter != null)
             {
                 // class attribute converter
-                converter = contract.Converter;
+                return contract.Converter;
             }
-            else if (Serializer.GetMatchingConverter(contract.UnderlyingType) is JsonConverter matchingConverter)
+
+            if (Serializer.GetMatchingConverter(contract.UnderlyingType) is JsonConverter matchingConverter)
             {
                 // passed in converters
-                converter = matchingConverter;
+                return matchingConverter;
             }
-            else if (contract.InternalConverter != null)
+
+            if (contract.InternalConverter != null)
             {
                 // internally specified converter
-                converter = contract.InternalConverter;
+                return contract.InternalConverter;
             }
         }
-        return converter;
+
+        return null;
     }
 
     object? CreateObject(JsonReader reader, Type? type, JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue)
@@ -768,11 +774,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     JsonArrayContract EnsureArrayContract(JsonReader reader, Type type, JsonContract contract)
     {
-        if (contract == null)
-        {
-            throw JsonSerializationException.Create(reader, $"Could not resolve type '{type}' to a JsonContract.");
-        }
-
         if (contract is not JsonArrayContract arrayContract)
         {
             var message = $@"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.{Environment.NewLine}";
@@ -1464,10 +1465,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             // break out of reading array to prevent infinite loop
                             throw JsonSerializationException.Create(reader, "Infinite loop detected from error handling.", ex);
                         }
-                        else
-                        {
-                            previousErrorIndex = errorPosition.Position;
-                        }
+
+                        previousErrorIndex = errorPosition.Position;
                     }
                     else
                     {
@@ -1616,10 +1615,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         // break out of reading array to prevent infinite loop
                         throw JsonSerializationException.Create(reader, "Infinite loop detected from error handling.", ex);
                     }
-                    else
-                    {
-                        previousErrorIndex = errorPosition.Position;
-                    }
+
+                    previousErrorIndex = errorPosition.Position;
                 }
                 else
                 {
@@ -2301,37 +2298,32 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     void SetExtensionData(JsonObjectContract contract, JsonProperty? member, JsonReader reader, string memberName, object o)
     {
-        if (contract.ExtensionDataSetter != null)
-        {
-            try
-            {
-                var value = ReadExtensionDataValue(contract, member, reader);
-
-                contract.ExtensionDataSetter(o, memberName, value);
-            }
-            catch (Exception ex)
-            {
-                throw JsonSerializationException.Create(reader, $"Error setting value in extension data for type '{contract.UnderlyingType}'.", ex);
-            }
-        }
-        else
+        if (contract.ExtensionDataSetter == null)
         {
             reader.Skip();
+            return;
+        }
+
+        try
+        {
+            var value = ReadExtensionDataValue(contract, member, reader);
+
+            contract.ExtensionDataSetter(o, memberName, value);
+        }
+        catch (Exception ex)
+        {
+            throw JsonSerializationException.Create(reader, $"Error setting value in extension data for type '{contract.UnderlyingType}'.", ex);
         }
     }
 
     object? ReadExtensionDataValue(JsonObjectContract contract, JsonProperty? member, JsonReader reader)
     {
-        object? value;
         if (contract.ExtensionDataIsJToken)
         {
-            value = JToken.ReadFrom(reader);
+            return JToken.ReadFrom(reader);
         }
-        else
-        {
-            value = CreateValueInternal(reader, null, null, null, contract, member, null);
-        }
-        return value;
+
+        return CreateValueInternal(reader, null, null, null, contract, member, null);
     }
 
     void EndProcessProperty(object newObject, JsonReader reader, JsonObjectContract contract, int initialDepth, JsonProperty property, PropertyPresence presence, bool setDefaultValue)

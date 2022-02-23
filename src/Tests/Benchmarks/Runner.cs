@@ -29,7 +29,7 @@ public class Runner : TestFixtureBase
     [Fact]
     public void RunBenchmarks()
     {
-        new BenchmarkSwitcher(typeof(Runner).GetTypeInfo().Assembly).Run(new []{ "*" });
+        new BenchmarkSwitcher(typeof(Runner).Assembly).Run(new []{ "*" });
     }
 #endif
 }

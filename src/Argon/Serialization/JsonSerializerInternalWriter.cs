@@ -336,9 +336,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         try
         {
-            var reference = Serializer.GetReferenceResolver().GetReference(this, value);
-
-            return reference;
+            return Serializer.GetReferenceResolver().GetReference(this, value);
         }
         catch (Exception ex)
         {
@@ -346,7 +344,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
     }
 
-    internal static bool TryConvertToString(object value, Type type, [NotNullWhen(true)]out string? s)
+    static bool TryConvertToString(object value, Type type, [NotNullWhen(true)]out string? s)
     {
         if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out var converter))
         {
@@ -596,30 +594,29 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         if (ShouldWriteReference(value, null, contract, collectionContract, containerProperty))
         {
             WriteReference(writer, value);
+            return;
         }
-        else
+
+        if (!CheckForCircularReference(writer, value, null, contract, collectionContract, containerProperty))
         {
-            if (!CheckForCircularReference(writer, value, null, contract, collectionContract, containerProperty))
-            {
-                return;
-            }
-
-            serializeStack.Add(value);
-
-            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-            {
-                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Started serializing {value.GetType()} with converter {converter.GetType()}."), null);
-            }
-
-            converter.WriteJson(writer, value, GetInternalSerializer());
-
-            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-            {
-                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Finished serializing {value.GetType()} with converter {converter.GetType()}."), null);
-            }
-
-            serializeStack.RemoveAt(serializeStack.Count - 1);
+            return;
         }
+
+        serializeStack.Add(value);
+
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
+        {
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Started serializing {value.GetType()} with converter {converter.GetType()}."), null);
+        }
+
+        converter.WriteJson(writer, value, GetInternalSerializer());
+
+        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
+        {
+            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Finished serializing {value.GetType()} with converter {converter.GetType()}."), null);
+        }
+
+        serializeStack.RemoveAt(serializeStack.Count - 1);
     }
 
     void SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
@@ -876,7 +873,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     bool ShouldWriteDynamicProperty(object? memberValue)
     {
-        if (Serializer.nullValueHandling == NullValueHandling.Ignore && memberValue == null)
+        if (Serializer.nullValueHandling == NullValueHandling.Ignore &&
+            memberValue == null)
         {
             return false;
         }

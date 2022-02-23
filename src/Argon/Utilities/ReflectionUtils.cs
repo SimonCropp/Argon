@@ -30,7 +30,7 @@ static class ReflectionUtils
         return property.Method() is {IsVirtual: true};
     }
 
-    public static MethodInfo? Method(this PropertyInfo property)
+    static MethodInfo? Method(this PropertyInfo property)
     {
         var m = property.GetMethod;
         if (m != null)

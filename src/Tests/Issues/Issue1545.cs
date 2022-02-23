@@ -109,11 +109,7 @@ public class LineInfoConverter : JsonConverter
 
     public override bool CanConvert(Type type)
     {
-#if NET5_0_OR_GREATER
-            return typeof(JsonLineInfo).GetTypeInfo().IsAssignableFrom(type.GetTypeInfo());
-#else
         return typeof(JsonLineInfo).IsAssignableFrom(type);
-#endif
     }
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
