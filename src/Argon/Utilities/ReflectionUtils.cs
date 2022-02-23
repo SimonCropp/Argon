@@ -386,30 +386,29 @@ static class ReflectionUtils
     /// <returns>The member's value on the object.</returns>
     public static object GetMemberValue(MemberInfo member, object target)
     {
-        switch (member.MemberType)
+        if (member is PropertyInfo property)
         {
-            case MemberTypes.Field:
-                return ((FieldInfo) member).GetValue(target);
-            case MemberTypes.Property:
-                try
-                {
-                    return ((PropertyInfo) member).GetValue(target, null);
-                }
-                catch (TargetParameterCountException e)
-                {
-                    throw new ArgumentException($"MemberInfo '{member.Name}' has index parameters", e);
-                }
-            default:
-                throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
+            try
+            {
+                return property.GetValue(target, null);
+            }
+            catch (TargetParameterCountException e)
+            {
+                throw new ArgumentException($"MemberInfo '{member.Name}' has index parameters", e);
+            }
         }
+
+        if (member is FieldInfo field)
+        {
+            return field.GetValue(target);
+        }
+
+        throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
     }
 
     /// <summary>
     /// Sets the member's value on the target object.
     /// </summary>
-    /// <param name="member">The member.</param>
-    /// <param name="target">The target.</param>
-    /// <param name="value">The value.</param>
     public static void SetMemberValue(MemberInfo member, object target, object? value)
     {
         switch (member.MemberType)
@@ -435,30 +434,27 @@ static class ReflectionUtils
     /// </returns>
     public static bool CanReadMemberValue(MemberInfo member, bool nonPublic)
     {
-        switch (member.MemberType)
+        if (member is PropertyInfo property)
         {
-            case MemberTypes.Field:
-                var field = (FieldInfo) member;
-
-                return nonPublic || field.IsPublic;
-
-            case MemberTypes.Property:
-                var property = (PropertyInfo) member;
-
-                if (!property.CanRead)
-                {
-                    return false;
-                }
-
-                if (nonPublic)
-                {
-                    return true;
-                }
-
-                return property.GetGetMethod(nonPublic) != null;
-            default:
+            if (!property.CanRead)
+            {
                 return false;
+            }
+
+            if (nonPublic)
+            {
+                return true;
+            }
+
+            return property.GetGetMethod(nonPublic) != null;
         }
+
+        if (member is FieldInfo field)
+        {
+            return nonPublic || field.IsPublic;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -472,39 +468,37 @@ static class ReflectionUtils
     /// </returns>
     public static bool CanSetMemberValue(MemberInfo member, bool nonPublic, bool canSetReadOnly)
     {
-        switch (member.MemberType)
+        if (member is PropertyInfo property)
         {
-            case MemberTypes.Field:
-                var field = (FieldInfo) member;
-
-                if (field.IsLiteral)
-                {
-                    return false;
-                }
-
-                if (field.IsInitOnly && !canSetReadOnly)
-                {
-                    return false;
-                }
-
-                return nonPublic || field.IsPublic;
-            case MemberTypes.Property:
-                var property = (PropertyInfo) member;
-
-                if (!property.CanWrite)
-                {
-                    return false;
-                }
-
-                if (nonPublic)
-                {
-                    return true;
-                }
-
-                return property.GetSetMethod(nonPublic) != null;
-            default:
+            if (!property.CanWrite)
+            {
                 return false;
+            }
+
+            if (nonPublic)
+            {
+                return true;
+            }
+
+            return property.GetSetMethod(nonPublic) != null;
         }
+
+        if (member is FieldInfo field)
+        {
+            if (field.IsLiteral)
+            {
+                return false;
+            }
+
+            if (field.IsInitOnly && !canSetReadOnly)
+            {
+                return false;
+            }
+
+            return nonPublic || field.IsPublic;
+        }
+
+        return false;
     }
 
     public static List<MemberInfo> GetFieldsAndProperties(Type type, BindingFlags bindingAttr)
