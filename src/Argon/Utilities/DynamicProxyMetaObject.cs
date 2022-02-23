@@ -26,9 +26,7 @@
 using System.Dynamic;
 using System.Linq.Expressions;
 
-namespace Argon.Utilities;
-
-internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
+sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 {
     readonly DynamicProxy<T> proxy;
 
@@ -45,30 +43,42 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryGetMember))
-            ? CallMethodWithResult(nameof(DynamicProxy<T>.TryGetMember), binder, NoArgs, e => binder.FallbackGetMember(this, e))
-            : base.BindGetMember(binder);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryGetMember)))
+        {
+            return CallMethodWithResult(nameof(DynamicProxy<T>.TryGetMember), binder, NoArgs, e => binder.FallbackGetMember(this, e));
+        }
+
+        return base.BindGetMember(binder);
     }
 
     public override DynamicMetaObject BindSetMember(SetMemberBinder binder, DynamicMetaObject value)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TrySetMember))
-            ? CallMethodReturnLast(nameof(DynamicProxy<T>.TrySetMember), binder, GetArgs(value), e => binder.FallbackSetMember(this, value, e))
-            : base.BindSetMember(binder, value);
+        if (IsOverridden(nameof(DynamicProxy<T>.TrySetMember)))
+        {
+            return CallMethodReturnLast(nameof(DynamicProxy<T>.TrySetMember), binder, GetArgs(value), e => binder.FallbackSetMember(this, value, e));
+        }
+
+        return base.BindSetMember(binder, value);
     }
 
     public override DynamicMetaObject BindDeleteMember(DeleteMemberBinder binder)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryDeleteMember))
-            ? CallMethodNoResult(nameof(DynamicProxy<T>.TryDeleteMember), binder, NoArgs, e => binder.FallbackDeleteMember(this, e))
-            : base.BindDeleteMember(binder);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryDeleteMember)))
+        {
+            return CallMethodNoResult(nameof(DynamicProxy<T>.TryDeleteMember), binder, NoArgs, e => binder.FallbackDeleteMember(this, e));
+        }
+
+        return base.BindDeleteMember(binder);
     }
 
     public override DynamicMetaObject BindConvert(ConvertBinder binder)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryConvert))
-            ? CallMethodWithResult(nameof(DynamicProxy<T>.TryConvert), binder, NoArgs, e => binder.FallbackConvert(this, e))
-            : base.BindConvert(binder);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryConvert)))
+        {
+            return CallMethodWithResult(nameof(DynamicProxy<T>.TryConvert), binder, NoArgs, e => binder.FallbackConvert(this, e));
+        }
+
+        return base.BindConvert(binder);
     }
 
     public override DynamicMetaObject BindInvokeMember(InvokeMemberBinder binder, DynamicMetaObject[] args)
@@ -113,23 +123,32 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     public override DynamicMetaObject BindCreateInstance(CreateInstanceBinder binder, DynamicMetaObject[] args)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryCreateInstance))
-            ? CallMethodWithResult(nameof(DynamicProxy<T>.TryCreateInstance), binder, GetArgArray(args), e => binder.FallbackCreateInstance(this, args, e))
-            : base.BindCreateInstance(binder, args);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryCreateInstance)))
+        {
+            return CallMethodWithResult(nameof(DynamicProxy<T>.TryCreateInstance), binder, GetArgArray(args), e => binder.FallbackCreateInstance(this, args, e));
+        }
+
+        return base.BindCreateInstance(binder, args);
     }
 
     public override DynamicMetaObject BindInvoke(InvokeBinder binder, DynamicMetaObject[] args)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryInvoke))
-            ? CallMethodWithResult(nameof(DynamicProxy<T>.TryInvoke), binder, GetArgArray(args), e => binder.FallbackInvoke(this, args, e))
-            : base.BindInvoke(binder, args);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryInvoke)))
+        {
+            return CallMethodWithResult(nameof(DynamicProxy<T>.TryInvoke), binder, GetArgArray(args), e => binder.FallbackInvoke(this, args, e));
+        }
+
+        return base.BindInvoke(binder, args);
     }
 
     public override DynamicMetaObject BindBinaryOperation(BinaryOperationBinder binder, DynamicMetaObject arg)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryBinaryOperation))
-            ? CallMethodWithResult(nameof(DynamicProxy<T>.TryBinaryOperation), binder, GetArgs(arg), e => binder.FallbackBinaryOperation(this, arg, e))
-            : base.BindBinaryOperation(binder, arg);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryBinaryOperation)))
+        {
+            return CallMethodWithResult(nameof(DynamicProxy<T>.TryBinaryOperation), binder, GetArgs(arg), e => binder.FallbackBinaryOperation(this, arg, e));
+        }
+
+        return base.BindBinaryOperation(binder, arg);
     }
 
     public override DynamicMetaObject BindUnaryOperation(UnaryOperationBinder binder)
@@ -141,23 +160,32 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     public override DynamicMetaObject BindGetIndex(GetIndexBinder binder, DynamicMetaObject[] indexes)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryGetIndex))
-            ? CallMethodWithResult(nameof(DynamicProxy<T>.TryGetIndex), binder, GetArgArray(indexes), e => binder.FallbackGetIndex(this, indexes, e))
-            : base.BindGetIndex(binder, indexes);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryGetIndex)))
+        {
+            return CallMethodWithResult(nameof(DynamicProxy<T>.TryGetIndex), binder, GetArgArray(indexes), e => binder.FallbackGetIndex(this, indexes, e));
+        }
+
+        return base.BindGetIndex(binder, indexes);
     }
 
     public override DynamicMetaObject BindSetIndex(SetIndexBinder binder, DynamicMetaObject[] indexes, DynamicMetaObject value)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TrySetIndex))
-            ? CallMethodReturnLast(nameof(DynamicProxy<T>.TrySetIndex), binder, GetArgArray(indexes, value), e => binder.FallbackSetIndex(this, indexes, value, e))
-            : base.BindSetIndex(binder, indexes, value);
+        if (IsOverridden(nameof(DynamicProxy<T>.TrySetIndex)))
+        {
+            return CallMethodReturnLast(nameof(DynamicProxy<T>.TrySetIndex), binder, GetArgArray(indexes, value), e => binder.FallbackSetIndex(this, indexes, value, e));
+        }
+
+        return base.BindSetIndex(binder, indexes, value);
     }
 
     public override DynamicMetaObject BindDeleteIndex(DeleteIndexBinder binder, DynamicMetaObject[] indexes)
     {
-        return IsOverridden(nameof(DynamicProxy<T>.TryDeleteIndex))
-            ? CallMethodNoResult(nameof(DynamicProxy<T>.TryDeleteIndex), binder, GetArgArray(indexes), e => binder.FallbackDeleteIndex(this, indexes, e))
-            : base.BindDeleteIndex(binder, indexes);
+        if (IsOverridden(nameof(DynamicProxy<T>.TryDeleteIndex)))
+        {
+            return CallMethodNoResult(nameof(DynamicProxy<T>.TryDeleteIndex), binder, GetArgArray(indexes), e => binder.FallbackDeleteIndex(this, indexes, e));
+        }
+
+        return base.BindDeleteIndex(binder, indexes);
     }
 
     delegate DynamicMetaObject Fallback(DynamicMetaObject? errorSuggestion);
@@ -361,9 +389,12 @@ internal sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     /// </summary>
     BindingRestrictions GetRestrictions()
     {
-        return Value == null && HasValue
-            ? BindingRestrictions.GetInstanceRestriction(Expression, null)
-            : BindingRestrictions.GetTypeRestriction(Expression, LimitType);
+        if (Value == null && HasValue)
+        {
+            return BindingRestrictions.GetInstanceRestriction(Expression, null);
+        }
+
+        return BindingRestrictions.GetTypeRestriction(Expression, LimitType);
     }
 
     public override IEnumerable<string> GetDynamicMemberNames()
