@@ -588,7 +588,7 @@ static class ReflectionUtils
         return attributes?.FirstOrDefault();
     }
 
-    public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
+    static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
     {
         var a = GetAttributes(attributeProvider, typeof(T), inherit);
 
