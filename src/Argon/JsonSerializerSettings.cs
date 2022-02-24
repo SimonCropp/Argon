@@ -34,7 +34,6 @@ public class JsonSerializerSettings
 
     internal const Formatting DefaultFormatting = Formatting.None;
     internal const DateFormatHandling DefaultDateFormatHandling = DateFormatHandling.IsoDateFormat;
-    internal const DateTimeZoneHandling DefaultDateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
     internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
@@ -43,7 +42,6 @@ public class JsonSerializerSettings
 
     internal Formatting? formatting;
     internal DateFormatHandling? dateFormatHandling;
-    internal DateTimeZoneHandling? dateTimeZoneHandling;
     internal DateParseHandling? dateParseHandling;
     internal FloatFormatHandling? floatFormatHandling;
     internal CultureInfo? culture;
@@ -232,11 +230,7 @@ public class JsonSerializerSettings
     /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling
-    {
-        get => dateTimeZoneHandling ?? DefaultDateTimeZoneHandling;
-        set => dateTimeZoneHandling = value;
-    }
+    public DateTimeZoneHandling? DateTimeZoneHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON.

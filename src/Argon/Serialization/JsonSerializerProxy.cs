@@ -147,7 +147,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.DateFormatHandling = value;
     }
 
-    public override DateTimeZoneHandling DateTimeZoneHandling
+    public override DateTimeZoneHandling? DateTimeZoneHandling
     {
         get => serializer.DateTimeZoneHandling;
         set => serializer.DateTimeZoneHandling = value;
