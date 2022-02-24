@@ -1188,19 +1188,14 @@ keyword such as type of business.""
     [Fact]
     public void AsJEnumerable()
     {
-        JObject o = null;
-
-        var enumerable = o.AsJEnumerable();
-        Assert.Null(enumerable);
-
-        o =
+        JObject o = 
             new JObject(
                 new JProperty("Test1", new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc)),
                 new JProperty("Test2", "Test2Value"),
                 new JProperty("Test3", null)
             );
 
-        enumerable = o.AsJEnumerable();
+        var enumerable = o.AsJEnumerable();
         Assert.NotNull(enumerable);
         Assert.Equal(o, enumerable);
 

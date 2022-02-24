@@ -285,11 +285,6 @@ public static class Extensions
     /// <returns>The input typed as <see cref="IJEnumerable{T}"/>.</returns>
     public static IJEnumerable<T> AsJEnumerable<T>(this IEnumerable<T> source) where T : JToken
     {
-        if (source == null)
-        {
-            return null!;
-        }
-
         if (source is IJEnumerable<T> customEnumerable)
         {
             return customEnumerable;
