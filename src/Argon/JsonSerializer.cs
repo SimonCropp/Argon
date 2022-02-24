@@ -36,7 +36,6 @@ public class JsonSerializer
     internal DefaultValueHandling defaultValueHandling;
     IContractResolver? contractResolver;
     internal IEqualityComparer? equalityComparer;
-    internal ISerializationBinder? serializationBinder;
     internal StreamingContext context;
 
     Formatting? formatting;
@@ -64,11 +63,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="ISerializationBinder"/> used by the serializer when resolving type names.
     /// </summary>
-    public virtual ISerializationBinder? SerializationBinder
-    {
-        get => serializationBinder;
-        set => serializationBinder = value;
-    }
+    public virtual ISerializationBinder? SerializationBinder { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="ITraceWriter"/> used by the serializer when writing trace messages.
