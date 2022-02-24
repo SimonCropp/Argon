@@ -78,12 +78,13 @@ static class ReflectionUtils
         return v?.GetType();
     }
 
-    public static string GetTypeName(Type type, TypeNameAssemblyFormatHandling assemblyFormat, ISerializationBinder? binder)
+    public static string GetTypeName(Type type, TypeNameAssemblyFormatHandling? assemblyFormat, ISerializationBinder? binder)
     {
         var fullyQualifiedTypeName = GetFullyQualifiedTypeName(type, binder);
 
         return assemblyFormat switch
         {
+            null => RemoveAssemblyDetails(fullyQualifiedTypeName),
             TypeNameAssemblyFormatHandling.Simple => RemoveAssemblyDetails(fullyQualifiedTypeName),
             TypeNameAssemblyFormatHandling.Full => fullyQualifiedTypeName,
             _ => throw new ArgumentOutOfRangeException()

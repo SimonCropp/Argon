@@ -31,34 +31,12 @@ namespace Argon;
 /// </summary>
 public class JsonSerializer
 {
-    internal TypeNameHandling typeNameHandling;
-    internal TypeNameAssemblyFormatHandling typeNameAssemblyFormatHandling;
-    internal PreserveReferencesHandling preserveReferencesHandling;
-    internal ReferenceLoopHandling referenceLoopHandling;
-    internal MissingMemberHandling missingMemberHandling;
-    internal ObjectCreationHandling objectCreationHandling;
-    internal NullValueHandling nullValueHandling;
-    internal DefaultValueHandling defaultValueHandling;
-    internal ConstructorHandling constructorHandling;
-    MetadataPropertyHandling metadataPropertyHandling;
-    JsonConverterCollection? converters;
-    internal IContractResolver contractResolver;
-    internal IEqualityComparer? equalityComparer;
-    internal ISerializationBinder serializationBinder;
-    internal StreamingContext context;
-    IReferenceResolver? referenceResolver;
+    IContractResolver? contractResolver;
 
-    Formatting? formatting;
-    DateFormatHandling? dateFormatHandling;
-    DateTimeZoneHandling? dateTimeZoneHandling;
     DateParseHandling? dateParseHandling;
-    FloatFormatHandling? floatFormatHandling;
-    FloatParseHandling? floatParseHandling;
-    StringEscapeHandling? stringEscapeHandling;
     CultureInfo culture;
     int? maxDepth;
     bool maxDepthSet;
-    bool? checkAdditionalContent;
     string? dateFormatString;
     bool dateFormatStringSet;
 
@@ -70,28 +48,12 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="IReferenceResolver"/> used by the serializer when resolving references.
     /// </summary>
-    public virtual IReferenceResolver? ReferenceResolver
-    {
-        get => GetReferenceResolver();
-        set
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value), "Reference resolver cannot be null.");
-            }
-
-            referenceResolver = value;
-        }
-    }
+    public virtual IReferenceResolver? ReferenceResolver { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="ISerializationBinder"/> used by the serializer when resolving type names.
     /// </summary>
-    public virtual ISerializationBinder SerializationBinder
-    {
-        get => serializationBinder;
-        set => serializationBinder = value;
-    }
+    public virtual ISerializationBinder? SerializationBinder { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="ITraceWriter"/> used by the serializer when writing trace messages.
@@ -101,11 +63,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the equality comparer used by the serializer when comparing references.
     /// </summary>
-    public virtual IEqualityComparer? EqualityComparer
-    {
-        get => equalityComparer;
-        set => equalityComparer = value;
-    }
+    public virtual IEqualityComparer? EqualityComparer { get; set; }
 
     /// <summary>
     /// Gets or sets how type name writing and reading is handled by the serializer.
@@ -116,230 +74,108 @@ public class JsonSerializer
     /// Incoming types should be validated with a custom <see cref="JsonSerializer.SerializationBinder"/>
     /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None"/>.
     /// </remarks>
-    public virtual TypeNameHandling TypeNameHandling
-    {
-        get => typeNameHandling;
-        set
-        {
-            if (value is < TypeNameHandling.None or > TypeNameHandling.Auto)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            typeNameHandling = value;
-        }
-    }
+    public virtual TypeNameHandling? TypeNameHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
     /// The default value is <see cref="Argon.TypeNameAssemblyFormatHandling.Simple" />.
     /// </summary>
-    public virtual TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
-    {
-        get => typeNameAssemblyFormatHandling;
-        set
-        {
-            if (value is < TypeNameAssemblyFormatHandling.Simple or > TypeNameAssemblyFormatHandling.Full)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            typeNameAssemblyFormatHandling = value;
-        }
-    }
+    public virtual TypeNameAssemblyFormatHandling? TypeNameAssemblyFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how object references are preserved by the serializer.
     /// The default value is <see cref="Argon.PreserveReferencesHandling.None" />.
     /// </summary>
-    public virtual PreserveReferencesHandling PreserveReferencesHandling
-    {
-        get => preserveReferencesHandling;
-        set
-        {
-            if (value is < PreserveReferencesHandling.None or > PreserveReferencesHandling.All)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            preserveReferencesHandling = value;
-        }
-    }
+    public virtual PreserveReferencesHandling? PreserveReferencesHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) is handled.
     /// The default value is <see cref="Argon.ReferenceLoopHandling.Error" />.
     /// </summary>
-    public virtual ReferenceLoopHandling ReferenceLoopHandling
-    {
-        get => referenceLoopHandling;
-        set
-        {
-            if (value is < ReferenceLoopHandling.Error or > ReferenceLoopHandling.Serialize)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            referenceLoopHandling = value;
-        }
-    }
+    public virtual ReferenceLoopHandling? ReferenceLoopHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
     /// The default value is <see cref="Argon.MissingMemberHandling.Ignore" />.
     /// </summary>
-    public virtual MissingMemberHandling MissingMemberHandling
-    {
-        get => missingMemberHandling;
-        set
-        {
-            missingMemberHandling = value;
-        }
-    }
+    public virtual MissingMemberHandling? MissingMemberHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how null values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.NullValueHandling.Include" />.
     /// </summary>
-    public virtual NullValueHandling NullValueHandling
-    {
-        get => nullValueHandling;
-        set
-        {
-            if (value is < NullValueHandling.Include or > NullValueHandling.Ignore)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            nullValueHandling = value;
-        }
-    }
+    public virtual NullValueHandling? NullValueHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how default values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DefaultValueHandling.Include" />.
     /// </summary>
-    public virtual DefaultValueHandling DefaultValueHandling
-    {
-        get => defaultValueHandling;
-        set
-        {
-            if (value is < DefaultValueHandling.Include or > DefaultValueHandling.IgnoreAndPopulate)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            defaultValueHandling = value;
-        }
-    }
+    public virtual DefaultValueHandling? DefaultValueHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how objects are created during deserialization.
     /// The default value is <see cref="Argon.ObjectCreationHandling.Auto" />.
     /// </summary>
-    public virtual ObjectCreationHandling ObjectCreationHandling
-    {
-        get => objectCreationHandling;
-        set
-        {
-            if (value is < ObjectCreationHandling.Auto or > ObjectCreationHandling.Replace)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            objectCreationHandling = value;
-        }
-    }
+    public virtual ObjectCreationHandling? ObjectCreationHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how constructors are used during deserialization.
     /// The default value is <see cref="Argon.ConstructorHandling.Default" />.
     /// </summary>
-    public virtual ConstructorHandling ConstructorHandling
-    {
-        get => constructorHandling;
-        set
-        {
-            if (value is < ConstructorHandling.Default or > ConstructorHandling.AllowNonPublicDefaultConstructor)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            constructorHandling = value;
-        }
-    }
+    public virtual ConstructorHandling? ConstructorHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how metadata properties are used during deserialization.
     /// The default value is <see cref="Argon.MetadataPropertyHandling.Default" />.
     /// </summary>
-    public virtual MetadataPropertyHandling MetadataPropertyHandling
-    {
-        get => metadataPropertyHandling;
-        set
-        {
-            if (value is < MetadataPropertyHandling.Default or > MetadataPropertyHandling.Ignore)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            metadataPropertyHandling = value;
-        }
-    }
+    public virtual MetadataPropertyHandling? MetadataPropertyHandling { get; set; }
 
     /// <summary>
     /// Gets a collection <see cref="JsonConverter"/> that will be used during serialization.
     /// </summary>
-    public virtual JsonConverterCollection Converters => converters ??= new JsonConverterCollection();
+    public virtual JsonConverterCollection Converters { get; } = new();
 
     /// <summary>
     /// Gets or sets the contract resolver used by the serializer when
     /// serializing .NET objects to JSON and vice versa.
     /// </summary>
-    public virtual IContractResolver ContractResolver
+    public virtual IContractResolver? ContractResolver
     {
         get => contractResolver;
-        set => contractResolver = value ?? DefaultContractResolver.Instance;
+        set => contractResolver = value;
+    }
+
+    public JsonContract ResolveContract(Type type)
+    {
+        if (contractResolver == null)
+        {
+            return DefaultContractResolver.Instance.ResolveContract(type);
+        }
+        return contractResolver.ResolveContract(type);
     }
 
     /// <summary>
     /// Gets or sets the <see cref="StreamingContext"/> used by the serializer when invoking serialization callback methods.
     /// </summary>
-    public virtual StreamingContext Context
-    {
-        get => context;
-        set => context = value;
-    }
+    public virtual StreamingContext? Context { get; set; }
 
     /// <summary>
     /// Indicates how JSON text output is formatted.
     /// The default value is <see cref="Argon.Formatting.None" />.
     /// </summary>
-    public virtual Formatting Formatting
-    {
-        get => formatting ?? JsonSerializerSettings.DefaultFormatting;
-        set => formatting = value;
-    }
+    public virtual Formatting? Formatting { get; set; }
 
     /// <summary>
     /// Gets or sets how dates are written to JSON text.
     /// The default value is <see cref="Argon.DateFormatHandling.IsoDateFormat" />.
     /// </summary>
-    public virtual DateFormatHandling DateFormatHandling
-    {
-        get => dateFormatHandling ?? JsonSerializerSettings.DefaultDateFormatHandling;
-        set => dateFormatHandling = value;
-    }
+    public virtual DateFormatHandling? DateFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>
-    public virtual DateTimeZoneHandling DateTimeZoneHandling
-    {
-        get => dateTimeZoneHandling ?? JsonSerializerSettings.DefaultDateTimeZoneHandling;
-        set => dateTimeZoneHandling = value;
-    }
+    public virtual DateTimeZoneHandling? DateTimeZoneHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON.
@@ -355,11 +191,7 @@ public class JsonSerializer
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// The default value is <see cref="Argon.FloatParseHandling.Double" />.
     /// </summary>
-    public virtual FloatParseHandling FloatParseHandling
-    {
-        get => floatParseHandling ?? JsonSerializerSettings.DefaultFloatParseHandling;
-        set => floatParseHandling = value;
-    }
+    public virtual FloatParseHandling? FloatParseHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how special floating point numbers, e.g. <see cref="Double.NaN"/>,
@@ -367,21 +199,13 @@ public class JsonSerializer
     /// are written as JSON text.
     /// The default value is <see cref="Argon.FloatFormatHandling.String" />.
     /// </summary>
-    public virtual FloatFormatHandling FloatFormatHandling
-    {
-        get => floatFormatHandling ?? JsonSerializerSettings.DefaultFloatFormatHandling;
-        set => floatFormatHandling = value;
-    }
+    public virtual FloatFormatHandling? FloatFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
     /// The default value is <see cref="Argon.StringEscapeHandling.Default" />.
     /// </summary>
-    public virtual StringEscapeHandling StringEscapeHandling
-    {
-        get => stringEscapeHandling ?? JsonSerializerSettings.DefaultStringEscapeHandling;
-        set => stringEscapeHandling = value;
-    }
+    public virtual StringEscapeHandling? StringEscapeHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> and <see cref="DateTimeOffset"/> values are formatted when writing JSON text,
@@ -432,15 +256,11 @@ public class JsonSerializer
     /// Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.
     /// The default value is <c>false</c>.
     /// </summary>
-    public virtual bool CheckAdditionalContent
-    {
-        get => checkAdditionalContent ?? JsonSerializerSettings.DefaultCheckAdditionalContent;
-        set => checkAdditionalContent = value;
-    }
+    public virtual bool? CheckAdditionalContent { get; set; }
 
     internal bool IsCheckAdditionalContentSet()
     {
-        return checkAdditionalContent != null;
+        return CheckAdditionalContent != null;
     }
 
     /// <summary>
@@ -448,18 +268,6 @@ public class JsonSerializer
     /// </summary>
     public JsonSerializer()
     {
-        referenceLoopHandling = JsonSerializerSettings.DefaultReferenceLoopHandling;
-        missingMemberHandling = JsonSerializerSettings.DefaultMissingMemberHandling;
-        nullValueHandling = JsonSerializerSettings.DefaultNullValueHandling;
-        defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
-        objectCreationHandling = JsonSerializerSettings.DefaultObjectCreationHandling;
-        preserveReferencesHandling = JsonSerializerSettings.DefaultPreserveReferencesHandling;
-        constructorHandling = JsonSerializerSettings.DefaultConstructorHandling;
-        typeNameHandling = JsonSerializerSettings.DefaultTypeNameHandling;
-        metadataPropertyHandling = JsonSerializerSettings.DefaultMetadataPropertyHandling;
-        context = JsonSerializerSettings.DefaultContext;
-        serializationBinder = DefaultSerializationBinder.Instance;
-
         culture = JsonSerializerSettings.DefaultCulture;
         contractResolver = DefaultContractResolver.Instance;
     }
@@ -553,43 +361,43 @@ public class JsonSerializer
         }
 
         // serializer specific
-        if (settings.typeNameHandling != null)
+        if (settings.TypeNameHandling != null)
         {
             serializer.TypeNameHandling = settings.TypeNameHandling;
         }
-        if (settings.metadataPropertyHandling != null)
+        if (settings.MetadataPropertyHandling != null)
         {
             serializer.MetadataPropertyHandling = settings.MetadataPropertyHandling;
         }
-        if (settings.typeNameAssemblyFormatHandling != null)
+        if (settings.TypeNameAssemblyFormatHandling != null)
         {
             serializer.TypeNameAssemblyFormatHandling = settings.TypeNameAssemblyFormatHandling;
         }
-        if (settings.preserveReferencesHandling != null)
+        if (settings.PreserveReferencesHandling != null)
         {
             serializer.PreserveReferencesHandling = settings.PreserveReferencesHandling;
         }
-        if (settings.referenceLoopHandling != null)
+        if (settings.ReferenceLoopHandling != null)
         {
             serializer.ReferenceLoopHandling = settings.ReferenceLoopHandling;
         }
-        if (settings.missingMemberHandling != null)
+        if (settings.MissingMemberHandling != null)
         {
             serializer.MissingMemberHandling = settings.MissingMemberHandling;
         }
-        if (settings.objectCreationHandling != null)
+        if (settings.ObjectCreationHandling != null)
         {
             serializer.ObjectCreationHandling = settings.ObjectCreationHandling;
         }
-        if (settings.nullValueHandling != null)
+        if (settings.NullValueHandling != null)
         {
             serializer.NullValueHandling = settings.NullValueHandling;
         }
-        if (settings.defaultValueHandling != null)
+        if (settings.DefaultValueHandling != null)
         {
             serializer.DefaultValueHandling = settings.DefaultValueHandling;
         }
-        if (settings.constructorHandling != null)
+        if (settings.ConstructorHandling != null)
         {
             serializer.ConstructorHandling = settings.ConstructorHandling;
         }
@@ -597,9 +405,9 @@ public class JsonSerializer
         {
             serializer.Context = settings.Context;
         }
-        if (settings.checkAdditionalContent != null)
+        if (settings.CheckAdditionalContent != null)
         {
-            serializer.checkAdditionalContent = settings.checkAdditionalContent;
+            serializer.CheckAdditionalContent = settings.CheckAdditionalContent;
         }
 
         if (settings.Error != null)
@@ -630,17 +438,17 @@ public class JsonSerializer
 
         // reader/writer specific
         // unset values won't override reader/writer set values
-        if (settings.formatting != null)
+        if (settings.Formatting != null)
         {
-            serializer.formatting = settings.formatting;
+            serializer.Formatting = settings.Formatting;
         }
-        if (settings.dateFormatHandling != null)
+        if (settings.DateFormatHandling != null)
         {
-            serializer.dateFormatHandling = settings.dateFormatHandling;
+            serializer.DateFormatHandling = settings.DateFormatHandling;
         }
-        if (settings.dateTimeZoneHandling != null)
+        if (settings.DateTimeZoneHandling != null)
         {
-            serializer.dateTimeZoneHandling = settings.dateTimeZoneHandling;
+            serializer.DateTimeZoneHandling = settings.DateTimeZoneHandling;
         }
         if (settings.dateParseHandling != null)
         {
@@ -651,17 +459,17 @@ public class JsonSerializer
             serializer.dateFormatString = settings.dateFormatString;
             serializer.dateFormatStringSet = settings.dateFormatStringSet;
         }
-        if (settings.floatFormatHandling != null)
+        if (settings.FloatFormatHandling != null)
         {
-            serializer.floatFormatHandling = settings.floatFormatHandling;
+            serializer.FloatFormatHandling = settings.FloatFormatHandling;
         }
-        if (settings.floatParseHandling != null)
+        if (settings.FloatParseHandling != null)
         {
-            serializer.floatParseHandling = settings.floatParseHandling;
+            serializer.FloatParseHandling = settings.FloatParseHandling;
         }
-        if (settings.stringEscapeHandling != null)
+        if (settings.StringEscapeHandling != null)
         {
-            serializer.stringEscapeHandling = settings.stringEscapeHandling;
+            serializer.StringEscapeHandling = settings.StringEscapeHandling;
         }
         if (settings.culture != null)
         {
@@ -799,10 +607,10 @@ public class JsonSerializer
             previousCulture = null;
         }
 
-        if (dateTimeZoneHandling != null && reader.DateTimeZoneHandling != dateTimeZoneHandling)
+        if (DateTimeZoneHandling != null && reader.DateTimeZoneHandling != DateTimeZoneHandling)
         {
             previousDateTimeZoneHandling = reader.DateTimeZoneHandling;
-            reader.DateTimeZoneHandling = dateTimeZoneHandling.GetValueOrDefault();
+            reader.DateTimeZoneHandling = DateTimeZoneHandling.GetValueOrDefault();
         }
         else
         {
@@ -819,10 +627,10 @@ public class JsonSerializer
             previousDateParseHandling = null;
         }
 
-        if (floatParseHandling != null && reader.FloatParseHandling != floatParseHandling)
+        if (FloatParseHandling != null && reader.FloatParseHandling != FloatParseHandling)
         {
             previousFloatParseHandling = reader.FloatParseHandling;
-            reader.FloatParseHandling = floatParseHandling.GetValueOrDefault();
+            reader.FloatParseHandling = FloatParseHandling.GetValueOrDefault();
         }
         else
         {
@@ -953,38 +761,38 @@ public class JsonSerializer
     {
         // set serialization options onto writer
         Formatting? previousFormatting = null;
-        if (formatting != null && jsonWriter.Formatting != formatting)
+        if (Formatting != null && jsonWriter.Formatting != Formatting)
         {
             previousFormatting = jsonWriter.Formatting;
-            jsonWriter.Formatting = formatting.GetValueOrDefault();
+            jsonWriter.Formatting = Formatting.GetValueOrDefault();
         }
 
         DateFormatHandling? previousDateFormatHandling = null;
-        if (dateFormatHandling != null && jsonWriter.DateFormatHandling != dateFormatHandling)
+        if (DateFormatHandling != null && jsonWriter.DateFormatHandling != DateFormatHandling)
         {
             previousDateFormatHandling = jsonWriter.DateFormatHandling;
-            jsonWriter.DateFormatHandling = dateFormatHandling.GetValueOrDefault();
+            jsonWriter.DateFormatHandling = DateFormatHandling.GetValueOrDefault();
         }
 
         DateTimeZoneHandling? previousDateTimeZoneHandling = null;
-        if (dateTimeZoneHandling != null && jsonWriter.DateTimeZoneHandling != dateTimeZoneHandling)
+        if (DateTimeZoneHandling != null && jsonWriter.DateTimeZoneHandling != DateTimeZoneHandling)
         {
             previousDateTimeZoneHandling = jsonWriter.DateTimeZoneHandling;
-            jsonWriter.DateTimeZoneHandling = dateTimeZoneHandling.GetValueOrDefault();
+            jsonWriter.DateTimeZoneHandling = DateTimeZoneHandling.GetValueOrDefault();
         }
 
         FloatFormatHandling? previousFloatFormatHandling = null;
-        if (floatFormatHandling != null && jsonWriter.FloatFormatHandling != floatFormatHandling)
+        if (FloatFormatHandling != null && jsonWriter.FloatFormatHandling != FloatFormatHandling)
         {
             previousFloatFormatHandling = jsonWriter.FloatFormatHandling;
-            jsonWriter.FloatFormatHandling = floatFormatHandling.GetValueOrDefault();
+            jsonWriter.FloatFormatHandling = FloatFormatHandling.GetValueOrDefault();
         }
 
         StringEscapeHandling? previousStringEscapeHandling = null;
-        if (stringEscapeHandling != null && jsonWriter.StringEscapeHandling != stringEscapeHandling)
+        if (StringEscapeHandling != null && jsonWriter.StringEscapeHandling != StringEscapeHandling)
         {
             previousStringEscapeHandling = jsonWriter.StringEscapeHandling;
-            jsonWriter.StringEscapeHandling = stringEscapeHandling.GetValueOrDefault();
+            jsonWriter.StringEscapeHandling = StringEscapeHandling.GetValueOrDefault();
         }
 
         CultureInfo? previousCulture = null;
@@ -1046,12 +854,12 @@ public class JsonSerializer
 
     internal IReferenceResolver GetReferenceResolver()
     {
-        return referenceResolver ??= new DefaultReferenceResolver();
+        return ReferenceResolver ??= new DefaultReferenceResolver();
     }
 
     internal JsonConverter? GetMatchingConverter(Type type)
     {
-        return GetMatchingConverter(converters, type);
+        return GetMatchingConverter(Converters, type);
     }
 
     internal static JsonConverter? GetMatchingConverter(IList<JsonConverter>? converters, Type type)

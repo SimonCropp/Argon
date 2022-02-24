@@ -544,7 +544,7 @@ public static class JsonConvert
         var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
-                   Formatting = jsonSerializer.Formatting
+                   Formatting = jsonSerializer.Formatting.GetValueOrDefault()
                })
         {
             jsonSerializer.Serialize(jsonWriter, value, type);

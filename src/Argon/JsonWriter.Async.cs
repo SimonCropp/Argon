@@ -41,7 +41,7 @@ public abstract partial class JsonWriter
 
         currentState = newState;
 
-        if (formatting == Formatting.Indented)
+        if (Formatting == Formatting.Indented)
         {
             switch (oldState)
             {
@@ -252,7 +252,7 @@ public abstract partial class JsonWriter
                 }
             }
 
-            if (formatting == Formatting.Indented)
+            if (Formatting == Formatting.Indented)
             {
                 if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                 {
@@ -281,7 +281,7 @@ public abstract partial class JsonWriter
             await task.ConfigureAwait(false);
 
             //  Finish current loop
-            if (formatting == Formatting.Indented)
+            if (Formatting == Formatting.Indented)
             {
                 if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                 {
@@ -331,7 +331,7 @@ public abstract partial class JsonWriter
                     await WriteNullAsync(cancellation).ConfigureAwait(false);
                 }
 
-                if (formatting == Formatting.Indented)
+                if (Formatting == Formatting.Indented)
                 {
                     if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                     {

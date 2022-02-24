@@ -139,59 +139,70 @@ public abstract class JsonContract
         InternalReadType = ReadType.Read;
     }
 
-    internal void InvokeOnSerializing(object o, StreamingContext context)
+    internal void InvokeOnSerializing(object o, StreamingContext? context)
     {
+        var contextToUse = ContextToUse(context);
         if (onSerializingCallbacks != null)
         {
             foreach (var callback in onSerializingCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnSerialized(object o, StreamingContext context)
+    internal void InvokeOnSerialized(object o, StreamingContext? context)
     {
+        var contextToUse = ContextToUse(context);
         if (onSerializedCallbacks != null)
         {
             foreach (var callback in onSerializedCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnDeserializing(object o, StreamingContext context)
+    internal void InvokeOnDeserializing(object o, StreamingContext? context)
     {
+        var contextToUse = ContextToUse(context);
         if (onDeserializingCallbacks != null)
         {
             foreach (var callback in onDeserializingCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnDeserialized(object o, StreamingContext context)
+    internal void InvokeOnDeserialized(object o, StreamingContext? context)
     {
+        var contextToUse = ContextToUse(context);
         if (onDeserializedCallbacks != null)
         {
             foreach (var callback in onDeserializedCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnError(object o, StreamingContext context, ErrorContext errorContext)
+    internal void InvokeOnError(object o, StreamingContext? context, ErrorContext errorContext)
     {
+        var contextToUse = ContextToUse(context);
         if (onErrorCallbacks != null)
         {
             foreach (var callback in onErrorCallbacks)
             {
-                callback(o, context, errorContext);
+                callback(o, contextToUse, errorContext);
             }
         }
+    }
+
+    private static StreamingContext ContextToUse(StreamingContext? context)
+    {
+        var contextToUse = context ?? JsonSerializerSettings.DefaultContext;
+        return contextToUse;
     }
 
     internal static SerializationCallback CreateSerializationCallback(MethodInfo callbackMethodInfo)
