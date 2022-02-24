@@ -64,14 +64,9 @@ public class JsonSerializer
     /// </summary>
     public virtual IReferenceResolver? ReferenceResolver
     {
-        get => GetReferenceResolver();
+        get => referenceResolver;
         set
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value), "Reference resolver cannot be null.");
-            }
-
             referenceResolver = value;
         }
     }
@@ -938,7 +933,7 @@ public class JsonSerializer
 
     internal IReferenceResolver GetReferenceResolver()
     {
-        return referenceResolver ??= new DefaultReferenceResolver();
+        return ReferenceResolver ??= new DefaultReferenceResolver();
     }
 
     internal JsonConverter? GetMatchingConverter(Type type)
