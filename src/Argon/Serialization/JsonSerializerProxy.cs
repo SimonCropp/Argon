@@ -123,7 +123,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.ConstructorHandling = value;
     }
 
-    public override ISerializationBinder SerializationBinder
+    public override ISerializationBinder? SerializationBinder
     {
         get => serializer.SerializationBinder;
         set => serializer.SerializationBinder = value;

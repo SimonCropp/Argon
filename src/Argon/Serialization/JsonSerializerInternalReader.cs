@@ -740,10 +740,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             var typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(qualifiedTypeName);
 
+            var binder = Serializer.SerializationBinder ?? DefaultSerializationBinder.Instance;
             Type specifiedType;
             try
             {
-                specifiedType = Serializer.serializationBinder.BindToType(typeNameKey.Value1, typeNameKey.Value2);
+                specifiedType = binder.BindToType(typeNameKey.Value1, typeNameKey.Value2);
             }
             catch (Exception ex)
             {
@@ -760,9 +761,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved type '{qualifiedTypeName}' to {specifiedType}."), null);
             }
 
-            if (type != null
-                && type != typeof(IDynamicMetaObjectProvider)
-                && !type.IsAssignableFrom(specifiedType))
+            if (type != null &&
+                type != typeof(IDynamicMetaObjectProvider) &&
+                !type.IsAssignableFrom(specifiedType))
             {
                 throw JsonSerializationException.Create(reader, $"Type specified in JSON '{specifiedType.AssemblyQualifiedName}' is not compatible with '{type.AssemblyQualifiedName}'.");
             }

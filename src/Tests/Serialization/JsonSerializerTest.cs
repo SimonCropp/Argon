@@ -844,12 +844,9 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var serializer = new JsonSerializer();
 
-        Assert.NotNull(serializer.SerializationBinder);
+        Assert.Null(serializer.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
-
-        Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
-
         serializer.SerializationBinder = customBinder;
         Assert.Equal(customBinder, serializer.SerializationBinder);
 
@@ -1040,11 +1037,9 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var serializerProxy = new JsonSerializerProxy(new JsonSerializerInternalReader(new JsonSerializer()));
 
-        Assert.NotNull(serializerProxy.SerializationBinder);
+        Assert.Null(serializerProxy.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
-
-        Assert.IsType(typeof(DefaultSerializationBinder), serializerProxy.SerializationBinder);
 
         serializerProxy.SerializationBinder = customBinder;
         Assert.Equal(customBinder, serializerProxy.SerializationBinder);

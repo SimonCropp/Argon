@@ -44,7 +44,7 @@ public class JsonSerializer
     JsonConverterCollection? converters;
     internal IContractResolver contractResolver;
     internal IEqualityComparer? equalityComparer;
-    internal ISerializationBinder serializationBinder;
+    internal ISerializationBinder? serializationBinder;
     internal StreamingContext context;
     IReferenceResolver? referenceResolver;
 
@@ -87,7 +87,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="ISerializationBinder"/> used by the serializer when resolving type names.
     /// </summary>
-    public virtual ISerializationBinder SerializationBinder
+    public virtual ISerializationBinder? SerializationBinder
     {
         get => serializationBinder;
         set => serializationBinder = value;
@@ -458,7 +458,6 @@ public class JsonSerializer
         typeNameHandling = JsonSerializerSettings.DefaultTypeNameHandling;
         metadataPropertyHandling = JsonSerializerSettings.DefaultMetadataPropertyHandling;
         context = JsonSerializerSettings.DefaultContext;
-        serializationBinder = DefaultSerializationBinder.Instance;
 
         culture = JsonSerializerSettings.DefaultCulture;
         contractResolver = DefaultContractResolver.Instance;
