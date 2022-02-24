@@ -31,7 +31,6 @@ namespace Argon;
 /// </summary>
 public class JsonSerializer
 {
-    internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
     internal DefaultValueHandling defaultValueHandling;
     IContractResolver? contractResolver;
@@ -132,11 +131,7 @@ public class JsonSerializer
     /// Gets or sets how objects are created during deserialization.
     /// The default value is <see cref="Argon.ObjectCreationHandling.Auto" />.
     /// </summary>
-    public virtual ObjectCreationHandling ObjectCreationHandling
-    {
-        get => objectCreationHandling;
-        set => objectCreationHandling = value;
-    }
+    public virtual ObjectCreationHandling? ObjectCreationHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how constructors are used during deserialization.
@@ -310,7 +305,6 @@ public class JsonSerializer
     {
         nullValueHandling = JsonSerializerSettings.DefaultNullValueHandling;
         defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
-        objectCreationHandling = JsonSerializerSettings.DefaultObjectCreationHandling;
         context = JsonSerializerSettings.DefaultContext;
 
         culture = JsonSerializerSettings.DefaultCulture;
@@ -430,7 +424,7 @@ public class JsonSerializer
         {
             serializer.MissingMemberHandling = settings.MissingMemberHandling;
         }
-        if (settings.objectCreationHandling != null)
+        if (settings.ObjectCreationHandling != null)
         {
             serializer.ObjectCreationHandling = settings.ObjectCreationHandling;
         }

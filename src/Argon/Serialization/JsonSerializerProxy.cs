@@ -81,7 +81,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.NullValueHandling = value;
     }
 
-    public override ObjectCreationHandling ObjectCreationHandling
+    public override ObjectCreationHandling? ObjectCreationHandling
     {
         get => serializer.ObjectCreationHandling;
         set => serializer.ObjectCreationHandling = value;

@@ -1043,7 +1043,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         property.PropertyContract ??= GetContractSafe(property.PropertyType);
 
         var objectCreationHandling =
-            property.ObjectCreationHandling.GetValueOrDefault(Serializer.objectCreationHandling);
+            property.ObjectCreationHandling.GetValueOrDefault(Serializer.ObjectCreationHandling);
 
         if (objectCreationHandling != ObjectCreationHandling.Replace
             && (tokenType is JsonToken.StartArray or JsonToken.StartObject || propertyConverter != null)

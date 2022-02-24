@@ -32,7 +32,6 @@ public class JsonSerializerSettings
 {
     internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
     internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
-    internal const ObjectCreationHandling DefaultObjectCreationHandling = ObjectCreationHandling.Auto;
     internal static readonly StreamingContext DefaultContext = new();
 
     internal const Formatting DefaultFormatting = Formatting.None;
@@ -56,7 +55,6 @@ public class JsonSerializerSettings
     internal bool dateFormatStringSet;
     internal DefaultValueHandling? defaultValueHandling;
     internal NullValueHandling? nullValueHandling;
-    internal ObjectCreationHandling? objectCreationHandling;
     internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
 
@@ -80,11 +78,7 @@ public class JsonSerializerSettings
     /// Gets or sets how objects are created during deserialization.
     /// The default value is <see cref="Argon.ObjectCreationHandling.Auto" />.
     /// </summary>
-    public ObjectCreationHandling ObjectCreationHandling
-    {
-        get => objectCreationHandling ?? DefaultObjectCreationHandling;
-        set => objectCreationHandling = value;
-    }
+    public ObjectCreationHandling? ObjectCreationHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how null values are handled during serialization and deserialization.
