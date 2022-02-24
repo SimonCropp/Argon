@@ -31,7 +31,6 @@ namespace Argon;
 /// </summary>
 public class JsonSerializer
 {
-    internal TypeNameAssemblyFormatHandling typeNameAssemblyFormatHandling;
     internal MissingMemberHandling missingMemberHandling;
     internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
@@ -119,11 +118,7 @@ public class JsonSerializer
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
     /// The default value is <see cref="Argon.TypeNameAssemblyFormatHandling.Simple" />.
     /// </summary>
-    public virtual TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
-    {
-        get => typeNameAssemblyFormatHandling;
-        set => typeNameAssemblyFormatHandling = value;
-    }
+    public virtual TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how object references are preserved by the serializer.

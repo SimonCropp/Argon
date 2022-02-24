@@ -563,7 +563,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     void WriteTypeProperty(JsonWriter writer, Type type)
     {
-        var typeName = ReflectionUtils.GetTypeName(type, Serializer.typeNameAssemblyFormatHandling, Serializer.serializationBinder);
+        var typeName = ReflectionUtils.GetTypeName(type, Serializer.TypeNameAssemblyFormatHandling, Serializer.serializationBinder);
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
         {
