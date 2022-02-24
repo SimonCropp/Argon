@@ -32,7 +32,6 @@ namespace Argon;
 public class JsonSerializer
 {
     IContractResolver? contractResolver;
-    internal StreamingContext context;
 
     Formatting? formatting;
     DateFormatHandling? dateFormatHandling;
@@ -162,11 +161,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="StreamingContext"/> used by the serializer when invoking serialization callback methods.
     /// </summary>
-    public virtual StreamingContext Context
-    {
-        get => context;
-        set => context = value;
-    }
+    public virtual StreamingContext? Context { get; set; }
 
     /// <summary>
     /// Indicates how JSON text output is formatted.
@@ -293,8 +288,6 @@ public class JsonSerializer
     /// </summary>
     public JsonSerializer()
     {
-        context = JsonSerializerSettings.DefaultContext;
-
         culture = JsonSerializerSettings.DefaultCulture;
         contractResolver = DefaultContractResolver.Instance;
     }

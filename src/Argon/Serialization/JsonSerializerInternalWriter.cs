@@ -385,7 +385,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Started serializing {contract.UnderlyingType}"), null);
         }
 
-        contract.InvokeOnSerializing(value, Serializer.context);
+        contract.InvokeOnSerializing(value, Serializer.Context);
     }
 
     void OnSerialized(JsonWriter writer, JsonContract contract, object value)
@@ -395,7 +395,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(null, writer.Path, $"Finished serializing {contract.UnderlyingType}"), null);
         }
 
-        contract.InvokeOnSerialized(value, Serializer.context);
+        contract.InvokeOnSerialized(value, Serializer.Context);
     }
 
     void SerializeObject(JsonWriter writer, object value, JsonObjectContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)

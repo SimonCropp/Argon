@@ -1272,7 +1272,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Started deserializing {contract.UnderlyingType}"), null);
         }
 
-        contract.InvokeOnDeserializing(value, Serializer.context);
+        contract.InvokeOnDeserializing(value, Serializer.Context);
     }
 
     void OnDeserialized(JsonReader reader, JsonContract contract, object value)
@@ -1282,7 +1282,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Finished deserializing {contract.UnderlyingType}"), null);
         }
 
-        contract.InvokeOnDeserialized(value, Serializer.context);
+        contract.InvokeOnDeserialized(value, Serializer.Context);
     }
 
     object PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty? containerProperty, string? id)
