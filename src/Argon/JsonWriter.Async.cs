@@ -1348,6 +1348,7 @@ public abstract partial class JsonWriter
 
     internal static Task WriteValueAsync(JsonWriter writer, PrimitiveTypeCode typeCode, object value, CancellationToken cancellation)
     {
+        // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         while (true)
         {
             switch (typeCode)
@@ -1452,5 +1453,6 @@ public abstract partial class JsonWriter
                     throw CreateUnsupportedTypeException(writer, value);
             }
         }
+        // ReSharper restore ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
     }
 }

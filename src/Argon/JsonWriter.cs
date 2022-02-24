@@ -1317,6 +1317,7 @@ public abstract partial class JsonWriter : IDisposable
 
     internal static void WriteValue(JsonWriter writer, PrimitiveTypeCode typeCode, object value)
     {
+        // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         while (true)
         {
             switch (typeCode)
@@ -1497,6 +1498,7 @@ public abstract partial class JsonWriter : IDisposable
                     throw CreateUnsupportedTypeException(writer, value);
             }
         }
+        // ReSharper restore ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
     }
 
     static void ResolveConvertibleValue(IConvertible convertible, out PrimitiveTypeCode typeCode, out object value)
