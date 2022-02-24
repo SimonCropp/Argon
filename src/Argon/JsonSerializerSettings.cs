@@ -44,7 +44,6 @@ public class JsonSerializerSettings
     internal const FloatParseHandling DefaultFloatParseHandling = FloatParseHandling.Double;
     internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
     internal const StringEscapeHandling DefaultStringEscapeHandling = StringEscapeHandling.Default;
-    internal const TypeNameAssemblyFormatHandling DefaultTypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const bool DefaultCheckAdditionalContent = false;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
@@ -63,7 +62,6 @@ public class JsonSerializerSettings
     internal bool maxDepthSet;
     internal string? dateFormatString;
     internal bool dateFormatStringSet;
-    internal TypeNameAssemblyFormatHandling? typeNameAssemblyFormatHandling;
     internal DefaultValueHandling? defaultValueHandling;
     internal NullValueHandling? nullValueHandling;
     internal ObjectCreationHandling? objectCreationHandling;
@@ -154,11 +152,7 @@ public class JsonSerializerSettings
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
     /// The default value is <see cref="Argon.TypeNameAssemblyFormatHandling.Simple" />.
     /// </summary>
-    public TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
-    {
-        get => typeNameAssemblyFormatHandling ?? DefaultTypeNameAssemblyFormatHandling;
-        set => typeNameAssemblyFormatHandling = value;
-    }
+    public TypeNameAssemblyFormatHandling? TypeNameAssemblyFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how constructors are used during deserialization.

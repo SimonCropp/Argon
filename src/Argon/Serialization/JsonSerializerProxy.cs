@@ -111,7 +111,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.MetadataPropertyHandling = value;
     }
 
-    public override TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
+    public override TypeNameAssemblyFormatHandling? TypeNameAssemblyFormatHandling
     {
         get => serializer.TypeNameAssemblyFormatHandling;
         set => serializer.TypeNameAssemblyFormatHandling = value;
