@@ -39,7 +39,6 @@ public class JsonSerializerSettings
     internal const DateFormatHandling DefaultDateFormatHandling = DateFormatHandling.IsoDateFormat;
     internal const DateTimeZoneHandling DefaultDateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
-    internal const FloatParseHandling DefaultFloatParseHandling = FloatParseHandling.Double;
     internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
@@ -50,7 +49,6 @@ public class JsonSerializerSettings
     internal DateTimeZoneHandling? dateTimeZoneHandling;
     internal DateParseHandling? dateParseHandling;
     internal FloatFormatHandling? floatFormatHandling;
-    internal FloatParseHandling? floatParseHandling;
     internal CultureInfo? culture;
     internal int? maxDepth;
     internal bool maxDepthSet;
@@ -279,11 +277,7 @@ public class JsonSerializerSettings
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// The default value is <see cref="Argon.FloatParseHandling.Double" />.
     /// </summary>
-    public FloatParseHandling FloatParseHandling
-    {
-        get => floatParseHandling ?? DefaultFloatParseHandling;
-        set => floatParseHandling = value;
-    }
+    public FloatParseHandling? FloatParseHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.

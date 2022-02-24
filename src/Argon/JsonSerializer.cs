@@ -42,7 +42,6 @@ public class JsonSerializer
     DateTimeZoneHandling? dateTimeZoneHandling;
     DateParseHandling? dateParseHandling;
     FloatFormatHandling? floatFormatHandling;
-    FloatParseHandling? floatParseHandling;
     CultureInfo culture;
     int? maxDepth;
     bool maxDepthSet;
@@ -228,11 +227,7 @@ public class JsonSerializer
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// The default value is <see cref="Argon.FloatParseHandling.Double" />.
     /// </summary>
-    public virtual FloatParseHandling FloatParseHandling
-    {
-        get => floatParseHandling ?? JsonSerializerSettings.DefaultFloatParseHandling;
-        set => floatParseHandling = value;
-    }
+    public virtual FloatParseHandling? FloatParseHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how special floating point numbers, e.g. <see cref="Double.NaN"/>,
@@ -513,9 +508,9 @@ public class JsonSerializer
         {
             serializer.floatFormatHandling = settings.floatFormatHandling;
         }
-        if (settings.floatParseHandling != null)
+        if (settings.FloatParseHandling != null)
         {
-            serializer.floatParseHandling = settings.floatParseHandling;
+            serializer.FloatParseHandling = settings.FloatParseHandling;
         }
         if (settings.StringEscapeHandling != null)
         {
@@ -677,10 +672,10 @@ public class JsonSerializer
             previousDateParseHandling = null;
         }
 
-        if (floatParseHandling != null && reader.FloatParseHandling != floatParseHandling)
+        if (FloatParseHandling != null && reader.FloatParseHandling != FloatParseHandling)
         {
             previousFloatParseHandling = reader.FloatParseHandling;
-            reader.FloatParseHandling = floatParseHandling.GetValueOrDefault();
+            reader.FloatParseHandling = FloatParseHandling.GetValueOrDefault();
         }
         else
         {

@@ -165,7 +165,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.FloatFormatHandling = value;
     }
 
-    public override FloatParseHandling FloatParseHandling
+    public override FloatParseHandling? FloatParseHandling
     {
         get => serializer.FloatParseHandling;
         set => serializer.FloatParseHandling = value;
