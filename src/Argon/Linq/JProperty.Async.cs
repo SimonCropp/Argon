@@ -50,7 +50,7 @@ public partial class JProperty
 
     Task WriteValueAsync(JsonWriter writer, CancellationToken cancellation, JsonConverter[] converters)
     {
-        var value = Value;
+        var value = content.token;
         if (value == null)
         {
             return writer.WriteNullAsync(cancellation);

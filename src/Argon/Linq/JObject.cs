@@ -253,11 +253,6 @@ public partial class JObject :
     /// <returns>A <see cref="JProperty"/> matched with the specified name or <c>null</c>.</returns>
     public JProperty? Property(string name, StringComparison comparison)
     {
-        if (name == null)
-        {
-            return null;
-        }
-
         if (properties.TryGetValue(name, out var property))
         {
             return (JProperty)property;

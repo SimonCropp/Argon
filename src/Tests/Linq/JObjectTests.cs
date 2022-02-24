@@ -125,9 +125,6 @@ public class JObjectTests : TestFixtureBase
         XUnitAssert.False(o.TryGetValue("sdf", out var t));
         Assert.Equal(null, t);
 
-        XUnitAssert.False(o.TryGetValue(null, out t));
-        Assert.Equal(null, t);
-
         XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
         XUnitAssert.True(JToken.DeepEquals(new JValue(1), t));
     }
@@ -164,7 +161,6 @@ public class JObjectTests : TestFixtureBase
         Assert.Equal(1, o.Children().Count());
 
         XUnitAssert.False(o.Remove("sdf"));
-        XUnitAssert.False(o.Remove(null));
         XUnitAssert.True(o.Remove("PropertyNameValue"));
 
         Assert.Equal(0, o.Children().Count());
@@ -254,9 +250,6 @@ public class JObjectTests : TestFixtureBase
         XUnitAssert.False(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1)));
-        XUnitAssert.False(contains);
-
-        contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(default(KeyValuePair<string, JToken>));
         XUnitAssert.False(contains);
     }
 
@@ -2133,9 +2126,6 @@ Parameter name: arrayIndex",
         Assert.Equal(null, a.Property("NAME", StringComparison.Ordinal));
         Assert.Equal(null, a.Property("NAME"));
         Assert.Equal(null, a.Property("TITLE"));
-        Assert.Equal(null, a.Property(null, StringComparison.Ordinal));
-        Assert.Equal(null, a.Property(null, StringComparison.OrdinalIgnoreCase));
-        Assert.Equal(null, a.Property(null));
 
         // Return first match when ignoring case
         Assert.Equal("Name", a.Property("NAME", StringComparison.OrdinalIgnoreCase).Name);

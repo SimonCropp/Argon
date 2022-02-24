@@ -314,7 +314,7 @@ public partial class JProperty : JContainer
     {
         writer.WritePropertyName(Name);
 
-        var value = Value;
+        var value = content.token;
         if (value == null)
         {
             writer.WriteNull();

@@ -500,7 +500,7 @@ public abstract partial class JContainer :
 
     internal virtual void ReplaceItem(JToken existing, JToken replacement)
     {
-        if (existing == null || existing.Parent != this)
+        if (existing.Parent != this)
         {
             return;
         }
@@ -930,7 +930,7 @@ public abstract partial class JContainer :
     }
     #endregion
 
-    static JToken? EnsureValue(object value)
+    static JToken? EnsureValue(object? value)
     {
         if (value == null)
         {
