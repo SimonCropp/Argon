@@ -43,7 +43,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         var type = target.GetType();
 
-        var contract = Serializer.contractResolver.ResolveContract(type);
+        var contract = Serializer.ResolveContract(type);
 
         if (!reader.MoveToContent())
         {
@@ -109,7 +109,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     JsonContract GetContract(Type type)
     {
-        return Serializer.contractResolver.ResolveContract(type);
+        return Serializer.ResolveContract(type);
     }
 
     public object? Deserialize(JsonReader reader, Type? type, bool checkAdditionalContent)
@@ -1340,7 +1340,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 }
                                 default:
                                     keyValue = contract.KeyContract is {IsEnum: true}
-                                        ? EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer.contractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString(), false)
+                                        ? EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer.ContractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString(), false)
                                         : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     break;
                             }
@@ -1892,7 +1892,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             else if (!property.Writable && value != null)
             {
                 // handle readonly collection/dictionary properties
-                var propertyContract = Serializer.contractResolver.ResolveContract(property.PropertyType!);
+                var propertyContract = Serializer.ResolveContract(property.PropertyType!);
 
                 if (propertyContract.ContractType == JsonContractType.Array)
                 {

@@ -92,8 +92,8 @@ public class KeyValuePairConverter : JsonConverter
             : type;
 
         var reflectionObject = reflectionObjectPerType.Get(t);
-        var keyContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(keyName));
-        var valueContract = serializer.ContractResolver.ResolveContract(reflectionObject.GetType(valueName));
+        var keyContract = serializer.ResolveContract(reflectionObject.GetType(keyName));
+        var valueContract = serializer.ResolveContract(reflectionObject.GetType(valueName));
 
         while (reader.TokenType == JsonToken.PropertyName)
         {

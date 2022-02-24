@@ -63,7 +63,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.DefaultValueHandling = value;
     }
 
-    public override IContractResolver ContractResolver
+    public override IContractResolver? ContractResolver
     {
         get => serializer.ContractResolver;
         set => serializer.ContractResolver = value;

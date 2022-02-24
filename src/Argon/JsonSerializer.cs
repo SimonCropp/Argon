@@ -37,7 +37,7 @@ public class JsonSerializer
     internal DefaultValueHandling defaultValueHandling;
     internal ConstructorHandling constructorHandling;
     JsonConverterCollection? converters;
-    internal IContractResolver contractResolver;
+    IContractResolver? contractResolver;
     internal IEqualityComparer? equalityComparer;
     internal ISerializationBinder? serializationBinder;
     internal StreamingContext context;
@@ -196,10 +196,19 @@ public class JsonSerializer
     /// Gets or sets the contract resolver used by the serializer when
     /// serializing .NET objects to JSON and vice versa.
     /// </summary>
-    public virtual IContractResolver ContractResolver
+    public virtual IContractResolver? ContractResolver
     {
         get => contractResolver;
-        set => contractResolver = value ?? DefaultContractResolver.Instance;
+        set => contractResolver = value;
+    }
+
+    public JsonContract ResolveContract(Type type)
+    {
+        if (contractResolver == null)
+        {
+            return DefaultContractResolver.Instance.ResolveContract(type);
+        }
+        return contractResolver.ResolveContract(type);
     }
 
     /// <summary>

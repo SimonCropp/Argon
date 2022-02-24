@@ -94,7 +94,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     JsonContract GetContract(object value)
     {
-        return Serializer.contractResolver.ResolveContract(value.GetType());
+        return Serializer.ResolveContract(value.GetType());
     }
 
     void SerializePrimitive(JsonWriter writer, object value, JsonPrimitiveContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
@@ -478,7 +478,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (!property.Ignored && property.Readable && ShouldSerialize(writer, property, value) && IsSpecified(writer, property, value))
         {
-            property.PropertyContract ??= Serializer.contractResolver.ResolveContract(property.PropertyType!);
+            property.PropertyContract ??= Serializer.ResolveContract(property.PropertyType!);
 
             memberValue = property.ValueProvider!.GetValue(value);
             memberContract = property.PropertyContract.IsSealed ? property.PropertyContract : GetContractSafe(memberValue);
@@ -798,7 +798,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             writer.WritePropertyName(JsonTypeReflector.ArrayValuesPropertyName, false);
         }
 
-        contract.ItemContract ??= Serializer.contractResolver.ResolveContract(contract.CollectionItemType ?? typeof(object));
+        contract.ItemContract ??= Serializer.ResolveContract(contract.CollectionItemType ?? typeof(object));
 
         return writeMetadataObject;
     }
@@ -930,7 +930,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
             else if (rootType != null && serializeStack.Count == rootLevel)
             {
-                var rootContract = Serializer.contractResolver.ResolveContract(rootType);
+                var rootContract = Serializer.ResolveContract(rootType);
 
                 if (contract.NonNullableUnderlyingType != rootContract.CreatedType)
                 {
@@ -952,9 +952,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         WriteObjectStart(writer, underlyingDictionary, contract, member, collectionContract, containerProperty);
 
-        contract.ItemContract ??= Serializer.contractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
+        contract.ItemContract ??= Serializer.ContractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
 
-        contract.KeyContract ??= Serializer.contractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
+        contract.KeyContract ??= Serializer.ContractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
 
         var initialDepth = writer.Top;
 
