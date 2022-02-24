@@ -100,7 +100,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
 
     public override string NamespaceUri => Element.Name.NamespaceName;
 
-    public string GetPrefixOfNamespace(string namespaceUri)
+    public string? GetPrefixOfNamespace(string namespaceUri)
     {
         return Element.GetPrefixOfNamespace(namespaceUri);
     }

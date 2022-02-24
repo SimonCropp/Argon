@@ -1,6 +1,6 @@
 ﻿interface IXmlElement : IXmlNode
 {
     void SetAttributeNode(IXmlNode attribute);
-    string GetPrefixOfNamespace(string namespaceUri);
+    string? GetPrefixOfNamespace(string namespaceUri);
     bool IsEmpty { get; }
 }
