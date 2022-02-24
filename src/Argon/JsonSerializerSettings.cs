@@ -34,14 +34,12 @@ public class JsonSerializerSettings
 
     internal const Formatting DefaultFormatting = Formatting.None;
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
-    internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
     internal const int DefaultMaxDepth = 64;
 
     internal Formatting? formatting;
     internal DateParseHandling? dateParseHandling;
-    internal FloatFormatHandling? floatFormatHandling;
     internal CultureInfo? culture;
     internal int? maxDepth;
     internal bool maxDepthSet;
@@ -242,11 +240,7 @@ public class JsonSerializerSettings
     /// are written as JSON.
     /// The default value is <see cref="Argon.FloatFormatHandling.String" />.
     /// </summary>
-    public FloatFormatHandling FloatFormatHandling
-    {
-        get => floatFormatHandling ?? DefaultFloatFormatHandling;
-        set => floatFormatHandling = value;
-    }
+    public FloatFormatHandling? FloatFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.

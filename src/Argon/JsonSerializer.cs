@@ -35,7 +35,6 @@ public class JsonSerializer
 
     Formatting? formatting;
     DateParseHandling? dateParseHandling;
-    FloatFormatHandling? floatFormatHandling;
     CultureInfo culture;
     int? maxDepth;
     bool maxDepthSet;
@@ -205,11 +204,7 @@ public class JsonSerializer
     /// are written as JSON text.
     /// The default value is <see cref="Argon.FloatFormatHandling.String" />.
     /// </summary>
-    public virtual FloatFormatHandling FloatFormatHandling
-    {
-        get => floatFormatHandling ?? JsonSerializerSettings.DefaultFloatFormatHandling;
-        set => floatFormatHandling = value;
-    }
+    public virtual FloatFormatHandling? FloatFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
@@ -469,9 +464,9 @@ public class JsonSerializer
             serializer.dateFormatString = settings.dateFormatString;
             serializer.dateFormatStringSet = settings.dateFormatStringSet;
         }
-        if (settings.floatFormatHandling != null)
+        if (settings.FloatFormatHandling != null)
         {
-            serializer.floatFormatHandling = settings.floatFormatHandling;
+            serializer.FloatFormatHandling = settings.FloatFormatHandling;
         }
         if (settings.FloatParseHandling != null)
         {
@@ -792,10 +787,10 @@ public class JsonSerializer
         }
 
         FloatFormatHandling? previousFloatFormatHandling = null;
-        if (floatFormatHandling != null && jsonWriter.FloatFormatHandling != floatFormatHandling)
+        if (FloatFormatHandling != null && jsonWriter.FloatFormatHandling != FloatFormatHandling)
         {
             previousFloatFormatHandling = jsonWriter.FloatFormatHandling;
-            jsonWriter.FloatFormatHandling = floatFormatHandling.GetValueOrDefault();
+            jsonWriter.FloatFormatHandling = FloatFormatHandling.GetValueOrDefault();
         }
 
         StringEscapeHandling? previousStringEscapeHandling = null;
