@@ -35,7 +35,6 @@ public class JsonSerializer
     internal NullValueHandling nullValueHandling;
     internal DefaultValueHandling defaultValueHandling;
     IContractResolver? contractResolver;
-    internal IEqualityComparer? equalityComparer;
     internal StreamingContext context;
 
     Formatting? formatting;
@@ -73,11 +72,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the equality comparer used by the serializer when comparing references.
     /// </summary>
-    public virtual IEqualityComparer? EqualityComparer
-    {
-        get => equalityComparer;
-        set => equalityComparer = value;
-    }
+    public virtual IEqualityComparer? EqualityComparer { get; set; }
 
     /// <summary>
     /// Gets or sets how type name writing and reading is handled by the serializer.

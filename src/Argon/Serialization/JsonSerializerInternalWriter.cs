@@ -280,8 +280,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             referenceLoopHandling = containerContract.ItemReferenceLoopHandling;
         }
 
-        var exists = Serializer.equalityComparer != null
-            ? serializeStack.Contains(value, Serializer.equalityComparer)
+        var exists = Serializer.EqualityComparer != null
+            ? serializeStack.Contains(value, Serializer.EqualityComparer)
             : serializeStack.Contains(value);
 
         if (exists)
