@@ -30,7 +30,6 @@ namespace Argon;
 /// </summary>
 public class JsonSerializerSettings
 {
-    internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
     internal static readonly StreamingContext DefaultContext = new();
 
     internal const Formatting DefaultFormatting = Formatting.None;
@@ -82,9 +81,9 @@ public class JsonSerializerSettings
     /// Gets or sets how null values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.NullValueHandling.Include" />.
     /// </summary>
-    public NullValueHandling NullValueHandling
+    public NullValueHandling? NullValueHandling
     {
-        get => nullValueHandling ?? DefaultNullValueHandling;
+        get => nullValueHandling;
         set => nullValueHandling = value;
     }
 

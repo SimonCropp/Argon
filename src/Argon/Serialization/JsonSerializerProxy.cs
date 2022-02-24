@@ -75,7 +75,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.MissingMemberHandling = value;
     }
 
-    public override NullValueHandling NullValueHandling
+    public override NullValueHandling? NullValueHandling
     {
         get => serializer.NullValueHandling;
         set => serializer.NullValueHandling = value;

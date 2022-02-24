@@ -72,7 +72,8 @@ abstract class JsonSerializerInternalBase
     {
         return property.NullValueHandling ??
                containerContract?.ItemNullValueHandling ??
-               Serializer.nullValueHandling;
+               Serializer.NullValueHandling ??
+               default;
     }
 
     ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)

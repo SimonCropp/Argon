@@ -888,7 +888,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     bool ShouldWriteDynamicProperty(object? memberValue)
     {
-        if (Serializer.nullValueHandling == NullValueHandling.Ignore &&
+        if (Serializer.NullValueHandling == NullValueHandling.Ignore &&
             memberValue == null)
         {
             return false;
