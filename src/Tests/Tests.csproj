@@ -5,9 +5,11 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NodaTime.Serialization.Argon\NodaTime.Serialization.Argon.csproj" />
     <Using Remove="System.Net.Http" />
     <Using Include="Xunit" />
     <PackageReference Include="MarkdownSnippets.MsBuild" Version="24.3.0" PrivateAssets="all" />
+    <PackageReference Include="NodaTime" Version="3.0.0" />
     <PackageReference Include="ProjectDefaults" Version="1.0.68" PrivateAssets="all" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="FSharp.Core" Version="4.2.3" />
