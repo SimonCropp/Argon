@@ -47,7 +47,7 @@ public class DelegatingConverterBaseTest
     public class LongDateConverter : DelegatingConverterBase
     {
         // No need to create a new one of these each time...
-        private static readonly JsonConverter converter =
+        static readonly JsonConverter converter =
             new NodaPatternConverter<LocalDate>(LocalDatePattern.CreateWithInvariantCulture("d MMMM yyyy"));
 
         public LongDateConverter() : base(converter)

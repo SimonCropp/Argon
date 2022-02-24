@@ -8,14 +8,14 @@ using NodaTime.Serialization.Argon;
 
 public class NodaIntervalConverterTest
 {
-    private readonly JsonSerializerSettings settings = new()
+    readonly JsonSerializerSettings settings = new()
     {
         ContractResolver = new DefaultContractResolver(),
         Converters = { NodaConverters.IntervalConverter, NodaConverters.InstantConverter },
         DateParseHandling = DateParseHandling.None
     };
 
-    private readonly JsonSerializerSettings settingsCamelCase = new()
+    readonly JsonSerializerSettings settingsCamelCase = new()
     {
         ContractResolver = new CamelCasePropertyNamesContractResolver(),
         Converters = { NodaConverters.IntervalConverter, NodaConverters.InstantConverter },

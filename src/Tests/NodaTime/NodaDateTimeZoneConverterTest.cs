@@ -8,7 +8,7 @@ using NodaTime.TimeZones;
 
 public class NodaDateTimeZoneConverterTest
 {
-    private readonly JsonConverter converter = NodaConverters.CreateDateTimeZoneConverter(DateTimeZoneProviders.Tzdb);
+    readonly JsonConverter converter = NodaConverters.CreateDateTimeZoneConverter(DateTimeZoneProviders.Tzdb);
 
     [Fact]
     public void Serialize()

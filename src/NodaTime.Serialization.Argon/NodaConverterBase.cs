@@ -21,10 +21,10 @@ public abstract class NodaConverterBase<T> : JsonConverter
     }
 
     // For value types and sealed classes, we can optimize and not call IsAssignableFrom.
-    private static readonly bool CheckAssignableFrom =
+    static readonly bool CheckAssignableFrom =
         !(typeof(T).IsValueType || (typeof(T).IsClass && typeof(T).IsSealed));
 
-    private static readonly Type NullableT = typeof(T).IsValueType
+    static readonly Type NullableT = typeof(T).IsValueType
         ? typeof(Nullable<>).MakeGenericType(typeof(T)) : typeof(T);
 
     // TODO: It's not clear whether we *should* support inheritance here. The Json.NET docs

@@ -199,7 +199,7 @@ public abstract class JsonContract
         }
     }
 
-    private static StreamingContext ContextToUse(StreamingContext? context)
+    static StreamingContext ContextToUse(StreamingContext? context)
     {
         var contextToUse = context ?? JsonSerializerSettings.DefaultContext;
         return contextToUse;

@@ -14,7 +14,7 @@ public class NodaDateIntervalConverterTest
         DateParseHandling = DateParseHandling.None
     };
 
-    private readonly JsonSerializerSettings settingsCamelCase = new()
+    readonly JsonSerializerSettings settingsCamelCase = new()
     {
         ContractResolver = new CamelCasePropertyNamesContractResolver(),
         Converters = { NodaConverters.DateIntervalConverter, NodaConverters.LocalDateConverter },

@@ -125,7 +125,7 @@ public static class Extensions
         return serializer;
     }
 
-    private static void AddDefaultConverters(IList<JsonConverter> converters, IDateTimeZoneProvider provider)
+    static void AddDefaultConverters(IList<JsonConverter> converters, IDateTimeZoneProvider provider)
     {
         converters.Add(NodaConverters.InstantConverter);
         converters.Add(NodaConverters.IntervalConverter);
@@ -144,7 +144,7 @@ public static class Extensions
         converters.Add(NodaConverters.CreateZonedDateTimeConverter(provider));
     }
 
-    private static void ReplaceExistingConverters<T>(IList<JsonConverter> converters, JsonConverter newConverter)
+    static void ReplaceExistingConverters<T>(IList<JsonConverter> converters, JsonConverter newConverter)
     {
         for (var i = converters.Count - 1; i >= 0; i--)
         {

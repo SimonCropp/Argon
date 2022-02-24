@@ -11,7 +11,7 @@ using NodaTime.Serialization.Argon;
 /// </summary>
 public class NodaIsoIntervalConverterTest
 {
-    private readonly JsonSerializerSettings settings = new()
+    readonly JsonSerializerSettings settings = new()
     {
         Converters =
         {

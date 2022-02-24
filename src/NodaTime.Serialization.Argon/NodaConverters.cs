@@ -132,7 +132,7 @@ public static class NodaConverters
     public static JsonConverter NormalizingIsoPeriodConverter { get; }
         = new NodaPatternConverter<Period>(PeriodPattern.NormalizingIso);
 
-    private static Action<T> CreateIsoValidator<T>(Func<T, CalendarSystem> calendarProjection) => value =>
+    static Action<T> CreateIsoValidator<T>(Func<T, CalendarSystem> calendarProjection) => value =>
     {
         var calendar = calendarProjection(value);
         // We rely on CalendarSystem.Iso being a singleton here.

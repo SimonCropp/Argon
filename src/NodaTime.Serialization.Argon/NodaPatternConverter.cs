@@ -14,8 +14,8 @@ namespace NodaTime.Serialization.Argon;
 /// <typeparam name="T">The type to convert to/from JSON.</typeparam>
 public sealed class NodaPatternConverter<T> : NodaConverterBase<T>
 {
-    private readonly IPattern<T> pattern;
-    private readonly Action<T>? validator;
+    readonly IPattern<T> pattern;
+    readonly Action<T>? validator;
 
     /// <summary>
     /// Creates a new instance with a pattern and no validator.

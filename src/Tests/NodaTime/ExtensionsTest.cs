@@ -12,7 +12,10 @@ public class ExtensionsTest
     {
         var configuredSerializer = new JsonSerializer().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
         var explicitSerializer = new JsonSerializer {
-            Converters = { NodaConverters.IntervalConverter, NodaConverters.InstantConverter }
+            Converters =
+            {
+                NodaConverters.IntervalConverter, NodaConverters.InstantConverter
+            }
         };
         var interval = new Interval(Instant.FromUnixTimeTicks(1000L), Instant.FromUnixTimeTicks(20000L));
         Assert.Equal(Serialize(interval, explicitSerializer),
@@ -23,7 +26,13 @@ public class ExtensionsTest
     public void Serializer_ConfigureForNodaTime_WithIsoIntervalConverter()
     {
         var configuredSerializer = new JsonSerializer().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb).WithIsoIntervalConverter();
-        var explicitSerializer = new JsonSerializer { Converters = { NodaConverters.IsoIntervalConverter } };
+        var explicitSerializer = new JsonSerializer
+        {
+            Converters =
+            {
+                NodaConverters.IsoIntervalConverter
+            }
+        };
         var interval = new Interval(Instant.FromUnixTimeTicks(1000L), Instant.FromUnixTimeTicks(20000L));
         Assert.Equal(Serialize(interval, explicitSerializer),
             Serialize(interval, configuredSerializer));
@@ -35,7 +44,11 @@ public class ExtensionsTest
         var configuredSettings = new JsonSerializerSettings().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
         var explicitSettings = new JsonSerializerSettings
         {
-            Converters = { NodaConverters.IntervalConverter, NodaConverters.InstantConverter }
+            Converters =
+            {
+                NodaConverters.IntervalConverter,
+                NodaConverters.InstantConverter
+            }
         };
         var interval = new Interval(Instant.FromUnixTimeTicks(1000L), Instant.FromUnixTimeTicks(20000L));
         Assert.Equal(JsonConvert.SerializeObject(interval, explicitSettings),
@@ -46,7 +59,13 @@ public class ExtensionsTest
     public void Settings_ConfigureForNodaTime_WithIsoIntervalConverter()
     {
         var configuredSettings = new JsonSerializerSettings().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb).WithIsoIntervalConverter();
-        var explicitSettings = new JsonSerializerSettings { Converters = { NodaConverters.IsoIntervalConverter } };
+        var explicitSettings = new JsonSerializerSettings
+        {
+            Converters =
+            {
+                NodaConverters.IsoIntervalConverter
+            }
+        };
         var interval = new Interval(Instant.FromUnixTimeTicks(1000L), Instant.FromUnixTimeTicks(20000L));
         Assert.Equal(JsonConvert.SerializeObject(interval, explicitSettings),
             JsonConvert.SerializeObject(interval, configuredSettings));
@@ -58,7 +77,11 @@ public class ExtensionsTest
         var configuredSerializer = new JsonSerializer().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
         var explicitSerializer = new JsonSerializer
         {
-            Converters = { NodaConverters.DateIntervalConverter, NodaConverters.LocalDateConverter }
+            Converters =
+            {
+                NodaConverters.DateIntervalConverter,
+                NodaConverters.LocalDateConverter
+            }
         };
         var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
         Assert.Equal(Serialize(interval, explicitSerializer),
@@ -69,7 +92,13 @@ public class ExtensionsTest
     public void Serializer_ConfigureForNodaTime_WithIsoDateIntervalConverter()
     {
         var configuredSerializer = new JsonSerializer().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb).WithIsoDateIntervalConverter();
-        var explicitSerializer = new JsonSerializer { Converters = { NodaConverters.IsoDateIntervalConverter } };
+        var explicitSerializer = new JsonSerializer
+        {
+            Converters =
+            {
+                NodaConverters.IsoDateIntervalConverter
+            }
+        };
         var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
         Assert.Equal(Serialize(interval, explicitSerializer),
             Serialize(interval, configuredSerializer));
@@ -81,7 +110,11 @@ public class ExtensionsTest
         var configuredSettings = new JsonSerializerSettings().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
         var explicitSettings = new JsonSerializerSettings
         {
-            Converters = { NodaConverters.DateIntervalConverter, NodaConverters.LocalDateConverter }
+            Converters =
+            {
+                NodaConverters.DateIntervalConverter,
+                NodaConverters.LocalDateConverter
+            }
         };
         var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
         Assert.Equal(JsonConvert.SerializeObject(interval, explicitSettings),
@@ -92,13 +125,19 @@ public class ExtensionsTest
     public void Settings_ConfigureForNodaTime_WithIsoDateIntervalConverter()
     {
         var configuredSettings = new JsonSerializerSettings().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb).WithIsoDateIntervalConverter();
-        var explicitSettings = new JsonSerializerSettings { Converters = { NodaConverters.IsoDateIntervalConverter } };
+        var explicitSettings = new JsonSerializerSettings
+        {
+            Converters =
+            {
+                NodaConverters.IsoDateIntervalConverter
+            }
+        };
         var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
         Assert.Equal(JsonConvert.SerializeObject(interval, explicitSettings),
             JsonConvert.SerializeObject(interval, configuredSettings));
     }
 
-    private static string Serialize<T>(T value, JsonSerializer serializer)
+    static string Serialize<T>(T value, JsonSerializer serializer)
     {
         var writer = new StringWriter();
         serializer.Serialize(writer, value);

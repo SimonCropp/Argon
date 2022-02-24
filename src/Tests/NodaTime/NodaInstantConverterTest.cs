@@ -7,7 +7,7 @@ using NodaTime.Serialization.Argon;
 
 public class NodaInstantConverterTest
 {
-    private readonly JsonSerializerSettings settings = new()
+    readonly JsonSerializerSettings settings = new()
     {
         Converters = {NodaConverters.InstantConverter},
         DateParseHandling = DateParseHandling.None

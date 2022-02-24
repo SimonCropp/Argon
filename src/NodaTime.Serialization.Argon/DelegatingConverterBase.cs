@@ -28,7 +28,7 @@ namespace NodaTime.Serialization.Argon;
 /// </example>
 public abstract class DelegatingConverterBase : JsonConverter
 {
-    private readonly JsonConverter original;
+    readonly JsonConverter original;
 
     /// <summary>
     /// Constructs a converter delegating to <paramref name="original"/>.
