@@ -31,7 +31,7 @@ namespace Argon;
 /// </summary>
 public class JsonSerializer
 {
-    internal MissingMemberHandling missingMemberHandling;
+    MissingMemberHandling missingMemberHandling;
     internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
     internal DefaultValueHandling defaultValueHandling;
