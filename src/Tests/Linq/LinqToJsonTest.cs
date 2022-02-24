@@ -1188,7 +1188,7 @@ keyword such as type of business.""
     [Fact]
     public void AsJEnumerable()
     {
-        JObject o = 
+        JObject o =
             new JObject(
                 new JProperty("Test1", new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc)),
                 new JProperty("Test2", "Test2Value"),

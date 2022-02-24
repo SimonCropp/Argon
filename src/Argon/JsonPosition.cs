@@ -105,13 +105,11 @@ struct JsonPosition
     internal static string BuildPath(List<JsonPosition> positions, JsonPosition? currentPosition)
     {
         var capacity = 0;
-        if (positions != null)
+        for (var i = 0; i < positions.Count; i++)
         {
-            for (var i = 0; i < positions.Count; i++)
-            {
-                capacity += positions[i].CalculateLength();
-            }
+            capacity += positions[i].CalculateLength();
         }
+
         if (currentPosition != null)
         {
             capacity += currentPosition.GetValueOrDefault().CalculateLength();
@@ -120,13 +118,11 @@ struct JsonPosition
         var stringBuilder = new StringBuilder(capacity);
         StringWriter? writer = null;
         char[]? buffer = null;
-        if (positions != null)
+        foreach (var state in positions)
         {
-            foreach (var state in positions)
-            {
-                state.WriteTo(stringBuilder, ref writer, ref buffer);
-            }
+            state.WriteTo(stringBuilder, ref writer, ref buffer);
         }
+
         if (currentPosition != null)
         {
             currentPosition.GetValueOrDefault().WriteTo(stringBuilder, ref writer, ref buffer);
