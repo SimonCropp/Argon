@@ -14,7 +14,7 @@ class XmlElementWrapper : XmlNodeWrapper, IXmlElement
     {
         var xmlAttributeWrapper = (XmlNodeWrapper)attribute;
 
-        element.SetAttributeNode((XmlAttribute)xmlAttributeWrapper.WrappedNode!);
+        element.SetAttributeNode((XmlAttribute)xmlAttributeWrapper.WrappedNode);
     }
 
     public string GetPrefixOfNamespace(string namespaceUri)
