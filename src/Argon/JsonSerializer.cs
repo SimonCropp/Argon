@@ -38,7 +38,6 @@ public class JsonSerializer
     internal IEqualityComparer? equalityComparer;
     internal ISerializationBinder? serializationBinder;
     internal StreamingContext context;
-    IReferenceResolver? referenceResolver;
 
     Formatting? formatting;
     DateFormatHandling? dateFormatHandling;
@@ -60,11 +59,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets or sets the <see cref="IReferenceResolver"/> used by the serializer when resolving references.
     /// </summary>
-    public virtual IReferenceResolver? ReferenceResolver
-    {
-        get => referenceResolver;
-        set => referenceResolver = value;
-    }
+    public virtual IReferenceResolver? ReferenceResolver { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="ISerializationBinder"/> used by the serializer when resolving type names.
