@@ -377,7 +377,7 @@ public class JsonSerializer
         {
             serializer.PreserveReferencesHandling = settings.PreserveReferencesHandling;
         }
-        if (settings.referenceLoopHandling != null)
+        if (settings.ReferenceLoopHandling != null)
         {
             serializer.ReferenceLoopHandling = settings.ReferenceLoopHandling;
         }

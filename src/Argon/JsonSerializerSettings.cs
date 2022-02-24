@@ -35,7 +35,6 @@ public class JsonSerializerSettings
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
-    internal const int DefaultMaxDepth = 64;
 
     internal DateParseHandling? dateParseHandling;
     internal CultureInfo? culture;
@@ -43,19 +42,13 @@ public class JsonSerializerSettings
     internal bool maxDepthSet;
     internal string? dateFormatString;
     internal bool dateFormatStringSet;
-    NullValueHandling? nullValueHandling;
-    internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) are handled.
     /// The default value is <see cref="Argon.ReferenceLoopHandling.Error" />.
     /// </summary>
-    public ReferenceLoopHandling? ReferenceLoopHandling
-    {
-        get => referenceLoopHandling;
-        set => referenceLoopHandling = value;
-    }
+    public ReferenceLoopHandling? ReferenceLoopHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
@@ -73,11 +66,7 @@ public class JsonSerializerSettings
     /// Gets or sets how null values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.NullValueHandling.Include" />.
     /// </summary>
-    public NullValueHandling? NullValueHandling
-    {
-        get => nullValueHandling;
-        set => nullValueHandling = value;
-    }
+    public NullValueHandling? NullValueHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how default values are handled during serialization and deserialization.
@@ -180,6 +169,7 @@ public class JsonSerializerSettings
         }
     }
 
+    const int DefaultMaxDepth = 64;
     /// <summary>
     /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException"/>.
     /// A null value means there is no maximum.
