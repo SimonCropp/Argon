@@ -30,7 +30,6 @@ namespace Argon;
 /// </summary>
 public class JsonSerializerSettings
 {
-    internal const MissingMemberHandling DefaultMissingMemberHandling = MissingMemberHandling.Ignore;
     internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
     internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
     internal const ObjectCreationHandling DefaultObjectCreationHandling = ObjectCreationHandling.Auto;
@@ -60,7 +59,6 @@ public class JsonSerializerSettings
     internal DefaultValueHandling? defaultValueHandling;
     internal NullValueHandling? nullValueHandling;
     internal ObjectCreationHandling? objectCreationHandling;
-    internal MissingMemberHandling? missingMemberHandling;
     internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
 
@@ -78,11 +76,7 @@ public class JsonSerializerSettings
     /// Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
     /// The default value is <see cref="Argon.MissingMemberHandling.Ignore" />.
     /// </summary>
-    public MissingMemberHandling MissingMemberHandling
-    {
-        get => missingMemberHandling ?? DefaultMissingMemberHandling;
-        set => missingMemberHandling = value;
-    }
+    public MissingMemberHandling? MissingMemberHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how objects are created during deserialization.

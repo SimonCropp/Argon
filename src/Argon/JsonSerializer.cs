@@ -31,7 +31,6 @@ namespace Argon;
 /// </summary>
 public class JsonSerializer
 {
-    MissingMemberHandling missingMemberHandling;
     internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
     internal DefaultValueHandling defaultValueHandling;
@@ -123,11 +122,7 @@ public class JsonSerializer
     /// Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
     /// The default value is <see cref="Argon.MissingMemberHandling.Ignore" />.
     /// </summary>
-    public virtual MissingMemberHandling MissingMemberHandling
-    {
-        get => missingMemberHandling;
-        set => missingMemberHandling = value;
-    }
+    public virtual MissingMemberHandling? MissingMemberHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how null values are handled during serialization and deserialization.
@@ -333,7 +328,6 @@ public class JsonSerializer
     /// </summary>
     public JsonSerializer()
     {
-        missingMemberHandling = JsonSerializerSettings.DefaultMissingMemberHandling;
         nullValueHandling = JsonSerializerSettings.DefaultNullValueHandling;
         defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
         objectCreationHandling = JsonSerializerSettings.DefaultObjectCreationHandling;
@@ -452,7 +446,7 @@ public class JsonSerializer
         {
             serializer.ReferenceLoopHandling = settings.ReferenceLoopHandling;
         }
-        if (settings.missingMemberHandling != null)
+        if (settings.MissingMemberHandling != null)
         {
             serializer.MissingMemberHandling = settings.MissingMemberHandling;
         }
