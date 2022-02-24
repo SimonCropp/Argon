@@ -25,6 +25,22 @@
 
 static class ReflectionUtils
 {
+    public static T GetValueOrDefault<T>(this T? target, T? fallback)
+        where T : struct, Enum
+    {
+        if (target.HasValue)
+        {
+            return target.Value;
+        }
+
+        if (fallback.HasValue)
+        {
+            return fallback.Value;
+        }
+
+        return default;
+    }
+
     public static bool IsVirtual(this PropertyInfo property)
     {
         return property.Method() is {IsVirtual: true};
@@ -785,24 +801,26 @@ static class ReflectionUtils
                     {
                         initialProperties.Add(property);
                     }
+
                     continue;
                 }
 
                 if (IsPublic(property))
                 {
                     var publicIndex = initialProperties.IndexOf(p => p.Name == property.Name
-                                                               && p.DeclaringType == property.DeclaringType);
+                                                                     && p.DeclaringType == property.DeclaringType);
 
                     if (publicIndex == -1)
                     {
                         initialProperties.Add(property);
                     }
+
                     continue;
                 }
 
                 // have to test on name rather than reference because instances are different
                 // depending on the type that GetProperties was called on
-                var nonPublicIndex  = initialProperties.IndexOf(p => p.Name == property.Name);
+                var nonPublicIndex = initialProperties.IndexOf(p => p.Name == property.Name);
                 if (nonPublicIndex == -1)
                 {
                     initialProperties.Add(property);
