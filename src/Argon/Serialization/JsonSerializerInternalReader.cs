@@ -1079,8 +1079,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
 
         // test tokenType here because default value might not be convertible to actual type, e.g. default of "" for DateTime
-        if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Ignore)
-            && !HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Populate)
+        var handling = property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling);
+        if (HasFlag(handling, DefaultValueHandling.Ignore)
+            && !HasFlag(handling, DefaultValueHandling.Populate)
             && JsonTokenUtils.IsPrimitiveToken(tokenType)
             && MiscellaneousUtils.ValueEquals(reader.Value, property.GetResolvedDefaultValue()))
         {
@@ -1139,8 +1140,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return false;
         }
 
-        if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Ignore)
-            && !HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Populate)
+        var handling = property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling);
+        if (HasFlag(handling, DefaultValueHandling.Ignore)
+            && !HasFlag(handling, DefaultValueHandling.Populate)
             && MiscellaneousUtils.ValueEquals(value, property.GetResolvedDefaultValue()))
         {
             return false;
@@ -1767,7 +1769,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor<object> creator, string? id)
     {
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
-        var trackPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.defaultValueHandling, DefaultValueHandling.Populate);
+        var trackPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Populate);
 
         var type = contract.UnderlyingType;
 
@@ -1842,7 +1844,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     {
                         constructorProperty.PropertyContract ??= GetContractSafe(constructorProperty.PropertyType);
 
-                        if (HasFlag(constructorProperty.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Populate))
+                        if (HasFlag(constructorProperty.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling), DefaultValueHandling.Populate))
                         {
                             context.Value = EnsureType(
                                 reader,
@@ -2143,7 +2145,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         OnDeserializing(reader, contract, newObject);
 
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
-        var propertiesPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.defaultValueHandling, DefaultValueHandling.Populate)
+        var propertiesPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Populate)
             ? contract.Properties.ToDictionary(m => m, _ => PropertyPresence.None)
             : null;
 
@@ -2353,7 +2355,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         {
                             property.PropertyContract ??= GetContractSafe(property.PropertyType);
 
-                            if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Populate) && property.Writable)
+                            if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling), DefaultValueHandling.Populate) && property.Writable)
                             {
                                 property.ValueProvider!.SetValue(newObject, EnsureType(reader, property.GetResolvedDefaultValue(), CultureInfo.InvariantCulture, property.PropertyContract!, property.PropertyType));
                             }

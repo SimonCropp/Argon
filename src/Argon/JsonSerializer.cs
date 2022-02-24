@@ -32,7 +32,6 @@ namespace Argon;
 public class JsonSerializer
 {
     internal NullValueHandling nullValueHandling;
-    internal DefaultValueHandling defaultValueHandling;
     IContractResolver? contractResolver;
     internal StreamingContext context;
 
@@ -121,11 +120,7 @@ public class JsonSerializer
     /// Gets or sets how default values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DefaultValueHandling.Include" />.
     /// </summary>
-    public virtual DefaultValueHandling DefaultValueHandling
-    {
-        get => defaultValueHandling;
-        set => defaultValueHandling = value;
-    }
+    public virtual DefaultValueHandling? DefaultValueHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how objects are created during deserialization.
@@ -304,7 +299,6 @@ public class JsonSerializer
     public JsonSerializer()
     {
         nullValueHandling = JsonSerializerSettings.DefaultNullValueHandling;
-        defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
         context = JsonSerializerSettings.DefaultContext;
 
         culture = JsonSerializerSettings.DefaultCulture;
@@ -432,7 +426,7 @@ public class JsonSerializer
         {
             serializer.NullValueHandling = settings.NullValueHandling;
         }
-        if (settings.defaultValueHandling != null)
+        if (settings.DefaultValueHandling != null)
         {
             serializer.DefaultValueHandling = settings.DefaultValueHandling;
         }

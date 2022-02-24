@@ -245,7 +245,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
-        return !HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.defaultValueHandling), DefaultValueHandling.Ignore) ||
+        return !HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling), DefaultValueHandling.Ignore) ||
                !MiscellaneousUtils.ValueEquals(memberValue, property.GetResolvedDefaultValue());
     }
 
@@ -894,7 +894,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
-        return !HasFlag(Serializer.defaultValueHandling, DefaultValueHandling.Ignore) ||
+        return !HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Ignore) ||
                (memberValue != null && !MiscellaneousUtils.ValueEquals(memberValue, ReflectionUtils.GetDefaultValue(memberValue.GetType())));
     }
 

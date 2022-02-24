@@ -31,7 +31,6 @@ namespace Argon;
 public class JsonSerializerSettings
 {
     internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
-    internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
     internal static readonly StreamingContext DefaultContext = new();
 
     internal const Formatting DefaultFormatting = Formatting.None;
@@ -53,7 +52,6 @@ public class JsonSerializerSettings
     internal bool maxDepthSet;
     internal string? dateFormatString;
     internal bool dateFormatStringSet;
-    internal DefaultValueHandling? defaultValueHandling;
     internal NullValueHandling? nullValueHandling;
     internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
@@ -94,11 +92,7 @@ public class JsonSerializerSettings
     /// Gets or sets how default values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DefaultValueHandling.Include" />.
     /// </summary>
-    public DefaultValueHandling DefaultValueHandling
-    {
-        get => defaultValueHandling ?? DefaultDefaultValueHandling;
-        set => defaultValueHandling = value;
-    }
+    public DefaultValueHandling? DefaultValueHandling { get; set; }
 
     /// <summary>
     /// Gets or sets a <see cref="JsonConverter"/> collection that will be used during serialization.

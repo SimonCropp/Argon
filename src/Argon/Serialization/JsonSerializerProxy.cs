@@ -57,7 +57,7 @@ class JsonSerializerProxy : JsonSerializer
 
     public override JsonConverterCollection Converters => serializer.Converters;
 
-    public override DefaultValueHandling DefaultValueHandling
+    public override DefaultValueHandling? DefaultValueHandling
     {
         get => serializer.DefaultValueHandling;
         set => serializer.DefaultValueHandling = value;
