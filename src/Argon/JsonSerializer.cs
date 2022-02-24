@@ -50,7 +50,6 @@ public class JsonSerializer
     CultureInfo culture;
     int? maxDepth;
     bool maxDepthSet;
-    bool? checkAdditionalContent;
     string? dateFormatString;
     bool dateFormatStringSet;
 
@@ -65,10 +64,7 @@ public class JsonSerializer
     public virtual IReferenceResolver? ReferenceResolver
     {
         get => referenceResolver;
-        set
-        {
-            referenceResolver = value;
-        }
+        set => referenceResolver = value;
     }
 
     /// <summary>
@@ -325,15 +321,11 @@ public class JsonSerializer
     /// Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.
     /// The default value is <c>false</c>.
     /// </summary>
-    public virtual bool? CheckAdditionalContent
-    {
-        get => checkAdditionalContent;
-        set => checkAdditionalContent = value;
-    }
+    public virtual bool? CheckAdditionalContent { get; set; }
 
     internal bool IsCheckAdditionalContentSet()
     {
-        return checkAdditionalContent != null;
+        return CheckAdditionalContent != null;
     }
 
     /// <summary>
@@ -484,9 +476,9 @@ public class JsonSerializer
         {
             serializer.Context = settings.Context;
         }
-        if (settings.checkAdditionalContent != null)
+        if (settings.CheckAdditionalContent != null)
         {
-            serializer.checkAdditionalContent = settings.checkAdditionalContent;
+            serializer.CheckAdditionalContent = settings.CheckAdditionalContent;
         }
 
         if (settings.Error != null)

@@ -53,7 +53,6 @@ public class JsonSerializerSettings
     internal FloatFormatHandling? floatFormatHandling;
     internal FloatParseHandling? floatParseHandling;
     internal CultureInfo? culture;
-    internal bool? checkAdditionalContent;
     internal int? maxDepth;
     internal bool maxDepthSet;
     internal string? dateFormatString;
@@ -312,11 +311,7 @@ public class JsonSerializerSettings
     /// Gets a value indicating whether there will be a check for additional content after deserializing an object.
     /// The default value is <c>false</c>.
     /// </summary>
-    public bool? CheckAdditionalContent
-    {
-        get => checkAdditionalContent;
-        set => checkAdditionalContent = value;
-    }
+    public bool? CheckAdditionalContent { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonSerializerSettings"/> class.
