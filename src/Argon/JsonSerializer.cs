@@ -33,7 +33,6 @@ public class JsonSerializer
 {
     IContractResolver? contractResolver;
 
-    Formatting? formatting;
     DateParseHandling? dateParseHandling;
     CultureInfo culture;
     int? maxDepth;
@@ -164,11 +163,7 @@ public class JsonSerializer
     /// Indicates how JSON text output is formatted.
     /// The default value is <see cref="Argon.Formatting.None" />.
     /// </summary>
-    public virtual Formatting Formatting
-    {
-        get => formatting ?? JsonSerializerSettings.DefaultFormatting;
-        set => formatting = value;
-    }
+    public virtual Formatting? Formatting { get; set; }
 
     /// <summary>
     /// Gets or sets how dates are written to JSON text.
@@ -443,9 +438,9 @@ public class JsonSerializer
 
         // reader/writer specific
         // unset values won't override reader/writer set values
-        if (settings.formatting != null)
+        if (settings.Formatting != null)
         {
-            serializer.formatting = settings.formatting;
+            serializer.Formatting = settings.Formatting;
         }
         if (settings.DateFormatHandling != null)
         {
@@ -766,10 +761,10 @@ public class JsonSerializer
     {
         // set serialization options onto writer
         Formatting? previousFormatting = null;
-        if (formatting != null && jsonWriter.Formatting != formatting)
+        if (Formatting != null && jsonWriter.Formatting != Formatting)
         {
             previousFormatting = jsonWriter.Formatting;
-            jsonWriter.Formatting = formatting.GetValueOrDefault();
+            jsonWriter.Formatting = Formatting.GetValueOrDefault();
         }
 
         DateFormatHandling? previousDateFormatHandling = null;

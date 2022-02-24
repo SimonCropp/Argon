@@ -135,7 +135,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.Context = value;
     }
 
-    public override Formatting Formatting
+    public override Formatting? Formatting
     {
         get => serializer.Formatting;
         set => serializer.Formatting = value;

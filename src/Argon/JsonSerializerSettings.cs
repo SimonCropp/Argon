@@ -32,13 +32,11 @@ public class JsonSerializerSettings
 {
     internal static readonly StreamingContext DefaultContext = new();
 
-    internal const Formatting DefaultFormatting = Formatting.None;
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
     internal const int DefaultMaxDepth = 64;
 
-    internal Formatting? formatting;
     internal DateParseHandling? dateParseHandling;
     internal CultureInfo? culture;
     internal int? maxDepth;
@@ -206,11 +204,7 @@ public class JsonSerializerSettings
     /// Indicates how JSON text output is formatted.
     /// The default value is <see cref="Argon.Formatting.None" />.
     /// </summary>
-    public Formatting Formatting
-    {
-        get => formatting ?? DefaultFormatting;
-        set => formatting = value;
-    }
+    public Formatting? Formatting { get; set; }
 
     /// <summary>
     /// Gets or sets how dates are written to JSON text.
