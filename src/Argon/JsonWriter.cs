@@ -100,7 +100,7 @@ public abstract partial class JsonWriter : IDisposable
         StateArray = BuildStateArray();
     }
 
-    List<JsonPosition>? stack;
+    List<JsonPosition> stack = new();
     JsonPosition currentPosition;
     State currentState;
 
@@ -121,7 +121,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         get
         {
-            var depth = stack?.Count ?? 0;
+            var depth = stack.Count;
             if (Peek() != JsonContainerType.None)
             {
                 depth++;
@@ -167,7 +167,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         get
         {
-            if (currentPosition.Type == JsonContainerType.None || stack == null)
+            if (currentPosition.Type == JsonContainerType.None || stack.Count == 0)
             {
                 return string.Empty;
             }
@@ -194,7 +194,7 @@ public abstract partial class JsonWriter : IDisposable
 
             var current = insideContainer ? (JsonPosition?)currentPosition : null;
 
-            return JsonPosition.BuildPath(stack!, current);
+            return JsonPosition.BuildPath(stack, current);
         }
     }
 
@@ -280,8 +280,6 @@ public abstract partial class JsonWriter : IDisposable
     {
         if (currentPosition.Type != JsonContainerType.None)
         {
-            stack ??= new List<JsonPosition>();
-
             stack.Add(currentPosition);
         }
 
@@ -292,7 +290,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         var oldPosition = currentPosition;
 
-        if (stack is {Count: > 0})
+        if (stack.Count > 0)
         {
             currentPosition = stack[stack.Count - 1];
             stack.RemoveAt(stack.Count - 1);
@@ -687,7 +685,7 @@ public abstract partial class JsonWriter : IDisposable
             {
                 var currentLevel = top - i;
 
-                if (stack![currentLevel].Type == type)
+                if (stack[currentLevel].Type == type)
                 {
                     levelsToComplete = i + 2;
                     break;
