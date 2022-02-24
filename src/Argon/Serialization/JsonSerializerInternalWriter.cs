@@ -904,7 +904,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             member?.TypeNameHandling
             ?? containerProperty?.ItemTypeNameHandling
             ?? containerContract?.ItemTypeNameHandling
-            ?? Serializer.typeNameHandling;
+            ?? Serializer.TypeNameHandling;
 
         if (HasFlag(resolvedTypeNameHandling, typeNameHandlingFlag))
         {

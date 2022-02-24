@@ -35,7 +35,6 @@ public class JsonSerializerSettings
     internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
     internal const ObjectCreationHandling DefaultObjectCreationHandling = ObjectCreationHandling.Auto;
     internal const ConstructorHandling DefaultConstructorHandling = ConstructorHandling.Default;
-    internal const TypeNameHandling DefaultTypeNameHandling = TypeNameHandling.None;
     internal const MetadataPropertyHandling DefaultMetadataPropertyHandling = MetadataPropertyHandling.Default;
     internal static readonly StreamingContext DefaultContext = new();
 
@@ -73,7 +72,6 @@ public class JsonSerializerSettings
     internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
     internal ConstructorHandling? constructorHandling;
-    internal TypeNameHandling? typeNameHandling;
     internal MetadataPropertyHandling? metadataPropertyHandling;
 
     /// <summary>
@@ -146,11 +144,7 @@ public class JsonSerializerSettings
     /// Incoming types should be validated with a custom <see cref="JsonSerializerSettings.SerializationBinder"/>
     /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None"/>.
     /// </remarks>
-    public TypeNameHandling TypeNameHandling
-    {
-        get => typeNameHandling ?? DefaultTypeNameHandling;
-        set => typeNameHandling = value;
-    }
+    public TypeNameHandling? TypeNameHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how metadata properties are used during deserialization.

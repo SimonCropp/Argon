@@ -731,10 +731,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     void ResolveTypeName(JsonReader reader, ref Type? type, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, string qualifiedTypeName)
     {
         var resolvedTypeNameHandling =
-            member?.TypeNameHandling
-            ?? containerContract?.ItemTypeNameHandling
-            ?? containerMember?.ItemTypeNameHandling
-            ?? Serializer.typeNameHandling;
+            member?.TypeNameHandling ??
+            containerContract?.ItemTypeNameHandling ??
+            containerMember?.ItemTypeNameHandling ??
+            Serializer.TypeNameHandling ??
+            TypeNameHandling.None;
 
         if (resolvedTypeNameHandling != TypeNameHandling.None)
         {

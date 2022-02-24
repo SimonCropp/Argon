@@ -31,7 +31,6 @@ namespace Argon;
 /// </summary>
 public class JsonSerializer
 {
-    internal TypeNameHandling typeNameHandling;
     internal TypeNameAssemblyFormatHandling typeNameAssemblyFormatHandling;
     internal MissingMemberHandling missingMemberHandling;
     internal ObjectCreationHandling objectCreationHandling;
@@ -114,19 +113,7 @@ public class JsonSerializer
     /// Incoming types should be validated with a custom <see cref="JsonSerializer.SerializationBinder"/>
     /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None"/>.
     /// </remarks>
-    public virtual TypeNameHandling TypeNameHandling
-    {
-        get => typeNameHandling;
-        set
-        {
-            if (value is < TypeNameHandling.None or > TypeNameHandling.Auto)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            typeNameHandling = value;
-        }
-    }
+    public virtual TypeNameHandling? TypeNameHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
@@ -376,7 +363,6 @@ public class JsonSerializer
         defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
         objectCreationHandling = JsonSerializerSettings.DefaultObjectCreationHandling;
         constructorHandling = JsonSerializerSettings.DefaultConstructorHandling;
-        typeNameHandling = JsonSerializerSettings.DefaultTypeNameHandling;
         metadataPropertyHandling = JsonSerializerSettings.DefaultMetadataPropertyHandling;
         context = JsonSerializerSettings.DefaultContext;
 
@@ -473,7 +459,7 @@ public class JsonSerializer
         }
 
         // serializer specific
-        if (settings.typeNameHandling != null)
+        if (settings.TypeNameHandling != null)
         {
             serializer.TypeNameHandling = settings.TypeNameHandling;
         }
