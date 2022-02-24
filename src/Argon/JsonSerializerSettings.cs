@@ -39,7 +39,7 @@ public class JsonSerializerSettings
     internal const ConstructorHandling DefaultConstructorHandling = ConstructorHandling.Default;
     internal const TypeNameHandling DefaultTypeNameHandling = TypeNameHandling.None;
     internal const MetadataPropertyHandling DefaultMetadataPropertyHandling = MetadataPropertyHandling.Default;
-    internal static readonly StreamingContext DefaultContext;
+    internal static readonly StreamingContext DefaultContext = new();
 
     internal const Formatting DefaultFormatting = Formatting.None;
     internal const DateFormatHandling DefaultDateFormatHandling = DateFormatHandling.IsoDateFormat;
@@ -49,7 +49,7 @@ public class JsonSerializerSettings
     internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
     internal const StringEscapeHandling DefaultStringEscapeHandling = StringEscapeHandling.Default;
     internal const TypeNameAssemblyFormatHandling DefaultTypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-    internal static readonly CultureInfo DefaultCulture;
+    internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const bool DefaultCheckAdditionalContent = false;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
     internal const int DefaultMaxDepth = 64;
@@ -132,7 +132,7 @@ public class JsonSerializerSettings
     /// <summary>
     /// Gets or sets a <see cref="JsonConverter"/> collection that will be used during serialization.
     /// </summary>
-    public IList<JsonConverter> Converters { get; set; }
+    public IList<JsonConverter> Converters { get; set; } = new List<JsonConverter>();
 
     /// <summary>
     /// Gets or sets how object references are preserved by the serializer.
@@ -356,18 +356,10 @@ public class JsonSerializerSettings
         set => checkAdditionalContent = value;
     }
 
-    static JsonSerializerSettings()
-    {
-        DefaultContext = new StreamingContext();
-        DefaultCulture = CultureInfo.InvariantCulture;
-    }
-
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonSerializerSettings"/> class.
     /// </summary>
-    [DebuggerStepThrough]
     public JsonSerializerSettings()
     {
-        Converters = new List<JsonConverter>();
     }
 }
