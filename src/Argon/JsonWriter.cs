@@ -1602,12 +1602,9 @@ public abstract partial class JsonWriter : IDisposable
 
     internal void InternalWriteWhitespace(string ws)
     {
-        if (ws != null)
+        if (!StringUtils.IsWhiteSpace(ws))
         {
-            if (!StringUtils.IsWhiteSpace(ws))
-            {
-                throw JsonWriterException.Create(this, "Only white space characters should be used.", null);
-            }
+            throw JsonWriterException.Create(this, "Only white space characters should be used.", null);
         }
     }
 
