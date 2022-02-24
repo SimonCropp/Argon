@@ -35,7 +35,6 @@ public class JsonSerializer
     internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
     internal DefaultValueHandling defaultValueHandling;
-    JsonConverterCollection? converters;
     IContractResolver? contractResolver;
     internal IEqualityComparer? equalityComparer;
     internal ISerializationBinder? serializationBinder;
@@ -185,7 +184,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets a collection <see cref="JsonConverter"/> that will be used during serialization.
     /// </summary>
-    public virtual JsonConverterCollection Converters => converters ??= new JsonConverterCollection();
+    public virtual JsonConverterCollection Converters { get; } = new();
 
     /// <summary>
     /// Gets or sets the contract resolver used by the serializer when
@@ -949,7 +948,7 @@ public class JsonSerializer
 
     internal JsonConverter? GetMatchingConverter(Type type)
     {
-        return GetMatchingConverter(converters, type);
+        return GetMatchingConverter(Converters, type);
     }
 
     internal static JsonConverter? GetMatchingConverter(IList<JsonConverter>? converters, Type type)
