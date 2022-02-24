@@ -110,7 +110,7 @@ public abstract partial class JsonReader : IDisposable
     CultureInfo? culture;
     int? maxDepth;
     bool hasExceededMaxDepth;
-    List<JsonPosition>? stack;
+    List<JsonPosition> stack = new();
 
     /// <summary>
     /// Gets the current reader state.
@@ -198,7 +198,7 @@ public abstract partial class JsonReader : IDisposable
     {
         get
         {
-            var depth = stack?.Count ?? 0;
+            var depth = stack.Count;
             if (JsonTokenUtils.IsStartToken(TokenType) || currentPosition.Type == JsonContainerType.None)
             {
                 return depth;
@@ -226,7 +226,7 @@ public abstract partial class JsonReader : IDisposable
 
             var current = insideContainer ? (JsonPosition?)currentPosition : null;
 
-            return JsonPosition.BuildPath(stack!, current);
+            return JsonPosition.BuildPath(stack, current);
         }
     }
 
@@ -241,7 +241,7 @@ public abstract partial class JsonReader : IDisposable
 
     internal JsonPosition GetPosition(int depth)
     {
-        if (stack != null && depth < stack.Count)
+        if (depth < stack.Count)
         {
             return stack[depth];
         }
@@ -273,8 +273,6 @@ public abstract partial class JsonReader : IDisposable
         }
         else
         {
-            stack ??= new List<JsonPosition>();
-
             stack.Add(currentPosition);
             currentPosition = new JsonPosition(value);
 
@@ -290,7 +288,7 @@ public abstract partial class JsonReader : IDisposable
     JsonContainerType Pop()
     {
         JsonPosition oldPosition;
-        if (stack is {Count: > 0})
+        if (stack.Count > 0)
         {
             oldPosition = currentPosition;
             currentPosition = stack[stack.Count - 1];
