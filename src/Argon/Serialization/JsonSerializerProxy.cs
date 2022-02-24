@@ -195,7 +195,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.MaxDepth = value;
     }
 
-    public override bool CheckAdditionalContent
+    public override bool? CheckAdditionalContent
     {
         get => serializer.CheckAdditionalContent;
         set => serializer.CheckAdditionalContent = value;

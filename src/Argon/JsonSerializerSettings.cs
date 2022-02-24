@@ -43,7 +43,6 @@ public class JsonSerializerSettings
     internal const FloatParseHandling DefaultFloatParseHandling = FloatParseHandling.Double;
     internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
-    internal const bool DefaultCheckAdditionalContent = false;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
     internal const int DefaultMaxDepth = 64;
 
@@ -313,9 +312,9 @@ public class JsonSerializerSettings
     /// Gets a value indicating whether there will be a check for additional content after deserializing an object.
     /// The default value is <c>false</c>.
     /// </summary>
-    public bool CheckAdditionalContent
+    public bool? CheckAdditionalContent
     {
-        get => checkAdditionalContent ?? DefaultCheckAdditionalContent;
+        get => checkAdditionalContent;
         set => checkAdditionalContent = value;
     }
 

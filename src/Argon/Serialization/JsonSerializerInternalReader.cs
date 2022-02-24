@@ -112,7 +112,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return Serializer.ResolveContract(type);
     }
 
-    public object? Deserialize(JsonReader reader, Type? type, bool checkAdditionalContent)
+    public object? Deserialize(JsonReader reader, Type? type, bool? checkAdditionalContent)
     {
         var contract = GetContractSafe(type);
 
@@ -141,7 +141,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 deserializedValue = CreateValueInternal(reader, type, contract, null, null, null, null);
             }
 
-            if (checkAdditionalContent)
+            if (checkAdditionalContent.GetValueOrDefault())
             {
                 while (reader.Read())
                 {

@@ -330,9 +330,9 @@ public class JsonSerializer
     /// Gets a value indicating whether there will be a check for additional JSON content after deserializing an object.
     /// The default value is <c>false</c>.
     /// </summary>
-    public virtual bool CheckAdditionalContent
+    public virtual bool? CheckAdditionalContent
     {
-        get => checkAdditionalContent ?? JsonSerializerSettings.DefaultCheckAdditionalContent;
+        get => checkAdditionalContent;
         set => checkAdditionalContent = value;
     }
 
