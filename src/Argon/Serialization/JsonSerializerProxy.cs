@@ -141,7 +141,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.Formatting = value;
     }
 
-    public override DateFormatHandling DateFormatHandling
+    public override DateFormatHandling? DateFormatHandling
     {
         get => serializer.DateFormatHandling;
         set => serializer.DateFormatHandling = value;

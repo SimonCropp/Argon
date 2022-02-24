@@ -34,7 +34,6 @@ public class JsonSerializer
     IContractResolver? contractResolver;
 
     Formatting? formatting;
-    DateFormatHandling? dateFormatHandling;
     DateParseHandling? dateParseHandling;
     FloatFormatHandling? floatFormatHandling;
     CultureInfo culture;
@@ -176,11 +175,7 @@ public class JsonSerializer
     /// Gets or sets how dates are written to JSON text.
     /// The default value is <see cref="Argon.DateFormatHandling.IsoDateFormat" />.
     /// </summary>
-    public virtual DateFormatHandling DateFormatHandling
-    {
-        get => dateFormatHandling ?? JsonSerializerSettings.DefaultDateFormatHandling;
-        set => dateFormatHandling = value;
-    }
+    public virtual DateFormatHandling? DateFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
@@ -457,9 +452,9 @@ public class JsonSerializer
         {
             serializer.formatting = settings.formatting;
         }
-        if (settings.dateFormatHandling != null)
+        if (settings.DateFormatHandling != null)
         {
-            serializer.dateFormatHandling = settings.dateFormatHandling;
+            serializer.DateFormatHandling = settings.DateFormatHandling;
         }
         if (settings.DateTimeZoneHandling != null)
         {
@@ -783,10 +778,10 @@ public class JsonSerializer
         }
 
         DateFormatHandling? previousDateFormatHandling = null;
-        if (dateFormatHandling != null && jsonWriter.DateFormatHandling != dateFormatHandling)
+        if (DateFormatHandling != null && jsonWriter.DateFormatHandling != DateFormatHandling)
         {
             previousDateFormatHandling = jsonWriter.DateFormatHandling;
-            jsonWriter.DateFormatHandling = dateFormatHandling.GetValueOrDefault();
+            jsonWriter.DateFormatHandling = DateFormatHandling.GetValueOrDefault();
         }
 
         DateTimeZoneHandling? previousDateTimeZoneHandling = null;

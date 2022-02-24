@@ -33,7 +33,6 @@ public class JsonSerializerSettings
     internal static readonly StreamingContext DefaultContext = new();
 
     internal const Formatting DefaultFormatting = Formatting.None;
-    internal const DateFormatHandling DefaultDateFormatHandling = DateFormatHandling.IsoDateFormat;
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
     internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
@@ -41,7 +40,6 @@ public class JsonSerializerSettings
     internal const int DefaultMaxDepth = 64;
 
     internal Formatting? formatting;
-    internal DateFormatHandling? dateFormatHandling;
     internal DateParseHandling? dateParseHandling;
     internal FloatFormatHandling? floatFormatHandling;
     internal CultureInfo? culture;
@@ -49,7 +47,7 @@ public class JsonSerializerSettings
     internal bool maxDepthSet;
     internal string? dateFormatString;
     internal bool dateFormatStringSet;
-    internal NullValueHandling? nullValueHandling;
+    NullValueHandling? nullValueHandling;
     internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
 
@@ -220,11 +218,7 @@ public class JsonSerializerSettings
     /// Gets or sets how dates are written to JSON text.
     /// The default value is <see cref="Argon.DateFormatHandling.IsoDateFormat" />.
     /// </summary>
-    public DateFormatHandling DateFormatHandling
-    {
-        get => dateFormatHandling ?? DefaultDateFormatHandling;
-        set => dateFormatHandling = value;
-    }
+    public DateFormatHandling? DateFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
