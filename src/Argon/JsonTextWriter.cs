@@ -419,7 +419,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt32"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(uint value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -438,7 +437,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt64"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(ulong value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -516,7 +514,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt16"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(ushort value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -544,7 +541,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="SByte"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(sbyte value)
     {
         InternalWriteValue(JsonToken.Integer);

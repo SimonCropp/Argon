@@ -79,7 +79,6 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
     /// </summary>
-    [CLSCompliant(false)]
     public JValue(ulong value)
         : this(value, JTokenType.Integer)
     {

@@ -275,7 +275,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt32"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(uint value)
     {
         base.WriteValue(value);
@@ -294,7 +293,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt64"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(ulong value)
     {
         base.WriteValue(value);
@@ -340,7 +338,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt16"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(ushort value)
     {
         base.WriteValue(value);
@@ -369,7 +366,6 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="SByte"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public override void WriteValue(sbyte value)
     {
         base.WriteValue(value);

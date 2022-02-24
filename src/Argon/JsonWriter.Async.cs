@@ -1057,7 +1057,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="sbyte"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(sbyte value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1072,7 +1071,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="sbyte"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(sbyte? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1157,7 +1155,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="uint"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(uint value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1172,7 +1169,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="uint"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(uint? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1187,7 +1183,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="ulong"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ulong value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1202,7 +1197,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ulong"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ulong? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1231,7 +1225,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="ushort"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ushort value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
@@ -1246,7 +1239,6 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ushort"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual Task WriteValueAsync(ushort? value, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)

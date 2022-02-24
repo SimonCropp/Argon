@@ -674,7 +674,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="UInt16"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator ushort(JToken value)
     {
         var v = EnsureValue(value);
@@ -695,7 +694,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Char"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator char(JToken value)
     {
         var v = EnsureValue(value);
@@ -736,7 +734,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.SByte"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator sbyte(JToken value)
     {
         var v = EnsureValue(value);
@@ -807,7 +804,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="UInt16"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator ushort?(JToken? value)
     {
         if (value == null)
@@ -858,7 +854,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="SByte"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator sbyte?(JToken? value)
     {
         if (value == null)
@@ -974,7 +969,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="UInt32"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator uint?(JToken? value)
     {
         if (value == null)
@@ -1000,7 +994,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="UInt64"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator ulong?(JToken? value)
     {
         if (value == null)
@@ -1101,7 +1094,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="UInt32"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator uint(JToken value)
     {
         var v = EnsureValue(value);
@@ -1122,7 +1114,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.UInt64"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
-    [CLSCompliant(false)]
     public static explicit operator ulong(JToken value)
     {
         var v = EnsureValue(value);
@@ -1352,7 +1343,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="SByte"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(sbyte value)
     {
         return new JValue(value);
@@ -1361,7 +1351,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="SByte"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(sbyte? value)
     {
         return new JValue(value);
@@ -1418,7 +1407,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Int16"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(short value)
     {
         return new JValue(value);
@@ -1427,7 +1415,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt16"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(ushort value)
     {
         return new JValue(value);
@@ -1484,7 +1471,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Int16"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(short? value)
     {
         return new JValue(value);
@@ -1493,7 +1479,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="UInt16"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(ushort? value)
     {
         return new JValue(value);
@@ -1502,7 +1487,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="UInt32"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(uint? value)
     {
         return new JValue(value);
@@ -1511,7 +1495,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="UInt64"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(ulong? value)
     {
         return new JValue(value);
@@ -1544,7 +1527,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt32"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(uint value)
     {
         return new JValue(value);
@@ -1553,7 +1535,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt64"/> to <see cref="JToken"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static implicit operator JToken(ulong value)
     {
         return new JValue(value);

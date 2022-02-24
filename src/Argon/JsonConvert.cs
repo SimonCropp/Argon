@@ -162,7 +162,6 @@ public static class JsonConvert
     /// <summary>
     /// Converts the <see cref="UInt16"/> to its JSON string representation.
     /// </summary>
-    [CLSCompliant(false)]
     public static string ToString(ushort value)
     {
         return value.ToString(null, CultureInfo.InvariantCulture);
@@ -171,7 +170,6 @@ public static class JsonConvert
     /// <summary>
     /// Converts the <see cref="UInt32"/> to its JSON string representation.
     /// </summary>
-    [CLSCompliant(false)]
     public static string ToString(uint value)
     {
         return value.ToString(null, CultureInfo.InvariantCulture);
@@ -193,7 +191,6 @@ public static class JsonConvert
     /// <summary>
     /// Converts the <see cref="UInt64"/> to its JSON string representation.
     /// </summary>
-    [CLSCompliant(false)]
     public static string ToString(ulong value)
     {
         return value.ToString(null, CultureInfo.InvariantCulture);
@@ -274,7 +271,6 @@ public static class JsonConvert
     /// Converts the <see cref="SByte"/> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="SByte"/>.</returns>
-    [CLSCompliant(false)]
     public static string ToString(sbyte value)
     {
         return value.ToString(null, CultureInfo.InvariantCulture);

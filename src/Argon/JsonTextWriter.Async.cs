@@ -863,7 +863,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(sbyte value, CancellationToken cancellation = default)
     {
         return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
@@ -874,7 +873,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(sbyte? value, CancellationToken cancellation = default)
     {
         return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
@@ -975,7 +973,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(uint value, CancellationToken cancellation = default)
     {
         return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
@@ -986,7 +983,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(uint? value, CancellationToken cancellation = default)
     {
         return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
@@ -1002,7 +998,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(ulong value, CancellationToken cancellation = default)
     {
         return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
@@ -1013,7 +1008,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(ulong? value, CancellationToken cancellation = default)
     {
         return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
@@ -1056,7 +1050,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(ushort value, CancellationToken cancellation = default)
     {
         return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
@@ -1067,7 +1060,6 @@ public partial class JsonTextWriter
     /// </summary>
     /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.</remarks>
-    [CLSCompliant(false)]
     public override Task WriteValueAsync(ushort? value, CancellationToken cancellation = default)
     {
         return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);

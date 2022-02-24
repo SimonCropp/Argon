@@ -839,7 +839,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="UInt32"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(uint value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -856,7 +855,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="UInt64"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(ulong value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -897,7 +895,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="UInt16"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(ushort value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -922,7 +919,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="SByte"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(sbyte value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -986,7 +982,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="UInt32"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(uint? value)
     {
         if (value == null)
@@ -1017,7 +1012,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="UInt64"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(ulong? value)
     {
         if (value == null)
@@ -1093,7 +1087,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="UInt16"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(ushort? value)
     {
         if (value == null)
@@ -1139,7 +1132,6 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="SByte"/> value.
     /// </summary>
-    [CLSCompliant(false)]
     public virtual void WriteValue(sbyte? value)
     {
         if (value == null)
