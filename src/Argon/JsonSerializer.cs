@@ -36,7 +36,6 @@ public class JsonSerializer
     internal NullValueHandling nullValueHandling;
     internal DefaultValueHandling defaultValueHandling;
     internal ConstructorHandling constructorHandling;
-    MetadataPropertyHandling metadataPropertyHandling;
     JsonConverterCollection? converters;
     internal IContractResolver contractResolver;
     internal IEqualityComparer? equalityComparer;
@@ -186,11 +185,7 @@ public class JsonSerializer
     /// Gets or sets how metadata properties are used during deserialization.
     /// The default value is <see cref="Argon.MetadataPropertyHandling.Default" />.
     /// </summary>
-    public virtual MetadataPropertyHandling MetadataPropertyHandling
-    {
-        get => metadataPropertyHandling;
-        set => metadataPropertyHandling = value;
-    }
+    public virtual MetadataPropertyHandling? MetadataPropertyHandling { get; set; }
 
     /// <summary>
     /// Gets a collection <see cref="JsonConverter"/> that will be used during serialization.
@@ -358,7 +353,6 @@ public class JsonSerializer
         defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
         objectCreationHandling = JsonSerializerSettings.DefaultObjectCreationHandling;
         constructorHandling = JsonSerializerSettings.DefaultConstructorHandling;
-        metadataPropertyHandling = JsonSerializerSettings.DefaultMetadataPropertyHandling;
         context = JsonSerializerSettings.DefaultContext;
 
         culture = JsonSerializerSettings.DefaultCulture;
@@ -458,7 +452,7 @@ public class JsonSerializer
         {
             serializer.TypeNameHandling = settings.TypeNameHandling;
         }
-        if (settings.metadataPropertyHandling != null)
+        if (settings.MetadataPropertyHandling != null)
         {
             serializer.MetadataPropertyHandling = settings.MetadataPropertyHandling;
         }

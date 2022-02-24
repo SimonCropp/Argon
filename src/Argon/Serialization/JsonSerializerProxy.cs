@@ -105,7 +105,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.TypeNameHandling = value;
     }
 
-    public override MetadataPropertyHandling MetadataPropertyHandling
+    public override MetadataPropertyHandling? MetadataPropertyHandling
     {
         get => serializer.MetadataPropertyHandling;
         set => serializer.MetadataPropertyHandling = value;
