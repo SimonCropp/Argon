@@ -87,7 +87,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.ObjectCreationHandling = value;
     }
 
-    public override ReferenceLoopHandling ReferenceLoopHandling
+    public override ReferenceLoopHandling? ReferenceLoopHandling
     {
         get => serializer.ReferenceLoopHandling;
         set => serializer.ReferenceLoopHandling = value;

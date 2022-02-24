@@ -293,7 +293,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
             message += $" with type '{value.GetType()}'.";
 
-            switch (referenceLoopHandling.GetValueOrDefault(Serializer.referenceLoopHandling))
+            switch (referenceLoopHandling.GetValueOrDefault(Serializer.ReferenceLoopHandling))
             {
                 case ReferenceLoopHandling.Error:
                     throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);

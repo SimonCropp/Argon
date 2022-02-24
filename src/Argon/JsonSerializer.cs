@@ -34,7 +34,6 @@ public class JsonSerializer
     internal TypeNameHandling typeNameHandling;
     internal TypeNameAssemblyFormatHandling typeNameAssemblyFormatHandling;
     internal PreserveReferencesHandling preserveReferencesHandling;
-    internal ReferenceLoopHandling referenceLoopHandling;
     internal MissingMemberHandling missingMemberHandling;
     internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
@@ -137,15 +136,7 @@ public class JsonSerializer
     public virtual TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
     {
         get => typeNameAssemblyFormatHandling;
-        set
-        {
-            if (value is < TypeNameAssemblyFormatHandling.Simple or > TypeNameAssemblyFormatHandling.Full)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            typeNameAssemblyFormatHandling = value;
-        }
+        set => typeNameAssemblyFormatHandling = value;
     }
 
     /// <summary>
@@ -155,34 +146,14 @@ public class JsonSerializer
     public virtual PreserveReferencesHandling PreserveReferencesHandling
     {
         get => preserveReferencesHandling;
-        set
-        {
-            if (value is < PreserveReferencesHandling.None or > PreserveReferencesHandling.All)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            preserveReferencesHandling = value;
-        }
+        set => preserveReferencesHandling = value;
     }
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) is handled.
     /// The default value is <see cref="Argon.ReferenceLoopHandling.Error" />.
     /// </summary>
-    public virtual ReferenceLoopHandling ReferenceLoopHandling
-    {
-        get => referenceLoopHandling;
-        set
-        {
-            if (value is < ReferenceLoopHandling.Error or > ReferenceLoopHandling.Serialize)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            referenceLoopHandling = value;
-        }
-    }
+    public virtual ReferenceLoopHandling? ReferenceLoopHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
@@ -191,10 +162,7 @@ public class JsonSerializer
     public virtual MissingMemberHandling MissingMemberHandling
     {
         get => missingMemberHandling;
-        set
-        {
-            missingMemberHandling = value;
-        }
+        set => missingMemberHandling = value;
     }
 
     /// <summary>
@@ -204,15 +172,7 @@ public class JsonSerializer
     public virtual NullValueHandling NullValueHandling
     {
         get => nullValueHandling;
-        set
-        {
-            if (value is < NullValueHandling.Include or > NullValueHandling.Ignore)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            nullValueHandling = value;
-        }
+        set => nullValueHandling = value;
     }
 
     /// <summary>
@@ -222,15 +182,7 @@ public class JsonSerializer
     public virtual DefaultValueHandling DefaultValueHandling
     {
         get => defaultValueHandling;
-        set
-        {
-            if (value is < DefaultValueHandling.Include or > DefaultValueHandling.IgnoreAndPopulate)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            defaultValueHandling = value;
-        }
+        set => defaultValueHandling = value;
     }
 
     /// <summary>
@@ -240,15 +192,7 @@ public class JsonSerializer
     public virtual ObjectCreationHandling ObjectCreationHandling
     {
         get => objectCreationHandling;
-        set
-        {
-            if (value is < ObjectCreationHandling.Auto or > ObjectCreationHandling.Replace)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            objectCreationHandling = value;
-        }
+        set => objectCreationHandling = value;
     }
 
     /// <summary>
@@ -258,15 +202,7 @@ public class JsonSerializer
     public virtual ConstructorHandling ConstructorHandling
     {
         get => constructorHandling;
-        set
-        {
-            if (value is < ConstructorHandling.Default or > ConstructorHandling.AllowNonPublicDefaultConstructor)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            constructorHandling = value;
-        }
+        set => constructorHandling = value;
     }
 
     /// <summary>
@@ -276,15 +212,7 @@ public class JsonSerializer
     public virtual MetadataPropertyHandling MetadataPropertyHandling
     {
         get => metadataPropertyHandling;
-        set
-        {
-            if (value is < MetadataPropertyHandling.Default or > MetadataPropertyHandling.Ignore)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            metadataPropertyHandling = value;
-        }
+        set => metadataPropertyHandling = value;
     }
 
     /// <summary>
@@ -448,7 +376,6 @@ public class JsonSerializer
     /// </summary>
     public JsonSerializer()
     {
-        referenceLoopHandling = JsonSerializerSettings.DefaultReferenceLoopHandling;
         missingMemberHandling = JsonSerializerSettings.DefaultMissingMemberHandling;
         nullValueHandling = JsonSerializerSettings.DefaultNullValueHandling;
         defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;

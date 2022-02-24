@@ -30,7 +30,6 @@ namespace Argon;
 /// </summary>
 public class JsonSerializerSettings
 {
-    internal const ReferenceLoopHandling DefaultReferenceLoopHandling = ReferenceLoopHandling.Error;
     internal const MissingMemberHandling DefaultMissingMemberHandling = MissingMemberHandling.Ignore;
     internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
     internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
@@ -83,9 +82,9 @@ public class JsonSerializerSettings
     /// Gets or sets how reference loops (e.g. a class referencing itself) are handled.
     /// The default value is <see cref="Argon.ReferenceLoopHandling.Error" />.
     /// </summary>
-    public ReferenceLoopHandling ReferenceLoopHandling
+    public ReferenceLoopHandling? ReferenceLoopHandling
     {
-        get => referenceLoopHandling ?? DefaultReferenceLoopHandling;
+        get => referenceLoopHandling;
         set => referenceLoopHandling = value;
     }
 
