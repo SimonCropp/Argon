@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.DataSet", "Argon.Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.JsonPath", "Argon.JsonPath\Argon.JsonPath.csproj", "{5705E5CF-E410-4510-AB3C-4FCC4E4BC991}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodaTime.Serialization.Argon", "NodaTime.Serialization.Argon\NodaTime.Serialization.Argon.csproj", "{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,12 @@ Global
 		{5705E5CF-E410-4510-AB3C-4FCC4E4BC991}.DebugNet6|Any CPU.Build.0 = DebugNet6|Any CPU
 		{5705E5CF-E410-4510-AB3C-4FCC4E4BC991}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5705E5CF-E410-4510-AB3C-4FCC4E4BC991}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.DebugNet6|Any CPU.ActiveCfg = DebugNet6|Any CPU
+		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.DebugNet6|Any CPU.Build.0 = DebugNet6|Any CPU
+		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
