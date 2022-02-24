@@ -4,7 +4,7 @@
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.svg?label=Argon)](https://www.nuget.org/packages/Argon/)
 
 
-Argon JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)/
+Argon JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
 
 
 ## Serialize JSON
