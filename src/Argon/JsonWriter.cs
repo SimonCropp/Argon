@@ -103,7 +103,6 @@ public abstract partial class JsonWriter : IDisposable
     List<JsonPosition>? stack;
     JsonPosition currentPosition;
     State currentState;
-    Formatting formatting;
 
     /// <summary>
     /// Gets or sets a value indicating whether the destination should be closed when this writer is closed.
@@ -199,62 +198,23 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    DateFormatHandling dateFormatHandling;
-    DateTimeZoneHandling dateTimeZoneHandling;
     StringEscapeHandling stringEscapeHandling;
-    FloatFormatHandling floatFormatHandling;
     CultureInfo? culture;
 
     /// <summary>
     /// Gets or sets a value indicating how JSON text output should be formatted.
     /// </summary>
-    public Formatting Formatting
-    {
-        get => formatting;
-        set
-        {
-            if (value is < Formatting.None or > Formatting.Indented)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            formatting = value;
-        }
-    }
+    public Formatting Formatting { get; set; }
 
     /// <summary>
     /// Gets or sets how dates are written to JSON text.
     /// </summary>
-    public DateFormatHandling DateFormatHandling
-    {
-        get => dateFormatHandling;
-        set
-        {
-            if (value is < DateFormatHandling.IsoDateFormat or > DateFormatHandling.MicrosoftDateFormat)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            dateFormatHandling = value;
-        }
-    }
+    public DateFormatHandling DateFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled when writing JSON text.
     /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling
-    {
-        get => dateTimeZoneHandling;
-        set
-        {
-            if (value is < DateTimeZoneHandling.Local or > DateTimeZoneHandling.RoundtripKind)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            dateTimeZoneHandling = value;
-        }
-    }
+    public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
@@ -264,11 +224,6 @@ public abstract partial class JsonWriter : IDisposable
         get => stringEscapeHandling;
         set
         {
-            if (value is < StringEscapeHandling.Default or > StringEscapeHandling.EscapeHtml)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
             stringEscapeHandling = value;
             OnStringEscapeHandlingChanged();
         }
@@ -284,19 +239,7 @@ public abstract partial class JsonWriter : IDisposable
     /// <see cref="Double.PositiveInfinity"/> and <see cref="Double.NegativeInfinity"/>,
     /// are written to JSON text.
     /// </summary>
-    public FloatFormatHandling FloatFormatHandling
-    {
-        get => floatFormatHandling;
-        set
-        {
-            if (value is < FloatFormatHandling.String or > FloatFormatHandling.DefaultValue)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            floatFormatHandling = value;
-        }
-    }
+    public FloatFormatHandling FloatFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> and <see cref="DateTimeOffset"/> values are formatted when writing JSON text.
@@ -318,8 +261,8 @@ public abstract partial class JsonWriter : IDisposable
     protected JsonWriter()
     {
         currentState = State.Start;
-        formatting = Formatting.None;
-        dateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
+        Formatting = Formatting.None;
+        DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
 
         CloseOutput = true;
         AutoCompleteOnClose = true;
@@ -715,7 +658,7 @@ public abstract partial class JsonWriter : IDisposable
                 WriteNull();
             }
 
-            if (formatting == Formatting.Indented)
+            if (Formatting == Formatting.Indented)
             {
                 if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                 {
@@ -826,7 +769,7 @@ public abstract partial class JsonWriter : IDisposable
             WriteValueDelimiter();
         }
 
-        if (formatting == Formatting.Indented)
+        if (Formatting == Formatting.Indented)
         {
             if (currentState == State.Property)
             {

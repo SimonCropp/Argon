@@ -2126,7 +2126,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void SerializerWithDefaultBinder()
     {
         var serializer = JsonSerializer.Create();
-        Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
+        Assert.Null(serializer.SerializationBinder);
     }
 
     public class FancyBinder : ISerializationBinder

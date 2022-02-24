@@ -30,119 +30,60 @@ namespace Argon;
 /// </summary>
 public class JsonSerializerSettings
 {
-    internal const ReferenceLoopHandling DefaultReferenceLoopHandling = ReferenceLoopHandling.Error;
-    internal const MissingMemberHandling DefaultMissingMemberHandling = MissingMemberHandling.Ignore;
-    internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
-    internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
-    internal const ObjectCreationHandling DefaultObjectCreationHandling = ObjectCreationHandling.Auto;
-    internal const PreserveReferencesHandling DefaultPreserveReferencesHandling = PreserveReferencesHandling.None;
-    internal const ConstructorHandling DefaultConstructorHandling = ConstructorHandling.Default;
-    internal const TypeNameHandling DefaultTypeNameHandling = TypeNameHandling.None;
-    internal const MetadataPropertyHandling DefaultMetadataPropertyHandling = MetadataPropertyHandling.Default;
-    internal static readonly StreamingContext DefaultContext;
+    internal static readonly StreamingContext DefaultContext = new();
 
-    internal const Formatting DefaultFormatting = Formatting.None;
-    internal const DateFormatHandling DefaultDateFormatHandling = DateFormatHandling.IsoDateFormat;
-    internal const DateTimeZoneHandling DefaultDateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
-    internal const FloatParseHandling DefaultFloatParseHandling = FloatParseHandling.Double;
-    internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
-    internal const StringEscapeHandling DefaultStringEscapeHandling = StringEscapeHandling.Default;
-    internal const TypeNameAssemblyFormatHandling DefaultTypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-    internal static readonly CultureInfo DefaultCulture;
-    internal const bool DefaultCheckAdditionalContent = false;
+    internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
-    internal const int DefaultMaxDepth = 64;
 
-    internal Formatting? formatting;
-    internal DateFormatHandling? dateFormatHandling;
-    internal DateTimeZoneHandling? dateTimeZoneHandling;
     internal DateParseHandling? dateParseHandling;
-    internal FloatFormatHandling? floatFormatHandling;
-    internal FloatParseHandling? floatParseHandling;
-    internal StringEscapeHandling? stringEscapeHandling;
     internal CultureInfo? culture;
-    internal bool? checkAdditionalContent;
     internal int? maxDepth;
     internal bool maxDepthSet;
     internal string? dateFormatString;
     internal bool dateFormatStringSet;
-    internal TypeNameAssemblyFormatHandling? typeNameAssemblyFormatHandling;
-    internal DefaultValueHandling? defaultValueHandling;
-    internal PreserveReferencesHandling? preserveReferencesHandling;
-    internal NullValueHandling? nullValueHandling;
-    internal ObjectCreationHandling? objectCreationHandling;
-    internal MissingMemberHandling? missingMemberHandling;
-    internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
-    internal ConstructorHandling? constructorHandling;
-    internal TypeNameHandling? typeNameHandling;
-    internal MetadataPropertyHandling? metadataPropertyHandling;
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) are handled.
     /// The default value is <see cref="Argon.ReferenceLoopHandling.Error" />.
     /// </summary>
-    public ReferenceLoopHandling ReferenceLoopHandling
-    {
-        get => referenceLoopHandling ?? DefaultReferenceLoopHandling;
-        set => referenceLoopHandling = value;
-    }
+    public ReferenceLoopHandling? ReferenceLoopHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how missing members (e.g. JSON contains a property that isn't a member on the object) are handled during deserialization.
     /// The default value is <see cref="Argon.MissingMemberHandling.Ignore" />.
     /// </summary>
-    public MissingMemberHandling MissingMemberHandling
-    {
-        get => missingMemberHandling ?? DefaultMissingMemberHandling;
-        set => missingMemberHandling = value;
-    }
+    public MissingMemberHandling? MissingMemberHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how objects are created during deserialization.
     /// The default value is <see cref="Argon.ObjectCreationHandling.Auto" />.
     /// </summary>
-    public ObjectCreationHandling ObjectCreationHandling
-    {
-        get => objectCreationHandling ?? DefaultObjectCreationHandling;
-        set => objectCreationHandling = value;
-    }
+    public ObjectCreationHandling? ObjectCreationHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how null values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.NullValueHandling.Include" />.
     /// </summary>
-    public NullValueHandling NullValueHandling
-    {
-        get => nullValueHandling ?? DefaultNullValueHandling;
-        set => nullValueHandling = value;
-    }
+    public NullValueHandling? NullValueHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how default values are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DefaultValueHandling.Include" />.
     /// </summary>
-    public DefaultValueHandling DefaultValueHandling
-    {
-        get => defaultValueHandling ?? DefaultDefaultValueHandling;
-        set => defaultValueHandling = value;
-    }
+    public DefaultValueHandling? DefaultValueHandling { get; set; }
 
     /// <summary>
     /// Gets or sets a <see cref="JsonConverter"/> collection that will be used during serialization.
     /// </summary>
-    public IList<JsonConverter> Converters { get; set; }
+    public IList<JsonConverter> Converters { get; set; } = new List<JsonConverter>();
 
     /// <summary>
     /// Gets or sets how object references are preserved by the serializer.
     /// The default value is <see cref="Argon.PreserveReferencesHandling.None" />.
     /// </summary>
-    public PreserveReferencesHandling PreserveReferencesHandling
-    {
-        get => preserveReferencesHandling ?? DefaultPreserveReferencesHandling;
-        set => preserveReferencesHandling = value;
-    }
+    public PreserveReferencesHandling? PreserveReferencesHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how type name writing and reading is handled by the serializer.
@@ -153,41 +94,25 @@ public class JsonSerializerSettings
     /// Incoming types should be validated with a custom <see cref="JsonSerializerSettings.SerializationBinder"/>
     /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None"/>.
     /// </remarks>
-    public TypeNameHandling TypeNameHandling
-    {
-        get => typeNameHandling ?? DefaultTypeNameHandling;
-        set => typeNameHandling = value;
-    }
+    public TypeNameHandling? TypeNameHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how metadata properties are used during deserialization.
     /// The default value is <see cref="Argon.MetadataPropertyHandling.Default" />.
     /// </summary>
-    public MetadataPropertyHandling MetadataPropertyHandling
-    {
-        get => metadataPropertyHandling ?? DefaultMetadataPropertyHandling;
-        set => metadataPropertyHandling = value;
-    }
+    public MetadataPropertyHandling? MetadataPropertyHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
     /// The default value is <see cref="Argon.TypeNameAssemblyFormatHandling.Simple" />.
     /// </summary>
-    public TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
-    {
-        get => typeNameAssemblyFormatHandling ?? DefaultTypeNameAssemblyFormatHandling;
-        set => typeNameAssemblyFormatHandling = value;
-    }
+    public TypeNameAssemblyFormatHandling? TypeNameAssemblyFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how constructors are used during deserialization.
     /// The default value is <see cref="Argon.ConstructorHandling.Default" />.
     /// </summary>
-    public ConstructorHandling ConstructorHandling
-    {
-        get => constructorHandling ?? DefaultConstructorHandling;
-        set => constructorHandling = value;
-    }
+    public ConstructorHandling? ConstructorHandling { get; set; }
 
     /// <summary>
     /// Gets or sets the contract resolver used by the serializer when
@@ -244,6 +169,7 @@ public class JsonSerializerSettings
         }
     }
 
+    const int DefaultMaxDepth = 64;
     /// <summary>
     /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException"/>.
     /// A null value means there is no maximum.
@@ -268,31 +194,19 @@ public class JsonSerializerSettings
     /// Indicates how JSON text output is formatted.
     /// The default value is <see cref="Argon.Formatting.None" />.
     /// </summary>
-    public Formatting Formatting
-    {
-        get => formatting ?? DefaultFormatting;
-        set => formatting = value;
-    }
+    public Formatting? Formatting { get; set; }
 
     /// <summary>
     /// Gets or sets how dates are written to JSON text.
     /// The default value is <see cref="Argon.DateFormatHandling.IsoDateFormat" />.
     /// </summary>
-    public DateFormatHandling DateFormatHandling
-    {
-        get => dateFormatHandling ?? DefaultDateFormatHandling;
-        set => dateFormatHandling = value;
-    }
+    public DateFormatHandling? DateFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling
-    {
-        get => dateTimeZoneHandling ?? DefaultDateTimeZoneHandling;
-        set => dateTimeZoneHandling = value;
-    }
+    public DateTimeZoneHandling? DateTimeZoneHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON.
@@ -310,31 +224,19 @@ public class JsonSerializerSettings
     /// are written as JSON.
     /// The default value is <see cref="Argon.FloatFormatHandling.String" />.
     /// </summary>
-    public FloatFormatHandling FloatFormatHandling
-    {
-        get => floatFormatHandling ?? DefaultFloatFormatHandling;
-        set => floatFormatHandling = value;
-    }
+    public FloatFormatHandling? FloatFormatHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// The default value is <see cref="Argon.FloatParseHandling.Double" />.
     /// </summary>
-    public FloatParseHandling FloatParseHandling
-    {
-        get => floatParseHandling ?? DefaultFloatParseHandling;
-        set => floatParseHandling = value;
-    }
+    public FloatParseHandling? FloatParseHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
     /// The default value is <see cref="Argon.StringEscapeHandling.Default" />.
     /// </summary>
-    public StringEscapeHandling StringEscapeHandling
-    {
-        get => stringEscapeHandling ?? DefaultStringEscapeHandling;
-        set => stringEscapeHandling = value;
-    }
+    public StringEscapeHandling? StringEscapeHandling { get; set; }
 
     /// <summary>
     /// Gets or sets the culture used when reading JSON.
@@ -350,24 +252,12 @@ public class JsonSerializerSettings
     /// Gets a value indicating whether there will be a check for additional content after deserializing an object.
     /// The default value is <c>false</c>.
     /// </summary>
-    public bool CheckAdditionalContent
-    {
-        get => checkAdditionalContent ?? DefaultCheckAdditionalContent;
-        set => checkAdditionalContent = value;
-    }
-
-    static JsonSerializerSettings()
-    {
-        DefaultContext = new StreamingContext();
-        DefaultCulture = CultureInfo.InvariantCulture;
-    }
+    public bool? CheckAdditionalContent { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonSerializerSettings"/> class.
     /// </summary>
-    [DebuggerStepThrough]
     public JsonSerializerSettings()
     {
-        Converters = new List<JsonConverter>();
     }
 }

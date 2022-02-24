@@ -57,97 +57,97 @@ class JsonSerializerProxy : JsonSerializer
 
     public override JsonConverterCollection Converters => serializer.Converters;
 
-    public override DefaultValueHandling DefaultValueHandling
+    public override DefaultValueHandling? DefaultValueHandling
     {
         get => serializer.DefaultValueHandling;
         set => serializer.DefaultValueHandling = value;
     }
 
-    public override IContractResolver ContractResolver
+    public override IContractResolver? ContractResolver
     {
         get => serializer.ContractResolver;
         set => serializer.ContractResolver = value;
     }
 
-    public override MissingMemberHandling MissingMemberHandling
+    public override MissingMemberHandling? MissingMemberHandling
     {
         get => serializer.MissingMemberHandling;
         set => serializer.MissingMemberHandling = value;
     }
 
-    public override NullValueHandling NullValueHandling
+    public override NullValueHandling? NullValueHandling
     {
         get => serializer.NullValueHandling;
         set => serializer.NullValueHandling = value;
     }
 
-    public override ObjectCreationHandling ObjectCreationHandling
+    public override ObjectCreationHandling? ObjectCreationHandling
     {
         get => serializer.ObjectCreationHandling;
         set => serializer.ObjectCreationHandling = value;
     }
 
-    public override ReferenceLoopHandling ReferenceLoopHandling
+    public override ReferenceLoopHandling? ReferenceLoopHandling
     {
         get => serializer.ReferenceLoopHandling;
         set => serializer.ReferenceLoopHandling = value;
     }
 
-    public override PreserveReferencesHandling PreserveReferencesHandling
+    public override PreserveReferencesHandling? PreserveReferencesHandling
     {
         get => serializer.PreserveReferencesHandling;
         set => serializer.PreserveReferencesHandling = value;
     }
 
-    public override TypeNameHandling TypeNameHandling
+    public override TypeNameHandling? TypeNameHandling
     {
         get => serializer.TypeNameHandling;
         set => serializer.TypeNameHandling = value;
     }
 
-    public override MetadataPropertyHandling MetadataPropertyHandling
+    public override MetadataPropertyHandling? MetadataPropertyHandling
     {
         get => serializer.MetadataPropertyHandling;
         set => serializer.MetadataPropertyHandling = value;
     }
 
-    public override TypeNameAssemblyFormatHandling TypeNameAssemblyFormatHandling
+    public override TypeNameAssemblyFormatHandling? TypeNameAssemblyFormatHandling
     {
         get => serializer.TypeNameAssemblyFormatHandling;
         set => serializer.TypeNameAssemblyFormatHandling = value;
     }
 
-    public override ConstructorHandling ConstructorHandling
+    public override ConstructorHandling? ConstructorHandling
     {
         get => serializer.ConstructorHandling;
         set => serializer.ConstructorHandling = value;
     }
 
-    public override ISerializationBinder SerializationBinder
+    public override ISerializationBinder? SerializationBinder
     {
         get => serializer.SerializationBinder;
         set => serializer.SerializationBinder = value;
     }
 
-    public override StreamingContext Context
+    public override StreamingContext? Context
     {
         get => serializer.Context;
         set => serializer.Context = value;
     }
 
-    public override Formatting Formatting
+    public override Formatting? Formatting
     {
         get => serializer.Formatting;
         set => serializer.Formatting = value;
     }
 
-    public override DateFormatHandling DateFormatHandling
+    public override DateFormatHandling? DateFormatHandling
     {
         get => serializer.DateFormatHandling;
         set => serializer.DateFormatHandling = value;
     }
 
-    public override DateTimeZoneHandling DateTimeZoneHandling
+    public override DateTimeZoneHandling? DateTimeZoneHandling
     {
         get => serializer.DateTimeZoneHandling;
         set => serializer.DateTimeZoneHandling = value;
@@ -159,19 +159,19 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.DateParseHandling = value;
     }
 
-    public override FloatFormatHandling FloatFormatHandling
+    public override FloatFormatHandling? FloatFormatHandling
     {
         get => serializer.FloatFormatHandling;
         set => serializer.FloatFormatHandling = value;
     }
 
-    public override FloatParseHandling FloatParseHandling
+    public override FloatParseHandling? FloatParseHandling
     {
         get => serializer.FloatParseHandling;
         set => serializer.FloatParseHandling = value;
     }
 
-    public override StringEscapeHandling StringEscapeHandling
+    public override StringEscapeHandling? StringEscapeHandling
     {
         get => serializer.StringEscapeHandling;
         set => serializer.StringEscapeHandling = value;
@@ -195,7 +195,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.MaxDepth = value;
     }
 
-    public override bool CheckAdditionalContent
+    public override bool? CheckAdditionalContent
     {
         get => serializer.CheckAdditionalContent;
         set => serializer.CheckAdditionalContent = value;
