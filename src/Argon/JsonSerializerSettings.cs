@@ -34,7 +34,6 @@ public class JsonSerializerSettings
     internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
     internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
     internal const ObjectCreationHandling DefaultObjectCreationHandling = ObjectCreationHandling.Auto;
-    internal const ConstructorHandling DefaultConstructorHandling = ConstructorHandling.Default;
     internal static readonly StreamingContext DefaultContext = new();
 
     internal const Formatting DefaultFormatting = Formatting.None;
@@ -68,7 +67,6 @@ public class JsonSerializerSettings
     internal MissingMemberHandling? missingMemberHandling;
     internal ReferenceLoopHandling? referenceLoopHandling;
     internal StreamingContext? context;
-    internal ConstructorHandling? constructorHandling;
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) are handled.
@@ -158,11 +156,7 @@ public class JsonSerializerSettings
     /// Gets or sets how constructors are used during deserialization.
     /// The default value is <see cref="Argon.ConstructorHandling.Default" />.
     /// </summary>
-    public ConstructorHandling ConstructorHandling
-    {
-        get => constructorHandling ?? DefaultConstructorHandling;
-        set => constructorHandling = value;
-    }
+    public ConstructorHandling? ConstructorHandling { get; set; }
 
     /// <summary>
     /// Gets or sets the contract resolver used by the serializer when

@@ -1189,7 +1189,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return list;
         }
 
-        if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer.constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
+        if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor))
         {
             var list = contract.DefaultCreator();
 
@@ -1236,7 +1236,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return contract.CreateTemporaryDictionary();
         }
 
-        if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer.constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
+        if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor))
         {
             var dictionary = contract.DefaultCreator();
 
@@ -1652,7 +1652,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
 
         if (contract.DefaultCreator != null &&
-            (!contract.DefaultCreatorNonPublic || Serializer.constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor))
+            (!contract.DefaultCreatorNonPublic || Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor))
         {
             newObject = (IDynamicMetaObjectProvider)contract.DefaultCreator();
         }
@@ -2110,7 +2110,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             newObject = objectContract.OverrideCreator(Array.Empty<object>());
         }
         else if (objectContract.DefaultCreator != null &&
-                 (!objectContract.DefaultCreatorNonPublic || Serializer.constructorHandling == ConstructorHandling.AllowNonPublicDefaultConstructor || objectContract.ParameterizedCreator == null))
+                 (!objectContract.DefaultCreatorNonPublic || Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor || objectContract.ParameterizedCreator == null))
         {
             // use the default constructor if it is...
             // public

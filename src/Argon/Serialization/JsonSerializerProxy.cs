@@ -117,7 +117,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.TypeNameAssemblyFormatHandling = value;
     }
 
-    public override ConstructorHandling ConstructorHandling
+    public override ConstructorHandling? ConstructorHandling
     {
         get => serializer.ConstructorHandling;
         set => serializer.ConstructorHandling = value;

@@ -35,7 +35,6 @@ public class JsonSerializer
     internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
     internal DefaultValueHandling defaultValueHandling;
-    internal ConstructorHandling constructorHandling;
     JsonConverterCollection? converters;
     IContractResolver? contractResolver;
     internal IEqualityComparer? equalityComparer;
@@ -175,11 +174,7 @@ public class JsonSerializer
     /// Gets or sets how constructors are used during deserialization.
     /// The default value is <see cref="Argon.ConstructorHandling.Default" />.
     /// </summary>
-    public virtual ConstructorHandling ConstructorHandling
-    {
-        get => constructorHandling;
-        set => constructorHandling = value;
-    }
+    public virtual ConstructorHandling? ConstructorHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how metadata properties are used during deserialization.
@@ -361,7 +356,6 @@ public class JsonSerializer
         nullValueHandling = JsonSerializerSettings.DefaultNullValueHandling;
         defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
         objectCreationHandling = JsonSerializerSettings.DefaultObjectCreationHandling;
-        constructorHandling = JsonSerializerSettings.DefaultConstructorHandling;
         context = JsonSerializerSettings.DefaultContext;
 
         culture = JsonSerializerSettings.DefaultCulture;
@@ -493,7 +487,7 @@ public class JsonSerializer
         {
             serializer.DefaultValueHandling = settings.DefaultValueHandling;
         }
-        if (settings.constructorHandling != null)
+        if (settings.ConstructorHandling != null)
         {
             serializer.ConstructorHandling = settings.ConstructorHandling;
         }
