@@ -27,24 +27,24 @@ namespace TestObjects;
 
 public class ThisGenericTest<T> where T : IKeyValueId
 {
-    Dictionary<string, T> _dict1 = new();
+    Dictionary<string, T> dict1 = new();
 
     public string MyProperty { get; set; }
 
     public void Add(T item)
     {
-        _dict1.Add(item.Key, item);
+        dict1.Add(item.Key, item);
     }
 
     public T this[string key]
     {
-        get => _dict1[key];
-        set => _dict1[key] = value;
+        get => dict1[key];
+        set => dict1[key] = value;
     }
 
     public T this[int id]
     {
-        get { return _dict1.Values.FirstOrDefault(x => x.Id == id); }
+        get { return dict1.Values.FirstOrDefault(x => x.Id == id); }
         set
         {
             var item = this[id];
@@ -55,7 +55,7 @@ public class ThisGenericTest<T> where T : IKeyValueId
             }
             else
             {
-                _dict1[item.Key] = value;
+                dict1[item.Key] = value;
             }
         }
     }
@@ -67,7 +67,7 @@ public class ThisGenericTest<T> where T : IKeyValueId
 
     public T[] TheItems
     {
-        get => _dict1.Values.ToArray();
+        get => dict1.Values.ToArray();
         set
         {
             foreach (var item in value)

@@ -1947,7 +1947,7 @@ null//comment
     {
         // allergic to certain characters, this null-stream writer throws on any attempt to write them.
 
-        char[] _singleCharBuffer = new char[1];
+        char[] singleCharBuffer = new char[1];
 
         public ThrowingWriter(params char[] throwChars)
         {
@@ -1960,8 +1960,8 @@ null//comment
 
         public override Task WriteAsync(char value)
         {
-            _singleCharBuffer[0] = value;
-            return WriteAsync(_singleCharBuffer, 0, 1);
+            singleCharBuffer[0] = value;
+            return WriteAsync(singleCharBuffer, 0, 1);
         }
 
         public override Task WriteAsync(char[] buffer, int index, int count)
@@ -1995,56 +1995,56 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
     {
     }
 
-    public override Task WritePropertyNameAsync(string name, CancellationToken cancellationToken = default)
+    public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default)
     {
-        return WritePropertyNameAsync(name, true, cancellationToken);
+        return WritePropertyNameAsync(name, true, cancellation);
     }
 
-    public override async Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellationToken = default)
+    public override async Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
     {
-        await SetWriteStateAsync(JsonToken.PropertyName, name, cancellationToken);
+        await SetWriteStateAsync(JsonToken.PropertyName, name, cancellation);
 
         if (QuoteName)
         {
-            await _writer.WriteAsync(QuoteChar);
+            await writer.WriteAsync(QuoteChar);
         }
 
-        await _writer.WriteAsync(new string(name.ToCharArray().Reverse().ToArray()));
+        await writer.WriteAsync(new string(name.ToCharArray().Reverse().ToArray()));
 
         if (QuoteName)
         {
-            await _writer.WriteAsync(QuoteChar);
+            await writer.WriteAsync(QuoteChar);
         }
 
-        await _writer.WriteAsync(':');
+        await writer.WriteAsync(':');
     }
 
-    public override async Task WriteNullAsync(CancellationToken cancellationToken = default)
+    public override async Task WriteNullAsync(CancellationToken cancellation = default)
     {
-        await SetWriteStateAsync(JsonToken.Null, null, cancellationToken);
+        await SetWriteStateAsync(JsonToken.Null, null, cancellation);
 
-        await _writer.WriteAsync("NULL!!!");
+        await writer.WriteAsync("NULL!!!");
     }
 
-    public override async Task WriteStartObjectAsync(CancellationToken cancellationToken = default)
+    public override async Task WriteStartObjectAsync(CancellationToken cancellation = default)
     {
-        await SetWriteStateAsync(JsonToken.StartObject, null, cancellationToken);
+        await SetWriteStateAsync(JsonToken.StartObject, null, cancellation);
 
-        await _writer.WriteAsync("{{{");
+        await writer.WriteAsync("{{{");
     }
 
-    public override Task WriteEndObjectAsync(CancellationToken cancellationToken = default)
+    public override Task WriteEndObjectAsync(CancellationToken cancellation = default)
     {
-        return SetWriteStateAsync(JsonToken.EndObject, null, cancellationToken);
+        return SetWriteStateAsync(JsonToken.EndObject, null, cancellation);
     }
 
-    protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellationToken)
+    protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
     {
         if (token == JsonToken.EndObject)
         {
-            return _writer.WriteAsync("}}}");
+            return writer.WriteAsync("}}}");
         }
 
-        return base.WriteEndAsync(token, cancellationToken);
+        return base.WriteEndAsync(token, cancellation);
     }
 }

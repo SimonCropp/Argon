@@ -36,15 +36,14 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// </summary>
     public static readonly JEnumerable<T> Empty = new(Enumerable.Empty<T>());
 
-    readonly IEnumerable<T> _enumerable;
+    readonly IEnumerable<T> enumerable;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JEnumerable{T}"/> struct.
     /// </summary>
-    /// <param name="enumerable">The enumerable.</param>
     public JEnumerable(IEnumerable<T> enumerable)
     {
-        _enumerable = enumerable;
+        this.enumerable = enumerable;
     }
 
     /// <summary>
@@ -55,7 +54,7 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// </returns>
     public IEnumerator<T> GetEnumerator()
     {
-        return (_enumerable ?? Empty).GetEnumerator();
+        return (enumerable ?? Empty).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -66,17 +65,16 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// <summary>
     /// Gets the <see cref="IJEnumerable{T}"/> of <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value></value>
     public IJEnumerable<JToken> this[object key]
     {
         get
         {
-            if (_enumerable == null)
+            if (enumerable == null)
             {
                 return JEnumerable<JToken>.Empty;
             }
 
-            return new JEnumerable<JToken>(_enumerable.Values<T, JToken>(key)!);
+            return new JEnumerable<JToken>(enumerable.Values<T, JToken>(key)!);
         }
     }
 
@@ -89,7 +87,7 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// </returns>
     public bool Equals(JEnumerable<T> other)
     {
-        return Equals(_enumerable, other._enumerable);
+        return Equals(enumerable, other.enumerable);
     }
 
     /// <summary>
@@ -109,19 +107,13 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
         return false;
     }
 
-    /// <summary>
-    /// Returns a hash code for this instance.
-    /// </summary>
-    /// <returns>
-    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
-    /// </returns>
     public override int GetHashCode()
     {
-        if (_enumerable == null)
+        if (enumerable == null)
         {
             return 0;
         }
 
-        return _enumerable.GetHashCode();
+        return enumerable.GetHashCode();
     }
 }

@@ -35,14 +35,12 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Gets or sets the naming strategy used to resolve how enum text is written.
     /// </summary>
-    /// <value>The naming strategy used to resolve how enum text is written.</value>
     public NamingStrategy? NamingStrategy { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether integer values are allowed when serializing and deserializing.
     /// The default value is <c>true</c>.
     /// </summary>
-    /// <value><c>true</c> if integers are allowed when serializing and deserializing; otherwise, <c>false</c>.</value>
     public bool AllowIntegerValues { get; set; } = true;
 
     /// <summary>
@@ -55,8 +53,6 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
     /// </summary>
-    /// <param name="namingStrategy">The naming strategy used to resolve how enum text is written.</param>
-    /// <param name="allowIntegerValues"><c>true</c> if integers are allowed when serializing and deserializing; otherwise, <c>false</c>.</param>
     public StringEnumConverter(NamingStrategy namingStrategy, bool allowIntegerValues = true)
     {
         NamingStrategy = namingStrategy;
@@ -107,9 +103,6 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-    /// <param name="value">The value.</param>
-    /// <param name="serializer">The calling serializer.</param>
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
         if (value == null)
@@ -120,30 +113,24 @@ public class StringEnumConverter : JsonConverter
 
         var e = (Enum)value;
 
-        if (!EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out var enumName))
-        {
-            if (!AllowIntegerValues)
-            {
-                throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
-            }
-
-            // enum value has no name so write number
-            writer.WriteValue(value);
-        }
-        else
+        if (EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out var enumName))
         {
             writer.WriteValue(enumName);
+            return;
         }
+
+        if (!AllowIntegerValues)
+        {
+            throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
+        }
+
+        // enum value has no name so write number
+        writer.WriteValue(value);
     }
 
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="type">Type of the object.</param>
-    /// <param name="existingValue">The existing value of object being read.</param>
-    /// <param name="serializer">The calling serializer.</param>
-    /// <returns>The object value.</returns>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
@@ -195,16 +182,16 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type type)
     {
-        var t = ReflectionUtils.IsNullableType(type)
-            ? Nullable.GetUnderlyingType(type)
-            : type;
+        if (ReflectionUtils.IsNullableType(type))
+        {
+            return Nullable.GetUnderlyingType(type).IsEnum;
+        }
 
-        return t.IsEnum;
+        return type.IsEnum;
     }
 }

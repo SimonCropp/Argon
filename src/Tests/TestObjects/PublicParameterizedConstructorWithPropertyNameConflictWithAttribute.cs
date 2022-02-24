@@ -27,12 +27,10 @@ namespace TestObjects;
 
 public class PublicParameterizedConstructorWithPropertyNameConflictWithAttribute
 {
-    readonly int _value;
-
     public PublicParameterizedConstructorWithPropertyNameConflictWithAttribute([JsonProperty("name")] string nameParameter)
     {
-        _value = Convert.ToInt32(nameParameter);
+        Name = Convert.ToInt32(nameParameter);
     }
 
-    public int Name => _value;
+    public int Name { get; }
 }

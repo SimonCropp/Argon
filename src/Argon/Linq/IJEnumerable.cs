@@ -34,6 +34,5 @@ public interface IJEnumerable<out T> : IEnumerable<T> where T : JToken
     /// <summary>
     /// Gets the <see cref="IJEnumerable{T}"/> of <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value></value>
     IJEnumerable<JToken> this[object key] { get; }
 }

@@ -30,25 +30,24 @@ namespace Argon.Linq;
 /// </summary>
 public class JsonMergeSettings
 {
-    MergeArrayHandling _mergeArrayHandling;
-    MergeNullValueHandling _mergeNullValueHandling;
-    StringComparison _propertyNameComparison;
+    MergeArrayHandling mergeArrayHandling;
+    MergeNullValueHandling mergeNullValueHandling;
+    StringComparison propertyNameComparison;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonMergeSettings"/> class.
     /// </summary>
     public JsonMergeSettings()
     {
-        _propertyNameComparison = StringComparison.Ordinal;
+        propertyNameComparison = StringComparison.Ordinal;
     }
 
     /// <summary>
     /// Gets or sets the method used when merging JSON arrays.
     /// </summary>
-    /// <value>The method used when merging JSON arrays.</value>
     public MergeArrayHandling MergeArrayHandling
     {
-        get => _mergeArrayHandling;
+        get => mergeArrayHandling;
         set
         {
             if (value is < MergeArrayHandling.Concat or > MergeArrayHandling.Merge)
@@ -56,17 +55,16 @@ public class JsonMergeSettings
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _mergeArrayHandling = value;
+            mergeArrayHandling = value;
         }
     }
 
     /// <summary>
     /// Gets or sets how null value properties are merged.
     /// </summary>
-    /// <value>How null value properties are merged.</value>
     public MergeNullValueHandling MergeNullValueHandling
     {
-        get => _mergeNullValueHandling;
+        get => mergeNullValueHandling;
         set
         {
             if (value is < MergeNullValueHandling.Ignore or > MergeNullValueHandling.Merge)
@@ -74,7 +72,7 @@ public class JsonMergeSettings
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _mergeNullValueHandling = value;
+            mergeNullValueHandling = value;
         }
     }
 
@@ -83,10 +81,9 @@ public class JsonMergeSettings
     /// The exact property name will be searched for first and if no matching property is found then
     /// the <see cref="StringComparison"/> will be used to match a property.
     /// </summary>
-    /// <value>The comparison used to match property names while merging.</value>
     public StringComparison PropertyNameComparison
     {
-        get => _propertyNameComparison;
+        get => propertyNameComparison;
         set
         {
             if (value is < StringComparison.CurrentCulture or > StringComparison.OrdinalIgnoreCase)
@@ -94,7 +91,7 @@ public class JsonMergeSettings
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
 
-            _propertyNameComparison = value;
+            propertyNameComparison = value;
         }
     }
 }

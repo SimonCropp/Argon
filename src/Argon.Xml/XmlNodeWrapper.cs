@@ -2,20 +2,20 @@
 
 class XmlNodeWrapper : IXmlNode
 {
-    readonly XmlNode _node;
-    List<IXmlNode>? _childNodes;
-    List<IXmlNode>? _attributes;
+    readonly XmlNode node;
+    List<IXmlNode>? childNodes;
+    List<IXmlNode>? attributes;
 
     public XmlNodeWrapper(XmlNode node)
     {
-        _node = node;
+        this.node = node;
     }
 
-    public object? WrappedNode => _node;
+    public object? WrappedNode => node;
 
-    public XmlNodeType NodeType => _node.NodeType;
+    public XmlNodeType NodeType => node.NodeType;
 
-    public virtual string? LocalName => _node.LocalName;
+    public virtual string? LocalName => node.LocalName;
 
     public List<IXmlNode> ChildNodes
     {
@@ -23,23 +23,23 @@ class XmlNodeWrapper : IXmlNode
         {
             // childnodes is read multiple times
             // cache results to prevent multiple reads which kills perf in large documents
-            if (_childNodes == null)
+            if (childNodes == null)
             {
-                if (_node.HasChildNodes)
+                if (node.HasChildNodes)
                 {
-                    _childNodes = new List<IXmlNode>(_node.ChildNodes.Count);
-                    foreach (XmlNode childNode in _node.ChildNodes)
+                    childNodes = new List<IXmlNode>(node.ChildNodes.Count);
+                    foreach (XmlNode childNode in node.ChildNodes)
                     {
-                        _childNodes.Add(WrapNode(childNode));
+                        childNodes.Add(WrapNode(childNode));
                     }
                 }
                 else
                 {
-                    _childNodes = XmlNodeConverter.EmptyChildNodes;
+                    childNodes = XmlNodeConverter.EmptyChildNodes;
                 }
             }
 
-            return _childNodes;
+            return childNodes;
         }
     }
 
@@ -64,23 +64,23 @@ class XmlNodeWrapper : IXmlNode
         {
             // attributes is read multiple times
             // cache results to prevent multiple reads which kills perf in large documents
-            if (_attributes == null)
+            if (attributes == null)
             {
                 if (HasAttributes)
                 {
-                    _attributes = new List<IXmlNode>(_node.Attributes.Count);
-                    foreach (XmlAttribute attribute in _node.Attributes)
+                    attributes = new List<IXmlNode>(node.Attributes.Count);
+                    foreach (XmlAttribute attribute in node.Attributes)
                     {
-                        _attributes.Add(WrapNode(attribute));
+                        attributes.Add(WrapNode(attribute));
                     }
                 }
                 else
                 {
-                    _attributes = XmlNodeConverter.EmptyChildNodes;
+                    attributes = XmlNodeConverter.EmptyChildNodes;
                 }
             }
 
-            return _attributes;
+            return attributes;
         }
     }
 
@@ -88,12 +88,12 @@ class XmlNodeWrapper : IXmlNode
     {
         get
         {
-            if (_node is XmlElement element)
+            if (node is XmlElement element)
             {
                 return element.HasAttributes;
             }
 
-            return _node.Attributes?.Count > 0;
+            return node.Attributes?.Count > 0;
         }
     }
 
@@ -101,7 +101,7 @@ class XmlNodeWrapper : IXmlNode
     {
         get
         {
-            var node = _node is XmlAttribute attribute ? attribute.OwnerElement : _node.ParentNode;
+            var node = this.node is XmlAttribute attribute ? attribute.OwnerElement : this.node.ParentNode;
 
             if (node == null)
             {
@@ -114,19 +114,19 @@ class XmlNodeWrapper : IXmlNode
 
     public string? Value
     {
-        get => _node.Value;
-        set => _node.Value = value;
+        get => node.Value;
+        set => node.Value = value;
     }
 
     public IXmlNode AppendChild(IXmlNode newChild)
     {
         var xmlNodeWrapper = (XmlNodeWrapper)newChild;
-        _node.AppendChild(xmlNodeWrapper._node);
-        _childNodes = null;
-        _attributes = null;
+        node.AppendChild(xmlNodeWrapper.node);
+        childNodes = null;
+        attributes = null;
 
         return newChild;
     }
 
-    public string? NamespaceUri => _node.NamespaceURI;
+    public string? NamespaceUri => node.NamespaceURI;
 }

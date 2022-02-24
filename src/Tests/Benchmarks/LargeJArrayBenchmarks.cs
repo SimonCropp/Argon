@@ -27,22 +27,22 @@ using BenchmarkDotNet.Attributes;
 
 public class LargeJArrayBenchmarks
 {
-    JArray _largeJArraySample;
+    JArray largeJArraySample;
 
     [GlobalSetup]
     public void SetupData()
     {
-        _largeJArraySample = new JArray();
+        largeJArraySample = new JArray();
         for (var i = 0; i < 100000; i++)
         {
-            _largeJArraySample.Add(i);
+            largeJArraySample.Add(i);
         }
     }
 
     [Benchmark]
     public string JTokenPathFirstItem()
     {
-        var first = _largeJArraySample.First;
+        var first = largeJArraySample.First;
 
         return first.Path;
     }
@@ -50,7 +50,7 @@ public class LargeJArrayBenchmarks
     [Benchmark]
     public string JTokenPathLastItem()
     {
-        var last = _largeJArraySample.Last;
+        var last = largeJArraySample.Last;
 
         return last.Path;
     }
@@ -58,7 +58,7 @@ public class LargeJArrayBenchmarks
     [Benchmark]
     public void AddPerformance()
     {
-        _largeJArraySample.Add(1);
-        _largeJArraySample.RemoveAt(_largeJArraySample.Count - 1);
+        largeJArraySample.Add(1);
+        largeJArraySample.RemoveAt(largeJArraySample.Count - 1);
     }
 }

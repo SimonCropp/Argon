@@ -27,13 +27,13 @@ namespace TestObjects;
 
 public class IdReferenceResolver : IReferenceResolver
 {
-    readonly IDictionary<Guid, PersonReference> _people = new Dictionary<Guid, PersonReference>();
+    readonly IDictionary<Guid, PersonReference> people = new Dictionary<Guid, PersonReference>();
 
     public object ResolveReference(object context, string reference)
     {
         var id = new Guid(reference);
 
-        _people.TryGetValue(id, out var p);
+        people.TryGetValue(id, out var p);
 
         return p;
     }
@@ -41,7 +41,7 @@ public class IdReferenceResolver : IReferenceResolver
     public string GetReference(object context, object value)
     {
         var p = (PersonReference)value;
-        _people[p.Id] = p;
+        people[p.Id] = p;
 
         return p.Id.ToString();
     }
@@ -50,13 +50,13 @@ public class IdReferenceResolver : IReferenceResolver
     {
         var p = (PersonReference)value;
 
-        return _people.ContainsKey(p.Id);
+        return people.ContainsKey(p.Id);
     }
 
     public void AddReference(object context, string reference, object value)
     {
         var id = new Guid(reference);
 
-        _people[id] = (PersonReference)value;
+        people[id] = (PersonReference)value;
     }
 }

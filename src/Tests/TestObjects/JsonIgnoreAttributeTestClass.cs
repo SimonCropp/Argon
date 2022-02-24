@@ -27,18 +27,15 @@ namespace TestObjects;
 
 public class JsonIgnoreAttributeTestClass
 {
-    int _property = 21;
-    int _ignoredProperty = 12;
-
     public int Field;
 
-    public int Property => _property;
+    public int Property { get; } = 21;
 
     [JsonIgnore]
     public int IgnoredField;
 
     [JsonIgnore]
-    public int IgnoredProperty => _ignoredProperty;
+    public int IgnoredProperty { get; } = 12;
 
     [JsonIgnore]
     public Product IgnoredObject = new();

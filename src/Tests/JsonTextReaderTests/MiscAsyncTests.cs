@@ -432,7 +432,7 @@ public class MiscAsyncTests : TestFixtureBase
 ]";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[129];
 #endif
 
@@ -464,7 +464,7 @@ public class MiscAsyncTests : TestFixtureBase
 ";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[129];
 #endif
 
@@ -637,7 +637,7 @@ public class MiscAsyncTests : TestFixtureBase
         var json = @"[""\u003c"",""\u5f20""]";
 
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[2];
 #endif
 

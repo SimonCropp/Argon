@@ -7,20 +7,20 @@ This sample creates a custom `Argon.JsonReader`.
 ```cs
 public class XmlJsonReader : JsonReader
 {
-    readonly Stack<JTokenType> _stateStack;
-    readonly XmlReader _reader;
+    readonly Stack<JTokenType> stateStack;
+    readonly XmlReader reader;
 
-    JTokenType? _valueType;
+    JTokenType? valueType;
 
     public XmlJsonReader(XmlReader reader)
     {
-        _reader = reader;
-        _stateStack = new Stack<JTokenType>();
+        this.reader = reader;
+        stateStack = new Stack<JTokenType>();
     }
 
     JTokenType PeekState()
     {
-        var current = _stateStack.Count > 0 ? _stateStack.Peek() : JTokenType.None;
+        var current = stateStack.Count > 0 ? stateStack.Peek() : JTokenType.None;
         return current;
     }
 
@@ -31,18 +31,18 @@ public class XmlJsonReader : JsonReader
             return true;
         }
 
-        while (_reader.Read())
+        while (reader.Read())
         {
-            switch (_reader.NodeType)
+            switch (reader.NodeType)
             {
                 case XmlNodeType.Element:
-                    var typeName = _reader.GetAttribute("type");
+                    var typeName = reader.GetAttribute("type");
                     if (typeName == null)
                     {
                         throw new("No type specified.");
                     }
 
-                    _valueType = (JTokenType)Enum.Parse(typeof(JTokenType), typeName, true);
+                    valueType = (JTokenType)Enum.Parse(typeof(JTokenType), typeName, true);
 
                     switch (PeekState())
                     {
@@ -50,8 +50,8 @@ public class XmlJsonReader : JsonReader
                             HandleValueType();
                             return true;
                         case JTokenType.Object:
-                            SetToken(JsonToken.PropertyName, _reader.LocalName);
-                            _stateStack.Push(JTokenType.Property);
+                            SetToken(JsonToken.PropertyName, reader.LocalName);
+                            stateStack.Push(JTokenType.Property);
                             return true;
                         case JTokenType.Array:
                         case JTokenType.Constructor:
@@ -60,70 +60,70 @@ public class XmlJsonReader : JsonReader
                             throw new ArgumentOutOfRangeException();
                     }
                 case XmlNodeType.EndElement:
-                    switch (_stateStack.Peek())
+                    switch (stateStack.Peek())
                     {
                         case JTokenType.Object:
                             SetToken(JsonToken.EndObject);
-                            _stateStack.Pop();
+                            stateStack.Pop();
                             if (PeekState() == JTokenType.Property)
                             {
-                                _stateStack.Pop();
+                                stateStack.Pop();
                             }
                             return true;
                         case JTokenType.Array:
                             SetToken(JsonToken.EndArray);
-                            _stateStack.Pop();
+                            stateStack.Pop();
                             if (PeekState() == JTokenType.Property)
                             {
-                                _stateStack.Pop();
+                                stateStack.Pop();
                             }
                             return true;
                         case JTokenType.Constructor:
                             SetToken(JsonToken.EndConstructor);
-                            _stateStack.Pop();
+                            stateStack.Pop();
                             if (PeekState() == JTokenType.Property)
                             {
-                                _stateStack.Pop();
+                                stateStack.Pop();
                             }
                             return true;
                     }
 
-                    _stateStack.Pop();
+                    stateStack.Pop();
                     if (PeekState() == JTokenType.Property)
                     {
-                        _stateStack.Pop();
+                        stateStack.Pop();
                     }
 
                     break;
                 case XmlNodeType.Text:
                 case XmlNodeType.CDATA:
-                    switch (_valueType)
+                    switch (valueType)
                     {
                         case JTokenType.Integer:
-                            SetToken(JsonToken.Integer, Convert.ToInt64(_reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Integer, Convert.ToInt64(reader.Value, CultureInfo.InvariantCulture));
                             break;
                         case JTokenType.Float:
-                            SetToken(JsonToken.Float, Convert.ToDouble(_reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Float, Convert.ToDouble(reader.Value, CultureInfo.InvariantCulture));
                             break;
                         case JTokenType.String:
                         case JTokenType.Uri:
                         case JTokenType.TimeSpan:
                         case JTokenType.Guid:
-                            SetToken(JsonToken.String, _reader.Value);
+                            SetToken(JsonToken.String, reader.Value);
                             break;
                         case JTokenType.Boolean:
-                            SetToken(JsonToken.Boolean, Convert.ToBoolean(_reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Boolean, Convert.ToBoolean(reader.Value, CultureInfo.InvariantCulture));
                             break;
                         case JTokenType.Date:
-                            SetToken(JsonToken.Date, Convert.ToDateTime(_reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Date, Convert.ToDateTime(reader.Value, CultureInfo.InvariantCulture));
                             break;
                         case JTokenType.Bytes:
-                            SetToken(JsonToken.Bytes, Convert.FromBase64String(_reader.Value));
+                            SetToken(JsonToken.Bytes, Convert.FromBase64String(reader.Value));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
-                    _stateStack.Push(_valueType.Value);
+                    stateStack.Push(valueType.Value);
                     return true;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -135,37 +135,37 @@ public class XmlJsonReader : JsonReader
 
     bool HandleValueType()
     {
-        switch (_valueType)
+        switch (valueType)
         {
             case JTokenType.Null:
                 SetToken(JsonToken.Null);
-                _valueType = null;
+                valueType = null;
 
                 if (PeekState() == JTokenType.Property)
                 {
-                    _stateStack.Pop();
+                    stateStack.Pop();
                 }
                 return true;
             case JTokenType.Object:
                 SetToken(JsonToken.StartObject);
-                _stateStack.Push(JTokenType.Object);
-                _valueType = null;
+                stateStack.Push(JTokenType.Object);
+                valueType = null;
                 return true;
             case JTokenType.Array:
                 SetToken(JsonToken.StartArray);
-                _stateStack.Push(JTokenType.Array);
-                _valueType = null;
+                stateStack.Push(JTokenType.Array);
+                valueType = null;
                 return true;
             case JTokenType.Constructor:
-                var constructorName = _reader.GetAttribute("name");
+                var constructorName = reader.GetAttribute("name");
                 if (constructorName == null)
                 {
                     throw new("No constructor name specified.");
                 }
 
                 SetToken(JsonToken.StartConstructor, constructorName);
-                _stateStack.Push(JTokenType.Constructor);
-                _valueType = null;
+                stateStack.Push(JTokenType.Constructor);
+                valueType = null;
                 return true;
         }
         return false;

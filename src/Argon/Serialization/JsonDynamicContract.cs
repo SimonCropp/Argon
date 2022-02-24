@@ -35,19 +35,17 @@ public class JsonDynamicContract : JsonContainerContract
     /// <summary>
     /// Gets the object's properties.
     /// </summary>
-    /// <value>The object's properties.</value>
     public JsonPropertyCollection Properties { get; }
 
     /// <summary>
     /// Gets or sets the property name resolver.
     /// </summary>
-    /// <value>The property name resolver.</value>
     public Func<string, string>? PropertyNameResolver { get; set; }
 
-    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> _callSiteGetters =
+    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> callSiteGetters =
         new(CreateCallSiteGetter);
 
-    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> _callSiteSetters =
+    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> callSiteSetters =
         new(CreateCallSiteSetter);
 
     static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
@@ -67,7 +65,6 @@ public class JsonDynamicContract : JsonContainerContract
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonDynamicContract"/> class.
     /// </summary>
-    /// <param name="underlyingType">The underlying type for the contract.</param>
     public JsonDynamicContract(Type underlyingType)
         : base(underlyingType)
     {
@@ -78,7 +75,7 @@ public class JsonDynamicContract : JsonContainerContract
 
     internal bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)
     {
-        var callSite = _callSiteGetters.Get(name);
+        var callSite = callSiteGetters.Get(name);
 
         var result = callSite.Target(callSite, dynamicProvider);
 
@@ -94,7 +91,7 @@ public class JsonDynamicContract : JsonContainerContract
 
     internal bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)
     {
-        var callSite = _callSiteSetters.Get(name);
+        var callSite = callSiteSetters.Get(name);
 
         var result = callSite.Target(callSite, dynamicProvider, value);
 

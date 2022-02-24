@@ -1195,7 +1195,7 @@ public class JsonConvertTest : TestFixtureBase
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(ClobberValueString + "-" + ClobberValueInt.ToString() + "-" + value.ToString());
+            writer.WriteValue($"{ClobberValueString}-{ClobberValueInt}-{value}");
         }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
@@ -1227,76 +1227,76 @@ public class JsonConvertTest : TestFixtureBase
         public string One { get; set; }
     }
 
-    public class OverloadsJsonConverterer : JsonConverter
+    public class OverloadsJsonConverter : JsonConverter
     {
-        readonly string _type;
+        readonly string type;
 
         // constructor with Type argument
 
-        public OverloadsJsonConverterer(Type typeParam)
+        public OverloadsJsonConverter(Type typeParam)
         {
-            _type = "Type";
+            type = "Type";
         }
 
-        public OverloadsJsonConverterer(object objectParam)
+        public OverloadsJsonConverter(object objectParam)
         {
-            _type = $"object({objectParam.GetType().FullName})";
+            type = $"object({objectParam.GetType().FullName})";
         }
 
         // primitive type conversions
 
-        public OverloadsJsonConverterer(byte byteParam)
+        public OverloadsJsonConverter(byte byteParam)
         {
-            _type = "byte";
+            type = "byte";
         }
 
-        public OverloadsJsonConverterer(short shortParam)
+        public OverloadsJsonConverter(short shortParam)
         {
-            _type = "short";
+            type = "short";
         }
 
-        public OverloadsJsonConverterer(int intParam)
+        public OverloadsJsonConverter(int intParam)
         {
-            _type = "int";
+            type = "int";
         }
 
-        public OverloadsJsonConverterer(long longParam)
+        public OverloadsJsonConverter(long longParam)
         {
-            _type = "long";
+            type = "long";
         }
 
-        public OverloadsJsonConverterer(double doubleParam)
+        public OverloadsJsonConverter(double doubleParam)
         {
-            _type = "double";
+            type = "double";
         }
 
         // params argument
 
-        public OverloadsJsonConverterer(params int[] intParams)
+        public OverloadsJsonConverter(params int[] intParams)
         {
-            _type = "int[]";
+            type = "int[]";
         }
 
-        public OverloadsJsonConverterer(bool[] intParams)
+        public OverloadsJsonConverter(bool[] intParams)
         {
-            _type = "bool[]";
+            type = "bool[]";
         }
 
         // closest type resolution
 
-        public OverloadsJsonConverterer(IEnumerable<string> iEnumerableParam)
+        public OverloadsJsonConverter(IEnumerable<string> iEnumerableParam)
         {
-            _type = "IEnumerable<string>";
+            type = "IEnumerable<string>";
         }
 
-        public OverloadsJsonConverterer(IList<string> iListParam)
+        public OverloadsJsonConverter(IList<string> iListParam)
         {
-            _type = "IList<string>";
+            type = "IList<string>";
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(_type);
+            writer.WriteValue(type);
         }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
@@ -1313,7 +1313,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithTypeParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), typeof(int))]
+        [JsonConverter(typeof(OverloadsJsonConverter), typeof(int))]
         public int Overload { get; set; }
     }
 
@@ -1328,7 +1328,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithUnhandledParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), "str")]
+        [JsonConverter(typeof(OverloadsJsonConverter), "str")]
         public int Overload { get; set; }
     }
 
@@ -1343,73 +1343,73 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithIntParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), 1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), 1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithUIntParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), 1U)]
+        [JsonConverter(typeof(OverloadsJsonConverter), 1U)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithLongParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), 1L)]
+        [JsonConverter(typeof(OverloadsJsonConverter), 1L)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithULongParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), 1UL)]
+        [JsonConverter(typeof(OverloadsJsonConverter), 1UL)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithShortParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), (short)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (short)1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithUShortParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), (ushort)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (ushort)1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithSByteParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), (sbyte)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (sbyte)1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithByteParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), (byte)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (byte)1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithCharParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), 'a')]
+        [JsonConverter(typeof(OverloadsJsonConverter), 'a')]
         public int Overload { get; set; }
     }
 
     public class OverloadWithBoolParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), true)]
+        [JsonConverter(typeof(OverloadsJsonConverter), true)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithFloatParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), 1.5f)]
+        [JsonConverter(typeof(OverloadsJsonConverter), 1.5f)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithDoubleParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), 1.5)]
+        [JsonConverter(typeof(OverloadsJsonConverter), 1.5)]
         public int Overload { get; set; }
     }
 
@@ -1498,10 +1498,10 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithArrayParameters
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), new[] { 1, 2, 3 })]
+        [JsonConverter(typeof(OverloadsJsonConverter), new[] { 1, 2, 3 })]
         public int WithParams { get; set; }
 
-        [JsonConverter(typeof(OverloadsJsonConverterer), new[] { true, false })]
+        [JsonConverter(typeof(OverloadsJsonConverter), new[] { true, false })]
         public int WithoutParams { get; set; }
     }
 
@@ -1516,7 +1516,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithBaseType
     {
-        [JsonConverter(typeof(OverloadsJsonConverterer), new object[] { new[] { "a", "b", "c" } })]
+        [JsonConverter(typeof(OverloadsJsonConverter), new object[] { new[] { "a", "b", "c" } })]
         public int Overload { get; set; }
     }
 
@@ -1559,8 +1559,8 @@ public class JsonConvertTest : TestFixtureBase
 
     public class RoundingJsonConverter : JsonConverter
     {
-        int _precision;
-        MidpointRounding _rounding;
+        int precision;
+        MidpointRounding rounding;
 
         public RoundingJsonConverter()
             : this(2)
@@ -1574,8 +1574,8 @@ public class JsonConvertTest : TestFixtureBase
 
         public RoundingJsonConverter(int precision, MidpointRounding rounding)
         {
-            _precision = precision;
-            _rounding = rounding;
+            this.precision = precision;
+            this.rounding = rounding;
         }
 
         public override bool CanRead => false;
@@ -1592,7 +1592,7 @@ public class JsonConvertTest : TestFixtureBase
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(Math.Round((double)value, _precision, _rounding));
+            writer.WriteValue(Math.Round((double)value, precision, rounding));
         }
     }
 

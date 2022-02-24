@@ -31,20 +31,8 @@ public class PersonSerializable
     {
     }
 
-    string _name = "";
+    public string Name { get; set; } = "";
 
-    public string Name
-    {
-        get => _name;
-        set => _name = value;
-    }
-
-    [NonSerialized]
-    int _age = 0;
-
-    public int Age
-    {
-        get => _age;
-        set => _age = value;
-    }
+    [field: NonSerialized]
+    public int Age { get; set; } = 0;
 }

@@ -30,36 +30,25 @@ namespace Argon;
 /// </summary>
 public partial class JsonTextWriter : JsonWriter
 {
-    const int IndentCharBufferSize = 12;
-    readonly TextWriter _writer;
-    Base64Encoder? _base64Encoder;
-    char _indentChar;
-    int _indentation;
-    char _quoteChar;
-    bool[]? _charEscapeFlags;
-    char[]? _writeBuffer;
-    IArrayPool<char>? _arrayPool;
-    char[]? _indentChars;
+    const int indentCharBufferSize = 12;
+    readonly TextWriter writer;
+    Base64Encoder? base64Encoder;
+    char indentChar;
+    int indentation;
+    char quoteChar;
+    bool[]? charEscapeFlags;
+    char[]? writeBuffer;
+    IArrayPool<char>? arrayPool;
+    char[]? indentChars;
 
-    Base64Encoder Base64Encoder
-    {
-        get
-        {
-            if (_base64Encoder == null)
-            {
-                _base64Encoder = new Base64Encoder(_writer);
-            }
-
-            return _base64Encoder;
-        }
-    }
+    Base64Encoder Base64Encoder => base64Encoder ??= new Base64Encoder(writer);
 
     /// <summary>
     /// Gets or sets the writer's character array pool.
     /// </summary>
     public IArrayPool<char>? ArrayPool
     {
-        get => _arrayPool;
+        get => arrayPool;
         set
         {
             if (value == null)
@@ -67,7 +56,7 @@ public partial class JsonTextWriter : JsonWriter
                 throw new ArgumentNullException(nameof(value));
             }
 
-            _arrayPool = value;
+            arrayPool = value;
         }
     }
 
@@ -76,7 +65,7 @@ public partial class JsonTextWriter : JsonWriter
     /// </summary>
     public int Indentation
     {
-        get => _indentation;
+        get => indentation;
         set
         {
             if (value < 0)
@@ -84,7 +73,7 @@ public partial class JsonTextWriter : JsonWriter
                 throw new ArgumentException("Indentation value must be greater than 0.");
             }
 
-            _indentation = value;
+            indentation = value;
         }
     }
 
@@ -93,7 +82,7 @@ public partial class JsonTextWriter : JsonWriter
     /// </summary>
     public char QuoteChar
     {
-        get => _quoteChar;
+        get => quoteChar;
         set
         {
             if (value != '"' && value != '\'')
@@ -101,7 +90,7 @@ public partial class JsonTextWriter : JsonWriter
                 throw new ArgumentException(@"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
             }
 
-            _quoteChar = value;
+            quoteChar = value;
             UpdateCharEscapeFlags();
         }
     }
@@ -111,13 +100,13 @@ public partial class JsonTextWriter : JsonWriter
     /// </summary>
     public char IndentChar
     {
-        get => _indentChar;
+        get => indentChar;
         set
         {
-            if (value != _indentChar)
+            if (value != indentChar)
             {
-                _indentChar = value;
-                _indentChars = null;
+                indentChar = value;
+                indentChars = null;
             }
         }
     }
@@ -130,23 +119,17 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextWriter"/> class using the specified <see cref="TextWriter"/>.
     /// </summary>
-    /// <param name="textWriter">The <see cref="TextWriter"/> to write to.</param>
     public JsonTextWriter(TextWriter textWriter)
     {
-        if (textWriter == null)
-        {
-            throw new ArgumentNullException(nameof(textWriter));
-        }
-
-        _writer = textWriter;
-        _quoteChar = '"';
+        writer = textWriter;
+        quoteChar = '"';
         QuoteName = true;
-        _indentChar = ' ';
-        _indentation = 2;
+        indentChar = ' ';
+        indentation = 2;
 
         UpdateCharEscapeFlags();
 
-        _safeAsync = GetType() == typeof(JsonTextWriter);
+        safeAsync = GetType() == typeof(JsonTextWriter);
     }
 
     /// <summary>
@@ -154,7 +137,7 @@ public partial class JsonTextWriter : JsonWriter
     /// </summary>
     public override void Flush()
     {
-        _writer.Flush();
+        writer.Flush();
     }
 
     /// <summary>
@@ -171,15 +154,15 @@ public partial class JsonTextWriter : JsonWriter
 
     void CloseBufferAndWriter()
     {
-        if (_writeBuffer != null)
+        if (writeBuffer != null)
         {
-            BufferUtils.ReturnBuffer(_arrayPool, _writeBuffer);
-            _writeBuffer = null;
+            BufferUtils.ReturnBuffer(arrayPool, writeBuffer);
+            writeBuffer = null;
         }
 
         if (CloseOutput)
         {
-            _writer?.Close();
+            writer?.Close();
         }
     }
 
@@ -190,7 +173,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteStart(JsonToken.StartObject, JsonContainerType.Object);
 
-        _writer.Write('{');
+        writer.Write('{');
     }
 
     /// <summary>
@@ -200,38 +183,36 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteStart(JsonToken.StartArray, JsonContainerType.Array);
 
-        _writer.Write('[');
+        writer.Write('[');
     }
 
     /// <summary>
     /// Writes the start of a constructor with the given name.
     /// </summary>
-    /// <param name="name">The name of the constructor.</param>
     public override void WriteStartConstructor(string name)
     {
         InternalWriteStart(JsonToken.StartConstructor, JsonContainerType.Constructor);
 
-        _writer.Write("new ");
-        _writer.Write(name);
-        _writer.Write('(');
+        writer.Write("new ");
+        writer.Write(name);
+        writer.Write('(');
     }
 
     /// <summary>
     /// Writes the specified end token.
     /// </summary>
-    /// <param name="token">The end token to write.</param>
     protected override void WriteEnd(JsonToken token)
     {
         switch (token)
         {
             case JsonToken.EndObject:
-                _writer.Write('}');
+                writer.Write('}');
                 break;
             case JsonToken.EndArray:
-                _writer.Write(']');
+                writer.Write(']');
                 break;
             case JsonToken.EndConstructor:
-                _writer.Write(')');
+                writer.Write(')');
                 break;
             default:
                 throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}", null);
@@ -241,20 +222,18 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
     public override void WritePropertyName(string name)
     {
         InternalWritePropertyName(name);
 
         WriteEscapedString(name, QuoteName);
 
-        _writer.Write(':');
+        writer.Write(':');
     }
 
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
-    /// <param name="name">The name of the property.</param>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
     public override void WritePropertyName(string name, bool escape)
     {
@@ -268,18 +247,18 @@ public partial class JsonTextWriter : JsonWriter
         {
             if (QuoteName)
             {
-                _writer.Write(_quoteChar);
+                writer.Write(quoteChar);
             }
 
-            _writer.Write(name);
+            writer.Write(name);
 
             if (QuoteName)
             {
-                _writer.Write(_quoteChar);
+                writer.Write(quoteChar);
             }
         }
 
-        _writer.Write(':');
+        writer.Write(':');
     }
 
     internal override void OnStringEscapeHandlingChanged()
@@ -289,7 +268,7 @@ public partial class JsonTextWriter : JsonWriter
 
     void UpdateCharEscapeFlags()
     {
-        _charEscapeFlags = JavaScriptUtils.GetCharEscapeFlags(StringEscapeHandling, _quoteChar);
+        charEscapeFlags = JavaScriptUtils.GetCharEscapeFlags(StringEscapeHandling, quoteChar);
     }
 
     /// <summary>
@@ -298,29 +277,29 @@ public partial class JsonTextWriter : JsonWriter
     protected override void WriteIndent()
     {
         // levels of indentation multiplied by the indent count
-        var currentIndentCount = Top * _indentation;
+        var currentIndentCount = Top * indentation;
 
         var newLineLen = SetIndentChars();
 
-        _writer.Write(_indentChars, 0, newLineLen + Math.Min(currentIndentCount, IndentCharBufferSize));
+        writer.Write(indentChars, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize));
 
-        while ((currentIndentCount -= IndentCharBufferSize) > 0)
+        while ((currentIndentCount -= indentCharBufferSize) > 0)
         {
-            _writer.Write(_indentChars, newLineLen, Math.Min(currentIndentCount, IndentCharBufferSize));
+            writer.Write(indentChars, newLineLen, Math.Min(currentIndentCount, indentCharBufferSize));
         }
     }
 
     int SetIndentChars()
     {
         // Set _indentChars to be a newline followed by IndentCharBufferSize indent characters.
-        var writerNewLine = _writer.NewLine;
+        var writerNewLine = writer.NewLine;
         var newLineLen = writerNewLine.Length;
-        var match = _indentChars != null && _indentChars.Length == IndentCharBufferSize + newLineLen;
+        var match = indentChars != null && indentChars.Length == indentCharBufferSize + newLineLen;
         if (match)
         {
             for (var i = 0; i != newLineLen; ++i)
             {
-                if (writerNewLine[i] != _indentChars![i])
+                if (writerNewLine[i] != indentChars![i])
                 {
                     match = false;
                     break;
@@ -332,7 +311,7 @@ public partial class JsonTextWriter : JsonWriter
         {
             // If we're here, either _indentChars hasn't been set yet, or _writer.NewLine
             // has been changed, or _indentChar has been changed.
-            _indentChars = (writerNewLine + new string(_indentChar, IndentCharBufferSize)).ToCharArray();
+            indentChars = (writerNewLine + new string(indentChar, indentCharBufferSize)).ToCharArray();
         }
 
         return newLineLen;
@@ -343,7 +322,7 @@ public partial class JsonTextWriter : JsonWriter
     /// </summary>
     protected override void WriteValueDelimiter()
     {
-        _writer.Write(',');
+        writer.Write(',');
     }
 
     /// <summary>
@@ -351,12 +330,12 @@ public partial class JsonTextWriter : JsonWriter
     /// </summary>
     protected override void WriteIndentSpace()
     {
-        _writer.Write(' ');
+        writer.Write(' ');
     }
 
     void WriteValueInternal(string value, JsonToken token)
     {
-        _writer.Write(value);
+        writer.Write(value);
     }
 
     #region WriteValue methods
@@ -364,7 +343,6 @@ public partial class JsonTextWriter : JsonWriter
     /// Writes a <see cref="Object"/> value.
     /// An error will raised if the value cannot be written as a single JSON token.
     /// </summary>
-    /// <param name="value">The <see cref="Object"/> value to write.</param>
     public override void WriteValue(object? value)
     {
         if (value is BigInteger i)
@@ -399,18 +377,16 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
-    /// <param name="json">The raw JSON to write.</param>
     public override void WriteRaw(string? json)
     {
         InternalWriteRaw();
 
-        _writer.Write(json);
+        writer.Write(json);
     }
 
     /// <summary>
     /// Writes a <see cref="String"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="String"/> value to write.</param>
     public override void WriteValue(string? value)
     {
         InternalWriteValue(JsonToken.String);
@@ -428,13 +404,12 @@ public partial class JsonTextWriter : JsonWriter
     void WriteEscapedString(string value, bool quote)
     {
         EnsureWriteBuffer();
-        JavaScriptUtils.WriteEscapedJavaScriptString(_writer, value, _quoteChar, quote, _charEscapeFlags!, StringEscapeHandling, _arrayPool, ref _writeBuffer);
+        JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, StringEscapeHandling, arrayPool, ref writeBuffer);
     }
 
     /// <summary>
     /// Writes a <see cref="Int32"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int32"/> value to write.</param>
     public override void WriteValue(int value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -444,7 +419,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt32"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt32"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(uint value)
     {
@@ -455,7 +429,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int64"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int64"/> value to write.</param>
     public override void WriteValue(long value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -465,7 +438,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt64"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt64"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(ulong value)
     {
@@ -476,7 +448,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Single"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Single"/> value to write.</param>
     public override void WriteValue(float value)
     {
         InternalWriteValue(JsonToken.Float);
@@ -486,7 +457,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="Single"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="Single"/> value to write.</param>
     public override void WriteValue(float? value)
     {
         if (value == null)
@@ -503,7 +473,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Double"/> value to write.</param>
     public override void WriteValue(double value)
     {
         InternalWriteValue(JsonToken.Float);
@@ -513,7 +482,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Nullable{T}"/> of <see cref="Double"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="Double"/> value to write.</param>
     public override void WriteValue(double? value)
     {
         if (value == null)
@@ -530,7 +498,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Boolean"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Boolean"/> value to write.</param>
     public override void WriteValue(bool value)
     {
         InternalWriteValue(JsonToken.Boolean);
@@ -540,7 +507,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Int16"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Int16"/> value to write.</param>
     public override void WriteValue(short value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -550,7 +516,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="UInt16"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="UInt16"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(ushort value)
     {
@@ -561,7 +526,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Char"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Char"/> value to write.</param>
     public override void WriteValue(char value)
     {
         InternalWriteValue(JsonToken.String);
@@ -571,7 +535,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Byte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Byte"/> value to write.</param>
     public override void WriteValue(byte value)
     {
         InternalWriteValue(JsonToken.Integer);
@@ -581,7 +544,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="SByte"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="SByte"/> value to write.</param>
     [CLSCompliant(false)]
     public override void WriteValue(sbyte value)
     {
@@ -592,7 +554,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="Decimal"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Decimal"/> value to write.</param>
     public override void WriteValue(decimal value)
     {
         InternalWriteValue(JsonToken.Float);
@@ -602,7 +563,6 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a <see cref="DateTime"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTime"/> value to write.</param>
     public override void WriteValue(DateTime value)
     {
         InternalWriteValue(JsonToken.Date);
@@ -612,32 +572,31 @@ public partial class JsonTextWriter : JsonWriter
         {
             var length = WriteValueToBuffer(value);
 
-            _writer.Write(_writeBuffer, 0, length);
+            writer.Write(writeBuffer, 0, length);
         }
         else
         {
-            _writer.Write(_quoteChar);
-            _writer.Write(value.ToString(DateFormatString, Culture));
-            _writer.Write(_quoteChar);
+            writer.Write(quoteChar);
+            writer.Write(value.ToString(DateFormatString, Culture));
+            writer.Write(quoteChar);
         }
     }
 
     int WriteValueToBuffer(DateTime value)
     {
         EnsureWriteBuffer();
-        MiscellaneousUtils.Assert(_writeBuffer != null);
+        MiscellaneousUtils.Assert(writeBuffer != null);
 
         var pos = 0;
-        _writeBuffer[pos++] = _quoteChar;
-        pos = DateTimeUtils.WriteDateTimeString(_writeBuffer, pos, value, null, value.Kind, DateFormatHandling);
-        _writeBuffer[pos++] = _quoteChar;
+        writeBuffer[pos++] = quoteChar;
+        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value, null, value.Kind, DateFormatHandling);
+        writeBuffer[pos++] = quoteChar;
         return pos;
     }
 
     /// <summary>
     /// Writes a <see cref="Byte"/>[] value.
     /// </summary>
-    /// <param name="value">The <see cref="Byte"/>[] value to write.</param>
     public override void WriteValue(byte[]? value)
     {
         if (value == null)
@@ -647,17 +606,16 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.Bytes);
-            _writer.Write(_quoteChar);
+            writer.Write(quoteChar);
             Base64Encoder.Encode(value, 0, value.Length);
             Base64Encoder.Flush();
-            _writer.Write(_quoteChar);
+            writer.Write(quoteChar);
         }
     }
 
     /// <summary>
     /// Writes a <see cref="DateTimeOffset"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="DateTimeOffset"/> value to write.</param>
     public override void WriteValue(DateTimeOffset value)
     {
         InternalWriteValue(JsonToken.Date);
@@ -666,62 +624,59 @@ public partial class JsonTextWriter : JsonWriter
         {
             var length = WriteValueToBuffer(value);
 
-            _writer.Write(_writeBuffer, 0, length);
+            writer.Write(writeBuffer, 0, length);
         }
         else
         {
-            _writer.Write(_quoteChar);
-            _writer.Write(value.ToString(DateFormatString, Culture));
-            _writer.Write(_quoteChar);
+            writer.Write(quoteChar);
+            writer.Write(value.ToString(DateFormatString, Culture));
+            writer.Write(quoteChar);
         }
     }
 
     int WriteValueToBuffer(DateTimeOffset value)
     {
         EnsureWriteBuffer();
-        MiscellaneousUtils.Assert(_writeBuffer != null);
+        MiscellaneousUtils.Assert(writeBuffer != null);
 
         var pos = 0;
-        _writeBuffer[pos++] = _quoteChar;
-        pos = DateTimeUtils.WriteDateTimeString(_writeBuffer, pos, DateFormatHandling == DateFormatHandling.IsoDateFormat ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, DateFormatHandling);
-        _writeBuffer[pos++] = _quoteChar;
+        writeBuffer[pos++] = quoteChar;
+        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, DateFormatHandling == DateFormatHandling.IsoDateFormat ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, DateFormatHandling);
+        writeBuffer[pos++] = quoteChar;
         return pos;
     }
 
     /// <summary>
     /// Writes a <see cref="Guid"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Guid"/> value to write.</param>
     public override void WriteValue(Guid value)
     {
         InternalWriteValue(JsonToken.String);
 
         var text = value.ToString("D", CultureInfo.InvariantCulture);
 
-        _writer.Write(_quoteChar);
-        _writer.Write(text);
-        _writer.Write(_quoteChar);
+        writer.Write(quoteChar);
+        writer.Write(text);
+        writer.Write(quoteChar);
     }
 
     /// <summary>
     /// Writes a <see cref="TimeSpan"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="TimeSpan"/> value to write.</param>
     public override void WriteValue(TimeSpan value)
     {
         InternalWriteValue(JsonToken.String);
 
         var text = value.ToString(null, CultureInfo.InvariantCulture);
 
-        _writer.Write(_quoteChar);
-        _writer.Write(text);
-        _writer.Write(_quoteChar);
+        writer.Write(quoteChar);
+        writer.Write(text);
+        writer.Write(quoteChar);
     }
 
     /// <summary>
     /// Writes a <see cref="Uri"/> value.
     /// </summary>
-    /// <param name="value">The <see cref="Uri"/> value to write.</param>
     public override void WriteValue(Uri? value)
     {
         if (value == null)
@@ -739,38 +694,36 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
-    /// <param name="text">Text to place inside the comment.</param>
     public override void WriteComment(string? text)
     {
         InternalWriteComment();
 
-        _writer.Write("/*");
-        _writer.Write(text);
-        _writer.Write("*/");
+        writer.Write("/*");
+        writer.Write(text);
+        writer.Write("*/");
     }
 
     /// <summary>
     /// Writes the given white space.
     /// </summary>
-    /// <param name="ws">The string of white space characters.</param>
     public override void WriteWhitespace(string ws)
     {
         InternalWriteWhitespace(ws);
 
-        _writer.Write(ws);
+        writer.Write(ws);
     }
 
     void EnsureWriteBuffer()
     {
         // maximum buffer sized used when writing iso date
-        _writeBuffer ??= BufferUtils.RentBuffer(_arrayPool, 35);
+        writeBuffer ??= BufferUtils.RentBuffer(arrayPool, 35);
     }
 
     void WriteIntegerValue(long value)
     {
         if (value is >= 0 and <= 9)
         {
-            _writer.Write((char)('0' + value));
+            writer.Write((char)('0' + value));
         }
         else
         {
@@ -783,12 +736,12 @@ public partial class JsonTextWriter : JsonWriter
     {
         if (!negative & value <= 9)
         {
-            _writer.Write((char)('0' + value));
+            writer.Write((char)('0' + value));
         }
         else
         {
             var length = WriteNumberToBuffer(value, negative);
-            _writer.Write(_writeBuffer, 0, length);
+            writer.Write(writeBuffer, 0, length);
         }
     }
 
@@ -801,14 +754,14 @@ public partial class JsonTextWriter : JsonWriter
         }
 
         EnsureWriteBuffer();
-        MiscellaneousUtils.Assert(_writeBuffer != null);
+        MiscellaneousUtils.Assert(writeBuffer != null);
 
         var totalLength = MathUtils.IntLength(value);
 
         if (negative)
         {
             totalLength++;
-            _writeBuffer[0] = '-';
+            writeBuffer[0] = '-';
         }
 
         var index = totalLength;
@@ -817,7 +770,7 @@ public partial class JsonTextWriter : JsonWriter
         {
             var quotient = value / 10;
             var digit = value - quotient * 10;
-            _writeBuffer[--index] = (char)('0' + digit);
+            writeBuffer[--index] = (char)('0' + digit);
             value = quotient;
         } while (value != 0);
 
@@ -828,7 +781,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         if (value is >= 0 and <= 9)
         {
-            _writer.Write((char)('0' + value));
+            writer.Write((char)('0' + value));
         }
         else
         {
@@ -841,26 +794,26 @@ public partial class JsonTextWriter : JsonWriter
     {
         if (!negative & value <= 9)
         {
-            _writer.Write((char)('0' + value));
+            writer.Write((char)('0' + value));
         }
         else
         {
             var length = WriteNumberToBuffer(value, negative);
-            _writer.Write(_writeBuffer, 0, length);
+            writer.Write(writeBuffer, 0, length);
         }
     }
 
     int WriteNumberToBuffer(uint value, bool negative)
     {
         EnsureWriteBuffer();
-        MiscellaneousUtils.Assert(_writeBuffer != null);
+        MiscellaneousUtils.Assert(writeBuffer != null);
 
         var totalLength = MathUtils.IntLength(value);
 
         if (negative)
         {
             totalLength++;
-            _writeBuffer[0] = '-';
+            writeBuffer[0] = '-';
         }
 
         var index = totalLength;
@@ -869,7 +822,7 @@ public partial class JsonTextWriter : JsonWriter
         {
             var quotient = value / 10;
             var digit = value - quotient * 10;
-            _writeBuffer[--index] = (char)('0' + digit);
+            writeBuffer[--index] = (char)('0' + digit);
             value = quotient;
         } while (value != 0);
 

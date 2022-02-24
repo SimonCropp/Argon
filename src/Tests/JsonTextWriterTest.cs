@@ -1686,11 +1686,11 @@ null//comment
 
 public class CustomJsonTextWriter : JsonTextWriter
 {
-    protected readonly TextWriter _writer;
+    protected readonly TextWriter writer;
 
     public CustomJsonTextWriter(TextWriter textWriter) : base(textWriter)
     {
-        _writer = textWriter;
+        writer = textWriter;
     }
 
     public override void WritePropertyName(string name)
@@ -1704,31 +1704,31 @@ public class CustomJsonTextWriter : JsonTextWriter
 
         if (QuoteName)
         {
-            _writer.Write(QuoteChar);
+            writer.Write(QuoteChar);
         }
 
-        _writer.Write(new string(name.ToCharArray().Reverse().ToArray()));
+        writer.Write(new string(name.ToCharArray().Reverse().ToArray()));
 
         if (QuoteName)
         {
-            _writer.Write(QuoteChar);
+            writer.Write(QuoteChar);
         }
 
-        _writer.Write(':');
+        writer.Write(':');
     }
 
     public override void WriteNull()
     {
         SetWriteState(JsonToken.Null, null);
 
-        _writer.Write("NULL!!!");
+        writer.Write("NULL!!!");
     }
 
     public override void WriteStartObject()
     {
         SetWriteState(JsonToken.StartObject, null);
 
-        _writer.Write("{{{");
+        writer.Write("{{{");
     }
 
     public override void WriteEndObject()
@@ -1740,7 +1740,7 @@ public class CustomJsonTextWriter : JsonTextWriter
     {
         if (token == JsonToken.EndObject)
         {
-            _writer.Write("}}}");
+            writer.Write("}}}");
         }
         else
         {

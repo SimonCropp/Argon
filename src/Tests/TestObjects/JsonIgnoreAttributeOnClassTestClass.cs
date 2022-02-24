@@ -28,18 +28,15 @@ namespace TestObjects;
 [JsonObject(MemberSerialization.OptIn)]
 public class JsonIgnoreAttributeOnClassTestClass
 {
-    int _property = 21;
-    int _ignoredProperty = 12;
-
     [JsonProperty("TheField")]
     public int Field;
 
     [JsonProperty]
-    public int Property => _property;
+    public int Property { get; } = 21;
 
     public int IgnoredField;
 
     [JsonProperty]
     [JsonIgnore] // JsonIgnore should take priority
-    public int IgnoredProperty => _ignoredProperty;
+    public int IgnoredProperty { get; } = 12;
 }

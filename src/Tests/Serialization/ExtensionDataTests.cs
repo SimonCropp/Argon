@@ -29,75 +29,75 @@ public class ExtensionDataTests : TestFixtureBase
 {
     public class CustomDictionary : IDictionary<string, object>
     {
-        readonly IDictionary<string, object> _inner = new Dictionary<string, object>();
+        readonly IDictionary<string, object> inner = new Dictionary<string, object>();
 
         public void Add(string key, object value)
         {
-            _inner.Add(key, value);
+            inner.Add(key, value);
         }
 
         public bool ContainsKey(string key)
         {
-            return _inner.ContainsKey(key);
+            return inner.ContainsKey(key);
         }
 
-        public ICollection<string> Keys => _inner.Keys;
+        public ICollection<string> Keys => inner.Keys;
 
         public bool Remove(string key)
         {
-            return _inner.Remove(key);
+            return inner.Remove(key);
         }
 
         public bool TryGetValue(string key, out object value)
         {
-            return _inner.TryGetValue(key, out value);
+            return inner.TryGetValue(key, out value);
         }
 
-        public ICollection<object> Values => _inner.Values;
+        public ICollection<object> Values => inner.Values;
 
         public object this[string key]
         {
-            get => _inner[key];
-            set => _inner[key] = value;
+            get => inner[key];
+            set => inner[key] = value;
         }
 
         public void Add(KeyValuePair<string, object> item)
         {
-            _inner.Add(item);
+            inner.Add(item);
         }
 
         public void Clear()
         {
-            _inner.Clear();
+            inner.Clear();
         }
 
         public bool Contains(KeyValuePair<string, object> item)
         {
-            return _inner.Contains(item);
+            return inner.Contains(item);
         }
 
         public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
         {
-            _inner.CopyTo(array, arrayIndex);
+            inner.CopyTo(array, arrayIndex);
         }
 
-        public int Count => _inner.Count;
+        public int Count => inner.Count;
 
-        public bool IsReadOnly => _inner.IsReadOnly;
+        public bool IsReadOnly => inner.IsReadOnly;
 
         public bool Remove(KeyValuePair<string, object> item)
         {
-            return _inner.Remove(item);
+            return inner.Remove(item);
         }
 
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
-            return _inner.GetEnumerator();
+            return inner.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _inner.GetEnumerator();
+            return inner.GetEnumerator();
         }
     }
 
@@ -223,12 +223,12 @@ public class ExtensionDataTests : TestFixtureBase
 #pragma warning disable 169
     public class CustomerInvoice
     {
-        // we're only modifing the tax rate
+        // we're only modifying the tax rate
         public decimal TaxRate { get; set; }
 
         // everything else gets stored here
         [JsonExtensionData]
-        IDictionary<string, JToken> _additionalData;
+        IDictionary<string, JToken> additionalData;
     }
 #pragma warning restore 169
 

@@ -52,38 +52,28 @@ public class DefaultContractResolver : IContractResolver
         new RegexConverter()
     };
 
-    readonly DefaultJsonNameTable _nameTable = new();
+    readonly DefaultJsonNameTable nameTable = new();
 
-    readonly ThreadSafeStore<Type, JsonContract> _contractCache;
+    readonly ThreadSafeStore<Type, JsonContract> contractCache;
 
     /// <summary>
     /// Gets or sets a value indicating whether compiler generated members should be serialized.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if serialized compiler generated members; otherwise, <c>false</c>.
-    /// </value>
     public bool SerializeCompilerGeneratedMembers { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to ignore IsSpecified members when serializing and deserializing types.
     /// </summary>
-    /// <value>
-    ///     <c>true</c> if the IsSpecified members will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
-    /// </value>
     public bool IgnoreIsSpecifiedMembers { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to ignore ShouldSerialize members when serializing and deserializing types.
     /// </summary>
-    /// <value>
-    ///     <c>true</c> if the ShouldSerialize members will be ignored when serializing and deserializing types; otherwise, <c>false</c>.
-    /// </value>
     public bool IgnoreShouldSerializeMembers { get; set; }
 
     /// <summary>
     /// Gets or sets the naming strategy used to resolve how property names and dictionary keys are serialized.
     /// </summary>
-    /// <value>The naming strategy used to resolve how property names and dictionary keys are serialized.</value>
     public NamingStrategy? NamingStrategy { get; set; }
 
     /// <summary>
@@ -91,7 +81,7 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     public DefaultContractResolver()
     {
-        _contractCache = new ThreadSafeStore<Type, JsonContract>(CreateContract);
+        contractCache = new ThreadSafeStore<Type, JsonContract>(CreateContract);
     }
 
     /// <summary>
@@ -101,7 +91,7 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>The contract for a given type.</returns>
     public virtual JsonContract ResolveContract(Type type)
     {
-        return _contractCache.Get(type);
+        return contractCache.Get(type);
     }
 
     static bool FilterMembers(MemberInfo member)
@@ -207,7 +197,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonObjectContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonObjectContract"/> for the given type.</returns>
     protected virtual JsonObjectContract CreateObjectContract(Type type)
     {
@@ -222,9 +211,9 @@ public class DefaultContractResolver : IContractResolver
         var attribute = JsonTypeReflector.GetCachedAttribute<JsonObjectAttribute>(contract.NonNullableUnderlyingType);
         if (attribute != null)
         {
-            contract.ItemRequired = attribute._itemRequired;
-            contract.ItemNullValueHandling = attribute._itemNullValueHandling;
-            contract.MissingMemberHandling = attribute._missingMemberHandling;
+            contract.ItemRequired = attribute.itemRequired;
+            contract.ItemNullValueHandling = attribute.itemNullValueHandling;
+            contract.MissingMemberHandling = attribute.missingMemberHandling;
 
             if (attribute.NamingStrategyType != null)
             {
@@ -346,7 +335,7 @@ public class DefaultContractResolver : IContractResolver
 
     static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
     {
-        var extensionDataAttribute = ReflectionUtils.GetAttribute<JsonExtensionDataAttribute>(member);
+        var extensionDataAttribute = member.GetCustomAttribute<JsonExtensionDataAttribute>(true);
         if (extensionDataAttribute == null)
         {
             return;
@@ -380,12 +369,12 @@ public class DefaultContractResolver : IContractResolver
         {
             var setExtensionDataDictionary = BuildSetExtensionDataDictionary(member);
             var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
-            var setMethod = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
+            var setMethod = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.SetMethod;
             if (setMethod == null)
             {
                 // Item is explicitly implemented and non-public
                 // get from dictionary interface
-                setMethod = dictionaryType.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.GetSetMethod();
+                setMethod = dictionaryType.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.SetMethod;
             }
 
             var setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
@@ -444,16 +433,16 @@ public class DefaultContractResolver : IContractResolver
     // will be always return as an interface and boxed
     internal class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue> : IEnumerable<KeyValuePair<object, object>>
     {
-        readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> _e;
+        readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
 
         public EnumerableDictionaryWrapper(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
         {
-            _e = e;
+            this.e = e;
         }
 
         public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
         {
-            foreach (var item in _e)
+            foreach (var item in e)
             {
                 yield return new KeyValuePair<object, object>(item.Key!, item.Value!);
             }
@@ -611,12 +600,12 @@ public class DefaultContractResolver : IContractResolver
             property.PropertyName = property.PropertyName != parameterInfo.Name ? property.PropertyName : matchingMemberProperty.PropertyName;
             property.Converter ??= matchingMemberProperty.Converter;
 
-            if (!property._hasExplicitDefaultValue && matchingMemberProperty._hasExplicitDefaultValue)
+            if (!property.hasExplicitDefaultValue && matchingMemberProperty.hasExplicitDefaultValue)
             {
                 property.DefaultValue = matchingMemberProperty.DefaultValue;
             }
 
-            property._required ??= matchingMemberProperty._required;
+            property.required ??= matchingMemberProperty.required;
             property.IsReference ??= matchingMemberProperty.IsReference;
             property.NullValueHandling ??= matchingMemberProperty.NullValueHandling;
             property.DefaultValueHandling ??= matchingMemberProperty.DefaultValueHandling;
@@ -631,7 +620,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Resolves the default <see cref="JsonConverter" /> for the contract.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>The contract's default <see cref="JsonConverter" />.</returns>
     protected virtual JsonConverter? ResolveContractConverter(Type type)
     {
@@ -657,7 +645,7 @@ public class DefaultContractResolver : IContractResolver
         }
         else
         {
-            contract.IsReference = containerAttribute._isReference;
+            contract.IsReference = containerAttribute.isReference;
         }
 
         contract.Converter = ResolveContractConverter(contract.NonNullableUnderlyingType);
@@ -844,7 +832,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonDictionaryContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonDictionaryContract"/> for the given type.</returns>
     protected virtual JsonDictionaryContract CreateDictionaryContract(Type type)
     {
@@ -893,7 +880,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonArrayContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonArrayContract"/> for the given type.</returns>
     protected virtual JsonArrayContract CreateArrayContract(Type type)
     {
@@ -931,7 +917,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonPrimitiveContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonPrimitiveContract"/> for the given type.</returns>
     protected virtual JsonPrimitiveContract CreatePrimitiveContract(Type type)
     {
@@ -944,7 +929,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonLinqContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonLinqContract"/> for the given type.</returns>
     protected virtual JsonLinqContract CreateLinqContract(Type type)
     {
@@ -957,7 +941,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonDynamicContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonDynamicContract"/> for the given type.</returns>
     protected virtual JsonDynamicContract CreateDynamicContract(Type type)
     {
@@ -983,7 +966,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Creates a <see cref="JsonStringContract"/> for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonStringContract"/> for the given type.</returns>
     protected virtual JsonStringContract CreateStringContract(Type type)
     {
@@ -996,7 +978,6 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Determines which contract type is created for the given type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>A <see cref="JsonContract"/> for the given type.</returns>
     protected virtual JsonContract CreateContract(Type type)
     {
@@ -1183,13 +1164,12 @@ public class DefaultContractResolver : IContractResolver
 
     internal virtual DefaultJsonNameTable GetNameTable()
     {
-        return _nameTable;
+        return nameTable;
     }
 
     /// <summary>
     /// Creates the <see cref="IValueProvider"/> used by the serializer to get and set values from a member.
     /// </summary>
-    /// <param name="member">The member.</param>
     /// <returns>The <see cref="IValueProvider"/> used by the serializer to get and set values from a member.</returns>
     protected virtual IValueProvider CreateMemberValueProvider(MemberInfo member)
     {
@@ -1312,20 +1292,20 @@ public class DefaultContractResolver : IContractResolver
         var hasMemberAttribute = false;
         if (propertyAttribute != null)
         {
-            property._required = propertyAttribute._required;
-            property.Order = propertyAttribute._order;
-            property.DefaultValueHandling = propertyAttribute._defaultValueHandling;
+            property.required = propertyAttribute.required;
+            property.Order = propertyAttribute.order;
+            property.DefaultValueHandling = propertyAttribute.defaultValueHandling;
             hasMemberAttribute = true;
-            property.NullValueHandling = propertyAttribute._nullValueHandling;
-            property.ReferenceLoopHandling = propertyAttribute._referenceLoopHandling;
-            property.ObjectCreationHandling = propertyAttribute._objectCreationHandling;
-            property.TypeNameHandling = propertyAttribute._typeNameHandling;
-            property.IsReference = propertyAttribute._isReference;
+            property.NullValueHandling = propertyAttribute.nullValueHandling;
+            property.ReferenceLoopHandling = propertyAttribute.referenceLoopHandling;
+            property.ObjectCreationHandling = propertyAttribute.objectCreationHandling;
+            property.TypeNameHandling = propertyAttribute.typeNameHandling;
+            property.IsReference = propertyAttribute.isReference;
 
-            property.ItemIsReference = propertyAttribute._itemIsReference;
+            property.ItemIsReference = propertyAttribute.itemIsReference;
             property.ItemConverter = propertyAttribute.ItemConverterType != null ? JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters) : null;
-            property.ItemReferenceLoopHandling = propertyAttribute._itemReferenceLoopHandling;
-            property.ItemTypeNameHandling = propertyAttribute._itemTypeNameHandling;
+            property.ItemReferenceLoopHandling = propertyAttribute.itemReferenceLoopHandling;
+            property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
         }
         else
         {
@@ -1340,7 +1320,7 @@ public class DefaultContractResolver : IContractResolver
             property.ItemTypeNameHandling = null;
             if (dataMemberAttribute != null)
             {
-                property._required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
+                property.required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
                 property.Order = dataMemberAttribute.Order != -1 ? dataMemberAttribute.Order : null;
                 property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? DefaultValueHandling.Ignore : null;
                 hasMemberAttribute = true;
@@ -1349,7 +1329,7 @@ public class DefaultContractResolver : IContractResolver
 
         if (requiredAttribute != null)
         {
-            property._required = Required.Always;
+            property.required = Required.Always;
             hasMemberAttribute = true;
         }
 

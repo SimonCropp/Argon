@@ -7,20 +7,20 @@ This sample deserializes JSON using dependency injection.
 ```cs
 public class AutofacContractResolver : DefaultContractResolver
 {
-    readonly IContainer _container;
+    readonly IContainer container;
 
     public AutofacContractResolver(IContainer container)
     {
-        _container = container;
+        this.container = container;
     }
 
     protected override JsonObjectContract CreateObjectContract(Type type)
     {
         // use Autofac to create types that have been registered with it
-        if (_container.IsRegistered(type))
+        if (container.IsRegistered(type))
         {
             var contract = ResolveContact(type);
-            contract.DefaultCreator = () => _container.Resolve(type);
+            contract.DefaultCreator = () => container.Resolve(type);
 
             return contract;
         }
@@ -31,7 +31,7 @@ public class AutofacContractResolver : DefaultContractResolver
     JsonObjectContract ResolveContact(Type type)
     {
         // attempt to create the contact from the resolved type
-        if (_container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
+        if (container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
         {
             var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
             if (viewType != null)
@@ -47,21 +47,18 @@ public class AutofacContractResolver : DefaultContractResolver
 
 public class TaskController
 {
-    readonly ITaskRepository _repository;
-    readonly ILogger _logger;
-
     public TaskController(ITaskRepository repository, ILogger logger)
     {
-        _repository = repository;
-        _logger = logger;
+        this.Repository = repository;
+        this.Logger = logger;
     }
 
-    public ITaskRepository Repository => _repository;
+    public ITaskRepository Repository { get; }
 
-    public ILogger Logger => _logger;
+    public ILogger Logger { get; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L32-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L32-L85' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeWithDependencyInjectionUsage -->
@@ -91,5 +88,5 @@ var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSer
 Console.WriteLine(controller.Repository.GetType().Name);
 // TaskRepository
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L93-L117' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L90-L114' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

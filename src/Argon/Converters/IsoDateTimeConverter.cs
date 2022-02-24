@@ -32,41 +32,35 @@ public class IsoDateTimeConverter : DateTimeConverterBase
 {
     const string DefaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
-    string? _dateTimeFormat;
-    CultureInfo? _culture;
+    string? dateTimeFormat;
+    CultureInfo? culture;
 
     /// <summary>
     /// Gets or sets the date time styles used when converting a date to and from JSON.
     /// </summary>
-    /// <value>The date time styles used when converting a date to and from JSON.</value>
     public DateTimeStyles DateTimeStyles { get; set; } = DateTimeStyles.RoundtripKind;
 
     /// <summary>
     /// Gets or sets the date time format used when converting a date to and from JSON.
     /// </summary>
-    /// <value>The date time format used when converting a date to and from JSON.</value>
     public string? DateTimeFormat
     {
-        get => _dateTimeFormat ?? string.Empty;
-        set => _dateTimeFormat = StringUtils.IsNullOrEmpty(value) ? null : value;
+        get => dateTimeFormat ?? string.Empty;
+        set => dateTimeFormat = StringUtils.IsNullOrEmpty(value) ? null : value;
     }
 
     /// <summary>
     /// Gets or sets the culture used when converting a date to and from JSON.
     /// </summary>
-    /// <value>The culture used when converting a date to and from JSON.</value>
     public CultureInfo Culture
     {
-        get => _culture ?? CultureInfo.CurrentCulture;
-        set => _culture = value;
+        get => culture ?? CultureInfo.CurrentCulture;
+        set => culture = value;
     }
 
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-    /// <param name="value">The value.</param>
-    /// <param name="serializer">The calling serializer.</param>
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
         string text;
@@ -79,7 +73,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
                 dateTime = dateTime.ToUniversalTime();
             }
 
-            text = dateTime.ToString(_dateTimeFormat ?? DefaultDateTimeFormat, Culture);
+            text = dateTime.ToString(dateTimeFormat ?? DefaultDateTimeFormat, Culture);
         }
         else if (value is DateTimeOffset dateTimeOffset)
         {
@@ -89,7 +83,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
                 dateTimeOffset = dateTimeOffset.ToUniversalTime();
             }
 
-            text = dateTimeOffset.ToString(_dateTimeFormat ?? DefaultDateTimeFormat, Culture);
+            text = dateTimeOffset.ToString(dateTimeFormat ?? DefaultDateTimeFormat, Culture);
         }
         else
         {
@@ -102,11 +96,6 @@ public class IsoDateTimeConverter : DateTimeConverterBase
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="type">Type of the object.</param>
-    /// <param name="existingValue">The existing value of object being read.</param>
-    /// <param name="serializer">The calling serializer.</param>
-    /// <returns>The object value.</returns>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         var nullable = ReflectionUtils.IsNullableType(type);
@@ -154,19 +143,19 @@ public class IsoDateTimeConverter : DateTimeConverterBase
 
         if (t == typeof(DateTimeOffset))
         {
-            if (StringUtils.IsNullOrEmpty(_dateTimeFormat))
+            if (StringUtils.IsNullOrEmpty(dateTimeFormat))
             {
                 return DateTimeOffset.Parse(dateText, Culture, DateTimeStyles);
             }
 
-            return DateTimeOffset.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
+            return DateTimeOffset.ParseExact(dateText, dateTimeFormat, Culture, DateTimeStyles);
         }
 
-        if (StringUtils.IsNullOrEmpty(_dateTimeFormat))
+        if (StringUtils.IsNullOrEmpty(dateTimeFormat))
         {
             return DateTime.Parse(dateText, Culture, DateTimeStyles);
         }
 
-        return DateTime.ParseExact(dateText, _dateTimeFormat, Culture, DateTimeStyles);
+        return DateTime.ParseExact(dateText, dateTimeFormat, Culture, DateTimeStyles);
     }
 }

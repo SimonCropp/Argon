@@ -31,21 +31,23 @@ namespace Argon.Linq;
 /// <summary>
 /// Represents a token that can contain other tokens.
 /// </summary>
-public abstract partial class JContainer : JToken, IList<JToken>
-    , ITypedList, IBindingList
-    , IList
-    , INotifyCollectionChanged
+public abstract partial class JContainer :
+    JToken, IList<JToken>,
+    ITypedList,
+    IBindingList,
+    IList,
+    INotifyCollectionChanged
 {
-    internal ListChangedEventHandler? _listChanged;
-    internal AddingNewEventHandler? _addingNew;
+    internal ListChangedEventHandler? listChanged;
+    internal AddingNewEventHandler? addingNew;
 
     /// <summary>
     /// Occurs when the list changes or an item in the list changes.
     /// </summary>
     public event ListChangedEventHandler ListChanged
     {
-        add => _listChanged += value;
-        remove => _listChanged -= value;
+        add => listChanged += value;
+        remove => listChanged -= value;
     }
 
     /// <summary>
@@ -53,28 +55,27 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// </summary>
     public event AddingNewEventHandler AddingNew
     {
-        add => _addingNew += value;
-        remove => _addingNew -= value;
+        add => addingNew += value;
+        remove => addingNew -= value;
     }
-    internal NotifyCollectionChangedEventHandler? _collectionChanged;
+    internal NotifyCollectionChangedEventHandler? collectionChanged;
 
     /// <summary>
     /// Occurs when the items list of the collection has changed, or the collection is reset.
     /// </summary>
     public event NotifyCollectionChangedEventHandler CollectionChanged
     {
-        add => _collectionChanged += value;
-        remove => _collectionChanged -= value;
+        add => collectionChanged += value;
+        remove => collectionChanged -= value;
     }
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
     protected abstract IList<JToken> ChildrenTokens { get; }
 
-    object? _syncRoot;
-    bool _busy;
+    object? syncRoot;
+    bool busy;
 
     internal JContainer()
     {
@@ -95,15 +96,10 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
     internal void CheckReentrancy()
     {
-        if (_busy)
+        if (busy)
         {
             throw new InvalidOperationException($"Cannot change {GetType()} during a collection change event.");
         }
-    }
-
-    internal virtual IList<JToken> CreateChildrenCollection()
-    {
-        return new List<JToken>();
     }
 
     /// <summary>
@@ -112,7 +108,7 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <param name="e">The <see cref="AddingNewEventArgs"/> instance containing the event data.</param>
     protected virtual void OnAddingNew(AddingNewEventArgs e)
     {
-        _addingNew?.Invoke(this, e);
+        addingNew?.Invoke(this, e);
     }
 
     /// <summary>
@@ -121,18 +117,18 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <param name="e">The <see cref="ListChangedEventArgs"/> instance containing the event data.</param>
     protected virtual void OnListChanged(ListChangedEventArgs e)
     {
-        var handler = _listChanged;
+        var handler = listChanged;
 
         if (handler != null)
         {
-            _busy = true;
+            busy = true;
             try
             {
                 handler(this, e);
             }
             finally
             {
-                _busy = false;
+                busy = false;
             }
         }
     }
@@ -143,18 +139,18 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
     protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
-        var handler = _collectionChanged;
+        var handler = collectionChanged;
 
         if (handler != null)
         {
-            _busy = true;
+            busy = true;
             try
             {
                 handler(this, e);
             }
             finally
             {
-                _busy = false;
+                busy = false;
             }
         }
     }
@@ -162,9 +158,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Gets a value indicating whether this token has child tokens.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this token has child values; otherwise, <c>false</c>.
-    /// </value>
     public override bool HasValues => ChildrenTokens.Count > 0;
 
     internal bool ContentsEqual(JContainer container)
@@ -196,9 +189,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Get the first child token of this token.
     /// </summary>
-    /// <value>
-    /// A <see cref="JToken"/> containing the first child token of the <see cref="JToken"/>.
-    /// </value>
     public override JToken? First
     {
         get
@@ -211,9 +201,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Get the last child token of this token.
     /// </summary>
-    /// <value>
-    /// A <see cref="JToken"/> containing the last child token of the <see cref="JToken"/>.
-    /// </value>
     public override JToken? Last
     {
         get
@@ -351,11 +338,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         children.Insert(index, item);
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemAdded, index));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
         }
@@ -397,11 +384,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         children.RemoveAt(index);
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemDeleted, index));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
         }
@@ -476,11 +463,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
         existing.Previous = null;
         existing.Next = null;
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, index));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, existing, index));
         }
@@ -501,11 +488,11 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
         children.Clear();
 
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
@@ -529,10 +516,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
 
     internal virtual void CopyItemsTo(Array array, int arrayIndex)
     {
-        if (array == null)
-        {
-            throw new ArgumentNullException(nameof(array));
-        }
         if (arrayIndex < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(arrayIndex), "arrayIndex is less than 0.");
@@ -649,7 +632,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Replaces the child nodes of this token with the specified content.
     /// </summary>
-    /// <param name="content">The content.</param>
     public void ReplaceAll(object content)
     {
         ClearItems();
@@ -669,7 +651,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Merge the specified content into this <see cref="JToken"/>.
     /// </summary>
-    /// <param name="content">The content to be merged.</param>
     public void Merge(object? content)
     {
         if (content == null)
@@ -684,8 +665,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Merge the specified content into this <see cref="JToken"/> using <see cref="JsonMergeSettings"/>.
     /// </summary>
-    /// <param name="content">The content to be merged.</param>
-    /// <param name="settings">The <see cref="JsonMergeSettings"/> used to merge the content.</param>
     public void Merge(object? content, JsonMergeSettings? settings)
     {
         if (content == null)
@@ -1023,7 +1002,6 @@ public abstract partial class JContainer : JToken, IList<JToken>
     /// <summary>
     /// Gets the count of child JSON tokens.
     /// </summary>
-    /// <value>The count of child JSON tokens.</value>
     public int Count => ChildrenTokens.Count;
 
     bool ICollection.IsSynchronized => false;
@@ -1032,12 +1010,12 @@ public abstract partial class JContainer : JToken, IList<JToken>
     {
         get
         {
-            if (_syncRoot == null)
+            if (syncRoot == null)
             {
-                Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+                Interlocked.CompareExchange(ref syncRoot, new object(), null);
             }
 
-            return _syncRoot;
+            return syncRoot;
         }
     }
     #endregion

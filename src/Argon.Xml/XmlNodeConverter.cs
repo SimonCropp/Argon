@@ -33,31 +33,28 @@ public class XmlNodeConverter : JsonConverter
 {
     internal static readonly List<IXmlNode> EmptyChildNodes = new();
 
-    const string TextName = "#text";
-    const string CommentName = "#comment";
-    const string CDataName = "#cdata-section";
-    const string WhitespaceName = "#whitespace";
-    const string SignificantWhitespaceName = "#significant-whitespace";
-    const string DeclarationName = "?xml";
-    const string JsonNamespaceUri = "http://james.newtonking.com/projects/json";
+    const string textName = "#text";
+    const string commentName = "#comment";
+    const string cDataName = "#cdata-section";
+    const string whitespaceName = "#whitespace";
+    const string significantWhitespaceName = "#significant-whitespace";
+    const string declarationName = "?xml";
+    const string jsonNamespaceUri = "http://james.newtonking.com/projects/json";
 
     /// <summary>
     /// Gets or sets the name of the root element to insert when deserializing to XML if the JSON structure has produced multiple root elements.
     /// </summary>
-    /// <value>The name of the deserialized root element.</value>
     public string? DeserializeRootElementName { get; set; }
 
     /// <summary>
     /// Gets or sets a value to indicate whether to write the Json.NET array attribute.
     /// This attribute helps preserve arrays when converting the written XML back to JSON.
     /// </summary>
-    /// <value><c>true</c> if the array attribute is written to the XML; otherwise, <c>false</c>.</value>
     public bool WriteArrayAttribute { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to write the root JSON object.
     /// </summary>
-    /// <value><c>true</c> if the JSON root object is omitted; otherwise, <c>false</c>.</value>
     public bool OmitRootObject { get; set; }
 
     /// <summary>
@@ -66,16 +63,12 @@ public class XmlNodeConverter : JsonConverter
     /// XML namespaces, attributes or processing directives. Instead special characters are encoded and written
     /// as part of the XML element name.
     /// </summary>
-    /// <value><c>true</c> if special characters are encoded; otherwise, <c>false</c>.</value>
     public bool EncodeSpecialCharacters { get; set; }
 
     #region Writing
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-    /// <param name="serializer">The calling serializer.</param>
-    /// <param name="value">The value.</param>
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
         if (value == null)
@@ -168,18 +161,18 @@ public class XmlNodeConverter : JsonConverter
         switch (node.NodeType)
         {
             case XmlNodeType.Attribute:
-                if (node.NamespaceUri == JsonNamespaceUri)
+                if (node.NamespaceUri == jsonNamespaceUri)
                 {
                     return $"${node.LocalName}";
                 }
 
                 return $"@{ResolveFullName(node, manager)}";
             case XmlNodeType.CDATA:
-                return CDataName;
+                return cDataName;
             case XmlNodeType.Comment:
-                return CommentName;
+                return commentName;
             case XmlNodeType.Element:
-                if (node.NamespaceUri == JsonNamespaceUri)
+                if (node.NamespaceUri == jsonNamespaceUri)
                 {
                     return $"${node.LocalName}";
                 }
@@ -190,13 +183,13 @@ public class XmlNodeConverter : JsonConverter
             case XmlNodeType.DocumentType:
                 return $"!{ResolveFullName(node, manager)}";
             case XmlNodeType.XmlDeclaration:
-                return DeclarationName;
+                return declarationName;
             case XmlNodeType.SignificantWhitespace:
-                return SignificantWhitespaceName;
+                return significantWhitespaceName;
             case XmlNodeType.Text:
-                return TextName;
+                return textName;
             case XmlNodeType.Whitespace:
-                return WhitespaceName;
+                return whitespaceName;
             default:
                 throw new JsonSerializationException($"Unexpected XmlNodeType when getting node name: {node.NodeType}");
         }
@@ -206,7 +199,7 @@ public class XmlNodeConverter : JsonConverter
     {
         foreach (var attribute in node.Attributes)
         {
-            if (attribute.LocalName == "Array" && attribute.NamespaceUri == JsonNamespaceUri)
+            if (attribute.LocalName == "Array" && attribute.NamespaceUri == jsonNamespaceUri)
             {
                 return XmlConvert.ToBoolean(attribute.Value);
             }
@@ -458,12 +451,12 @@ public class XmlNodeConverter : JsonConverter
             case XmlNodeType.ProcessingInstruction:
             case XmlNodeType.Whitespace:
             case XmlNodeType.SignificantWhitespace:
-                if (node.NamespaceUri == "http://www.w3.org/2000/xmlns/" && node.Value == JsonNamespaceUri)
+                if (node.NamespaceUri == "http://www.w3.org/2000/xmlns/" && node.Value == jsonNamespaceUri)
                 {
                     return;
                 }
 
-                if (node.NamespaceUri == JsonNamespaceUri)
+                if (node.NamespaceUri == jsonNamespaceUri)
                 {
                     if (node.LocalName == "Array")
                     {
@@ -550,11 +543,6 @@ public class XmlNodeConverter : JsonConverter
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="type">Type of the object.</param>
-    /// <param name="existingValue">The existing value of object being read.</param>
-    /// <param name="serializer">The calling serializer.</param>
-    /// <returns>The object value.</returns>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         switch (reader.TokenType)
@@ -641,16 +629,16 @@ public class XmlNodeConverter : JsonConverter
         {
             switch (propertyName)
             {
-                case TextName:
+                case textName:
                     currentNode.AppendChild(document.CreateTextNode(ConvertTokenToXmlValue(reader)));
                     return;
-                case CDataName:
+                case cDataName:
                     currentNode.AppendChild(document.CreateCDataSection(ConvertTokenToXmlValue(reader)));
                     return;
-                case WhitespaceName:
+                case whitespaceName:
                     currentNode.AppendChild(document.CreateWhitespace(ConvertTokenToXmlValue(reader)));
                     return;
-                case SignificantWhitespaceName:
+                case significantWhitespaceName:
                     currentNode.AppendChild(document.CreateSignificantWhitespace(ConvertTokenToXmlValue(reader)));
                     return;
                 default:
@@ -721,7 +709,7 @@ public class XmlNodeConverter : JsonConverter
                 {
                     case JsonTypeReflector.ArrayValuesPropertyName:
                         propertyName = propertyName.Substring(1);
-                        elementPrefix = manager.LookupPrefix(JsonNamespaceUri);
+                        elementPrefix = manager.LookupPrefix(jsonNamespaceUri);
                         CreateElement(reader, document, currentNode, propertyName, manager, elementPrefix, attributeNameValues);
                         return;
                     case JsonTypeReflector.IdPropertyName:
@@ -729,7 +717,7 @@ public class XmlNodeConverter : JsonConverter
                     case JsonTypeReflector.TypePropertyName:
                     case JsonTypeReflector.ValuePropertyName:
                         var attributeName = propertyName.Substring(1);
-                        var attributePrefix = manager.LookupPrefix(JsonNamespaceUri);
+                        var attributePrefix = manager.LookupPrefix(jsonNamespaceUri);
                         AddAttribute(reader, document, currentNode, propertyName, attributeName, manager, attributePrefix);
                         return;
                 }
@@ -890,14 +878,14 @@ public class XmlNodeConverter : JsonConverter
 
     static void AddJsonArrayAttribute(IXmlElement element, IXmlDocument document)
     {
-        element.SetAttributeNode(document.CreateAttribute("json:Array", JsonNamespaceUri, "true"));
+        element.SetAttributeNode(document.CreateAttribute("json:Array", jsonNamespaceUri, "true"));
 
         // linq to xml doesn't automatically include prefixes via the namespace manager
         if (element is XElementWrapper)
         {
-            if (element.GetPrefixOfNamespace(JsonNamespaceUri) == null)
+            if (element.GetPrefixOfNamespace(jsonNamespaceUri) == null)
             {
-                element.SetAttributeNode(document.CreateAttribute("xmlns:json", "http://www.w3.org/2000/xmlns/", JsonNamespaceUri));
+                element.SetAttributeNode(document.CreateAttribute("xmlns:json", "http://www.w3.org/2000/xmlns/", jsonNamespaceUri));
             }
         }
     }
@@ -969,7 +957,7 @@ public class XmlNodeConverter : JsonConverter
                                 case JsonTypeReflector.ValuePropertyName:
                                     // check that JsonNamespaceUri is in scope
                                     // if it isn't then add it to document and namespace manager
-                                    var jsonPrefix = manager.LookupPrefix(JsonNamespaceUri);
+                                    var jsonPrefix = manager.LookupPrefix(jsonNamespaceUri);
                                     if (jsonPrefix == null)
                                     {
                                         attributeNameValues ??= new Dictionary<string, string?>();
@@ -983,8 +971,8 @@ public class XmlNodeConverter : JsonConverter
 
                                         jsonPrefix = $"json{i}";
 
-                                        attributeNameValues.Add($"xmlns:{jsonPrefix}", JsonNamespaceUri);
-                                        manager.AddNamespace(jsonPrefix, JsonNamespaceUri);
+                                        attributeNameValues.Add($"xmlns:{jsonPrefix}", jsonNamespaceUri);
+                                        manager.AddNamespace(jsonPrefix, jsonNamespaceUri);
                                     }
 
                                     // special case $values, it will have a non-primitive value
@@ -1033,7 +1021,7 @@ public class XmlNodeConverter : JsonConverter
 
     static void CreateInstruction(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName)
     {
-        if (propertyName == DeclarationName)
+        if (propertyName == declarationName)
         {
             string? version = null;
             string? encoding = null;
@@ -1209,12 +1197,12 @@ public class XmlNodeConverter : JsonConverter
     {
         foreach (var xmlNode in c)
         {
-            if (xmlNode.NamespaceUri == JsonNamespaceUri)
+            if (xmlNode.NamespaceUri == jsonNamespaceUri)
             {
                 continue;
             }
 
-            if (xmlNode.NamespaceUri == "http://www.w3.org/2000/xmlns/" && xmlNode.Value == JsonNamespaceUri)
+            if (xmlNode.NamespaceUri == "http://www.w3.org/2000/xmlns/" && xmlNode.Value == jsonNamespaceUri)
             {
                 continue;
             }

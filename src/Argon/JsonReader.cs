@@ -102,41 +102,30 @@ public abstract partial class JsonReader : IDisposable
     }
 
     // current Token data
-    JsonToken _tokenType;
-    object? _value;
-    internal char _quoteChar;
-    internal State _currentState;
-    JsonPosition _currentPosition;
-    CultureInfo? _culture;
-    DateTimeZoneHandling _dateTimeZoneHandling;
-    int? _maxDepth;
-    bool _hasExceededMaxDepth;
-    internal DateParseHandling _dateParseHandling;
-    internal FloatParseHandling _floatParseHandling;
-    List<JsonPosition>? _stack;
+    JsonToken tokenType;
+    object? value;
+    internal char quoteChar;
+    internal State currentState;
+    JsonPosition currentPosition;
+    CultureInfo? culture;
+    int? maxDepth;
+    bool hasExceededMaxDepth;
+    List<JsonPosition>? stack;
 
     /// <summary>
     /// Gets the current reader state.
     /// </summary>
-    /// <value>The current reader state.</value>
-    protected State CurrentState => _currentState;
+    protected State CurrentState => currentState;
 
     /// <summary>
     /// Gets or sets a value indicating whether the source should be closed when this reader is closed.
     /// </summary>
-    /// <value>
-    /// <c>true</c> to close the source when this reader is closed; otherwise <c>false</c>. The default is <c>true</c>.
-    /// </value>
     public bool CloseInput { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether multiple pieces of JSON content can
     /// be read from a continuous stream without erroring.
     /// </summary>
-    /// <value>
-    /// <c>true</c> to support reading multiple pieces of JSON content; otherwise <c>false</c>.
-    /// The default is <c>false</c>.
-    /// </value>
     public bool SupportMultipleContent { get; set; }
 
     /// <summary>
@@ -144,61 +133,24 @@ public abstract partial class JsonReader : IDisposable
     /// </summary>
     public virtual char QuoteChar
     {
-        get => _quoteChar;
-        protected internal set => _quoteChar = value;
+        get => quoteChar;
+        protected internal set => quoteChar = value;
     }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled when reading JSON.
     /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling
-    {
-        get => _dateTimeZoneHandling;
-        set
-        {
-            if (value is < DateTimeZoneHandling.Local or > DateTimeZoneHandling.RoundtripKind)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            _dateTimeZoneHandling = value;
-        }
-    }
+    public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON.
     /// </summary>
-    public DateParseHandling DateParseHandling
-    {
-        get => _dateParseHandling;
-        set
-        {
-            if (value is < DateParseHandling.None or > DateParseHandling.DateTimeOffset
-               )
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            _dateParseHandling = value;
-        }
-    }
+    public DateParseHandling DateParseHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// </summary>
-    public FloatParseHandling FloatParseHandling
-    {
-        get => _floatParseHandling;
-        set
-        {
-            if (value is < FloatParseHandling.Double or > FloatParseHandling.Decimal)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            _floatParseHandling = value;
-        }
-    }
+    public FloatParseHandling FloatParseHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how custom date formatted strings are parsed when reading JSON.
@@ -212,7 +164,7 @@ public abstract partial class JsonReader : IDisposable
     /// </summary>
     public int? MaxDepth
     {
-        get => _maxDepth;
+        get => maxDepth;
         set
         {
             if (value <= 0)
@@ -220,35 +172,34 @@ public abstract partial class JsonReader : IDisposable
                 throw new ArgumentException("Value must be positive.", nameof(value));
             }
 
-            _maxDepth = value;
+            maxDepth = value;
         }
     }
 
     /// <summary>
     /// Gets the type of the current JSON token.
     /// </summary>
-    public virtual JsonToken TokenType => _tokenType;
+    public virtual JsonToken TokenType => tokenType;
 
     /// <summary>
     /// Gets the text value of the current JSON token.
     /// </summary>
-    public virtual object? Value => _value;
+    public virtual object? Value => value;
 
     /// <summary>
     /// Gets the .NET type for the current JSON token.
     /// </summary>
-    public virtual Type? ValueType => _value?.GetType();
+    public virtual Type? ValueType => value?.GetType();
 
     /// <summary>
     /// Gets the depth of the current token in the JSON document.
     /// </summary>
-    /// <value>The depth of the current token in the JSON document.</value>
     public virtual int Depth
     {
         get
         {
-            var depth = _stack?.Count ?? 0;
-            if (JsonTokenUtils.IsStartToken(TokenType) || _currentPosition.Type == JsonContainerType.None)
+            var depth = stack?.Count ?? 0;
+            if (JsonTokenUtils.IsStartToken(TokenType) || currentPosition.Type == JsonContainerType.None)
             {
                 return depth;
             }
@@ -264,18 +215,18 @@ public abstract partial class JsonReader : IDisposable
     {
         get
         {
-            if (_currentPosition.Type == JsonContainerType.None)
+            if (currentPosition.Type == JsonContainerType.None)
             {
                 return string.Empty;
             }
 
-            var insideContainer = _currentState != State.ArrayStart
-                                  && _currentState != State.ConstructorStart
-                                  && _currentState != State.ObjectStart;
+            var insideContainer = currentState != State.ArrayStart
+                                  && currentState != State.ConstructorStart
+                                  && currentState != State.ObjectStart;
 
-            var current = insideContainer ? (JsonPosition?)_currentPosition : null;
+            var current = insideContainer ? (JsonPosition?)currentPosition : null;
 
-            return JsonPosition.BuildPath(_stack!, current);
+            return JsonPosition.BuildPath(stack!, current);
         }
     }
 
@@ -284,18 +235,18 @@ public abstract partial class JsonReader : IDisposable
     /// </summary>
     public CultureInfo Culture
     {
-        get => _culture ?? CultureInfo.InvariantCulture;
-        set => _culture = value;
+        get => culture ?? CultureInfo.InvariantCulture;
+        set => culture = value;
     }
 
     internal JsonPosition GetPosition(int depth)
     {
-        if (_stack != null && depth < _stack.Count)
+        if (stack != null && depth < stack.Count)
         {
-            return _stack[depth];
+            return stack[depth];
         }
 
-        return _currentPosition;
+        return currentPosition;
     }
 
     /// <summary>
@@ -303,11 +254,11 @@ public abstract partial class JsonReader : IDisposable
     /// </summary>
     protected JsonReader()
     {
-        _currentState = State.Start;
-        _dateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
-        _dateParseHandling = DateParseHandling.DateTime;
-        _floatParseHandling = FloatParseHandling.Double;
-        _maxDepth = 64;
+        currentState = State.Start;
+        DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
+        DateParseHandling = DateParseHandling.DateTime;
+        FloatParseHandling = FloatParseHandling.Double;
+        maxDepth = 64;
 
         CloseInput = true;
     }
@@ -316,22 +267,22 @@ public abstract partial class JsonReader : IDisposable
     {
         UpdateScopeWithFinishedValue();
 
-        if (_currentPosition.Type == JsonContainerType.None)
+        if (currentPosition.Type == JsonContainerType.None)
         {
-            _currentPosition = new JsonPosition(value);
+            currentPosition = new JsonPosition(value);
         }
         else
         {
-            _stack ??= new List<JsonPosition>();
+            stack ??= new List<JsonPosition>();
 
-            _stack.Add(_currentPosition);
-            _currentPosition = new JsonPosition(value);
+            stack.Add(currentPosition);
+            currentPosition = new JsonPosition(value);
 
             // this is a little hacky because Depth increases when first property/value is written but only testing here is faster/simpler
-            if (_maxDepth != null && Depth + 1 > _maxDepth && !_hasExceededMaxDepth)
+            if (maxDepth != null && Depth + 1 > maxDepth && !hasExceededMaxDepth)
             {
-                _hasExceededMaxDepth = true;
-                throw JsonReaderException.Create(this, $"The reader's MaxDepth of {_maxDepth} has been exceeded.");
+                hasExceededMaxDepth = true;
+                throw JsonReaderException.Create(this, $"The reader's MaxDepth of {maxDepth} has been exceeded.");
             }
         }
     }
@@ -339,21 +290,21 @@ public abstract partial class JsonReader : IDisposable
     JsonContainerType Pop()
     {
         JsonPosition oldPosition;
-        if (_stack is {Count: > 0})
+        if (stack is {Count: > 0})
         {
-            oldPosition = _currentPosition;
-            _currentPosition = _stack[_stack.Count - 1];
-            _stack.RemoveAt(_stack.Count - 1);
+            oldPosition = currentPosition;
+            currentPosition = stack[stack.Count - 1];
+            stack.RemoveAt(stack.Count - 1);
         }
         else
         {
-            oldPosition = _currentPosition;
-            _currentPosition = new JsonPosition();
+            oldPosition = currentPosition;
+            currentPosition = new JsonPosition();
         }
 
-        if (_maxDepth != null && Depth <= _maxDepth)
+        if (maxDepth != null && Depth <= maxDepth)
         {
-            _hasExceededMaxDepth = false;
+            hasExceededMaxDepth = false;
         }
 
         return oldPosition.Type;
@@ -361,7 +312,7 @@ public abstract partial class JsonReader : IDisposable
 
     JsonContainerType Peek()
     {
-        return _currentPosition.Type;
+        return currentPosition.Type;
     }
 
     /// <summary>
@@ -513,7 +464,7 @@ public abstract partial class JsonReader : IDisposable
 
                 if (s.Length == 0)
                 {
-                    data = CollectionUtils.ArrayEmpty<byte>();
+                    data = Array.Empty<byte>();
                 }
                 else if (ConvertUtils.TryConvertGuid(s, out var g1))
                 {
@@ -931,7 +882,6 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Sets the current token.
     /// </summary>
-    /// <param name="newToken">The new token.</param>
     protected void SetToken(JsonToken newToken)
     {
         SetToken(newToken, null, true);
@@ -940,8 +890,6 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Sets the current token and value.
     /// </summary>
-    /// <param name="newToken">The new token.</param>
-    /// <param name="value">The value.</param>
     protected void SetToken(JsonToken newToken, object? value)
     {
         SetToken(newToken, value, true);
@@ -950,26 +898,24 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Sets the current token and value.
     /// </summary>
-    /// <param name="newToken">The new token.</param>
-    /// <param name="value">The value.</param>
     /// <param name="updateIndex">A flag indicating whether the position index inside an array should be updated.</param>
     protected void SetToken(JsonToken newToken, object? value, bool updateIndex)
     {
-        _tokenType = newToken;
-        _value = value;
+        tokenType = newToken;
+        this.value = value;
 
         switch (newToken)
         {
             case JsonToken.StartObject:
-                _currentState = State.ObjectStart;
+                currentState = State.ObjectStart;
                 Push(JsonContainerType.Object);
                 break;
             case JsonToken.StartArray:
-                _currentState = State.ArrayStart;
+                currentState = State.ArrayStart;
                 Push(JsonContainerType.Array);
                 break;
             case JsonToken.StartConstructor:
-                _currentState = State.ConstructorStart;
+                currentState = State.ConstructorStart;
                 Push(JsonContainerType.Constructor);
                 break;
             case JsonToken.EndObject:
@@ -982,9 +928,9 @@ public abstract partial class JsonReader : IDisposable
                 ValidateEnd(JsonToken.EndConstructor);
                 break;
             case JsonToken.PropertyName:
-                _currentState = State.Property;
+                currentState = State.Property;
 
-                _currentPosition.PropertyName = (string)value!;
+                currentPosition.PropertyName = (string)value!;
                 break;
             case JsonToken.Undefined:
             case JsonToken.Integer:
@@ -1004,7 +950,7 @@ public abstract partial class JsonReader : IDisposable
     {
         if (Peek() != JsonContainerType.None || SupportMultipleContent)
         {
-            _currentState = State.PostValue;
+            currentState = State.PostValue;
         }
         else
         {
@@ -1019,9 +965,9 @@ public abstract partial class JsonReader : IDisposable
 
     void UpdateScopeWithFinishedValue()
     {
-        if (_currentPosition.HasIndex)
+        if (currentPosition.HasIndex)
         {
-            _currentPosition.Position++;
+            currentPosition.Position++;
         }
     }
 
@@ -1036,7 +982,7 @@ public abstract partial class JsonReader : IDisposable
 
         if (Peek() != JsonContainerType.None || SupportMultipleContent)
         {
-            _currentState = State.PostValue;
+            currentState = State.PostValue;
         }
         else
         {
@@ -1054,13 +1000,13 @@ public abstract partial class JsonReader : IDisposable
         switch (currentObject)
         {
             case JsonContainerType.Object:
-                _currentState = State.Object;
+                currentState = State.Object;
                 break;
             case JsonContainerType.Array:
-                _currentState = State.Array;
+                currentState = State.Array;
                 break;
             case JsonContainerType.Constructor:
-                _currentState = State.Constructor;
+                currentState = State.Constructor;
                 break;
             case JsonContainerType.None:
                 SetFinished();
@@ -1072,7 +1018,7 @@ public abstract partial class JsonReader : IDisposable
 
     void SetFinished()
     {
-        _currentState = SupportMultipleContent ? State.Start : State.Finished;
+        currentState = SupportMultipleContent ? State.Start : State.Finished;
     }
 
     JsonContainerType GetTypeForCloseToken(JsonToken token)
@@ -1096,13 +1042,9 @@ public abstract partial class JsonReader : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    /// <summary>
-    /// Releases unmanaged and - optionally - managed resources.
-    /// </summary>
-    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (_currentState != State.Closed && disposing)
+        if (currentState != State.Closed && disposing)
         {
             Close();
         }
@@ -1114,9 +1056,9 @@ public abstract partial class JsonReader : IDisposable
     /// </summary>
     public virtual void Close()
     {
-        _currentState = State.Closed;
-        _tokenType = JsonToken.None;
-        _value = null;
+        currentState = State.Closed;
+        tokenType = JsonToken.None;
+        value = null;
     }
 
     internal void ReadAndAssert()

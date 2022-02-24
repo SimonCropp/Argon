@@ -28,11 +28,11 @@ public class CustomContractResolver : TestFixtureBase
     #region CustomContractResolverTypes
     public class DynamicContractResolver : DefaultContractResolver
     {
-        readonly char _startingWithChar;
+        readonly char startingWithChar;
 
         public DynamicContractResolver(char startingWithChar)
         {
-            _startingWithChar = startingWithChar;
+            this.startingWithChar = startingWithChar;
         }
 
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
@@ -41,7 +41,7 @@ public class CustomContractResolver : TestFixtureBase
 
             // only serializer properties that start with the specified character
             properties =
-                properties.Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
+                properties.Where(p => p.PropertyName.StartsWith(startingWithChar.ToString())).ToList();
 
             return properties;
         }

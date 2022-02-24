@@ -30,13 +30,12 @@ namespace Argon.Linq;
 /// </summary>
 public partial class JConstructor : JContainer
 {
-    readonly List<JToken> _values = new();
+    readonly List<JToken> values = new();
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
-    protected override IList<JToken> ChildrenTokens => _values;
+    protected override IList<JToken> ChildrenTokens => values;
 
     internal override int IndexOfItem(JToken? item)
     {
@@ -45,33 +44,31 @@ public partial class JConstructor : JContainer
             return -1;
         }
 
-        return _values.IndexOfReference(item);
+        return values.IndexOfReference(item);
     }
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)
     {
-        if (content is not JConstructor c)
+        if (content is not JConstructor constructor)
         {
             return;
         }
 
-        if (c.Name != null)
+        if (constructor.Name != null)
         {
-            Name = c.Name;
+            Name = constructor.Name;
         }
-        MergeEnumerableContent(this, c, settings);
+        MergeEnumerableContent(this, constructor, settings);
     }
 
     /// <summary>
     /// Gets or sets the name of this constructor.
     /// </summary>
-    /// <value>The constructor name.</value>
     public string? Name { get; set; }
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type => JTokenType.Constructor;
 
     /// <summary>
@@ -94,8 +91,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JConstructor"/> class with the specified name and content.
     /// </summary>
-    /// <param name="name">The constructor name.</param>
-    /// <param name="content">The contents of the constructor.</param>
     public JConstructor(string name, params object[] content)
         : this(name, (object)content)
     {
@@ -104,8 +99,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JConstructor"/> class with the specified name and content.
     /// </summary>
-    /// <param name="name">The constructor name.</param>
-    /// <param name="content">The contents of the constructor.</param>
     public JConstructor(string name, object content)
         : this(name)
     {
@@ -115,14 +108,8 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JConstructor"/> class with the specified name.
     /// </summary>
-    /// <param name="name">The constructor name.</param>
     public JConstructor(string name)
     {
-        if (name == null)
-        {
-            throw new ArgumentNullException(nameof(name));
-        }
-
         if (name.Length == 0)
         {
             throw new ArgumentException("Constructor name cannot be empty.", nameof(name));
@@ -144,16 +131,14 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         writer.WriteStartConstructor(Name!);
 
-        var count = _values.Count;
+        var count = values.Count;
         for (var i = 0; i < count; i++)
         {
-            _values[i].WriteTo(writer, converters);
+            values[i].WriteTo(writer, converters);
         }
 
         writer.WriteEndConstructor();
@@ -162,7 +147,6 @@ public partial class JConstructor : JContainer
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public override JToken? this[object key]
     {
         get
@@ -224,11 +208,11 @@ public partial class JConstructor : JContainer
             throw JsonReaderException.Create(reader, $"Error reading JConstructor from JsonReader. Current JsonReader item is not a constructor: {reader.TokenType}");
         }
 
-        var c = new JConstructor((string)reader.Value!);
-        c.SetLineInfo(reader as IJsonLineInfo, settings);
+        var constructor = new JConstructor((string)reader.Value!);
+        constructor.SetLineInfo(reader as IJsonLineInfo, settings);
 
-        c.ReadTokenFrom(reader, settings);
+        constructor.ReadTokenFrom(reader, settings);
 
-        return c;
+        return constructor;
     }
 }

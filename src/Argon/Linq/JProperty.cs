@@ -33,13 +33,13 @@ public partial class JProperty : JContainer
     #region JPropertyList
     class JPropertyList : IList<JToken>
     {
-        internal JToken? _token;
+        internal JToken? token;
 
         public IEnumerator<JToken> GetEnumerator()
         {
-            if (_token != null)
+            if (token != null)
             {
-                yield return _token;
+                yield return token;
             }
         }
 
@@ -50,51 +50,51 @@ public partial class JProperty : JContainer
 
         public void Add(JToken item)
         {
-            _token = item;
+            token = item;
         }
 
         public void Clear()
         {
-            _token = null;
+            token = null;
         }
 
         public bool Contains(JToken item)
         {
-            return _token == item;
+            return token == item;
         }
 
         public void CopyTo(JToken[] array, int arrayIndex)
         {
-            if (_token != null)
+            if (token != null)
             {
-                array[arrayIndex] = _token;
+                array[arrayIndex] = token;
             }
         }
 
         public bool Remove(JToken item)
         {
-            if (_token == item)
+            if (token == item)
             {
-                _token = null;
+                token = null;
                 return true;
             }
             return false;
         }
 
-        public int Count => _token != null ? 1 : 0;
+        public int Count => token != null ? 1 : 0;
 
         public bool IsReadOnly => false;
 
         public int IndexOf(JToken item)
         {
-            return _token == item ? 0 : -1;
+            return token == item ? 0 : -1;
         }
 
         public void Insert(int index, JToken item)
         {
             if (index == 0)
             {
-                _token = item;
+                token = item;
             }
         }
 
@@ -102,7 +102,7 @@ public partial class JProperty : JContainer
         {
             if (index == 0)
             {
-                _token = null;
+                token = null;
             }
         }
 
@@ -115,8 +115,8 @@ public partial class JProperty : JContainer
                     throw new IndexOutOfRangeException();
                 }
 
-                MiscellaneousUtils.Assert(_token != null);
-                return _token;
+                MiscellaneousUtils.Assert(token != null);
+                return token;
             }
             set
             {
@@ -125,41 +125,38 @@ public partial class JProperty : JContainer
                     throw new IndexOutOfRangeException();
                 }
 
-                _token = value;
+                token = value;
             }
         }
     }
     #endregion
 
-    readonly JPropertyList _content = new();
+    readonly JPropertyList content = new();
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
-    protected override IList<JToken> ChildrenTokens => _content;
+    protected override IList<JToken> ChildrenTokens => content;
 
     /// <summary>
     /// Gets the property name.
     /// </summary>
-    /// <value>The property name.</value>
     public string Name { [DebuggerStepThrough] get; }
 
     /// <summary>
     /// Gets or sets the property value.
     /// </summary>
-    /// <value>The property value.</value>
     public JToken Value
     {
         [DebuggerStepThrough]
-        get => _content._token!;
+        get => content.token!;
         set
         {
             CheckReentrancy();
 
             var newValue = value ?? JValue.CreateNull();
 
-            if (_content._token == null)
+            if (content.token == null)
             {
                 InsertItem(0, newValue, false);
             }
@@ -226,7 +223,7 @@ public partial class JProperty : JContainer
             return -1;
         }
 
-        return _content.IndexOf(item);
+        return content.IndexOf(item);
     }
 
     internal override bool InsertItem(int index, JToken? item, bool skipParentCheck)
@@ -278,7 +275,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type
     {
         [DebuggerStepThrough]
@@ -294,8 +290,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JProperty"/> class.
     /// </summary>
-    /// <param name="name">The property name.</param>
-    /// <param name="content">The property content.</param>
     public JProperty(string name, params object[] content)
         : this(name, (object)content)
     {
@@ -304,8 +298,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JProperty"/> class.
     /// </summary>
-    /// <param name="name">The property name.</param>
-    /// <param name="content">The property content.</param>
     public JProperty(string name, object? content)
     {
         Name = name;
@@ -318,8 +310,6 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         writer.WritePropertyName(Name);

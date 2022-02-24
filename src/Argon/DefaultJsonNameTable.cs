@@ -31,15 +31,15 @@ namespace Argon;
 public class DefaultJsonNameTable : JsonNameTable
 {
     // used to defeat hashtable DoS attack where someone passes in lots of strings that hash to the same hash code
-    static readonly int HashCodeRandomizer;
+    static readonly int hashCodeRandomizer;
 
-    int _count;
-    Entry[] _entries;
-    int _mask = 31;
+    int count;
+    Entry[] entries;
+    int mask = 31;
 
     static DefaultJsonNameTable()
     {
-        HashCodeRandomizer = Environment.TickCount;
+        hashCodeRandomizer = Environment.TickCount;
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class DefaultJsonNameTable : JsonNameTable
     /// </summary>
     public DefaultJsonNameTable()
     {
-        _entries = new Entry[_mask + 1];
+        entries = new Entry[mask + 1];
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class DefaultJsonNameTable : JsonNameTable
             return string.Empty;
         }
 
-        var hashCode = length + HashCodeRandomizer;
+        var hashCode = length + hashCodeRandomizer;
         hashCode += (hashCode << 7) ^ key[start];
         var end = start + length;
         for (var i = start + 1; i < end; i++)
@@ -76,8 +76,8 @@ public class DefaultJsonNameTable : JsonNameTable
         hashCode -= hashCode >> 5;
 
         // make sure index is evaluated before accessing _entries, otherwise potential race condition causing IndexOutOfRangeException
-        var index = hashCode & _mask;
-        var entries = _entries;
+        var index = hashCode & mask;
+        var entries = this.entries;
 
         for (var entry = entries[index]; entry != null; entry = entry.Next)
         {
@@ -93,23 +93,17 @@ public class DefaultJsonNameTable : JsonNameTable
     /// <summary>
     /// Adds the specified string into name table.
     /// </summary>
-    /// <param name="key">The string to add.</param>
     /// <remarks>This method is not thread-safe.</remarks>
     /// <returns>The resolved string.</returns>
     public string Add(string key)
     {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
         var length = key.Length;
         if (length == 0)
         {
             return string.Empty;
         }
 
-        var hashCode = length + HashCodeRandomizer;
+        var hashCode = length + hashCodeRandomizer;
         for (var i = 0; i < key.Length; i++)
         {
             hashCode += (hashCode << 7) ^ key[i];
@@ -117,7 +111,7 @@ public class DefaultJsonNameTable : JsonNameTable
         hashCode -= hashCode >> 17;
         hashCode -= hashCode >> 11;
         hashCode -= hashCode >> 5;
-        for (var entry = _entries[hashCode & _mask]; entry != null; entry = entry.Next)
+        for (var entry = entries[hashCode & mask]; entry != null; entry = entry.Next)
         {
             if (entry.HashCode == hashCode && entry.Value.Equals(key, StringComparison.Ordinal))
             {
@@ -130,10 +124,10 @@ public class DefaultJsonNameTable : JsonNameTable
 
     string AddEntry(string str, int hashCode)
     {
-        var index = hashCode & _mask;
-        var entry = new Entry(str, hashCode, _entries[index]);
-        _entries[index] = entry;
-        if (_count++ == _mask)
+        var index = hashCode & mask;
+        var entry = new Entry(str, hashCode, entries[index]);
+        entries[index] = entry;
+        if (count++ == mask)
         {
             Grow();
         }
@@ -142,8 +136,8 @@ public class DefaultJsonNameTable : JsonNameTable
 
     void Grow()
     {
-        var entries = _entries;
-        var newMask = _mask * 2 + 1;
+        var entries = this.entries;
+        var newMask = mask * 2 + 1;
         var newEntries = new Entry[newMask + 1];
 
         for (var i = 0; i < entries.Length; i++)
@@ -157,8 +151,8 @@ public class DefaultJsonNameTable : JsonNameTable
                 newEntries[index] = entry;
             }
         }
-        _entries = newEntries;
-        _mask = newMask;
+        this.entries = newEntries;
+        mask = newMask;
     }
 
     static bool TextEquals(string str1, char[] str2, int str2Start, int str2Length)

@@ -32,20 +32,20 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
     #region DeserializeWithDependencyInjectionTypes
     public class AutofacContractResolver : DefaultContractResolver
     {
-        readonly IContainer _container;
+        readonly IContainer container;
 
         public AutofacContractResolver(IContainer container)
         {
-            _container = container;
+            this.container = container;
         }
 
         protected override JsonObjectContract CreateObjectContract(Type type)
         {
             // use Autofac to create types that have been registered with it
-            if (_container.IsRegistered(type))
+            if (container.IsRegistered(type))
             {
                 var contract = ResolveContact(type);
-                contract.DefaultCreator = () => _container.Resolve(type);
+                contract.DefaultCreator = () => container.Resolve(type);
 
                 return contract;
             }
@@ -56,7 +56,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         JsonObjectContract ResolveContact(Type type)
         {
             // attempt to create the contact from the resolved type
-            if (_container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
+            if (container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
             {
                 var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
                 if (viewType != null)
@@ -72,18 +72,15 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
     public class TaskController
     {
-        readonly ITaskRepository _repository;
-        readonly ILogger _logger;
-
         public TaskController(ITaskRepository repository, ILogger logger)
         {
-            _repository = repository;
-            _logger = logger;
+            this.Repository = repository;
+            this.Logger = logger;
         }
 
-        public ITaskRepository Repository => _repository;
+        public ITaskRepository Repository { get; }
 
-        public ILogger Logger => _logger;
+        public ILogger Logger { get; }
     }
     #endregion
 
@@ -151,14 +148,12 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
     public class LogManager : ILogger
     {
-        readonly DateTime _dt;
-
         public LogManager(DateTime dt)
         {
-            _dt = dt;
+            DateTime = dt;
         }
 
-        public DateTime DateTime => _dt;
+        public DateTime DateTime { get; }
 
         public string Level { get; set; }
     }

@@ -25,10 +25,10 @@
 
 class BidirectionalDictionary<TFirst, TSecond>
 {
-    readonly IDictionary<TFirst, TSecond> _firstToSecond;
-    readonly IDictionary<TSecond, TFirst> _secondToFirst;
-    readonly string _duplicateFirstErrorMessage;
-    readonly string _duplicateSecondErrorMessage;
+    readonly IDictionary<TFirst, TSecond> firstToSecond;
+    readonly IDictionary<TSecond, TFirst> secondToFirst;
+    readonly string duplicateFirstErrorMessage;
+    readonly string duplicateSecondErrorMessage;
 
     public BidirectionalDictionary()
         : this(EqualityComparer<TFirst>.Default, EqualityComparer<TSecond>.Default)
@@ -47,41 +47,41 @@ class BidirectionalDictionary<TFirst, TSecond>
     public BidirectionalDictionary(IEqualityComparer<TFirst> firstEqualityComparer, IEqualityComparer<TSecond> secondEqualityComparer,
         string duplicateFirstErrorMessage, string duplicateSecondErrorMessage)
     {
-        _firstToSecond = new Dictionary<TFirst, TSecond>(firstEqualityComparer);
-        _secondToFirst = new Dictionary<TSecond, TFirst>(secondEqualityComparer);
-        _duplicateFirstErrorMessage = duplicateFirstErrorMessage;
-        _duplicateSecondErrorMessage = duplicateSecondErrorMessage;
+        firstToSecond = new Dictionary<TFirst, TSecond>(firstEqualityComparer);
+        secondToFirst = new Dictionary<TSecond, TFirst>(secondEqualityComparer);
+        this.duplicateFirstErrorMessage = duplicateFirstErrorMessage;
+        this.duplicateSecondErrorMessage = duplicateSecondErrorMessage;
     }
 
     public void Set(TFirst first, TSecond second)
     {
-        if (_firstToSecond.TryGetValue(first, out var existingSecond))
+        if (firstToSecond.TryGetValue(first, out var existingSecond))
         {
             if (!existingSecond!.Equals(second))
             {
-                throw new ArgumentException(string.Format(_duplicateFirstErrorMessage, first));
+                throw new ArgumentException(string.Format(duplicateFirstErrorMessage, first));
             }
         }
 
-        if (_secondToFirst.TryGetValue(second, out var existingFirst))
+        if (secondToFirst.TryGetValue(second, out var existingFirst))
         {
             if (!existingFirst!.Equals(first))
             {
-                throw new ArgumentException(string.Format(_duplicateSecondErrorMessage, second));
+                throw new ArgumentException(string.Format(duplicateSecondErrorMessage, second));
             }
         }
 
-        _firstToSecond.Add(first, second);
-        _secondToFirst.Add(second, first);
+        firstToSecond.Add(first, second);
+        secondToFirst.Add(second, first);
     }
 
     public bool TryGetByFirst(TFirst first, out TSecond second)
     {
-        return _firstToSecond.TryGetValue(first, out second);
+        return firstToSecond.TryGetValue(first, out second);
     }
 
     public bool TryGetBySecond(TSecond second, out TFirst first)
     {
-        return _secondToFirst.TryGetValue(second, out first);
+        return secondToFirst.TryGetValue(second, out first);
     }
 }

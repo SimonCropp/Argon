@@ -2126,7 +2126,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void SerializerWithDefaultBinder()
     {
         var serializer = JsonSerializer.Create();
-        Assert.IsType(typeof(DefaultSerializationBinder), serializer.SerializationBinder);
+        Assert.Null(serializer.SerializationBinder);
     }
 
     public class FancyBinder : ISerializationBinder
@@ -2153,8 +2153,6 @@ public class TypeNameHandlingTests : TestFixtureBase
         [Argon.JsonConstructor]
         public Message2(string value)
         {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-
             Value = value;
         }
     }
@@ -2333,13 +2331,13 @@ public class TypeNameHandlingTests : TestFixtureBase
     [DataContract]
     public class ReportItemKeys : ApplicationItemKeys
     {
-        protected ulong _wantedUnit;
+        protected ulong wantedUnit;
 
         [DataMember]
         public ulong WantedUnitID
         {
-            get => _wantedUnit;
-            set => _wantedUnit = value;
+            get => wantedUnit;
+            set => wantedUnit = value;
         }
     }
 }

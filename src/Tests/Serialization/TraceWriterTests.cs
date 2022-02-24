@@ -1321,7 +1321,7 @@ Argon Error: 0 : Error!
 
     public class SpecifiedTestClass
     {
-        bool _nameSpecified;
+        bool nameSpecified;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -1335,8 +1335,8 @@ Argon Error: 0 : Error!
         [JsonIgnore]
         public bool NameSpecified
         {
-            get => _nameSpecified;
-            set => _nameSpecified = value;
+            get => nameSpecified;
+            set => nameSpecified = value;
         }
 
         [JsonIgnore] public bool WeightSpecified;

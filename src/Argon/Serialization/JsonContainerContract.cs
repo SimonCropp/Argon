@@ -30,18 +30,18 @@ namespace Argon;
 /// </summary>
 public class JsonContainerContract : JsonContract
 {
-    JsonContract? _itemContract;
+    JsonContract? itemContract;
 
     // will be null for containers that don't have an item type (e.g. IList) or for complex objects
     internal JsonContract? ItemContract
     {
-        get => _itemContract;
+        get => itemContract;
         set
         {
-            _itemContract = value;
-            if (_itemContract != null)
+            itemContract = value;
+            if (itemContract != null)
             {
-                FinalItemContract = _itemContract.UnderlyingType.IsSealed ? _itemContract : null;
+                FinalItemContract = itemContract.UnderlyingType.IsSealed ? itemContract : null;
             }
             else
             {
@@ -56,31 +56,26 @@ public class JsonContainerContract : JsonContract
     /// <summary>
     /// Gets or sets the default collection items <see cref="JsonConverter" />.
     /// </summary>
-    /// <value>The converter.</value>
     public JsonConverter? ItemConverter { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the collection items preserve object references.
     /// </summary>
-    /// <value><c>true</c> if collection items preserve object references; otherwise, <c>false</c>.</value>
     public bool? ItemIsReference { get; set; }
 
     /// <summary>
     /// Gets or sets the collection item reference loop handling.
     /// </summary>
-    /// <value>The reference loop handling.</value>
     public ReferenceLoopHandling? ItemReferenceLoopHandling { get; set; }
 
     /// <summary>
     /// Gets or sets the collection item type name handling.
     /// </summary>
-    /// <value>The type name handling.</value>
     public TypeNameHandling? ItemTypeNameHandling { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonContainerContract"/> class.
     /// </summary>
-    /// <param name="underlyingType">The underlying type for the contract.</param>
     internal JsonContainerContract(Type underlyingType)
         : base(underlyingType)
     {
@@ -95,9 +90,9 @@ public class JsonContainerContract : JsonContract
                     jsonContainerAttribute.ItemConverterParameters);
             }
 
-            ItemIsReference = jsonContainerAttribute._itemIsReference;
-            ItemReferenceLoopHandling = jsonContainerAttribute._itemReferenceLoopHandling;
-            ItemTypeNameHandling = jsonContainerAttribute._itemTypeNameHandling;
+            ItemIsReference = jsonContainerAttribute.itemIsReference;
+            ItemReferenceLoopHandling = jsonContainerAttribute.itemReferenceLoopHandling;
+            ItemTypeNameHandling = jsonContainerAttribute.itemTypeNameHandling;
         }
     }
 }

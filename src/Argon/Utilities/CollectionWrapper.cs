@@ -25,70 +25,70 @@
 
 class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 {
-    readonly IList? _list;
-    readonly ICollection<T>? _genericCollection;
-    object? _syncRoot;
+    readonly IList? list;
+    readonly ICollection<T>? genericCollection;
+    object? syncRoot;
 
     public CollectionWrapper(IList list)
     {
         if (list is ICollection<T> collection)
         {
-            _genericCollection = collection;
+            genericCollection = collection;
         }
         else
         {
-            _list = list;
+            this.list = list;
         }
     }
 
     public CollectionWrapper(ICollection<T> list)
     {
-        _genericCollection = list;
+        genericCollection = list;
     }
 
     public virtual void Add(T item)
     {
-        if (_genericCollection != null)
+        if (genericCollection != null)
         {
-            _genericCollection.Add(item);
+            genericCollection.Add(item);
         }
         else
         {
-            _list!.Add(item);
+            list!.Add(item);
         }
     }
 
     public virtual void Clear()
     {
-        if (_genericCollection != null)
+        if (genericCollection != null)
         {
-            _genericCollection.Clear();
+            genericCollection.Clear();
         }
         else
         {
-            _list!.Clear();
+            list!.Clear();
         }
     }
 
     public virtual bool Contains(T item)
     {
-        if (_genericCollection != null)
+        if (genericCollection != null)
         {
-            return _genericCollection.Contains(item);
+            return genericCollection.Contains(item);
         }
 
-        return _list!.Contains(item);
+        return list!.Contains(item);
     }
 
     public virtual void CopyTo(T[] array, int arrayIndex)
     {
-        if (_genericCollection != null)
+        if (genericCollection == null)
         {
-            _genericCollection.CopyTo(array, arrayIndex);
+            list!.CopyTo(array, arrayIndex);
         }
         else
         {
-            _list!.CopyTo(array, arrayIndex);
+            genericCollection.CopyTo(array, arrayIndex);
         }
     }
 
@@ -96,12 +96,12 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     {
         get
         {
-            if (_genericCollection != null)
+            if (genericCollection == null)
             {
-                return _genericCollection.Count;
+                return list!.Count;
             }
 
-            return _list!.Count;
+            return genericCollection.Count;
         }
     }
 
@@ -109,27 +109,27 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     {
         get
         {
-            if (_genericCollection != null)
+            if (genericCollection == null)
             {
-                return _genericCollection.IsReadOnly;
+                return list!.IsReadOnly;
             }
 
-            return _list!.IsReadOnly;
+            return genericCollection.IsReadOnly;
         }
     }
 
     public virtual bool Remove(T item)
     {
-        if (_genericCollection != null)
+        if (genericCollection != null)
         {
-            return _genericCollection.Remove(item);
+            return genericCollection.Remove(item);
         }
 
-        var contains = _list!.Contains(item);
+        var contains = list!.Contains(item);
 
         if (contains)
         {
-            _list!.Remove(item);
+            list!.Remove(item);
         }
 
         return contains;
@@ -137,12 +137,12 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     public virtual IEnumerator<T> GetEnumerator()
     {
-        return (_genericCollection ?? _list.Cast<T>()).GetEnumerator();
+        return (genericCollection ?? list.Cast<T>()).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return ((IEnumerable)_genericCollection! ?? _list!).GetEnumerator();
+        return ((IEnumerable)genericCollection! ?? list!).GetEnumerator();
     }
 
     int IList.Add(object value)
@@ -161,14 +161,14 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     int IList.IndexOf(object value)
     {
-        if (_genericCollection != null)
+        if (genericCollection != null)
         {
             throw new InvalidOperationException("Wrapped ICollection<T> does not support IndexOf.");
         }
 
         if (IsCompatibleObject(value))
         {
-            return _list!.IndexOf((T)value);
+            return list!.IndexOf((T)value);
         }
 
         return -1;
@@ -176,36 +176,36 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     void IList.RemoveAt(int index)
     {
-        if (_genericCollection != null)
+        if (genericCollection != null)
         {
             throw new InvalidOperationException("Wrapped ICollection<T> does not support RemoveAt.");
         }
 
-        _list!.RemoveAt(index);
+        list!.RemoveAt(index);
     }
 
     void IList.Insert(int index, object value)
     {
-        if (_genericCollection != null)
+        if (genericCollection != null)
         {
             throw new InvalidOperationException("Wrapped ICollection<T> does not support Insert.");
         }
 
         VerifyValueType(value);
-        _list!.Insert(index, (T)value);
+        list!.Insert(index, (T)value);
     }
 
     bool IList.IsFixedSize
     {
         get
         {
-            if (_genericCollection != null)
+            if (genericCollection != null)
             {
                 // ICollection<T> only has IsReadOnly
-                return _genericCollection.IsReadOnly;
+                return genericCollection.IsReadOnly;
             }
 
-            return _list!.IsFixedSize;
+            return list!.IsFixedSize;
         }
     }
 
@@ -221,22 +221,22 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     {
         get
         {
-            if (_genericCollection != null)
+            if (genericCollection != null)
             {
                 throw new InvalidOperationException("Wrapped ICollection<T> does not support indexer.");
             }
 
-            return _list![index];
+            return list![index];
         }
         set
         {
-            if (_genericCollection != null)
+            if (genericCollection != null)
             {
                 throw new InvalidOperationException("Wrapped ICollection<T> does not support indexer.");
             }
 
             VerifyValueType(value);
-            _list![index] = (T)value;
+            list![index] = (T)value;
         }
     }
 
@@ -251,12 +251,12 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     {
         get
         {
-            if (_syncRoot == null)
+            if (syncRoot == null)
             {
-                Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+                Interlocked.CompareExchange(ref syncRoot, new object(), null);
             }
 
-            return _syncRoot;
+            return syncRoot;
         }
     }
 
@@ -274,5 +274,5 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
                (value == null && (!typeof(T).IsValueType || ReflectionUtils.IsNullableType(typeof(T))));
     }
 
-    public object UnderlyingCollection => (object)_genericCollection! ?? _list!;
+    public object UnderlyingCollection => (object)genericCollection! ?? list!;
 }

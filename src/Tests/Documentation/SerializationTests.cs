@@ -268,7 +268,7 @@ public class SerializationTests : TestFixtureBase
     #region SerializationErrorHandlingAttributeObject
     public class PersonError
     {
-        List<string> _roles;
+        List<string> roles;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -277,14 +277,14 @@ public class SerializationTests : TestFixtureBase
         {
             get
             {
-                if (_roles == null)
+                if (roles == null)
                 {
                     throw new("Roles not loaded!");
                 }
 
-                return _roles;
+                return roles;
             }
-            set => _roles = value;
+            set => roles = value;
         }
 
         public string Title { get; set; }

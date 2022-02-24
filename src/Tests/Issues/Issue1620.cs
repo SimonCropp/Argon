@@ -71,7 +71,7 @@ public class Issue1620 : TestFixtureBase
 
         public override bool CanConvert(Type type)
         {
-            return typeof(IFoo).GetTypeInfo().IsAssignableFrom(type);
+            return typeof(IFoo).IsAssignableFrom(type);
         }
     }
 }

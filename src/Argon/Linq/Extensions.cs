@@ -174,16 +174,15 @@ public static class Extensions
                     }
                 }
             }
+            yield break;
         }
-        else
+
+        foreach (var token in source)
         {
-            foreach (var token in source)
+            var value = token[key];
+            if (value != null)
             {
-                var value = token[key];
-                if (value != null)
-                {
-                    yield return value.Convert<JToken, U>();
-                }
+                yield return value.Convert<JToken, U>();
             }
         }
     }

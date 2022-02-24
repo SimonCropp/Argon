@@ -40,45 +40,41 @@ public abstract class JsonContract
     internal bool IsSealed;
     internal bool IsInstantiable;
 
-    List<SerializationCallback>? _onDeserializedCallbacks;
-    List<SerializationCallback>? _onDeserializingCallbacks;
-    List<SerializationCallback>? _onSerializedCallbacks;
-    List<SerializationCallback>? _onSerializingCallbacks;
-    List<SerializationErrorCallback>? _onErrorCallbacks;
-    Type _createdType;
+    List<SerializationCallback>? onDeserializedCallbacks;
+    List<SerializationCallback>? onDeserializingCallbacks;
+    List<SerializationCallback>? onSerializedCallbacks;
+    List<SerializationCallback>? onSerializingCallbacks;
+    List<SerializationErrorCallback>? onErrorCallbacks;
+    Type createdType;
 
     /// <summary>
     /// Gets the underlying type for the contract.
     /// </summary>
-    /// <value>The underlying type for the contract.</value>
     public Type UnderlyingType { get; }
 
     /// <summary>
     /// Gets or sets the type created during deserialization.
     /// </summary>
-    /// <value>The type created during deserialization.</value>
     public Type CreatedType
     {
-        get => _createdType;
+        get => createdType;
         set
         {
-            _createdType = value;
+            createdType = value;
 
-            IsSealed = _createdType.IsSealed;
-            IsInstantiable = !(_createdType.IsInterface || _createdType.IsAbstract);
+            IsSealed = createdType.IsSealed;
+            IsInstantiable = !(createdType.IsInterface || createdType.IsAbstract);
         }
     }
 
     /// <summary>
     /// Gets or sets whether this type contract is serialized as a reference.
     /// </summary>
-    /// <value>Whether this type contract is serialized as a reference.</value>
     public bool? IsReference { get; set; }
 
     /// <summary>
     /// Gets or sets the default <see cref="JsonConverter" /> for this contract.
     /// </summary>
-    /// <value>The converter.</value>
     public JsonConverter? Converter { get; set; }
 
     /// <summary>
@@ -91,98 +87,36 @@ public abstract class JsonContract
     /// <summary>
     /// Gets or sets all methods called immediately after deserialization of the object.
     /// </summary>
-    /// <value>The methods called immediately after deserialization of the object.</value>
-    public IList<SerializationCallback> OnDeserializedCallbacks
-    {
-        get
-        {
-            if (_onDeserializedCallbacks == null)
-            {
-                _onDeserializedCallbacks = new List<SerializationCallback>();
-            }
-
-            return _onDeserializedCallbacks;
-        }
-    }
+    public IList<SerializationCallback> OnDeserializedCallbacks => onDeserializedCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all methods called during deserialization of the object.
     /// </summary>
-    /// <value>The methods called during deserialization of the object.</value>
-    public IList<SerializationCallback> OnDeserializingCallbacks
-    {
-        get
-        {
-            if (_onDeserializingCallbacks == null)
-            {
-                _onDeserializingCallbacks = new List<SerializationCallback>();
-            }
-
-            return _onDeserializingCallbacks;
-        }
-    }
+    public IList<SerializationCallback> OnDeserializingCallbacks => onDeserializingCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all methods called after serialization of the object graph.
     /// </summary>
-    /// <value>The methods called after serialization of the object graph.</value>
-    public IList<SerializationCallback> OnSerializedCallbacks
-    {
-        get
-        {
-            if (_onSerializedCallbacks == null)
-            {
-                _onSerializedCallbacks = new List<SerializationCallback>();
-            }
-
-            return _onSerializedCallbacks;
-        }
-    }
+    public IList<SerializationCallback> OnSerializedCallbacks => onSerializedCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all methods called before serialization of the object.
     /// </summary>
-    /// <value>The methods called before serialization of the object.</value>
-    public IList<SerializationCallback> OnSerializingCallbacks
-    {
-        get
-        {
-            if (_onSerializingCallbacks == null)
-            {
-                _onSerializingCallbacks = new List<SerializationCallback>();
-            }
-
-            return _onSerializingCallbacks;
-        }
-    }
+    public IList<SerializationCallback> OnSerializingCallbacks => onSerializingCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all method called when an error is thrown during the serialization of the object.
     /// </summary>
-    /// <value>The methods called when an error is thrown during the serialization of the object.</value>
-    public IList<SerializationErrorCallback> OnErrorCallbacks
-    {
-        get
-        {
-            if (_onErrorCallbacks == null)
-            {
-                _onErrorCallbacks = new List<SerializationErrorCallback>();
-            }
-
-            return _onErrorCallbacks;
-        }
-    }
+    public IList<SerializationErrorCallback> OnErrorCallbacks => onErrorCallbacks ??= new List<SerializationErrorCallback>();
 
     /// <summary>
     /// Gets or sets the default creator method used to create the object.
     /// </summary>
-    /// <value>The default creator method used to create the object.</value>
     public Func<object>? DefaultCreator { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the default creator is non-public.
     /// </summary>
-    /// <value><c>true</c> if the default object creator is non-public; otherwise, <c>false</c>.</value>
     public bool DefaultCreatorNonPublic { get; set; }
 
     internal JsonContract(Type underlyingType)
@@ -197,7 +131,7 @@ public abstract class JsonContract
 
         NonNullableUnderlyingType = IsNullable && ReflectionUtils.IsNullableType(underlyingType) ? Nullable.GetUnderlyingType(underlyingType) : underlyingType;
 
-        _createdType = CreatedType = NonNullableUnderlyingType;
+        createdType = CreatedType = NonNullableUnderlyingType;
 
         IsConvertable = NonNullableUnderlyingType.IsConvertible();
         IsEnum = NonNullableUnderlyingType.IsEnum;
@@ -205,59 +139,70 @@ public abstract class JsonContract
         InternalReadType = ReadType.Read;
     }
 
-    internal void InvokeOnSerializing(object o, StreamingContext context)
+    internal void InvokeOnSerializing(object o, StreamingContext? context)
     {
-        if (_onSerializingCallbacks != null)
+        var contextToUse = ContextToUse(context);
+        if (onSerializingCallbacks != null)
         {
-            foreach (var callback in _onSerializingCallbacks)
+            foreach (var callback in onSerializingCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnSerialized(object o, StreamingContext context)
+    internal void InvokeOnSerialized(object o, StreamingContext? context)
     {
-        if (_onSerializedCallbacks != null)
+        var contextToUse = ContextToUse(context);
+        if (onSerializedCallbacks != null)
         {
-            foreach (var callback in _onSerializedCallbacks)
+            foreach (var callback in onSerializedCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnDeserializing(object o, StreamingContext context)
+    internal void InvokeOnDeserializing(object o, StreamingContext? context)
     {
-        if (_onDeserializingCallbacks != null)
+        var contextToUse = ContextToUse(context);
+        if (onDeserializingCallbacks != null)
         {
-            foreach (var callback in _onDeserializingCallbacks)
+            foreach (var callback in onDeserializingCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnDeserialized(object o, StreamingContext context)
+    internal void InvokeOnDeserialized(object o, StreamingContext? context)
     {
-        if (_onDeserializedCallbacks != null)
+        var contextToUse = ContextToUse(context);
+        if (onDeserializedCallbacks != null)
         {
-            foreach (var callback in _onDeserializedCallbacks)
+            foreach (var callback in onDeserializedCallbacks)
             {
-                callback(o, context);
+                callback(o, contextToUse);
             }
         }
     }
 
-    internal void InvokeOnError(object o, StreamingContext context, ErrorContext errorContext)
+    internal void InvokeOnError(object o, StreamingContext? context, ErrorContext errorContext)
     {
-        if (_onErrorCallbacks != null)
+        var contextToUse = ContextToUse(context);
+        if (onErrorCallbacks != null)
         {
-            foreach (var callback in _onErrorCallbacks)
+            foreach (var callback in onErrorCallbacks)
             {
-                callback(o, context, errorContext);
+                callback(o, contextToUse, errorContext);
             }
         }
+    }
+
+    private static StreamingContext ContextToUse(StreamingContext? context)
+    {
+        var contextToUse = context ?? JsonSerializerSettings.DefaultContext;
+        return contextToUse;
     }
 
     internal static SerializationCallback CreateSerializationCallback(MethodInfo callbackMethodInfo)

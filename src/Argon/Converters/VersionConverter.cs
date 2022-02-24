@@ -33,33 +33,26 @@ public class VersionConverter : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-    /// <param name="value">The value.</param>
-    /// <param name="serializer">The calling serializer.</param>
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
         if (value == null)
         {
             writer.WriteNull();
+            return;
         }
-        else if (value is Version)
+
+        if (value is Version)
         {
             writer.WriteValue(value.ToString());
+            return;
         }
-        else
-        {
-            throw new JsonSerializationException("Expected Version object value");
-        }
+
+        throw new JsonSerializationException("Expected Version object value");
     }
 
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="type">Type of the object.</param>
-    /// <param name="existingValue">The existing property value of the JSON that is being converted.</param>
-    /// <param name="serializer">The calling serializer.</param>
-    /// <returns>The object value.</returns>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
@@ -71,8 +64,7 @@ public class VersionConverter : JsonConverter
         {
             try
             {
-                var v = new Version((string)reader.Value!);
-                return v;
+                return new Version((string)reader.Value!);
             }
             catch (Exception ex)
             {
@@ -86,7 +78,6 @@ public class VersionConverter : JsonConverter
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>

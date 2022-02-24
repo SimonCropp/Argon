@@ -41,8 +41,8 @@ abstract class JsonSerializerInternalBase
         }
     }
 
-    ErrorContext? _currentErrorContext;
-    BidirectionalDictionary<string, object>? _mappings;
+    ErrorContext? currentErrorContext;
+    BidirectionalDictionary<string, object>? mappings;
 
     internal readonly JsonSerializer Serializer;
     internal readonly ITraceWriter? TraceWriter;
@@ -60,49 +60,42 @@ abstract class JsonSerializerInternalBase
         {
             // override equality comparer for object key dictionary
             // object will be modified as it deserializes and might have mutable hashcode
-            if (_mappings == null)
-            {
-                _mappings = new BidirectionalDictionary<string, object>(
-                    EqualityComparer<string>.Default,
-                    new ReferenceEqualsEqualityComparer(),
-                    "A different value already has the Id '{0}'.",
-                    "A different Id has already been assigned for value '{0}'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.");
-            }
-
-            return _mappings;
+            return mappings ??= new BidirectionalDictionary<string, object>(
+                EqualityComparer<string>.Default,
+                new ReferenceEqualsEqualityComparer(),
+                "A different value already has the Id '{0}'.",
+                "A different Id has already been assigned for value '{0}'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.");
         }
     }
 
     protected NullValueHandling ResolvedNullValueHandling(JsonObjectContract? containerContract, JsonProperty property)
     {
-        var resolvedNullValueHandling =
-            property.NullValueHandling
-            ?? containerContract?.ItemNullValueHandling
-            ?? Serializer._nullValueHandling;
-
-        return resolvedNullValueHandling;
+        return property.NullValueHandling ??
+               containerContract?.ItemNullValueHandling ??
+               Serializer.NullValueHandling ??
+               default;
     }
 
     ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
     {
-        _currentErrorContext ??= new ErrorContext(currentObject, member, path, error);
+        currentErrorContext ??= new ErrorContext(currentObject, member, path, error);
 
-        if (_currentErrorContext.Error != error)
+        if (currentErrorContext.Error != error)
         {
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
-        return _currentErrorContext;
+        return currentErrorContext;
     }
 
     protected void ClearErrorContext()
     {
-        if (_currentErrorContext == null)
+        if (currentErrorContext == null)
         {
             throw new InvalidOperationException("Could not clear error context. Error context is already null.");
         }
 
-        _currentErrorContext = null;
+        currentErrorContext = null;
     }
 
     protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception ex)

@@ -27,14 +27,14 @@ class JPath
 {
     static readonly char[] FloatCharacters = {'.', 'E', 'e'};
 
-    readonly string _expression;
+    readonly string expression;
     public List<PathFilter> Filters { get; }
 
-    int _currentIndex;
+    int currentIndex;
 
     public JPath(string expression)
     {
-        _expression = expression;
+        this.expression = expression;
         Filters = new List<PathFilter>();
 
         ParseMain();
@@ -42,41 +42,41 @@ class JPath
 
     void ParseMain()
     {
-        var currentPartStartIndex = _currentIndex;
+        var currentPartStartIndex = currentIndex;
 
         EatWhitespace();
 
-        if (_expression.Length == _currentIndex)
+        if (expression.Length == currentIndex)
         {
             return;
         }
 
-        if (_expression[_currentIndex] == '$')
+        if (expression[currentIndex] == '$')
         {
-            if (_expression.Length == 1)
+            if (expression.Length == 1)
             {
                 return;
             }
 
             // only increment position for "$." or "$["
             // otherwise assume property that starts with $
-            var c = _expression[_currentIndex + 1];
+            var c = expression[currentIndex + 1];
             if (c is '.' or '[')
             {
-                _currentIndex++;
-                currentPartStartIndex = _currentIndex;
+                currentIndex++;
+                currentPartStartIndex = currentIndex;
             }
         }
 
         if (!ParsePath(Filters, currentPartStartIndex, false))
         {
-            var lastCharacterIndex = _currentIndex;
+            var lastCharacterIndex = currentIndex;
 
             EatWhitespace();
 
-            if (_currentIndex < _expression.Length)
+            if (currentIndex < expression.Length)
             {
-                throw new JsonException($"Unexpected character while parsing path: {_expression[lastCharacterIndex]}");
+                throw new JsonException($"Unexpected character while parsing path: {expression[lastCharacterIndex]}");
             }
         }
     }
@@ -88,17 +88,17 @@ class JPath
         var followingDot = false;
 
         var ended = false;
-        while (_currentIndex < _expression.Length && !ended)
+        while (currentIndex < expression.Length && !ended)
         {
-            var currentChar = _expression[_currentIndex];
+            var currentChar = expression[currentIndex];
 
             switch (currentChar)
             {
                 case '[':
                 case '(':
-                    if (_currentIndex > currentPartStartIndex)
+                    if (currentIndex > currentPartStartIndex)
                     {
-                        var member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex);
+                        var member = expression.Substring(currentPartStartIndex, currentIndex - currentPartStartIndex);
                         if (member == "*")
                         {
                             member = null;
@@ -111,8 +111,8 @@ class JPath
                     filters.Add(ParseIndexer(currentChar, scan));
                     scan = false;
 
-                    _currentIndex++;
-                    currentPartStartIndex = _currentIndex;
+                    currentIndex++;
+                    currentPartStartIndex = currentIndex;
                     followingIndexer = true;
                     followingDot = false;
                     break;
@@ -121,15 +121,15 @@ class JPath
                     ended = true;
                     break;
                 case ' ':
-                    if (_currentIndex < _expression.Length)
+                    if (currentIndex < expression.Length)
                     {
                         ended = true;
                     }
                     break;
                 case '.':
-                    if (_currentIndex > currentPartStartIndex)
+                    if (currentIndex > currentPartStartIndex)
                     {
-                        var member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex);
+                        var member = expression.Substring(currentPartStartIndex, currentIndex - currentPartStartIndex);
                         if (member == "*")
                         {
                             member = null;
@@ -138,13 +138,13 @@ class JPath
                         filters.Add(CreatePathFilter(member, scan));
                         scan = false;
                     }
-                    if (_currentIndex + 1 < _expression.Length && _expression[_currentIndex + 1] == '.')
+                    if (currentIndex + 1 < expression.Length && expression[currentIndex + 1] == '.')
                     {
                         scan = true;
-                        _currentIndex++;
+                        currentIndex++;
                     }
-                    _currentIndex++;
-                    currentPartStartIndex = _currentIndex;
+                    currentIndex++;
+                    currentPartStartIndex = currentIndex;
                     followingIndexer = false;
                     followingDot = true;
                     break;
@@ -160,17 +160,17 @@ class JPath
                             throw new JsonException($"Unexpected character following indexer: {currentChar}");
                         }
 
-                        _currentIndex++;
+                        currentIndex++;
                     }
                     break;
             }
         }
 
-        var atPathEnd = _currentIndex == _expression.Length;
+        var atPathEnd = currentIndex == expression.Length;
 
-        if (_currentIndex > currentPartStartIndex)
+        if (currentIndex > currentPartStartIndex)
         {
-            var member = _expression.Substring(currentPartStartIndex, _currentIndex - currentPartStartIndex).TrimEnd();
+            var member = expression.Substring(currentPartStartIndex, currentIndex - currentPartStartIndex).TrimEnd();
             if (member == "*")
             {
                 member = null;
@@ -197,7 +197,7 @@ class JPath
 
     PathFilter ParseIndexer(char indexerOpenChar, bool scan)
     {
-        _currentIndex++;
+        currentIndex++;
 
         var indexerCloseChar = indexerOpenChar == '[' ? ']' : ')';
 
@@ -205,12 +205,12 @@ class JPath
 
         EatWhitespace();
 
-        if (_expression[_currentIndex] == '\'')
+        if (expression[currentIndex] == '\'')
         {
             return ParseQuotedField(indexerCloseChar, scan);
         }
 
-        if (_expression[_currentIndex] == '?')
+        if (expression[currentIndex] == '?')
         {
             return ParseQuery(indexerCloseChar, scan);
         }
@@ -220,7 +220,7 @@ class JPath
 
     PathFilter ParseArrayIndexer(char indexerCloseChar)
     {
-        var start = _currentIndex;
+        var start = currentIndex;
         int? end = null;
         List<int>? indexes = null;
         var colonCount = 0;
@@ -228,20 +228,20 @@ class JPath
         int? endIndex = null;
         int? step = null;
 
-        while (_currentIndex < _expression.Length)
+        while (currentIndex < expression.Length)
         {
-            var currentCharacter = _expression[_currentIndex];
+            var currentCharacter = expression[currentIndex];
 
             if (currentCharacter == ' ')
             {
-                end = _currentIndex;
+                end = currentIndex;
                 EatWhitespace();
                 continue;
             }
 
             if (currentCharacter == indexerCloseChar)
             {
-                var length = (end ?? _currentIndex) - start;
+                var length = (end ?? currentIndex) - start;
 
                 if (indexes != null)
                 {
@@ -250,7 +250,7 @@ class JPath
                         throw new JsonException("Array index expected.");
                     }
 
-                    var indexer = _expression.Substring(start, length);
+                    var indexer = expression.Substring(start, length);
                     var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                     indexes.Add(index);
@@ -261,7 +261,7 @@ class JPath
                 {
                     if (length > 0)
                     {
-                        var indexer = _expression.Substring(start, length);
+                        var indexer = expression.Substring(start, length);
                         var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                         if (colonCount == 1)
@@ -283,7 +283,7 @@ class JPath
                         throw new JsonException("Array index expected.");
                     }
 
-                    var indexer = _expression.Substring(start, length);
+                    var indexer = expression.Substring(start, length);
                     var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                     return new ArrayIndexFilter { Index = index };
@@ -292,7 +292,7 @@ class JPath
 
             if (currentCharacter == ',')
             {
-                var length = (end ?? _currentIndex) - start;
+                var length = (end ?? currentIndex) - start;
 
                 if (length == 0)
                 {
@@ -301,23 +301,23 @@ class JPath
 
                 indexes ??= new List<int>();
 
-                var indexer = _expression.Substring(start, length);
+                var indexer = expression.Substring(start, length);
                 indexes.Add(Convert.ToInt32(indexer, CultureInfo.InvariantCulture));
 
-                _currentIndex++;
+                currentIndex++;
 
                 EatWhitespace();
 
-                start = _currentIndex;
+                start = currentIndex;
                 end = null;
             }
             else if (currentCharacter == '*')
             {
-                _currentIndex++;
+                currentIndex++;
                 EnsureLength("Path ended with open indexer.");
                 EatWhitespace();
 
-                if (_expression[_currentIndex] != indexerCloseChar)
+                if (expression[currentIndex] != indexerCloseChar)
                 {
                     throw new JsonException($"Unexpected character while parsing path indexer: {currentCharacter}");
                 }
@@ -326,11 +326,11 @@ class JPath
             }
             else if (currentCharacter == ':')
             {
-                var length = (end ?? _currentIndex) - start;
+                var length = (end ?? currentIndex) - start;
 
                 if (length > 0)
                 {
-                    var indexer = _expression.Substring(start, length);
+                    var indexer = expression.Substring(start, length);
                     var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
                     if (colonCount == 0)
@@ -349,11 +349,11 @@ class JPath
 
                 colonCount++;
 
-                _currentIndex++;
+                currentIndex++;
 
                 EatWhitespace();
 
-                start = _currentIndex;
+                start = currentIndex;
                 end = null;
             }
             else if (!char.IsDigit(currentCharacter) && currentCharacter != '-')
@@ -367,7 +367,7 @@ class JPath
                     throw new JsonException($"Unexpected character while parsing path indexer: {currentCharacter}");
                 }
 
-                _currentIndex++;
+                currentIndex++;
             }
         }
 
@@ -376,38 +376,38 @@ class JPath
 
     void EatWhitespace()
     {
-        while (_currentIndex < _expression.Length)
+        while (currentIndex < expression.Length)
         {
-            if (_expression[_currentIndex] != ' ')
+            if (expression[currentIndex] != ' ')
             {
                 break;
             }
 
-            _currentIndex++;
+            currentIndex++;
         }
     }
 
     PathFilter ParseQuery(char indexerCloseChar, bool scan)
     {
-        _currentIndex++;
+        currentIndex++;
         EnsureLength("Path ended with open indexer.");
 
-        if (_expression[_currentIndex] != '(')
+        if (this.expression[currentIndex] != '(')
         {
-            throw new JsonException($"Unexpected character while parsing path indexer: {_expression[_currentIndex]}");
+            throw new JsonException($"Unexpected character while parsing path indexer: {this.expression[currentIndex]}");
         }
 
-        _currentIndex++;
+        currentIndex++;
 
         var expression = ParseExpression();
 
-        _currentIndex++;
+        currentIndex++;
         EnsureLength("Path ended with open indexer.");
         EatWhitespace();
 
-        if (_expression[_currentIndex] != indexerCloseChar)
+        if (this.expression[currentIndex] != indexerCloseChar)
         {
-            throw new JsonException($"Unexpected character while parsing path indexer: {_expression[_currentIndex]}");
+            throw new JsonException($"Unexpected character while parsing path indexer: {this.expression[currentIndex]}");
         }
 
         if (scan)
@@ -420,11 +420,11 @@ class JPath
 
     bool TryParseExpression(out List<PathFilter>? expressionPath)
     {
-        if (_expression[_currentIndex] == '$')
+        if (expression[currentIndex] == '$')
         {
             expressionPath = new List<PathFilter> { RootFilter.Instance };
         }
-        else if (_expression[_currentIndex] == '@')
+        else if (expression[currentIndex] == '@')
         {
             expressionPath = new List<PathFilter>();
         }
@@ -434,9 +434,9 @@ class JPath
             return false;
         }
 
-        _currentIndex++;
+        currentIndex++;
 
-        if (ParsePath(expressionPath, _currentIndex, true))
+        if (ParsePath(expressionPath, currentIndex, true))
         {
             throw new JsonException("Path ended with open query.");
         }
@@ -446,7 +446,7 @@ class JPath
 
     JsonException CreateUnexpectedCharacterException()
     {
-        return new JsonException($"Unexpected character while parsing path query: {_expression[_currentIndex]}");
+        return new JsonException($"Unexpected character while parsing path query: {expression[currentIndex]}");
     }
 
     object ParseSide()
@@ -477,15 +477,15 @@ class JPath
         QueryExpression? rootExpression = null;
         CompositeExpression? parentExpression = null;
 
-        while (_currentIndex < _expression.Length)
+        while (currentIndex < expression.Length)
         {
             var left = ParseSide();
             object? right = null;
 
             QueryOperator op;
-            if (_expression[_currentIndex] == ')'
-                || _expression[_currentIndex] == '|'
-                || _expression[_currentIndex] == '&')
+            if (expression[currentIndex] == ')'
+                || expression[currentIndex] == '|'
+                || expression[currentIndex] == '&')
             {
                 op = QueryOperator.Exists;
             }
@@ -498,7 +498,7 @@ class JPath
 
             var booleanExpression = new BooleanQueryExpression(op, left, right);
 
-            if (_expression[_currentIndex] == ')')
+            if (expression[currentIndex] == ')')
             {
                 if (parentExpression != null)
                 {
@@ -508,7 +508,7 @@ class JPath
 
                 return booleanExpression;
             }
-            if (_expression[_currentIndex] == '&')
+            if (expression[currentIndex] == '&')
             {
                 if (!Match("&&"))
                 {
@@ -528,7 +528,7 @@ class JPath
 
                 parentExpression.Expressions.Add(booleanExpression);
             }
-            if (_expression[_currentIndex] == '|')
+            if (expression[currentIndex] == '|')
             {
                 if (!Match("||"))
                 {
@@ -555,7 +555,7 @@ class JPath
 
     bool TryParseValue(out object? value)
     {
-        var currentChar = _expression[_currentIndex];
+        var currentChar = expression[currentIndex];
         if (currentChar == '\'')
         {
             value = ReadQuotedString();
@@ -567,10 +567,10 @@ class JPath
             var stringBuilder = new StringBuilder();
             stringBuilder.Append(currentChar);
 
-            _currentIndex++;
-            while (_currentIndex < _expression.Length)
+            currentIndex++;
+            while (currentIndex < expression.Length)
             {
-                currentChar = _expression[_currentIndex];
+                currentChar = expression[currentIndex];
                 if (currentChar is ' ' or ')')
                 {
                     var numberText = stringBuilder.ToString();
@@ -590,7 +590,7 @@ class JPath
                 }
 
                 stringBuilder.Append(currentChar);
-                _currentIndex++;
+                currentIndex++;
             }
         }
         else if (currentChar == 't')
@@ -631,14 +631,14 @@ class JPath
     {
         var stringBuilder = new StringBuilder();
 
-        _currentIndex++;
-        while (_currentIndex < _expression.Length)
+        currentIndex++;
+        while (currentIndex < expression.Length)
         {
-            var currentChar = _expression[_currentIndex];
-            if (currentChar == '\\' && _currentIndex + 1 < _expression.Length)
+            var currentChar = expression[currentIndex];
+            if (currentChar == '\\' && currentIndex + 1 < expression.Length)
             {
-                _currentIndex++;
-                currentChar = _expression[_currentIndex];
+                currentIndex++;
+                currentChar = expression[currentIndex];
 
                 char resolvedChar;
                 switch (currentChar)
@@ -670,16 +670,16 @@ class JPath
 
                 stringBuilder.Append(resolvedChar);
 
-                _currentIndex++;
+                currentIndex++;
             }
             else if (currentChar == '\'')
             {
-                _currentIndex++;
+                currentIndex++;
                 return stringBuilder.ToString();
             }
             else
             {
-                _currentIndex++;
+                currentIndex++;
                 stringBuilder.Append(currentChar);
             }
         }
@@ -689,29 +689,29 @@ class JPath
 
     string ReadRegexString()
     {
-        var startIndex = _currentIndex;
+        var startIndex = currentIndex;
 
-        _currentIndex++;
-        while (_currentIndex < _expression.Length)
+        currentIndex++;
+        while (currentIndex < expression.Length)
         {
-            var currentChar = _expression[_currentIndex];
+            var currentChar = expression[currentIndex];
 
             // handle escaped / character
-            if (currentChar == '\\' && _currentIndex + 1 < _expression.Length)
+            if (currentChar == '\\' && currentIndex + 1 < expression.Length)
             {
-                _currentIndex += 2;
+                currentIndex += 2;
             }
             else if (currentChar == '/')
             {
-                _currentIndex++;
+                currentIndex++;
 
-                while (_currentIndex < _expression.Length)
+                while (currentIndex < expression.Length)
                 {
-                    currentChar = _expression[_currentIndex];
+                    currentChar = expression[currentIndex];
 
                     if (char.IsLetter(currentChar))
                     {
-                        _currentIndex++;
+                        currentIndex++;
                     }
                     else
                     {
@@ -719,11 +719,11 @@ class JPath
                     }
                 }
 
-                return _expression.Substring(startIndex, _currentIndex - startIndex);
+                return expression.Substring(startIndex, currentIndex - startIndex);
             }
             else
             {
-                _currentIndex++;
+                currentIndex++;
             }
         }
 
@@ -732,10 +732,10 @@ class JPath
 
     bool Match(string s)
     {
-        var currentPosition = _currentIndex;
+        var currentPosition = currentIndex;
         for (var i = 0; i < s.Length; i++)
         {
-            if (currentPosition < _expression.Length && _expression[currentPosition] == s[i])
+            if (currentPosition < expression.Length && expression[currentPosition] == s[i])
             {
                 currentPosition++;
             }
@@ -745,13 +745,13 @@ class JPath
             }
         }
 
-        _currentIndex = currentPosition;
+        currentIndex = currentPosition;
         return true;
     }
 
     QueryOperator ParseOperator()
     {
-        if (_currentIndex + 1 >= _expression.Length)
+        if (currentIndex + 1 >= expression.Length)
         {
             throw new JsonException("Path ended with open query.");
         }
@@ -804,14 +804,14 @@ class JPath
     {
         List<string>? fields = null;
 
-        while (_currentIndex < _expression.Length)
+        while (currentIndex < expression.Length)
         {
             var field = ReadQuotedString();
 
             EatWhitespace();
             EnsureLength("Path ended with open indexer.");
 
-            if (_expression[_currentIndex] == indexerCloseChar)
+            if (expression[currentIndex] == indexerCloseChar)
             {
                 if (fields != null)
                 {
@@ -824,9 +824,9 @@ class JPath
                 return CreatePathFilter(field, scan);
             }
 
-            if (_expression[_currentIndex] == ',')
+            if (expression[currentIndex] == ',')
             {
-                _currentIndex++;
+                currentIndex++;
                 EatWhitespace();
 
                 fields ??= new List<string>();
@@ -835,7 +835,7 @@ class JPath
             }
             else
             {
-                throw new JsonException($"Unexpected character while parsing path indexer: {_expression[_currentIndex]}");
+                throw new JsonException($"Unexpected character while parsing path indexer: {expression[currentIndex]}");
             }
         }
 
@@ -844,7 +844,7 @@ class JPath
 
     void EnsureLength(string message)
     {
-        if (_currentIndex >= _expression.Length)
+        if (currentIndex >= expression.Length)
         {
             throw new JsonException(message);
         }

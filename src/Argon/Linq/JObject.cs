@@ -27,7 +27,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq.Expressions;
-using Argon.Utilities;
 
 namespace Argon.Linq;
 
@@ -35,19 +34,21 @@ namespace Argon.Linq;
 /// Represents a JSON object.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
 /// </example>
-public partial class JObject : JContainer, IDictionary<string, JToken?>, INotifyPropertyChanged
-    , ICustomTypeDescriptor
-    , INotifyPropertyChanging
+public partial class JObject :
+    JContainer,
+    IDictionary<string, JToken?>,
+    INotifyPropertyChanged,
+    ICustomTypeDescriptor,
+    INotifyPropertyChanging
 {
-    readonly JPropertyKeyedCollection _properties = new();
+    readonly JPropertyKeyedCollection properties = new();
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
-    protected override IList<JToken> ChildrenTokens => _properties;
+    protected override IList<JToken> ChildrenTokens => properties;
 
     /// <summary>
     /// Occurs when a property value changes.
@@ -78,7 +79,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Initializes a new instance of the <see cref="JObject"/> class with the specified content.
     /// </summary>
-    /// <param name="content">The contents of the object.</param>
     public JObject(params object[] content)
         : this((object)content)
     {
@@ -87,7 +87,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Initializes a new instance of the <see cref="JObject"/> class with the specified content.
     /// </summary>
-    /// <param name="content">The contents of the object.</param>
     public JObject(object content)
     {
         Add(content);
@@ -100,7 +99,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             return false;
         }
 
-        return _properties.Compare(t._properties);
+        return properties.Compare(t.properties);
     }
 
     internal override int IndexOfItem(JToken? item)
@@ -110,7 +109,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             return -1;
         }
 
-        return _properties.IndexOfReference(item);
+        return properties.IndexOfReference(item);
     }
 
     internal override bool InsertItem(int index, JToken? item, bool skipParentCheck)
@@ -143,7 +142,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             }
         }
 
-        if (_properties.TryGetValue(newProperty.Name, out existing))
+        if (properties.TryGetValue(newProperty.Name, out existing))
         {
             throw new ArgumentException($"Can not add property {newProperty.Name} to {GetType()}. Property with the same name already exists on object.");
         }
@@ -202,11 +201,11 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     internal void InternalPropertyChanged(JProperty childProperty)
     {
         OnPropertyChanged(childProperty.Name);
-        if (_listChanged != null)
+        if (listChanged != null)
         {
             OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, IndexOfItem(childProperty)));
         }
-        if (_collectionChanged != null)
+        if (collectionChanged != null)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, childProperty, childProperty, IndexOfItem(childProperty)));
         }
@@ -225,7 +224,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type => JTokenType.Object;
 
     /// <summary>
@@ -234,13 +232,12 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JProperty"/> of this object's properties.</returns>
     public IEnumerable<JProperty> Properties()
     {
-        return _properties.Cast<JProperty>();
+        return properties.Cast<JProperty>();
     }
 
     /// <summary>
     /// Gets a <see cref="JProperty"/> with the specified name.
     /// </summary>
-    /// <param name="name">The property name.</param>
     /// <returns>A <see cref="JProperty"/> with the specified name or <c>null</c>.</returns>
     public JProperty? Property(string name)
     {
@@ -252,7 +249,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// The exact name will be searched for first and if no matching property is found then
     /// the <see cref="StringComparison"/> will be used to match a property.
     /// </summary>
-    /// <param name="name">The property name.</param>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
     /// <returns>A <see cref="JProperty"/> matched with the specified name or <c>null</c>.</returns>
     public JProperty? Property(string name, StringComparison comparison)
@@ -262,7 +258,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
             return null;
         }
 
-        if (_properties.TryGetValue(name, out var property))
+        if (properties.TryGetValue(name, out var property))
         {
             return (JProperty)property;
         }
@@ -270,9 +266,9 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         // test above already uses this comparison so no need to repeat
         if (comparison != StringComparison.Ordinal)
         {
-            for (var i = 0; i < _properties.Count; i++)
+            for (var i = 0; i < properties.Count; i++)
             {
-                var p = (JProperty)_properties[i];
+                var p = (JProperty)properties[i];
                 if (string.Equals(p.Name, name, comparison))
                 {
                     return p;
@@ -295,7 +291,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public override JToken? this[object key]
     {
         get
@@ -321,7 +316,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Gets or sets the <see cref="JToken"/> with the specified property name.
     /// </summary>
-    /// <value></value>
     public JToken? this[string propertyName]
     {
         get
@@ -403,7 +397,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     ///     <paramref name="json"/> is not valid JSON.
     /// </exception>
     /// <example>
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
     public new static JObject Parse(string json)
     {
@@ -421,7 +415,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     ///     <paramref name="json"/> is not valid JSON.
     /// </exception>
     /// <example>
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
     public new static JObject Parse(string json, JsonLoadSettings? settings)
     {
@@ -467,15 +461,13 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         writer.WriteStartObject();
 
-        for (var i = 0; i < _properties.Count; i++)
+        for (var i = 0; i < properties.Count; i++)
         {
-            _properties[i].WriteTo(writer, converters);
+            properties[i].WriteTo(writer, converters);
         }
 
         writer.WriteEndObject();
@@ -518,7 +510,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// the <see cref="StringComparison"/> will be used to match a property.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <param name="value">The value.</param>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
     /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
     public bool TryGetValue(string propertyName, StringComparison comparison, [NotNullWhen(true)]out JToken? value)
@@ -532,7 +523,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// Adds the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <param name="value">The value.</param>
     public void Add(string propertyName, JToken? value)
     {
         Add(new JProperty(propertyName, value));
@@ -545,10 +535,10 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// <returns><c>true</c> if the JSON object has the specified property name; otherwise, <c>false</c>.</returns>
     public bool ContainsKey(string propertyName)
     {
-        return _properties.Contains(propertyName);
+        return properties.Contains(propertyName);
     }
 
-    ICollection<string> IDictionary<string, JToken?>.Keys => _properties.Keys;
+    ICollection<string> IDictionary<string, JToken?>.Keys => properties.Keys;
 
     /// <summary>
     /// Removes the property with the specified name.
@@ -571,7 +561,6 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// Tries to get the <see cref="Argon.Linq.JToken"/> with the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <param name="value">The value.</param>
     /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
     public bool TryGetValue(string propertyName, [NotNullWhen(true)]out JToken? value)
     {
@@ -632,7 +621,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
         }
 
         var index = 0;
-        foreach (JProperty property in _properties)
+        foreach (JProperty property in properties)
         {
             array[arrayIndex + index] = new KeyValuePair<string, JToken?>(property.Name, property.Value);
             index++;
@@ -666,7 +655,7 @@ public partial class JObject : JContainer, IDictionary<string, JToken?>, INotify
     /// </returns>
     public IEnumerator<KeyValuePair<string, JToken?>> GetEnumerator()
     {
-        foreach (JProperty property in _properties)
+        foreach (JProperty property in properties)
         {
             yield return new KeyValuePair<string, JToken?>(property.Name, property.Value);
         }

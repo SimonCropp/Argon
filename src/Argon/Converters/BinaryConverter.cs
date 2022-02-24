@@ -32,16 +32,13 @@ namespace Argon;
 /// </summary>
 public class BinaryConverter : JsonConverter
 {
-    const string BinaryTypeName = "System.Data.Linq.Binary";
-    const string BinaryToArrayName = "ToArray";
+    const string binaryTypeName = "System.Data.Linq.Binary";
+    const string binaryToArrayName = "ToArray";
     static ReflectionObject? reflectionObject;
 
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-    /// <param name="value">The value.</param>
-    /// <param name="serializer">The calling serializer.</param>
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
         if (value == null)
@@ -57,12 +54,12 @@ public class BinaryConverter : JsonConverter
 
     static byte[] GetByteArray(object value)
     {
-        if (value.GetType().FullName == BinaryTypeName)
+        if (value.GetType().FullName == binaryTypeName)
         {
             EnsureReflectionObject(value.GetType());
             MiscellaneousUtils.Assert(reflectionObject != null);
 
-            return (byte[])reflectionObject.GetValue(value, BinaryToArrayName)!;
+            return (byte[])reflectionObject.GetValue(value, binaryToArrayName)!;
         }
         if (value is SqlBinary binary)
         {
@@ -74,17 +71,12 @@ public class BinaryConverter : JsonConverter
 
     static void EnsureReflectionObject(Type type)
     {
-        reflectionObject ??= ReflectionObject.Create(type, type.GetConstructor(new[] {typeof(byte[])}), BinaryToArrayName);
+        reflectionObject ??= ReflectionObject.Create(type, type.GetConstructor(new[] {typeof(byte[])}), binaryToArrayName);
     }
 
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-    /// <param name="type">Type of the object.</param>
-    /// <param name="existingValue">The existing value of object being read.</param>
-    /// <param name="serializer">The calling serializer.</param>
-    /// <returns>The object value.</returns>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         if (reader.TokenType == JsonToken.Null)
@@ -119,7 +111,7 @@ public class BinaryConverter : JsonConverter
             ? Nullable.GetUnderlyingType(type)
             : type;
 
-        if (underlyingType.FullName == BinaryTypeName)
+        if (underlyingType.FullName == binaryTypeName)
         {
             EnsureReflectionObject(underlyingType);
             MiscellaneousUtils.Assert(reflectionObject != null);
@@ -162,13 +154,12 @@ public class BinaryConverter : JsonConverter
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type type)
     {
-        return type.FullName == BinaryTypeName ||
+        return type.FullName == binaryTypeName ||
                type == typeof(SqlBinary) ||
                type == typeof(SqlBinary?);
     }

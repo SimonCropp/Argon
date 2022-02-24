@@ -33,22 +33,21 @@ public sealed class JsonPropertyAttribute : Attribute
 {
     // yuck. can't set nullable properties on an attribute in C#
     // have to use this approach to get an unset default state
-    internal NullValueHandling? _nullValueHandling;
-    internal DefaultValueHandling? _defaultValueHandling;
-    internal ReferenceLoopHandling? _referenceLoopHandling;
-    internal ObjectCreationHandling? _objectCreationHandling;
-    internal TypeNameHandling? _typeNameHandling;
-    internal bool? _isReference;
-    internal int? _order;
-    internal Required? _required;
-    internal bool? _itemIsReference;
-    internal ReferenceLoopHandling? _itemReferenceLoopHandling;
-    internal TypeNameHandling? _itemTypeNameHandling;
+    internal NullValueHandling? nullValueHandling;
+    internal DefaultValueHandling? defaultValueHandling;
+    internal ReferenceLoopHandling? referenceLoopHandling;
+    internal ObjectCreationHandling? objectCreationHandling;
+    internal TypeNameHandling? typeNameHandling;
+    internal bool? isReference;
+    internal int? order;
+    internal Required? required;
+    internal bool? itemIsReference;
+    internal ReferenceLoopHandling? itemReferenceLoopHandling;
+    internal TypeNameHandling? itemTypeNameHandling;
 
     /// <summary>
     /// Gets or sets the <see cref="JsonConverter"/> type used when serializing the property's collection items.
     /// </summary>
-    /// <value>The collection's items <see cref="JsonConverter"/> type.</value>
     public Type? ItemConverterType { get; set; }
 
     /// <summary>
@@ -67,7 +66,6 @@ public sealed class JsonPropertyAttribute : Attribute
     /// <summary>
     /// Gets or sets the <see cref="Type"/> of the <see cref="NamingStrategy"/>.
     /// </summary>
-    /// <value>The <see cref="Type"/> of the <see cref="NamingStrategy"/>.</value>
     public Type? NamingStrategyType { get; set; }
 
     /// <summary>
@@ -86,119 +84,105 @@ public sealed class JsonPropertyAttribute : Attribute
     /// <summary>
     /// Gets or sets the null value handling used when serializing this property.
     /// </summary>
-    /// <value>The null value handling.</value>
     public NullValueHandling NullValueHandling
     {
-        get => _nullValueHandling ?? default;
-        set => _nullValueHandling = value;
+        get => nullValueHandling ?? default;
+        set => nullValueHandling = value;
     }
 
     /// <summary>
     /// Gets or sets the default value handling used when serializing this property.
     /// </summary>
-    /// <value>The default value handling.</value>
     public DefaultValueHandling DefaultValueHandling
     {
-        get => _defaultValueHandling ?? default;
-        set => _defaultValueHandling = value;
+        get => defaultValueHandling ?? default;
+        set => defaultValueHandling = value;
     }
 
     /// <summary>
     /// Gets or sets the reference loop handling used when serializing this property.
     /// </summary>
-    /// <value>The reference loop handling.</value>
     public ReferenceLoopHandling ReferenceLoopHandling
     {
-        get => _referenceLoopHandling ?? default;
-        set => _referenceLoopHandling = value;
+        get => referenceLoopHandling ?? default;
+        set => referenceLoopHandling = value;
     }
 
     /// <summary>
     /// Gets or sets the object creation handling used when deserializing this property.
     /// </summary>
-    /// <value>The object creation handling.</value>
     public ObjectCreationHandling ObjectCreationHandling
     {
-        get => _objectCreationHandling ?? default;
-        set => _objectCreationHandling = value;
+        get => objectCreationHandling ?? default;
+        set => objectCreationHandling = value;
     }
 
     /// <summary>
     /// Gets or sets the type name handling used when serializing this property.
     /// </summary>
-    /// <value>The type name handling.</value>
     public TypeNameHandling TypeNameHandling
     {
-        get => _typeNameHandling ?? default;
-        set => _typeNameHandling = value;
+        get => typeNameHandling ?? default;
+        set => typeNameHandling = value;
     }
 
     /// <summary>
     /// Gets or sets whether this property's value is serialized as a reference.
     /// </summary>
-    /// <value>Whether this property's value is serialized as a reference.</value>
     public bool IsReference
     {
-        get => _isReference ?? default;
-        set => _isReference = value;
+        get => isReference ?? default;
+        set => isReference = value;
     }
 
     /// <summary>
     /// Gets or sets the order of serialization of a member.
     /// </summary>
-    /// <value>The numeric order of serialization.</value>
     public int Order
     {
-        get => _order ?? default;
-        set => _order = value;
+        get => order ?? default;
+        set => order = value;
     }
 
     /// <summary>
     /// Gets or sets a value indicating whether this property is required.
     /// </summary>
-    /// <value>
-    /// 	A value indicating whether this property is required.
-    /// </value>
     public Required Required
     {
-        get => _required ?? Required.Default;
-        set => _required = value;
+        get => required ?? Required.Default;
+        set => required = value;
     }
 
     /// <summary>
     /// Gets or sets the name of the property.
     /// </summary>
-    /// <value>The name of the property.</value>
     public string? PropertyName { get; set; }
 
     /// <summary>
     /// Gets or sets the reference loop handling used when serializing the property's collection items.
     /// </summary>
-    /// <value>The collection's items reference loop handling.</value>
     public ReferenceLoopHandling ItemReferenceLoopHandling
     {
-        get => _itemReferenceLoopHandling ?? default;
-        set => _itemReferenceLoopHandling = value;
+        get => itemReferenceLoopHandling ?? default;
+        set => itemReferenceLoopHandling = value;
     }
 
     /// <summary>
     /// Gets or sets the type name handling used when serializing the property's collection items.
     /// </summary>
-    /// <value>The collection's items type name handling.</value>
     public TypeNameHandling ItemTypeNameHandling
     {
-        get => _itemTypeNameHandling ?? default;
-        set => _itemTypeNameHandling = value;
+        get => itemTypeNameHandling ?? default;
+        set => itemTypeNameHandling = value;
     }
 
     /// <summary>
     /// Gets or sets whether this property's collection items are serialized as a reference.
     /// </summary>
-    /// <value>Whether this property's collection items are serialized as a reference.</value>
     public bool ItemIsReference
     {
-        get => _itemIsReference ?? default;
-        set => _itemIsReference = value;
+        get => itemIsReference ?? default;
+        set => itemIsReference = value;
     }
 
     /// <summary>

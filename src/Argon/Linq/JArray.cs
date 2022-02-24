@@ -29,22 +29,20 @@ namespace Argon.Linq;
 /// Represents a JSON array.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
+///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
 /// </example>
 public partial class JArray : JContainer, IList<JToken>
 {
-    readonly List<JToken> _values = new();
+    readonly List<JToken> values = new();
 
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
-    /// <value>The container's children tokens.</value>
-    protected override IList<JToken> ChildrenTokens => _values;
+    protected override IList<JToken> ChildrenTokens => values;
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public override JTokenType Type => JTokenType.Array;
 
     /// <summary>
@@ -66,7 +64,6 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Initializes a new instance of the <see cref="JArray"/> class with the specified content.
     /// </summary>
-    /// <param name="content">The contents of the array.</param>
     public JArray(params object[] content)
         : this((object)content)
     {
@@ -75,7 +72,6 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Initializes a new instance of the <see cref="JArray"/> class with the specified content.
     /// </summary>
-    /// <param name="content">The contents of the array.</param>
     public JArray(object content)
     {
         Add(content);
@@ -139,7 +135,7 @@ public partial class JArray : JContainer, IList<JToken>
     /// <param name="json">A <see cref="String"/> that contains JSON.</param>
     /// <returns>A <see cref="JArray"/> populated from the string that contains JSON.</returns>
     /// <example>
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
+    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
     /// </example>
     public new static JArray Parse(string json)
     {
@@ -154,7 +150,7 @@ public partial class JArray : JContainer, IList<JToken>
     /// If this is <c>null</c>, default load settings will be used.</param>
     /// <returns>A <see cref="JArray"/> populated from the string that contains JSON.</returns>
     /// <example>
-    ///   <code lang="cs" source="..\Src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
+    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
     /// </example>
     public new static JArray Parse(string json, JsonLoadSettings? settings)
     {
@@ -200,15 +196,13 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         writer.WriteStartArray();
 
-        for (var i = 0; i < _values.Count; i++)
+        for (var i = 0; i < values.Count; i++)
         {
-            _values[i].WriteTo(writer, converters);
+            values[i].WriteTo(writer, converters);
         }
 
         writer.WriteEndArray();
@@ -217,7 +211,6 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public override JToken? this[object key]
     {
         get
@@ -243,7 +236,6 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Gets or sets the <see cref="Argon.Linq.JToken"/> at the specified index.
     /// </summary>
-    /// <value></value>
     public JToken this[int index]
     {
         get => GetItem(index);
@@ -257,7 +249,7 @@ public partial class JArray : JContainer, IList<JToken>
             return -1;
         }
 
-        return _values.IndexOfReference(item);
+        return values.IndexOfReference(item);
     }
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)
@@ -356,8 +348,6 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Copies the elements of the <see cref="JArray"/> to an array, starting at a particular array index.
     /// </summary>
-    /// <param name="array">The array.</param>
-    /// <param name="arrayIndex">Index of the array.</param>
     public void CopyTo(JToken[] array, int arrayIndex)
     {
         CopyItemsTo(array, arrayIndex);

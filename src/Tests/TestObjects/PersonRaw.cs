@@ -27,35 +27,14 @@ namespace TestObjects;
 
 public class PersonRaw
 {
-    Guid _internalId;
-    string _firstName;
-    string _lastName;
-    JRaw _rawContent;
-
     [JsonIgnore]
-    public Guid InternalId
-    {
-        get => _internalId;
-        set => _internalId = value;
-    }
+    public Guid InternalId { get; set; }
 
     [JsonProperty("first_name")]
-    public string FirstName
-    {
-        get => _firstName;
-        set => _firstName = value;
-    }
+    public string FirstName { get; set; }
 
-    public JRaw RawContent
-    {
-        get => _rawContent;
-        set => _rawContent = value;
-    }
+    public JRaw RawContent { get; set; }
 
     [JsonProperty("last_name")]
-    public string LastName
-    {
-        get => _lastName;
-        set => _lastName = value;
-    }
+    public string LastName { get; set; }
 }

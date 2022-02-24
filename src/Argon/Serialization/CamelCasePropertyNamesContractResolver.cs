@@ -32,7 +32,7 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
 {
     static readonly object TypeContractCacheLock = new();
     static readonly DefaultJsonNameTable NameTable = new();
-    static Dictionary<StructMultiKey<Type, Type>, JsonContract>? _contractCache;
+    static Dictionary<StructMultiKey<Type, Type>, JsonContract>? contractCache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CamelCasePropertyNamesContractResolver"/> class.
@@ -53,14 +53,9 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
     /// <returns>The contract for a given type.</returns>
     public override JsonContract ResolveContract(Type type)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
-        // for backwards compadibility the CamelCasePropertyNamesContractResolver shares contracts between instances
+        // for backwards compatibility the CamelCasePropertyNamesContractResolver shares contracts between instances
         var key = new StructMultiKey<Type, Type>(GetType(), type);
-        var cache = _contractCache;
+        var cache = contractCache;
         if (cache == null || !cache.TryGetValue(key, out var contract))
         {
             contract = CreateContract(type);
@@ -68,13 +63,13 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
             // avoid the possibility of modifying the cache dictionary while another thread is accessing it
             lock (TypeContractCacheLock)
             {
-                cache = _contractCache;
+                cache = contractCache;
                 var updatedCache = cache != null
                     ? new Dictionary<StructMultiKey<Type, Type>, JsonContract>(cache)
                     : new Dictionary<StructMultiKey<Type, Type>, JsonContract>();
                 updatedCache[key] = contract;
 
-                _contractCache = updatedCache;
+                contractCache = updatedCache;
             }
         }
 

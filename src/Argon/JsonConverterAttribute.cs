@@ -34,7 +34,6 @@ public sealed class JsonConverterAttribute : Attribute
     /// <summary>
     /// Gets the <see cref="Type"/> of the <see cref="JsonConverter"/>.
     /// </summary>
-    /// <value>The <see cref="Type"/> of the <see cref="JsonConverter"/>.</value>
     public Type ConverterType { get; }
 
     /// <summary>
@@ -49,11 +48,6 @@ public sealed class JsonConverterAttribute : Attribute
     /// <param name="converterType">Type of the <see cref="JsonConverter"/>.</param>
     public JsonConverterAttribute(Type converterType)
     {
-        if (converterType == null)
-        {
-            throw new ArgumentNullException(nameof(converterType));
-        }
-
         ConverterType = converterType;
     }
 

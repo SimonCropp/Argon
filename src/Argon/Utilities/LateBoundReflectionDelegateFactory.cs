@@ -25,9 +25,9 @@
 
 class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
 {
-    static readonly LateBoundReflectionDelegateFactory _instance = new();
+    static readonly LateBoundReflectionDelegateFactory instance = new();
 
-    internal static ReflectionDelegateFactory Instance => _instance;
+    internal static ReflectionDelegateFactory Instance => instance;
 
     public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
     {

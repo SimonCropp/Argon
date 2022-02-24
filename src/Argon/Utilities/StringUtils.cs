@@ -44,11 +44,6 @@ static class StringUtils
     /// </returns>
     public static bool IsWhiteSpace(string s)
     {
-        if (s == null)
-        {
-            throw new ArgumentNullException(nameof(s));
-        }
-
         if (s.Length == 0)
         {
             return false;
@@ -83,15 +78,6 @@ static class StringUtils
 
     public static TSource ForgivingCaseSensitiveFind<TSource>(this IEnumerable<TSource> source, Func<TSource, string> valueSelector, string testValue)
     {
-        if (source == null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-        if (valueSelector == null)
-        {
-            throw new ArgumentNullException(nameof(valueSelector));
-        }
-
         var caseInsensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.OrdinalIgnoreCase));
         if (caseInsensitiveResults.Count() <= 1)
         {
@@ -250,10 +236,6 @@ static class StringUtils
     {
         // References: https://referencesource.microsoft.com/#mscorlib/system/string.cs,2691
         // https://referencesource.microsoft.com/#mscorlib/system/string.cs,1226
-        if (s == null)
-        {
-            throw new ArgumentNullException();
-        }
         if (start < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(start));

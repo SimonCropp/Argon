@@ -142,7 +142,7 @@ public class ShouldSerializeTests : TestFixtureBase
   ""Age"": 27
 }", json);
 
-        c._shouldSerializeName = true;
+        c.shouldSerializeName = true;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -454,7 +454,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class ShouldSerializeTestClass
     {
-        internal bool _shouldSerializeName;
+        internal bool shouldSerializeName;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -466,13 +466,13 @@ public class ShouldSerializeTests : TestFixtureBase
 
         public bool ShouldSerializeName()
         {
-            return _shouldSerializeName;
+            return shouldSerializeName;
         }
     }
 
     public class SpecifiedTestClass
     {
-        bool _nameSpecified;
+        bool nameSpecified;
 
         public string Name { get; set; }
         public int Age { get; set; }
@@ -486,8 +486,8 @@ public class ShouldSerializeTests : TestFixtureBase
         [JsonIgnore]
         public bool NameSpecified
         {
-            get => _nameSpecified;
-            set => _nameSpecified = value;
+            get => nameSpecified;
+            set => nameSpecified = value;
         }
 
         [JsonIgnore] public bool WeightSpecified;
@@ -534,21 +534,9 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         [JsonIgnore] public bool ShouldSerializemyBazCalled { get; set; }
 
-        Baz1[] myBazField;
+        public Baz1[] myBaz { get; set; }
 
-        public Baz1[] myBaz
-        {
-            get => myBazField;
-            set => myBazField = value;
-        }
-
-        string nameField;
-
-        public string name
-        {
-            get => nameField;
-            set => nameField = value;
-        }
+        public string name { get; set; }
 
         public virtual bool ShouldSerializemyBaz()
         {
@@ -564,21 +552,9 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class Baz1
     {
-        Frob1[] myFrobField;
+        public Frob1[] myFrob { get; set; }
 
-        public Frob1[] myFrob
-        {
-            get => myFrobField;
-            set => myFrobField = value;
-        }
-
-        string nameField;
-
-        public string name
-        {
-            get => nameField;
-            set => nameField = value;
-        }
+        public string name { get; set; }
 
         public virtual bool ShouldSerializename()
         {
@@ -593,13 +569,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class Frob1
     {
-        string nameField;
-
-        public string name
-        {
-            get => nameField;
-            set => nameField = value;
-        }
+        public string name { get; set; }
 
         public virtual bool ShouldSerializename()
         {

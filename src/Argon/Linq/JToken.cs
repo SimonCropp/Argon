@@ -25,7 +25,6 @@
 
 using System.Dynamic;
 using System.Linq.Expressions;
-using Argon.Utilities;
 
 namespace Argon.Linq;
 
@@ -36,9 +35,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     , ICloneable
     , IDynamicMetaObjectProvider
 {
-    static JTokenEqualityComparer? _equalityComparer;
+    static JTokenEqualityComparer? equalityComparer;
 
-    object? _annotations;
+    object? annotations;
 
     static readonly JTokenType[] BooleanTypes = { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
     static readonly JTokenType[] NumberTypes = { JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean };
@@ -54,30 +53,16 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets a comparer that can compare two tokens for value equality.
     /// </summary>
-    /// <value>A <see cref="JTokenEqualityComparer"/> that can compare two nodes for value equality.</value>
-    public static JTokenEqualityComparer EqualityComparer
-    {
-        get
-        {
-            if (_equalityComparer == null)
-            {
-                _equalityComparer = new JTokenEqualityComparer();
-            }
-
-            return _equalityComparer;
-        }
-    }
+    public static JTokenEqualityComparer EqualityComparer => equalityComparer ??= new JTokenEqualityComparer();
 
     /// <summary>
     /// Gets or sets the parent.
     /// </summary>
-    /// <value>The parent.</value>
     public JContainer? Parent { [DebuggerStepThrough] get; internal set; }
 
     /// <summary>
     /// Gets the root <see cref="JToken"/> of this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The root <see cref="JToken"/> of this <see cref="JToken"/>.</value>
     public JToken Root
     {
         get
@@ -103,15 +88,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets the node type for this <see cref="JToken"/>.
     /// </summary>
-    /// <value>The type.</value>
     public abstract JTokenType Type { get; }
 
     /// <summary>
     /// Gets a value indicating whether this token has child tokens.
     /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this token has child values; otherwise, <c>false</c>.
-    /// </value>
     public abstract bool HasValues { get; }
 
     /// <summary>
@@ -128,13 +109,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets the next sibling token of this node.
     /// </summary>
-    /// <value>The <see cref="JToken"/> that contains the next sibling token.</value>
     public JToken? Next { get; internal set; }
 
     /// <summary>
     /// Gets the previous sibling token of this node.
     /// </summary>
-    /// <value>The <see cref="JToken"/> that contains the previous sibling token.</value>
     public JToken? Previous { get; internal set; }
 
     /// <summary>
@@ -276,7 +255,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets the <see cref="JToken"/> with the specified key.
     /// </summary>
-    /// <value>The <see cref="JToken"/> with the specified key.</value>
     public virtual JToken? this[object key]
     {
         get => throw new InvalidOperationException($"Cannot access child value on {GetType()}.");
@@ -300,13 +278,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Get the first child token of this token.
     /// </summary>
-    /// <value>A <see cref="JToken"/> containing the first child token of the <see cref="JToken"/>.</value>
     public virtual JToken? First => throw new InvalidOperationException($"Cannot access child value on {GetType()}.");
 
     /// <summary>
     /// Get the last child token of this token.
     /// </summary>
-    /// <value>A <see cref="JToken"/> containing the last child token of the <see cref="JToken"/>.</value>
     public virtual JToken? Last => throw new InvalidOperationException($"Cannot access child value on {GetType()}.");
 
     /// <summary>
@@ -354,7 +330,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Replaces this token with the specified token.
     /// </summary>
-    /// <param name="value">The value.</param>
     public void Replace(JToken value)
     {
         if (Parent == null)
@@ -368,8 +343,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/>.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
     public abstract void WriteTo(JsonWriter writer, params JsonConverter[] converters);
 
     /// <summary>
@@ -390,7 +363,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Returns the JSON for this token using the given formatting and converters.
     /// </summary>
-    /// <param name="formatting">Indicates how the output should be formatted.</param>
     /// <param name="converters">A collection of <see cref="JsonConverter"/>s which will be used when writing the token.</param>
     /// <returns>The JSON for this token using the given formatting and converters.</returns>
     public string ToString(Formatting formatting, params JsonConverter[] converters)
@@ -408,11 +380,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     static JValue? EnsureValue(JToken value)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
-
         if (value is JProperty property)
         {
             value = property.Value;
@@ -442,7 +409,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.Boolean"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator bool(JToken value)
     {
@@ -463,7 +429,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.DateTimeOffset"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator DateTimeOffset(JToken value)
     {
@@ -489,7 +454,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Boolean"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator bool?(JToken? value)
     {
@@ -515,7 +479,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Int64"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator long(JToken value)
     {
@@ -536,7 +499,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="DateTime"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator DateTime?(JToken? value)
     {
@@ -562,7 +524,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator DateTimeOffset?(JToken? value)
     {
@@ -597,7 +558,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Decimal"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator decimal?(JToken? value)
     {
@@ -623,7 +583,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Double"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator double?(JToken? value)
     {
@@ -649,7 +608,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Char"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator char?(JToken? value)
     {
@@ -675,7 +633,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Int32"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator int(JToken value)
     {
@@ -696,7 +653,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Int16"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator short(JToken value)
     {
@@ -717,7 +673,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="UInt16"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator ushort(JToken value)
@@ -739,7 +694,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Char"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator char(JToken value)
@@ -761,7 +715,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Byte"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator byte(JToken value)
     {
@@ -782,7 +735,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.SByte"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator sbyte(JToken value)
@@ -804,7 +756,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Int32"/> .
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator int?(JToken? value)
     {
@@ -830,7 +781,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Int16"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator short?(JToken? value)
     {
@@ -856,7 +806,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="UInt16"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator ushort?(JToken? value)
@@ -883,7 +832,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Byte"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator byte?(JToken? value)
     {
@@ -909,7 +857,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="SByte"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator sbyte?(JToken? value)
@@ -936,7 +883,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="DateTime"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator DateTime(JToken value)
     {
@@ -957,7 +903,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Int64"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator long?(JToken? value)
     {
@@ -983,7 +928,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Single"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator float?(JToken? value)
     {
@@ -1009,7 +953,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Decimal"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator decimal(JToken value)
     {
@@ -1030,7 +973,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="UInt32"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator uint?(JToken? value)
@@ -1057,7 +999,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="UInt64"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator ulong?(JToken? value)
@@ -1084,7 +1025,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Double"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator double(JToken value)
     {
@@ -1105,7 +1045,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Single"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator float(JToken value)
     {
@@ -1126,7 +1065,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="String"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator string?(JToken? value)
     {
@@ -1162,7 +1100,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="UInt32"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator uint(JToken value)
@@ -1184,7 +1121,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.UInt64"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     [CLSCompliant(false)]
     public static explicit operator ulong(JToken value)
@@ -1206,7 +1142,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Byte"/>[].
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator byte[]?(JToken? value)
     {
@@ -1241,7 +1176,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Guid"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator Guid(JToken value)
     {
@@ -1262,7 +1196,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="Guid"/> .
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator Guid?(JToken? value)
     {
@@ -1293,7 +1226,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="TimeSpan"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator TimeSpan(JToken value)
     {
@@ -1309,7 +1241,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Nullable{T}"/> of <see cref="TimeSpan"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator TimeSpan?(JToken? value)
     {
@@ -1335,7 +1266,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an explicit conversion from <see cref="JToken"/> to <see cref="Uri"/>.
     /// </summary>
-    /// <param name="value">The value.</param>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator Uri?(JToken? value)
     {
@@ -1390,8 +1320,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Boolean"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(bool value)
     {
         return new JValue(value);
@@ -1400,8 +1328,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="DateTimeOffset"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(DateTimeOffset value)
     {
         return new JValue(value);
@@ -1410,8 +1336,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Byte"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(byte value)
     {
         return new JValue(value);
@@ -1420,8 +1344,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Byte"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(byte? value)
     {
         return new JValue(value);
@@ -1430,8 +1352,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="SByte"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(sbyte value)
     {
@@ -1441,8 +1361,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="SByte"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(sbyte? value)
     {
@@ -1452,8 +1370,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Boolean"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(bool? value)
     {
         return new JValue(value);
@@ -1462,8 +1378,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Int64"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(long value)
     {
         return new JValue(value);
@@ -1472,8 +1386,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="DateTime"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(DateTime? value)
     {
         return new JValue(value);
@@ -1482,8 +1394,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(DateTimeOffset? value)
     {
         return new JValue(value);
@@ -1492,8 +1402,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Decimal"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(decimal? value)
     {
         return new JValue(value);
@@ -1502,8 +1410,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Double"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(double? value)
     {
         return new JValue(value);
@@ -1512,8 +1418,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Int16"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(short value)
     {
@@ -1523,8 +1427,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt16"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(ushort value)
     {
@@ -1534,8 +1436,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Int32"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(int value)
     {
         return new JValue(value);
@@ -1544,8 +1444,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Int32"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(int? value)
     {
         return new JValue(value);
@@ -1554,8 +1452,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="DateTime"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(DateTime value)
     {
         return new JValue(value);
@@ -1564,8 +1460,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Int64"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(long? value)
     {
         return new JValue(value);
@@ -1574,8 +1468,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Single"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(float? value)
     {
         return new JValue(value);
@@ -1584,8 +1476,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Decimal"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(decimal value)
     {
         return new JValue(value);
@@ -1594,8 +1484,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Int16"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(short? value)
     {
@@ -1605,8 +1493,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="UInt16"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(ushort? value)
     {
@@ -1616,8 +1502,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="UInt32"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(uint? value)
     {
@@ -1627,8 +1511,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="UInt64"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(ulong? value)
     {
@@ -1638,8 +1520,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Double"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(double value)
     {
         return new JValue(value);
@@ -1648,8 +1528,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Single"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(float value)
     {
         return new JValue(value);
@@ -1658,8 +1536,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="String"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(string? value)
     {
         return new JValue(value);
@@ -1668,8 +1544,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt32"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(uint value)
     {
@@ -1679,8 +1553,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt64"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     [CLSCompliant(false)]
     public static implicit operator JToken(ulong value)
     {
@@ -1690,8 +1562,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Byte"/>[] to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(byte[] value)
     {
         return new JValue(value);
@@ -1700,8 +1570,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Uri"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(Uri? value)
     {
         return new JValue(value);
@@ -1710,8 +1578,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="TimeSpan"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(TimeSpan value)
     {
         return new JValue(value);
@@ -1720,8 +1586,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(TimeSpan? value)
     {
         return new JValue(value);
@@ -1730,8 +1594,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Guid"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(Guid value)
     {
         return new JValue(value);
@@ -1740,8 +1602,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}"/> of <see cref="Guid"/> to <see cref="JToken"/>.
     /// </summary>
-    /// <param name="value">The value to create a <see cref="JValue"/> from.</param>
-    /// <returns>The <see cref="JValue"/> initialized with the specified value.</returns>
     public static implicit operator JToken(Guid? value)
     {
         return new JValue(value);
@@ -1773,19 +1633,14 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     internal static JToken FromObjectInternal(object o, JsonSerializer jsonSerializer)
     {
-        JToken token;
         using var jsonWriter = new JTokenWriter();
         jsonSerializer.Serialize(jsonWriter, o);
-        token = jsonWriter.Token!;
-
-        return token;
+        return jsonWriter.Token!;
     }
 
     /// <summary>
     /// Creates a <see cref="JToken"/> from an object.
     /// </summary>
-    /// <param name="o">The object that will be used to create <see cref="JToken"/>.</param>
-    /// <returns>A <see cref="JToken"/> with the value of the specified object.</returns>
     public static JToken FromObject(object o)
     {
         return FromObjectInternal(o, JsonSerializer.CreateDefault());
@@ -1954,7 +1809,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         // This is required because the serializer won't update settings when used inside of a converter.
         if (jsonSerializer is JsonSerializerProxy proxy)
         {
-            proxy._serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
+            proxy.serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
         }
 
         return jsonSerializer.Deserialize(jsonReader, type);
@@ -2215,18 +2070,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="annotation">The annotation to add.</param>
     public void AddAnnotation(object annotation)
     {
-        if (annotation == null)
+        if (annotations == null)
         {
-            throw new ArgumentNullException(nameof(annotation));
-        }
-
-        if (_annotations == null)
-        {
-            _annotations = annotation is object[] ? new[] { annotation } : annotation;
+            annotations = annotation is object[] ? new[] { annotation } : annotation;
         }
         else
         {
-            if (_annotations is object[] annotations)
+            if (this.annotations is object[] annotations)
             {
                 var index = 0;
                 while (index < annotations.Length && annotations[index] != null)
@@ -2237,14 +2087,14 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 if (index == annotations.Length)
                 {
                     Array.Resize(ref annotations, index * 2);
-                    _annotations = annotations;
+                    this.annotations = annotations;
                 }
 
                 annotations[index] = annotation;
             }
             else
             {
-                _annotations = new[] {_annotations, annotation};
+                this.annotations = new[] {this.annotations, annotation};
             }
         }
     }
@@ -2256,11 +2106,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The first annotation object that matches the specified type, or <c>null</c> if no annotation is of the specified type.</returns>
     public T? Annotation<T>() where T : class
     {
-        if (_annotations != null)
+        if (annotations != null)
         {
-            if (_annotations is not object[] annotations)
+            if (this.annotations is not object[] annotations)
             {
-                return _annotations as T;
+                return this.annotations as T;
             }
             for (var i = 0; i < annotations.Length; i++)
             {
@@ -2287,14 +2137,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The first annotation object that matches the specified type, or <c>null</c> if no annotation is of the specified type.</returns>
     public object? Annotation(Type type)
     {
-        if (type == null)
+        if (annotations != null)
         {
-            throw new ArgumentNullException(nameof(type));
-        }
-
-        if (_annotations != null)
-        {
-            if (_annotations is object[] annotations)
+            if (this.annotations is object[] annotations)
             {
                 for (var i = 0; i < annotations.Length; i++)
                 {
@@ -2312,9 +2157,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             }
             else
             {
-                if (type.IsInstanceOfType(_annotations))
+                if (type.IsInstanceOfType(this.annotations))
                 {
-                    return _annotations;
+                    return this.annotations;
                 }
             }
         }
@@ -2329,12 +2174,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>An <see cref="IEnumerable{T}"/> that contains the annotations for this <see cref="JToken"/>.</returns>
     public IEnumerable<T> Annotations<T>() where T : class
     {
-        if (_annotations == null)
+        if (this.annotations == null)
         {
             yield break;
         }
 
-        if (_annotations is object[] annotations)
+        if (this.annotations is object[] annotations)
         {
             for (var i = 0; i < annotations.Length; i++)
             {
@@ -2352,7 +2197,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             yield break;
         }
 
-        if (_annotations is not T annotation)
+        if (this.annotations is not T annotation)
         {
             yield break;
         }
@@ -2367,17 +2212,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Object"/> that contains the annotations that match the specified type for this <see cref="JToken"/>.</returns>
     public IEnumerable<object> Annotations(Type type)
     {
-        if (type == null)
-        {
-            throw new ArgumentNullException(nameof(type));
-        }
-
-        if (_annotations == null)
+        if (this.annotations == null)
         {
             yield break;
         }
 
-        if (_annotations is object[] annotations)
+        if (this.annotations is object[] annotations)
         {
             for (var i = 0; i < annotations.Length; i++)
             {
@@ -2395,12 +2235,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             yield break;
         }
 
-        if (!type.IsInstanceOfType(_annotations))
+        if (!type.IsInstanceOfType(this.annotations))
         {
             yield break;
         }
 
-        yield return _annotations;
+        yield return this.annotations;
     }
 
     /// <summary>
@@ -2409,9 +2249,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <typeparam name="T">The type of annotations to remove.</typeparam>
     public void RemoveAnnotations<T>() where T : class
     {
-        if (_annotations != null)
+        if (annotations != null)
         {
-            if (_annotations is object?[] annotations)
+            if (this.annotations is object?[] annotations)
             {
                 var index = 0;
                 var keepCount = 0;
@@ -2433,7 +2273,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
                 if (keepCount == 0)
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
                 else
                 {
@@ -2445,9 +2285,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             }
             else
             {
-                if (_annotations is T)
+                if (this.annotations is T)
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
             }
         }
@@ -2459,14 +2299,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="type">The <see cref="Type"/> of annotations to remove.</param>
     public void RemoveAnnotations(Type type)
     {
-        if (type == null)
+        if (annotations != null)
         {
-            throw new ArgumentNullException(nameof(type));
-        }
-
-        if (_annotations != null)
-        {
-            if (_annotations is object?[] annotations)
+            if (this.annotations is object?[] annotations)
             {
                 var index = 0;
                 var keepCount = 0;
@@ -2488,7 +2323,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
                 if (keepCount == 0)
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
                 else
                 {
@@ -2500,9 +2335,9 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             }
             else
             {
-                if (type.IsInstanceOfType(_annotations))
+                if (type.IsInstanceOfType(this.annotations))
                 {
-                    _annotations = null;
+                    this.annotations = null;
                 }
             }
         }
@@ -2510,13 +2345,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     internal void CopyAnnotations(JToken target, JToken source)
     {
-        if (source._annotations is object[] annotations)
+        if (source.annotations is object[] annotations)
         {
-            target._annotations = annotations.ToArray();
+            target.annotations = annotations.ToArray();
         }
         else
         {
-            target._annotations = source._annotations;
+            target.annotations = source.annotations;
         }
     }
 }

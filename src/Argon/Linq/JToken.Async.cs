@@ -30,11 +30,7 @@ public abstract partial class JToken
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/> asynchronously.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
-    public virtual Task WriteToAsync(JsonWriter writer, CancellationToken cancellationToken, params JsonConverter[] converters)
+    public virtual Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
     {
         throw new NotImplementedException();
     }
@@ -42,9 +38,6 @@ public abstract partial class JToken
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter"/> asynchronously.
     /// </summary>
-    /// <param name="writer">A <see cref="JsonWriter"/> into which this method will write.</param>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/> which will be used when writing the token.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous write operation.</returns>
     public Task WriteToAsync(JsonWriter writer, params JsonConverter[] converters)
     {
         return WriteToAsync(writer, default, converters);
@@ -54,7 +47,6 @@ public abstract partial class JToken
     /// Asynchronously creates a <see cref="JToken"/> from a <see cref="JsonReader"/>.
     /// </summary>
     /// <param name="reader">An <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The
     /// <see cref="Task{TResult}.Result"/> property returns a <see cref="JToken"/> that contains
@@ -62,9 +54,9 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> ReadFromAsync(JsonReader reader, CancellationToken cancellationToken = default)
+    public static Task<JToken> ReadFromAsync(JsonReader reader, CancellationToken cancellation = default)
     {
-        return ReadFromAsync(reader, null, cancellationToken);
+        return ReadFromAsync(reader, null, cancellation);
     }
 
     /// <summary>
@@ -73,7 +65,6 @@ public abstract partial class JToken
     /// <param name="reader">An <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
     /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
     /// If this is <c>null</c>, default load settings will be used.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The
     /// <see cref="Task{TResult}.Result"/> property returns a <see cref="JToken"/> that contains
@@ -81,11 +72,11 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static async Task<JToken> ReadFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
+    public static async Task<JToken> ReadFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
     {
         if (reader.TokenType == JsonToken.None)
         {
-            if (!await (settings is {CommentHandling: CommentHandling.Ignore} ? reader.ReadAndMoveToContentAsync(cancellationToken) : reader.ReadAsync(cancellationToken)).ConfigureAwait(false))
+            if (!await (settings is {CommentHandling: CommentHandling.Ignore} ? reader.ReadAndMoveToContentAsync(cancellation) : reader.ReadAsync(cancellation)).ConfigureAwait(false))
             {
                 throw JsonReaderException.Create(reader, "Error reading JToken from JsonReader.");
             }
@@ -96,13 +87,13 @@ public abstract partial class JToken
         switch (reader.TokenType)
         {
             case JsonToken.StartObject:
-                return await JObject.LoadAsync(reader, settings, cancellationToken).ConfigureAwait(false);
+                return await JObject.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
             case JsonToken.StartArray:
-                return await JArray.LoadAsync(reader, settings, cancellationToken).ConfigureAwait(false);
+                return await JArray.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
             case JsonToken.StartConstructor:
-                return await JConstructor.LoadAsync(reader, settings, cancellationToken).ConfigureAwait(false);
+                return await JConstructor.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
             case JsonToken.PropertyName:
-                return await JProperty.LoadAsync(reader, settings, cancellationToken).ConfigureAwait(false);
+                return await JProperty.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
             case JsonToken.String:
             case JsonToken.Integer:
             case JsonToken.Float:
@@ -133,16 +124,15 @@ public abstract partial class JToken
     /// Asynchronously creates a <see cref="JToken"/> from a <see cref="JsonReader"/>.
     /// </summary>
     /// <param name="reader">A <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The <see cref="Task{TResult}.Result"/>
     /// property returns a <see cref="JToken"/> that contains the token and its descendant tokens
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, CancellationToken cancellationToken = default)
+    public static Task<JToken> LoadAsync(JsonReader reader, CancellationToken cancellation = default)
     {
-        return LoadAsync(reader, null, cancellationToken);
+        return LoadAsync(reader, null, cancellation);
     }
 
     /// <summary>
@@ -151,15 +141,14 @@ public abstract partial class JToken
     /// <param name="reader">A <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
     /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
     /// If this is <c>null</c>, default load settings will be used.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The <see cref="Task{TResult}.Result"/>
     /// property returns a <see cref="JToken"/> that contains the token and its descendant tokens
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellationToken = default)
+    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
     {
-        return ReadFromAsync(reader, settings, cancellationToken);
+        return ReadFromAsync(reader, settings, cancellation);
     }
 }

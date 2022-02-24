@@ -2,7 +2,7 @@
 
 class XContainerWrapper : XObjectWrapper
 {
-    List<IXmlNode>? _childNodes;
+    List<IXmlNode>? childNodes;
 
     XContainer Container => (XContainer)WrappedNode!;
 
@@ -17,23 +17,23 @@ class XContainerWrapper : XObjectWrapper
         {
             // childnodes is read multiple times
             // cache results to prevent multiple reads which kills perf in large documents
-            if (_childNodes == null)
+            if (childNodes == null)
             {
                 if (HasChildNodes)
                 {
-                    _childNodes = new List<IXmlNode>();
+                    childNodes = new List<IXmlNode>();
                     foreach (var node in Container.Nodes())
                     {
-                        _childNodes.Add(WrapNode(node));
+                        childNodes.Add(WrapNode(node));
                     }
                 }
                 else
                 {
-                    _childNodes = XmlNodeConverter.EmptyChildNodes;
+                    childNodes = XmlNodeConverter.EmptyChildNodes;
                 }
             }
 
-            return _childNodes;
+            return childNodes;
         }
     }
 
@@ -100,7 +100,7 @@ class XContainerWrapper : XObjectWrapper
     public override IXmlNode AppendChild(IXmlNode newChild)
     {
         Container.Add(newChild.WrappedNode);
-        _childNodes = null;
+        childNodes = null;
 
         return newChild;
     }

@@ -41,12 +41,10 @@ public interface IJsonLineInfo
     /// <summary>
     /// Gets the current line number.
     /// </summary>
-    /// <value>The current line number or 0 if no line information is available (for example, when <see cref="HasLineInfo"/> returns <c>false</c>).</value>
     int LineNumber { get; }
 
     /// <summary>
     /// Gets the current line position.
     /// </summary>
-    /// <value>The current line position or 0 if no line information is available (for example, when <see cref="HasLineInfo"/> returns <c>false</c>).</value>
     int LinePosition { get; }
 }

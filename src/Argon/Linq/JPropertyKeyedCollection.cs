@@ -29,7 +29,7 @@ class JPropertyKeyedCollection : Collection<JToken>
 {
     static readonly IEqualityComparer<string> Comparer = StringComparer.Ordinal;
 
-    Dictionary<string, JToken>? _dictionary;
+    Dictionary<string, JToken>? dictionary;
 
     public JPropertyKeyedCollection() : base(new List<JToken>())
     {
@@ -38,7 +38,7 @@ class JPropertyKeyedCollection : Collection<JToken>
     void AddKey(string key, JToken item)
     {
         EnsureDictionary();
-        _dictionary![key] = item;
+        dictionary![key] = item;
     }
 
     protected void ChangeItemKey(JToken item, string newKey)
@@ -67,19 +67,14 @@ class JPropertyKeyedCollection : Collection<JToken>
     {
         base.ClearItems();
 
-        _dictionary?.Clear();
+        dictionary?.Clear();
     }
 
     public bool Contains(string key)
     {
-        if (key == null)
+        if (dictionary != null)
         {
-            throw new ArgumentNullException(nameof(key));
-        }
-
-        if (_dictionary != null)
-        {
-            return _dictionary.ContainsKey(key);
+            return dictionary.ContainsKey(key);
         }
 
         return false;
@@ -87,18 +82,18 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     bool ContainsItem(JToken item)
     {
-        if (_dictionary == null)
+        if (dictionary == null)
         {
             return false;
         }
 
         var key = GetKeyForItem(item);
-        return _dictionary.TryGetValue(key, out _);
+        return dictionary.TryGetValue(key, out _);
     }
 
     void EnsureDictionary()
     {
-        _dictionary ??= new Dictionary<string, JToken>(Comparer);
+        dictionary ??= new Dictionary<string, JToken>(Comparer);
     }
 
     static string GetKeyForItem(JToken item)
@@ -114,14 +109,9 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     public bool Remove(string key)
     {
-        if (key == null)
+        if (dictionary != null)
         {
-            throw new ArgumentNullException(nameof(key));
-        }
-
-        if (_dictionary != null)
-        {
-            return _dictionary.TryGetValue(key, out var value) && Remove(value);
+            return dictionary.TryGetValue(key, out var value) && Remove(value);
         }
 
         return false;
@@ -136,7 +126,7 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     void RemoveKey(string key)
     {
-        _dictionary?.Remove(key);
+        dictionary?.Remove(key);
     }
 
     protected override void SetItem(int index, JToken item)
@@ -146,9 +136,9 @@ class JPropertyKeyedCollection : Collection<JToken>
 
         if (Comparer.Equals(keyAtIndex, keyForItem))
         {
-            if (_dictionary != null)
+            if (dictionary != null)
             {
-                _dictionary[keyForItem] = item;
+                dictionary[keyForItem] = item;
             }
         }
         else
@@ -167,14 +157,9 @@ class JPropertyKeyedCollection : Collection<JToken>
     {
         get
         {
-            if (key == null)
+            if (dictionary != null)
             {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            if (_dictionary != null)
-            {
-                return _dictionary[key];
+                return dictionary[key];
             }
 
             throw new KeyNotFoundException();
@@ -183,13 +168,13 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     public bool TryGetValue(string key, [NotNullWhen(true)]out JToken? value)
     {
-        if (_dictionary == null)
+        if (dictionary == null)
         {
             value = null;
             return false;
         }
 
-        return _dictionary.TryGetValue(key, out value);
+        return dictionary.TryGetValue(key, out value);
     }
 
     public ICollection<string> Keys
@@ -197,7 +182,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         get
         {
             EnsureDictionary();
-            return _dictionary!.Keys;
+            return dictionary!.Keys;
         }
     }
 
@@ -206,7 +191,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         get
         {
             EnsureDictionary();
-            return _dictionary!.Values;
+            return dictionary!.Values;
         }
     }
 
@@ -224,8 +209,8 @@ class JPropertyKeyedCollection : Collection<JToken>
 
         // dictionaries in JavaScript aren't ordered
         // ignore order when comparing properties
-        var d1 = _dictionary;
-        var d2 = other._dictionary;
+        var d1 = dictionary;
+        var d2 = other.dictionary;
 
         if (d1 == null && d2 == null)
         {

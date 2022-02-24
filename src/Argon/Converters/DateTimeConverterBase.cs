@@ -33,7 +33,6 @@ public abstract class DateTimeConverterBase : JsonConverter
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
-    /// <param name="type">Type of the object.</param>
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
@@ -44,6 +43,7 @@ public abstract class DateTimeConverterBase : JsonConverter
         {
             return true;
         }
+
         return type == typeof(DateTimeOffset) ||
                type == typeof(DateTimeOffset?);
     }

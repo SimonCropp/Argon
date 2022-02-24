@@ -25,12 +25,28 @@
 
 static class ReflectionUtils
 {
+    public static T GetValueOrDefault<T>(this T? target, T? fallback)
+        where T : struct, Enum
+    {
+        if (target.HasValue)
+        {
+            return target.Value;
+        }
+
+        if (fallback.HasValue)
+        {
+            return fallback.Value;
+        }
+
+        return default;
+    }
+
     public static bool IsVirtual(this PropertyInfo property)
     {
         return property.Method() is {IsVirtual: true};
     }
 
-    public static MethodInfo? Method(this PropertyInfo property)
+    static MethodInfo? Method(this PropertyInfo property)
     {
         var m = property.GetMethod;
         if (m != null)
@@ -62,12 +78,13 @@ static class ReflectionUtils
         return v?.GetType();
     }
 
-    public static string GetTypeName(Type type, TypeNameAssemblyFormatHandling assemblyFormat, ISerializationBinder? binder)
+    public static string GetTypeName(Type type, TypeNameAssemblyFormatHandling? assemblyFormat, ISerializationBinder? binder)
     {
         var fullyQualifiedTypeName = GetFullyQualifiedTypeName(type, binder);
 
         return assemblyFormat switch
         {
+            null => RemoveAssemblyDetails(fullyQualifiedTypeName),
             TypeNameAssemblyFormatHandling.Simple => RemoveAssemblyDetails(fullyQualifiedTypeName),
             TypeNameAssemblyFormatHandling.Full => fullyQualifiedTypeName,
             _ => throw new ArgumentOutOfRangeException()
@@ -332,7 +349,6 @@ static class ReflectionUtils
     /// <summary>
     /// Gets the member's underlying type.
     /// </summary>
-    /// <param name="member">The member.</param>
     /// <returns>The underlying type of the member.</returns>
     public static Type GetMemberUnderlyingType(MemberInfo member)
     {
@@ -354,16 +370,8 @@ static class ReflectionUtils
         }
 
         // IsByRefLike flag on type is not available in netstandard2.0
-        var attributes = GetAttributes(type, null, false);
-        for (var i = 0; i < attributes.Length; i++)
-        {
-            if (string.Equals(attributes[i].GetType().FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        var attributes = type.GetCustomAttributesData();
+        return attributes.Any(t => string.Equals(t.AttributeType.FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal));
     }
 
     /// <summary>
@@ -381,35 +389,33 @@ static class ReflectionUtils
     /// <summary>
     /// Gets the member's value on the object.
     /// </summary>
-    /// <param name="member">The member.</param>
     /// <param name="target">The target object.</param>
     /// <returns>The member's value on the object.</returns>
     public static object GetMemberValue(MemberInfo member, object target)
     {
-        switch (member.MemberType)
+        if (member is PropertyInfo property)
         {
-            case MemberTypes.Field:
-                return ((FieldInfo) member).GetValue(target);
-            case MemberTypes.Property:
-                try
-                {
-                    return ((PropertyInfo) member).GetValue(target, null);
-                }
-                catch (TargetParameterCountException e)
-                {
-                    throw new ArgumentException($"MemberInfo '{member.Name}' has index parameters", e);
-                }
-            default:
-                throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
+            try
+            {
+                return property.GetValue(target, null);
+            }
+            catch (TargetParameterCountException e)
+            {
+                throw new ArgumentException($"MemberInfo '{member.Name}' has index parameters", e);
+            }
         }
+
+        if (member is FieldInfo field)
+        {
+            return field.GetValue(target);
+        }
+
+        throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
     }
 
     /// <summary>
     /// Sets the member's value on the target object.
     /// </summary>
-    /// <param name="member">The member.</param>
-    /// <param name="target">The target.</param>
-    /// <param name="value">The value.</param>
     public static void SetMemberValue(MemberInfo member, object target, object? value)
     {
         switch (member.MemberType)
@@ -435,30 +441,27 @@ static class ReflectionUtils
     /// </returns>
     public static bool CanReadMemberValue(MemberInfo member, bool nonPublic)
     {
-        switch (member.MemberType)
+        if (member is PropertyInfo property)
         {
-            case MemberTypes.Field:
-                var field = (FieldInfo) member;
-
-                return nonPublic || field.IsPublic;
-
-            case MemberTypes.Property:
-                var property = (PropertyInfo) member;
-
-                if (!property.CanRead)
-                {
-                    return false;
-                }
-
-                if (nonPublic)
-                {
-                    return true;
-                }
-
-                return property.GetGetMethod(nonPublic) != null;
-            default:
+            if (!property.CanRead)
+            {
                 return false;
+            }
+
+            if (nonPublic)
+            {
+                return true;
+            }
+
+            return property.GetGetMethod(nonPublic) != null;
         }
+
+        if (member is FieldInfo field)
+        {
+            return nonPublic || field.IsPublic;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -472,39 +475,37 @@ static class ReflectionUtils
     /// </returns>
     public static bool CanSetMemberValue(MemberInfo member, bool nonPublic, bool canSetReadOnly)
     {
-        switch (member.MemberType)
+        if (member is PropertyInfo property)
         {
-            case MemberTypes.Field:
-                var field = (FieldInfo) member;
-
-                if (field.IsLiteral)
-                {
-                    return false;
-                }
-
-                if (field.IsInitOnly && !canSetReadOnly)
-                {
-                    return false;
-                }
-
-                return nonPublic || field.IsPublic;
-            case MemberTypes.Property:
-                var property = (PropertyInfo) member;
-
-                if (!property.CanWrite)
-                {
-                    return false;
-                }
-
-                if (nonPublic)
-                {
-                    return true;
-                }
-
-                return property.GetSetMethod(nonPublic) != null;
-            default:
+            if (!property.CanWrite)
+            {
                 return false;
+            }
+
+            if (nonPublic)
+            {
+                return true;
+            }
+
+            return property.GetSetMethod(nonPublic) != null;
         }
+
+        if (member is FieldInfo field)
+        {
+            if (field.IsLiteral)
+            {
+                return false;
+            }
+
+            if (field.IsInitOnly && !canSetReadOnly)
+            {
+                return false;
+            }
+
+            return nonPublic || field.IsPublic;
+        }
+
+        return false;
     }
 
     public static List<MemberInfo> GetFieldsAndProperties(Type type, BindingFlags bindingAttr)
@@ -595,11 +596,6 @@ static class ReflectionUtils
         return memberUnderlyingType.IsGenericParameter;
     }
 
-    public static T? GetAttribute<T>(object attributeProvider) where T : Attribute
-    {
-        return GetAttribute<T>(attributeProvider, true);
-    }
-
     public static T? GetAttribute<T>(object attributeProvider, bool inherit) where T : Attribute
     {
         var attributes = GetAttributes<T>(attributeProvider, inherit);
@@ -607,7 +603,7 @@ static class ReflectionUtils
         return attributes?.FirstOrDefault();
     }
 
-    public static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
+    static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
     {
         var a = GetAttributes(attributeProvider, typeof(T), inherit);
 
@@ -747,31 +743,31 @@ static class ReflectionUtils
 
     public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr)
     {
-        var propertys = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
+        var properties = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
 
         // GetProperties on an interface doesn't return properties from its interfaces
         if (targetType.IsInterface)
         {
             foreach (var i in targetType.GetInterfaces())
             {
-                propertys.AddRange(i.GetProperties(bindingAttr));
+                properties.AddRange(i.GetProperties(bindingAttr));
             }
         }
 
-        GetChildPrivateProperties(propertys, targetType, bindingAttr);
+        GetChildPrivateProperties(properties, targetType, bindingAttr);
 
         // a base class private getter/setter will be inaccessible unless the property was gotten from the base class
-        for (var i = 0; i < propertys.Count; i++)
+        for (var i = 0; i < properties.Count; i++)
         {
-            var member = propertys[i];
+            var member = properties[i];
             if (member.DeclaringType != targetType)
             {
                 var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType, member);
-                propertys[i] = declaredMember;
+                properties[i] = declaredMember;
             }
         }
 
-        return propertys;
+        return properties;
     }
 
     static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag)
@@ -792,56 +788,54 @@ static class ReflectionUtils
         {
             foreach (var property in targetType.GetProperties(bindingAttr))
             {
-                var subTypeProperty = property;
-
-                if (subTypeProperty.IsVirtual())
+                if (property.IsVirtual())
                 {
-                    var subTypePropertyDeclaringType = subTypeProperty.GetBaseDefinition()?.DeclaringType ?? subTypeProperty.DeclaringType;
+                    var subTypePropertyDeclaringType = property.GetBaseDefinition()?.DeclaringType ?? property.DeclaringType;
 
-                    var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
-                                                               && p.IsVirtual()
-                                                               && (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
+                    var index = initialProperties.IndexOf(p =>
+                        p.Name == property.Name &&
+                        p.IsVirtual() &&
+                        (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
 
                     // don't add a virtual property that has an override
                     if (index == -1)
                     {
-                        initialProperties.Add(subTypeProperty);
+                        initialProperties.Add(property);
                     }
-                }
-                else
-                {
-                    if (!IsPublic(subTypeProperty))
-                    {
-                        // have to test on name rather than reference because instances are different
-                        // depending on the type that GetProperties was called on
-                        var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name);
-                        if (index == -1)
-                        {
-                            initialProperties.Add(subTypeProperty);
-                        }
-                        else
-                        {
-                            var childProperty = initialProperties[index];
-                            // don't replace public child with private base
-                            if (!IsPublic(childProperty))
-                            {
-                                // replace nonpublic properties for a child, but gotten from
-                                // the parent with the one from the child
-                                // the property gotten from the child will have access to private getter/setter
-                                initialProperties[index] = subTypeProperty;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var index = initialProperties.IndexOf(p => p.Name == subTypeProperty.Name
-                                                                   && p.DeclaringType == subTypeProperty.DeclaringType);
 
-                        if (index == -1)
-                        {
-                            initialProperties.Add(subTypeProperty);
-                        }
+                    continue;
+                }
+
+                if (IsPublic(property))
+                {
+                    var publicIndex = initialProperties.IndexOf(p => p.Name == property.Name
+                                                                     && p.DeclaringType == property.DeclaringType);
+
+                    if (publicIndex == -1)
+                    {
+                        initialProperties.Add(property);
                     }
+
+                    continue;
+                }
+
+                // have to test on name rather than reference because instances are different
+                // depending on the type that GetProperties was called on
+                var nonPublicIndex = initialProperties.IndexOf(p => p.Name == property.Name);
+                if (nonPublicIndex == -1)
+                {
+                    initialProperties.Add(property);
+                    continue;
+                }
+
+                var childProperty = initialProperties[nonPublicIndex];
+                // don't replace public child with private base
+                if (!IsPublic(childProperty))
+                {
+                    // replace nonpublic properties for a child, but gotten from
+                    // the parent with the one from the child
+                    // the property gotten from the child will have access to private getter/setter
+                    initialProperties[nonPublicIndex] = property;
                 }
             }
         }

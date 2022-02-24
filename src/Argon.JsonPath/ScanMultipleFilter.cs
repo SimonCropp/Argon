@@ -1,10 +1,10 @@
 class ScanMultipleFilter : PathFilter
 {
-    List<string> _names;
+    List<string> names;
 
     public ScanMultipleFilter(List<string> names)
     {
-        _names = names;
+        this.names = names;
     }
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
@@ -25,7 +25,7 @@ class ScanMultipleFilter : PathFilter
 
                 if (value is JProperty property)
                 {
-                    foreach (var name in _names)
+                    foreach (var name in names)
                     {
                         if (property.Name == name)
                         {

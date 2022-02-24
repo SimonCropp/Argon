@@ -33,7 +33,7 @@ public class Issue1569 : TestFixtureBase
         Stream s = new AsyncOnlyStream(new MemoryStream(Encoding.UTF8.GetBytes(json)));
         var sr = new StreamReader(s, Encoding.UTF8, true, 2);
         var reader = new JsonTextReader(sr);
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[2];
 #endif
 
@@ -44,11 +44,11 @@ public class Issue1569 : TestFixtureBase
 
     public class AsyncOnlyStream : Stream
     {
-        readonly Stream _innerStream;
+        readonly Stream innerStream;
 
         public AsyncOnlyStream(Stream innerStream)
         {
-            _innerStream = innerStream;
+            this.innerStream = innerStream;
         }
 
         public override void Flush()
@@ -56,19 +56,19 @@ public class Issue1569 : TestFixtureBase
             throw new NotSupportedException();
         }
 
-        public override Task FlushAsync(CancellationToken cancellationToken)
+        public override Task FlushAsync(CancellationToken cancellation)
         {
-            return _innerStream.FlushAsync(cancellationToken);
+            return innerStream.FlushAsync(cancellation);
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            return _innerStream.Seek(offset, origin);
+            return innerStream.Seek(offset, origin);
         }
 
         public override void SetLength(long value)
         {
-            _innerStream.SetLength(value);
+            innerStream.SetLength(value);
         }
 
         public override int Read(byte[] buffer, int offset, int count)
@@ -76,9 +76,9 @@ public class Issue1569 : TestFixtureBase
             throw new NotSupportedException();
         }
 
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellation)
         {
-            return _innerStream.ReadAsync(buffer, offset, count, cancellationToken);
+            return innerStream.ReadAsync(buffer, offset, count, cancellation);
         }
 
         public override void Write(byte[] buffer, int offset, int count)
@@ -86,20 +86,20 @@ public class Issue1569 : TestFixtureBase
             throw new NotSupportedException();
         }
 
-        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellation)
         {
-            return _innerStream.WriteAsync(buffer, offset, count, cancellationToken);
+            return innerStream.WriteAsync(buffer, offset, count, cancellation);
         }
 
-        public override bool CanRead => _innerStream.CanRead;
-        public override bool CanSeek => _innerStream.CanSeek;
-        public override bool CanWrite => _innerStream.CanWrite;
-        public override long Length => _innerStream.Length;
+        public override bool CanRead => innerStream.CanRead;
+        public override bool CanSeek => innerStream.CanSeek;
+        public override bool CanWrite => innerStream.CanWrite;
+        public override long Length => innerStream.Length;
 
         public override long Position
         {
-            get => _innerStream.Position;
-            set => _innerStream.Position = value;
+            get => innerStream.Position;
+            set => innerStream.Position = value;
         }
     }
 }

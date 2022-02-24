@@ -31,24 +31,14 @@ namespace TestObjects;
 public struct TypeConverterSize
 {
     public static readonly TypeConverterSize Empty;
-    int _width;
-    int _height;
 
     public TypeConverterSize(int width, int height)
     {
-        _width = width;
-        _height = height;
+        Width = width;
+        Height = height;
     }
 
-    public int Width
-    {
-        get => _width;
-        set => _width = value;
-    }
+    public int Width { get; set; }
 
-    public int Height
-    {
-        get => _height;
-        set => _height = value;
-    }
+    public int Height { get; set; }
 }

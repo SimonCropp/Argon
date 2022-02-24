@@ -35,7 +35,6 @@ public class JPropertyDescriptor : PropertyDescriptor
     /// <summary>
     /// Initializes a new instance of the <see cref="JPropertyDescriptor"/> class.
     /// </summary>
-    /// <param name="name">The name.</param>
     public JPropertyDescriptor(string name)
         : base(name, null)
     {
@@ -135,10 +134,6 @@ public class JPropertyDescriptor : PropertyDescriptor
     /// <summary>
     /// Gets the hash code for the name of the member.
     /// </summary>
-    /// <value></value>
-    /// <returns>
-    /// The hash code for the name of the member.
-    /// </returns>
     protected override int NameHashCode
     {
         get

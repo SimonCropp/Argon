@@ -413,7 +413,7 @@ public class ParseTests : TestFixtureBase
     {
         var json = "new Date\0()";
         var reader = new JsonTextReader(new StringReader(json));
-#if DEBUG
+#if !RELEASE
         reader.CharBuffer = new char[7];
 #endif
 
