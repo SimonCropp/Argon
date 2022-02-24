@@ -23,59 +23,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Specialized;
-using System.ComponentModel;
-
 namespace Argon.Linq;
 
 /// <summary>
 /// Represents a token that can contain other tokens.
 /// </summary>
 public abstract partial class JContainer :
-    JToken, IList<JToken>,
-    ITypedList,
-    IBindingList,
-    IList,
-    INotifyCollectionChanged
+    JToken,
+    IList<JToken>
 {
-    internal ListChangedEventHandler? listChanged;
-    internal AddingNewEventHandler? addingNew;
-
-    /// <summary>
-    /// Occurs when the list changes or an item in the list changes.
-    /// </summary>
-    public event ListChangedEventHandler ListChanged
-    {
-        add => listChanged += value;
-        remove => listChanged -= value;
-    }
-
-    /// <summary>
-    /// Occurs before an item is added to the collection.
-    /// </summary>
-    public event AddingNewEventHandler AddingNew
-    {
-        add => addingNew += value;
-        remove => addingNew -= value;
-    }
-    internal NotifyCollectionChangedEventHandler? collectionChanged;
-
-    /// <summary>
-    /// Occurs when the items list of the collection has changed, or the collection is reset.
-    /// </summary>
-    public event NotifyCollectionChangedEventHandler CollectionChanged
-    {
-        add => collectionChanged += value;
-        remove => collectionChanged -= value;
-    }
-
     /// <summary>
     /// Gets the container's children tokens.
     /// </summary>
     protected abstract IList<JToken> ChildrenTokens { get; }
-
-    object? syncRoot;
-    bool busy;
 
     internal JContainer()
     {
@@ -92,67 +52,6 @@ public abstract partial class JContainer :
         }
 
         SetLineInfo(this, null);
-    }
-
-    internal void CheckReentrancy()
-    {
-        if (busy)
-        {
-            throw new InvalidOperationException($"Cannot change {GetType()} during a collection change event.");
-        }
-    }
-
-    /// <summary>
-    /// Raises the <see cref="AddingNew"/> event.
-    /// </summary>
-    /// <param name="e">The <see cref="AddingNewEventArgs"/> instance containing the event data.</param>
-    protected virtual void OnAddingNew(AddingNewEventArgs e)
-    {
-        addingNew?.Invoke(this, e);
-    }
-
-    /// <summary>
-    /// Raises the <see cref="ListChanged"/> event.
-    /// </summary>
-    /// <param name="e">The <see cref="ListChangedEventArgs"/> instance containing the event data.</param>
-    protected virtual void OnListChanged(ListChangedEventArgs e)
-    {
-        var handler = listChanged;
-
-        if (handler != null)
-        {
-            busy = true;
-            try
-            {
-                handler(this, e);
-            }
-            finally
-            {
-                busy = false;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Raises the <see cref="CollectionChanged"/> event.
-    /// </summary>
-    /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/> instance containing the event data.</param>
-    protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-    {
-        var handler = collectionChanged;
-
-        if (handler != null)
-        {
-            busy = true;
-            try
-            {
-                handler(this, e);
-            }
-            finally
-            {
-                busy = false;
-            }
-        }
     }
 
     /// <summary>
@@ -312,8 +211,6 @@ public abstract partial class JContainer :
             throw new ArgumentOutOfRangeException(nameof(index), "Index must be within the bounds of the List.");
         }
 
-        CheckReentrancy();
-
         item = EnsureParentToken(item, skipParentCheck);
 
         var previous = index == 0 ? null : children[index - 1];
@@ -338,15 +235,6 @@ public abstract partial class JContainer :
 
         children.Insert(index, item);
 
-        if (listChanged != null)
-        {
-            OnListChanged(new ListChangedEventArgs(ListChangedType.ItemAdded, index));
-        }
-        if (collectionChanged != null)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
-        }
-
         return true;
     }
 
@@ -362,8 +250,6 @@ public abstract partial class JContainer :
         {
             throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
         }
-
-        CheckReentrancy();
 
         var item = children[index];
         var previous = index == 0 ? null : children[index - 1];
@@ -383,15 +269,6 @@ public abstract partial class JContainer :
         item.Next = null;
 
         children.RemoveAt(index);
-
-        if (listChanged != null)
-        {
-            OnListChanged(new ListChangedEventArgs(ListChangedType.ItemDeleted, index));
-        }
-        if (collectionChanged != null)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
-        }
     }
 
     internal virtual bool RemoveItem(JToken? item)
@@ -434,8 +311,6 @@ public abstract partial class JContainer :
             return;
         }
 
-        CheckReentrancy();
-
         item = EnsureParentToken(item, false);
 
         ValidateToken(item, existing);
@@ -462,21 +337,10 @@ public abstract partial class JContainer :
         existing.Parent = null;
         existing.Previous = null;
         existing.Next = null;
-
-        if (listChanged != null)
-        {
-            OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, index));
-        }
-        if (collectionChanged != null)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item, existing, index));
-        }
     }
 
     internal virtual void ClearItems()
     {
-        CheckReentrancy();
-
         var children = ChildrenTokens;
 
         foreach (var item in children)
@@ -488,14 +352,6 @@ public abstract partial class JContainer :
 
         children.Clear();
 
-        if (listChanged != null)
-        {
-            OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
-        }
-        if (collectionChanged != null)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
     }
 
     internal virtual void ReplaceItem(JToken existing, JToken replacement)
@@ -867,17 +723,6 @@ public abstract partial class JContainer :
         return hashCode;
     }
 
-    string ITypedList.GetListName(PropertyDescriptor[] listAccessors)
-    {
-        return string.Empty;
-    }
-
-    PropertyDescriptorCollection? ITypedList.GetItemProperties(PropertyDescriptor[] listAccessors)
-    {
-        var d = First as ICustomTypeDescriptor;
-        return d?.GetProperties();
-    }
-
     #region IList<JToken> Members
     int IList<JToken>.IndexOf(JToken item)
     {
@@ -945,143 +790,10 @@ public abstract partial class JContainer :
         throw new ArgumentException("Argument is not a JToken.");
     }
 
-    #region IList Members
-    int IList.Add(object value)
-    {
-        Add(EnsureValue(value));
-        return Count - 1;
-    }
-
-    void IList.Clear()
-    {
-        ClearItems();
-    }
-
-    bool IList.Contains(object value)
-    {
-        return ContainsItem(EnsureValue(value));
-    }
-
-    int IList.IndexOf(object value)
-    {
-        return IndexOfItem(EnsureValue(value));
-    }
-
-    void IList.Insert(int index, object value)
-    {
-        InsertItem(index, EnsureValue(value), false);
-    }
-
-    bool IList.IsFixedSize => false;
-
-    bool IList.IsReadOnly => false;
-
-    void IList.Remove(object value)
-    {
-        RemoveItem(EnsureValue(value));
-    }
-
-    void IList.RemoveAt(int index)
-    {
-        RemoveItemAt(index);
-    }
-
-    object IList.this[int index]
-    {
-        get => GetItem(index);
-        set => SetItem(index, EnsureValue(value));
-    }
-    #endregion
-
-    #region ICollection Members
-    void ICollection.CopyTo(Array array, int index)
-    {
-        CopyItemsTo(array, index);
-    }
-
     /// <summary>
     /// Gets the count of child JSON tokens.
     /// </summary>
     public int Count => ChildrenTokens.Count;
-
-    bool ICollection.IsSynchronized => false;
-
-    object ICollection.SyncRoot
-    {
-        get
-        {
-            if (syncRoot == null)
-            {
-                Interlocked.CompareExchange(ref syncRoot, new object(), null);
-            }
-
-            return syncRoot;
-        }
-    }
-    #endregion
-
-    #region IBindingList Members
-    void IBindingList.AddIndex(PropertyDescriptor property)
-    {
-    }
-
-    object IBindingList.AddNew()
-    {
-        var args = new AddingNewEventArgs();
-        OnAddingNew(args);
-
-        if (args.NewObject == null)
-        {
-            throw new JsonException($"Could not determine new value to add to '{GetType()}'.");
-        }
-
-        if (args.NewObject is not JToken newItem)
-        {
-            throw new JsonException($"New item to be added to collection must be compatible with {typeof(JToken)}.");
-        }
-
-        Add(newItem);
-
-        return newItem;
-    }
-
-    bool IBindingList.AllowEdit => true;
-
-    bool IBindingList.AllowNew => true;
-
-    bool IBindingList.AllowRemove => true;
-
-    void IBindingList.ApplySort(PropertyDescriptor property, ListSortDirection direction)
-    {
-        throw new NotSupportedException();
-    }
-
-    int IBindingList.Find(PropertyDescriptor property, object key)
-    {
-        throw new NotSupportedException();
-    }
-
-    bool IBindingList.IsSorted => false;
-
-    void IBindingList.RemoveIndex(PropertyDescriptor property)
-    {
-    }
-
-    void IBindingList.RemoveSort()
-    {
-        throw new NotSupportedException();
-    }
-
-    ListSortDirection IBindingList.SortDirection => ListSortDirection.Ascending;
-
-    PropertyDescriptor? IBindingList.SortProperty => null;
-
-    bool IBindingList.SupportsChangeNotification => true;
-
-    bool IBindingList.SupportsSearching => false;
-
-    bool IBindingList.SupportsSorting => false;
-    #endregion
 
     internal static void MergeEnumerableContent(JContainer target, IEnumerable content, JsonMergeSettings? settings)
     {

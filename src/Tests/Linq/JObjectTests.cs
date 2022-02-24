@@ -23,10 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Specialized;
-using System.ComponentModel;
 using TestObjects;
-
 
 public class JObjectTests : TestFixtureBase
 {
@@ -692,7 +689,7 @@ Parameter name: arrayIndex",
         var p2 = new JProperty("Test2", "Two");
 
         var o = new JObject(p1, p2);
-        IList l = o;
+        IList<JToken> l = o;
         Assert.Equal(p1, l[0]);
         Assert.Equal(p2, l[1]);
 
@@ -719,110 +716,10 @@ Parameter name: arrayIndex",
     }
 
     [Fact]
-    public void PropertyChanging()
-    {
-        object changing = null;
-        object changed = null;
-        var changingCount = 0;
-        var changedCount = 0;
-
-        var o = new JObject();
-        o.PropertyChanging += (sender, args) =>
-        {
-            var s = (JObject) sender;
-            changing = s[args.PropertyName] != null ? ((JValue) s[args.PropertyName]).Value : null;
-            changingCount++;
-        };
-        o.PropertyChanged += (sender, args) =>
-        {
-            var s = (JObject) sender;
-            changed = s[args.PropertyName] != null ? ((JValue) s[args.PropertyName]).Value : null;
-            changedCount++;
-        };
-
-        o["StringValue"] = "value1";
-        Assert.Equal(null, changing);
-        Assert.Equal("value1", changed);
-        Assert.Equal("value1", (string) o["StringValue"]);
-        Assert.Equal(1, changingCount);
-        Assert.Equal(1, changedCount);
-
-        o["StringValue"] = "value1";
-        Assert.Equal(1, changingCount);
-        Assert.Equal(1, changedCount);
-
-        o["StringValue"] = "value2";
-        Assert.Equal("value1", changing);
-        Assert.Equal("value2", changed);
-        Assert.Equal("value2", (string) o["StringValue"]);
-        Assert.Equal(2, changingCount);
-        Assert.Equal(2, changedCount);
-
-        o["StringValue"] = null;
-        Assert.Equal("value2", changing);
-        Assert.Equal(null, changed);
-        Assert.Equal(null, (string) o["StringValue"]);
-        Assert.Equal(3, changingCount);
-        Assert.Equal(3, changedCount);
-
-        o["NullValue"] = null;
-        Assert.Equal(null, changing);
-        Assert.Equal(null, changed);
-        Assert.Equal(JValue.CreateNull(), o["NullValue"]);
-        Assert.Equal(4, changingCount);
-        Assert.Equal(4, changedCount);
-
-        o["NullValue"] = null;
-        Assert.Equal(4, changingCount);
-        Assert.Equal(4, changedCount);
-    }
-
-    [Fact]
-    public void PropertyChanged()
-    {
-        object changed = null;
-        var changedCount = 0;
-
-        var o = new JObject();
-        o.PropertyChanged += (sender, args) =>
-        {
-            var s = (JObject) sender;
-            changed = s[args.PropertyName] != null ? ((JValue) s[args.PropertyName]).Value : null;
-            changedCount++;
-        };
-
-        o["StringValue"] = "value1";
-        Assert.Equal("value1", changed);
-        Assert.Equal("value1", (string) o["StringValue"]);
-        Assert.Equal(1, changedCount);
-
-        o["StringValue"] = "value1";
-        Assert.Equal(1, changedCount);
-
-        o["StringValue"] = "value2";
-        Assert.Equal("value2", changed);
-        Assert.Equal("value2", (string) o["StringValue"]);
-        Assert.Equal(2, changedCount);
-
-        o["StringValue"] = null;
-        Assert.Equal(null, changed);
-        Assert.Equal(null, (string) o["StringValue"]);
-        Assert.Equal(3, changedCount);
-
-        o["NullValue"] = null;
-        Assert.Equal(null, changed);
-        Assert.Equal(JValue.CreateNull(), o["NullValue"]);
-        Assert.Equal(4, changedCount);
-
-        o["NullValue"] = null;
-        Assert.Equal(4, changedCount);
-    }
-
-    [Fact]
     public void IListContains()
     {
         var p = new JProperty("Test", 1);
-        IList l = new JObject(p);
+        IList<JToken> l = new JObject(p);
 
         Assert.True(l.Contains(p));
         Assert.False(l.Contains(new JProperty("Test", 1)));
@@ -832,7 +729,7 @@ Parameter name: arrayIndex",
     public void IListIndexOf()
     {
         var p = new JProperty("Test", 1);
-        IList l = new JObject(p);
+        IList<JToken> l = new JObject(p);
 
         Assert.Equal(0, l.IndexOf(p));
         Assert.Equal(-1, l.IndexOf(new JProperty("Test", 1)));
@@ -842,7 +739,7 @@ Parameter name: arrayIndex",
     public void IListClear()
     {
         var p = new JProperty("Test", 1);
-        IList l = new JObject(p);
+        IList<JToken> l = new JObject(p);
 
         Assert.Equal(1, l.Count);
 
@@ -852,26 +749,11 @@ Parameter name: arrayIndex",
     }
 
     [Fact]
-    public void IListCopyTo()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
-
-        var a = new object[l.Count];
-
-        l.CopyTo(a, 0);
-
-        Assert.Equal(p1, a[0]);
-        Assert.Equal(p2, a[1]);
-    }
-
-    [Fact]
     public void IListAdd()
     {
         var p1 = new JProperty("Test1", 1);
         var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
+        IList<JToken> l = new JObject(p1, p2);
 
         var p3 = new JProperty("Test3", "III");
 
@@ -889,7 +771,7 @@ Parameter name: arrayIndex",
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
-            IList l = new JObject(p1, p2);
+            IList<JToken> l = new JObject(p1, p2);
 
             l.Add(new JValue("Bad!"));
         },
@@ -904,11 +786,11 @@ Parameter name: arrayIndex",
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
-            IList l = new JObject(p1, p2);
+            IList<JToken> l = new JObject(p1, p2);
 
             l.Add("Bad!");
         },
-            "Argument is not a JToken.");
+            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
     }
 
     [Fact]
@@ -919,7 +801,7 @@ Parameter name: arrayIndex",
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
-            IList l = new JObject(p1, p2);
+            IList<JToken> l = new JObject(p1, p2);
 
             var p3 = new JProperty("Test2", "II");
 
@@ -933,7 +815,7 @@ Parameter name: arrayIndex",
     {
         var p1 = new JProperty("Test1", 1);
         var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
+        IList<JToken> l = new JObject(p1, p2);
 
         var p3 = new JProperty("Test3", "III");
 
@@ -957,7 +839,7 @@ Parameter name: arrayIndex",
     {
         var p1 = new JProperty("Test1", 1);
         var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
+        IList<JToken> l = new JObject(p1, p2);
 
         // won't do anything
         l.RemoveAt(0);
@@ -974,7 +856,7 @@ Parameter name: arrayIndex",
     {
         var p1 = new JProperty("Test1", 1);
         var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
+        IList<JToken> l = new JObject(p1, p2);
 
         var p3 = new JProperty("Test3", "III");
 
@@ -989,15 +871,8 @@ Parameter name: arrayIndex",
     [Fact]
     public void IListIsReadOnly()
     {
-        IList l = new JObject();
+        IList<JToken> l = new JObject();
         Assert.False(l.IsReadOnly);
-    }
-
-    [Fact]
-    public void IListIsFixedSize()
-    {
-        IList l = new JObject();
-        Assert.False(l.IsFixedSize);
     }
 
     [Fact]
@@ -1005,7 +880,7 @@ Parameter name: arrayIndex",
     {
         var p1 = new JProperty("Test1", 1);
         var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
+        IList<JToken> l = new JObject(p1, p2);
 
         var p3 = new JProperty("Test3", "III");
 
@@ -1023,7 +898,7 @@ Parameter name: arrayIndex",
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
-            IList l = new JObject(p1, p2);
+            IList<JToken> l = new JObject(p1, p2);
 
             var p3 = new JProperty("Test3", "III");
 
@@ -1041,31 +916,11 @@ Parameter name: arrayIndex",
         {
             var p1 = new JProperty("Test1", 1);
             var p2 = new JProperty("Test2", "Two");
-            IList l = new JObject(p1, p2);
+            IList<JToken> l = new JObject(p1, p2);
 
             l[0] = new JValue(true);
         },
             @"Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
-    }
-
-    [Fact]
-    public void IListSyncRoot()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
-
-        Assert.NotNull(l.SyncRoot);
-    }
-
-    [Fact]
-    public void IListIsSynchronized()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        IList l = new JObject(p1, p2);
-
-        Assert.False(l.IsSynchronized);
     }
 
     [Fact]
@@ -1275,237 +1130,6 @@ Parameter name: arrayIndex",
             l[1] = p3;
         },
             "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
-    }
-
-    [Fact]
-    public void IBindingListSortDirection()
-    {
-        IBindingList l = new JObject();
-        Assert.Equal(ListSortDirection.Ascending, l.SortDirection);
-    }
-
-    [Fact]
-    public void IBindingListSortProperty()
-    {
-        IBindingList l = new JObject();
-        Assert.Equal(null, l.SortProperty);
-    }
-
-    [Fact]
-    public void IBindingListSupportsChangeNotification()
-    {
-        IBindingList l = new JObject();
-        XUnitAssert.True(l.SupportsChangeNotification);
-    }
-
-    [Fact]
-    public void IBindingListSupportsSearching()
-    {
-        IBindingList l = new JObject();
-        XUnitAssert.False(l.SupportsSearching);
-    }
-
-    [Fact]
-    public void IBindingListSupportsSorting()
-    {
-        IBindingList l = new JObject();
-        XUnitAssert.False(l.SupportsSorting);
-    }
-
-    [Fact]
-    public void IBindingListAllowEdit()
-    {
-        IBindingList l = new JObject();
-        XUnitAssert.True(l.AllowEdit);
-    }
-
-    [Fact]
-    public void IBindingListAllowNew()
-    {
-        IBindingList l = new JObject();
-        XUnitAssert.True(l.AllowNew);
-    }
-
-    [Fact]
-    public void IBindingListAllowRemove()
-    {
-        IBindingList l = new JObject();
-        XUnitAssert.True(l.AllowRemove);
-    }
-
-    [Fact]
-    public void IBindingListAddIndex()
-    {
-        IBindingList l = new JObject();
-        // do nothing
-        l.AddIndex(null);
-    }
-
-    [Fact]
-    public void IBindingListApplySort()
-    {
-        XUnitAssert.Throws<NotSupportedException>(() =>
-        {
-            IBindingList l = new JObject();
-            l.ApplySort(null, ListSortDirection.Ascending);
-        }, "Specified method is not supported.");
-    }
-
-    [Fact]
-    public void IBindingListRemoveSort()
-    {
-        XUnitAssert.Throws<NotSupportedException>(() =>
-        {
-            IBindingList l = new JObject();
-            l.RemoveSort();
-        }, "Specified method is not supported.");
-    }
-
-    [Fact]
-    public void IBindingListRemoveIndex()
-    {
-        IBindingList l = new JObject();
-        // do nothing
-        l.RemoveIndex(null);
-    }
-
-    [Fact]
-    public void IBindingListFind()
-    {
-        XUnitAssert.Throws<NotSupportedException>(() =>
-        {
-            IBindingList l = new JObject();
-            l.Find(null, null);
-        }, "Specified method is not supported.");
-    }
-
-    [Fact]
-    public void IBindingListIsSorted()
-    {
-        IBindingList l = new JObject();
-        XUnitAssert.False(l.IsSorted);
-    }
-
-    [Fact]
-    public void IBindingListAddNew()
-    {
-        XUnitAssert.Throws<JsonException>(() =>
-        {
-            IBindingList l = new JObject();
-            l.AddNew();
-        }, "Could not determine new value to add to 'Argon.Linq.JObject'.");
-    }
-
-    [Fact]
-    public void IBindingListAddNewWithEvent()
-    {
-        var o = new JObject();
-        o.addingNew += (_, e) => e.NewObject = new JProperty("Property!");
-
-        IBindingList l = o;
-        var newObject = l.AddNew();
-        Assert.NotNull(newObject);
-
-        var p = (JProperty) newObject;
-        Assert.Equal("Property!", p.Name);
-        Assert.Equal(o, p.Parent);
-    }
-
-    [Fact]
-    public void ITypedListGetListName()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        ITypedList l = new JObject(p1, p2);
-
-        Assert.Equal(string.Empty, l.GetListName(null));
-    }
-
-    [Fact]
-    public void ITypedListGetItemProperties()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        ITypedList l = new JObject(p1, p2);
-
-        var propertyDescriptors = l.GetItemProperties(null);
-        Assert.Null(propertyDescriptors);
-    }
-
-    [Fact]
-    public void ListChanged()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        var o = new JObject(p1, p2);
-
-        ListChangedType? changedType = null;
-        int? index = null;
-
-        o.ListChanged += (_, a) =>
-        {
-            changedType = a.ListChangedType;
-            index = a.NewIndex;
-        };
-
-        var p3 = new JProperty("Test3", "III");
-
-        o.Add(p3);
-        Assert.Equal(changedType, ListChangedType.ItemAdded);
-        Assert.Equal(index, 2);
-        Assert.Equal(p3, ((IList<JToken>) o)[index.Value]);
-
-        var p4 = new JProperty("Test4", "IV");
-
-        ((IList<JToken>) o)[index.Value] = p4;
-        Assert.Equal(changedType, ListChangedType.ItemChanged);
-        Assert.Equal(index, 2);
-        Assert.Equal(p4, ((IList<JToken>) o)[index.Value]);
-        Assert.False(((IList<JToken>) o).Contains(p3));
-        Assert.True(((IList<JToken>) o).Contains(p4));
-
-        o["Test1"] = 2;
-        Assert.Equal(changedType, ListChangedType.ItemChanged);
-        Assert.Equal(index, 0);
-        Assert.Equal(2, (int) o["Test1"]);
-    }
-
-    [Fact]
-    public void CollectionChanged()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        var o = new JObject(p1, p2);
-
-        NotifyCollectionChangedAction? changedType = null;
-        int? index = null;
-
-        o.collectionChanged += (_, a) =>
-        {
-            changedType = a.Action;
-            index = a.NewStartingIndex;
-        };
-
-        var p3 = new JProperty("Test3", "III");
-
-        o.Add(p3);
-        Assert.Equal(changedType, NotifyCollectionChangedAction.Add);
-        Assert.Equal(index, 2);
-        Assert.Equal(p3, ((IList<JToken>) o)[index.Value]);
-
-        var p4 = new JProperty("Test4", "IV");
-
-        ((IList<JToken>) o)[index.Value] = p4;
-        Assert.Equal(changedType, NotifyCollectionChangedAction.Replace);
-        Assert.Equal(index, 2);
-        Assert.Equal(p4, ((IList<JToken>) o)[index.Value]);
-        Assert.False(((IList<JToken>) o).Contains(p3));
-        Assert.True(((IList<JToken>) o).Contains(p4));
-
-        o["Test1"] = 2;
-        Assert.Equal(changedType, NotifyCollectionChangedAction.Replace);
-        Assert.Equal(index, 0);
-        Assert.Equal(2, (int) o["Test1"]);
     }
 
     [Fact]
@@ -1767,45 +1391,6 @@ Parameter name: arrayIndex",
 
             JToken.ReadFrom(reader);
         }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
-    }
-
-    [Fact]
-    public void GetProperties()
-    {
-        var o = JObject.Parse("{'prop1':12,'prop2':'hi!','prop3':null,'prop4':[1,2,3]}");
-
-        ICustomTypeDescriptor descriptor = o;
-
-        var properties = descriptor.GetProperties();
-        Assert.Equal(4, properties.Count);
-
-        var prop1 = properties[0];
-        Assert.Equal("prop1", prop1.Name);
-        Assert.Equal(typeof(object), prop1.PropertyType);
-        Assert.Equal(typeof(JObject), prop1.ComponentType);
-        XUnitAssert.False(prop1.CanResetValue(o));
-        XUnitAssert.False(prop1.ShouldSerializeValue(o));
-
-        var prop2 = properties[1];
-        Assert.Equal("prop2", prop2.Name);
-        Assert.Equal(typeof(object), prop2.PropertyType);
-        Assert.Equal(typeof(JObject), prop2.ComponentType);
-        XUnitAssert.False(prop2.CanResetValue(o));
-        XUnitAssert.False(prop2.ShouldSerializeValue(o));
-
-        var prop3 = properties[2];
-        Assert.Equal("prop3", prop3.Name);
-        Assert.Equal(typeof(object), prop3.PropertyType);
-        Assert.Equal(typeof(JObject), prop3.ComponentType);
-        XUnitAssert.False(prop3.CanResetValue(o));
-        XUnitAssert.False(prop3.ShouldSerializeValue(o));
-
-        var prop4 = properties[3];
-        Assert.Equal("prop4", prop4.Name);
-        Assert.Equal(typeof(object), prop4.PropertyType);
-        Assert.Equal(typeof(JObject), prop4.ComponentType);
-        XUnitAssert.False(prop4.CanResetValue(o));
-        XUnitAssert.False(prop4.ShouldSerializeValue(o));
     }
 
     [Fact]
@@ -2090,27 +1675,6 @@ Parameter name: arrayIndex",
         XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse(json),
             "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
-    }
-
-    [Fact]
-    public void GetPropertyOwner_ReturnsJObject()
-    {
-        ICustomTypeDescriptor o = new JObject
-        {
-            ["prop1"] = 1
-        };
-
-        var properties = o.GetProperties();
-        Assert.Equal(1, properties.Count);
-
-        var pd = properties[0];
-        Assert.Equal("prop1", pd.Name);
-
-        var owner = o.GetPropertyOwner(pd);
-        Assert.Equal(o, owner);
-
-        var value = pd.GetValue(owner);
-        Assert.Equal(1, (int) (JToken) value);
     }
 
     [Fact]

@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Dynamic;
 using System.Linq.Expressions;
 
@@ -38,10 +36,7 @@ namespace Argon.Linq;
 /// </example>
 public partial class JObject :
     JContainer,
-    IDictionary<string, JToken?>,
-    INotifyPropertyChanged,
-    ICustomTypeDescriptor,
-    INotifyPropertyChanging
+    IDictionary<string, JToken?>
 {
     readonly JPropertyKeyedCollection properties = new();
 
@@ -49,16 +44,6 @@ public partial class JObject :
     /// Gets the container's children tokens.
     /// </summary>
     protected override IList<JToken> ChildrenTokens => properties;
-
-    /// <summary>
-    /// Occurs when a property value changes.
-    /// </summary>
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    /// <summary>
-    /// Occurs when a property value is changing.
-    /// </summary>
-    public event PropertyChangingEventHandler? PropertyChanging;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JObject"/> class.
@@ -198,24 +183,6 @@ public partial class JObject :
         return false;
     }
 
-    internal void InternalPropertyChanged(JProperty childProperty)
-    {
-        OnPropertyChanged(childProperty.Name);
-        if (listChanged != null)
-        {
-            OnListChanged(new ListChangedEventArgs(ListChangedType.ItemChanged, IndexOfItem(childProperty)));
-        }
-        if (collectionChanged != null)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, childProperty, childProperty, IndexOfItem(childProperty)));
-        }
-    }
-
-    internal void InternalPropertyChanging(JProperty childProperty)
-    {
-        OnPropertyChanging(childProperty.Name);
-    }
-
     internal override JToken CloneToken()
     {
         return new JObject(this);
@@ -324,9 +291,7 @@ public partial class JObject :
             var property = Property(propertyName, StringComparison.Ordinal);
             if (property == null)
             {
-                OnPropertyChanging(propertyName);
                 Add(propertyName, value);
-                OnPropertyChanged(propertyName);
             }
             else
             {
@@ -655,101 +620,6 @@ public partial class JObject :
             yield return new KeyValuePair<string, JToken?>(property.Name, property.Value);
         }
     }
-
-    /// <summary>
-    /// Raises the <see cref="PropertyChanged"/> event with the provided arguments.
-    /// </summary>
-    /// <param name="propertyName">Name of the property.</param>
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    /// <summary>
-    /// Raises the <see cref="PropertyChanging"/> event with the provided arguments.
-    /// </summary>
-    /// <param name="propertyName">Name of the property.</param>
-    protected virtual void OnPropertyChanging(string propertyName)
-    {
-        PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
-    }
-
-    // include custom type descriptor on JObject rather than use a provider because the properties are specific to a type
-
-    #region ICustomTypeDescriptor
-    PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties()
-    {
-        return ((ICustomTypeDescriptor)this).GetProperties(null);
-    }
-
-    PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties(Attribute[] attributes)
-    {
-        var propertiesArray = new PropertyDescriptor[Count];
-        var i = 0;
-        foreach (var propertyValue in this)
-        {
-            propertiesArray[i] = new JPropertyDescriptor(propertyValue.Key);
-            i++;
-        }
-
-        return new PropertyDescriptorCollection(propertiesArray);
-    }
-
-    AttributeCollection ICustomTypeDescriptor.GetAttributes()
-    {
-        return AttributeCollection.Empty;
-    }
-
-    string? ICustomTypeDescriptor.GetClassName()
-    {
-        return null;
-    }
-
-    string? ICustomTypeDescriptor.GetComponentName()
-    {
-        return null;
-    }
-
-    TypeConverter ICustomTypeDescriptor.GetConverter()
-    {
-        return new TypeConverter();
-    }
-
-    EventDescriptor? ICustomTypeDescriptor.GetDefaultEvent()
-    {
-        return null;
-    }
-
-    PropertyDescriptor? ICustomTypeDescriptor.GetDefaultProperty()
-    {
-        return null;
-    }
-
-    object? ICustomTypeDescriptor.GetEditor(Type editorBaseType)
-    {
-        return null;
-    }
-
-    EventDescriptorCollection ICustomTypeDescriptor.GetEvents(Attribute[] attributes)
-    {
-        return EventDescriptorCollection.Empty;
-    }
-
-    EventDescriptorCollection ICustomTypeDescriptor.GetEvents()
-    {
-        return EventDescriptorCollection.Empty;
-    }
-
-    object? ICustomTypeDescriptor.GetPropertyOwner(PropertyDescriptor pd)
-    {
-        if (pd is JPropertyDescriptor)
-        {
-            return this;
-        }
-
-        return null;
-    }
-    #endregion
 
     /// <summary>
     /// Returns the <see cref="DynamicMetaObject"/> responsible for binding operations performed on this object.

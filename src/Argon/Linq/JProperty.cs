@@ -152,8 +152,6 @@ public partial class JProperty : JContainer
         get => content.token!;
         set
         {
-            CheckReentrancy();
-
             var newValue = value ?? JValue.CreateNull();
 
             if (content.token == null)
@@ -199,11 +197,7 @@ public partial class JProperty : JContainer
             return;
         }
 
-        ((JObject?)Parent)?.InternalPropertyChanging(this);
-
         base.SetItem(0, item);
-
-        ((JObject?)Parent)?.InternalPropertyChanged(this);
     }
 
     internal override bool RemoveItem(JToken? item)

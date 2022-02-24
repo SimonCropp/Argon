@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.ComponentModel;
-
 // ReSharper disable UseObjectOrCollectionInitializer
 
 public class JArrayTests : TestFixtureBase
@@ -430,20 +428,6 @@ Parameter name: index",
             Assert.Equal(i, (int)token);
             i++;
         }
-    }
-
-    [Fact]
-    public void ITypedListGetItemProperties()
-    {
-        var p1 = new JProperty("Test1", 1);
-        var p2 = new JProperty("Test2", "Two");
-        ITypedList a = new JArray(new JObject(p1, p2));
-
-        var propertyDescriptors = a.GetItemProperties(null);
-        Assert.NotNull(propertyDescriptors);
-        Assert.Equal(2, propertyDescriptors.Count);
-        Assert.Equal("Test1", propertyDescriptors[0].Name);
-        Assert.Equal("Test2", propertyDescriptors[1].Name);
     }
 
     [Fact]

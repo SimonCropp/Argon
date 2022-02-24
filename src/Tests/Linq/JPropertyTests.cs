@@ -23,8 +23,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System.ComponentModel;
-
 public class JPropertyTests : TestFixtureBase
 {
     [Fact]
@@ -42,76 +40,39 @@ public class JPropertyTests : TestFixtureBase
     }
 
     [Fact]
-    public void ListChanged()
-    {
-        var p = new JProperty("TestProperty", null);
-        IBindingList l = p;
-
-        ListChangedType? listChangedType = null;
-        int? index = null;
-
-        l.ListChanged += (_, args) =>
-        {
-            listChangedType = args.ListChangedType;
-            index = args.NewIndex;
-        };
-
-        p.Value = 1;
-
-        Assert.Equal(ListChangedType.ItemChanged, listChangedType.Value);
-        Assert.Equal(0, index.Value);
-    }
-
-    [Fact]
     public void IListCount()
     {
         var p = new JProperty("TestProperty", null);
-        IList l = p;
-
-        Assert.Equal(1, l.Count);
+        Assert.Equal(1, p.Count);
     }
 
     [Fact]
     public void IListClear()
     {
-        var p = new JProperty("TestProperty", null);
-        IList l = p;
+        var p = (IList<JToken>)new JProperty("TestProperty", null);
 
         XUnitAssert.Throws<JsonException>(
-            () => l.Clear(),
+            () => p.Clear(),
             "Cannot add or remove items from Argon.Linq.JProperty.");
     }
 
     [Fact]
     public void IListAdd()
     {
-        var p = new JProperty("TestProperty", null);
-        IList l = p;
+        var p = (IList<JToken>)new JProperty("TestProperty", null);
 
         XUnitAssert.Throws<JsonException>(
-            () => l.Add(null),
+            () => p.Add(null),
             "Argon.Linq.JProperty cannot have multiple values.");
-    }
-
-    [Fact]
-    public void IListRemove()
-    {
-        var p = new JProperty("TestProperty", null);
-        IList l = p;
-
-        XUnitAssert.Throws<JsonException>(
-            () => l.Remove(p.Value),
-            "Cannot add or remove items from Argon.Linq.JProperty.");
     }
 
     [Fact]
     public void IListRemoveAt()
     {
-        var p = new JProperty("TestProperty", null);
-        IList l = p;
+        var p = (IList<JToken>)new JProperty("TestProperty", null);
 
         XUnitAssert.Throws<JsonException>(
-            () => l.RemoveAt(0),
+            () => p.RemoveAt(0),
             "Cannot add or remove items from Argon.Linq.JProperty.");
     }
 
@@ -119,9 +80,7 @@ public class JPropertyTests : TestFixtureBase
     public void JPropertyLinq()
     {
         var p = new JProperty("TestProperty", null);
-        IList l = p;
-
-        var result = l.Cast<JToken>().ToList();
+        var result = p.ToList();
         Assert.Equal(1, result.Count);
     }
 
@@ -138,13 +97,8 @@ public class JPropertyTests : TestFixtureBase
     public void JPropertyIndexOf()
     {
         var v = new JValue(1);
-        var p1 = new JProperty("TestProperty", v);
-
-        IList l1 = p1;
-        Assert.Equal(0, l1.IndexOf(v));
-
-        IList<JToken> l2 = p1;
-        Assert.Equal(0, l2.IndexOf(v));
+        var p = (IList<JToken>)new JProperty("TestProperty", v);
+        Assert.Equal(0, p.IndexOf(v));
     }
 
     [Fact]
