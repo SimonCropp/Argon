@@ -9,7 +9,7 @@ class XProcessingInstructionWrapper : XObjectWrapper
     {
     }
 
-    public override string? LocalName => ProcessingInstruction.Target;
+    public override string LocalName => ProcessingInstruction.Target;
 
     public override string? Value
     {

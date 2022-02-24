@@ -18,5 +18,5 @@ class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
 
     public string InternalSubset => documentType.InternalSubset;
 
-    public override string? LocalName => "DOCTYPE";
+    public override string LocalName => "DOCTYPE";
 }

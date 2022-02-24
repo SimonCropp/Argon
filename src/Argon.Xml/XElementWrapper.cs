@@ -26,7 +26,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
             // cache results to prevent multiple reads which kills perf in large documents
             if (attributes == null)
             {
-                if (Element.HasAttributes || HasImplicitNamespaceAttribute(NamespaceUri!))
+                if (Element.HasAttributes || HasImplicitNamespaceAttribute(NamespaceUri))
                 {
                     attributes = new List<IXmlNode>();
                     foreach (var attribute in Element.Attributes())
@@ -36,7 +36,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
 
                     // ensure elements created with a namespace but no namespace attribute are converted correctly
                     // e.g. new XElement("{http://example.com}MyElement");
-                    var namespaceUri = NamespaceUri!;
+                    var namespaceUri = NamespaceUri;
                     if (HasImplicitNamespaceAttribute(namespaceUri))
                     {
                         attributes.Insert(0, new XAttributeWrapper(new XAttribute("xmlns", namespaceUri)));
@@ -96,9 +96,9 @@ class XElementWrapper : XContainerWrapper, IXmlElement
         set => Element.Value = value;
     }
 
-    public override string? LocalName => Element.Name.LocalName;
+    public override string LocalName => Element.Name.LocalName;
 
-    public override string? NamespaceUri => Element.Name.NamespaceName;
+    public override string NamespaceUri => Element.Name.NamespaceName;
 
     public string GetPrefixOfNamespace(string namespaceUri)
     {

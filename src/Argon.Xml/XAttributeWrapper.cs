@@ -15,9 +15,9 @@ class XAttributeWrapper : XObjectWrapper
         set => Attribute.Value = value;
     }
 
-    public override string? LocalName => Attribute.Name.LocalName;
+    public override string LocalName => Attribute.Name.LocalName;
 
-    public override string? NamespaceUri => Attribute.Name.NamespaceName;
+    public override string NamespaceUri => Attribute.Name.NamespaceName;
 
     public override IXmlNode? ParentNode
     {

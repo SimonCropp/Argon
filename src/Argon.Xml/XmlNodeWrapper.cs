@@ -11,11 +11,11 @@ class XmlNodeWrapper : IXmlNode
         this.node = node;
     }
 
-    public object? WrappedNode => node;
+    public object WrappedNode => node;
 
     public XmlNodeType NodeType => node.NodeType;
 
-    public virtual string? LocalName => node.LocalName;
+    public virtual string LocalName => node.LocalName;
 
     public List<IXmlNode> ChildNodes
     {
@@ -128,5 +128,5 @@ class XmlNodeWrapper : IXmlNode
         return newChild;
     }
 
-    public string? NamespaceUri => node.NamespaceURI;
+    public string NamespaceUri => node.NamespaceURI;
 }
