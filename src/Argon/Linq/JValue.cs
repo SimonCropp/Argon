@@ -49,7 +49,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     public JValue(JValue other)
         : this(other.Value, other.Type)
     {
-        CopyAnnotations(this, other);
+        SetLineInfo(other, null);
     }
 
     /// <summary>

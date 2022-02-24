@@ -91,7 +91,7 @@ public abstract partial class JContainer :
             i++;
         }
 
-        CopyAnnotations(this, other);
+        SetLineInfo(this, null);
     }
 
     internal void CheckReentrancy()
