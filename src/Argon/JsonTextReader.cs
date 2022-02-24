@@ -2537,7 +2537,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (CloseInput)
         {
-            reader?.Close();
+            reader.Close();
         }
 
         stringBuffer.Clear(arrayPool);

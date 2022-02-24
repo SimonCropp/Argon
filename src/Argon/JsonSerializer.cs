@@ -597,7 +597,7 @@ public class JsonSerializer
 
     internal void SetupReader(JsonReader reader, out CultureInfo? previousCulture, out DateTimeZoneHandling? previousDateTimeZoneHandling, out DateParseHandling? previousDateParseHandling, out FloatParseHandling? previousFloatParseHandling, out int? previousMaxDepth, out string? previousDateFormatString)
     {
-        if (culture != null && !culture.Equals(reader.Culture))
+        if (!culture.Equals(reader.Culture))
         {
             previousCulture = reader.Culture;
             reader.Culture = culture;
@@ -796,7 +796,7 @@ public class JsonSerializer
         }
 
         CultureInfo? previousCulture = null;
-        if (culture != null && !culture.Equals(jsonWriter.Culture))
+        if (!culture.Equals(jsonWriter.Culture))
         {
             previousCulture = jsonWriter.Culture;
             jsonWriter.Culture = culture;

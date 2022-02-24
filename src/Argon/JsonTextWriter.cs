@@ -162,7 +162,7 @@ public partial class JsonTextWriter : JsonWriter
 
         if (CloseOutput)
         {
-            writer?.Close();
+            writer.Close();
         }
     }
 

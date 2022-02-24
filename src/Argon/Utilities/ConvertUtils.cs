@@ -501,7 +501,7 @@ static class ConvertUtils
             }
         }
 
-        throw new ArgumentException($"Could not cast or convert from {initialType?.ToString() ?? "{null}"} to {targetType}.");
+        throw new ArgumentException($"Could not cast or convert from {initialType.ToString() ?? "{null}"} to {targetType}.");
     }
 
     public static bool VersionTryParse(string input, [NotNullWhen(true)]out Version? result)
