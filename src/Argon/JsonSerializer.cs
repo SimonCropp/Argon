@@ -47,7 +47,6 @@ public class JsonSerializer
     DateParseHandling? dateParseHandling;
     FloatFormatHandling? floatFormatHandling;
     FloatParseHandling? floatParseHandling;
-    StringEscapeHandling? stringEscapeHandling;
     CultureInfo culture;
     int? maxDepth;
     bool maxDepthSet;
@@ -280,11 +279,7 @@ public class JsonSerializer
     /// Gets or sets how strings are escaped when writing JSON text.
     /// The default value is <see cref="Argon.StringEscapeHandling.Default" />.
     /// </summary>
-    public virtual StringEscapeHandling StringEscapeHandling
-    {
-        get => stringEscapeHandling ?? JsonSerializerSettings.DefaultStringEscapeHandling;
-        set => stringEscapeHandling = value;
-    }
+    public virtual StringEscapeHandling? StringEscapeHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> and <see cref="DateTimeOffset"/> values are formatted when writing JSON text,
@@ -556,9 +551,9 @@ public class JsonSerializer
         {
             serializer.floatParseHandling = settings.floatParseHandling;
         }
-        if (settings.stringEscapeHandling != null)
+        if (settings.StringEscapeHandling != null)
         {
-            serializer.stringEscapeHandling = settings.stringEscapeHandling;
+            serializer.StringEscapeHandling = settings.StringEscapeHandling;
         }
         if (settings.culture != null)
         {
@@ -878,10 +873,10 @@ public class JsonSerializer
         }
 
         StringEscapeHandling? previousStringEscapeHandling = null;
-        if (stringEscapeHandling != null && jsonWriter.StringEscapeHandling != stringEscapeHandling)
+        if (StringEscapeHandling != null && jsonWriter.StringEscapeHandling != StringEscapeHandling)
         {
             previousStringEscapeHandling = jsonWriter.StringEscapeHandling;
-            jsonWriter.StringEscapeHandling = stringEscapeHandling.GetValueOrDefault();
+            jsonWriter.StringEscapeHandling = StringEscapeHandling.GetValueOrDefault();
         }
 
         CultureInfo? previousCulture = null;

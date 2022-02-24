@@ -42,7 +42,6 @@ public class JsonSerializerSettings
     internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
     internal const FloatParseHandling DefaultFloatParseHandling = FloatParseHandling.Double;
     internal const FloatFormatHandling DefaultFloatFormatHandling = FloatFormatHandling.String;
-    internal const StringEscapeHandling DefaultStringEscapeHandling = StringEscapeHandling.Default;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const bool DefaultCheckAdditionalContent = false;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
@@ -54,7 +53,6 @@ public class JsonSerializerSettings
     internal DateParseHandling? dateParseHandling;
     internal FloatFormatHandling? floatFormatHandling;
     internal FloatParseHandling? floatParseHandling;
-    internal StringEscapeHandling? stringEscapeHandling;
     internal CultureInfo? culture;
     internal bool? checkAdditionalContent;
     internal int? maxDepth;
@@ -299,11 +297,7 @@ public class JsonSerializerSettings
     /// Gets or sets how strings are escaped when writing JSON text.
     /// The default value is <see cref="Argon.StringEscapeHandling.Default" />.
     /// </summary>
-    public StringEscapeHandling StringEscapeHandling
-    {
-        get => stringEscapeHandling ?? DefaultStringEscapeHandling;
-        set => stringEscapeHandling = value;
-    }
+    public StringEscapeHandling? StringEscapeHandling { get; set; }
 
     /// <summary>
     /// Gets or sets the culture used when reading JSON.

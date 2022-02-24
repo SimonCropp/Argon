@@ -171,7 +171,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.FloatParseHandling = value;
     }
 
-    public override StringEscapeHandling StringEscapeHandling
+    public override StringEscapeHandling? StringEscapeHandling
     {
         get => serializer.StringEscapeHandling;
         set => serializer.StringEscapeHandling = value;
