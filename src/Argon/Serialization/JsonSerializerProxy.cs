@@ -93,7 +93,7 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.ReferenceLoopHandling = value;
     }
 
-    public override PreserveReferencesHandling PreserveReferencesHandling
+    public override PreserveReferencesHandling? PreserveReferencesHandling
     {
         get => serializer.PreserveReferencesHandling;
         set => serializer.PreserveReferencesHandling = value;

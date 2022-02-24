@@ -34,7 +34,6 @@ public class JsonSerializerSettings
     internal const NullValueHandling DefaultNullValueHandling = NullValueHandling.Include;
     internal const DefaultValueHandling DefaultDefaultValueHandling = DefaultValueHandling.Include;
     internal const ObjectCreationHandling DefaultObjectCreationHandling = ObjectCreationHandling.Auto;
-    internal const PreserveReferencesHandling DefaultPreserveReferencesHandling = PreserveReferencesHandling.None;
     internal const ConstructorHandling DefaultConstructorHandling = ConstructorHandling.Default;
     internal const TypeNameHandling DefaultTypeNameHandling = TypeNameHandling.None;
     internal const MetadataPropertyHandling DefaultMetadataPropertyHandling = MetadataPropertyHandling.Default;
@@ -68,7 +67,6 @@ public class JsonSerializerSettings
     internal bool dateFormatStringSet;
     internal TypeNameAssemblyFormatHandling? typeNameAssemblyFormatHandling;
     internal DefaultValueHandling? defaultValueHandling;
-    internal PreserveReferencesHandling? preserveReferencesHandling;
     internal NullValueHandling? nullValueHandling;
     internal ObjectCreationHandling? objectCreationHandling;
     internal MissingMemberHandling? missingMemberHandling;
@@ -137,11 +135,7 @@ public class JsonSerializerSettings
     /// Gets or sets how object references are preserved by the serializer.
     /// The default value is <see cref="Argon.PreserveReferencesHandling.None" />.
     /// </summary>
-    public PreserveReferencesHandling PreserveReferencesHandling
-    {
-        get => preserveReferencesHandling ?? DefaultPreserveReferencesHandling;
-        set => preserveReferencesHandling = value;
-    }
+    public PreserveReferencesHandling? PreserveReferencesHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how type name writing and reading is handled by the serializer.

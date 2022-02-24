@@ -33,7 +33,6 @@ public class JsonSerializer
 {
     internal TypeNameHandling typeNameHandling;
     internal TypeNameAssemblyFormatHandling typeNameAssemblyFormatHandling;
-    internal PreserveReferencesHandling preserveReferencesHandling;
     internal MissingMemberHandling missingMemberHandling;
     internal ObjectCreationHandling objectCreationHandling;
     internal NullValueHandling nullValueHandling;
@@ -143,11 +142,7 @@ public class JsonSerializer
     /// Gets or sets how object references are preserved by the serializer.
     /// The default value is <see cref="Argon.PreserveReferencesHandling.None" />.
     /// </summary>
-    public virtual PreserveReferencesHandling PreserveReferencesHandling
-    {
-        get => preserveReferencesHandling;
-        set => preserveReferencesHandling = value;
-    }
+    public virtual PreserveReferencesHandling? PreserveReferencesHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) is handled.
@@ -380,7 +375,6 @@ public class JsonSerializer
         nullValueHandling = JsonSerializerSettings.DefaultNullValueHandling;
         defaultValueHandling = JsonSerializerSettings.DefaultDefaultValueHandling;
         objectCreationHandling = JsonSerializerSettings.DefaultObjectCreationHandling;
-        preserveReferencesHandling = JsonSerializerSettings.DefaultPreserveReferencesHandling;
         constructorHandling = JsonSerializerSettings.DefaultConstructorHandling;
         typeNameHandling = JsonSerializerSettings.DefaultTypeNameHandling;
         metadataPropertyHandling = JsonSerializerSettings.DefaultMetadataPropertyHandling;
@@ -491,7 +485,7 @@ public class JsonSerializer
         {
             serializer.TypeNameAssemblyFormatHandling = settings.TypeNameAssemblyFormatHandling;
         }
-        if (settings.preserveReferencesHandling != null)
+        if (settings.PreserveReferencesHandling != null)
         {
             serializer.PreserveReferencesHandling = settings.PreserveReferencesHandling;
         }

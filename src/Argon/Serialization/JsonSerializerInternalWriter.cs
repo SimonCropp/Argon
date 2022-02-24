@@ -222,11 +222,11 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             if (valueContract.ContractType == JsonContractType.Array)
             {
-                isReference = HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Arrays);
+                isReference = HasFlag(Serializer.PreserveReferencesHandling, PreserveReferencesHandling.Arrays);
             }
             else
             {
-                isReference = HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Objects);
+                isReference = HasFlag(Serializer.PreserveReferencesHandling, PreserveReferencesHandling.Objects);
             }
         }
 
@@ -526,7 +526,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         writer.WriteStartObject();
 
-        var isReference = ResolveIsReference(contract, member, collectionContract, containerProperty) ?? HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Objects);
+        var isReference = ResolveIsReference(contract, member, collectionContract, containerProperty) ?? HasFlag(Serializer.PreserveReferencesHandling, PreserveReferencesHandling.Objects);
         // don't make readonly fields that aren't creator parameters the referenced value because they can't be deserialized to
         if (isReference && (member == null || member.Writable || HasCreatorParameter(collectionContract, member)))
         {
@@ -574,18 +574,33 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         writer.WriteValue(typeName);
     }
 
-    static bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
+    static bool HasFlag(DefaultValueHandling? value, DefaultValueHandling flag)
     {
+        if (value == null)
+        {
+            return false;
+        }
+
         return (value & flag) == flag;
     }
 
-    static bool HasFlag(PreserveReferencesHandling value, PreserveReferencesHandling flag)
+    static bool HasFlag(PreserveReferencesHandling? value, PreserveReferencesHandling flag)
     {
+        if (value == null)
+        {
+            return false;
+        }
+
         return (value & flag) == flag;
     }
 
-    static bool HasFlag(TypeNameHandling value, TypeNameHandling flag)
+    static bool HasFlag(TypeNameHandling? value, TypeNameHandling flag)
     {
+        if (value == null)
+        {
+            return false;
+        }
+
         return (value & flag) == flag;
     }
 
@@ -761,7 +776,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     bool WriteStartArray(JsonWriter writer, object values, JsonArrayContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
-        var isReference = ResolveIsReference(contract, member, containerContract, containerProperty) ?? HasFlag(Serializer.preserveReferencesHandling, PreserveReferencesHandling.Arrays);
+        var isReference = ResolveIsReference(contract, member, containerContract, containerProperty) ?? HasFlag(Serializer.PreserveReferencesHandling, PreserveReferencesHandling.Arrays);
         // don't make readonly fields that aren't creator parameters the referenced value because they can't be deserialized to
         isReference = isReference && (member == null || member.Writable || HasCreatorParameter(containerContract, member));
 

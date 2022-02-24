@@ -1121,8 +1121,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    static bool HasFlag(DefaultValueHandling value, DefaultValueHandling flag)
+    static bool HasFlag(DefaultValueHandling? value, DefaultValueHandling flag)
     {
+        if (value == null)
+        {
+            return false;
+        }
+
         return (value & flag) == flag;
     }
 
