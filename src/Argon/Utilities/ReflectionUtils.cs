@@ -296,7 +296,7 @@ static class ReflectionUtils
     /// </summary>
     /// <param name="type">The type.</param>
     /// <returns>The type of the typed collection's items.</returns>
-    public static Type? GetCollectionItemType(Type type)
+    public static Type? GetCollectionItemType(this Type type)
     {
         if (type.IsArray)
         {
@@ -321,7 +321,7 @@ static class ReflectionUtils
         throw new($"Type {type} is not a collection.");
     }
 
-    public static void GetDictionaryKeyValueTypes(Type dictionaryType, out Type? keyType, out Type? valueType)
+    public static void GetDictionaryKeyValueTypes(this Type dictionaryType, out Type? keyType, out Type? valueType)
     {
         if (ImplementsGenericDefinition(dictionaryType, typeof(IDictionary<,>), out var genericDictionaryType))
         {
@@ -351,7 +351,7 @@ static class ReflectionUtils
     /// Gets the member's underlying type.
     /// </summary>
     /// <returns>The underlying type of the member.</returns>
-    public static Type GetMemberUnderlyingType(MemberInfo member)
+    public static Type GetMemberUnderlyingType(this MemberInfo member)
     {
         return member.MemberType switch
         {
@@ -363,7 +363,7 @@ static class ReflectionUtils
         };
     }
 
-    public static bool IsByRefLikeType(Type type)
+    public static bool IsByRefLikeType(this Type type)
     {
         if (!type.IsValueType)
         {

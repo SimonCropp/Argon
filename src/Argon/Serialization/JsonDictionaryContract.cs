@@ -136,7 +136,7 @@ public class JsonDictionaryContract : JsonContainerContract
         }
         else
         {
-            ReflectionUtils.GetDictionaryKeyValueTypes(NonNullableUnderlyingType, out keyType, out valueType);
+            NonNullableUnderlyingType.GetDictionaryKeyValueTypes(out keyType, out valueType);
 
             if (NonNullableUnderlyingType == typeof(IDictionary))
             {

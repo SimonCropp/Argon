@@ -125,7 +125,7 @@ class ReflectionObject
                     throw new ArgumentException($"Unexpected member type '{member.MemberType}' for member '{member.Name}'.");
             }
 
-            reflectionMember.MemberType = ReflectionUtils.GetMemberUnderlyingType(member);
+            reflectionMember.MemberType = member.GetMemberUnderlyingType();
 
             d.Members[memberName] = reflectionMember;
         }

@@ -59,12 +59,12 @@ public class ExpressionValueProvider : IValueProvider
             // add this check for unit tests
             if (value == null)
             {
-                if (!ReflectionUtils.GetMemberUnderlyingType(member).IsNullable())
+                if (!member.GetMemberUnderlyingType().IsNullable())
                 {
                     throw new JsonSerializationException($"Incompatible value. Cannot set {member} to null.");
                 }
             }
-            else if (!ReflectionUtils.GetMemberUnderlyingType(member).IsInstanceOfType(value))
+            else if (!member.GetMemberUnderlyingType().IsInstanceOfType(value))
             {
                 throw new JsonSerializationException($"Incompatible value. Cannot set {member} to type {value.GetType()}.");
             }

@@ -103,12 +103,12 @@ public class DefaultContractResolver : IContractResolver
                 return false;
             }
 
-            return !ReflectionUtils.IsByRefLikeType(property.PropertyType);
+            return !property.PropertyType.IsByRefLikeType();
         }
 
         if (member is FieldInfo field)
         {
-            return !ReflectionUtils.IsByRefLikeType(field.FieldType);
+            return !field.FieldType.IsByRefLikeType();
         }
 
         return true;
@@ -314,7 +314,7 @@ public class DefaultContractResolver : IContractResolver
                 throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType!)}'. Member '{m.Name}' must have a getter.");
             }
 
-            var t = ReflectionUtils.GetMemberUnderlyingType(m);
+            var t = m.GetMemberUnderlyingType();
 
             if (t.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
             {
@@ -341,7 +341,7 @@ public class DefaultContractResolver : IContractResolver
             return;
         }
 
-        var type = ReflectionUtils.GetMemberUnderlyingType(member);
+        var type = member.GetMemberUnderlyingType();
 
         if (!type.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
         {
@@ -1193,7 +1193,7 @@ public class DefaultContractResolver : IContractResolver
     {
         var property = new JsonProperty
         {
-            PropertyType = ReflectionUtils.GetMemberUnderlyingType(member),
+            PropertyType = member.GetMemberUnderlyingType(),
             DeclaringType = member.DeclaringType,
             ValueProvider = CreateMemberValueProvider(member),
             AttributeProvider = new ReflectionAttributeProvider(member)
@@ -1398,7 +1398,7 @@ public class DefaultContractResolver : IContractResolver
             specifiedMember = member.DeclaringType.GetField(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         }
 
-        if (specifiedMember == null || ReflectionUtils.GetMemberUnderlyingType(specifiedMember) != typeof(bool))
+        if (specifiedMember == null || specifiedMember.GetMemberUnderlyingType() != typeof(bool))
         {
             return;
         }

@@ -107,7 +107,7 @@ public class JsonArrayContract : JsonContainerContract
 
         if (IsArray)
         {
-            CollectionItemType = ReflectionUtils.GetCollectionItemType(UnderlyingType)!;
+            CollectionItemType = UnderlyingType.GetCollectionItemType()!;
             IsReadOnlyOrFixedSize = true;
             genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
 
@@ -122,7 +122,7 @@ public class JsonArrayContract : JsonContainerContract
             }
             else
             {
-                CollectionItemType = ReflectionUtils.GetCollectionItemType(NonNullableUnderlyingType);
+                CollectionItemType = NonNullableUnderlyingType.GetCollectionItemType();
             }
 
             if (NonNullableUnderlyingType == typeof(IList))
