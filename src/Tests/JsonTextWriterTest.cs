@@ -108,6 +108,7 @@ public class JsonTextWriterTest : TestFixtureBase
         Assert.Equal(1, arrayPool.FreeArrays.Count);
     }
 
+#if !RELEASE
     [Fact]
     public void BufferErroringWithInvalidSize()
     {
@@ -132,6 +133,7 @@ public class JsonTextWriterTest : TestFixtureBase
   ""BodyHtml"": ""<h3>Title!</h3>\r\n                                                                                                    <p>Content!</p>""
 }", result);
     }
+#endif
 
     [Fact]
     public void NewLine()
