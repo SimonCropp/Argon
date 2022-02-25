@@ -78,7 +78,7 @@ static class ReflectionUtils
         return v?.GetType();
     }
 
-    public static string GetTypeName(Type type, TypeNameAssemblyFormatHandling? assemblyFormat, ISerializationBinder? binder)
+    public static string GetTypeName(this Type type, TypeNameAssemblyFormatHandling? assemblyFormat, ISerializationBinder? binder)
     {
         var fullyQualifiedTypeName = GetFullyQualifiedTypeName(type, binder);
 
@@ -91,7 +91,7 @@ static class ReflectionUtils
         };
     }
 
-    static string GetFullyQualifiedTypeName(Type type, ISerializationBinder? binder)
+    static string GetFullyQualifiedTypeName(this Type type, ISerializationBinder? binder)
     {
         if (binder == null)
         {
@@ -157,7 +157,7 @@ static class ReflectionUtils
         return builder.ToString();
     }
 
-    public static bool HasDefaultConstructor(Type type, bool nonPublic)
+    public static bool HasDefaultConstructor(this Type type, bool nonPublic)
     {
         if (type.IsValueType)
         {
@@ -183,18 +183,18 @@ static class ReflectionUtils
         return type.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any())!;
     }
 
-    public static bool IsNullable(Type type)
+    public static bool IsNullable(this Type type)
     {
         return !type.IsValueType || IsNullableType(type);
     }
 
-    public static bool IsNullableType(Type type)
+    public static bool IsNullableType(this Type type)
     {
         return type.IsGenericType &&
                type.GetGenericTypeDefinition() == typeof(Nullable<>);
     }
 
-    public static Type EnsureNotNullableType(Type type)
+    public static Type EnsureNotNullableType(this Type type)
     {
         if (IsNullableType(type))
         {
@@ -204,7 +204,7 @@ static class ReflectionUtils
         return type;
     }
 
-    public static Type EnsureNotByRefType(Type type)
+    public static Type EnsureNotByRefType(this Type type)
     {
         if (type.IsByRef &&
             type.HasElementType)
@@ -226,14 +226,15 @@ static class ReflectionUtils
         return t == genericInterfaceDefinition;
     }
 
-    public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition)
+    public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition)
     {
         return ImplementsGenericDefinition(type, genericInterfaceDefinition, out _);
     }
 
-    public static bool ImplementsGenericDefinition(Type type, Type genericInterfaceDefinition, [NotNullWhen(true)] out Type? implementingType)
+    public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition, [NotNullWhen(true)] out Type? implementingType)
     {
-        if (!genericInterfaceDefinition.IsInterface || !genericInterfaceDefinition.IsGenericTypeDefinition)
+        if (!genericInterfaceDefinition.IsInterface ||
+            !genericInterfaceDefinition.IsGenericTypeDefinition)
         {
             throw new ArgumentNullException($"'{genericInterfaceDefinition}' is not a generic interface definition.");
         }
@@ -270,7 +271,7 @@ static class ReflectionUtils
         return false;
     }
 
-    public static bool InheritsGenericDefinition(Type type, Type genericClassDefinition)
+    public static bool InheritsGenericDefinition(this Type type, Type genericClassDefinition)
     {
         if (!genericClassDefinition.IsClass || !genericClassDefinition.IsGenericTypeDefinition)
         {
@@ -381,7 +382,7 @@ static class ReflectionUtils
     /// <returns>
     /// 	<c>true</c> if the property is an indexed property; otherwise, <c>false</c>.
     /// </returns>
-    public static bool IsIndexedProperty(PropertyInfo property)
+    public static bool IsIndexedProperty(this PropertyInfo property)
     {
         return property.GetIndexParameters().Length > 0;
     }
@@ -391,7 +392,7 @@ static class ReflectionUtils
     /// </summary>
     /// <param name="target">The target object.</param>
     /// <returns>The member's value on the object.</returns>
-    public static object GetMemberValue(MemberInfo member, object target)
+    public static object GetMemberValue(this MemberInfo member, object target)
     {
         if (member is PropertyInfo property)
         {
@@ -416,7 +417,7 @@ static class ReflectionUtils
     /// <summary>
     /// Sets the member's value on the target object.
     /// </summary>
-    public static void SetMemberValue(MemberInfo member, object target, object? value)
+    public static void SetMemberValue(this MemberInfo member, object target, object? value)
     {
         switch (member.MemberType)
         {
@@ -439,7 +440,7 @@ static class ReflectionUtils
     /// <returns>
     /// 	<c>true</c> if the specified MemberInfo can be read; otherwise, <c>false</c>.
     /// </returns>
-    public static bool CanReadMemberValue(MemberInfo member, bool nonPublic)
+    public static bool CanReadMemberValue(this MemberInfo member, bool nonPublic)
     {
         if (member is PropertyInfo property)
         {
@@ -473,7 +474,7 @@ static class ReflectionUtils
     /// <returns>
     /// 	<c>true</c> if the specified MemberInfo can be set; otherwise, <c>false</c>.
     /// </returns>
-    public static bool CanSetMemberValue(MemberInfo member, bool nonPublic, bool canSetReadOnly)
+    public static bool CanSetMemberValue(this MemberInfo member, bool nonPublic, bool canSetReadOnly)
     {
         if (member is PropertyInfo property)
         {
@@ -508,7 +509,7 @@ static class ReflectionUtils
         return false;
     }
 
-    public static List<MemberInfo> GetFieldsAndProperties(Type type, BindingFlags bindingAttr)
+    public static List<MemberInfo> GetFieldsAndProperties(this Type type, BindingFlags bindingAttr)
     {
         var targetMembers = new List<MemberInfo>();
 
@@ -561,7 +562,7 @@ static class ReflectionUtils
         return distinctMembers;
     }
 
-    static bool IsOverridenGenericMember(MemberInfo member, BindingFlags bindingAttr)
+    static bool IsOverridenGenericMember(this MemberInfo member, BindingFlags bindingAttr)
     {
         if (member.MemberType != MemberTypes.Property)
         {

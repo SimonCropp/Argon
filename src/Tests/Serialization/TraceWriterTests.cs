@@ -724,12 +724,12 @@ Argon Error: 0 : Error!
         });
 
         Assert.Equal("Started serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(List<object>), 0, DefaultSerializationBinder.Instance)}' for System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[1].Message);
+        Assert.Equal($"Writing type name '{typeof(List<object>).GetTypeName(0, DefaultSerializationBinder.Instance)}' for System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[1].Message);
         Assert.Equal("Started serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values'.", traceWriter.TraceRecords[2].Message);
-        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(Dictionary<string, string>), 0, DefaultSerializationBinder.Instance)}' for System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[3].Message);
+        Assert.Equal($"Writing type name '{typeof(Dictionary<string, string>).GetTypeName(0, DefaultSerializationBinder.Instance)}' for System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[3].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.Dictionary`2[System.String,System.String]. Path '$values[0]'.", traceWriter.TraceRecords[4].Message);
         Assert.Equal("Started serializing TestObjects.VersionOld. Path '$values[0]'.", traceWriter.TraceRecords[5].Message);
-        Assert.Equal($"Writing type name '{ReflectionUtils.GetTypeName(typeof(VersionOld), 0, DefaultSerializationBinder.Instance)}' for TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
+        Assert.Equal($"Writing type name '{typeof(VersionOld).GetTypeName(0, DefaultSerializationBinder.Instance)}' for TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[6].Message);
         Assert.Equal("Finished serializing TestObjects.VersionOld. Path '$values[1]'.", traceWriter.TraceRecords[7].Message);
         Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.Object]. Path ''.", traceWriter.TraceRecords[8].Message);
     }

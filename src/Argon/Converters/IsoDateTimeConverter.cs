@@ -98,7 +98,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
     /// </summary>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
-        var nullable = ReflectionUtils.IsNullableType(type);
+        var nullable = type.IsNullableType();
         if (reader.TokenType == JsonToken.Null)
         {
             if (!nullable)

@@ -98,7 +98,7 @@ public class JsonDictionaryContract : JsonContainerContract
         Type? keyType;
         Type? valueType;
 
-        if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IDictionary<,>), out genericCollectionDefinitionType))
+        if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IDictionary<,>), out genericCollectionDefinitionType))
         {
             keyType = genericCollectionDefinitionType.GetGenericArguments()[0];
             valueType = genericCollectionDefinitionType.GetGenericArguments()[1];
@@ -119,10 +119,10 @@ public class JsonDictionaryContract : JsonContainerContract
                 }
             }
 
-            IsReadOnlyOrFixedSize = ReflectionUtils.InheritsGenericDefinition(NonNullableUnderlyingType, typeof(ReadOnlyDictionary<,>));
+            IsReadOnlyOrFixedSize = NonNullableUnderlyingType.InheritsGenericDefinition(typeof(ReadOnlyDictionary<,>));
 
         }
-        else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyDictionary<,>), out genericCollectionDefinitionType))
+        else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IReadOnlyDictionary<,>), out genericCollectionDefinitionType))
         {
             keyType = genericCollectionDefinitionType.GetGenericArguments()[0];
             valueType = genericCollectionDefinitionType.GetGenericArguments()[1];

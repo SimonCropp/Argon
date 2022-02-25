@@ -64,7 +64,7 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
     {
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!ReflectionUtils.IsNullable(type))
+            if (!type.IsNullable())
             {
                 throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
             }
@@ -82,7 +82,7 @@ public class JavaScriptDateTimeConverter : DateTimeConverterBase
             throw JsonSerializationException.Create(reader, errorMessage);
         }
 
-        var t = ReflectionUtils.IsNullableType(type)
+        var t = type.IsNullableType()
             ? Nullable.GetUnderlyingType(type)
             : type;
         if (t == typeof(DateTimeOffset))

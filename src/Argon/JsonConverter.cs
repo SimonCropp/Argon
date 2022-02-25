@@ -69,7 +69,7 @@ public abstract class JsonConverter<T> : JsonConverter
     /// </summary>
     public sealed override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        if (!(value != null ? value is T : ReflectionUtils.IsNullable(typeof(T))))
+        if (!(value != null ? value is T : typeof(T).IsNullable()))
         {
             throw new JsonSerializationException($"Converter cannot write specified value to JSON. {typeof(T)} is required.");
         }

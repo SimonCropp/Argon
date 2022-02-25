@@ -104,7 +104,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   ""$type"": ""PreserveReferencesHandlingTests+Container, Tests"",
   ""ListA"": {{
     ""$id"": ""2"",
-    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance)}"",
+    ""$type"": ""{typeof(List<ContentA>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
     ""$values"": [
       {{
         ""$id"": ""3"",
@@ -115,7 +115,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   }},
   ""ListB"": {{
     ""$id"": ""4"",
-    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<ContentA>), 0, DefaultSerializationBinder.Instance)}"",
+    ""$type"": ""{typeof(List<ContentA>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
     ""$values"": [
       {{
         ""$ref"": ""3""

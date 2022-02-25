@@ -30,16 +30,16 @@ public class ReflectionUtilsTests : TestFixtureBase
     [Fact]
     public void GetTypeNameSimpleForGenericTypes()
     {
-        var typeName = ReflectionUtils.GetTypeName(typeof(IList<Type>), TypeNameAssemblyFormatHandling.Simple, null);
+        var typeName = typeof(IList<Type>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
         Assert.Equal("System.Collections.Generic.IList`1[[System.Type, mscorlib]], mscorlib", typeName);
 
-        typeName = ReflectionUtils.GetTypeName(typeof(IDictionary<IList<Type>, IList<Type>>), TypeNameAssemblyFormatHandling.Simple, null);
+        typeName = typeof(IDictionary<IList<Type>, IList<Type>>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
         Assert.Equal("System.Collections.Generic.IDictionary`2[[System.Collections.Generic.IList`1[[System.Type, mscorlib]], mscorlib],[System.Collections.Generic.IList`1[[System.Type, mscorlib]], mscorlib]], mscorlib", typeName);
 
-        typeName = ReflectionUtils.GetTypeName(typeof(IList<>), TypeNameAssemblyFormatHandling.Simple, null);
+        typeName = typeof(IList<>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
         Assert.Equal("System.Collections.Generic.IList`1, mscorlib", typeName);
 
-        typeName = ReflectionUtils.GetTypeName(typeof(IDictionary<,>), TypeNameAssemblyFormatHandling.Simple, null);
+        typeName = typeof(IDictionary<,>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
         Assert.Equal("System.Collections.Generic.IDictionary`2, mscorlib", typeName);
     }
 }

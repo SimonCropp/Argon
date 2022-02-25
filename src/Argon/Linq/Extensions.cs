@@ -249,7 +249,7 @@ public static class Extensions
 
         var targetType = typeof(U);
 
-        if (ReflectionUtils.IsNullableType(targetType))
+        if (targetType.IsNullableType())
         {
             if (value.Value == null)
             {

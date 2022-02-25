@@ -65,7 +65,7 @@ public class UnixDateTimeConverter : DateTimeConverterBase
     /// </summary>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
-        var nullable = ReflectionUtils.IsNullable(type);
+        var nullable = type.IsNullable();
         if (reader.TokenType == JsonToken.Null)
         {
             if (!nullable)

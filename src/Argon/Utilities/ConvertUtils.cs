@@ -116,7 +116,7 @@ static class ConvertUtils
         }
 
         // performance?
-        if (ReflectionUtils.IsNullableType(type))
+        if (type.IsNullableType())
         {
             var nonNullable = Nullable.GetUnderlyingType(type)!;
             if (nonNullable.IsEnum)
@@ -300,7 +300,7 @@ static class ConvertUtils
             throw new ArgumentNullException(nameof(initialValue));
         }
 
-        if (ReflectionUtils.IsNullableType(targetType))
+        if (targetType.IsNullableType())
         {
             targetType = Nullable.GetUnderlyingType(targetType)!;
         }
@@ -422,7 +422,7 @@ static class ConvertUtils
         // handle DBNull
         if (initialValue == DBNull.Value)
         {
-            if (ReflectionUtils.IsNullable(targetType))
+            if (targetType.IsNullable())
             {
                 value = EnsureTypeAssignable(null, initialType, targetType);
                 return ConvertResult.Success;
@@ -462,7 +462,7 @@ static class ConvertUtils
             return initialValue;
         }
 
-        if (initialValue == null && ReflectionUtils.IsNullable(targetType))
+        if (initialValue == null && targetType.IsNullable())
         {
             return null;
         }
@@ -495,7 +495,7 @@ static class ConvertUtils
         }
         else
         {
-            if (ReflectionUtils.IsNullable(targetType))
+            if (targetType.IsNullable())
             {
                 return null;
             }

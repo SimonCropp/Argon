@@ -43,7 +43,7 @@ public partial class JsonTextReader
         return safeAsync ? DoReadAsync(cancellation) : base.ReadAsync(cancellation);
     }
 
-    internal Task<bool> DoReadAsync(CancellationToken cancellation)
+    Task<bool> DoReadAsync(CancellationToken cancellation)
     {
         EnsureBuffer();
 

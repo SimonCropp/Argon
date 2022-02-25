@@ -98,7 +98,7 @@ public class DefaultContractResolver : IContractResolver
     {
         if (member is PropertyInfo property)
         {
-            if (ReflectionUtils.IsIndexedProperty(property))
+            if (property.IsIndexedProperty())
             {
                 return false;
             }
@@ -125,8 +125,8 @@ public class DefaultContractResolver : IContractResolver
 
         // Exclude index properties
         // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
-        var allMembers = ReflectionUtils.GetFieldsAndProperties(type, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-            .Where(m => m is not PropertyInfo p || !ReflectionUtils.IsIndexedProperty(p));
+        var allMembers = type.GetFieldsAndProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+            .Where(m => m is not PropertyInfo p || !p.IsIndexedProperty());
 
         var serializableMembers = new List<MemberInfo>();
 
@@ -135,7 +135,7 @@ public class DefaultContractResolver : IContractResolver
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(type);
 
             // Exclude index properties and ByRef types
-            var defaultMembers = ReflectionUtils.GetFieldsAndProperties(type,BindingFlags.Instance | BindingFlags.Public)
+            var defaultMembers = type.GetFieldsAndProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(FilterMembers).ToList();
 
             foreach (var member in allMembers)
@@ -309,14 +309,14 @@ public class DefaultContractResolver : IContractResolver
                 return false;
             }
 
-            if (!ReflectionUtils.CanReadMemberValue(m, true))
+            if (!m.CanReadMemberValue(true))
             {
                 throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType!)}'. Member '{m.Name}' must have a getter.");
             }
 
             var t = ReflectionUtils.GetMemberUnderlyingType(m);
 
-            if (ReflectionUtils.ImplementsGenericDefinition(t, typeof(IDictionary<,>), out var dictionaryType))
+            if (t.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
             {
                 var keyType = dictionaryType.GetGenericArguments()[0];
                 var valueType = dictionaryType.GetGenericArguments()[1];
@@ -343,7 +343,7 @@ public class DefaultContractResolver : IContractResolver
 
         var type = ReflectionUtils.GetMemberUnderlyingType(member);
 
-        if (!ReflectionUtils.ImplementsGenericDefinition(type, typeof(IDictionary<,>), out var dictionaryType))
+        if (!type.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
         {
             throw new JsonSerializationException($"Cannot use '{member.Name}' for extension data. It must be a IDictionary<,>.");
         }
@@ -424,7 +424,7 @@ public class DefaultContractResolver : IContractResolver
 
     private static Action<object, object?>? BuildSetExtensionDataDictionary(MemberInfo member)
     {
-        if (ReflectionUtils.CanSetMemberValue(member, true, false))
+        if (member.CanSetMemberValue(true, false))
             return JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(member);
         return null;
     }
@@ -655,7 +655,7 @@ public class DefaultContractResolver : IContractResolver
 
         var createdType = contract.CreatedType;
         if (contract.IsInstantiable
-            && (ReflectionUtils.HasDefaultConstructor(createdType, true) || createdType.IsValueType))
+            && (createdType.HasDefaultConstructor(true) || createdType.IsValueType))
         {
             contract.DefaultCreator = GetDefaultCreator(createdType);
 
@@ -981,14 +981,14 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>A <see cref="JsonContract"/> for the given type.</returns>
     protected virtual JsonContract CreateContract(Type type)
     {
-        var t = ReflectionUtils.EnsureNotByRefType(type);
+        var t = type.EnsureNotByRefType();
 
         if (IsJsonPrimitiveType(t))
         {
             return CreatePrimitiveContract(type);
         }
 
-        t = ReflectionUtils.EnsureNotNullableType(t);
+        t = t.EnsureNotNullableType();
         var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(t);
 
         if (containerAttribute is JsonObjectAttribute)
@@ -1049,7 +1049,7 @@ public class DefaultContractResolver : IContractResolver
     internal static bool IsIConvertible(Type t)
     {
         if (typeof(IConvertible).IsAssignableFrom(t)
-            || (ReflectionUtils.IsNullableType(t) && typeof(IConvertible).IsAssignableFrom(Nullable.GetUnderlyingType(t))))
+            || (t.IsNullableType() && typeof(IConvertible).IsAssignableFrom(Nullable.GetUnderlyingType(t))))
         {
             return !typeof(JToken).IsAssignableFrom(t);
         }
@@ -1209,8 +1209,8 @@ public class DefaultContractResolver : IContractResolver
         }
         else
         {
-            property.Readable = ReflectionUtils.CanReadMemberValue(member, allowNonPublicAccess);
-            property.Writable = ReflectionUtils.CanSetMemberValue(member, allowNonPublicAccess, property.HasMemberAttribute);
+            property.Readable = member.CanReadMemberValue(allowNonPublicAccess);
+            property.Writable = member.CanSetMemberValue(allowNonPublicAccess, property.HasMemberAttribute);
         }
 
         if (!IgnoreShouldSerializeMembers)
@@ -1407,7 +1407,7 @@ public class DefaultContractResolver : IContractResolver
 
         property.GetIsSpecified = o => (bool)specifiedPropertyGet(o);
 
-        if (ReflectionUtils.CanSetMemberValue(specifiedMember, allowNonPublicAccess, false))
+        if (specifiedMember.CanSetMemberValue(allowNonPublicAccess, false))
         {
             property.SetIsSpecified = JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(specifiedMember);
         }

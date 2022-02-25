@@ -33,8 +33,8 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeMultidimensionalByteArrayWithTypeName()
     {
-        var array2dRef = ReflectionUtils.GetTypeName(typeof(byte[,]), TypeNameAssemblyFormatHandling.Simple, null);
-        var array3dRef = ReflectionUtils.GetTypeName(typeof(byte[,,]), TypeNameAssemblyFormatHandling.Simple, null);
+        var array2dRef = typeof(byte[,]).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
+        var array3dRef = typeof(byte[,,]).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var o = new HasMultidimensionalByteArray
         {
@@ -211,7 +211,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeValueTupleWithTypeName()
     {
-        var tupleRef = ReflectionUtils.GetTypeName(typeof(ValueTuple<int, int, string>), TypeNameAssemblyFormatHandling.Simple, null);
+        var tupleRef = typeof(ValueTuple<int, int, string>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var tuple = ValueTuple.Create(1, 2, "string");
 
@@ -495,7 +495,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void WriteTypeNameForObjects()
     {
-        var employeeRef = ReflectionUtils.GetTypeName(typeof(EmployeeReference), TypeNameAssemblyFormatHandling.Simple, null);
+        var employeeRef = typeof(EmployeeReference).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var employee = new EmployeeReference();
 
@@ -515,7 +515,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeTypeName()
     {
-        var employeeRef = ReflectionUtils.GetTypeName(typeof(EmployeeReference), TypeNameAssemblyFormatHandling.Simple, null);
+        var employeeRef = typeof(EmployeeReference).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var json = $@"{{
   ""$id"": ""1"",
@@ -536,7 +536,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeTypeNameFromGacAssembly()
     {
-        var cookieRef = ReflectionUtils.GetTypeName(typeof(Cookie), TypeNameAssemblyFormatHandling.Simple, null);
+        var cookieRef = typeof(Cookie).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var json = $@"{{
   ""$id"": ""1"",
@@ -819,7 +819,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void WriteObjectTypeNameForProperty()
     {
-        var typeNamePropertyRef = ReflectionUtils.GetTypeName(typeof(TypeNameProperty), TypeNameAssemblyFormatHandling.Simple, null);
+        var typeNamePropertyRef = typeof(TypeNameProperty).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var typeNameProperty = new TypeNameProperty
         {
@@ -853,7 +853,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void WriteListTypeNameForProperty()
     {
-        var listRef = ReflectionUtils.GetTypeName(typeof(List<int>), TypeNameAssemblyFormatHandling.Simple, null);
+        var listRef = typeof(List<int>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var typeNameProperty = new TypeNameProperty
         {
@@ -1135,9 +1135,9 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = stringWriter.ToString();
 
-        var contentSubClassRef = ReflectionUtils.GetTypeName(typeof(ContentSubClass), TypeNameAssemblyFormatHandling.Simple, null);
-        var dictionaryRef = ReflectionUtils.GetTypeName(typeof(Dictionary<int, IList<ContentBaseClass>>), TypeNameAssemblyFormatHandling.Simple, null);
-        var listRef = ReflectionUtils.GetTypeName(typeof(List<ContentBaseClass>), TypeNameAssemblyFormatHandling.Simple, null);
+        var contentSubClassRef = typeof(ContentSubClass).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
+        var dictionaryRef = typeof(Dictionary<int, IList<ContentBaseClass>>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
+        var listRef = typeof(List<ContentBaseClass>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var expected = $@"{{
   ""TestMember"": {{
@@ -1243,9 +1243,9 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
         });
 
-        var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
-        var urlStatusTypeName = ReflectionUtils.GetTypeName(typeof(UrlStatus), TypeNameAssemblyFormatHandling.Simple, null);
-        var listTypeName = ReflectionUtils.GetTypeName(typeof(List<UrlStatus>), TypeNameAssemblyFormatHandling.Simple, null);
+        var dictionaryTypeName = typeof(Dictionary<string, object>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
+        var urlStatusTypeName = typeof(UrlStatus).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
+        var listTypeName = typeof(List<UrlStatus>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$type"": ""{dictionaryTypeName}"",
@@ -1295,7 +1295,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializingIEnumerableOfTShouldRetainGenericTypeInfo()
     {
-        var productClassRef = ReflectionUtils.GetTypeName(typeof(CustomEnumerable<Product>), TypeNameAssemblyFormatHandling.Simple, null);
+        var productClassRef = typeof(CustomEnumerable<Product>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var products = new CustomEnumerable<Product>();
 
@@ -1388,9 +1388,9 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var output = JsonConvert.SerializeObject(testerObject, Formatting.Indented, settings);
 
-        var carClassRef = ReflectionUtils.GetTypeName(typeof(Car), TypeNameAssemblyFormatHandling.Simple, null);
-        var objectArrayRef = ReflectionUtils.GetTypeName(typeof(object[]), TypeNameAssemblyFormatHandling.Simple, null);
-        var byteArrayRef = ReflectionUtils.GetTypeName(typeof(byte[]), TypeNameAssemblyFormatHandling.Simple, null);
+        var carClassRef = typeof(Car).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
+        var objectArrayRef = typeof(object[]).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
+        var byteArrayRef = typeof(byte[]).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         XUnitAssert.AreEqualNormalized(output, $@"{{
   ""$type"": ""{carClassRef}"",
@@ -1641,7 +1641,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
+        var listTypeName = typeof(List<object>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""Data"": [
@@ -1723,7 +1723,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, object>), TypeNameAssemblyFormatHandling.Simple, null);
+        var dictionaryTypeName = typeof(Dictionary<string, object>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""Data"": {{
@@ -1801,7 +1801,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
 
-        var listTypeName = ReflectionUtils.GetTypeName(typeof(List<object>), TypeNameAssemblyFormatHandling.Simple, null);
+        var listTypeName = typeof(List<object>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""Data"": {{
@@ -1945,7 +1945,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
         var serializedString = JsonConvert.SerializeObject(inputContext, settings);
 
-        var dictionaryTypeName = ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), TypeNameAssemblyFormatHandling.Simple, null);
+        var dictionaryTypeName = typeof(Dictionary<string, Guid>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$type"": ""{dictionaryTypeName}"",
@@ -2019,7 +2019,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         data.Rows.Add("key", new List<MyInterfaceImplementationType> {new() {SomeProperty = "property"}});
         var serialized = JsonConvert.SerializeObject(data, Formatting.Indented);
 
-        var listTypeName = ReflectionUtils.GetTypeName(typeof(List<MyInterfaceImplementationType>), TypeNameAssemblyFormatHandling.Simple, null);
+        var listTypeName = typeof(List<MyInterfaceImplementationType>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""Rows"": {{

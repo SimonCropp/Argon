@@ -96,8 +96,8 @@ public class DynamicTests : TestFixtureBase
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
-        var dynamicChildObjectTypeName = ReflectionUtils.GetTypeName(typeof(DynamicChildObject), TypeNameAssemblyFormatHandling.Full, null);
-        var expandoObjectTypeName = ReflectionUtils.GetTypeName(typeof(ExpandoObject), TypeNameAssemblyFormatHandling.Full, null);
+        var dynamicChildObjectTypeName = typeof(DynamicChildObject).GetTypeName(TypeNameAssemblyFormatHandling.Full, null);
+        var expandoObjectTypeName = typeof(ExpandoObject).GetTypeName(TypeNameAssemblyFormatHandling.Full, null);
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$type"": ""{expandoObjectTypeName}"",

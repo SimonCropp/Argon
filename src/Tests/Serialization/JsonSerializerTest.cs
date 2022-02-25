@@ -3870,14 +3870,14 @@ Path '', line 1, position 1.");
   ""AA_property6"": 2
 }");
 
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic), myA));
-        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic), myA));
+        Assert.Equal(2, typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
+        Assert.Equal(0, typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
+        Assert.Equal(0, typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
+        Assert.Equal(0, typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myA));
 
         var myB = JsonConvert.DeserializeObject<BBTestClass>(
             @"{
@@ -3901,25 +3901,25 @@ Path '', line 1, position 1.");
   ""BB_property8"": 3
 }");
 
-        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Assert.Equal(2, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic), myB));
-        Assert.Equal(0, ReflectionUtils.GetMemberValue(typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(3, typeof(AATestClass).GetField("AA_field1", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
+        Assert.Equal(0, typeof(AATestClass).GetField("AA_field2", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property1", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property2", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property3", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
+        Assert.Equal(2, typeof(AATestClass).GetProperty("AA_property4", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
+        Assert.Equal(0, typeof(AATestClass).GetProperty("AA_property5", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
+        Assert.Equal(0, typeof(AATestClass).GetProperty("AA_property6", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
 
         Assert.Equal(4, myB.BB_field1);
         Assert.Equal(4, myB.BB_field2);
         Assert.Equal(3, myB.BB_property1);
         Assert.Equal(3, myB.BB_property2);
-        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property3", BindingFlags.Instance | BindingFlags.Public), myB));
-        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property4", BindingFlags.Instance | BindingFlags.NonPublic), myB));
+        Assert.Equal(3, typeof(BBTestClass).GetProperty("BB_property3", BindingFlags.Instance | BindingFlags.Public).GetMemberValue(myB));
+        Assert.Equal(3, typeof(BBTestClass).GetProperty("BB_property4", BindingFlags.Instance | BindingFlags.NonPublic).GetMemberValue(myB));
         Assert.Equal(0, myB.BB_property5);
-        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property6", BindingFlags.Instance | BindingFlags.Public), myB));
-        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property7", BindingFlags.Instance | BindingFlags.Public), myB));
-        Assert.Equal(3, ReflectionUtils.GetMemberValue(typeof(BBTestClass).GetProperty("BB_property8", BindingFlags.Instance | BindingFlags.Public), myB));
+        Assert.Equal(3, typeof(BBTestClass).GetProperty("BB_property6", BindingFlags.Instance | BindingFlags.Public).GetMemberValue(myB));
+        Assert.Equal(3, typeof(BBTestClass).GetProperty("BB_property7", BindingFlags.Instance | BindingFlags.Public).GetMemberValue(myB));
+        Assert.Equal(3, typeof(BBTestClass).GetProperty("BB_property8", BindingFlags.Instance | BindingFlags.Public).GetMemberValue(myB));
     }
 
     [Fact]
@@ -5249,7 +5249,7 @@ Path '', line 1, position 1.");
   ""Longitude"": -117.766684,
   ""TimeStamp"": ""2000-03-01T23:59:59Z"",
   ""Payload"": {{
-    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(byte[]), 0, DefaultSerializationBinder.Instance)}"",
+    ""$type"": ""{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
     ""$value"": ""AAECAwQFBgcICQ==""
   }}
 }}", jsonString);

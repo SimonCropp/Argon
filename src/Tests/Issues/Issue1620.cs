@@ -44,7 +44,7 @@ public class Issue1620 : TestFixtureBase
         var mock = new Mock<IFoo>();
         var foo = mock.Object;
 
-        var properties = ReflectionUtils.GetFieldsAndProperties(foo.GetType(), BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
+        var properties = foo.GetType().GetFieldsAndProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
 
         Assert.Equal(1, properties.Count(p => p.Name == "Mock"));
     }

@@ -116,7 +116,7 @@ public class JsonArrayContract : JsonContainerContract
         }
         else if (typeof(IList).IsAssignableFrom(NonNullableUnderlyingType))
         {
-            if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(ICollection<>), out genericCollectionDefinitionType))
+            if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(ICollection<>), out genericCollectionDefinitionType))
             {
                 CollectionItemType = genericCollectionDefinitionType.GetGenericArguments()[0];
             }
@@ -135,10 +135,10 @@ public class JsonArrayContract : JsonContainerContract
                 parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(NonNullableUnderlyingType, CollectionItemType);
             }
 
-            IsReadOnlyOrFixedSize = ReflectionUtils.InheritsGenericDefinition(NonNullableUnderlyingType, typeof(ReadOnlyCollection<>));
+            IsReadOnlyOrFixedSize = NonNullableUnderlyingType.InheritsGenericDefinition(typeof(ReadOnlyCollection<>));
             canDeserialize = true;
         }
-        else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(ICollection<>), out genericCollectionDefinitionType))
+        else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(ICollection<>), out genericCollectionDefinitionType))
         {
             CollectionItemType = genericCollectionDefinitionType.GetGenericArguments()[0];
 
@@ -157,7 +157,7 @@ public class JsonArrayContract : JsonContainerContract
             canDeserialize = true;
             ShouldCreateWrapper = true;
         }
-        else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyCollection<>), out var tempCollectionType))
+        else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IReadOnlyCollection<>), out var tempCollectionType))
         {
             CollectionItemType = tempCollectionType.GetGenericArguments()[0];
 
@@ -175,7 +175,7 @@ public class JsonArrayContract : JsonContainerContract
             IsReadOnlyOrFixedSize = true;
             canDeserialize = HasParameterizedCreatorInternal;
         }
-        else if (ReflectionUtils.ImplementsGenericDefinition(NonNullableUnderlyingType, typeof(IEnumerable<>), out tempCollectionType))
+        else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IEnumerable<>), out tempCollectionType))
         {
             CollectionItemType = tempCollectionType.GetGenericArguments()[0];
 
@@ -238,7 +238,7 @@ public class JsonArrayContract : JsonContainerContract
 
             Type constructorArgument;
 
-            if (ReflectionUtils.InheritsGenericDefinition(genericCollectionDefinitionType, typeof(List<>))
+            if (genericCollectionDefinitionType.InheritsGenericDefinition(typeof(List<>))
                 || genericCollectionDefinitionType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 constructorArgument = typeof(ICollection<>).MakeGenericType(CollectionItemType!);

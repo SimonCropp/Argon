@@ -68,7 +68,7 @@ class ReflectionObject
         }
         else
         {
-            if (ReflectionUtils.HasDefaultConstructor(type, false))
+            if (type.HasDefaultConstructor(false))
             {
                 var ctor = delegateFactory.CreateDefaultConstructor<object>(type);
 
@@ -94,12 +94,12 @@ class ReflectionObject
             {
                 case MemberTypes.Field:
                 case MemberTypes.Property:
-                    if (ReflectionUtils.CanReadMemberValue(member, false))
+                    if (member.CanReadMemberValue(false))
                     {
                         reflectionMember.Getter = delegateFactory.CreateGet<object>(member);
                     }
 
-                    if (ReflectionUtils.CanSetMemberValue(member, false, false))
+                    if (member.CanSetMemberValue(false, false))
                     {
                         reflectionMember.Setter = delegateFactory.CreateSet<object>(member);
                     }

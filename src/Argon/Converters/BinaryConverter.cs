@@ -81,7 +81,7 @@ public class BinaryConverter : JsonConverter
     {
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!ReflectionUtils.IsNullable(type))
+            if (!type.IsNullable())
             {
                 throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
             }
@@ -107,7 +107,7 @@ public class BinaryConverter : JsonConverter
             throw JsonSerializationException.Create(reader, $"Unexpected token parsing binary. Expected String or StartArray, got {reader.TokenType}.");
         }
 
-        var underlyingType = ReflectionUtils.IsNullableType(type)
+        var underlyingType = type.IsNullableType()
             ? Nullable.GetUnderlyingType(type)!
             : type;
 

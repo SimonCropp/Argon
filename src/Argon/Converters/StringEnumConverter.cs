@@ -135,7 +135,7 @@ public class StringEnumConverter : JsonConverter
     {
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!ReflectionUtils.IsNullableType(type))
+            if (!type.IsNullableType())
             {
                 throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
             }
@@ -143,7 +143,7 @@ public class StringEnumConverter : JsonConverter
             return null;
         }
 
-        var isNullable = ReflectionUtils.IsNullableType(type);
+        var isNullable = type.IsNullableType();
         var t = isNullable ? Nullable.GetUnderlyingType(type)! : type;
 
         try
@@ -187,7 +187,7 @@ public class StringEnumConverter : JsonConverter
     /// </returns>
     public override bool CanConvert(Type type)
     {
-        if (ReflectionUtils.IsNullableType(type))
+        if (type.IsNullableType())
         {
             return Nullable.GetUnderlyingType(type)!.IsEnum;
         }

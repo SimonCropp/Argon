@@ -189,7 +189,7 @@ static class JsonTypeReflector
 
     static Func<object[]?, object> GetCreator(Type type)
     {
-        var defaultConstructor = ReflectionUtils.HasDefaultConstructor(type, false)
+        var defaultConstructor = type.HasDefaultConstructor(false)
             ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
             : null;
 

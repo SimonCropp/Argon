@@ -1666,7 +1666,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         });
 
         XUnitAssert.AreEqualNormalized($@"{{
-  ""$type"": ""{ReflectionUtils.GetTypeName(typeof(List<Event1[,]>), 0, DefaultSerializationBinder.Instance)}"",
+  ""$type"": ""{typeof(List<Event1[,]>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
   ""$values"": [
     {{
       ""$type"": ""TestObjects.Event1[,], Tests"",

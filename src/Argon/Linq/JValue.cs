@@ -902,7 +902,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             if (value == null)
             {
                 result = null;
-                return ReflectionUtils.IsNullable(binder.Type);
+                return binder.Type.IsNullable();
             }
 
             result = ConvertUtils.Convert(value, CultureInfo.InvariantCulture, binder.Type);

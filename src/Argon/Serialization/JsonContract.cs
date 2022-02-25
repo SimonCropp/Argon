@@ -125,11 +125,11 @@ public abstract class JsonContract
 
         // resolve ByRef types
         // typically comes from in and ref parameters on methods/ctors
-        underlyingType = ReflectionUtils.EnsureNotByRefType(underlyingType);
+        underlyingType = underlyingType.EnsureNotByRefType();
 
-        IsNullable = ReflectionUtils.IsNullable(underlyingType);
+        IsNullable = underlyingType.IsNullable();
 
-        if (IsNullable && ReflectionUtils.IsNullableType(underlyingType))
+        if (IsNullable && underlyingType.IsNullableType())
         {
             NonNullableUnderlyingType = Nullable.GetUnderlyingType(underlyingType)!;
         }

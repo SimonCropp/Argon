@@ -110,7 +110,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var serializedString = JsonConvert.SerializeObject(inputContext, settings);
 
         XUnitAssert.AreEqualNormalized($@"{{
-  ""$type"": ""{ReflectionUtils.GetTypeName(typeof(Dictionary<string, Guid>), 0, DefaultSerializationBinder.Instance)}"",
+  ""$type"": ""{typeof(Dictionary<string, Guid>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
   ""k1"": ""5dd2dba0-20c0-49f8-a054-1fa3b0a8d774""
 }}", serializedString);
 
@@ -141,7 +141,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   ""Longitude"": -117.766684,
   ""TimeStamp"": ""2000-03-01T23:59:59Z"",
   ""Payload"": {{
-    ""$type"": ""{ReflectionUtils.GetTypeName(typeof(byte[]), 0, DefaultSerializationBinder.Instance)}"",
+    ""$type"": ""{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
     ""$value"": ""AAECAwQFBgcICQ==""
   }}
 }}", jsonString);
@@ -378,7 +378,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void WriteListTypeNameForProperty()
     {
-        var listRef = ReflectionUtils.GetTypeName(typeof(List<int>), TypeNameAssemblyFormatHandling.Simple, null);
+        var listRef = typeof(List<int>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
         var typeNameProperty = new TypeNameHandlingTests.TypeNameProperty
         {
