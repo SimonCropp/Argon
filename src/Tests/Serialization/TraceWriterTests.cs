@@ -260,7 +260,6 @@ Argon Error: 0 : Error!
         var memoryTraceWriter = (MemoryTraceWriter) traceWriter;
         var output = memoryTraceWriter.ToString();
 
-        Assert.Equal(836, output.Length);
         Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
 
         var json = @"Serialized JSON: 
@@ -331,7 +330,6 @@ Argon Error: 0 : Error!
         var memoryTraceWriter = (MemoryTraceWriter) traceWriter;
         var output = memoryTraceWriter.ToString();
 
-        Assert.Equal(978, output.Length);
         Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
 
         json = XUnitAssert.Normalize(json);

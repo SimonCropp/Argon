@@ -25,6 +25,7 @@
 
 public class Issue1619 : TestFixtureBase
 {
+#if !RELEASE
     [Fact]
     public void Test()
     {
@@ -36,6 +37,7 @@ public class Issue1619 : TestFixtureBase
         var json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
         Assert.Equal(@"{""Bar"":""c:\\temp""}", json);
     }
+#endif
 
     public class Foo
     {
