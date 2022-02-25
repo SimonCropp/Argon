@@ -50,12 +50,9 @@ public class XUnitAssert
 
     public static string Normalize(string s)
     {
-        if (s != null)
-        {
-            s = Regex.Replace(s, "\r\n");
-        }
-
-        return s;
+        return s
+            .Replace("\r\n","\r")
+            .Replace("\n","\r");
     }
 
     public static TException Throws<TException>(Action action, params string[] possibleMessages)
