@@ -11,10 +11,10 @@
     <PackageReference Include="MarkdownSnippets.MsBuild" Version="24.3.0" PrivateAssets="all" />
     <PackageReference Include="NodaTime" Version="3.0.9" />
     <PackageReference Include="ProjectDefaults" Version="1.0.68" PrivateAssets="all" />
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="FSharp.Core" Version="4.2.3" />
     <PackageReference Include="Xunit" Version="2.4.1" />
-    <PackageReference Include="BenchmarkDotNet" Version="0.10.10" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
