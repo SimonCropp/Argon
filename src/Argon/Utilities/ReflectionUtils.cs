@@ -597,16 +597,16 @@ static class ReflectionUtils
         return memberUnderlyingType.IsGenericParameter;
     }
 
-    public static T? GetAttribute<T>(object attributeProvider, bool inherit) where T : Attribute
+    public static T? GetAttribute<T>(ICustomAttributeProvider provider, bool inherit) where T : Attribute
     {
-        var attributes = GetAttributes<T>(attributeProvider, inherit);
+        var attributes = GetAttributes<T>(provider, inherit);
 
         return attributes?.FirstOrDefault();
     }
 
-    static T[] GetAttributes<T>(object attributeProvider, bool inherit) where T : Attribute
+    static T[] GetAttributes<T>(ICustomAttributeProvider provider, bool inherit) where T : Attribute
     {
-        var a = GetAttributes(attributeProvider, typeof(T), inherit);
+        var a = GetAttributes(provider, typeof(T), inherit);
 
         if (a is T[] attributes)
         {
@@ -616,33 +616,14 @@ static class ReflectionUtils
         return a.Cast<T>().ToArray();
     }
 
-    public static Attribute[] GetAttributes(object attributeProvider, Type? attributeType, bool inherit)
+    public static Attribute[] GetAttributes(ICustomAttributeProvider provider, Type? attributeType, bool inherit)
     {
-        var provider = attributeProvider;
-
-        // http://hyperthink.net/blog/getcustomattributes-gotcha/
-        // ICustomAttributeProvider doesn't do inheritance
-
-        switch (provider)
+        if (attributeType == null)
         {
-            case Type t:
-                var array = attributeType != null ? t.GetCustomAttributes(attributeType, inherit) : t.GetCustomAttributes(inherit);
-                var attributes = array.Cast<Attribute>().ToArray();
-                return attributes;
-            case Assembly a:
-                return attributeType != null ? Attribute.GetCustomAttributes(a, attributeType) : Attribute.GetCustomAttributes(a);
-            case MemberInfo mi:
-                return attributeType != null ? Attribute.GetCustomAttributes(mi, attributeType, inherit) : Attribute.GetCustomAttributes(mi, inherit);
-            case Module m:
-                return attributeType != null ? Attribute.GetCustomAttributes(m, attributeType, inherit) : Attribute.GetCustomAttributes(m, inherit);
-            case ParameterInfo p:
-                return attributeType != null ? Attribute.GetCustomAttributes(p, attributeType, inherit) : Attribute.GetCustomAttributes(p, inherit);
-            default:
-                var customAttributeProvider = (ICustomAttributeProvider) attributeProvider;
-                var result = attributeType != null ? customAttributeProvider.GetCustomAttributes(attributeType, inherit) : customAttributeProvider.GetCustomAttributes(inherit);
-
-                return (Attribute[]) result;
+            return provider.GetCustomAttributes(inherit).Cast<Attribute>().ToArray();
         }
+
+        return provider.GetCustomAttributes(attributeType, inherit).Cast<Attribute>().ToArray();
     }
 
     public static StructMultiKey<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)

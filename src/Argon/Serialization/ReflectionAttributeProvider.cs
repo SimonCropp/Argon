@@ -30,13 +30,13 @@ namespace Argon;
 /// </summary>
 public class ReflectionAttributeProvider : IAttributeProvider
 {
-    readonly object attributeProvider;
+    readonly ICustomAttributeProvider attributeProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ReflectionAttributeProvider"/> class.
     /// </summary>
     /// <param name="attributeProvider">The instance to get attributes for. This parameter should be a <see cref="System.Type"/>, <see cref="MemberInfo"/>, <see cref="ParameterInfo"/> or <see cref="Assembly"/>.</param>
-    public ReflectionAttributeProvider(object attributeProvider)
+    public ReflectionAttributeProvider(ICustomAttributeProvider attributeProvider)
     {
         this.attributeProvider = attributeProvider;
     }

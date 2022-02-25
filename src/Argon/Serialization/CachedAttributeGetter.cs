@@ -25,9 +25,9 @@
 
 static class CachedAttributeGetter<T> where T : Attribute
 {
-    static readonly ThreadSafeStore<object, T?> TypeAttributeCache = new(JsonTypeReflector.GetAttribute<T>);
+    static readonly ThreadSafeStore<ICustomAttributeProvider, T?> TypeAttributeCache = new(JsonTypeReflector.GetAttribute<T>);
 
-    public static T? GetAttribute(object type)
+    public static T? GetAttribute(ICustomAttributeProvider type)
     {
         return TypeAttributeCache.Get(type);
     }

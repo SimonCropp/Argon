@@ -1226,7 +1226,7 @@ public class DefaultContractResolver : IContractResolver
         return property;
     }
 
-    void SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
+    void SetPropertySettingsFromAttributes(JsonProperty property, ICustomAttributeProvider attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
     {
         var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
 

@@ -40,7 +40,7 @@ static class JsonTypeReflector
 
     static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
 
-    public static T? GetCachedAttribute<T>(object attributeProvider) where T : Attribute
+    public static T? GetCachedAttribute<T>(ICustomAttributeProvider attributeProvider) where T : Attribute
     {
         return CachedAttributeGetter<T>.GetAttribute(attributeProvider);
     }
@@ -138,7 +138,7 @@ static class JsonTypeReflector
         return MemberSerialization.OptOut;
     }
 
-    public static JsonConverter? GetJsonConverter(object attributeProvider)
+    public static JsonConverter? GetJsonConverter(ICustomAttributeProvider attributeProvider)
     {
         var converterAttribute = GetCachedAttribute<JsonConverterAttribute>(attributeProvider);
 
@@ -281,7 +281,7 @@ static class JsonTypeReflector
         return null;
     }
 
-    public static T? GetAttribute<T>(object provider) where T : Attribute
+    public static T? GetAttribute<T>(ICustomAttributeProvider provider) where T : Attribute
     {
         if (provider is Type type)
         {
