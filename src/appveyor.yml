@@ -1,7 +1,5 @@
 image:
     - Visual Studio 2022
-    - macOS
-    - Ubuntu
 build_script:
     - pwsh: |
           if ($isWindows) {
