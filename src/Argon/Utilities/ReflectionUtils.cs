@@ -509,12 +509,12 @@ static class ReflectionUtils
         return false;
     }
 
-    public static List<MemberInfo> GetFieldsAndProperties(this Type type, BindingFlags bindingAttr)
+    public static List<MemberInfo> GetFieldsAndProperties(this Type type, BindingFlags bindingFlags)
     {
         var targetMembers = new List<MemberInfo>();
 
-        targetMembers.AddRange(GetFields(type, bindingAttr));
-        targetMembers.AddRange(GetProperties(type, bindingAttr));
+        targetMembers.AddRange(GetFields(type, bindingFlags));
+        targetMembers.AddRange(GetProperties(type, bindingFlags));
 
         // for some reason .NET returns multiple members when overriding a generic member on a base class
         // http://social.msdn.microsoft.com/Forums/en-US/b5abbfee-e292-4a64-8907-4e3f0fb90cd9/reflection-overriden-abstract-generic-properties?forum=netfxbcl
@@ -542,7 +542,7 @@ static class ReflectionUtils
                     {
                         resolvedMembers.Add(member);
                     }
-                    else if (!IsOverridenGenericMember(member, bindingAttr) || member.Name == "Item")
+                    else if (!IsOverridenGenericMember(member, bindingFlags) || member.Name == "Item")
                     {
                         // two members with the same name were declared on a type
                         // this can be done via IL emit, e.g. Moq
@@ -562,7 +562,7 @@ static class ReflectionUtils
         return distinctMembers;
     }
 
-    static bool IsOverridenGenericMember(this MemberInfo member, BindingFlags bindingAttr)
+    static bool IsOverridenGenericMember(this MemberInfo member, BindingFlags bindingFlags)
     {
         if (member.MemberType != MemberTypes.Property)
         {
@@ -587,7 +587,7 @@ static class ReflectionUtils
             return false;
         }
 
-        var members = genericTypeDefinition.GetMember(property.Name, bindingAttr);
+        var members = genericTypeDefinition.GetMember(property.Name, bindingFlags);
         if (members.Length == 0)
         {
             return false;
@@ -697,7 +697,7 @@ static class ReflectionUtils
 
     public static MemberInfo GetMemberInfoFromType(Type targetType, MemberInfo member)
     {
-        const BindingFlags bindingAttr = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+        const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
         switch (member.MemberType)
         {
@@ -706,30 +706,30 @@ static class ReflectionUtils
 
                 var types = property.GetIndexParameters().Select(p => p.ParameterType).ToArray();
 
-                return targetType.GetProperty(property.Name, bindingAttr, null, property.PropertyType, types, null)!;
+                return targetType.GetProperty(property.Name, bindingFlags, null, property.PropertyType, types, null)!;
             default:
-                return targetType.GetMember(member.Name, member.MemberType, bindingAttr).SingleOrDefault()!;
+                return targetType.GetMember(member.Name, member.MemberType, bindingFlags).SingleOrDefault()!;
         }
     }
 
-    public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingAttr)
+    public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingFlags)
     {
-        var fields = new List<MemberInfo>(targetType.GetFields(bindingAttr));
+        var fields = new List<MemberInfo>(targetType.GetFields(bindingFlags));
         // Type.GetFields doesn't return inherited private fields
         // manually find private fields from base class
-        GetChildPrivateFields(fields, targetType, bindingAttr);
+        GetChildPrivateFields(fields, targetType, bindingFlags);
 
         return fields.Cast<FieldInfo>();
     }
 
-    static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingAttr)
+    static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingFlags)
     {
         // fix weirdness with private FieldInfos only being returned for the current Type
         // find base type fields and add them to result
-        if ((bindingAttr & BindingFlags.NonPublic) != 0)
+        if ((bindingFlags & BindingFlags.NonPublic) != 0)
         {
             // modify flags to not search for public fields
-            var nonPublicBindingAttr = bindingAttr.RemoveFlag(BindingFlags.Public);
+            var nonPublicBindingAttr = bindingFlags.RemoveFlag(BindingFlags.Public);
 
             while ((targetType = targetType.BaseType!) != null)
             {
@@ -742,20 +742,20 @@ static class ReflectionUtils
         }
     }
 
-    public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingAttr)
+    public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingFlags)
     {
-        var properties = new List<PropertyInfo>(targetType.GetProperties(bindingAttr));
+        var properties = new List<PropertyInfo>(targetType.GetProperties(bindingFlags));
 
         // GetProperties on an interface doesn't return properties from its interfaces
         if (targetType.IsInterface)
         {
             foreach (var i in targetType.GetInterfaces())
             {
-                properties.AddRange(i.GetProperties(bindingAttr));
+                properties.AddRange(i.GetProperties(bindingFlags));
             }
         }
 
-        GetChildPrivateProperties(properties, targetType, bindingAttr);
+        GetChildPrivateProperties(properties, targetType, bindingFlags);
 
         // a base class private getter/setter will be inaccessible unless the property was gotten from the base class
         for (var i = 0; i < properties.Count; i++)
@@ -771,14 +771,14 @@ static class ReflectionUtils
         return properties;
     }
 
-    static BindingFlags RemoveFlag(this BindingFlags bindingAttr, BindingFlags flag)
+    static BindingFlags RemoveFlag(this BindingFlags source, BindingFlags flag)
     {
-        return (bindingAttr & flag) == flag
-            ? bindingAttr ^ flag
-            : bindingAttr;
+        return (source & flag) == flag
+            ? source ^ flag
+            : source;
     }
 
-    static void GetChildPrivateProperties(IList<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingAttr)
+    static void GetChildPrivateProperties(IList<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingFlags)
     {
         // fix weirdness with private PropertyInfos only being returned for the current Type
         // find base type properties and add them to result
@@ -787,7 +787,7 @@ static class ReflectionUtils
 
         while ((targetType = targetType.BaseType!) != null)
         {
-            foreach (var property in targetType.GetProperties(bindingAttr))
+            foreach (var property in targetType.GetProperties(bindingFlags))
             {
                 if (property.IsVirtual())
                 {

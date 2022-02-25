@@ -61,7 +61,7 @@ public class DynamicValueProvider : IValueProvider
             // add this check for unit tests
             if (value == null)
             {
-                if (!ReflectionUtils.IsNullable(ReflectionUtils.GetMemberUnderlyingType(member)))
+                if (!ReflectionUtils.GetMemberUnderlyingType(member).IsNullable())
                 {
                     throw new JsonSerializationException($"Incompatible value. Cannot set {member} to null.");
                 }
