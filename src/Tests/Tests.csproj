@@ -4,6 +4,9 @@
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet6'">net6.0</TargetFrameworks>
     <Nullable>disable</Nullable>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+    <TargetFrameworks>netstandard2.0;net6</TargetFrameworks>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NodaTime.Serialization.Argon\NodaTime.Serialization.Argon.csproj" />
     <Using Remove="System.Net.Http" />
