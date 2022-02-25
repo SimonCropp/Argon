@@ -14,7 +14,7 @@
   <ItemGroup>
     <Using Remove="System.Net.Http" />
     <PackageReference Include="ProjectDefaults" Version="1.0.68" PrivateAssets="all" />
-    <PackageReference Include="NodaTime" Version="3.0.0" />
+    <PackageReference Include="NodaTime" Version="3.0.9" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 
