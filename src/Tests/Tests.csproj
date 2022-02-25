@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;net48;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net461;net48;net6.0</TargetFrameworks>
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet6'">net6.0</TargetFrameworks>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-    <TargetFrameworks>netstandard2.0;net6</TargetFrameworks>
+    <TargetFrameworks>net6</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NodaTime.Serialization.Argon\NodaTime.Serialization.Argon.csproj" />
