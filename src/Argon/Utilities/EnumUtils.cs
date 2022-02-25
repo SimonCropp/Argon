@@ -41,7 +41,7 @@ static class EnumUtils
         {
             var name = names[i];
             var f = enumType.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)!;
-            values[i] = ToUInt64(f.GetValue(null));
+            values[i] = ToUInt64(f.GetValue(null)!);
 
             var specifiedName = f.GetCustomAttributes(typeof(EnumMemberAttribute), true)
                 .Cast<EnumMemberAttribute>()

@@ -47,7 +47,7 @@ class DefaultReferenceResolver : IReferenceResolver
     public object ResolveReference(object context, string reference)
     {
         GetMappings(context).TryGetByFirst(reference, out var value);
-        return value;
+        return value!;
     }
 
     public string GetReference(object context, object value)

@@ -68,7 +68,7 @@ class XmlNodeWrapper : IXmlNode
             {
                 if (HasAttributes)
                 {
-                    attributes = new List<IXmlNode>(node.Attributes.Count);
+                    attributes = new List<IXmlNode>(node.Attributes!.Count);
                     foreach (XmlAttribute attribute in node.Attributes)
                     {
                         attributes.Add(WrapNode(attribute));
@@ -112,9 +112,9 @@ class XmlNodeWrapper : IXmlNode
         }
     }
 
-    public string? Value
+    public string Value
     {
-        get => node.Value;
+        get => node.Value!;
         set => node.Value = value;
     }
 

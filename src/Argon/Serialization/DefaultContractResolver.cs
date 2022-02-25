@@ -311,7 +311,7 @@ public class DefaultContractResolver : IContractResolver
 
             if (!ReflectionUtils.CanReadMemberValue(m, true))
             {
-                throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType)}'. Member '{m.Name}' must have a getter.");
+                throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType!)}'. Member '{m.Name}' must have a getter.");
             }
 
             var t = ReflectionUtils.GetMemberUnderlyingType(m);
@@ -327,10 +327,10 @@ public class DefaultContractResolver : IContractResolver
                 }
             }
 
-            throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType)}'. Member '{m.Name}' type must implement IDictionary<string, JToken>.");
+            throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType!)}'. Member '{m.Name}' type must implement IDictionary<string, JToken>.");
         });
 
-        return extensionDataMember;
+        return extensionDataMember!;
     }
 
     static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
@@ -495,7 +495,7 @@ public class DefaultContractResolver : IContractResolver
             {
                 foreach (var parameterInfo in parameters)
                 {
-                    var memberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
+                    var memberProperty = MatchProperty(memberProperties, parameterInfo.Name!, parameterInfo.ParameterType);
                     if (memberProperty == null || memberProperty.Writable)
                     {
                         return null;
@@ -529,7 +529,7 @@ public class DefaultContractResolver : IContractResolver
     {
         var constructorParameters = constructor.GetParameters();
 
-        var parameterCollection = new JsonPropertyCollection(constructor.DeclaringType);
+        var parameterCollection = new JsonPropertyCollection(constructor.DeclaringType!);
 
         foreach (var parameterInfo in constructorParameters)
         {
@@ -589,7 +589,7 @@ public class DefaultContractResolver : IContractResolver
             AttributeProvider = new ReflectionAttributeProvider(parameterInfo)
         };
 
-        SetPropertySettingsFromAttributes(property, parameterInfo, parameterInfo.Name, parameterInfo.Member.DeclaringType, MemberSerialization.OptOut, out _);
+        SetPropertySettingsFromAttributes(property, parameterInfo, parameterInfo.Name!, parameterInfo.Member.DeclaringType!, MemberSerialization.OptOut, out _);
 
         property.Readable = false;
         property.Writable = true;
@@ -1075,38 +1075,39 @@ public class DefaultContractResolver : IContractResolver
             return false;
         }
 
+        var declaringType = method.DeclaringType!;
         if (currentCallback != null)
         {
-            throw new JsonException($"Invalid attribute. Both '{method}' and '{currentCallback}' in type '{GetClrTypeFullName(method.DeclaringType)}' have '{attributeType}'.");
+            throw new JsonException($"Invalid attribute. Both '{method}' and '{currentCallback}' in type '{GetClrTypeFullName(declaringType)}' have '{attributeType}'.");
         }
 
         if (prevAttributeType != null)
         {
-            throw new JsonException($"Invalid Callback. Method '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' has both '{prevAttributeType}' and '{attributeType}'.");
+            throw new JsonException($"Invalid Callback. Method '{method}' in type '{GetClrTypeFullName(declaringType)}' has both '{prevAttributeType}' and '{attributeType}'.");
         }
 
         if (method.IsVirtual)
         {
-            throw new JsonException($"Virtual Method '{method}' of type '{GetClrTypeFullName(method.DeclaringType)}' cannot be marked with '{attributeType}' attribute.");
+            throw new JsonException($"Virtual Method '{method}' of type '{GetClrTypeFullName(declaringType)}' cannot be marked with '{attributeType}' attribute.");
         }
 
         if (method.ReturnType != typeof(void))
         {
-            throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must return void.");
+            throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(declaringType)}' must return void.");
         }
 
         if (attributeType == typeof(OnErrorAttribute))
         {
             if (parameters is not {Length: 2} || parameters[0].ParameterType != typeof(StreamingContext) || parameters[1].ParameterType != typeof(ErrorContext))
             {
-                throw new JsonException($"Serialization Error Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must have two parameters of type '{typeof(StreamingContext)}' and '{typeof(ErrorContext)}'.");
+                throw new JsonException($"Serialization Error Callback '{method}' in type '{GetClrTypeFullName(declaringType)}' must have two parameters of type '{typeof(StreamingContext)}' and '{typeof(ErrorContext)}'.");
             }
         }
         else
         {
             if (parameters is not {Length: 1} || parameters[0].ParameterType != typeof(StreamingContext))
             {
-                throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(method.DeclaringType)}' must have a single parameter of type '{typeof(StreamingContext)}'.");
+                throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(declaringType)}' must have a single parameter of type '{typeof(StreamingContext)}'.");
             }
         }
 
@@ -1119,7 +1120,7 @@ public class DefaultContractResolver : IContractResolver
     {
         if (type.IsGenericTypeDefinition || !type.ContainsGenericParameters)
         {
-            return type.FullName;
+            return type.FullName!;
         }
 
         return $"{type.Namespace}.{type.Name}";
@@ -1198,7 +1199,7 @@ public class DefaultContractResolver : IContractResolver
             AttributeProvider = new ReflectionAttributeProvider(member)
         };
 
-        SetPropertySettingsFromAttributes(property, member, member.Name, member.DeclaringType, memberSerialization, out var allowNonPublicAccess);
+        SetPropertySettingsFromAttributes(property, member, member.Name, member.DeclaringType!, memberSerialization, out var allowNonPublicAccess);
 
         if (memberSerialization == MemberSerialization.Fields)
         {
@@ -1376,7 +1377,7 @@ public class DefaultContractResolver : IContractResolver
 
     static Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
     {
-        var shouldSerializeMethod = member.DeclaringType.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
+        var shouldSerializeMethod = member.DeclaringType!.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
 
         if (shouldSerializeMethod == null || shouldSerializeMethod.ReturnType != typeof(bool))
         {
@@ -1391,7 +1392,7 @@ public class DefaultContractResolver : IContractResolver
 
     static void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
     {
-        MemberInfo? specifiedMember = member.DeclaringType.GetProperty(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        MemberInfo? specifiedMember = member.DeclaringType!.GetProperty(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
         if (specifiedMember == null)
         {
             specifiedMember = member.DeclaringType.GetField(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);

@@ -88,7 +88,7 @@ public class DataTableConverter : JsonConverter
             }
             else
             {
-                table = (DataTable) Activator.CreateInstance(type);
+                table = (DataTable) Activator.CreateInstance(type)!;
             }
         }
 
@@ -170,7 +170,7 @@ public class DataTableConverter : JsonConverter
                     reader.ReadAndAssert();
                 }
 
-                var destinationArray = Array.CreateInstance(column.DataType.GetElementType(), list.Count);
+                var destinationArray = Array.CreateInstance(column.DataType.GetElementType()!, list.Count);
                 ((IList)list).CopyTo(destinationArray, 0);
 
                 row[columnName] = destinationArray;

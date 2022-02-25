@@ -23,6 +23,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+#nullable disable
+
 interface IWrappedDictionary
     : IDictionary
 {
@@ -31,10 +33,10 @@ interface IWrappedDictionary
 
 class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDictionary
 {
-    readonly IDictionary? dictionary;
-    readonly IDictionary<TKey, TValue>? genericDictionary;
-    readonly IReadOnlyDictionary<TKey, TValue>? readOnlyDictionary;
-    object? syncRoot;
+    readonly IDictionary dictionary;
+    readonly IDictionary<TKey, TValue> genericDictionary;
+    readonly IReadOnlyDictionary<TKey, TValue> readOnlyDictionary;
+    object syncRoot;
 
     public DictionaryWrapper(IDictionary dictionary)
     {
@@ -128,17 +130,13 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
         return GenericDictionary.Remove(key);
     }
 
-#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
-    public bool TryGetValue(TKey key, out TValue? value)
-#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
+    public bool TryGetValue(TKey key, out TValue value)
     {
         if (dictionary != null)
         {
             if (!dictionary.Contains(key))
             {
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
                 value = default;
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
                 return false;
             }
 
@@ -377,7 +375,7 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
         }
     }
 
-    object? IDictionary.this[object key]
+    object IDictionary.this[object key]
     {
         get
         {

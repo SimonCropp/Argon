@@ -35,17 +35,17 @@ class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
         return new XmlNodeWrapper(document.CreateSignificantWhitespace(text));
     }
 
-    public IXmlNode CreateXmlDeclaration(string? version, string? encoding, string? standalone)
+    public IXmlNode CreateXmlDeclaration(string version, string? encoding, string? standalone)
     {
         return new XmlDeclarationWrapper(document.CreateXmlDeclaration(version, encoding, standalone));
     }
 
-    public IXmlNode CreateXmlDocumentType(string? name, string? publicId, string? systemId, string? internalSubset)
+    public IXmlNode CreateXmlDocumentType(string name, string? publicId, string? systemId, string? internalSubset)
     {
         return new XmlDocumentTypeWrapper(document.CreateDocumentType(name, publicId, systemId, null));
     }
 
-    public IXmlNode CreateProcessingInstruction(string target, string? data)
+    public IXmlNode CreateProcessingInstruction(string target, string data)
     {
         return new XmlNodeWrapper(document.CreateProcessingInstruction(target, data));
     }
@@ -60,7 +60,7 @@ class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
         return new XmlElementWrapper(document.CreateElement(qualifiedName, namespaceUri));
     }
 
-    public IXmlNode CreateAttribute(string name, string? value)
+    public IXmlNode CreateAttribute(string name, string value)
     {
         var attribute = new XmlNodeWrapper(document.CreateAttribute(name))
         {
@@ -70,7 +70,7 @@ class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
         return attribute;
     }
 
-    public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string? value)
+    public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string value)
     {
         var attribute = new XmlNodeWrapper(document.CreateAttribute(qualifiedName, namespaceUri))
         {

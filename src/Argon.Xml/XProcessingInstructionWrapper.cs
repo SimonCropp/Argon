@@ -11,7 +11,7 @@ class XProcessingInstructionWrapper : XObjectWrapper
 
     public override string LocalName => ProcessingInstruction.Target;
 
-    public override string? Value
+    public override string Value
     {
         get => ProcessingInstruction.Data;
         set => ProcessingInstruction.Data = value;

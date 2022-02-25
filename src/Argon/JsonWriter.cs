@@ -438,10 +438,10 @@ public abstract partial class JsonWriter : IDisposable
                 WriteStartArray();
                 break;
             case JsonToken.StartConstructor:
-                WriteStartConstructor(value!.ToString());
+                WriteStartConstructor(value!.ToString()!);
                 break;
             case JsonToken.PropertyName:
-                WritePropertyName(value!.ToString());
+                WritePropertyName(value!.ToString()!);
                 break;
             case JsonToken.Comment:
                 WriteComment(value?.ToString());

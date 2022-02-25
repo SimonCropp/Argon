@@ -144,7 +144,7 @@ public class StringEnumConverter : JsonConverter
         }
 
         var isNullable = ReflectionUtils.IsNullableType(type);
-        var t = isNullable ? Nullable.GetUnderlyingType(type) : type;
+        var t = isNullable ? Nullable.GetUnderlyingType(type)! : type;
 
         try
         {
@@ -189,7 +189,7 @@ public class StringEnumConverter : JsonConverter
     {
         if (ReflectionUtils.IsNullableType(type))
         {
-            return Nullable.GetUnderlyingType(type).IsEnum;
+            return Nullable.GetUnderlyingType(type)!.IsEnum;
         }
 
         return type.IsEnum;

@@ -78,7 +78,7 @@ public class DiscriminatedUnionConverter : JsonConverter
 
         var caseInfo = cases.First();
 
-        return (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo)!;
+        return (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo);
     }
 
     static Union CreateUnion(Type type)

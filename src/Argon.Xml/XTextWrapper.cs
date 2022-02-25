@@ -9,7 +9,7 @@ class XTextWrapper : XObjectWrapper
     {
     }
 
-    public override string? Value
+    public override string Value
     {
         get => Text.Value;
         set => Text.Value = value;

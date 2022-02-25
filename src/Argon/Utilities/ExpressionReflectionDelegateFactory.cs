@@ -97,7 +97,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
                 var isByRef = false;
                 if (parameterType.IsByRef)
                 {
-                    parameterType = parameterType.GetElementType();
+                    parameterType = parameterType.GetElementType()!;
                     isByRef = true;
                 }
 
@@ -130,7 +130,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
         else
         {
-            var readParameter = EnsureCastExpression(targetParameterExpression!, method.DeclaringType);
+            var readParameter = EnsureCastExpression(targetParameterExpression!, method.DeclaringType!);
 
             callExpression = Expression.Call(readParameter, (MethodInfo)method, argsExpression);
         }
@@ -178,7 +178,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         // avoid error from expressions compiler because of abstract class
         if (type.IsAbstract)
         {
-            return () => (T)Activator.CreateInstance(type);
+            return () => (T)Activator.CreateInstance(type)!;
         }
 
         try
@@ -198,7 +198,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         {
             // an error can be thrown if constructor is not valid on Win8
             // will have INVOCATION_FLAGS_NON_W8P_FX_API invocation flag
-            return () => (T)Activator.CreateInstance(type);
+            return () => (T)Activator.CreateInstance(type)!;
         }
     }
 
@@ -222,7 +222,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
         else
         {
-            var readParameter = EnsureCastExpression(parameterExpression, property.DeclaringType);
+            var readParameter = EnsureCastExpression(parameterExpression, property.DeclaringType!);
 
             resultExpression = Expression.MakeMemberAccess(readParameter, property);
         }
@@ -246,7 +246,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
         else
         {
-            var sourceExpression = EnsureCastExpression(sourceParameter, field.DeclaringType);
+            var sourceExpression = EnsureCastExpression(sourceParameter, field.DeclaringType!);
 
             fieldExpression = Expression.Field(sourceExpression, field);
         }
@@ -261,7 +261,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
     {
         // use reflection for structs
         // expression doesn't correctly set value
-        if (field.DeclaringType.IsValueType || field.IsInitOnly)
+        if (field.DeclaringType!.IsValueType || field.IsInitOnly)
         {
             return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(field);
         }
@@ -295,7 +295,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
     {
         // use reflection for structs
         // expression doesn't correctly set value
-        if (property.DeclaringType.IsValueType)
+        if (property.DeclaringType!.IsValueType)
         {
             return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(property);
         }

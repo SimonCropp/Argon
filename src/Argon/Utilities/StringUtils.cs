@@ -81,12 +81,12 @@ static class StringUtils
         var caseInsensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.OrdinalIgnoreCase));
         if (caseInsensitiveResults.Count() <= 1)
         {
-            return caseInsensitiveResults.SingleOrDefault();
+            return caseInsensitiveResults.SingleOrDefault()!;
         }
 
         // multiple results returned. now filter using case sensitivity
         var caseSensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.Ordinal));
-        return caseSensitiveResults.SingleOrDefault();
+        return caseSensitiveResults.SingleOrDefault()!;
     }
 
     public static string ToCamelCase(string s)

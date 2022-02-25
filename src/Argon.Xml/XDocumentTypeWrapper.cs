@@ -12,11 +12,11 @@ class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
 
     public string Name => documentType.Name;
 
-    public string System => documentType.SystemId;
+    public string? System => documentType.SystemId;
 
-    public string Public => documentType.PublicId;
+    public string? Public => documentType.PublicId;
 
-    public string InternalSubset => documentType.InternalSubset;
+    public string? InternalSubset => documentType.InternalSubset;
 
     public override string LocalName => "DOCTYPE";
 }

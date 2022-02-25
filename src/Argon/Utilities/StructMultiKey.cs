@@ -39,7 +39,7 @@ readonly struct StructMultiKey<T1, T2> : IEquatable<StructMultiKey<T1, T2>>
         return (Value1?.GetHashCode() ?? 0) ^ (Value2?.GetHashCode() ?? 0);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is StructMultiKey<T1, T2> key)
         {

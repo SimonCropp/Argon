@@ -233,7 +233,7 @@ static class JavaScriptUtils
                     lastWritePosition = i + 1;
                     if (isEscapedUnicodeText)
                     {
-                        writer.Write(writeBuffer, 0, unicodeTextLength);
+                        writer.Write(writeBuffer!, 0, unicodeTextLength);
                     }
                     else
                     {

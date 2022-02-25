@@ -131,7 +131,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
                GetProperty(propertyName, StringComparison.OrdinalIgnoreCase);
     }
 
-    bool TryGetValue(string key, [NotNullWhen(true)]out JsonProperty? item)
+    bool TryGetProperty(string key, [NotNullWhen(true)]out JsonProperty? item)
     {
         if (Dictionary == null)
         {
@@ -153,7 +153,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
         // KeyedCollection has an ordinal comparer
         if (comparisonType == StringComparison.Ordinal)
         {
-            if (TryGetValue(propertyName, out var property))
+            if (TryGetProperty(propertyName, out var property))
             {
                 return property;
             }

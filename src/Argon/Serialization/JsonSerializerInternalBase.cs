@@ -29,7 +29,7 @@ abstract class JsonSerializerInternalBase
 {
     class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
     {
-        bool IEqualityComparer<object>.Equals(object x, object y)
+        bool IEqualityComparer<object>.Equals(object? x, object? y)
         {
             return ReferenceEquals(x, y);
         }

@@ -107,7 +107,7 @@ public class JsonArrayContract : JsonContainerContract
 
         if (IsArray)
         {
-            CollectionItemType = ReflectionUtils.GetCollectionItemType(UnderlyingType);
+            CollectionItemType = ReflectionUtils.GetCollectionItemType(UnderlyingType)!;
             IsReadOnlyOrFixedSize = true;
             genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
 
@@ -234,21 +234,21 @@ public class JsonArrayContract : JsonContainerContract
         {
             MiscellaneousUtils.Assert(genericCollectionDefinitionType != null);
 
-            genericWrapperType = typeof(CollectionWrapper<>).MakeGenericType(CollectionItemType);
+            genericWrapperType = typeof(CollectionWrapper<>).MakeGenericType(CollectionItemType!);
 
             Type constructorArgument;
 
             if (ReflectionUtils.InheritsGenericDefinition(genericCollectionDefinitionType, typeof(List<>))
                 || genericCollectionDefinitionType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
-                constructorArgument = typeof(ICollection<>).MakeGenericType(CollectionItemType);
+                constructorArgument = typeof(ICollection<>).MakeGenericType(CollectionItemType!);
             }
             else
             {
                 constructorArgument = genericCollectionDefinitionType;
             }
 
-            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] { constructorArgument });
+            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] { constructorArgument })!;
             genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 

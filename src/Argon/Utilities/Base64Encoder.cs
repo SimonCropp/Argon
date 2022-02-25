@@ -68,7 +68,7 @@ class Base64Encoder
                 return;
             }
 
-            var num2 = Convert.ToBase64CharArray(leftOverBytes, 0, 3, charsLine, 0);
+            var num2 = Convert.ToBase64CharArray(leftOverBytes!, 0, 3, charsLine, 0);
             WriteChars(charsLine, 0, num2);
         }
 
@@ -127,7 +127,7 @@ class Base64Encoder
     {
         if (leftOverBytesCount > 0)
         {
-            var count = Convert.ToBase64CharArray(leftOverBytes, 0, leftOverBytesCount, charsLine, 0);
+            var count = Convert.ToBase64CharArray(leftOverBytes!, 0, leftOverBytesCount, charsLine, 0);
             WriteChars(charsLine, 0, count);
             leftOverBytesCount = 0;
         }
@@ -149,7 +149,7 @@ class Base64Encoder
                 return;
             }
 
-            var num2 = Convert.ToBase64CharArray(leftOverBytes, 0, 3, charsLine, 0);
+            var num2 = Convert.ToBase64CharArray(leftOverBytes!, 0, 3, charsLine, 0);
             await WriteCharsAsync(charsLine, 0, num2, cancellation).ConfigureAwait(false);
         }
 
@@ -183,7 +183,7 @@ class Base64Encoder
 
         if (leftOverBytesCount > 0)
         {
-            var count = Convert.ToBase64CharArray(leftOverBytes, 0, leftOverBytesCount, charsLine, 0);
+            var count = Convert.ToBase64CharArray(leftOverBytes!, 0, leftOverBytesCount, charsLine, 0);
             leftOverBytesCount = 0;
             return WriteCharsAsync(charsLine, 0, count, cancellation);
         }

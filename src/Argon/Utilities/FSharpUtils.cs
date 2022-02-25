@@ -46,7 +46,7 @@ class FSharpUtils
     {
         FSharpCoreAssembly = fsharpCoreAssembly;
 
-        var fsharpType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.FSharpType");
+        var fsharpType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.FSharpType")!;
 
         var isUnionMethodInfo = GetMethodWithNonPublicFallback(fsharpType, "IsUnion", BindingFlags.Public | BindingFlags.Static);
         IsUnion = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(isUnionMethodInfo)!;
@@ -54,23 +54,23 @@ class FSharpUtils
         var getUnionCasesMethodInfo = GetMethodWithNonPublicFallback(fsharpType, "GetUnionCases", BindingFlags.Public | BindingFlags.Static);
         GetUnionCases = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(getUnionCasesMethodInfo)!;
 
-        var fsharpValue = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.FSharpValue");
+        var fsharpValue = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.FSharpValue")!;
 
         PreComputeUnionTagReader = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionTagReader");
         PreComputeUnionReader = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionReader");
         PreComputeUnionConstructor = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionConstructor");
 
-        var unionCaseInfo = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.UnionCaseInfo");
+        var unionCaseInfo = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.UnionCaseInfo")!;
 
         GetUnionCaseInfoName = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("Name")!)!;
         GetUnionCaseInfoTag = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("Tag")!)!;
         GetUnionCaseInfoDeclaringType = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("DeclaringType")!)!;
-        GetUnionCaseInfoFields = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(unionCaseInfo.GetMethod("GetFields"));
+        GetUnionCaseInfoFields = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(unionCaseInfo.GetMethod("GetFields")!);
 
-        var listModule = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.ListModule");
-        ofSeq = listModule.GetMethod("OfSeq");
+        var listModule = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.ListModule")!;
+        ofSeq = listModule.GetMethod("OfSeq")!;
 
-        mapType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.FSharpMap`2");
+        mapType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.FSharpMap`2")!;
     }
 
     static readonly object Lock = new();
@@ -133,7 +133,7 @@ class FSharpUtils
     static MethodCall<object?, object> CreateFSharpFuncCall(Type type, string methodName)
     {
         var innerMethodInfo = GetMethodWithNonPublicFallback(type, methodName, BindingFlags.Public | BindingFlags.Static);
-        var invokeFunc = innerMethodInfo.ReturnType.GetMethod("Invoke", BindingFlags.Public | BindingFlags.Instance);
+        var invokeFunc = innerMethodInfo.ReturnType.GetMethod("Invoke", BindingFlags.Public | BindingFlags.Instance)!;
 
         var call = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(innerMethodInfo);
         MethodCall<object?, object> invoke = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(invokeFunc)!;
@@ -158,17 +158,17 @@ class FSharpUtils
 
     public ObjectConstructor<object> CreateMap(Type keyType, Type valueType)
     {
-        var creatorDefinition = typeof(FSharpUtils).GetMethod("BuildMapCreator");
+        var creatorDefinition = typeof(FSharpUtils).GetMethod("BuildMapCreator")!;
 
         var creatorGeneric = creatorDefinition.MakeGenericMethod(keyType, valueType);
 
-        return (ObjectConstructor<object>)creatorGeneric.Invoke(this, null);
+        return (ObjectConstructor<object>)creatorGeneric.Invoke(this, null)!;
     }
 
     public ObjectConstructor<object> BuildMapCreator<TKey, TValue>()
     {
         var genericMapType = mapType.MakeGenericType(typeof(TKey), typeof(TValue));
-        var ctor = genericMapType.GetConstructor(new[] { typeof(IEnumerable<Tuple<TKey, TValue>>) });
+        var ctor = genericMapType.GetConstructor(new[] { typeof(IEnumerable<Tuple<TKey, TValue>>) })!;
         var ctorDelegate = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(ctor);
 
         ObjectConstructor<object> creator = args =>

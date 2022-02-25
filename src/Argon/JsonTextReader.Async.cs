@@ -1656,7 +1656,7 @@ public partial class JsonTextReader
         if (Value != null && Value.ToString() == JsonTypeReflector.TypePropertyName)
         {
             await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
-            if (Value != null && Value.ToString().StartsWith("System.Byte[]", StringComparison.Ordinal))
+            if (Value != null && Value.ToString()!.StartsWith("System.Byte[]", StringComparison.Ordinal))
             {
                 await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
                 if (Value.ToString() == JsonTypeReflector.ValuePropertyName)

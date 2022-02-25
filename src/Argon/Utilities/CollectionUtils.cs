@@ -233,10 +233,10 @@ static class CollectionUtils
             var index = indices[i];
             if (i == indices.Length - 1)
             {
-                return currentList[index];
+                return currentList[index]!;
             }
 
-            currentList = (IList)currentList[index];
+            currentList = (IList)currentList[index]!;
         }
         return currentList;
     }

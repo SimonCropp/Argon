@@ -99,7 +99,7 @@ public abstract partial class JContainer
                     parent = parent.Parent;
                     break;
                 case JsonToken.StartConstructor:
-                    var constructor = new JConstructor(reader.Value!.ToString());
+                    var constructor = new JConstructor(reader.Value!.ToString()!);
                     constructor.SetLineInfo(lineInfo, settings);
                     parent.Add(constructor);
                     parent = constructor;

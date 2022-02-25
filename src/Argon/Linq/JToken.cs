@@ -1149,7 +1149,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (v.Value is string)
         {
-            return Convert.FromBase64String(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+            return Convert.FromBase64String(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
         }
         if (v.Value is BigInteger integer)
         {
@@ -1181,7 +1181,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return new Guid(bytes);
         }
 
-        return v.Value is Guid guid ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+        return v.Value is Guid guid ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
     }
 
     /// <summary>
@@ -1211,7 +1211,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return new Guid(bytes);
         }
 
-        return v.Value is Guid guid ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+        if (v.Value is Guid guid)
+        {
+            return guid;
+        }
+
+        return new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
     }
 
     /// <summary>
@@ -1226,7 +1231,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             throw new ArgumentException($"Can not convert {GetType(value)} to TimeSpan.");
         }
 
-        return v.Value is TimeSpan span ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+        if (v.Value is TimeSpan span)
+        {
+            return span;
+        }
+
+        return ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
     }
 
     /// <summary>
@@ -1251,7 +1261,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return null;
         }
 
-        return v.Value is TimeSpan span ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+        return v.Value is TimeSpan span ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
     }
 
     /// <summary>
@@ -1276,7 +1286,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return null;
         }
 
-        return v.Value is Uri uri ? uri : new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture));
+        return v.Value is Uri uri ? uri : new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
     }
 
     static BigInteger ToBigInteger(JToken value)
@@ -1670,15 +1680,15 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                     }
                     catch (Exception ex)
                     {
-                        var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type);
+                        var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type)!;
                         throw new ArgumentException($"Could not convert '{(string?) this}' to {enumType.Name}.", ex);
                     }
                 }
 
                 if (Type == JTokenType.Integer)
                 {
-                    var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type);
-                    return Enum.ToObject(enumType, ((JValue)this).Value);
+                    var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type)!;
+                    return Enum.ToObject(enumType, ((JValue)this).Value!);
                 }
             }
 

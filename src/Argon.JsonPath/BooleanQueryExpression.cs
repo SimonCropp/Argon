@@ -198,7 +198,7 @@ class BooleanQueryExpression : QueryExpression
                 break;
             case JTokenType.Guid:
             case JTokenType.TimeSpan:
-                currentValueString = value.Value!.ToString();
+                currentValueString = value.Value!.ToString()!;
                 break;
             case JTokenType.Uri:
                 currentValueString = ((Uri)value.Value!).OriginalString;

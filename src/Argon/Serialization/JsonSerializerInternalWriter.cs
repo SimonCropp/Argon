@@ -348,19 +348,19 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out var converter))
         {
-            s = converter.ConvertToInvariantString(value);
+            s = converter.ConvertToInvariantString(value)!;
             return true;
         }
 
         if (value is Guid or Uri or TimeSpan)
         {
-            s = value.ToString();
+            s = value.ToString()!;
             return true;
         }
 
         if (value is Type t)
         {
-            s = t.AssemblyQualifiedName;
+            s = t.AssemblyQualifiedName!;
             return true;
         }
 
@@ -451,7 +451,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 if (ShouldWriteReference(e.Value, null, valueContract, contract, member))
                 {
                     writer.WritePropertyName(propertyName);
-                    WriteReference(writer, e.Value!);
+                    WriteReference(writer, e.Value);
                 }
                 else
                 {
@@ -735,7 +735,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
             if (isTopLevel)
             {
-                var value = values.GetValue(newIndices);
+                var value = values.GetValue(newIndices)!;
 
                 try
                 {
@@ -1070,7 +1070,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                         return enumName;
                     }
 
-                    return Convert.ToString(name, CultureInfo.InvariantCulture);
+                    return Convert.ToString(name, CultureInfo.InvariantCulture)!;
                 }
             }
         }
@@ -1082,7 +1082,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
 
         escape = true;
-        return name.ToString();
+        return name.ToString()!;
     }
 
     void HandleError(JsonWriter writer, int initialDepth)

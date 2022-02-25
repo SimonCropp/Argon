@@ -185,9 +185,9 @@ public class JsonDictionaryContract : JsonContainerContract
     {
         if (genericWrapperCreator == null)
         {
-            genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType, DictionaryValueType);
+            genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType!, DictionaryValueType!);
 
-            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] { genericCollectionDefinitionType! });
+            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] { genericCollectionDefinitionType! })!;
             genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 

@@ -647,7 +647,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (reader.TokenType == JsonToken.PropertyName)
         {
-            var propertyName = reader.Value!.ToString();
+            var propertyName = reader.Value!.ToString()!;
 
             if (propertyName.Length > 0 && propertyName[0] == '$')
             {
@@ -693,7 +693,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     else if (string.Equals(propertyName, JsonTypeReflector.TypePropertyName, StringComparison.Ordinal))
                     {
                         reader.ReadAndAssert();
-                        var qualifiedTypeName = reader.Value!.ToString();
+                        var qualifiedTypeName = reader.Value!.ToString()!;
 
                         ResolveTypeName(reader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName);
 
@@ -845,7 +845,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 }
                 else if (arrayContract.IsArray)
                 {
-                    var a = Array.CreateInstance(arrayContract.CollectionItemType, list.Count);
+                    var a = Array.CreateInstance(arrayContract.CollectionItemType!, list.Count);
                     list.CopyTo(a, 0);
                     list = a;
                 }
@@ -919,7 +919,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         }
                         if (ConvertUtils.IsInteger(primitiveContract.TypeCode))
                         {
-                            return Enum.ToObject(contract.NonNullableUnderlyingType, value);
+                            return Enum.ToObject(contract.NonNullableUnderlyingType, value!);
                         }
                     }
                     else if (contract.NonNullableUnderlyingType == typeof(DateTime))
@@ -1312,7 +1312,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 case JsonToken.PropertyName:
                     var keyValue = reader.Value!;
-                    if (CheckPropertyName(reader, keyValue.ToString()))
+                    if (CheckPropertyName(reader, keyValue.ToString()!))
                     {
                         continue;
                     }
@@ -1327,7 +1327,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTime:
                                 case PrimitiveTypeCode.DateTimeNullable:
                                 {
-                                    keyValue = DateTimeUtils.TryParseDateTime(keyValue.ToString(), reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt)
+                                    keyValue = DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt)
                                         ? dt
                                         : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     break;
@@ -1335,14 +1335,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTimeOffset:
                                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                                 {
-                                    keyValue = DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString(), reader.DateFormatString, reader.Culture, out var dt)
+                                    keyValue = DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, reader.DateFormatString, reader.Culture, out var dt)
                                         ? dt
                                         : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     break;
                                 }
                                 default:
                                     keyValue = contract.KeyContract is {IsEnum: true}
-                                        ? EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer.ContractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString(), false)
+                                        ? EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer.ContractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString()!, false)
                                         : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     break;
                             }
@@ -1678,7 +1678,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var memberName = reader.Value!.ToString();
+                    var memberName = reader.Value!.ToString()!;
 
                     try
                     {
@@ -2017,7 +2017,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var memberName = reader.Value!.ToString();
+                    var memberName = reader.Value!.ToString()!;
 
                     var creatorPropertyContext = new CreatorPropertyContext(memberName)
                     {
@@ -2163,7 +2163,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 case JsonToken.PropertyName:
                 {
-                    var propertyName = reader.Value!.ToString();
+                    var propertyName = reader.Value!.ToString()!;
 
                     if (CheckPropertyName(reader, propertyName))
                     {

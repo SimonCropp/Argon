@@ -31,7 +31,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     readonly DynamicProxy<T> proxy;
 
     internal DynamicProxyMetaObject(Expression expression, T value, DynamicProxy<T> proxy)
-        : base(expression, BindingRestrictions.Empty, value)
+        : base(expression, BindingRestrictions.Empty, value!)
     {
         this.proxy = proxy;
     }
@@ -115,7 +115,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
                 new GetBinderAdapter(binder),
                 NoArgs,
                 fallback(null),
-                e => binder.FallbackInvoke(e, args, null)
+                e => binder.FallbackInvoke(e!, args, null)
             ),
             null
         );
@@ -221,7 +221,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         var type = binder.GetType();
         while (!type.IsVisible)
         {
-            type = type.BaseType;
+            type = type.BaseType!;
         }
         return Expression.Constant(binder, type);
     }
@@ -282,7 +282,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
                 Expression.Condition(
                     Expression.Call(
                         Expression.Constant(proxy),
-                        typeof(DynamicProxy<T>).GetMethod(methodName),
+                        typeof(DynamicProxy<T>).GetMethod(methodName)!,
                         callArgs
                     ),
                     resultMetaObject.Expression,
@@ -332,7 +332,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
                 Expression.Condition(
                     Expression.Call(
                         Expression.Constant(proxy),
-                        typeof(DynamicProxy<T>).GetMethod(methodName),
+                        typeof(DynamicProxy<T>).GetMethod(methodName)!,
                         callArgs
                     ),
                     result,
@@ -372,7 +372,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
             Expression.Condition(
                 Expression.Call(
                     Expression.Constant(proxy),
-                    typeof(DynamicProxy<T>).GetMethod(methodName),
+                    typeof(DynamicProxy<T>).GetMethod(methodName)!,
                     callArgs
                 ),
                 Expression.Empty(),
@@ -399,7 +399,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     public override IEnumerable<string> GetDynamicMemberNames()
     {
-        return proxy.GetDynamicMemberNames((T)Value);
+        return proxy.GetDynamicMemberNames((T)Value!);
     }
 
     // It is okay to throw NotSupported from this binder. This object
@@ -413,7 +413,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         {
         }
 
-        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
+        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
         {
             throw new NotSupportedException();
         }

@@ -14,7 +14,7 @@ class XObjectWrapper : IXmlNode
 
     public virtual XmlNodeType NodeType => xmlObject?.NodeType ?? XmlNodeType.None;
 
-    public virtual string? LocalName => null;
+    public virtual string LocalName => null!;
 
     public virtual List<IXmlNode> ChildNodes => XmlNodeConverter.EmptyChildNodes;
 
@@ -22,9 +22,9 @@ class XObjectWrapper : IXmlNode
 
     public virtual IXmlNode? ParentNode => null;
 
-    public virtual string? Value
+    public virtual string Value
     {
-        get => null;
+        get => throw new InvalidOperationException();
         set => throw new InvalidOperationException();
     }
 

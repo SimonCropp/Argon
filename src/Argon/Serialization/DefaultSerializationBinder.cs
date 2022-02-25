@@ -102,7 +102,7 @@ public class DefaultSerializationBinder :
             return type;
         }
 
-        return Type.GetType(typeName);
+        return Type.GetType(typeName)!;
     }
 
     Type? GetGenericTypeFromTypeName(string typeName, Assembly assembly)

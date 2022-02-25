@@ -786,7 +786,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>
     /// <c>true</c> if the specified <see cref="Object"/> is equal to the current <see cref="Object"/>; otherwise, <c>false</c>.
     /// </returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is JValue v)
         {
@@ -829,7 +829,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             return string.Empty;
         }
 
-        return value.ToString();
+        return value.ToString()!;
     }
 
     /// <summary>
@@ -849,7 +849,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>
     /// A <see cref="String"/> that represents this instance.
     /// </returns>
-    public string ToString(IFormatProvider formatProvider)
+    public string ToString(IFormatProvider? formatProvider)
     {
         return ToString(null, formatProvider);
     }
@@ -860,7 +860,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>
     /// A <see cref="String"/> that represents this instance.
     /// </returns>
-    public string ToString(string? format, IFormatProvider formatProvider)
+    public string ToString(string? format, IFormatProvider? formatProvider)
     {
         if (value == null)
         {
@@ -872,7 +872,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             return formattable.ToString(format, formatProvider);
         }
 
-        return value.ToString();
+        return value.ToString()!;
     }
 
     /// <summary>
@@ -954,7 +954,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         }
     }
 
-    int IComparable.CompareTo(object obj)
+    int IComparable.CompareTo(object? obj)
     {
         if (obj == null)
         {
@@ -997,7 +997,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <exception cref="ArgumentException">
     /// 	<paramref name="obj"/> is not of the same type as this instance.
     /// </exception>
-    public int CompareTo(JValue obj)
+    public int CompareTo(JValue? obj)
     {
         if (obj == null)
         {
@@ -1026,78 +1026,78 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return TypeCode.Object;
     }
 
-    bool IConvertible.ToBoolean(IFormatProvider provider)
+    bool IConvertible.ToBoolean(IFormatProvider? provider)
     {
         return (bool)this;
     }
 
-    char IConvertible.ToChar(IFormatProvider provider)
+    char IConvertible.ToChar(IFormatProvider? provider)
     {
         return (char)this;
     }
 
-    sbyte IConvertible.ToSByte(IFormatProvider provider)
+    sbyte IConvertible.ToSByte(IFormatProvider? provider)
     {
         return (sbyte)this;
     }
 
-    byte IConvertible.ToByte(IFormatProvider provider)
+    byte IConvertible.ToByte(IFormatProvider? provider)
     {
         return (byte)this;
     }
 
-    short IConvertible.ToInt16(IFormatProvider provider)
+    short IConvertible.ToInt16(IFormatProvider? provider)
     {
         return (short)this;
     }
 
-    ushort IConvertible.ToUInt16(IFormatProvider provider)
+    ushort IConvertible.ToUInt16(IFormatProvider? provider)
     {
         return (ushort)this;
     }
 
-    int IConvertible.ToInt32(IFormatProvider provider)
+    int IConvertible.ToInt32(IFormatProvider? provider)
     {
         return (int)this;
     }
 
-    uint IConvertible.ToUInt32(IFormatProvider provider)
+    uint IConvertible.ToUInt32(IFormatProvider? provider)
     {
         return (uint)this;
     }
 
-    long IConvertible.ToInt64(IFormatProvider provider)
+    long IConvertible.ToInt64(IFormatProvider? provider)
     {
         return (long)this;
     }
 
-    ulong IConvertible.ToUInt64(IFormatProvider provider)
+    ulong IConvertible.ToUInt64(IFormatProvider? provider)
     {
         return (ulong)this;
     }
 
-    float IConvertible.ToSingle(IFormatProvider provider)
+    float IConvertible.ToSingle(IFormatProvider? provider)
     {
         return (float)this;
     }
 
-    double IConvertible.ToDouble(IFormatProvider provider)
+    double IConvertible.ToDouble(IFormatProvider? provider)
     {
         return (double)this;
     }
 
-    decimal IConvertible.ToDecimal(IFormatProvider provider)
+    decimal IConvertible.ToDecimal(IFormatProvider? provider)
     {
         return (decimal)this;
     }
 
-    DateTime IConvertible.ToDateTime(IFormatProvider provider)
+    DateTime IConvertible.ToDateTime(IFormatProvider? provider)
     {
         return (DateTime)this;
     }
 
-    object? IConvertible.ToType(Type conversionType, IFormatProvider provider)
+    object IConvertible.ToType(Type conversionType, IFormatProvider? provider)
     {
-        return ToObject(conversionType);
+        return ToObject(conversionType)!;
     }
 }

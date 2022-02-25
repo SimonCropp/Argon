@@ -620,7 +620,7 @@ public abstract partial class JContainer :
                     parent = parent.Parent;
                     break;
                 case JsonToken.StartConstructor:
-                    var constructor = new JConstructor(r.Value!.ToString());
+                    var constructor = new JConstructor(r.Value!.ToString()!);
                     constructor.SetLineInfo(lineInfo, settings);
                     parent.Add(constructor);
                     parent = constructor;
@@ -683,7 +683,7 @@ public abstract partial class JContainer :
         var duplicatePropertyNameHandling = settings?.DuplicatePropertyNameHandling ?? DuplicatePropertyNameHandling.Replace;
 
         var parentObject = (JObject)parent;
-        var propertyName = r.Value!.ToString();
+        var propertyName = r.Value!.ToString()!;
         var existingPropertyWithName = parentObject.Property(propertyName, StringComparison.Ordinal);
         if (existingPropertyWithName != null)
         {

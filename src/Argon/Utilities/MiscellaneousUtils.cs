@@ -83,7 +83,7 @@ static class MiscellaneousUtils
             return $@"""{s}""";
         }
 
-        return value.ToString();
+        return value.ToString()!;
     }
 
     public static int ByteArrayCompare(byte[] a1, byte[] a2)

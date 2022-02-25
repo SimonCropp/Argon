@@ -118,7 +118,7 @@ static class ConvertUtils
         // performance?
         if (ReflectionUtils.IsNullableType(type))
         {
-            var nonNullable = Nullable.GetUnderlyingType(type);
+            var nonNullable = Nullable.GetUnderlyingType(type)!;
             if (nonNullable.IsEnum)
             {
                 var nullableUnderlyingType = typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(nonNullable));
@@ -302,7 +302,7 @@ static class ConvertUtils
 
         if (ReflectionUtils.IsNullableType(targetType))
         {
-            targetType = Nullable.GetUnderlyingType(targetType);
+            targetType = Nullable.GetUnderlyingType(targetType)!;
         }
 
         var initialType = initialValue.GetType();
@@ -320,7 +320,7 @@ static class ConvertUtils
             {
                 if (initialValue is string)
                 {
-                    value = Enum.Parse(targetType, initialValue.ToString(), true);
+                    value = Enum.Parse(targetType, initialValue.ToString()!, true);
                     return ConvertResult.Success;
                 }
 

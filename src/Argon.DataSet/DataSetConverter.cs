@@ -102,7 +102,7 @@ public class DataSetConverter : JsonConverter
             return new DataSet();
         }
 
-        return (DataSet) Activator.CreateInstance(type);
+        return (DataSet) Activator.CreateInstance(type)!;
     }
 
     /// <summary>

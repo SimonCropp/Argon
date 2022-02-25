@@ -416,7 +416,14 @@ public abstract partial class JsonReader : IDisposable
                 }
                 else
                 {
-                    s = v is Uri uri ? uri.OriginalString : v.ToString();
+                    if (v is Uri uri)
+                    {
+                        s = uri.OriginalString;
+                    }
+                    else
+                    {
+                        s = v.ToString()!;
+                    }
                 }
 
                 SetToken(JsonToken.String, s, false);
@@ -844,7 +851,7 @@ public abstract partial class JsonReader : IDisposable
         if (Value != null && Value.ToString() == JsonTypeReflector.TypePropertyName)
         {
             ReaderReadAndAssert();
-            if (Value != null && Value.ToString().StartsWith("System.Byte[]", StringComparison.Ordinal))
+            if (Value != null && Value.ToString()!.StartsWith("System.Byte[]", StringComparison.Ordinal))
             {
                 ReaderReadAndAssert();
                 if (Value.ToString() == JsonTypeReflector.ValuePropertyName)

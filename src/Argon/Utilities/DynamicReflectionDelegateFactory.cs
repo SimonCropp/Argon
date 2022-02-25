@@ -41,7 +41,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
     {
-        var dynamicMethod = CreateDynamicMethod(method.ToString(), typeof(object), new[] { typeof(object[]) }, method.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] { typeof(object[]) }, method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 0);
@@ -51,7 +51,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
     {
-        var dynamicMethod = CreateDynamicMethod(method.ToString(), typeof(object), new[] { typeof(object), typeof(object[]) }, method.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] { typeof(object), typeof(object[]) }, method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 1);
@@ -70,14 +70,14 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Emit(OpCodes.Ldlen);
         generator.Emit(OpCodes.Ldc_I4, args.Length);
         generator.Emit(OpCodes.Beq, argsOk);
-        generator.Emit(OpCodes.Newobj, typeof(TargetParameterCountException).GetConstructor(Type.EmptyTypes));
+        generator.Emit(OpCodes.Newobj, typeof(TargetParameterCountException).GetConstructor(Type.EmptyTypes)!);
         generator.Emit(OpCodes.Throw);
 
         generator.MarkLabel(argsOk);
 
         if (!method.IsConstructor && !method.IsStatic)
         {
-            generator.PushInstance(method.DeclaringType);
+            generator.PushInstance(method.DeclaringType!);
         }
 
         var localConvertible = generator.DeclareLocal(typeof(IConvertible));
@@ -93,7 +93,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
             if (parameterType.IsByRef)
             {
-                parameterType = parameterType.GetElementType();
+                parameterType = parameterType.GetElementType()!;
 
                 var localVariable = generator.DeclareLocal(parameterType);
 
@@ -217,16 +217,16 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         }
 
         var returnType = method.IsConstructor
-            ? method.DeclaringType
+            ? method.DeclaringType!
             : ((MethodInfo)method).ReturnType;
 
-        if (returnType != typeof(void))
+        if (returnType == typeof(void))
         {
-            generator.BoxIfNeeded(returnType);
+            generator.Emit(OpCodes.Ldnull);
         }
         else
         {
-            generator.Emit(OpCodes.Ldnull);
+            generator.BoxIfNeeded(returnType);
         }
 
         generator.Return();
@@ -274,7 +274,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Func<T, object?> CreateGet<T>(PropertyInfo property)
     {
-        var dynamicMethod = CreateDynamicMethod($"Get{property.Name}", typeof(object), new[] { typeof(T) }, property.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Get{property.Name}", typeof(object), new[] { typeof(T) }, property.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateGetPropertyIL(property, generator);
@@ -292,7 +292,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
         if (!getMethod.IsStatic)
         {
-            generator.PushInstance(property.DeclaringType);
+            generator.PushInstance(property.DeclaringType!);
         }
 
         generator.CallMethod(getMethod);
@@ -309,7 +309,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
             return getter;
         }
 
-        var dynamicMethod = CreateDynamicMethod($"Get{field.Name}", typeof(T), new[] { typeof(object) }, field.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Get{field.Name}", typeof(T), new[] { typeof(object) }, field.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateGetFieldIL(field, generator);
@@ -325,7 +325,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         }
         else
         {
-            generator.PushInstance(field.DeclaringType);
+            generator.PushInstance(field.DeclaringType!);
             generator.Emit(OpCodes.Ldfld, field);
         }
 
@@ -335,7 +335,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(FieldInfo field)
     {
-        var dynamicMethod = CreateDynamicMethod($"Set{field.Name}", null, new[] { typeof(T), typeof(object) }, field.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Set{field.Name}", null, new[] { typeof(T), typeof(object) }, field.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateSetFieldIL(field, generator);
@@ -347,7 +347,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
     {
         if (!field.IsStatic)
         {
-            generator.PushInstance(field.DeclaringType);
+            generator.PushInstance(field.DeclaringType!);
         }
 
         generator.Emit(OpCodes.Ldarg_1);
@@ -367,7 +367,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(PropertyInfo property)
     {
-        var dynamicMethod = CreateDynamicMethod($"Set{property.Name}", null, new[] { typeof(T), typeof(object) }, property.DeclaringType);
+        var dynamicMethod = CreateDynamicMethod($"Set{property.Name}", null, new[] { typeof(T), typeof(object) }, property.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateSetPropertyIL(property, generator);
@@ -377,10 +377,10 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     internal static void GenerateCreateSetPropertyIL(PropertyInfo property, ILGenerator generator)
     {
-        var setMethod = property.SetMethod;
+        var setMethod = property.SetMethod!;
         if (!setMethod.IsStatic)
         {
-            generator.PushInstance(property.DeclaringType);
+            generator.PushInstance(property.DeclaringType!);
         }
 
         generator.Emit(OpCodes.Ldarg_1);

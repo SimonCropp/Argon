@@ -23,11 +23,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+#nullable disable
+
 class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 {
-    readonly IList? list;
-    readonly ICollection<T>? genericCollection;
-    object? syncRoot;
+    readonly IList list;
+    readonly ICollection<T> genericCollection;
+    object syncRoot;
 
     public CollectionWrapper(IList list)
     {

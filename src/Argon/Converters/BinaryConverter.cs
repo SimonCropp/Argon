@@ -99,7 +99,7 @@ public class BinaryConverter : JsonConverter
         {
             // current token is already at base64 string
             // unable to call ReadAsBytes so do it the old fashion way
-            var encodedData = reader.Value!.ToString();
+            var encodedData = reader.Value!.ToString()!;
             data = Convert.FromBase64String(encodedData);
         }
         else
@@ -108,7 +108,7 @@ public class BinaryConverter : JsonConverter
         }
 
         var underlyingType = ReflectionUtils.IsNullableType(type)
-            ? Nullable.GetUnderlyingType(type)
+            ? Nullable.GetUnderlyingType(type)!
             : type;
 
         if (underlyingType.FullName == binaryTypeName)

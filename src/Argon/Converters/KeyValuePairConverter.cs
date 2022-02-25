@@ -88,7 +88,7 @@ public class KeyValuePairConverter : JsonConverter
         reader.ReadAndAssert();
 
         var t = ReflectionUtils.IsNullableType(type)
-            ? Nullable.GetUnderlyingType(type)
+            ? Nullable.GetUnderlyingType(type)!
             : type;
 
         var reflectionObject = reflectionObjectPerType.Get(t);
@@ -130,7 +130,7 @@ public class KeyValuePairConverter : JsonConverter
     public override bool CanConvert(Type type)
     {
         var t = ReflectionUtils.IsNullableType(type)
-            ? Nullable.GetUnderlyingType(type)
+            ? Nullable.GetUnderlyingType(type)!
             : type;
 
         if (t.IsValueType && t.IsGenericType)

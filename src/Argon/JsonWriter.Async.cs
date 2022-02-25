@@ -574,9 +574,9 @@ public abstract partial class JsonWriter
             case JsonToken.StartArray:
                 return WriteStartArrayAsync(cancellation);
             case JsonToken.StartConstructor:
-                return WriteStartConstructorAsync(value!.ToString(), cancellation);
+                return WriteStartConstructorAsync(value!.ToString()!, cancellation);
             case JsonToken.PropertyName:
-                return WritePropertyNameAsync(value!.ToString(), cancellation);
+                return WritePropertyNameAsync(value!.ToString()!, cancellation);
             case JsonToken.Comment:
                 return WriteCommentAsync(value?.ToString(), cancellation);
             case JsonToken.Integer:

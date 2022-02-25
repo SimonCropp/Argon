@@ -95,7 +95,7 @@ static class ReflectionUtils
     {
         if (binder == null)
         {
-            return type.AssemblyQualifiedName;
+            return type.AssemblyQualifiedName!;
         }
 
         binder.BindToName(type, out var assemblyName, out var typeName);
@@ -180,7 +180,7 @@ static class ReflectionUtils
             bindingFlags |= BindingFlags.NonPublic;
         }
 
-        return type.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any());
+        return type.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any())!;
     }
 
     public static bool IsNullable(Type type)
@@ -198,7 +198,7 @@ static class ReflectionUtils
     {
         if (IsNullableType(type))
         {
-            return Nullable.GetUnderlyingType(type);
+            return Nullable.GetUnderlyingType(type)!;
         }
 
         return type;
@@ -209,7 +209,7 @@ static class ReflectionUtils
         if (type.IsByRef &&
             type.HasElementType)
         {
-            return type.GetElementType();
+            return type.GetElementType()!;
         }
 
         return type;
@@ -284,7 +284,7 @@ static class ReflectionUtils
                 return true;
             }
 
-            type = type.BaseType;
+            type = type.BaseType!;
         } while (type != null);
 
         return false;
@@ -356,7 +356,7 @@ static class ReflectionUtils
         {
             MemberTypes.Field => ((FieldInfo) member).FieldType,
             MemberTypes.Property => ((PropertyInfo) member).PropertyType,
-            MemberTypes.Event => ((EventInfo) member).EventHandlerType,
+            MemberTypes.Event => ((EventInfo) member).EventHandlerType!,
             MemberTypes.Method => ((MethodInfo) member).ReturnType,
             _ => throw new ArgumentException("MemberInfo must be of type FieldInfo, PropertyInfo, EventInfo or MethodInfo", nameof(member))
         };
@@ -397,7 +397,7 @@ static class ReflectionUtils
         {
             try
             {
-                return property.GetValue(target, null);
+                return property.GetValue(target, null)!;
             }
             catch (TargetParameterCountException e)
             {
@@ -407,7 +407,7 @@ static class ReflectionUtils
 
         if (member is FieldInfo field)
         {
-            return field.GetValue(target);
+            return field.GetValue(target)!;
         }
 
         throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
@@ -574,7 +574,7 @@ static class ReflectionUtils
             return false;
         }
 
-        var declaringType = property.DeclaringType;
+        var declaringType = property.DeclaringType!;
         if (!declaringType.IsGenericType)
         {
             return false;
@@ -705,9 +705,9 @@ static class ReflectionUtils
 
                 var types = property.GetIndexParameters().Select(p => p.ParameterType).ToArray();
 
-                return targetType.GetProperty(property.Name, bindingAttr, null, property.PropertyType, types, null);
+                return targetType.GetProperty(property.Name, bindingAttr, null, property.PropertyType, types, null)!;
             default:
-                return targetType.GetMember(member.Name, member.MemberType, bindingAttr).SingleOrDefault();
+                return targetType.GetMember(member.Name, member.MemberType, bindingAttr).SingleOrDefault()!;
         }
     }
 
@@ -730,7 +730,7 @@ static class ReflectionUtils
             // modify flags to not search for public fields
             var nonPublicBindingAttr = bindingAttr.RemoveFlag(BindingFlags.Public);
 
-            while ((targetType = targetType.BaseType) != null)
+            while ((targetType = targetType.BaseType!) != null)
             {
                 // filter out protected fields
                 var childPrivateFields =
@@ -762,7 +762,7 @@ static class ReflectionUtils
             var member = properties[i];
             if (member.DeclaringType != targetType)
             {
-                var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType, member);
+                var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType!, member);
                 properties[i] = declaredMember;
             }
         }
@@ -784,7 +784,7 @@ static class ReflectionUtils
 
         // also find base properties that have been hidden by subtype properties with the same name
 
-        while ((targetType = targetType.BaseType) != null)
+        while ((targetType = targetType.BaseType!) != null)
         {
             foreach (var property in targetType.GetProperties(bindingAttr))
             {
@@ -795,7 +795,7 @@ static class ReflectionUtils
                     var index = initialProperties.IndexOf(p =>
                         p.Name == property.Name &&
                         p.IsVirtual() &&
-                        (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType).IsAssignableFrom(subTypePropertyDeclaringType));
+                        (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType!).IsAssignableFrom(subTypePropertyDeclaringType));
 
                     // don't add a virtual property that has an override
                     if (index == -1)

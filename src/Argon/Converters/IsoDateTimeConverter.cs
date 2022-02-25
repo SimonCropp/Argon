@@ -134,7 +134,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
             throw JsonSerializationException.Create(reader, $"Unexpected token parsing date. Expected String, got {reader.TokenType}.");
         }
 
-        var dateText = reader.Value?.ToString();
+        var dateText = reader.Value?.ToString()!;
 
         if (StringUtils.IsNullOrEmpty(dateText) && nullable)
         {

@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-class BidirectionalDictionary<TFirst, TSecond>
+class BidirectionalDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
 {
     readonly IDictionary<TFirst, TSecond> firstToSecond;
     readonly IDictionary<TSecond, TFirst> secondToFirst;
@@ -57,7 +57,7 @@ class BidirectionalDictionary<TFirst, TSecond>
     {
         if (firstToSecond.TryGetValue(first, out var existingSecond))
         {
-            if (!existingSecond!.Equals(second))
+            if (!existingSecond.Equals(second))
             {
                 throw new ArgumentException(string.Format(duplicateFirstErrorMessage, first));
             }
@@ -65,7 +65,7 @@ class BidirectionalDictionary<TFirst, TSecond>
 
         if (secondToFirst.TryGetValue(second, out var existingFirst))
         {
-            if (!existingFirst!.Equals(first))
+            if (!existingFirst.Equals(first))
             {
                 throw new ArgumentException(string.Format(duplicateSecondErrorMessage, second));
             }
@@ -75,12 +75,12 @@ class BidirectionalDictionary<TFirst, TSecond>
         secondToFirst.Add(second, first);
     }
 
-    public bool TryGetByFirst(TFirst first, out TSecond second)
+    public bool TryGetByFirst(TFirst first, [NotNullWhen(true)] out TSecond? second)
     {
         return firstToSecond.TryGetValue(first, out second);
     }
 
-    public bool TryGetBySecond(TSecond second, out TFirst first)
+    public bool TryGetBySecond(TSecond second, [NotNullWhen(true)] out TFirst? first)
     {
         return secondToFirst.TryGetValue(second, out first);
     }

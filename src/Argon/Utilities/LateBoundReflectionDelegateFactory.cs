@@ -38,7 +38,7 @@ class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
             return a => c.Invoke(a);
         }
 
-        return a => method.Invoke(null, a);
+        return a => method.Invoke(null, a)!;
     }
 
     public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
@@ -55,7 +55,7 @@ class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
     {
         if (type.IsValueType)
         {
-            return () => (T)Activator.CreateInstance(type);
+            return () => (T)Activator.CreateInstance(type)!;
         }
 
         var constructorInfo = type.GetDefaultConstructor(true);

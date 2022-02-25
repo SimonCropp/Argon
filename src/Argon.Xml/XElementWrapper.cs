@@ -90,7 +90,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
         return result;
     }
 
-    public override string? Value
+    public override string Value
     {
         get => Element.Value;
         set => Element.Value = value;

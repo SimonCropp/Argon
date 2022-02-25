@@ -9,7 +9,7 @@ class XAttributeWrapper : XObjectWrapper
     {
     }
 
-    public override string? Value
+    public override string Value
     {
         get => Attribute.Value;
         set => Attribute.Value = value;

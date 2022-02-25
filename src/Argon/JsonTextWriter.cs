@@ -281,11 +281,11 @@ public partial class JsonTextWriter : JsonWriter
 
         var newLineLen = SetIndentChars();
 
-        writer.Write(indentChars, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize));
+        writer.Write(indentChars!, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize));
 
         while ((currentIndentCount -= indentCharBufferSize) > 0)
         {
-            writer.Write(indentChars, newLineLen, Math.Min(currentIndentCount, indentCharBufferSize));
+            writer.Write(indentChars!, newLineLen, Math.Min(currentIndentCount, indentCharBufferSize));
         }
     }
 
@@ -568,7 +568,7 @@ public partial class JsonTextWriter : JsonWriter
         {
             var length = WriteValueToBuffer(value);
 
-            writer.Write(writeBuffer, 0, length);
+            writer.Write(writeBuffer!, 0, length);
         }
         else
         {
@@ -620,7 +620,7 @@ public partial class JsonTextWriter : JsonWriter
         {
             var length = WriteValueToBuffer(value);
 
-            writer.Write(writeBuffer, 0, length);
+            writer.Write(writeBuffer!, 0, length);
         }
         else
         {
@@ -737,7 +737,7 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             var length = WriteNumberToBuffer(value, negative);
-            writer.Write(writeBuffer, 0, length);
+            writer.Write(writeBuffer!, 0, length);
         }
     }
 
@@ -795,7 +795,7 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             var length = WriteNumberToBuffer(value, negative);
-            writer.Write(writeBuffer, 0, length);
+            writer.Write(writeBuffer!, 0, length);
         }
     }
 

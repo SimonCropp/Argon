@@ -2286,7 +2286,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (setToken)
         {
-            SetToken(JsonToken.Comment, new string(CharBuffer, initialPosition, endPosition - initialPosition));
+            SetToken(JsonToken.Comment, new string(CharBuffer!, initialPosition, endPosition - initialPosition));
         }
     }
 

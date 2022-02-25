@@ -23,7 +23,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-class ThreadSafeStore<TKey, TValue>
+class ThreadSafeStore<TKey, TValue> where TKey : notnull
 {
     readonly ConcurrentDictionary<TKey, TValue> concurrentStore;
     readonly Func<TKey, TValue> creator;
