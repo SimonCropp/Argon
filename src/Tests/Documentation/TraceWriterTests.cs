@@ -145,7 +145,6 @@ public class TraceWriterTests : TestFixtureBase
 
         var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
 
-        Assert.Equal(888, memoryTraceWriter.ToString().Length);
         Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
     }
 }
