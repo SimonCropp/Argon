@@ -413,7 +413,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void ParseAndConvertDateTimeOffset()
     {
-        var json = @"{ d: ""\/Date(0+0100)\/"" }";
+        var json = @"{ d: '2013-08-14T04:38:31.000+01' }";
 
         using var stringReader = new StringReader(json);
         using var jsonReader = new JsonTextReader(stringReader);
@@ -433,7 +433,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void ReadDatesAsDateTimeOffsetViaJsonConvert()
     {
-        var content = @"{""startDateTime"":""2012-07-19T14:30:00+09:30""}";
+        var content = @"{startDateTime:'2012-07-19T14:30:00+09:30'}";
 
         var settings = new JsonSerializerSettings
         {

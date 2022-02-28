@@ -443,7 +443,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffset()
     {
-        var json = "{\"Offset\":\"\\/Date(946663200000+0600)\\/\"}";
+        var json = "{Offset:'2000-01-01T00:00:00.000+06'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -465,7 +465,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetNegative()
     {
-        var json = @"{""Offset"":""\/Date(946706400000-0600)\/""}";
+        var json = "{Offset:'2000-01-01T00:00:00.000-06'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -505,7 +505,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetHoursOnly()
     {
-        var json = "{\"Offset\":\"\\/Date(946663200000+06)\\/\"}";
+        var json = "{Offset:'2000-01-01T00:00:00.000+06'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -527,7 +527,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetWithMinutes()
     {
-        var json = @"{""Offset"":""\/Date(946708260000-0631)\/""}";
+        var json = "{Offset:'2000-01-01T00:00:00.000-0631'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -705,14 +705,14 @@ public class ReadTests : TestFixtureBase
     {
         var json = @"[
   {
-    ""Name"": ""Jim"",
-    ""BirthDate"": ""\/Date(978048000000)\/"",
-    ""LastModified"": ""\/Date(978048000000)\/""
+    Name: 'Jim',
+    BirthDate: '2000-01-01T00:00:00',
+    LastModified: '2000-01-01T00:00:00'
   },
   {
-    ""Name"": ""Jim"",
-    ""BirthDate"": ""\/Date(978048000000)\/"",
-    ""LastModified"": ""\/Date(978048000000)\/""
+    Name: 'Jim',
+    BirthDate: '2000-01-01T00:00:00',
+    LastModified: '2000-01-01T00:00:00'
   }
 ]";
 
@@ -727,20 +727,20 @@ public class ReadTests : TestFixtureBase
         }
 
         Assert.True(reader.Read());
-        Assert.Equal(new DateTime(631136448000000000), reader.Value);
+        Assert.Equal(new DateTime(2000, 1, 1), reader.Value);
     }
 
     [Fact]
     public void ReadBufferOnEndComment()
     {
         var json = @"/*comment*/ { /*comment*/
-        ""Name"": /*comment*/ ""Apple"" /*comment*/, /*comment*/
-        ""ExpiryDate"": ""\/Date(1230422400000)\/"",
-        ""Price"": 3.99,
-        ""Sizes"": /*comment*/ [ /*comment*/
-          ""Small"", /*comment*/
-          ""Medium"" /*comment*/,
-          /*comment*/ ""Large""
+        Name: /*comment*/ 'Apple' /*comment*/, /*comment*/
+        ExpiryDate: '2013-08-14T04:38:31.000+01',
+        Price: 3.99,
+        Sizes: /*comment*/ [ /*comment*/
+          'Small', /*comment*/
+          'Medium' /*comment*/,
+          /*comment*/ 'Large'
         /*comment*/ ] /*comment*/
       } /*comment*/";
 

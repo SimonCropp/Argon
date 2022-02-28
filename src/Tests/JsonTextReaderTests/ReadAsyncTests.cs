@@ -443,7 +443,7 @@ public class ReadAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTimeOffsetAsync()
     {
-        var json = "{\"Offset\":\"\\/Date(946663200000+0600)\\/\"}";
+        var json = "{Offset:'2000-01-01T00:00:00.000+06'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -465,7 +465,7 @@ public class ReadAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTimeOffsetNegativeAsync()
     {
-        var json = @"{""Offset"":""\/Date(946706400000-0600)\/""}";
+        var json = @"{Offset:'2000-01-01T00:00:00.000-06'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -497,16 +497,14 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsDateTimeOffsetAsync();
-        }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsDateTimeOffsetAsync(),
+            "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
     }
 
     [Fact]
     public async Task ReadAsDateTimeOffsetHoursOnlyAsync()
     {
-        var json = "{\"Offset\":\"\\/Date(946663200000+06)\\/\"}";
+        var json = "{Offset:'2000-01-01T00:00:00.000+06'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -528,7 +526,7 @@ public class ReadAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTimeOffsetWithMinutesAsync()
     {
-        var json = @"{""Offset"":""\/Date(946708260000-0631)\/""}";
+        var json = "{Offset:'2000-01-01T00:00:00.000-0631'}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -707,14 +705,14 @@ public class ReadAsyncTests : TestFixtureBase
     {
         var json = @"[
   {
-    ""Name"": ""Jim"",
-    ""BirthDate"": ""\/Date(978048000000)\/"",
-    ""LastModified"": ""\/Date(978048000000)\/""
+    Name: 'Jim',
+    BirthDate: '2000-01-01T00:00:00.000Z',
+    LastModified: '2000-01-01T00:00:00.000Z'
   },
   {
-    ""Name"": ""Jim"",
-    ""BirthDate"": ""\/Date(978048000000)\/"",
-    ""LastModified"": ""\/Date(978048000000)\/""
+    Name: 'Jim',
+    BirthDate: '2000-01-01T00:00:00.000Z',
+    LastModified: '2000-01-01T00:00:00.000Z'
   }
 ]";
 
@@ -729,7 +727,7 @@ public class ReadAsyncTests : TestFixtureBase
         }
 
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new DateTime(631136448000000000), reader.Value);
+        Assert.Equal(new DateTime(2000, 01, 01, 0, 0, 0, DateTimeKind.Utc), (DateTime) reader.Value);
     }
 
     [Fact]

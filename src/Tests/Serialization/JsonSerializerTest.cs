@@ -2854,7 +2854,7 @@ keyword such as type of business.""
     {
         var json = @"/*comment1*/ { /*comment2*/
         ""Name"": /*comment3*/ ""Apple"" /*comment4*/, /*comment5*/
-        ""ExpiryDate"": ""2008-12-28T00:0:00.000+0000"",
+        ""ExpiryDate"": ""2008-12-28T00:00:00.000"",
         ""Price"": 3.99,
         ""Sizes"": /*comment6*/ [ /*comment7*/
           ""Small"", /*comment8*/

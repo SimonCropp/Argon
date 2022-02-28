@@ -419,7 +419,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void DateParseHandling()
     {
-        var json = @"[""1970-01-01T00:00:00Z""]";
+        var json = @"['1970-01-01T00:00:00Z']";
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTime;
@@ -437,10 +437,6 @@ public class ParseTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-        Assert.True(reader.Read());
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
-        Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-        Assert.True(reader.Read());
 
         reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.None;
@@ -449,10 +445,6 @@ public class ParseTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(@"1970-01-01T00:00:00Z", reader.Value);
         Assert.Equal(typeof(string), reader.ValueType);
-        Assert.True(reader.Read());
-        Assert.Equal(@"/Date(0)/", reader.Value);
-        Assert.Equal(typeof(string), reader.ValueType);
-        Assert.True(reader.Read());
 
         reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTime;
@@ -461,10 +453,6 @@ public class ParseTests : TestFixtureBase
         reader.ReadAsDateTimeOffset();
         Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-        reader.ReadAsDateTimeOffset();
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
-        Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-        Assert.True(reader.Read());
 
         reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTimeOffset;
@@ -473,9 +461,5 @@ public class ParseTests : TestFixtureBase
         reader.ReadAsDateTime();
         Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
-        reader.ReadAsDateTime();
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
-        Assert.Equal(typeof(DateTime), reader.ValueType);
-        Assert.True(reader.Read());
     }
 }
