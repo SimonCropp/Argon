@@ -34,8 +34,6 @@ public partial class JsonTextReader
                 case State.Property:
                 case State.Array:
                 case State.ArrayStart:
-                case State.Constructor:
-                case State.ConstructorStart:
                     return ParseValueAsync(cancellation);
                 case State.Object:
                 case State.ObjectStart:
@@ -104,10 +102,6 @@ public partial class JsonTextReader
                 case ']':
                     CharPos++;
                     SetToken(JsonToken.EndArray);
-                    return true;
-                case ')':
-                    CharPos++;
-                    SetToken(JsonToken.EndConstructor);
                     return true;
                 case '/':
                     await ParseCommentAsync(!ignoreComments, cancellation).ConfigureAwait(false);
@@ -307,10 +301,6 @@ public partial class JsonTextReader
                     // don't increment position, the next call to read will handle comma
                     // this is done to handle multiple empty comma values
                     SetToken(JsonToken.Undefined);
-                    return true;
-                case ')':
-                    CharPos++;
-                    SetToken(JsonToken.EndConstructor);
                     return true;
                 case StringUtils.CarriageReturn:
                     await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
@@ -821,91 +811,6 @@ public partial class JsonTextReader
         return MatchAndSetAsync(JsonConvert.Null, JsonToken.Null, null, cancellation);
     }
 
-    async Task ParseConstructorAsync(CancellationToken cancellation)
-    {
-        MiscellaneousUtils.Assert(CharBuffer != null);
-
-        if (await MatchValueWithTrailingSeparatorAsync("new", cancellation).ConfigureAwait(false))
-        {
-            await EatWhitespaceAsync(cancellation).ConfigureAwait(false);
-
-            var initialPosition = CharPos;
-            int endPosition;
-
-            while (true)
-            {
-                var currentChar = CharBuffer[CharPos];
-                if (currentChar == '\0')
-                {
-                    if (charsUsed == CharPos)
-                    {
-                        if (await ReadDataAsync(true, cancellation).ConfigureAwait(false) == 0)
-                        {
-                            throw JsonReaderException.Create(this, "Unexpected end while parsing constructor.");
-                        }
-                    }
-                    else
-                    {
-                        endPosition = CharPos;
-                        CharPos++;
-                        break;
-                    }
-                }
-                else if (char.IsLetterOrDigit(currentChar))
-                {
-                    CharPos++;
-                }
-                else if (currentChar == StringUtils.CarriageReturn)
-                {
-                    endPosition = CharPos;
-                    await ProcessCarriageReturnAsync(true, cancellation).ConfigureAwait(false);
-                    break;
-                }
-                else if (currentChar == StringUtils.LineFeed)
-                {
-                    endPosition = CharPos;
-                    ProcessLineFeed();
-                    break;
-                }
-                else if (char.IsWhiteSpace(currentChar))
-                {
-                    endPosition = CharPos;
-                    CharPos++;
-                    break;
-                }
-                else if (currentChar == '(')
-                {
-                    endPosition = CharPos;
-                    break;
-                }
-                else
-                {
-                    throw JsonReaderException.Create(this, $"Unexpected character while parsing constructor: {currentChar}.");
-                }
-            }
-
-            stringReference = new StringReference(CharBuffer, initialPosition, endPosition - initialPosition);
-            var constructorName = stringReference.ToString();
-
-            await EatWhitespaceAsync(cancellation).ConfigureAwait(false);
-
-            if (CharBuffer[CharPos] != '(')
-            {
-                throw JsonReaderException.Create(this, $"Unexpected character while parsing constructor: {CharBuffer[CharPos]}.");
-            }
-
-            CharPos++;
-
-            ClearRecentString();
-
-            SetToken(JsonToken.StartConstructor, constructorName);
-        }
-        else
-        {
-            throw JsonReaderException.Create(this, "Unexpected content while parsing JSON.");
-        }
-    }
-
     async Task<object> ParseNumberNaNAsync(ReadType readType, CancellationToken cancellation)
     {
         return ParseNumberNaN(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NaN, cancellation).ConfigureAwait(false));
@@ -1144,8 +1049,6 @@ public partial class JsonTextReader
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];
@@ -1278,8 +1181,6 @@ public partial class JsonTextReader
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];
@@ -1402,8 +1303,6 @@ public partial class JsonTextReader
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];
@@ -1537,8 +1436,6 @@ public partial class JsonTextReader
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];

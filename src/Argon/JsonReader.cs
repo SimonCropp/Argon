@@ -60,16 +60,6 @@ public abstract partial class JsonReader : IDisposable
         PostValue,
 
         /// <summary>
-        /// Reader is at the start of a constructor.
-        /// </summary>
-        ConstructorStart,
-
-        /// <summary>
-        /// Reader is in a constructor.
-        /// </summary>
-        Constructor,
-
-        /// <summary>
         /// An error occurred that prevents the read operation from continuing.
         /// </summary>
         Error,

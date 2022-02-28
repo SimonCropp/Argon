@@ -552,28 +552,4 @@ static class JavaScriptUtils
 
         return true;
     }
-
-    static bool TryGetDateConstructorValue(JsonReader reader, out long? integer, [NotNullWhen(false)] out string? errorMessage)
-    {
-        integer = null;
-        errorMessage = null;
-
-        if (!reader.Read())
-        {
-            errorMessage = "Unexpected end when reading date constructor.";
-            return false;
-        }
-        if (reader.TokenType == JsonToken.EndConstructor)
-        {
-            return true;
-        }
-        if (reader.TokenType != JsonToken.Integer)
-        {
-            errorMessage = $"Unexpected token when reading date constructor. Expected Integer, got {reader.TokenType}";
-            return false;
-        }
-
-        integer = (long)reader.Value!;
-        return true;
-    }
 }

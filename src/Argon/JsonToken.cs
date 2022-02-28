@@ -25,77 +25,67 @@ public enum JsonToken
     StartArray = 2,
 
     /// <summary>
-    /// A constructor start token.
-    /// </summary>
-    StartConstructor = 3,
-
-    /// <summary>
     /// An object property name.
     /// </summary>
-    PropertyName = 4,
+    PropertyName = 3,
 
     /// <summary>
     /// A comment.
     /// </summary>
-    Comment = 5,
+    Comment = 4,
 
     /// <summary>
     /// Raw JSON.
     /// </summary>
-    Raw = 6,
+    Raw = 5,
 
     /// <summary>
     /// An integer.
     /// </summary>
-    Integer = 7,
+    Integer = 6,
 
     /// <summary>
     /// A float.
     /// </summary>
-    Float = 8,
+    Float = 7,
 
     /// <summary>
     /// A string.
     /// </summary>
-    String = 9,
+    String = 8,
 
     /// <summary>
     /// A boolean.
     /// </summary>
-    Boolean = 10,
+    Boolean = 9,
 
     /// <summary>
     /// A null token.
     /// </summary>
-    Null = 11,
+    Null = 10,
 
     /// <summary>
     /// An undefined token.
     /// </summary>
-    Undefined = 12,
+    Undefined = 11,
 
     /// <summary>
     /// An object end token.
     /// </summary>
-    EndObject = 13,
+    EndObject = 12,
 
     /// <summary>
     /// An array end token.
     /// </summary>
-    EndArray = 14,
-
-    /// <summary>
-    /// A constructor end token.
-    /// </summary>
-    EndConstructor = 15,
+    EndArray = 13,
 
     /// <summary>
     /// A Date.
     /// </summary>
-    Date = 16,
+    Date = 14,
 
     /// <summary>
     /// Byte data.
     /// </summary>
-    Bytes = 17
+    Bytes = 15
 }

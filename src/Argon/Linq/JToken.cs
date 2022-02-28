@@ -1841,8 +1841,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 return JObject.Load(reader, settings);
             case JsonToken.StartArray:
                 return JArray.Load(reader, settings);
-            case JsonToken.StartConstructor:
-                return JConstructor.Load(reader, settings);
             case JsonToken.PropertyName:
                 return JProperty.Load(reader, settings);
             case JsonToken.String:
