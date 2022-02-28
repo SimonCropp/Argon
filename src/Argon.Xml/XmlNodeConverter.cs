@@ -805,7 +805,7 @@ public class XmlNodeConverter : JsonConverter
                 }
 
                 var d = Convert.ToDateTime(reader.Value, CultureInfo.InvariantCulture);
-                return XmlConvert.ToString(d, DateTimeUtils.ToSerializationMode(d.Kind));
+                return XmlConvert.ToString(d, ToSerializationMode(d.Kind));
             }
             case JsonToken.Bytes:
                 return Convert.ToBase64String((byte[])reader.Value!);
@@ -816,6 +816,20 @@ public class XmlNodeConverter : JsonConverter
         }
     }
 
+    static XmlDateTimeSerializationMode ToSerializationMode(DateTimeKind kind)
+    {
+        switch (kind)
+        {
+            case DateTimeKind.Local:
+                return XmlDateTimeSerializationMode.Local;
+            case DateTimeKind.Unspecified:
+                return XmlDateTimeSerializationMode.Unspecified;
+            case DateTimeKind.Utc:
+                return XmlDateTimeSerializationMode.Utc;
+            default:
+                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
+        }
+    }
     void ReadArrayElements(JsonReader reader, IXmlDocument document, string propertyName, IXmlNode currentNode, XmlNamespaceManager manager)
     {
         var elementPrefix = MiscellaneousUtils.GetPrefix(propertyName);
