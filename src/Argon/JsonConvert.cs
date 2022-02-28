@@ -65,7 +65,7 @@ public static class JsonConvert
     }
 
     /// <summary>
-    /// Converts the <see cref="DateTime"/> to its JSON string representation using the <see cref="DateFormatHandling"/> specified.
+    /// Converts the <see cref="DateTime"/> to its JSON string representation using the <see cref="DateTimeZoneHandling"/> specified.
     /// </summary>
     public static string ToString(DateTime value, DateTimeZoneHandling timeZoneHandling)
     {
