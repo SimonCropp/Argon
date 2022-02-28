@@ -130,19 +130,12 @@ static class DateTimeUtils
         return ticks;
     }
 
-    internal static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime, TimeSpan offset)
-    {
-        var universalTicks = ToUniversalTicks(dateTime, offset);
-
-        return UniversalTicksToJavaScriptTicks(universalTicks);
-    }
-
     internal static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime)
     {
         return ConvertDateTimeToJavaScriptTicks(dateTime, true);
     }
 
-    internal static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime, bool convertToUtc)
+    static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime, bool convertToUtc)
     {
         var ticks = convertToUtc ? ToUniversalTicks(dateTime) : dateTime.Ticks;
 
@@ -422,35 +415,6 @@ static class DateTimeUtils
         dt = default;
         return false;
     }
-
-    static bool TryReadOffset(StringReference offsetText, int startIndex, out TimeSpan offset)
-    {
-        var negative = offsetText[startIndex] == '-';
-
-        if (ConvertUtils.Int32TryParse(offsetText.Chars, startIndex + 1, 2, out var hours) != ParseResult.Success)
-        {
-            offset = default;
-            return false;
-        }
-
-        var minutes = 0;
-        if (offsetText.Length - startIndex > 5)
-        {
-            if (ConvertUtils.Int32TryParse(offsetText.Chars, startIndex + 3, 2, out minutes) != ParseResult.Success)
-            {
-                offset = default;
-                return false;
-            }
-        }
-
-        offset = TimeSpan.FromHours(hours) + TimeSpan.FromMinutes(minutes);
-        if (negative)
-        {
-            offset = offset.Negate();
-        }
-
-        return true;
-    }
     #endregion
 
     #region Write
@@ -485,7 +449,7 @@ static class DateTimeUtils
           return pos;
     }
 
-    internal static int WriteDefaultIsoDate(char[] chars, int start, DateTime dt)
+    static int WriteDefaultIsoDate(char[] chars, int start, DateTime dt)
     {
         var length = 19;
 
