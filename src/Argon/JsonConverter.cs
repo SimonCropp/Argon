@@ -48,11 +48,20 @@ public abstract class JsonConverter<T> : JsonConverter
     /// </summary>
     public sealed override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        if (!(value != null ? value is T : typeof(T).IsNullable()))
+        if (!IsValidType(value))
         {
             throw new JsonSerializationException($"Converter cannot write specified value to JSON. {typeof(T)} is required.");
         }
         WriteJson(writer, (T?)value, serializer);
+    }
+
+    static bool IsValidType(object? value)
+    {
+        if (value == null)
+        {
+            return typeof(T).IsNullable();
+        }
+        return value is T;
     }
 
     /// <summary>
