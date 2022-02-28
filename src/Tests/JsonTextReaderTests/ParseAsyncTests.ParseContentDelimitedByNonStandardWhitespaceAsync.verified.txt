@@ -1,0 +1,67 @@
+﻿[
+  {
+    TokenType: StartObject,
+    LineNumber: 1,
+    LinePosition: 2,
+    Path: 
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 1,
+    LinePosition: 11,
+    Path: h i ,
+    Depth: 1,
+    Value: h i 
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 1,
+    LinePosition: 13,
+    Path: h i ,
+    Depth: 1
+  },
+  {
+    TokenType: Boolean,
+    LineNumber: 1,
+    LinePosition: 18,
+    Path: h i [0],
+    Depth: 2,
+    Value: true
+  },
+  {
+    TokenType: StartConstructor,
+    LineNumber: 1,
+    LinePosition: 31,
+    Path: h i [1],
+    Depth: 2,
+    Value: Date
+  },
+  {
+    TokenType: EndConstructor,
+    LineNumber: 1,
+    LinePosition: 33,
+    Path: h i [1],
+    Depth: 2
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 1,
+    LinePosition: 35,
+    Path: h i ,
+    Depth: 1
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 1,
+    LinePosition: 49,
+    Path: h i ,
+    Depth: 1,
+    Value:  comment 
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 1,
+    LinePosition: 51,
+    Path: 
+  }
+]
