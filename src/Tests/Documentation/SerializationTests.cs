@@ -663,16 +663,6 @@ public class SerializationTests : TestFixtureBase
         // default as of Json.NET 4.5
         var isoJson = JsonConvert.SerializeObject(entry);
         // {"Details":"Application started.","LogDate":"2009-02-15T00:00:00Z"}
-
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
-        };
-        var microsoftJson = JsonConvert.SerializeObject(entry, settings);
-        // {"Details":"Application started.","LogDate":"\/Date(1234656000000)\/"}
-
-        var javascriptJson = JsonConvert.SerializeObject(entry, new JavaScriptDateTimeConverter());
-        // {"Details":"Application started.","LogDate":new Date(1234656000000)}
     }
     #endregion
 

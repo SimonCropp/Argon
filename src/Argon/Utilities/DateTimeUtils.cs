@@ -581,53 +581,19 @@ static class DateTimeUtils
 
     internal static int WriteDateTimeString(char[] chars, int start, DateTime value, TimeSpan? offset, DateTimeKind kind, DateFormatHandling format)
     {
-        var pos = start;
+          var  pos = WriteDefaultIsoDate(chars, start, value);
 
-        if (format == DateFormatHandling.MicrosoftDateFormat)
-        {
-            var o = offset ?? value.GetUtcOffset();
+          if (kind == DateTimeKind.Local)
+          {
+              return WriteDateTimeOffset(chars, pos, offset ?? value.GetUtcOffset(), format);
+          }
 
-            var javaScriptTicks = ConvertDateTimeToJavaScriptTicks(value, o);
+          if (kind == DateTimeKind.Utc)
+          {
+              chars[pos++] = 'Z';
+          }
 
-            @"\/Date(".CopyTo(0, chars, pos, 7);
-            pos += 7;
-
-            var ticksText = javaScriptTicks.ToString(CultureInfo.InvariantCulture);
-            ticksText.CopyTo(0, chars, pos, ticksText.Length);
-            pos += ticksText.Length;
-
-            switch (kind)
-            {
-                case DateTimeKind.Unspecified:
-                    if (value != DateTime.MaxValue && value != DateTime.MinValue)
-                    {
-                        pos = WriteDateTimeOffset(chars, pos, o, format);
-                    }
-                    break;
-                case DateTimeKind.Local:
-                    pos = WriteDateTimeOffset(chars, pos, o, format);
-                    break;
-            }
-
-            @")\/".CopyTo(0, chars, pos, 3);
-            pos += 3;
-        }
-        else
-        {
-            pos = WriteDefaultIsoDate(chars, pos, value);
-
-            switch (kind)
-            {
-                case DateTimeKind.Local:
-                    pos = WriteDateTimeOffset(chars, pos, offset ?? value.GetUtcOffset(), format);
-                    break;
-                case DateTimeKind.Utc:
-                    chars[pos++] = 'Z';
-                    break;
-            }
-        }
-
-        return pos;
+          return pos;
     }
 
     internal static int WriteDefaultIsoDate(char[] chars, int start, DateTime dt)
