@@ -951,55 +951,7 @@ public class ReadAsyncTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-        Assert.Equal("Name", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        XUnitAssert.True(reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-        Assert.Equal("ExpiryDate", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-        Assert.Equal(5, reader.LineNumber);
-        Assert.Equal("Date", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Null, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
+        await reader.VerifyReaderState();
     }
 
     [Fact]
