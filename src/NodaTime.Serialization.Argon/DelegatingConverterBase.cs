@@ -41,7 +41,7 @@ public abstract class DelegatingConverterBase : JsonConverter
 
     /// <inheritdoc />
     public override void WriteJson(
-        JsonWriter writer, object? value, JsonSerializer serializer) =>
+        JsonWriter writer, object value, JsonSerializer serializer) =>
         original.WriteJson(writer, value, serializer);
 
     /// <inheritdoc />

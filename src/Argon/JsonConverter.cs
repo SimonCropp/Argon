@@ -12,7 +12,7 @@ public abstract class JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public abstract void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer);
+    public abstract void WriteJson(JsonWriter writer, object value, JsonSerializer serializer);
 
     /// <summary>
     /// Reads the JSON representation of the object.
@@ -46,7 +46,7 @@ public abstract class JsonConverter<T> : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public sealed override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public sealed override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
         if (!IsValidType(value))
         {
