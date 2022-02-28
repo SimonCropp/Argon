@@ -43,5 +43,5 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/ReadJsonWithJsonTextReader.cs#L31-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjsonwithjsontextreader' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/ReadJsonWithJsonTextReader.cs#L10-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjsonwithjsontextreader' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

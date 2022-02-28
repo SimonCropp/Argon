@@ -28,7 +28,7 @@ var json = JsonConvert.SerializeObject(product);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Snippets.cs#L58-L75' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Snippets.cs#L37-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -51,7 +51,7 @@ var movie = JsonConvert.DeserializeObject<Movie>(json);
 var name = movie.Name;
 // Bad Boys
 ```
-<sup><a href='/src/Tests/Documentation/Snippets.cs#L88-L104' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Snippets.cs#L67-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -78,7 +78,7 @@ var json = jObject.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Snippets.cs#L31-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Snippets.cs#L10-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

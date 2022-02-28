@@ -19,7 +19,7 @@ public class File
     public int Size { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOptIn.cs#L28-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoptintypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOptIn.cs#L7-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoptintypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonObjectAttributeOptInUsage -->
@@ -40,5 +40,5 @@ Console.WriteLine(json);
 //   "Size": 51200
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOptIn.cs#L47-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoptinusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonObjectAttributeOptIn.cs#L26-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoptinusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

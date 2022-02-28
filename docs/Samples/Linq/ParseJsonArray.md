@@ -20,5 +20,5 @@ Console.WriteLine(a.ToString());
 //   "Large"
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonArray.cs#L33-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonarray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonArray.cs#L12-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonarray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

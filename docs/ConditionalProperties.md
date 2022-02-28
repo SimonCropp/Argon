@@ -22,7 +22,7 @@ public class Employee
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L60-L72' title='Snippet source file'>snippet source</a> | <a href='#snippet-employeeshouldserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L39-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-employeeshouldserializeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ShouldSerializeClassTest -->
@@ -56,7 +56,7 @@ var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented)
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L77-L105' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializeclasstest' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L56-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializeclasstest' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -89,7 +89,7 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L34-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L13-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -22,5 +22,5 @@ var s = (string)v1.ToObject(typeof(string));
 Console.WriteLine(s);
 // "True"
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ToObjectType.cs#L33-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjecttype' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToObjectType.cs#L12-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjecttype' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

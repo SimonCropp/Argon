@@ -46,5 +46,5 @@ var dt = (DateTime?)v6;
 Console.WriteLine((dt != null) ? dt.ToString() : "{null}");
 // {null}
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/JValueCast.cs#L33-L74' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluecast' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/JValueCast.cs#L12-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluecast' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

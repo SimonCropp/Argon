@@ -37,5 +37,5 @@ Console.WriteLine(JToken.DeepEquals(o1, o2));
 Console.WriteLine(ReferenceEquals(o1, o2));
 // false
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/Clone.cs#L33-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-clone' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/Clone.cs#L12-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-clone' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

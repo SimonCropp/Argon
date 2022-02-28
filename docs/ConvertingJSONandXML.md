@@ -65,7 +65,7 @@ var jsonText = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L35-L72' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L14-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Because multiple nodes with the same name at the same level are grouped together into an array, the conversion process can produce different JSON depending on the number of nodes. For example, if some XML for a user has a single `<Role>` node, then that role will be text against a JSON `"Role"` property, but if the user has multiple `<Role>` nodes, then the role values will be placed in a JSON array.
@@ -115,7 +115,7 @@ json = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L118-L158' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L97-L137' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -162,7 +162,7 @@ var doc = JsonXmlConvert.DeserializeXmlNode(json);
 //   </person>
 // </root>
 ```
-<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L78-L112' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L57-L91' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

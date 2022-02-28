@@ -28,5 +28,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonCollectionInitializer.cs#L33-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsoncollectioninitializer' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonCollectionInitializer.cs#L12-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsoncollectioninitializer' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-namespace Argon.Linq;
+namespace Argon;
 
 /// <summary>
 /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.

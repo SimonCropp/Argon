@@ -53,7 +53,7 @@ public class Employee
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L28-L76' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L7-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonConverterUsage -->
@@ -90,5 +90,5 @@ var newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConv
 Console.WriteLine(newEmployee.FirstName);
 // James
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L81-L112' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconverterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L60-L91' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconverterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

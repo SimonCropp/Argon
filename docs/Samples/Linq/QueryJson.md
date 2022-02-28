@@ -58,5 +58,5 @@ var categoriesText = categories.Select(c => (string) c).ToArray();
 Console.WriteLine(string.Join(", ", categoriesText));
 // Json.NET, CodePlex
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJson.cs#L33-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJson.cs#L12-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

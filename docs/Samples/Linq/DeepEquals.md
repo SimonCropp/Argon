@@ -35,5 +35,5 @@ Console.WriteLine(JToken.DeepEquals(o1, o2));
 Console.WriteLine(JToken.DeepEquals(s1, o1["String"]));
 // true
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/DeepEquals.cs#L31-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-deepequals' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/DeepEquals.cs#L10-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-deepequals' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

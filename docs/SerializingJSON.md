@@ -32,7 +32,7 @@ var output = JsonConvert.SerializeObject(product);
 
 var deserializedProduct = JsonConvert.DeserializeObject<Product>(output);
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L44-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L23-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 SerializeObject and DeserializeObject both have overloads that take a `Argon.JsonSerializerSettings` object. JsonSerializerSettings lets you use many of the JsonSerializer settings listed below while still using the simple serialization methods.
@@ -62,7 +62,7 @@ using JsonWriter writer = new JsonTextWriter(streamWriter);
 serializer.Serialize(writer, product);
 // {"ExpiryDate":new Date(1230375600000),"Price":0}
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L74-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonserializertostream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L53-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonserializertostream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 JsonSerializer has a number of properties on it to customize how it serializes JSON. These can also be used with the methods on JsonConvert via the JsonSerializerSettings overloads.

@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-namespace Argon.Linq;
+namespace Argon;
 
 /// <summary>
 /// Specifies how line information is handled when loading JSON.

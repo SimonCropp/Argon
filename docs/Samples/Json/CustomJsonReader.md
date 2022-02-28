@@ -232,7 +232,7 @@ public class XmlJsonReader : JsonReader
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L28-L255' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L7-L234' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonReaderUsage -->
@@ -297,5 +297,5 @@ using (var reader = new XmlJsonReader(xmlReader))
     //}
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L262-L321' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L241-L300' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

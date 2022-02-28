@@ -1,4 +1,4 @@
-namespace Argon.Linq;
+namespace Argon;
 
 /// <summary>
 /// Specifies how JSON arrays are merged together.

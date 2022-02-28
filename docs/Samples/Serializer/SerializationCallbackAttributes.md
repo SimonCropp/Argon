@@ -56,7 +56,7 @@ public class SerializationEventTestObject
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L28-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializationCallbackAttributesUsage -->
@@ -100,5 +100,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L84-L122' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L63-L101' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

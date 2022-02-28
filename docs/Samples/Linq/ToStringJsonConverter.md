@@ -10,5 +10,5 @@ var o = JObject.Parse(@"{'string1':'value','integer2':99,'datetime3':'2000-05-23
 Console.WriteLine(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
 // {"string1":"value","integer2":99,"datetime3":new Date(959032800000)}
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ToStringJsonConverter.cs#L33-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-tostringjsonconverter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToStringJsonConverter.cs#L12-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-tostringjsonconverter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

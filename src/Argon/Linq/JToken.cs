@@ -5,7 +5,7 @@
 using System.Dynamic;
 using System.Linq.Expressions;
 
-namespace Argon.Linq;
+namespace Argon;
 
 /// <summary>
 /// Represents an abstract JSON token.

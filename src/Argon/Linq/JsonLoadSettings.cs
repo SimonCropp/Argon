@@ -1,4 +1,4 @@
-﻿namespace Argon.Linq;
+﻿namespace Argon;
 
 /// <summary>
 /// Specifies the settings used when loading JSON.
