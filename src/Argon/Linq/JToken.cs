@@ -118,7 +118,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                         positions.Add(new JsonPosition(JsonContainerType.Object) { PropertyName = property.Name });
                         break;
                     case JTokenType.Array:
-                    case JTokenType.Constructor:
                         if (previous != null)
                         {
                             var index = ((IList<JToken>)current).IndexOf(previous);

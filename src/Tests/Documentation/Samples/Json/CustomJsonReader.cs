@@ -156,17 +156,6 @@ public class XmlJsonReader : JsonReader
                 stateStack.Push(JTokenType.Array);
                 valueType = null;
                 return true;
-            case JTokenType.Constructor:
-                var constructorName = reader.GetAttribute("name");
-                if (constructorName == null)
-                {
-                    throw new("No constructor name specified.");
-                }
-
-                SetToken(JsonToken.StartConstructor, constructorName);
-                stateStack.Push(JTokenType.Constructor);
-                valueType = null;
-                return true;
         }
         return false;
     }

@@ -889,7 +889,6 @@ public class XmlNodeConverter : JsonConverter
             case JsonToken.Float:
             case JsonToken.Date:
             case JsonToken.Bytes:
-            case JsonToken.StartConstructor:
                 return false;
         }
 
@@ -1133,14 +1132,6 @@ public class XmlNodeConverter : JsonConverter
                         DeserializeValue(reader, document, manager, propertyName, currentNode);
                     }
                     continue;
-                case JsonToken.StartConstructor:
-                    var constructorName = reader.Value!.ToString()!;
-
-                    while (reader.Read() && reader.TokenType != JsonToken.EndConstructor)
-                    {
-                        DeserializeValue(reader, document, manager, constructorName, currentNode);
-                    }
-                    break;
                 case JsonToken.Comment:
                     currentNode.AppendChild(document.CreateComment((string)reader.Value!));
                     break;

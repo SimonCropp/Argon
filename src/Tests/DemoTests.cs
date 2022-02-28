@@ -184,7 +184,6 @@ public class DemoTests : TestFixtureBase
         var j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
-            Converters = { new JavaScriptDateTimeConverter() }
         });
         // {
         //   "Name": "Serialize All The Things",
@@ -203,14 +202,11 @@ public class DemoTests : TestFixtureBase
     public void DeserializationBasics1()
     {
         var j = @"{
-              'Name': 'Serialize All The Things',
-              'Date': new Date(1401796800000)
+              Name: 'Serialize All The Things',
+              Date: '2014-06-03'
             }";
 
-        var s = JsonConvert.DeserializeObject<Session>(j, new JsonSerializerSettings
-        {
-            Converters = { new JavaScriptDateTimeConverter() }
-        });
+        var s = JsonConvert.DeserializeObject<Session>(j, new JsonSerializerSettings());
         // Name = Serialize All The Things
         // Date = Tuesday, 3 June 2014
 
@@ -469,7 +465,6 @@ public class DemoTests : TestFixtureBase
         public decimal FloorArea { get; set; }
 
         [JsonProperty("buildDate", Order = 1)]
-        [JsonConverter(typeof(JavaScriptDateTimeConverter))]
         public DateTime BuildDate { get; set; }
     }
 

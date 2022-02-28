@@ -9,6 +9,5 @@ public class Event1
     public string EventName { get; set; }
     public string Venue { get; set; }
 
-    [JsonProperty(ItemConverterType = typeof(JavaScriptDateTimeConverter))]
     public IList<DateTime> Performances { get; set; }
 }

@@ -223,24 +223,6 @@ public class XmlJsonWriter : JsonWriter
         }
     }
 
-    public override void WriteStartConstructor(string name)
-    {
-        var isStart = WriteState == WriteState.Start;
-
-        base.WriteStartConstructor(name);
-
-        if (isStart)
-        {
-            WriteValueElement("Root", JTokenType.Constructor);
-        }
-        else
-        {
-            WriteValueElement(JTokenType.Constructor);
-        }
-
-        writer.WriteAttributeString("name", name);
-    }
-
     public override void WriteEndArray()
     {
         base.WriteEndArray();
@@ -250,12 +232,6 @@ public class XmlJsonWriter : JsonWriter
     public override void WriteEndObject()
     {
         base.WriteEndObject();
-        writer.WriteEndElement();
-    }
-
-    public override void WriteEndConstructor()
-    {
-        base.WriteEndConstructor();
         writer.WriteEndElement();
     }
 
@@ -381,13 +357,6 @@ public class CustomJsonWriter : TestFixtureBase
             writer.WritePropertyName("Null");
             writer.WriteNull();
             writer.WriteEndObject();
-
-            writer.WritePropertyName("Constructor");
-            writer.WriteStartConstructor("Date");
-            writer.WriteValue(2000);
-            writer.WriteValue(12);
-            writer.WriteValue(30);
-            writer.WriteEndConstructor();
 
             writer.WriteEndObject();
 

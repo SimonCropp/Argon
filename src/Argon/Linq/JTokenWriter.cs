@@ -118,16 +118,6 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes the start of a constructor with the given name.
-    /// </summary>
-    public override void WriteStartConstructor(string name)
-    {
-        base.WriteStartConstructor(name);
-
-        AddParent(new JConstructor(name));
-    }
-
-    /// <summary>
     /// Writes the end.
     /// </summary>
     protected override void WriteEnd(JsonToken token)

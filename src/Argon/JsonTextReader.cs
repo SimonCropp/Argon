@@ -1636,10 +1636,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         {
                             ParseNull();
                         }
-                        else if (next == 'e')
-                        {
-                            ParseConstructor();
-                        }
                         else
                         {
                             throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);

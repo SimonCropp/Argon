@@ -529,16 +529,6 @@ public abstract partial class JsonWriter : IDisposable
         return JsonTokenUtils.IsEndToken(type) ? reader.Depth - 1 : reader.Depth;
     }
 
-    void WriteConstructorDate(JsonReader reader)
-    {
-        if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out var dateTime, out var errorMessage))
-        {
-            throw JsonWriterException.Create(this, errorMessage, null);
-        }
-
-        WriteValue(dateTime);
-    }
-
     void WriteEnd(JsonContainerType type)
     {
         switch (type)

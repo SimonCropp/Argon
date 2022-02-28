@@ -248,9 +248,6 @@ public partial class JsonTextReader
                             case 'u':
                                 await ParseNullAsync(cancellation).ConfigureAwait(false);
                                 break;
-                            case 'e':
-                                await ParseConstructorAsync(cancellation).ConfigureAwait(false);
-                                break;
                             default:
                                 throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);
                         }

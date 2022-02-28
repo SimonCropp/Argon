@@ -69,8 +69,6 @@ public abstract partial class JToken
                 return await JObject.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
             case JsonToken.StartArray:
                 return await JArray.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
-            case JsonToken.StartConstructor:
-                return await JConstructor.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
             case JsonToken.PropertyName:
                 return await JProperty.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
             case JsonToken.String:

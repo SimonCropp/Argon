@@ -108,8 +108,6 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 return JsonToken.EndObject;
             case JTokenType.Array:
                 return JsonToken.EndArray;
-            case JTokenType.Constructor:
-                return JsonToken.EndConstructor;
             case JTokenType.Property:
                 return null;
             default:
@@ -154,9 +152,6 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 break;
             case JTokenType.Array:
                 SetToken(JsonToken.StartArray);
-                break;
-            case JTokenType.Constructor:
-                SetToken(JsonToken.StartConstructor, ((JConstructor)token).Name);
                 break;
             case JTokenType.Property:
                 SetToken(JsonToken.PropertyName, ((JProperty)token).Name);
