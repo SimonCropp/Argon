@@ -373,36 +373,6 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
     }
 
-    [Fact]
-    public void ParseLineFeedDelimitedConstructor()
-    {
-        var json = "new Date\n()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(reader.Read());
-        Assert.Equal("Date", reader.Value);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
-    public void ParseNullStringConstructor()
-    {
-        var json = "new Date\0()";
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[7];
-#endif
-
-        Assert.True(reader.Read());
-        Assert.Equal("Date", reader.Value);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
 
     [Fact]
     public void ParseOctalNumber()
