@@ -54,7 +54,6 @@ public class XmlJsonReader : JsonReader
                             stateStack.Push(JTokenType.Property);
                             return true;
                         case JTokenType.Array:
-                        case JTokenType.Constructor:
                             continue;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -72,14 +71,6 @@ public class XmlJsonReader : JsonReader
                             return true;
                         case JTokenType.Array:
                             SetToken(JsonToken.EndArray);
-                            stateStack.Pop();
-                            if (PeekState() == JTokenType.Property)
-                            {
-                                stateStack.Pop();
-                            }
-                            return true;
-                        case JTokenType.Constructor:
-                            SetToken(JsonToken.EndConstructor);
                             stateStack.Pop();
                             if (PeekState() == JTokenType.Property)
                             {
