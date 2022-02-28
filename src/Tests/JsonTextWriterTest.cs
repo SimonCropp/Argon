@@ -253,9 +253,9 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteValue((decimal?)null);
             jsonWriter.WriteValue((decimal?)1.1m);
             jsonWriter.WriteValue((DateTime?)null);
-            jsonWriter.WriteValue((DateTime?)new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc));
+            jsonWriter.WriteValue((DateTime?)new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc));
             jsonWriter.WriteValue((DateTimeOffset?)null);
-            jsonWriter.WriteValue((DateTimeOffset?)new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero));
+            jsonWriter.WriteValue((DateTimeOffset?)new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, TimeSpan.Zero));
             jsonWriter.WriteEndArray();
         }
 

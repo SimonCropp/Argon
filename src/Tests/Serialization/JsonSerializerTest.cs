@@ -2115,7 +2115,7 @@ keyword such as type of business.""
     [Fact]
     public void SerializerShouldUseMemberConverter_IsoDate()
     {
-        var testDate = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
+        var testDate = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1);
@@ -2130,7 +2130,7 @@ keyword such as type of business.""
     [Fact]
     public void SerializerShouldUseMemberConverter_DateParseNone()
     {
-        var testDate = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
+        var testDate = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1, new JsonSerializerSettings());
@@ -2145,7 +2145,7 @@ keyword such as type of business.""
     [Fact]
     public void SerializerShouldUseMemberConverterOverArgumentConverter()
     {
-        var testDate = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
+        var testDate = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1, new JavaScriptDateTimeConverter());
