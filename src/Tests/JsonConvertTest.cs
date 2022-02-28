@@ -617,8 +617,8 @@ public class JsonConvertTest : TestFixtureBase
         var i = JsonConvert.DeserializeObject<int>("1");
         Assert.Equal(1, i);
 
-        var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""\/Date(-59011455539000+0000)\/""");
-        Assert.Equal(new DateTimeOffset(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)), d);
+        var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""2013-08-14T04:38:31.000+0000""");
+        Assert.Equal(new DateTimeOffset(new DateTime(2013, 8, 14, 4, 38, 31, DateTimeKind.Utc)), d);
 
         var b = JsonConvert.DeserializeObject<bool>("true");
         XUnitAssert.True(b);

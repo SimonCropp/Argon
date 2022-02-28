@@ -347,8 +347,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         Assert.Equal("Frank", e.Manager.Name);
 
         Assert.Equal(null, p.Name);
-        Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
-        Assert.Equal(new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
+        Assert.Equal(new DateTime(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
+        Assert.Equal(new DateTime(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
         Assert.Equal("String!", values[2]);
         Assert.Equal((long)int.MinValue, values[3]);

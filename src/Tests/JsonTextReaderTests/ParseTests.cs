@@ -419,15 +419,12 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void DateParseHandling()
     {
-        var json = @"[""1970-01-01T00:00:00Z"",""\/Date(0)\/""]";
+        var json = @"[""1970-01-01T00:00:00Z""]";
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.DateParseHandling = Argon.DateParseHandling.DateTime;
 
         Assert.True(reader.Read());
-        Assert.True(reader.Read());
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
-        Assert.Equal(typeof(DateTime), reader.ValueType);
         Assert.True(reader.Read());
         Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
