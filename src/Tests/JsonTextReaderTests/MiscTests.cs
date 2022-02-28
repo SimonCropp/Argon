@@ -282,7 +282,7 @@ public class MiscTests : TestFixtureBase
     }
 
     [Fact]
-    public void Depth()
+    public async Task Depth()
     {
         var input = @"{
   value:'Purple',
@@ -293,119 +293,7 @@ public class MiscTests : TestFixtureBase
         var sr = new StringReader(input);
 
         using var reader = new JsonTextReader(sr);
-        Assert.Equal(0, reader.Depth);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.StartObject);
-        Assert.Equal(0, reader.Depth);
-        Assert.Equal("", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("value", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.String);
-        Assert.Equal(reader.Value, @"Purple");
-        Assert.Equal(reader.QuoteChar, '\'');
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("value", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("array", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.StartArray);
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("array", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.Integer);
-        Assert.Equal(1L, reader.Value);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("array[0]", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.Integer);
-        Assert.Equal(2L, reader.Value);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("array[1]", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.StartConstructor);
-        Assert.Equal("Date", reader.Value);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("array[2]", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.Integer);
-        Assert.Equal(1L, reader.Value);
-        Assert.Equal(3, reader.Depth);
-        Assert.Equal("array[2][0]", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.EndConstructor);
-        Assert.Equal(null, reader.Value);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("array[2]", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.EndArray);
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("array", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("subobject", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.StartObject);
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("subobject", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("subobject.prop", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.Integer);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("subobject.prop", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.PropertyName);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("subobject.proparray", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.StartArray);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("subobject.proparray", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.Integer);
-        Assert.Equal(3, reader.Depth);
-        Assert.Equal("subobject.proparray[0]", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.EndArray);
-        Assert.Equal(2, reader.Depth);
-        Assert.Equal("subobject.proparray", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.EndObject);
-        Assert.Equal(1, reader.Depth);
-        Assert.Equal("subobject", reader.Path);
-
-        reader.Read();
-        Assert.Equal(reader.TokenType, JsonToken.EndObject);
-        Assert.Equal(0, reader.Depth);
-        Assert.Equal("", reader.Path);
+        await reader.VerifyReaderState();
     }
 
     [Fact]
