@@ -1,0 +1,215 @@
+﻿[
+  {
+    TokenType: Comment,
+    LineNumber: 1,
+    LinePosition: 17,
+    Path: ,
+    Value: comment*//*hi*/
+  },
+  {
+    TokenType: StartObject,
+    LineNumber: 2,
+    LinePosition: 1,
+    Path: 
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 2,
+    LinePosition: 10,
+    Path: ,
+    Depth: 1,
+    Value: comment
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 3,
+    LinePosition: 5,
+    Path: Name,
+    Depth: 1,
+    Value: Name
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 3,
+    LinePosition: 14,
+    Path: Name,
+    Depth: 1,
+    Value: comment
+  },
+  {
+    TokenType: Boolean,
+    LineNumber: 4,
+    LinePosition: 4,
+    Path: Name,
+    Depth: 1,
+    Value: true
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 4,
+    LinePosition: 24,
+    Path: Name,
+    Depth: 1,
+    Value: comment after true
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 5,
+    LinePosition: 22,
+    Path: Name,
+    Depth: 1,
+    Value: comment after comma
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 6,
+    LinePosition: 13,
+    Path: ExpiryDate,
+    Depth: 1,
+    Value: ExpiryDate
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 6,
+    LinePosition: 22,
+    Path: ExpiryDate,
+    Depth: 1,
+    Value: comment
+  },
+  {
+    TokenType: StartConstructor,
+    LineNumber: 9,
+    LinePosition: 1,
+    Path: ExpiryDate,
+    Depth: 1,
+    Value: Date
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 9,
+    LinePosition: 10,
+    Path: ExpiryDate,
+    Depth: 2,
+    Value: comment
+  },
+  {
+    TokenType: Null,
+    LineNumber: 10,
+    LinePosition: 4,
+    Path: ExpiryDate[0],
+    Depth: 2
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 10,
+    LinePosition: 13,
+    Path: ExpiryDate[0],
+    Depth: 2,
+    Value: comment
+  },
+  {
+    TokenType: EndConstructor,
+    LineNumber: 11,
+    LinePosition: 1,
+    Path: ExpiryDate,
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 12,
+    LinePosition: 16,
+    Path: Price,
+    Depth: 1,
+    Value: Price
+  },
+  {
+    TokenType: Float,
+    LineNumber: 12,
+    LinePosition: 21,
+    Path: Price,
+    Depth: 1,
+    Value: 3.99
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 13,
+    LinePosition: 16,
+    Path: Sizes,
+    Depth: 1,
+    Value: Sizes
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 13,
+    LinePosition: 26,
+    Path: Sizes,
+    Depth: 1,
+    Value: comment
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 14,
+    LinePosition: 1,
+    Path: Sizes,
+    Depth: 1
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 14,
+    LinePosition: 10,
+    Path: Sizes,
+    Depth: 2,
+    Value: comment
+  },
+  {
+    TokenType: String,
+    LineNumber: 16,
+    LinePosition: 17,
+    Path: Sizes[0],
+    Depth: 2,
+    Value: Small
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 16,
+    LinePosition: 26,
+    Path: Sizes[0],
+    Depth: 2,
+    Value: comment
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 17,
+    LinePosition: 1,
+    Path: Sizes,
+    Depth: 1
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 17,
+    LinePosition: 10,
+    Path: Sizes,
+    Depth: 1,
+    Value: comment
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 18,
+    LinePosition: 1,
+    Path: 
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 18,
+    LinePosition: 11,
+    Path: ,
+    Value: comment 
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 19,
+    LinePosition: 12,
+    Path: ,
+    Value: comment 1 
+  }
+]
