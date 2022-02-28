@@ -18,14 +18,8 @@ public class BinaryConverter : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        if (value == null)
-        {
-            writer.WriteNull();
-            return;
-        }
-
         var data = GetByteArray(value);
 
         writer.WriteValue(data);

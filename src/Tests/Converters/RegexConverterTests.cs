@@ -12,18 +12,6 @@ public class RegexConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void WriteJsonNull()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-
-        var converter = new RegexConverter();
-        converter.WriteJson(jsonWriter, null, null);
-
-        XUnitAssert.AreEqualNormalized(@"null", stringWriter.ToString());
-    }
-
-    [Fact]
     public void SerializeToText()
     {
         var regex = new Regex("abc", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);

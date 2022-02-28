@@ -58,18 +58,6 @@ public class VersionConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void WriteJsonNull()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-
-        var converter = new VersionConverter();
-        converter.WriteJson(jsonWriter, null, null);
-
-        XUnitAssert.AreEqualNormalized(@"null", stringWriter.ToString());
-    }
-
-    [Fact]
     public void SerializeVersionClass()
     {
         VersionHelperClass.SerializeVersionClass("1.0.0.0", "2.0.0.0");

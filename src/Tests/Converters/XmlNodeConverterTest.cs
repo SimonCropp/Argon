@@ -237,18 +237,6 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void WriteJsonNull()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-
-        var converter = new XmlNodeConverter();
-        converter.WriteJson(jsonWriter, null, null);
-
-        XUnitAssert.AreEqualNormalized(@"null", stringWriter.ToString());
-    }
-
-    [Fact]
     public void XNode_Null()
     {
         var json = JsonXmlConvert.SerializeXNode(null);

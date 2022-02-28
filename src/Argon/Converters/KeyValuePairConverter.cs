@@ -26,14 +26,8 @@ public class KeyValuePairConverter : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        if (value == null)
-        {
-            writer.WriteNull();
-            return;
-        }
-
         var reflectionObject = reflectionObjectPerType.Get(value.GetType());
 
         var resolver = serializer.ContractResolver as DefaultContractResolver;

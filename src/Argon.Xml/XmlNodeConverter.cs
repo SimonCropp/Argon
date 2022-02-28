@@ -48,14 +48,8 @@ public class XmlNodeConverter : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        if (value == null)
-        {
-            writer.WriteNull();
-            return;
-        }
-
         var node = WrapXml(value);
 
         var manager = new XmlNamespaceManager(new NameTable());

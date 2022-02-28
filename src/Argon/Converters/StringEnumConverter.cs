@@ -80,14 +80,8 @@ public class StringEnumConverter : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        if (value == null)
-        {
-            writer.WriteNull();
-            return;
-        }
-
         var e = (Enum)value;
 
         if (EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out var enumName))

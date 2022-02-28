@@ -17,14 +17,8 @@ public class RegexConverter : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        if (value == null)
-        {
-            writer.WriteNull();
-            return;
-        }
-
         var regex = (Regex) value;
 
         WriteJson(writer, regex, serializer);

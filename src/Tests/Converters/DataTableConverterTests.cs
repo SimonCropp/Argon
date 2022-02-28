@@ -127,18 +127,6 @@ public class DataTableConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void WriteJsonNull()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-
-        var converter = new DataTableConverter();
-        converter.WriteJson(jsonWriter, null, null);
-
-        XUnitAssert.AreEqualNormalized(@"null", stringWriter.ToString());
-    }
-
-    [Fact]
     public void Deserialize()
     {
         var json = @"[

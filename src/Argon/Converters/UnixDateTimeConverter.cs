@@ -14,7 +14,7 @@ public class UnixDateTimeConverter : DateTimeConverterBase
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
         long seconds;
 

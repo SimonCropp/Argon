@@ -105,16 +105,9 @@ public abstract class NodaConverterBase<T> : JsonConverter
     /// <param name="writer">The writer to write the JSON to.</param>
     /// <param name="value">The value to write.</param>
     /// <param name="serializer">The serializer to use for any embedded serialization.</param>
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        // Note: don't need to worry about value is T? due to the way boxing works.
-        // Again, Json.NET probably prevents us from needing to check this, really.
-        if (value is T castValue)
-        {
-            WriteJsonImpl(writer, castValue, serializer);
-            return;
-        }
-        throw new ArgumentException($"Unexpected value when converting. Expected {typeof(T).FullName}, got {value!.GetType().FullName}.");
+        WriteJsonImpl(writer, (T)value, serializer);
     }
 
     /// <summary>
