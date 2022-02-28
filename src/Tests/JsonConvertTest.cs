@@ -805,14 +805,14 @@ public class JsonConvertTest : TestFixtureBase
 
         var result = new DateTimeResult
         {
-            IsoDateRoundtrip = TestDateTimeFormat(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.RoundtripKind)
+            IsoDateRoundtrip = TestDateTimeFormat(value, DateTimeZoneHandling.RoundtripKind)
         };
 
         if (value is DateTime)
         {
-            result.IsoDateLocal = TestDateTimeFormat(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.Local);
-            result.IsoDateUnspecified = TestDateTimeFormat(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.Unspecified);
-            result.IsoDateUtc = TestDateTimeFormat(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.Utc);
+            result.IsoDateLocal = TestDateTimeFormat(value, DateTimeZoneHandling.Local);
+            result.IsoDateUnspecified = TestDateTimeFormat(value, DateTimeZoneHandling.Unspecified);
+            result.IsoDateUtc = TestDateTimeFormat(value, DateTimeZoneHandling.Utc);
         }
 
         TestDateTimeFormat(value, new IsoDateTimeConverter());
@@ -837,7 +837,7 @@ public class JsonConvertTest : TestFixtureBase
         return result;
     }
 
-    static string TestDateTimeFormat<T>(T value, DateFormatHandling format, DateTimeZoneHandling timeZoneHandling)
+    static string TestDateTimeFormat<T>(T value, DateTimeZoneHandling timeZoneHandling)
     {
         string date = null;
 
@@ -955,7 +955,6 @@ public class JsonConvertTest : TestFixtureBase
 
         var settings = new JsonSerializerSettings
         {
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
         };

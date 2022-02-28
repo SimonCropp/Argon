@@ -145,12 +145,6 @@ public class JsonSerializer
     public virtual Formatting? Formatting { get; set; }
 
     /// <summary>
-    /// Gets or sets how dates are written to JSON text.
-    /// The default value is <see cref="Argon.DateFormatHandling.IsoDateFormat" />.
-    /// </summary>
-    public virtual DateFormatHandling? DateFormatHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>
@@ -420,10 +414,6 @@ public class JsonSerializer
         if (settings.Formatting != null)
         {
             serializer.Formatting = settings.Formatting;
-        }
-        if (settings.DateFormatHandling != null)
-        {
-            serializer.DateFormatHandling = settings.DateFormatHandling;
         }
         if (settings.DateTimeZoneHandling != null)
         {
@@ -746,13 +736,6 @@ public class JsonSerializer
             jsonWriter.Formatting = Formatting.GetValueOrDefault();
         }
 
-        DateFormatHandling? previousDateFormatHandling = null;
-        if (DateFormatHandling != null && jsonWriter.DateFormatHandling != DateFormatHandling)
-        {
-            previousDateFormatHandling = jsonWriter.DateFormatHandling;
-            jsonWriter.DateFormatHandling = DateFormatHandling.GetValueOrDefault();
-        }
-
         DateTimeZoneHandling? previousDateTimeZoneHandling = null;
         if (DateTimeZoneHandling != null && jsonWriter.DateTimeZoneHandling != DateTimeZoneHandling)
         {
@@ -804,10 +787,6 @@ public class JsonSerializer
         if (previousFormatting != null)
         {
             jsonWriter.Formatting = previousFormatting.GetValueOrDefault();
-        }
-        if (previousDateFormatHandling != null)
-        {
-            jsonWriter.DateFormatHandling = previousDateFormatHandling.GetValueOrDefault();
         }
         if (previousDateTimeZoneHandling != null)
         {

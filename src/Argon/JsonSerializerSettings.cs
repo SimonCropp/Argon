@@ -176,12 +176,6 @@ public class JsonSerializerSettings
     public Formatting? Formatting { get; set; }
 
     /// <summary>
-    /// Gets or sets how dates are written to JSON text.
-    /// The default value is <see cref="Argon.DateFormatHandling.IsoDateFormat" />.
-    /// </summary>
-    public DateFormatHandling? DateFormatHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>

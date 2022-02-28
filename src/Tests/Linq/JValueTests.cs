@@ -437,7 +437,6 @@ public class JValueTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings
         {
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
         };

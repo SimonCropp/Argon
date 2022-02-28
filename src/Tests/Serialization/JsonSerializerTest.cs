@@ -2128,15 +2128,12 @@ keyword such as type of business.""
     }
 
     [Fact]
-    public void SerializerShouldUseMemberConverter_IsoDate_DateParseNone()
+    public void SerializerShouldUseMemberConverter_DateParseNone()
     {
         var testDate = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
-        var json = JsonConvert.SerializeObject(m1, new JsonSerializerSettings
-        {
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-        });
+        var json = JsonConvert.SerializeObject(m1, new JsonSerializerSettings());
         Assert.Equal(@"{""DefaultConverter"":""1970-01-01T00:00:00Z"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
         var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json);
@@ -5990,7 +5987,6 @@ This is just junk, though.";
 
         var settings = new JsonSerializerSettings
         {
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateParseHandling = DateParseHandling.DateTimeOffset,
             DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
         };
