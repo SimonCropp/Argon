@@ -1,0 +1,159 @@
+﻿[
+  {
+    TokenType: StartObject,
+    LineNumber: 1,
+    LinePosition: 1,
+    Path: 
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 2,
+    LinePosition: 8,
+    Path: value,
+    Depth: 1,
+    Value: value
+  },
+  {
+    TokenType: String,
+    LineNumber: 2,
+    LinePosition: 16,
+    Path: value,
+    Depth: 1,
+    Value: Purple
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 3,
+    LinePosition: 8,
+    Path: array,
+    Depth: 1,
+    Value: array
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 3,
+    LinePosition: 9,
+    Path: array,
+    Depth: 1
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 3,
+    LinePosition: 10,
+    Path: array[0],
+    Depth: 2,
+    Value: 1
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 3,
+    LinePosition: 12,
+    Path: array[1],
+    Depth: 2,
+    Value: 2
+  },
+  {
+    TokenType: StartConstructor,
+    LineNumber: 3,
+    LinePosition: 22,
+    Path: array[2],
+    Depth: 2,
+    Value: Date
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 3,
+    LinePosition: 23,
+    Path: array[2][0],
+    Depth: 3,
+    Value: 1
+  },
+  {
+    TokenType: EndConstructor,
+    LineNumber: 3,
+    LinePosition: 24,
+    Path: array[2],
+    Depth: 2
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 3,
+    LinePosition: 25,
+    Path: array,
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 4,
+    LinePosition: 12,
+    Path: subobject,
+    Depth: 1,
+    Value: subobject
+  },
+  {
+    TokenType: StartObject,
+    LineNumber: 4,
+    LinePosition: 13,
+    Path: subobject,
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 4,
+    LinePosition: 18,
+    Path: subobject.prop,
+    Depth: 2,
+    Value: prop
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 4,
+    LinePosition: 19,
+    Path: subobject.prop,
+    Depth: 2,
+    Value: 1
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 4,
+    LinePosition: 30,
+    Path: subobject.proparray,
+    Depth: 2,
+    Value: proparray
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 4,
+    LinePosition: 31,
+    Path: subobject.proparray,
+    Depth: 2
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 4,
+    LinePosition: 32,
+    Path: subobject.proparray[0],
+    Depth: 3,
+    Value: 1
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 4,
+    LinePosition: 33,
+    Path: subobject.proparray,
+    Depth: 2
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 4,
+    LinePosition: 34,
+    Path: subobject,
+    Depth: 1
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 5,
+    LinePosition: 1,
+    Path: 
+  }
+]
