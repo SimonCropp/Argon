@@ -1208,8 +1208,6 @@ _____'propertyName': NaN,
             Assert.Equal("[1]", writer.Path);
             await writer.WritePropertyNameAsync("Property2");
             Assert.Equal("[1].Property2", writer.Path);
-            await writer.WriteStartConstructorAsync("Constructor1");
-            Assert.Equal("[1].Property2", writer.Path);
             await writer.WriteNullAsync();
             Assert.Equal("[1].Property2[0]", writer.Path);
             await writer.WriteStartArrayAsync();
@@ -1667,7 +1665,6 @@ null//comment
         Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
         Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
         Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
         Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteNullAsync(token).IsCanceled);
         Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
@@ -1675,7 +1672,6 @@ null//comment
         Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
         Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
@@ -1750,7 +1746,6 @@ null//comment
         Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
         Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
         Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
         Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteNullAsync(token).IsCanceled);
         Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
@@ -1758,7 +1753,6 @@ null//comment
         Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
         Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
@@ -1819,7 +1813,6 @@ null//comment
         Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
         Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
         Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
         Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteNullAsync(token).IsCanceled);
         Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
@@ -1827,7 +1820,6 @@ null//comment
         Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
         Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);

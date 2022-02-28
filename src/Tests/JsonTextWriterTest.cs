@@ -780,30 +780,6 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void WriteObjectNestedInConstructor()
-    {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
-
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
-        {
-            jsonWriter.WriteStartObject();
-            jsonWriter.WritePropertyName("con");
-
-            jsonWriter.WriteStartConstructor("Ext.data.JsonStore");
-            jsonWriter.WriteStartObject();
-            jsonWriter.WritePropertyName("aa");
-            jsonWriter.WriteValue("aa");
-            jsonWriter.WriteEndObject();
-            jsonWriter.WriteEndConstructor();
-
-            jsonWriter.WriteEndObject();
-        }
-
-        Assert.Equal(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", stringBuilder.ToString());
-    }
-
-    [Fact]
     public void WriteFloatingPointNumber()
     {
         var stringBuilder = new StringBuilder();
@@ -1112,8 +1088,6 @@ _____'propertyName': NaN,
             jsonWriter.WriteStartObject();
             Assert.Equal("[1]", jsonWriter.Path);
             jsonWriter.WritePropertyName("Property2");
-            Assert.Equal("[1].Property2", jsonWriter.Path);
-            jsonWriter.WriteStartConstructor("Constructor1");
             Assert.Equal("[1].Property2", jsonWriter.Path);
             jsonWriter.WriteNull();
             Assert.Equal("[1].Property2[0]", jsonWriter.Path);

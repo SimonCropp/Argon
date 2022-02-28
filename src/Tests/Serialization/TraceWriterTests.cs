@@ -248,7 +248,7 @@ Argon Error: 0 : Error!
 
         JsonConvert.SerializeObject(
             staff,
-            new JsonSerializerSettings {TraceWriter = traceWriter, Converters = {new JavaScriptDateTimeConverter()}});
+            new JsonSerializerSettings {TraceWriter = traceWriter});
 
         // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
         // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
@@ -745,7 +745,6 @@ Argon Error: 0 : Error!
         JsonConvert.SerializeObject(d, Formatting.Indented,
             new JsonSerializerSettings
             {
-                Converters = {new JavaScriptDateTimeConverter()},
                 TraceWriter = traceWriter
             });
 
@@ -770,7 +769,6 @@ Argon Error: 0 : Error!
             json,
             new JsonSerializerSettings
             {
-                Converters = {new JavaScriptDateTimeConverter()},
                 TraceWriter = traceWriter
             });
 
@@ -1125,9 +1123,6 @@ Argon Error: 0 : Error!
         traceWriter.WriteRaw("[2]");
         traceWriter.WriteNull();
         traceWriter.WriteUndefined();
-        traceWriter.WriteStartConstructor("ctor");
-        traceWriter.WriteValue(1);
-        traceWriter.WriteEndConstructor();
         traceWriter.WriteComment("A comment");
         traceWriter.WriteWhitespace("       ");
         traceWriter.WriteEnd();
@@ -1204,10 +1199,7 @@ Argon Error: 0 : Error!
     1.2,
     9999999990000000000000000000000000000000000,
     null,
-    undefined,
-    new ctor(
-      1
-    )
+    undefined
     /*A comment*/
   ]
 }";
@@ -1276,14 +1268,8 @@ Argon Error: 0 : Error!
         Assert.Equal(JsonToken.Undefined, traceReader.TokenType);
 
         traceReader.Read();
-        Assert.Equal(JsonToken.StartConstructor, traceReader.TokenType);
-
-        traceReader.Read();
         Assert.Equal(JsonToken.Integer, traceReader.TokenType);
         Assert.Equal(1L, traceReader.Value);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.EndConstructor, traceReader.TokenType);
 
         traceReader.Read();
         Assert.Equal(JsonToken.Comment, traceReader.TokenType);

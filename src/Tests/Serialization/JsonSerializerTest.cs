@@ -6976,7 +6976,6 @@ This is just junk, though.";
 
         var settings = new JsonSerializerSettings
         {
-            ContractResolver = new JsonPropertyConverterContractResolver(),
             Formatting = Formatting.Indented
         };
 
