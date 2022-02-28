@@ -458,73 +458,16 @@ public class MiscAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task SupportMultipleContentAsync()
+    public Task SupportMultipleContentAsync()
     {
         var reader = new JsonTextReader(new StringReader(@"{'prop1':[1]} 1 2 ""name"" [][]null {}{} 1.1"));
         reader.SupportMultipleContent = true;
 
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Integer, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Integer, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Integer, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.String, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Null, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Float, reader.TokenType);
-
-        Assert.False(await reader.ReadAsync());
+        return reader.VerifyReaderState();
     }
 
     [Fact]
-    public async Task SingleLineCommentsAsync()
+    public Task SingleLineCommentsAsync()
     {
         var json = $@"//comment*//*hi*/
 {{//comment
@@ -544,116 +487,7 @@ null//comment
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal("comment*//*hi*/", reader.Value);
-        Assert.Equal(1, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(2, reader.LineNumber);
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal(2, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-        Assert.Equal("Name", reader.Value);
-        Assert.Equal(3, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal(3, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        XUnitAssert.True(reader.Value);
-        Assert.Equal(4, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal("comment after true", reader.Value);
-        Assert.Equal(4, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal("comment after comma", reader.Value);
-        Assert.Equal(5, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-        Assert.Equal("ExpiryDate", reader.Value);
-        Assert.Equal(6, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal(6, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-        Assert.Equal(9, reader.LineNumber);
-        Assert.Equal("Date", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Null, reader.TokenType);
-        Assert.Equal(10, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal(10, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-        Assert.Equal(11, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-        Assert.Equal("Price", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Float, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-        Assert.Equal("Sizes", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.String, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndArray, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal("comment ", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-        Assert.Equal("comment 1 ", reader.Value);
-
-        Assert.False(await reader.ReadAsync());
+        return reader.VerifyReaderState();
     }
 
     [Fact]

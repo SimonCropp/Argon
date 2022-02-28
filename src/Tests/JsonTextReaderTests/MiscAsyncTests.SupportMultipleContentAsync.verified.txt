@@ -1,0 +1,126 @@
+﻿[
+  {
+    TokenType: StartObject,
+    LineNumber: 1,
+    LinePosition: 1,
+    Path: 
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 1,
+    LinePosition: 9,
+    Path: prop1,
+    Depth: 1,
+    Value: prop1
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 1,
+    LinePosition: 10,
+    Path: prop1,
+    Depth: 1
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 1,
+    LinePosition: 11,
+    Path: prop1[0],
+    Depth: 2,
+    Value: 1
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 1,
+    LinePosition: 12,
+    Path: prop1,
+    Depth: 1
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 1,
+    LinePosition: 13,
+    Path: 
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 1,
+    LinePosition: 15,
+    Path: ,
+    Value: 1
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 1,
+    LinePosition: 17,
+    Path: ,
+    Value: 2
+  },
+  {
+    TokenType: String,
+    LineNumber: 1,
+    LinePosition: 24,
+    Path: ,
+    Value: name
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 1,
+    LinePosition: 26,
+    Path: 
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 1,
+    LinePosition: 27,
+    Path: 
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 1,
+    LinePosition: 28,
+    Path: 
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 1,
+    LinePosition: 29,
+    Path: 
+  },
+  {
+    TokenType: Null,
+    LineNumber: 1,
+    LinePosition: 33,
+    Path: 
+  },
+  {
+    TokenType: StartObject,
+    LineNumber: 1,
+    LinePosition: 35,
+    Path: 
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 1,
+    LinePosition: 36,
+    Path: 
+  },
+  {
+    TokenType: StartObject,
+    LineNumber: 1,
+    LinePosition: 37,
+    Path: 
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 1,
+    LinePosition: 38,
+    Path: 
+  },
+  {
+    TokenType: Float,
+    LineNumber: 1,
+    LinePosition: 42,
+    Path: ,
+    Value: 1.1
+  }
+]

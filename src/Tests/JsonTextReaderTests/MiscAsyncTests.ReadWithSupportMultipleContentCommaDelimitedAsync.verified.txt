@@ -2,71 +2,95 @@
   {
     TokenType: StartObject,
     LineNumber: 1,
-    LinePosition: 1
+    LinePosition: 1,
+    Path: 
   },
   {
     TokenType: PropertyName,
     LineNumber: 1,
-    LinePosition: 9
+    LinePosition: 9,
+    Path: name,
+    Depth: 1,
+    Value: name
   },
   {
     TokenType: String,
     LineNumber: 1,
-    LinePosition: 17
+    LinePosition: 17,
+    Path: name,
+    Depth: 1,
+    Value: Admin
   },
   {
     TokenType: EndObject,
     LineNumber: 1,
-    LinePosition: 19
+    LinePosition: 19,
+    Path: 
   },
   {
     TokenType: StartObject,
     LineNumber: 1,
-    LinePosition: 21
+    LinePosition: 21,
+    Path: 
   },
   {
     TokenType: PropertyName,
     LineNumber: 1,
-    LinePosition: 29
+    LinePosition: 29,
+    Path: name,
+    Depth: 1,
+    Value: name
   },
   {
     TokenType: String,
     LineNumber: 1,
-    LinePosition: 41
+    LinePosition: 41,
+    Path: name,
+    Depth: 1,
+    Value: Publisher
   },
   {
     TokenType: EndObject,
     LineNumber: 1,
-    LinePosition: 43
+    LinePosition: 43,
+    Path: 
   },
   {
     TokenType: Integer,
     LineNumber: 1,
-    LinePosition: 45
+    LinePosition: 45,
+    Path: ,
+    Value: 1
   },
   {
     TokenType: Null,
     LineNumber: 1,
-    LinePosition: 50
+    LinePosition: 50,
+    Path: 
   },
   {
     TokenType: StartArray,
     LineNumber: 1,
-    LinePosition: 52
+    LinePosition: 52,
+    Path: 
   },
   {
     TokenType: EndArray,
     LineNumber: 1,
-    LinePosition: 53
+    LinePosition: 53,
+    Path: 
   },
   {
     TokenType: Undefined,
     LineNumber: 1,
-    LinePosition: 54
+    LinePosition: 54,
+    Path: 
   },
   {
     TokenType: String,
     LineNumber: 1,
-    LinePosition: 63
+    LinePosition: 63,
+    Path: ,
+    Value: string
   }
 ]
