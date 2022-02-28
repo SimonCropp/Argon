@@ -275,7 +275,7 @@ public class MiscTests : TestFixtureBase
 }
 ";
 
-        using JsonReader jsonReader = new JsonTextReader(new StringReader(input));
+        using var jsonReader = new JsonTextReader(new StringReader(input));
         while (jsonReader.Read())
         {
         }
@@ -292,7 +292,7 @@ public class MiscTests : TestFixtureBase
 
         var sr = new StringReader(input);
 
-        using JsonReader reader = new JsonTextReader(sr);
+        using var reader = new JsonTextReader(sr);
         Assert.Equal(0, reader.Depth);
 
         reader.Read();

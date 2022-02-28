@@ -191,7 +191,7 @@ public class MiscAsyncTests : TestFixtureBase
 }
 ";
 
-        using JsonReader jsonReader = new JsonTextReader(new StringReader(input));
+        using var jsonReader = new JsonTextReader(new StringReader(input));
         while (await jsonReader.ReadAsync())
         {
         }
@@ -208,7 +208,7 @@ public class MiscAsyncTests : TestFixtureBase
 
         var sr = new StringReader(input);
 
-        using JsonReader reader = new JsonTextReader(sr);
+        using var reader = new JsonTextReader(sr);
         await reader.VerifyReaderState();
     }
 

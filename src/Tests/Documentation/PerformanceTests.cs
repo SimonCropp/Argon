@@ -146,7 +146,7 @@ public class PerformanceTests : TestFixtureBase
 
         using var s = client.GetStreamAsync("http://www.test.com/large.json").Result;
         using var sr = new StreamReader(s);
-        using JsonReader reader = new JsonTextReader(sr);
+        using var reader = new JsonTextReader(sr);
         var serializer = new JsonSerializer();
 
         // read the json from a stream

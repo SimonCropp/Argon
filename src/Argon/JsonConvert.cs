@@ -672,7 +672,7 @@ public static class JsonConvert
     {
         var jsonSerializer = JsonSerializer.CreateDefault(settings);
 
-        using JsonReader jsonReader = new JsonTextReader(new StringReader(value));
+        using var jsonReader = new JsonTextReader(new StringReader(value));
         jsonSerializer.Populate(jsonReader, target);
 
         if (settings is {CheckAdditionalContent: true})

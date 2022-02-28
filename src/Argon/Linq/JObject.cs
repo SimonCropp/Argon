@@ -358,7 +358,7 @@ public partial class JObject :
     /// </example>
     public new static JObject Parse(string json, JsonLoadSettings? settings)
     {
-        using JsonReader reader = new JsonTextReader(new StringReader(json));
+        using var reader = new JsonTextReader(new StringReader(json));
         var o = Load(reader, settings);
 
         while (reader.Read())

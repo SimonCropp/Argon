@@ -197,7 +197,7 @@ public class FloatAsyncTests : TestFixtureBase
 
         var sr = new StringReader(input);
 
-        using JsonReader jsonReader = new JsonTextReader(sr);
+        using var jsonReader = new JsonTextReader(sr);
         await jsonReader.ReadAsync();
         Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
 
@@ -223,7 +223,7 @@ public class FloatAsyncTests : TestFixtureBase
         var json =
             @"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN,0e-10,0.25e-5,0.3e10]";
 
-        using JsonReader jsonReader = new JsonTextReader(new StringReader(json));
+        using var jsonReader = new JsonTextReader(new StringReader(json));
         await jsonReader.ReadAsync();
         Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
 

@@ -1890,7 +1890,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>A <see cref="JToken"/> populated from the string that contains JSON.</returns>
     public static JToken Parse(string json, JsonLoadSettings? settings)
     {
-        using JsonReader reader = new JsonTextReader(new StringReader(json));
+        using var reader = new JsonTextReader(new StringReader(json));
         var t = Load(reader, settings);
 
         while (reader.Read())
