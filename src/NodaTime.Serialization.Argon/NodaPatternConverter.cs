@@ -35,7 +35,6 @@ public sealed class NodaPatternConverter<T> : NodaConverterBase<T>
     /// <exception cref="ArgumentNullException"><paramref name="pattern"/> is null.</exception>
     public NodaPatternConverter(IPattern<T> pattern, Action<T>? validator)
     {
-        Preconditions.CheckNotNull(pattern, nameof(pattern));
         this.pattern = pattern;
         this.validator = validator;
     }

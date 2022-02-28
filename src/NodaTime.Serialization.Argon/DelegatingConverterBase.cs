@@ -36,10 +36,6 @@ public abstract class DelegatingConverterBase : JsonConverter
     /// <param name="original">The converter to delegate to. Must not be null.</param>
     protected DelegatingConverterBase(JsonConverter original)
     {
-        if (original == null)
-        {
-            throw new ArgumentNullException(nameof(original));
-        }
         this.original = original;
     }
 

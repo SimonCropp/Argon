@@ -17,14 +17,6 @@ public static class Extensions
     /// <returns>The original <paramref name="settings"/> value, for further chaining.</returns>
     public static JsonSerializerSettings ConfigureForNodaTime(this JsonSerializerSettings settings, IDateTimeZoneProvider provider)
     {
-        if (settings == null)
-        {
-            throw new ArgumentNullException(nameof(settings));
-        }
-        if (provider == null)
-        {
-            throw new ArgumentNullException(nameof(provider));
-        }
         // Add our converters
         AddDefaultConverters(settings.Converters, provider);
 
@@ -43,14 +35,6 @@ public static class Extensions
     /// <returns>The original <paramref name="serializer"/> value, for further chaining.</returns>
     public static JsonSerializer ConfigureForNodaTime(this JsonSerializer serializer, IDateTimeZoneProvider provider)
     {
-        if (serializer == null)
-        {
-            throw new ArgumentNullException(nameof(serializer));
-        }
-        if (provider == null)
-        {
-            throw new ArgumentNullException(nameof(provider));
-        }
         // Add our converters
         AddDefaultConverters(serializer.Converters, provider);
 
@@ -69,10 +53,6 @@ public static class Extensions
     /// <returns>The original <paramref name="settings"/> value, for further chaining.</returns>
     public static JsonSerializerSettings WithIsoIntervalConverter(this JsonSerializerSettings settings)
     {
-        if (settings == null)
-        {
-            throw new ArgumentNullException(nameof(settings));
-        }
         ReplaceExistingConverters<Interval>(settings.Converters, NodaConverters.IsoIntervalConverter);
         return settings;
     }
@@ -85,10 +65,6 @@ public static class Extensions
     /// <returns>The original <paramref name="serializer"/> value, for further chaining.</returns>
     public static JsonSerializer WithIsoIntervalConverter(this JsonSerializer serializer)
     {
-        if (serializer == null)
-        {
-            throw new ArgumentNullException(nameof(serializer));
-        }
         ReplaceExistingConverters<Interval>(serializer.Converters, NodaConverters.IsoIntervalConverter);
         return serializer;
     }
@@ -101,10 +77,6 @@ public static class Extensions
     /// <returns>The original <paramref name="settings"/> value, for further chaining.</returns>
     public static JsonSerializerSettings WithIsoDateIntervalConverter(this JsonSerializerSettings settings)
     {
-        if (settings == null)
-        {
-            throw new ArgumentNullException(nameof(settings));
-        }
         ReplaceExistingConverters<DateInterval>(settings.Converters, NodaConverters.IsoDateIntervalConverter);
         return settings;
     }
@@ -117,10 +89,6 @@ public static class Extensions
     /// <returns>The original <paramref name="serializer"/> value, for further chaining.</returns>
     public static JsonSerializer WithIsoDateIntervalConverter(this JsonSerializer serializer)
     {
-        if (serializer == null)
-        {
-            throw new ArgumentNullException(nameof(serializer));
-        }
         ReplaceExistingConverters<DateInterval>(serializer.Converters, NodaConverters.IsoDateIntervalConverter);
         return serializer;
     }
