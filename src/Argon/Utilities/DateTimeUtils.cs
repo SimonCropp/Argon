@@ -4,7 +4,6 @@
 
 static class DateTimeUtils
 {
-    internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
     const string IsoDateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFK";
 
     const int DaysPer100Years = 36524;

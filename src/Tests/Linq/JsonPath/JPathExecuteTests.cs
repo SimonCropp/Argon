@@ -590,24 +590,6 @@ public class JPathExecuteTests : TestFixtureBase
     }
 
     [Fact]
-    public void EvaluateConstructorOutOfBoundsIndxerWithError()
-    {
-        var c = new JConstructor("Blah");
-
-        XUnitAssert.Throws<JsonException>(
-            () => c.SelectToken("[1]", true),
-                @"Index 1 outside the bounds of JConstructor.");
-    }
-
-    [Fact]
-    public void EvaluateConstructorOutOfBoundsIndxer()
-    {
-        var c = new JConstructor("Blah");
-
-        Assert.Null(c.SelectToken("[1]"));
-    }
-
-    [Fact]
     public void EvaluateMissingPropertyWithError()
     {
         var o = new JObject(

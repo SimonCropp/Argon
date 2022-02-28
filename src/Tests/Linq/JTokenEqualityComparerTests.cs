@@ -55,16 +55,4 @@ public class JTokenEqualityComparerTests : TestFixtureBase
         dic[v12] += 1;
         Assert.Equal(2, dic[v11]);
     }
-
-    [Fact]
-    public void JConstructorDictionary()
-    {
-        var dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
-        var v11 = new JConstructor("ConstructorValue");
-        var v12 = new JConstructor("ConstructorValue");
-
-        dic[v11] = 1;
-        dic[v12] += 1;
-        Assert.Equal(2, dic[v11]);
-    }
 }
