@@ -1401,69 +1401,15 @@ third line", jsonTextReader.Value);
     }
 
     [Fact]
-    public void ReadNewLines()
+    public async Task ReadNewLines()
     {
         var newLinesText = $"{StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}{StringUtils.LineFeed}{StringUtils.CarriageReturnLineFeed} {StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}";
 
         var json =
             $"{newLinesText}{{{newLinesText}'{newLinesText}name1{newLinesText}'{newLinesText}:{newLinesText}[{newLinesText}new{newLinesText}Date{newLinesText}({newLinesText}1{newLinesText},{newLinesText}null{newLinesText}/*{newLinesText}blah comment{newLinesText}*/{newLinesText}){newLinesText},{newLinesText}1.1111{newLinesText}]{newLinesText},{newLinesText}name2{newLinesText}:{newLinesText}{{{newLinesText}}}{newLinesText}}}{newLinesText}";
 
-        var count = 0;
-        var sr = new StringReader(newLinesText);
-        while (sr.ReadLine() != null)
-        {
-            count++;
-        }
-
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-        Assert.True(reader.Read());
-        Assert.Equal(7, reader.LineNumber);
-
-        Assert.True(reader.Read());
-        Assert.Equal(31, reader.LineNumber);
-        Assert.Equal($"{newLinesText}name1{newLinesText}", reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(37, reader.LineNumber);
-
-        Assert.True(reader.Read());
-        Assert.Equal(55, reader.LineNumber);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-        Assert.Equal("Date", reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(61, reader.LineNumber);
-        Assert.Equal(1L, reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(73, reader.LineNumber);
-        Assert.Equal(null, reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(91, reader.LineNumber);
-        Assert.Equal($"{newLinesText}blah comment{newLinesText}", reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(97, reader.LineNumber);
-
-        Assert.True(reader.Read());
-        Assert.Equal(109, reader.LineNumber);
-
-        Assert.True(reader.Read());
-        Assert.Equal(115, reader.LineNumber);
-
-        Assert.True(reader.Read());
-        Assert.Equal(133, reader.LineNumber);
-        Assert.Equal("name2", reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(139, reader.LineNumber);
-
-        Assert.True(reader.Read());
-        Assert.Equal(145, reader.LineNumber);
-
-        Assert.True(reader.Read());
-        Assert.Equal(151, reader.LineNumber);
+        await reader.VerifyReaderState();
     }
 
     [Fact]

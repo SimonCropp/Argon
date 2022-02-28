@@ -1,0 +1,130 @@
+﻿[
+  {
+    TokenType: StartObject,
+    LineNumber: 7,
+    LinePosition: 1,
+    Path: 
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 31,
+    LinePosition: 1,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'],
+    Depth: 1,
+    Value:
+
+
+
+
+ 
+
+name1
+
+
+
+ 
+
+
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 37,
+    LinePosition: 1,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'],
+    Depth: 1
+  },
+  {
+    TokenType: StartConstructor,
+    LineNumber: 55,
+    LinePosition: 1,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0],
+    Depth: 2,
+    Value: Date
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 61,
+    LinePosition: 1,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0][0],
+    Depth: 3,
+    Value: 1
+  },
+  {
+    TokenType: Null,
+    LineNumber: 73,
+    LinePosition: 4,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0][1],
+    Depth: 3
+  },
+  {
+    TokenType: Comment,
+    LineNumber: 91,
+    LinePosition: 2,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0][1],
+    Depth: 3,
+    Value:
+
+
+
+
+ 
+
+blah comment
+
+
+
+ 
+
+
+  },
+  {
+    TokenType: EndConstructor,
+    LineNumber: 97,
+    LinePosition: 1,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0],
+    Depth: 2
+  },
+  {
+    TokenType: Float,
+    LineNumber: 109,
+    LinePosition: 6,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][1],
+    Depth: 2,
+    Value: 1.1111
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 115,
+    LinePosition: 1,
+    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'],
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 133,
+    LinePosition: 1,
+    Path: name2,
+    Depth: 1,
+    Value: name2
+  },
+  {
+    TokenType: StartObject,
+    LineNumber: 139,
+    LinePosition: 1,
+    Path: name2,
+    Depth: 1
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 145,
+    LinePosition: 1,
+    Path: name2,
+    Depth: 1
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 151,
+    LinePosition: 1,
+    Path: 
+  }
+]
