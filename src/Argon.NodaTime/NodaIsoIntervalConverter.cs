@@ -2,11 +2,6 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
-using NodaTime;
-using Argon.NodaTime;
-using NodaTime.Text;
-using NodaTime.Utility;
-
 /// <summary>
 /// Json.NET converter for <see cref="Interval"/>.
 /// </summary>

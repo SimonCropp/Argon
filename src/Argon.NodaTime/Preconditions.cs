@@ -2,8 +2,6 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
-using NodaTime.Utility;
-
 /// <summary>
 /// Helper static methods for argument/state validation. (Just the subset used within this library.)
 /// </summary>
