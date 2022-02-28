@@ -1,5 +1,52 @@
-﻿public static class Extensions
+﻿#if !NET5_0_OR_GREATER
+namespace System.Runtime.CompilerServices
 {
+    internal static class IsExternalInit {}
+}
+#endif
+public record TextReaderState(JsonToken TokenType, int LineNumber, int LinePosition, string Path, int Depth, object Value);
+public record ReaderState(JsonToken TokenType, string Path, int Depth, object Value);
+
+public static class Extensions
+{
+    public static async Task VerifyReaderState(
+        this JsonReader reader,
+        [CallerFilePath] string sourceFile = "")
+    {
+        var tokens = new List<ReaderState>();
+        while (await reader.ReadAsync())
+        {
+            tokens.Add(
+                new ReaderState(
+                    reader.TokenType,
+                    reader.Path,
+                    reader.Depth,
+                    reader.Value));
+        }
+
+        await Verify(tokens, null, sourceFile);
+    }
+
+    public static async Task VerifyReaderState(
+        this JsonTextReader reader,
+        [CallerFilePath] string sourceFile = "")
+    {
+        var tokens = new List<TextReaderState>();
+        while (await reader.ReadAsync())
+        {
+            tokens.Add(
+                new TextReaderState(
+                    reader.TokenType,
+                    reader.LineNumber,
+                    reader.LinePosition,
+                    reader.Path,
+                    reader.Depth,
+                    reader.Value));
+        }
+
+        await Verify(tokens, null, sourceFile);
+    }
+
     public static string GetOffset(this DateTime d)
     {
         var chars = new char[8];

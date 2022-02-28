@@ -22,3 +22,6 @@ _ReSharper.*
 Src/.idea/
 
 nugets/
+
+
+*.received.*
