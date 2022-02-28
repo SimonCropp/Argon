@@ -249,39 +249,11 @@ public class ParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseContentDelimitedByNonStandardWhitespace()
+    public async Task ParseContentDelimitedByNonStandardWhitespace()
     {
         var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0new\x00a0Date\x00a0(\x00a0)\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartArray, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.Boolean, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndArray, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.Comment, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-
-        Assert.False(reader.Read());
+        await reader.VerifyReaderState();
     }
 
     [Fact]
