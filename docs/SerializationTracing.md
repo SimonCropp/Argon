@@ -21,7 +21,7 @@ ITraceWriter traceWriter = new MemoryTraceWriter();
 
 JsonConvert.SerializeObject(
     staff,
-    new JsonSerializerSettings { TraceWriter = traceWriter, Converters = { new JavaScriptDateTimeConverter() } });
+    new JsonSerializerSettings { TraceWriter = traceWriter });
 
 Console.WriteLine(traceWriter);
 // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
