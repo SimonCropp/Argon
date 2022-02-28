@@ -2,8 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.Xml;
-
 static class DateTimeUtils
 {
     internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
@@ -26,21 +24,6 @@ static class DateTimeUtils
     public static TimeSpan GetUtcOffset(this DateTime d)
     {
         return TimeZoneInfo.Local.GetUtcOffset(d);
-    }
-
-    public static XmlDateTimeSerializationMode ToSerializationMode(DateTimeKind kind)
-    {
-        switch (kind)
-        {
-            case DateTimeKind.Local:
-                return XmlDateTimeSerializationMode.Local;
-            case DateTimeKind.Unspecified:
-                return XmlDateTimeSerializationMode.Unspecified;
-            case DateTimeKind.Utc:
-                return XmlDateTimeSerializationMode.Utc;
-            default:
-                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
-        }
     }
 
     internal static DateTime EnsureDateTime(DateTime value, DateTimeZoneHandling timeZone)
