@@ -284,9 +284,7 @@ Argon Error: 0 : Error!
     {
         var json = @"{
   ""Name"": ""Arnie Admin"",
-  ""StartDate"": new Date(
-    976623132000
-  ),
+  ""StartDate"": '2000-08-14T00:00:00',
   ""Roles"": [
     ""Administrator""
   ]
@@ -296,7 +294,7 @@ Argon Error: 0 : Error!
         {
             Name = "Arnie Admin",
             Roles = new List<string> {"Administrator"},
-            StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+            StartDate = new DateTime(2000, 08, 14, 0, 0, 0, DateTimeKind.Utc)
         };
 
         ITraceWriter traceWriter = new MemoryTraceWriter();
@@ -306,7 +304,6 @@ Argon Error: 0 : Error!
             new JsonSerializerSettings
             {
                 TraceWriter = traceWriter,
-                Converters = {new JavaScriptDateTimeConverter()},
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
 

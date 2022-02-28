@@ -258,36 +258,6 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void DefaultSettings_Override_JsonConverterOrder()
-    {
-        try
-        {
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                Converters = { new IsoDateTimeConverter { DateTimeFormat = "yyyy" } }
-            };
-
-            var json = JsonConvert.SerializeObject(new[] { new DateTime(2000, 12, 12, 4, 2, 4, DateTimeKind.Utc) }, new JsonSerializerSettings
-            {
-                Formatting = Formatting.None,
-                Converters =
-                {
-                    // should take precedence
-                    new JavaScriptDateTimeConverter(),
-                    new IsoDateTimeConverter { DateTimeFormat = "dd" }
-                }
-            });
-
-            Assert.Equal(@"[new Date(976593724000)]", json);
-        }
-        finally
-        {
-            JsonConvert.DefaultSettings = null;
-        }
-    }
-
-    [Fact]
     public void DefaultSettings_Create()
     {
         try
