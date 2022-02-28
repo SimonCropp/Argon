@@ -1421,54 +1421,7 @@ third line", jsonTextReader.Value);
         }
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(7, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(31, reader.LineNumber);
-        Assert.Equal($"{newLinesText}name1{newLinesText}", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(37, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(55, reader.LineNumber);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-        Assert.Equal("Date", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(61, reader.LineNumber);
-        Assert.Equal(1L, reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(73, reader.LineNumber);
-        Assert.Equal(null, reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(91, reader.LineNumber);
-        Assert.Equal($"{newLinesText}blah comment{newLinesText}", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(97, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(109, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(115, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(133, reader.LineNumber);
-        Assert.Equal("name2", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(139, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(145, reader.LineNumber);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(151, reader.LineNumber);
+        await reader.VerifyReaderState();
     }
 
     [Fact]
