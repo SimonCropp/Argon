@@ -213,7 +213,7 @@ public partial class JArray : JContainer, IList<JToken>
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="Argon.Linq.JToken"/> at the specified index.
+    /// Gets or sets the <see cref="Argon.JToken"/> at the specified index.
     /// </summary>
     public JToken this[int index]
     {

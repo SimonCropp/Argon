@@ -386,7 +386,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     #region Cast from operators
     /// <summary>
-    /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.Boolean"/>.
+    /// Performs an explicit conversion from <see cref="Argon.JToken"/> to <see cref="System.Boolean"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator bool(JToken value)
@@ -406,7 +406,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     }
 
     /// <summary>
-    /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.DateTimeOffset"/>.
+    /// Performs an explicit conversion from <see cref="Argon.JToken"/> to <see cref="System.DateTimeOffset"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator DateTimeOffset(JToken value)
@@ -710,7 +710,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     }
 
     /// <summary>
-    /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.SByte"/>.
+    /// Performs an explicit conversion from <see cref="Argon.JToken"/> to <see cref="System.SByte"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator sbyte(JToken value)
@@ -1090,7 +1090,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     }
 
     /// <summary>
-    /// Performs an explicit conversion from <see cref="Argon.Linq.JToken"/> to <see cref="System.UInt64"/>.
+    /// Performs an explicit conversion from <see cref="Argon.JToken"/> to <see cref="System.UInt64"/>.
     /// </summary>
     /// <returns>The result of the conversion.</returns>
     public static explicit operator ulong(JToken value)
