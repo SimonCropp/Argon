@@ -253,7 +253,7 @@ static class ConvertUtils
         }
     }
 
-    static bool TryConvert(object? initialValue, CultureInfo culture, Type targetType, out object? value)
+    static bool TryConvert(object initialValue, CultureInfo culture, Type targetType, out object? value)
     {
         try
         {
@@ -272,13 +272,8 @@ static class ConvertUtils
         }
     }
 
-    static ConvertResult TryConvertInternal(object? initialValue, CultureInfo culture, Type targetType, out object? value)
+    static ConvertResult TryConvertInternal(object initialValue, CultureInfo culture, Type targetType, out object? value)
     {
-        if (initialValue == null)
-        {
-            throw new ArgumentNullException(nameof(initialValue));
-        }
-
         if (targetType.IsNullableType())
         {
             targetType = Nullable.GetUnderlyingType(targetType)!;
@@ -441,7 +436,7 @@ static class ConvertUtils
             return initialValue;
         }
 
-        if (initialValue == null && targetType.IsNullable())
+        if (initialValue == null)
         {
             return null;
         }
