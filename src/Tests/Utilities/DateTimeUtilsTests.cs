@@ -122,20 +122,6 @@ public class DateTimeUtilsTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadOffsetMSDateTimeOffset()
-    {
-        var c = @"12345/Date(1418924498000+0800)/12345".ToCharArray();
-        var reference = new StringReference(c, 5, c.Length - 10);
-
-        DateTimeUtils.TryParseDateTimeOffset(reference, null, CultureInfo.InvariantCulture, out var d);
-
-        var initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
-
-        Assert.Equal(1418924498000, initialTicks);
-        Assert.Equal(8, d.Offset.Hours);
-    }
-
-    [Fact]
     public void NewDateTimeOffsetParse()
     {
         AssertNewDateTimeOffsetParseEqual("0001-01-01T00:00:00");

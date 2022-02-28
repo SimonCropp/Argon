@@ -11,7 +11,7 @@ public static class BenchmarkConstants
         @"<TestClass xmlns=""http://schemas.datacontract.org/2004/07/Argon.Tests"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Address1><Entered>2010-01-21T11:12:16.0809174+13:00</Entered><Phone>(503) 814-6335</Phone><Street>fff Street</Street></Address1><Addresses><Address><Entered>2009-12-31T11:12:16.0809174+13:00</Entered><Phone>(503) 814-6335</Phone><Street>&#x1F;array&lt;address</Street></Address><Address><Entered>2009-12-30T11:12:16.0809174+13:00</Entered><Phone>(503) 814-6335</Phone><Street>array 2 address</Street></Address></Addresses><BigNumber>34123123123.121</BigNumber><Name>Rick</Name><Now>2010-01-01T12:12:16.0809174+13:00</Now><dictionary xmlns:a=""http://schemas.microsoft.com/2003/10/Serialization/Arrays""><a:KeyValueOfstringint><a:Key>Val &amp; asd1</a:Key><a:Value>1</a:Value></a:KeyValueOfstringint><a:KeyValueOfstringint><a:Key>Val2 &amp; asd1</a:Key><a:Value>3</a:Value></a:KeyValueOfstringint><a:KeyValueOfstringint><a:Key>Val3 &amp; asd1</a:Key><a:Value>4</a:Value></a:KeyValueOfstringint></dictionary><strings xmlns:a=""http://schemas.microsoft.com/2003/10/Serialization/Arrays""><a:string i:nil=""true""/><a:string>Markus egger ]&gt;&lt;[, (2nd)</a:string><a:string i:nil=""true""/></strings></TestClass>";
 
     public const string JsonText =
-        @"{""strings"":[null,""Markus egger ]><[, (2nd)"",null],""dictionary"":{""Val & asd1"":1,""Val2 & asd1"":3,""Val3 & asd1"":4},""Name"":""Rick"",""Now"":""\/Date(1262301136080+1300)\/"",""BigNumber"":34123123123.121,""Address1"":{""Street"":""fff Street"",""Phone"":""(503) 814-6335"",""Entered"":""\/Date(1264025536080+1300)\/""},""Addresses"":[{""Street"":""\u001farray<address"",""Phone"":""(503) 814-6335"",""Entered"":""\/Date(1262211136080+1300)\/""},{""Street"":""array 2 address"",""Phone"":""(503) 814-6335"",""Entered"":""\/Date(1262124736080+1300)\/""}]}";
+        @"{""strings"":[null,""Markus egger ]><[, (2nd)"",null],""dictionary"":{""Val & asd1"":1,""Val2 & asd1"":3,""Val3 & asd1"":4},""Name"":""Rick"",""Now"":""2012-03-21T05:40Z"",""BigNumber"":34123123123.121,""Address1"":{""Street"":""fff Street"",""Phone"":""(503) 814-6335"",""Entered"":""\/Date(1264025536080+1300)\/""},""Addresses"":[{""Street"":""\u001farray<address"",""Phone"":""(503) 814-6335"",""Entered"":""\/Date(1262211136080+1300)\/""},{""Street"":""array 2 address"",""Phone"":""(503) 814-6335"",""Entered"":""\/Date(1262124736080+1300)\/""}]}";
 
     public const string JsonIndentedText =
         @"{
@@ -26,23 +26,23 @@ public static class BenchmarkConstants
     ""Val3 & asd1"": 4
   },
   ""Name"": ""Rick"",
-  ""Now"": ""/Date(1262301136080+1300)/"",
+  ""Now"": ""2012-03-21T05:40Z"",
   ""BigNumber"": 34123123123.121,
   ""Address1"": {
     ""Street"": ""fff Street"",
     ""Phone"": ""(503) 814-6335"",
-    ""Entered"": ""/Date(1264025536080+1300)/""
+    ""Entered"": ""2012-03-21T05:40Z""
   },
   ""Addresses"": [
     {
       ""Street"": ""\u001farray<address"",
       ""Phone"": ""(503) 814-6335"",
-      ""Entered"": ""/Date(1262211136080+1300)/""
+      ""Entered"": ""2012-03-21T05:40Z""
     },
     {
       ""Street"": ""array 2 address"",
       ""Phone"": ""(503) 814-6335"",
-      ""Entered"": ""/Date(1262124736080+1300)/""
+      ""Entered"": ""2012-03-21T05:40Z""
     }
   ]
 }";

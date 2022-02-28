@@ -324,8 +324,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   {{
     ""Name"": null,
     ""$type"": ""{personRef}"",
-    ""BirthDate"": ""\/Date(978134400000)\/"",
-    ""LastModified"": ""\/Date(978134400000)\/""
+    ""BirthDate"": ""2000-03-30T00:00:00Z"",
+    ""LastModified"": ""2000-03-30T00:00:00Z""
   }},
   ""String!"",
   -2147483648

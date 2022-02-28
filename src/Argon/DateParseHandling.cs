@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON text.
+/// Specifies how date formatted strings, e.g. <c>"2012-03-21T05:40Z"</c> is parsed when reading JSON text.
 /// </summary>
 public enum DateParseHandling
 {
@@ -15,11 +15,11 @@ public enum DateParseHandling
     None = 0,
 
     /// <summary>
-    /// Date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed to <see cref="System.DateTime"/>.
+    /// Date formatted strings, e.g. <c>"2012-03-21T05:40Z"</c> is parsed to <see cref="System.DateTime"/>.
     /// </summary>
     DateTime = 1,
     /// <summary>
-    /// Date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed to <see cref="System.DateTimeOffset"/>.
+    /// Date formatted strings, e.g. <c>"2012-03-21T05:40Z"</c> is parsed to <see cref="System.DateTimeOffset"/>.
     /// </summary>
     DateTimeOffset = 2
 }

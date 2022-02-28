@@ -297,17 +297,7 @@ static class DateTimeUtils
         if (s.Length > 0)
         {
             var i = s.StartIndex;
-            if (s[i] == '/')
-            {
-                if (s.Length >= 9 && s.StartsWith("/Date(") && s.EndsWith(")/"))
-                {
-                    if (TryParseDateTimeMicrosoft(s, dateTimeZoneHandling, out dt))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
+            if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
             {
                 if (TryParseDateTimeIso(s, dateTimeZoneHandling, out dt))
                 {
@@ -332,17 +322,7 @@ static class DateTimeUtils
     {
         if (s.Length > 0)
         {
-            if (s[0] == '/')
-            {
-                if (s.Length >= 9 && s.StartsWith("/Date(", StringComparison.Ordinal) && s.EndsWith(")/", StringComparison.Ordinal))
-                {
-                    if (TryParseDateTimeMicrosoft(new StringReference(s.ToCharArray(), 0, s.Length), dateTimeZoneHandling, out dt))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
+            if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
             {
                 if (DateTime.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
@@ -369,17 +349,7 @@ static class DateTimeUtils
         if (s.Length > 0)
         {
             var i = s.StartIndex;
-            if (s[i] == '/')
-            {
-                if (s.Length >= 9 && s.StartsWith("/Date(") && s.EndsWith(")/"))
-                {
-                    if (TryParseDateTimeOffsetMicrosoft(s, out dt))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
+            if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
             {
                 if (TryParseDateTimeOffsetIso(s, out dt))
                 {
@@ -404,17 +374,7 @@ static class DateTimeUtils
     {
         if (s.Length > 0)
         {
-            if (s[0] == '/')
-            {
-                if (s.Length >= 9 && s.StartsWith("/Date(", StringComparison.Ordinal) && s.EndsWith(")/", StringComparison.Ordinal))
-                {
-                    if (TryParseDateTimeOffsetMicrosoft(new StringReference(s.ToCharArray(), 0, s.Length), out dt))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
+            if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
             {
                 if (DateTimeOffset.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
@@ -438,63 +398,6 @@ static class DateTimeUtils
         return false;
     }
 
-    static bool TryParseMicrosoftDate(StringReference text, out long ticks, out TimeSpan offset, out DateTimeKind kind)
-    {
-        kind = DateTimeKind.Utc;
-
-        var index = text.IndexOf('+', 7, text.Length - 8);
-
-        if (index == -1)
-        {
-            index = text.IndexOf('-', 7, text.Length - 8);
-        }
-
-        if (index != -1)
-        {
-            kind = DateTimeKind.Local;
-
-            if (!TryReadOffset(text, index + text.StartIndex, out offset))
-            {
-                ticks = 0;
-                return false;
-            }
-        }
-        else
-        {
-            offset = TimeSpan.Zero;
-            index = text.Length - 2;
-        }
-
-        return ConvertUtils.Int64TryParse(text.Chars, 6 + text.StartIndex, index - 6, out ticks) == ParseResult.Success;
-    }
-
-    static bool TryParseDateTimeMicrosoft(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
-    {
-        if (!TryParseMicrosoftDate(text, out var ticks, out _, out var kind))
-        {
-            dt = default;
-            return false;
-        }
-
-        var utcDateTime = ConvertJavaScriptTicksToDateTime(ticks);
-
-        switch (kind)
-        {
-            case DateTimeKind.Unspecified:
-                dt = DateTime.SpecifyKind(utcDateTime.ToLocalTime(), DateTimeKind.Unspecified);
-                break;
-            case DateTimeKind.Local:
-                dt = utcDateTime.ToLocalTime();
-                break;
-            default:
-                dt = utcDateTime;
-                break;
-        }
-
-        dt = EnsureDateTime(dt, dateTimeZoneHandling);
-        return true;
-    }
-
     static bool TryParseDateTimeExact(string text, DateTimeZoneHandling dateTimeZoneHandling, string dateFormatString, CultureInfo culture, out DateTime dt)
     {
         if (DateTime.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
@@ -506,20 +409,6 @@ static class DateTimeUtils
 
         dt = default;
         return false;
-    }
-
-    static bool TryParseDateTimeOffsetMicrosoft(StringReference text, out DateTimeOffset dt)
-    {
-        if (!TryParseMicrosoftDate(text, out var ticks, out var offset, out _))
-        {
-            dt = default(DateTime);
-            return false;
-        }
-
-        var utcDateTime = ConvertJavaScriptTicksToDateTime(ticks);
-
-        dt = new DateTimeOffset(utcDateTime.Add(offset).Ticks, offset);
-        return true;
     }
 
     static bool TryParseDateTimeOffsetExact(string text, string dateFormatString, CultureInfo culture, out DateTimeOffset dt)

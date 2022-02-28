@@ -122,7 +122,7 @@ public abstract partial class JsonReader : IDisposable
     public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets how date formatted strings, e.g. "\/Date(1198908717056)\/" and "2012-03-21T05:40Z", are parsed when reading JSON.
+    /// Gets or sets how date formatted strings, e.g. "2012-03-21T05:40Z" is parsed when reading JSON.
     /// </summary>
     public DateParseHandling DateParseHandling { get; set; }
 

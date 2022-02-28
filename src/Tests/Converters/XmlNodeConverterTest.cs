@@ -1337,7 +1337,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void OtherElementDataTypes()
     {
-        var jsonText = @"{""?xml"":{""@version"":""1.0"",""@standalone"":""no""},""root"":{""person"":[{""@id"":""1"",""Float"":2.5,""Integer"":99},{""Boolean"":true,""@id"":""2"",""date"":""\/Date(954374400000)\/""}]}}";
+        var jsonText = @"{""?xml"":{""@version"":""1.0"",""@standalone"":""no""},""root"":{""person"":[{""@id"":""1"",""Float"":2.5,""Integer"":99},{""Boolean"":true,""@id"":""2"",""date"":""2000-03-30T00:00:00Z""}]}}";
 
         var newDoc = (XmlDocument) DeserializeXmlNode(jsonText);
 
