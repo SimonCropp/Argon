@@ -1,0 +1,249 @@
+﻿[
+  {
+    TokenType: StartObject,
+    Path: 
+  },
+  {
+    TokenType: PropertyName,
+    Path: Null,
+    Depth: 1,
+    Value: Null
+  },
+  {
+    TokenType: Null,
+    Path: Null,
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    Path: String,
+    Depth: 1,
+    Value: String
+  },
+  {
+    TokenType: String,
+    Path: String,
+    Depth: 1,
+    Value: This is a string!
+  },
+  {
+    TokenType: PropertyName,
+    Path: Char,
+    Depth: 1,
+    Value: Char
+  },
+  {
+    TokenType: String,
+    Path: Char,
+    Depth: 1,
+    Value: !
+  },
+  {
+    TokenType: PropertyName,
+    Path: Integer,
+    Depth: 1,
+    Value: Integer
+  },
+  {
+    TokenType: Integer,
+    Path: Integer,
+    Depth: 1,
+    Value: 123
+  },
+  {
+    TokenType: PropertyName,
+    Path: DateTime,
+    Depth: 1,
+    Value: DateTime
+  },
+  {
+    TokenType: Date,
+    Path: DateTime,
+    Depth: 1,
+    Value: DateTime_1
+  },
+  {
+    TokenType: PropertyName,
+    Path: DateTimeOffset,
+    Depth: 1,
+    Value: DateTimeOffset
+  },
+  {
+    TokenType: Date,
+    Path: DateTimeOffset,
+    Depth: 1,
+    Value: DateTime_2
+  },
+  {
+    TokenType: PropertyName,
+    Path: Float,
+    Depth: 1,
+    Value: Float
+  },
+  {
+    TokenType: Float,
+    Path: Float,
+    Depth: 1,
+    Value: 1.1
+  },
+  {
+    TokenType: PropertyName,
+    Path: Double,
+    Depth: 1,
+    Value: Double
+  },
+  {
+    TokenType: Float,
+    Path: Double,
+    Depth: 1,
+    Value: 3.14
+  },
+  {
+    TokenType: PropertyName,
+    Path: Decimal,
+    Depth: 1,
+    Value: Decimal
+  },
+  {
+    TokenType: Float,
+    Path: Decimal,
+    Depth: 1,
+    Value: 19.95
+  },
+  {
+    TokenType: PropertyName,
+    Path: Guid,
+    Depth: 1,
+    Value: Guid
+  },
+  {
+    TokenType: String,
+    Path: Guid,
+    Depth: 1,
+    Value: Guid_1
+  },
+  {
+    TokenType: PropertyName,
+    Path: Uri,
+    Depth: 1,
+    Value: Uri
+  },
+  {
+    TokenType: String,
+    Path: Uri,
+    Depth: 1,
+    Value: http://james.newtonking.com
+  },
+  {
+    TokenType: PropertyName,
+    Path: Array,
+    Depth: 1,
+    Value: Array
+  },
+  {
+    TokenType: StartArray,
+    Path: Array,
+    Depth: 1
+  },
+  {
+    TokenType: Integer,
+    Path: Array[0],
+    Depth: 2,
+    Value: 1
+  },
+  {
+    TokenType: Bytes,
+    Path: Array[1],
+    Depth: 2,
+    Value: SGVsbG8gd29ybGQh
+  },
+  {
+    TokenType: Boolean,
+    Path: Array[2],
+    Depth: 2,
+    Value: true
+  },
+  {
+    TokenType: EndArray,
+    Path: Array,
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    Path: Object,
+    Depth: 1,
+    Value: Object
+  },
+  {
+    TokenType: StartObject,
+    Path: Object,
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    Path: Object.String,
+    Depth: 2,
+    Value: String
+  },
+  {
+    TokenType: String,
+    Path: Object.String,
+    Depth: 2,
+    Value: This is a string!
+  },
+  {
+    TokenType: PropertyName,
+    Path: Object.Null,
+    Depth: 2,
+    Value: Null
+  },
+  {
+    TokenType: Null,
+    Path: Object.Null,
+    Depth: 2
+  },
+  {
+    TokenType: EndObject,
+    Path: Object,
+    Depth: 1
+  },
+  {
+    TokenType: PropertyName,
+    Path: Constructor,
+    Depth: 1,
+    Value: Constructor
+  },
+  {
+    TokenType: StartConstructor,
+    Path: Constructor,
+    Depth: 1,
+    Value: Date
+  },
+  {
+    TokenType: Integer,
+    Path: Constructor[0],
+    Depth: 2,
+    Value: 2000
+  },
+  {
+    TokenType: Integer,
+    Path: Constructor[1],
+    Depth: 2,
+    Value: 12
+  },
+  {
+    TokenType: Integer,
+    Path: Constructor[2],
+    Depth: 2,
+    Value: 30
+  },
+  {
+    TokenType: EndConstructor,
+    Path: Constructor,
+    Depth: 1
+  },
+  {
+    TokenType: EndObject,
+    Path: 
+  }
+]
