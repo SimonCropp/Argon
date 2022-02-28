@@ -418,12 +418,12 @@ static class DateTimeUtils
     #endregion
 
     #region Write
-    internal static void WriteDateTimeString(TextWriter writer, DateTime value, DateFormatHandling format, string? formatString, CultureInfo culture)
+    internal static void WriteDateTimeString(TextWriter writer, DateTime value, string? formatString, CultureInfo culture)
     {
         if (StringUtils.IsNullOrEmpty(formatString))
         {
             var chars = new char[64];
-            var pos = WriteDateTimeString(chars, 0, value, null, value.Kind, format);
+            var pos = WriteDateTimeString(chars, 0, value, null, value.Kind);
             writer.Write(chars, 0, pos);
         }
         else
@@ -432,13 +432,13 @@ static class DateTimeUtils
         }
     }
 
-    internal static int WriteDateTimeString(char[] chars, int start, DateTime value, TimeSpan? offset, DateTimeKind kind, DateFormatHandling format)
+    internal static int WriteDateTimeString(char[] chars, int start, DateTime value, TimeSpan? offset, DateTimeKind kind)
     {
           var  pos = WriteDefaultIsoDate(chars, start, value);
 
           if (kind == DateTimeKind.Local)
           {
-              return WriteDateTimeOffset(chars, pos, offset ?? value.GetUtcOffset(), format);
+              return WriteDateTimeOffset(chars, pos, offset ?? value.GetUtcOffset());
           }
 
           if (kind == DateTimeKind.Utc)
@@ -496,7 +496,7 @@ static class DateTimeUtils
         }
     }
 
-    internal static int WriteDateTimeOffset(char[] chars, int start, TimeSpan offset, DateFormatHandling format)
+    internal static int WriteDateTimeOffset(char[] chars, int start, TimeSpan offset)
     {
         chars[start++] = offset.Ticks >= 0L ? '+' : '-';
 
@@ -504,10 +504,7 @@ static class DateTimeUtils
         CopyIntToCharArray(chars, start, absHours, 2);
         start += 2;
 
-        if (format == DateFormatHandling.IsoDateFormat)
-        {
-            chars[start++] = ':';
-        }
+        chars[start++] = ':';
 
         var absMinutes = Math.Abs(offset.Minutes);
         CopyIntToCharArray(chars, start, absMinutes, 2);
@@ -516,12 +513,12 @@ static class DateTimeUtils
         return start;
     }
 
-    internal static void WriteDateTimeOffsetString(TextWriter writer, DateTimeOffset value, DateFormatHandling format, string? formatString, CultureInfo culture)
+    internal static void WriteDateTimeOffsetString(TextWriter writer, DateTimeOffset value, string? formatString, CultureInfo culture)
     {
         if (StringUtils.IsNullOrEmpty(formatString))
         {
             var chars = new char[64];
-            var pos = WriteDateTimeString(chars, 0, format == DateFormatHandling.IsoDateFormat ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, format);
+            var pos = WriteDateTimeString(chars, 0, value.DateTime, value.Offset, DateTimeKind.Local);
 
             writer.Write(chars, 0, pos);
         }

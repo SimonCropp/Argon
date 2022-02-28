@@ -1,9 +1,9 @@
 ﻿public static class Extensions
 {
-    public static string GetOffset(this DateTime d, DateFormatHandling dateFormatHandling)
+    public static string GetOffset(this DateTime d)
     {
         var chars = new char[8];
-        var pos = DateTimeUtils.WriteDateTimeOffset(chars, 0, DateTime.SpecifyKind(d, DateTimeKind.Local).GetUtcOffset(), dateFormatHandling);
+        var pos = DateTimeUtils.WriteDateTimeOffset(chars, 0, DateTime.SpecifyKind(d, DateTimeKind.Local).GetUtcOffset());
 
         return new string(chars, 0, pos);
     }

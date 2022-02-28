@@ -564,7 +564,7 @@ public partial class JsonTextWriter : JsonWriter
 
         var pos = 0;
         writeBuffer[pos++] = quoteChar;
-        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value, null, value.Kind, DateFormatHandling);
+        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value, null, value.Kind);
         writeBuffer[pos++] = quoteChar;
         return pos;
     }
@@ -616,7 +616,7 @@ public partial class JsonTextWriter : JsonWriter
 
         var pos = 0;
         writeBuffer[pos++] = quoteChar;
-        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, DateFormatHandling == DateFormatHandling.IsoDateFormat ? value.DateTime : value.UtcDateTime, value.Offset, DateTimeKind.Local, DateFormatHandling);
+        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value.DateTime, value.Offset, DateTimeKind.Local);
         writeBuffer[pos++] = quoteChar;
         return pos;
     }
