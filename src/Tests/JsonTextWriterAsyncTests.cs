@@ -411,9 +411,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         }
 
         var json = stringWriter.ToString();
-        var expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
-
-        Assert.Equal(expected, json);
+        await Verify(json);
     }
 
     [Fact]
