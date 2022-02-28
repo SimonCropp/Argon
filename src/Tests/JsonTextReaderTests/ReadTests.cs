@@ -1564,7 +1564,7 @@ third line", jsonTextReader.Value);
 
         var sr = new StringReader(input);
 
-        using JsonReader jsonReader = new JsonTextReader(sr);
+        using var jsonReader = new JsonTextReader(sr);
         Assert.Equal(0, jsonReader.Depth);
 
         jsonReader.Read();
