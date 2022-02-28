@@ -57,7 +57,9 @@ public class NullValueHandlingTests : TestFixtureBase
         var s3 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(@"{""Escape"":null}")), typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s3.Escape);
 
-        var s4 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(@"{""Color"":2,""Establised"":""\/Date(1264071600000+1300)\/"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""\/Date(949485690000+1300)\/"",""Price"":0},{""Name"":""Alien"",""ExpiryDate"":""\/Date(946638000000)\/"",""Price"":0.0}]}")), typeof(Store));
+        var s4 = (Store)jsonSerializer.Deserialize(
+            new JsonTextReader(
+                new StringReader(@"{Color:2,Establised:'2010-01-22T01:01:01Z',Width:1.1,Employees:999,RoomsPerFloor:[1,2,3,4,5,6,7,8,9],Open:false,Symbol:""@"",Mottos:[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],Cost:100980.1,Escape:""\r\n\t\f\b?{\\r\\n\""'"",product:[{Name:'Rocket',ExpiryDate:'2000-02-02T23:01:30Z',Price:0},{Name:'Alien',ExpiryDate:'2000-02-02T23:01:30Z',Price:0.0}]}")), typeof(Store));
         Assert.Equal(s1.Establised, s3.Establised);
     }
 

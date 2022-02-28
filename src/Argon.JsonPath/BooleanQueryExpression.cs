@@ -183,11 +183,11 @@ class BooleanQueryExpression : QueryExpression
                 {
                     if (value.Value is DateTimeOffset offset)
                     {
-                        DateTimeUtils.WriteDateTimeOffsetString(writer, offset, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
+                        DateTimeUtils.WriteDateTimeOffsetString(writer, offset, null, CultureInfo.InvariantCulture);
                     }
                     else
                     {
-                        DateTimeUtils.WriteDateTimeString(writer, (DateTime)value.Value!, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
+                        DateTimeUtils.WriteDateTimeString(writer, (DateTime)value.Value!, null, CultureInfo.InvariantCulture);
                     }
 
                     currentValueString = writer.ToString();

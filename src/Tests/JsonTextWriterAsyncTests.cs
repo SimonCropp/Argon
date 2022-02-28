@@ -1373,10 +1373,6 @@ _____'propertyName': NaN,
         await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
         await jsonWriter.WriteValueAsync(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
 
-        jsonWriter.DateFormatHandling = DateFormatHandling.MicrosoftDateFormat;
-        await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
-        await jsonWriter.WriteValueAsync(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
-
         jsonWriter.DateFormatString = "yyyy gg";
         await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
         await jsonWriter.WriteValueAsync(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
@@ -1391,8 +1387,6 @@ _____'propertyName': NaN,
         XUnitAssert.AreEqualNormalized(@"[
   '2000-01-01T01:01:01Z',
   '2000-01-01T01:01:01+00:00',
-  '\/Date(946688461000)\/',
-  '\/Date(946688461000+0000)\/',
   '2000 A.D.',
   '2000 A.D.',
   'AQID',

@@ -61,19 +61,19 @@ public static class JsonConvert
     /// </summary>
     public static string ToString(DateTime value)
     {
-        return ToString(value, DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.RoundtripKind);
+        return ToString(value, DateTimeZoneHandling.RoundtripKind);
     }
 
     /// <summary>
-    /// Converts the <see cref="DateTime"/> to its JSON string representation using the <see cref="DateFormatHandling"/> specified.
+    /// Converts the <see cref="DateTime"/> to its JSON string representation using the <see cref="DateTimeZoneHandling"/> specified.
     /// </summary>
-    public static string ToString(DateTime value, DateFormatHandling format, DateTimeZoneHandling timeZoneHandling)
+    public static string ToString(DateTime value, DateTimeZoneHandling timeZoneHandling)
     {
         var updatedDateTime = DateTimeUtils.EnsureDateTime(value, timeZoneHandling);
 
         using var writer = StringUtils.CreateStringWriter(64);
         writer.Write('"');
-        DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, format, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, null, CultureInfo.InvariantCulture);
         writer.Write('"');
         return writer.ToString();
     }
@@ -83,17 +83,9 @@ public static class JsonConvert
     /// </summary>
     public static string ToString(DateTimeOffset value)
     {
-        return ToString(value, DateFormatHandling.IsoDateFormat);
-    }
-
-    /// <summary>
-    /// Converts the <see cref="DateTimeOffset"/> to its JSON string representation using the <see cref="DateFormatHandling"/> specified.
-    /// </summary>
-    public static string ToString(DateTimeOffset value, DateFormatHandling format)
-    {
         using var writer = StringUtils.CreateStringWriter(64);
         writer.Write('"');
-        DateTimeUtils.WriteDateTimeOffsetString(writer, value, format, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeOffsetString(writer, value, null, CultureInfo.InvariantCulture);
         writer.Write('"');
         return writer.ToString();
     }

@@ -90,13 +90,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var json = @"[
   {
     ""Name"": ""Jim"",
-    ""BirthDate"": ""\/Date(978048000000)\/"",
-    ""LastModified"": ""\/Date(978048000000)\/""
+    ""BirthDate"": ""2013-08-14T00:00:00.000"",
+    ""LastModified"": ""2013-08-14T00:00:00.000""
   },
   {
     ""Name"": ""Jim"",
-    ""BirthDate"": ""\/Date(978048000000)\/"",
-    ""LastModified"": ""\/Date(978048000000)\/""
+    ""BirthDate"": ""2013-08-14T00:00:00.000"",
+    ""LastModified"": ""2013-08-14T00:00:00.000""
   }
 ]";
 

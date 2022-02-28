@@ -53,7 +53,7 @@ public class PopulateTests : TestFixtureBase
 
         var json = @"{
   ""Color"": 2,
-  ""Establised"": ""\/Date(1264122061000+0000)\/"",
+  ""Establised"": ""2013-08-14T04:38:31.000+1230"",
   ""Width"": 99.99,
   ""Employees"": 999,
   ""RoomsPerFloor"": [
@@ -77,7 +77,7 @@ public class PopulateTests : TestFixtureBase
   ""product"": [
     {
       ""Name"": ""ProductName!"",
-      ""ExpiryDate"": ""\/Date(975801600000)\/"",
+      ""ExpiryDate"": ""2013-08-14T04:38:31.000+1230"",
       ""Price"": 9.9,
       ""Sizes"": null
     }

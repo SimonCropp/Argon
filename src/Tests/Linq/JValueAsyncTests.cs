@@ -27,7 +27,7 @@ public class JValueAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseAndConvertDateTimeOffsetAsync()
     {
-        var json = @"{ d: ""\/Date(0+0100)\/"" }";
+        var json = @"{ d: '2013-08-14T04:38:31.000+01' }";
 
         using var stringReader = new StringReader(json);
         using var jsonReader = new JsonTextReader(stringReader);

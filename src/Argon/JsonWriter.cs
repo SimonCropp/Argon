@@ -186,11 +186,6 @@ public abstract partial class JsonWriter : IDisposable
     public Formatting Formatting { get; set; }
 
     /// <summary>
-    /// Gets or sets how dates are written to JSON text.
-    /// </summary>
-    public DateFormatHandling DateFormatHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how <see cref="DateTime"/> time zones are handled when writing JSON text.
     /// </summary>
     public DateTimeZoneHandling DateTimeZoneHandling { get; set; }

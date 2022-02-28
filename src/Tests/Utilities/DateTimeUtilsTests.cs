@@ -19,7 +19,7 @@ public class DateTimeUtilsTests : TestFixtureBase
     static void RoundtripDateIso(DateTime value)
     {
         var stringWriter = new StringWriter();
-        DateTimeUtils.WriteDateTimeString(stringWriter, value, DateFormatHandling.IsoDateFormat, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeString(stringWriter, value, null, CultureInfo.InvariantCulture);
         var minDateText = stringWriter.ToString();
 
         DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out var parsedDt);
@@ -119,20 +119,6 @@ public class DateTimeUtilsTests : TestFixtureBase
         TryParseDateIso(text, DateParseHandling.DateTime, DateTimeZoneHandling.RoundtripKind, out var oldDt);
 
         AssertNewDateTimeParseEqual(text, oldDt);
-    }
-
-    [Fact]
-    public void ReadOffsetMSDateTimeOffset()
-    {
-        var c = @"12345/Date(1418924498000+0800)/12345".ToCharArray();
-        var reference = new StringReference(c, 5, c.Length - 10);
-
-        DateTimeUtils.TryParseDateTimeOffset(reference, null, CultureInfo.InvariantCulture, out var d);
-
-        var initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
-
-        Assert.Equal(1418924498000, initialTicks);
-        Assert.Equal(8, d.Offset.Hours);
     }
 
     [Fact]
