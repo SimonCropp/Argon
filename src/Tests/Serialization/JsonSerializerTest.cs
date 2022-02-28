@@ -156,16 +156,6 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeMSDateTimeOffset()
-    {
-        var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""/Date(1418924498000+0800)/""");
-        var initialTicks = DateTimeUtils.ConvertDateTimeToJavaScriptTicks(d.DateTime, d.Offset);
-
-        Assert.Equal(1418924498000, initialTicks);
-        Assert.Equal(8, d.Offset.Hours);
-    }
-
-    [Fact]
     public void DeserializeBoolean_Null()
     {
         XUnitAssert.Throws<JsonSerializationException>(
@@ -2353,7 +2343,7 @@ keyword such as type of business.""
   ""FirstName"": ""I can't be null bro!"",
   ""MiddleName"": null,
   ""LastName"": null,
-  ""BirthDate"": ""\/Date(977309755000)\/""
+  ""BirthDate"": ""2013-08-14T04:38:31.000+0000""
 }";
 
         var c = JsonConvert.DeserializeObject<RequiredMembersClass>(json);
@@ -2372,7 +2362,7 @@ keyword such as type of business.""
   ""FirstName"": null,
   ""MiddleName"": null,
   ""LastName"": null,
-  ""BirthDate"": ""\/Date(977309755000)\/""
+  ""BirthDate"": ""2013-08-14T04:38:31.000+0000""
 }";
 
             JsonConvert.DeserializeObject<RequiredMembersClass>(json);
@@ -2864,7 +2854,7 @@ keyword such as type of business.""
     {
         var json = @"/*comment1*/ { /*comment2*/
         ""Name"": /*comment3*/ ""Apple"" /*comment4*/, /*comment5*/
-        ""ExpiryDate"": ""\/Date(1230422400000)\/"",
+        ""ExpiryDate"": ""2008-12-28T00:0:00.000+0000"",
         ""Price"": 3.99,
         ""Sizes"": /*comment6*/ [ /*comment7*/
           ""Small"", /*comment8*/
@@ -4678,7 +4668,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DeserializeGenericEnumerableProperty()
     {
-        var r = JsonConvert.DeserializeObject<BusRun>("{\"Departures\":[\"\\/Date(1309874148734-0400)\\/\",\"\\/Date(1309874148739-0400)\\/\",null],\"WheelchairAccessible\":true}");
+        var r = JsonConvert.DeserializeObject<BusRun>("{'Departures':['2013-08-14T04:38:31.000+0000','2013-08-14T04:38:31.000+0000',null],'WheelchairAccessible':true}");
 
         Assert.Equal(typeof(List<DateTime?>), r.Departures.GetType());
         Assert.Equal(3, r.Departures.Count());
