@@ -295,19 +295,6 @@ public class ParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseEmptyConstructor()
-    {
-        var json = "new Date()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
     public void ParseHexNumber()
     {
         var json = @"0x20";
