@@ -282,20 +282,6 @@ public class JObjectTests : TestFixtureBase
     }
 
     [Fact]
-    public void GenericCollectionCopyToNullArrayShouldThrow()
-    {
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var o = new JObject();
-                ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(null, 0);
-            },
-            @"Value cannot be null.
-Parameter name: array",
-            "Value cannot be null. (Parameter 'array')");
-    }
-
-    [Fact]
     public void GenericCollectionCopyToNegativeArrayIndexShouldThrow()
     {
         XUnitAssert.Throws<ArgumentOutOfRangeException>(() =>
