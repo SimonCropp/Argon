@@ -169,7 +169,7 @@ public class JObjectTests : TestFixtureBase
                 {"PropertyNameValue", null}
             };
         },
-            "Can not add property PropertyNameValue to Argon.Linq.JObject. Property with the same name already exists on object.");
+            "Can not add property PropertyNameValue to Argon.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -754,7 +754,7 @@ Parameter name: arrayIndex",
 
             l.Add(new JValue("Bad!"));
         },
-            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+            "Can not add Argon.JValue to Argon.JObject.");
     }
 
     [Fact]
@@ -769,7 +769,7 @@ Parameter name: arrayIndex",
 
             l.Add("Bad!");
         },
-            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+            "Can not add Argon.JValue to Argon.JObject.");
     }
 
     [Fact]
@@ -786,7 +786,7 @@ Parameter name: arrayIndex",
 
             l.Add(p3);
         },
-            "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
+            "Can not add property Test2 to Argon.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -884,7 +884,7 @@ Parameter name: arrayIndex",
             l[0] = p3;
             l[1] = p3;
         },
-            "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
+            "Can not add property Test3 to Argon.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -899,7 +899,7 @@ Parameter name: arrayIndex",
 
             l[0] = new JValue(true);
         },
-            @"Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+            @"Can not add Argon.JValue to Argon.JObject.");
     }
 
     [Fact]
@@ -977,7 +977,7 @@ Parameter name: arrayIndex",
 
             l.Add(new JValue("Bad!"));
         },
-            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+            "Can not add Argon.JValue to Argon.JObject.");
     }
 
     [Fact]
@@ -993,7 +993,7 @@ Parameter name: arrayIndex",
             // string is implicitly converted to JValue
             l.Add("Bad!");
         },
-            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+            "Can not add Argon.JValue to Argon.JObject.");
     }
 
     [Fact]
@@ -1010,7 +1010,7 @@ Parameter name: arrayIndex",
 
             l.Add(p3);
         },
-            "Can not add property Test2 to Argon.Linq.JObject. Property with the same name already exists on object.");
+            "Can not add property Test2 to Argon.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]
@@ -1108,7 +1108,7 @@ Parameter name: arrayIndex",
             l[0] = p3;
             l[1] = p3;
         },
-            "Can not add property Test3 to Argon.Linq.JObject. Property with the same name already exists on object.");
+            "Can not add property Test3 to Argon.JObject. Property with the same name already exists on object.");
     }
 
     [Fact]

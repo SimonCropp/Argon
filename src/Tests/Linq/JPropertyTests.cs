@@ -32,7 +32,7 @@ public class JPropertyTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonException>(
             () => p.Clear(),
-            "Cannot add or remove items from Argon.Linq.JProperty.");
+            "Cannot add or remove items from Argon.JProperty.");
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class JPropertyTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonException>(
             () => p.Add(null),
-            "Argon.Linq.JProperty cannot have multiple values.");
+            "Argon.JProperty cannot have multiple values.");
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class JPropertyTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonException>(
             () => p.RemoveAt(0),
-            "Cannot add or remove items from Argon.Linq.JProperty.");
+            "Cannot add or remove items from Argon.JProperty.");
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public class JPropertyTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonException>(
             () => t.Add(1),
-            "Argon.Linq.JProperty cannot have multiple values.");
+            "Argon.JProperty cannot have multiple values.");
     }
 
     [Fact]

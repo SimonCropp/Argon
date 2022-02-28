@@ -917,7 +917,7 @@ public class JTokenTests : TestFixtureBase
         {
             var a = new JArray {new JProperty("PropertyName")};
         },
-            "Can not add Argon.Linq.JProperty to Argon.Linq.JArray.");
+            "Can not add Argon.JProperty to Argon.JArray.");
     }
 
     [Fact]
@@ -928,7 +928,7 @@ public class JTokenTests : TestFixtureBase
         {
             var o = new JObject {5};
         },
-            "Can not add Argon.Linq.JValue to Argon.Linq.JObject.");
+            "Can not add Argon.JValue to Argon.JObject.");
     }
 
     [Fact]

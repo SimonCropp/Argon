@@ -3215,7 +3215,7 @@ Path '', line 1, position 1.");
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<JObject>(json),
-            "Deserialized JSON type 'Argon.Linq.JArray' is not compatible with expected type 'Argon.Linq.JObject'. Path '', line 1, position 2.");
+            "Deserialized JSON type 'Argon.JArray' is not compatible with expected type 'Argon.JObject'. Path '', line 1, position 2.");
     }
 
     [Fact]

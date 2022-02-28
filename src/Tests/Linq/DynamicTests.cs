@@ -892,7 +892,7 @@ public class LinqDynamicTests : TestFixtureBase
             {
                 JObject token = json.uid;
             },
-            "Can not convert from System.Guid to Argon.Linq.JObject.");
+            "Can not convert from System.Guid to Argon.JObject.");
     }
 
     public class DynamicDictionary : DynamicObject

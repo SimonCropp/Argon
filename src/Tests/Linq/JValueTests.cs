@@ -209,7 +209,7 @@ public class JValueTests : TestFixtureBase
         {
             var v = new JValue(true);
             var last = v.Last;
-        }, "Cannot access child value on Argon.Linq.JValue.");
+        }, "Cannot access child value on Argon.JValue.");
     }
 
     [Fact]
@@ -227,7 +227,7 @@ public class JValueTests : TestFixtureBase
         {
             var v = new JValue(true);
             var first = v.First;
-        }, "Cannot access child value on Argon.Linq.JValue.");
+        }, "Cannot access child value on Argon.JValue.");
     }
 
     [Fact]
@@ -237,7 +237,7 @@ public class JValueTests : TestFixtureBase
         {
             var v = new JValue(true);
             var first = v[0];
-        }, "Cannot access child value on Argon.Linq.JValue.");
+        }, "Cannot access child value on Argon.JValue.");
     }
 
     [Fact]
@@ -247,7 +247,7 @@ public class JValueTests : TestFixtureBase
         {
             var v = new JValue(true);
             v.Values<int>();
-        }, "Cannot access child value on Argon.Linq.JValue.");
+        }, "Cannot access child value on Argon.JValue.");
     }
 
     [Fact]
@@ -305,7 +305,7 @@ public class JValueTests : TestFixtureBase
                 JToken t = new JValue(5L);
                 t[0] = new JValue(3);
             },
-            "Cannot set child value on Argon.Linq.JValue.");
+            "Cannot set child value on Argon.JValue.");
     }
 
     [Fact]
