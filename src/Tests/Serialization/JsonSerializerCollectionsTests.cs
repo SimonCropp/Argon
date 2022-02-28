@@ -1980,13 +1980,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var json = @"[
         {
           ""Name"": ""Product 1"",
-          ""ExpiryDate"": ""\/Date(978048000000)\/"",
+          ""ExpiryDate"": ""2013-08-14T04:38:31.000+0000"",
           ""Price"": 99.95,
           ""Sizes"": null
         },
         {
           ""Name"": ""Product 2"",
-          ""ExpiryDate"": ""\/Date(1248998400000)\/"",
+          ""ExpiryDate"": ""2013-08-14T04:38:31.000+0000"",
           ""Price"": 12.50,
           ""Sizes"": null
         }
