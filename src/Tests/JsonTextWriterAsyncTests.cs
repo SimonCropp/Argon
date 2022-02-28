@@ -925,30 +925,6 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task WriteObjectNestedInConstructorAsync()
-    {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
-
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
-        {
-            await jsonWriter.WriteStartObjectAsync();
-            await jsonWriter.WritePropertyNameAsync("con");
-
-            await jsonWriter.WriteStartConstructorAsync("Ext.data.JsonStore");
-            await jsonWriter.WriteStartObjectAsync();
-            await jsonWriter.WritePropertyNameAsync("aa");
-            await jsonWriter.WriteValueAsync("aa");
-            await jsonWriter.WriteEndObjectAsync();
-            await jsonWriter.WriteEndConstructorAsync();
-
-            await jsonWriter.WriteEndObjectAsync();
-        }
-
-        Assert.Equal(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", stringBuilder.ToString());
-    }
-
-    [Fact]
     public async Task WriteFloatingPointNumberAsync()
     {
         var stringBuilder = new StringBuilder();

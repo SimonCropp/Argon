@@ -2148,10 +2148,10 @@ keyword such as type of business.""
         var testDate = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
-        var json = JsonConvert.SerializeObject(m1, new JavaScriptDateTimeConverter());
+        var json = JsonConvert.SerializeObject(m1);
         Assert.Equal(@"{""DefaultConverter"":new Date(0),""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
-        var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json, new JavaScriptDateTimeConverter());
+        var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json);
 
         Assert.Equal(testDate, m2.DefaultConverter);
         Assert.Equal(testDate, m2.MemberConverter);
@@ -2525,12 +2525,8 @@ keyword such as type of business.""
         var isoJson = JsonConvert.SerializeObject(entry, new IsoDateTimeConverter());
         // {"Details":"Application started.","LogDate":"2009-02-15T00:00:00.0000000Z"}
 
-        var javascriptJson = JsonConvert.SerializeObject(entry, new JavaScriptDateTimeConverter());
-        // {"Details":"Application started.","LogDate":new Date(1234656000000)}
-
         Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", defaultJson);
         Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", isoJson);
-        Assert.Equal(@"{""Details"":""Application started."",""LogDate"":new Date(1234656000000)}", javascriptJson);
     }
 
     [Fact]
@@ -5627,9 +5623,9 @@ Path '', line 1, position 1.");
             Venue = "Gryphon Theatre",
             Performances = new List<DateTime>
             {
-                DateTimeUtils.ConvertJavaScriptTicksToDateTime(1336458600000),
-                DateTimeUtils.ConvertJavaScriptTicksToDateTime(1336545000000),
-                DateTimeUtils.ConvertJavaScriptTicksToDateTime(1336636800000)
+                new(2000,1,1),
+                new(2000,1,2),
+                new(2000,1,3)
             }
         };
 

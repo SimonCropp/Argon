@@ -307,8 +307,6 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
     }
 
- 
-
     [Fact]
     public async Task ParseOctalNumberAsync()
     {
