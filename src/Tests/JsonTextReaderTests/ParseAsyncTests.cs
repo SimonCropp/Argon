@@ -270,6 +270,19 @@ public class ParseAsyncTests : TestFixtureBase
     }
 
     [Fact]
+    public async Task ParseEmptyConstructorAsync()
+    {
+        var json = "new Date()";
+        var reader = new JsonTextReader(new StringReader(json));
+
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
+
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
+    }
+
+    [Fact]
     public async Task ParseHexNumberAsync()
     {
         var json = @"0x20";
@@ -305,6 +318,37 @@ public class ParseAsyncTests : TestFixtureBase
 
         await reader.ReadAsync();
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
+    }
+
+    [Fact]
+    public async Task ParseLineFeedDelimitedConstructorAsync()
+    {
+        var json = "new Date\n()";
+        var reader = new JsonTextReader(new StringReader(json));
+
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal("Date", reader.Value);
+        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
+
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
+    }
+
+    [Fact]
+    public async Task ParseNullStringConstructorAsync()
+    {
+        var json = "new Date\0()";
+        var reader = new JsonTextReader(new StringReader(json));
+#if !RELEASE
+        reader.CharBuffer = new char[7];
+#endif
+
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal("Date", reader.Value);
+        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
+
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
     }
 
     [Fact]

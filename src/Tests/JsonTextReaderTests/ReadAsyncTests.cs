@@ -1200,32 +1200,6 @@ third line", jsonTextReader.Value);
     }
 
     [Fact]
-    public async Task ReadConstructorAsync()
-    {
-        var json = @"{""DefaultConverter"":new Date(0, ""hi""),""MemberConverter"":""1970-01-01T00:00:00Z""}";
-
-        JsonReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-
-        Assert.True(await reader.ReadAsync());
-        Assert.True(await reader.ReadAsync());
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-        Assert.Equal("Date", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(0L, reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal("hi", reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal("MemberConverter", reader.Value);
-    }
-
-    [Fact]
     public async Task ReadingIndentedAsync()
     {
         var input = @"{

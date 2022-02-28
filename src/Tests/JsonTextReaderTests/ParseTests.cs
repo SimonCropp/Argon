@@ -355,7 +355,7 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         Assert.True(reader.Read());
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
+        Assert.Equal(new DateTime(InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
         Assert.True(reader.Read());
 
@@ -364,7 +364,7 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         Assert.True(reader.Read());
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
+        Assert.Equal(new DateTimeOffset(InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         reader = new JsonTextReader(new StringReader(json));
@@ -380,7 +380,7 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         reader.ReadAsDateTimeOffset();
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
+        Assert.Equal(new DateTimeOffset(InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         reader = new JsonTextReader(new StringReader(json));
@@ -388,7 +388,8 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         reader.ReadAsDateTime();
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
+        Assert.Equal(new DateTime(InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
     }
+    internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
 }

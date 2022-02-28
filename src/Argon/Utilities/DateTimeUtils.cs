@@ -112,32 +112,6 @@ static class DateTimeUtils
         return ticks;
     }
 
-    internal static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime)
-    {
-        return ConvertDateTimeToJavaScriptTicks(dateTime, true);
-    }
-
-    static long ConvertDateTimeToJavaScriptTicks(DateTime dateTime, bool convertToUtc)
-    {
-        var ticks = convertToUtc ? ToUniversalTicks(dateTime) : dateTime.Ticks;
-
-        return UniversalTicksToJavaScriptTicks(ticks);
-    }
-
-    static long UniversalTicksToJavaScriptTicks(long universalTicks)
-    {
-        var javaScriptTicks = (universalTicks - InitialJavaScriptDateTicks) / 10000;
-
-        return javaScriptTicks;
-    }
-
-    internal static DateTime ConvertJavaScriptTicksToDateTime(long javaScriptTicks)
-    {
-        var dateTime = new DateTime(javaScriptTicks * 10000 + InitialJavaScriptDateTicks, DateTimeKind.Utc);
-
-        return dateTime;
-    }
-
     #region Parse
     internal static bool TryParseDateTimeIso(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
     {
