@@ -4,7 +4,7 @@
 
 using NodaTime;
 using static TestHelper;
-using NodaTime.Serialization.Argon;
+using Argon.NodaTime;
 
 public class NodaDateIntervalConverterTest
 {

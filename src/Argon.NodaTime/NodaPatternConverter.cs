@@ -5,7 +5,7 @@
 using NodaTime.Text;
 using NodaTime.Utility;
 
-namespace NodaTime.Serialization.Argon;
+namespace Argon.NodaTime;
 
 /// <summary>
 /// A JSON converter for types which can be represented by a single string value, parsed or formatted

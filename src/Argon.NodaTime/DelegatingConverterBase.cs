@@ -2,7 +2,9 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
-namespace NodaTime.Serialization.Argon;
+using NodaTime;
+
+namespace Argon.NodaTime;
 
 /// <summary>
 /// Converter which does nothing but delegate to another one for all operations.

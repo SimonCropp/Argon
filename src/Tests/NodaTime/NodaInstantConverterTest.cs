@@ -3,7 +3,7 @@
 // as found in the LICENSE.txt file.
 
 using NodaTime;
-using NodaTime.Serialization.Argon;
+using Argon.NodaTime;
 
 public class NodaInstantConverterTest
 {

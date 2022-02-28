@@ -5,7 +5,7 @@
 using NodaTime;
 using static TestHelper;
 
-using NodaTime.Serialization.Argon;
+using Argon.NodaTime;
 
 /// <summary>
 /// Tests for the converters exposed in NodaConverters.

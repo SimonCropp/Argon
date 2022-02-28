@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.DataSet", "Argon.Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.JsonPath", "Argon.JsonPath\Argon.JsonPath.csproj", "{5705E5CF-E410-4510-AB3C-4FCC4E4BC991}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodaTime.Serialization.Argon", "NodaTime.Serialization.Argon\NodaTime.Serialization.Argon.csproj", "{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.NodaTime", "Argon.NodaTime\Argon.NodaTime.csproj", "{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

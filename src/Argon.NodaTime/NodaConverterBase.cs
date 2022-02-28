@@ -4,7 +4,7 @@
 
 using NodaTime.Utility;
 
-namespace NodaTime.Serialization.Argon;
+namespace Argon.NodaTime;
 
 /// <summary>
 /// Base class for all the Json.NET converters which handle value types (which is most of them).

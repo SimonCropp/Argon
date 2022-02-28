@@ -4,7 +4,7 @@
 
 using NodaTime;
 using static TestHelper;
-using NodaTime.Serialization.Argon;
+using Argon.NodaTime;
 
 /// <summary>
 /// The same tests as NodaIntervalConverterTest, but using the ISO-based interval converter.

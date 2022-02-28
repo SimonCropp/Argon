@@ -2,9 +2,10 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
+using NodaTime;
 using NodaTime.Text;
 
-namespace NodaTime.Serialization.Argon;
+namespace Argon.NodaTime;
 
 /// <summary>
 /// Convenience class to expose preconfigured converters for Noda Time types, and factory methods

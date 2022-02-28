@@ -2,7 +2,9 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
-namespace NodaTime.Serialization.Argon;
+using NodaTime;
+
+namespace Argon.NodaTime;
 
 /// <summary>
 /// Static class containing extension methods to configure Json.NET for Noda Time types.
