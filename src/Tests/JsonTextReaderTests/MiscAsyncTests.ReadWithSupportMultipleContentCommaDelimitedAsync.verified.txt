@@ -1,0 +1,72 @@
+﻿[
+  {
+    TokenType: StartObject,
+    LineNumber: 1,
+    LinePosition: 1
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 1,
+    LinePosition: 9
+  },
+  {
+    TokenType: String,
+    LineNumber: 1,
+    LinePosition: 17
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 1,
+    LinePosition: 19
+  },
+  {
+    TokenType: StartObject,
+    LineNumber: 1,
+    LinePosition: 21
+  },
+  {
+    TokenType: PropertyName,
+    LineNumber: 1,
+    LinePosition: 29
+  },
+  {
+    TokenType: String,
+    LineNumber: 1,
+    LinePosition: 41
+  },
+  {
+    TokenType: EndObject,
+    LineNumber: 1,
+    LinePosition: 43
+  },
+  {
+    TokenType: Integer,
+    LineNumber: 1,
+    LinePosition: 45
+  },
+  {
+    TokenType: Null,
+    LineNumber: 1,
+    LinePosition: 50
+  },
+  {
+    TokenType: StartArray,
+    LineNumber: 1,
+    LinePosition: 52
+  },
+  {
+    TokenType: EndArray,
+    LineNumber: 1,
+    LinePosition: 53
+  },
+  {
+    TokenType: Undefined,
+    LineNumber: 1,
+    LinePosition: 54
+  },
+  {
+    TokenType: String,
+    LineNumber: 1,
+    LinePosition: 63
+  }
+]

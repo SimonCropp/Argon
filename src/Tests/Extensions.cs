@@ -1,5 +1,28 @@
-﻿public static class Extensions
+﻿public record ReaderState(JsonToken TokenType, int LineNumber, int LinePosition, string Path, int Depth, object? Value);
+
+public static class Extensions
 {
+    [Fact]
+    public static async Task VerifyReaderState(
+        this JsonReader reader,
+        [CallerFilePath] string sourceFile = "")
+    {
+        var tokens = new List<ReaderState>();
+        while (await reader.ReadAsync())
+        {
+            tokens.Add(
+                new ReaderState(
+                    reader.TokenType,
+                    reader.LineNumber,
+                    reader.LinePosition,
+                    reader.Path,
+                    reader.Depth,
+                    reader.Value));
+        }
+
+        await Verify(tokens, null, sourceFile);
+    }
+
     public static string GetOffset(this DateTime d)
     {
         var chars = new char[8];
