@@ -415,17 +415,6 @@ Parameter name: arrayIndex",
     }
 
     [Fact]
-    public void ParseJavaScriptDate()
-    {
-        var json = @"[new Date(1207285200000)]";
-
-        var a = (JArray) JsonConvert.DeserializeObject(json);
-        var v = (JValue) a[0];
-
-        Assert.Equal(DateTimeUtils.ConvertJavaScriptTicksToDateTime(1207285200000), (DateTime) v);
-    }
-
-    [Fact]
     public void GenericValueCast()
     {
         var json = @"{""foo"":true}";

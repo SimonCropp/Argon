@@ -83,9 +83,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
     public void MissingMemberIgnoreComplexValue()
     {
         var serializer = new JsonSerializer { MissingMemberHandling = MissingMemberHandling.Ignore };
-        serializer.Converters.Add(new JavaScriptDateTimeConverter());
 
-        var response = @"{""PreProperty"":1,""DateProperty"":new Date(1225962698973),""PostProperty"":2}";
+        var response = @"{PreProperty:1, DateProperty:'2000-12-05T05:07:59-10:00', PostProperty:2}";
 
         var myClass = (MyClass)serializer.Deserialize(new StringReader(response), typeof(MyClass));
 

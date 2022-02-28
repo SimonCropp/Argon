@@ -270,19 +270,6 @@ public class ParseAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ParseEmptyConstructorAsync()
-    {
-        var json = "new Date()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
     public async Task ParseHexNumberAsync()
     {
         var json = @"0x20";

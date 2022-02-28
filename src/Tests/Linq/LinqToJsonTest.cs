@@ -698,12 +698,6 @@ keyword such as type of business.""
                     2,
                     3.0,
                     new DateTime(4, 5, 6, 7, 8, 9, DateTimeKind.Utc)
-                ),
-                new JConstructor(
-                    "ConstructorName",
-                    "param1",
-                    2,
-                    3.0
                 )
             );
 
@@ -973,16 +967,6 @@ keyword such as type of business.""
     }
 
     [Fact]
-    public void JConstructorStringIndex()
-    {
-        XUnitAssert.Throws<ArgumentException>(() =>
-        {
-            var c = new JConstructor("ConstructorValue");
-            Assert.Equal(null, c["purple"]);
-        }, @"Accessed JConstructor values with invalid key value: ""purple"". Argument position index expected.");
-    }
-
-    [Fact]
     public void ToStringJsonConverter()
     {
         var o =
@@ -994,7 +978,6 @@ keyword such as type of business.""
             );
 
         var serializer = new JsonSerializer();
-        serializer.Converters.Add(new JavaScriptDateTimeConverter());
         var stringWriter = new StringWriter();
         JsonWriter jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.Formatting = Formatting.Indented;

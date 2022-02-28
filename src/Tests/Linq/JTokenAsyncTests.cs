@@ -24,10 +24,6 @@ public class JTokenAsyncTests : TestFixtureBase
         Assert.Equal("pie", p.Name);
         XUnitAssert.True((bool)p.Value);
 
-        var c = (JConstructor)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("new Date(1)")));
-        Assert.Equal("Date", c.Name);
-        Assert.True(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
-
         var v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
         Assert.Equal("stringvalue", (string)v);
 
@@ -42,7 +38,7 @@ public class JTokenAsyncTests : TestFixtureBase
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
         Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
+        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
     }
 
     [Fact]

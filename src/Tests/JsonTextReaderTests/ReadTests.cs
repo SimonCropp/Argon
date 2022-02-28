@@ -1196,32 +1196,6 @@ third line", jsonTextReader.Value);
     }
 
     [Fact]
-    public void ReadConstructor()
-    {
-        var json = @"{""DefaultConverter"":new Date(0, ""hi""),""MemberConverter"":""1970-01-01T00:00:00Z""}";
-
-        JsonReader reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-
-        Assert.True(reader.Read());
-        Assert.True(reader.Read());
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-        Assert.Equal("Date", reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(0L, reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal("hi", reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal("MemberConverter", reader.Value);
-    }
-
-    [Fact]
     public void ReadingIndented()
     {
         var input = @"{

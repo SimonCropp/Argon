@@ -22,10 +22,6 @@ public class ToString : TestFixtureBase
         Console.WriteLine(o.ToString(Formatting.None));
         // {"string1":"value","integer2":99,"datetime3":"2000-05-23T00:00:00"}
 
-        Console.WriteLine(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
-        // {"string1":"value","integer2":99,"datetime3":new Date(959032800000)}
         #endregion
-
-        Assert.NotNull(o.ToString(Formatting.None, new JavaScriptDateTimeConverter()));
     }
 }
