@@ -11,7 +11,7 @@ public class Issue1877
         {
             Version = new Version("3.0")
         };
-        (f2 as Fubar).Version = new Version("4.0");
+        ((Fubar) f2).Version = new Version("4.0");
 
         var s = JsonConvert.SerializeObject(f2, new JsonSerializerSettings
         {
@@ -26,7 +26,7 @@ public class Issue1877
         });
 
         Assert.Equal(2, f3.Version.Major);
-        Assert.Equal(4, (f3 as Fubar).Version.Major);
+        Assert.Equal(4, ((Fubar) f3).Version.Major);
     }
 
     class Fubar
