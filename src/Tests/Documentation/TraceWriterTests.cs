@@ -38,6 +38,7 @@ public static class LogManager
 public class TraceWriterTests : TestFixtureBase
 {
     #region CustomTraceWriterExample
+
     public class NLogTraceWriter : ITraceWriter
     {
         static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
@@ -76,8 +77,8 @@ public class TraceWriterTests : TestFixtureBase
             }
         }
     }
-    #endregion
 
+    #endregion
 
     public class Staff
     {
@@ -90,10 +91,11 @@ public class TraceWriterTests : TestFixtureBase
     public Task MemoryTraceWriterTest()
     {
         #region MemoryTraceWriterExample
+
         var staff = new Staff
         {
             Name = "Arnie Admin",
-            Roles = new List<string> { "Administrator" },
+            Roles = new List<string> {"Administrator"},
             StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
         };
 
@@ -101,13 +103,13 @@ public class TraceWriterTests : TestFixtureBase
 
         JsonConvert.SerializeObject(
             staff,
-            new JsonSerializerSettings { TraceWriter = traceWriter });
+            new JsonSerializerSettings {TraceWriter = traceWriter});
 
         #endregion
 
-        // var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
-        //
-        // Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
-        return Verify(traceWriter.ToString());
+        var memoryTraceWriter = (MemoryTraceWriter) traceWriter;
+
+        var lines = memoryTraceWriter.GetTraceMessages().Select(x => x[24..]);
+        return Verify(string.Join(Environment.NewLine, lines));
     }
 }

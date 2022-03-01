@@ -1,7 +1,7 @@
-﻿Info Started serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
+﻿Info Started serializing TraceWriterTests+Staff. Path ''.
 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-Info Finished serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
+Info Finished serializing TraceWriterTests+Staff. Path ''.
 Verbose Serialized JSON: 
 {
   "Name": "Arnie Admin",

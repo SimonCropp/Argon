@@ -2149,7 +2149,7 @@ keyword such as type of business.""
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1);
-        Assert.Equal(@"{""DefaultConverter"":new Date(0),""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
+        Assert.Equal(@"{""DefaultConverter"":""1970-01-01T00:00:00Z"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
         var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json);
 
@@ -5624,15 +5624,9 @@ Path '', line 1, position 1.");
   ""EventName"": ""Blackadder III"",
   ""Venue"": ""Gryphon Theatre"",
   ""Performances"": [
-    new Date(
-      1336458600000
-    ),
-    new Date(
-      1336545000000
-    ),
-    new Date(
-      1336636800000
-    )
+    ""2000-01-01T00:00:00"",
+    ""2000-01-02T00:00:00"",
+    ""2000-01-03T00:00:00""
   ]
 }", json);
     }
@@ -6961,23 +6955,18 @@ This is just junk, though.";
 
         var c1 = new JsonPropertyConverterTestClass
         {
-            NormalDate = dt,
-            JavaScriptDate = dt
+            NormalDate = dt
         };
 
         var json = JsonConvert.SerializeObject(c1, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""NormalDate"": ""2000-12-20T00:00:00Z"",
-  ""JavaScriptDate"": new Date(
-    977270400000
-  )
+  ""NormalDate"": ""2000-12-20T00:00:00Z""
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<JsonPropertyConverterTestClass>(json, settings);
 
         Assert.Equal(dt, c2.NormalDate);
-        Assert.Equal(dt, c2.JavaScriptDate);
     }
 
     [Fact]

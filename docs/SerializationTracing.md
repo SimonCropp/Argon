@@ -13,7 +13,7 @@ A trace writer can be assigned using properties on JsonSerializerSettings or Jso
 var staff = new Staff
 {
     Name = "Arnie Admin",
-    Roles = new List<string> { "Administrator" },
+    Roles = new List<string> {"Administrator"},
     StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
 };
 
@@ -21,9 +21,9 @@ ITraceWriter traceWriter = new MemoryTraceWriter();
 
 JsonConvert.SerializeObject(
     staff,
-    new JsonSerializerSettings { TraceWriter = traceWriter });
+    new JsonSerializerSettings {TraceWriter = traceWriter});
 ```
-<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L92-L106' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L93-L108' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Results in:
@@ -31,11 +31,11 @@ Results in:
 <!-- snippet: TraceWriterTests.MemoryTraceWriterTest.verified.txt -->
 <a id='snippet-TraceWriterTests.MemoryTraceWriterTest.verified.txt'></a>
 ```txt
-2022-03-01T11:39:05.182 Info Started serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
-2022-03-01T11:39:05.182 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-2022-03-01T11:39:05.182 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-2022-03-01T11:39:05.182 Info Finished serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
-2022-03-01T11:39:05.182 Verbose Serialized JSON: 
+Info Started serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
+Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
+Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
+Info Finished serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
+Verbose Serialized JSON: 
 {
   "Name": "Arnie Admin",
   "StartDate": "2000-12-12T12:12:12Z",
@@ -96,7 +96,7 @@ public class NLogTraceWriter : ITraceWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L40-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L40-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

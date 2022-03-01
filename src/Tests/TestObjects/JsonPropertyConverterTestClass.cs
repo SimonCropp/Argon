@@ -7,5 +7,4 @@ namespace TestObjects;
 public class JsonPropertyConverterTestClass
 {
     public DateTime NormalDate { get; set; }
-    public DateTime JavaScriptDate { get; set; }
 }

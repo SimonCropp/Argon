@@ -34,59 +34,16 @@ name1
     Depth: 1
   },
   {
-    TokenType: StartConstructor,
-    LineNumber: 55,
-    LinePosition: 1,
+    TokenType: Date,
+    LineNumber: 43,
+    LinePosition: 22,
     Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0],
     Depth: 2,
-    Value: Date
-  },
-  {
-    TokenType: Integer,
-    LineNumber: 61,
-    LinePosition: 1,
-    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0][0],
-    Depth: 3,
-    Value: 1
-  },
-  {
-    TokenType: Null,
-    LineNumber: 73,
-    LinePosition: 4,
-    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0][1],
-    Depth: 3
-  },
-  {
-    TokenType: Comment,
-    LineNumber: 91,
-    LinePosition: 2,
-    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0][1],
-    Depth: 3,
-    Value:
-
-
-
-
- 
-
-blah comment
-
-
-
- 
-
-
-  },
-  {
-    TokenType: EndConstructor,
-    LineNumber: 97,
-    LinePosition: 1,
-    Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0],
-    Depth: 2
+    Value: DateTime_1
   },
   {
     TokenType: Float,
-    LineNumber: 109,
+    LineNumber: 55,
     LinePosition: 6,
     Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][1],
     Depth: 2,
@@ -94,14 +51,14 @@ blah comment
   },
   {
     TokenType: EndArray,
-    LineNumber: 115,
+    LineNumber: 61,
     LinePosition: 1,
     Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'],
     Depth: 1
   },
   {
     TokenType: PropertyName,
-    LineNumber: 133,
+    LineNumber: 79,
     LinePosition: 1,
     Path: name2,
     Depth: 1,
@@ -109,21 +66,21 @@ blah comment
   },
   {
     TokenType: StartObject,
-    LineNumber: 139,
+    LineNumber: 85,
     LinePosition: 1,
     Path: name2,
     Depth: 1
   },
   {
     TokenType: EndObject,
-    LineNumber: 145,
+    LineNumber: 91,
     LinePosition: 1,
     Path: name2,
     Depth: 1
   },
   {
     TokenType: EndObject,
-    LineNumber: 151,
+    LineNumber: 97,
     LinePosition: 1,
     Path: 
   }

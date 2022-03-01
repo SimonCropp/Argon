@@ -1054,13 +1054,10 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public void Path()
+    public Task Path()
     {
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
-
-        var text = "Hello world.";
-        var data = Encoding.UTF8.GetBytes(text);
 
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
@@ -1090,39 +1087,10 @@ _____'propertyName': NaN,
             jsonWriter.WritePropertyName("Property2");
             Assert.Equal("[1].Property2", jsonWriter.Path);
             jsonWriter.WriteNull();
-            Assert.Equal("[1].Property2[0]", jsonWriter.Path);
-            jsonWriter.WriteStartArray();
-            Assert.Equal("[1].Property2[1]", jsonWriter.Path);
-            jsonWriter.WriteValue(1);
-            Assert.Equal("[1].Property2[1][0]", jsonWriter.Path);
-            jsonWriter.WriteEnd();
-            Assert.Equal("[1].Property2[1]", jsonWriter.Path);
-            jsonWriter.WriteEndObject();
-            Assert.Equal("[1]", jsonWriter.Path);
-            jsonWriter.WriteEndArray();
-            Assert.Equal("", jsonWriter.Path);
+            Assert.Equal("[1].Property2", jsonWriter.Path);
         }
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Property1"": [
-      1,
-      [
-        [
-          []
-        ]
-      ]
-    ]
-  },
-  {
-    ""Property2"": new Constructor1(
-      null,
-      [
-        1
-      ]
-    )
-  }
-]", stringBuilder.ToString());
+        return Verify(stringBuilder);
     }
 
     [Fact]
@@ -1130,7 +1098,7 @@ _____'propertyName': NaN,
     {
         var stateArray = JsonWriter.BuildStateArray();
 
-        var valueStates = JsonWriter.StateArrayTemplate[7];
+        var valueStates = JsonWriter.StateArrayTemplate[6];
 
         foreach (JsonToken valueToken in GetValues(typeof(JsonToken)))
         {
@@ -1584,14 +1552,9 @@ _____'propertyName': NaN,
 Name://comment
 true//comment after true{StringUtils.CarriageReturn}
 ,//comment after comma{StringUtils.CarriageReturnLineFeed}
-""ExpiryDate""://comment{StringUtils.LineFeed}
-new
-{StringUtils.LineFeed}Constructor
-(//comment
-null//comment
-),
-        ""Price"": 3.99,
-        ""Sizes"": //comment
+ExpiryDate: '2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes: //comment
 [//comment
 
           ""Small""//comment
@@ -1609,11 +1572,7 @@ null//comment
 
         XUnitAssert.AreEqualNormalized(@"/*comment*//*hi*/*/{/*comment*/
   ""Name"": /*comment*/ true/*comment after true*//*comment after comma*/,
-  ""ExpiryDate"": /*comment*/ new Constructor(
-    /*comment*/,
-    null
-    /*comment*/
-  ),
+  ""ExpiryDate"": ""2014-06-04T00:00:00Z"",
   ""Price"": 3.99,
   ""Sizes"": /*comment*/ [
     /*comment*/

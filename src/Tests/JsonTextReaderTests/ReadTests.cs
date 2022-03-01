@@ -939,12 +939,10 @@ public class ReadTests : TestFixtureBase
     public async Task ReadContentDelimitedByComments()
     {
         var json = $@"/*comment*/{{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
-        ""ExpiryDate"":/*comment*/new
-{StringUtils.LineFeed}Date
-(/*comment*/null/*comment*/),
-        ""Price"": 3.99,
-        ""Sizes"":/*comment*/[/*comment*/
-          ""Small""/*comment*/]/*comment*/}}/*comment*/";
+        ExpiryDate:'2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes:/*comment*/[/*comment*/
+          'Small'/*comment*/]/*comment*/}}/*comment*/";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
         await reader.VerifyReaderState();
@@ -1380,7 +1378,7 @@ third line", jsonTextReader.Value);
         var newLinesText = $"{StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}{StringUtils.LineFeed}{StringUtils.CarriageReturnLineFeed} {StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}";
 
         var json =
-            $"{newLinesText}{{{newLinesText}'{newLinesText}name1{newLinesText}'{newLinesText}:{newLinesText}[{newLinesText}new{newLinesText}Date{newLinesText}({newLinesText}1{newLinesText},{newLinesText}null{newLinesText}/*{newLinesText}blah comment{newLinesText}*/{newLinesText}){newLinesText},{newLinesText}1.1111{newLinesText}]{newLinesText},{newLinesText}name2{newLinesText}:{newLinesText}{{{newLinesText}}}{newLinesText}}}{newLinesText}";
+            $"{newLinesText}{{{newLinesText}'{newLinesText}name1{newLinesText}'{newLinesText}:{newLinesText}[{newLinesText}'2014-06-04T00:00:00Z'{newLinesText},{newLinesText}1.1111{newLinesText}]{newLinesText},{newLinesText}name2{newLinesText}:{newLinesText}{{{newLinesText}}}{newLinesText}}}{newLinesText}";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
         await reader.VerifyReaderState();
