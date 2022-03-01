@@ -24,7 +24,7 @@ public class EnumUtilsTests : TestFixtureBase
         {
             EnumUtils.ParseEnum(enumType, null, value, false);
         }
-        catch (Exception ex) when (ex.GetType() == exceptionType)
+        catch (Exception exception) when (exception.GetType() == exceptionType)
         {
             // nom nom nom
             return;

@@ -222,9 +222,9 @@ static class ConvertUtils
         {
             return System.Convert.ChangeType((long)i, targetType, CultureInfo.InvariantCulture);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw new InvalidOperationException($"Can not convert from BigInteger to {targetType}.", ex);
+            throw new InvalidOperationException($"Can not convert from BigInteger to {targetType}.", exception);
         }
     }
 

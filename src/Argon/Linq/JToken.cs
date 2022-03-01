@@ -1656,10 +1656,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                         // use serializer so JsonConverter(typeof(StringEnumConverter)) + EnumMemberAttributes are respected
                         return ToObject(type, JsonSerializer.CreateDefault());
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
                         var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type)!;
-                        throw new ArgumentException($"Could not convert '{(string?) this}' to {enumType.Name}.", ex);
+                        throw new ArgumentException($"Could not convert '{(string?) this}' to {enumType.Name}.", exception);
                     }
                 }
 

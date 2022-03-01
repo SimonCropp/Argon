@@ -948,10 +948,10 @@ public class ExtensionDataTests : TestFixtureBase
         {
             JsonConvert.DeserializeObject<DocNoSetter>(@"{""_name"":""documentName"",""Property1"":123}");
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.Equal("Error setting value in extension data for type 'ExtensionDataTests+DocNoSetter'. Path 'Property1', line 1, position 39.", ex.Message);
-            Assert.Equal("Cannot set value onto extension data member 'Content'. The extension data collection is null and it cannot be set.", ex.InnerException.Message);
+            Assert.Equal("Error setting value in extension data for type 'ExtensionDataTests+DocNoSetter'. Path 'Property1', line 1, position 39.", exception.Message);
+            Assert.Equal("Cannot set value onto extension data member 'Content'. The extension data collection is null and it cannot be set.", exception.InnerException.Message);
         }
     }
 

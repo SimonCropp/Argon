@@ -47,13 +47,13 @@ public class TraceWriterTests : TestFixtureBase
             // trace all messages. nlog can handle filtering
             TraceLevel.Verbose;
 
-        public void Trace(TraceLevel level, string message, Exception ex)
+        public void Trace(TraceLevel level, string message, Exception exception)
         {
             var logEvent = new LogEventInfo
             {
                 Message = message,
                 Level = GetLogLevel(level),
-                Exception = ex
+                Exception = exception
             };
 
             // log Json.NET message to NLog

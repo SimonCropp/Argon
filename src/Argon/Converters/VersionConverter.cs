@@ -39,9 +39,9 @@ public class VersionConverter : JsonConverter
             {
                 return new Version((string)reader.Value!);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw JsonSerializationException.Create(reader, $"Error parsing version string: {reader.Value}", ex);
+                throw JsonSerializationException.Create(reader, $"Error parsing version string: {reader.Value}", exception);
             }
         }
 

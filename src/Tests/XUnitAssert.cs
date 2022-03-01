@@ -65,28 +65,28 @@ public class XUnitAssert
             Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
-        catch (TException ex)
+        catch (TException exception)
         {
             if (possibleMessages == null || possibleMessages.Length == 0)
             {
-                return ex;
+                return exception;
             }
             foreach (var possibleMessage in possibleMessages)
             {
-                if (EqualsNormalized(possibleMessage, ex.Message))
+                if (EqualsNormalized(possibleMessage, exception.Message))
                 {
-                    return ex;
+                    return exception;
                 }
             }
 
             throw new($@"Unexpected exception message.
 Expected one of:
  * {string.Join(Environment.NewLine +" * ", possibleMessages)}
-Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
+Got: {exception.Message}{Environment.NewLine}{Environment.NewLine}{exception}");
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw new($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
+            throw new($"Exception of type {typeof(TException).Name} expected; got exception of type {exception.GetType().Name}.", exception);
         }
     }
 
@@ -100,25 +100,25 @@ Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
             Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
-        catch (TException ex)
+        catch (TException exception)
         {
             if (possibleMessages == null || possibleMessages.Length == 0)
             {
-                return ex;
+                return exception;
             }
             foreach (var possibleMessage in possibleMessages)
             {
-                if (EqualsNormalized(possibleMessage, ex.Message))
+                if (EqualsNormalized(possibleMessage, exception.Message))
                 {
-                    return ex;
+                    return exception;
                 }
             }
 
-            throw new($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {ex.Message}{Environment.NewLine}{Environment.NewLine}{ex}");
+            throw new($"Unexpected exception message.{Environment.NewLine}Expected one of: {string.Join(Environment.NewLine, possibleMessages)}{Environment.NewLine}Got: {exception.Message}{Environment.NewLine}{Environment.NewLine}{exception}");
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw new($"Exception of type {typeof(TException).Name} expected; got exception of type {ex.GetType().Name}.", ex);
+            throw new($"Exception of type {typeof(TException).Name} expected; got exception of type {exception.GetType().Name}.", exception);
         }
     }
 }

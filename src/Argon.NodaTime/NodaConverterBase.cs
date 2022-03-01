@@ -82,9 +82,9 @@ public abstract class NodaConverterBase<T> : JsonConverter
             // Note that we don't currently pass existingValue down; we could change this if we ever found a use for it.
             return ReadJsonImpl(reader, serializer);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw new JsonSerializationException($"Cannot convert value to {objectType}", ex);
+            throw new JsonSerializationException($"Cannot convert value to {objectType}", exception);
         }
     }
 

@@ -66,9 +66,9 @@ public class DefaultSerializationBinder :
                     {
                         type = GetGenericTypeFromTypeName(typeName, assembly);
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.", ex);
+                        throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.", exception);
                     }
                 }
 

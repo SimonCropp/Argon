@@ -569,10 +569,10 @@ public class StringEnumConverterTests : TestFixtureBase
             serializer.Converters.Add(new StringEnumConverter { AllowIntegerValues = false });
             serializer.Deserialize<Bucket>(new JsonTextReader(new StringReader(json)));
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.Equal("Error converting value 123 to type 'StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 15.", ex.Message);
-            Assert.Equal(@"Integer value 123 is not allowed. Path 'Value', line 1, position 15.", ex.InnerException.Message);
+            Assert.Equal("Error converting value 123 to type 'StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 15.", exception.Message);
+            Assert.Equal(@"Integer value 123 is not allowed. Path 'Value', line 1, position 15.", exception.InnerException.Message);
 
             return;
         }

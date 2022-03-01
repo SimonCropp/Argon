@@ -16,33 +16,19 @@ public class JsonWriterException : JsonException
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonWriterException"/> class
-    /// with a specified error message and a reference to the inner exception that is the cause of this exception.
-    /// </summary>
-    public JsonWriterException(string message, Exception innerException)
-        : base(message, innerException)
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonWriterException"/> class
     /// with a specified error message, JSON path and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <param name="path">The path to the JSON where the error occurred.</param>
-    public JsonWriterException(string message, string path, Exception? innerException)
-        : base(message, innerException)
+    public JsonWriterException(string message, string path)
+        : base(message)
     {
         Path = path;
     }
 
-    internal static JsonWriterException Create(JsonWriter writer, string message, Exception? ex)
+    internal static JsonWriterException Create(JsonWriter writer, string message)
     {
-        return Create(writer.ContainerPath, message, ex);
-    }
+        message = JsonPosition.FormatMessage(null, writer.ContainerPath, message);
 
-    internal static JsonWriterException Create(string path, string message, Exception? ex)
-    {
-        message = JsonPosition.FormatMessage(null, path, message);
-
-        return new JsonWriterException(message, path, ex);
+        return new JsonWriterException(message, writer.ContainerPath);
     }
 }

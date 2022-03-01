@@ -141,9 +141,9 @@ public class StringEnumConverter : JsonConverter
                 return ConvertUtils.ConvertOrCast(reader.Value, CultureInfo.InvariantCulture, t);
             }
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw JsonSerializationException.Create(reader, $"Error converting value {MiscellaneousUtils.ToString(reader.Value)} to type '{type}'.", ex);
+            throw JsonSerializationException.Create(reader, $"Error converting value {MiscellaneousUtils.ToString(reader.Value)} to type '{type}'.", exception);
         }
 
         // we don't actually expect to get here.

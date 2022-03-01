@@ -65,12 +65,12 @@ public class JsonSerializationException : JsonException
         return Create(reader, message, null);
     }
 
-    internal static JsonSerializationException Create(JsonReader reader, string message, Exception? ex)
+    internal static JsonSerializationException Create(JsonReader reader, string message, Exception? exception)
     {
-        return Create(reader as IJsonLineInfo, reader.Path, message, ex);
+        return Create(reader as IJsonLineInfo, reader.Path, message, exception);
     }
 
-    internal static JsonSerializationException Create(IJsonLineInfo? lineInfo, string path, string message, Exception? ex)
+    internal static JsonSerializationException Create(IJsonLineInfo? lineInfo, string path, string message, Exception? exception)
     {
         message = JsonPosition.FormatMessage(lineInfo, path, message);
 
@@ -87,6 +87,6 @@ public class JsonSerializationException : JsonException
             linePosition = 0;
         }
 
-        return new JsonSerializationException(message, path, lineNumber, linePosition, ex);
+        return new JsonSerializationException(message, path, lineNumber, linePosition, exception);
     }
 }

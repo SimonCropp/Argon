@@ -433,9 +433,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
             serializer.Deserialize(new StringReader(json), typeof(List<List<DateTime>>));
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            e = ex;
+            e = exception;
         }
 
         Assert.Equal(@"Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", e.Message);
@@ -831,10 +831,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
                     return null;
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
                     // If we get an error wrap it in something less scary.
-                    throw new("An error occurred.", ex);
+                    throw new("An error occurred.", exception);
                 }
             }
 
@@ -848,10 +848,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                     // Then call serialise for inner object.
                     serializer.Serialize(writer, s.RootSomethingElse);
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
                     // If we get an error wrap it in something less scary.
-                    throw new("An error occurred.", ex);
+                    throw new("An error occurred.", exception);
                 }
             }
         }

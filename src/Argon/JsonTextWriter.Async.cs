@@ -60,7 +60,7 @@ public partial class JsonTextWriter
             case JsonToken.EndArray:
                 return writer.WriteAsync(']', cancellation);
             default:
-                throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}", null);
+                throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}");
         }
     }
 

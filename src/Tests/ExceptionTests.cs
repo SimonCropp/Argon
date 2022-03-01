@@ -19,14 +19,6 @@ public class ExceptionTests : TestFixtureBase
     }
 
     [Fact]
-    public void JsonWriterException()
-    {
-        var exception = new JsonWriterException("Message!", new Exception("Inner!"));
-        Assert.Equal("Message!", exception.Message);
-        Assert.Equal("Inner!", exception.InnerException.Message);
-    }
-
-    [Fact]
     public void JsonReaderException()
     {
         var exception = new JsonReaderException("Message!", new Exception("Inner!"));

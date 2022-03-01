@@ -32,16 +32,16 @@ public class MemoryTraceWriter : ITraceWriter
     /// <param name="level">The <see cref="TraceLevel"/> at which to write this trace.</param>
     /// <param name="message">The trace message.</param>
     /// <param name="ex">The trace exception. This parameter is optional.</param>
-    public void Trace(TraceLevel level, string message, Exception? ex)
+    public void Trace(TraceLevel level, string message, Exception? exception)
     {
-        var stringBuilder = new StringBuilder();
-        stringBuilder.Append(DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff", CultureInfo.InvariantCulture));
-        stringBuilder.Append(" ");
-        stringBuilder.Append(level.ToString("g"));
-        stringBuilder.Append(" ");
-        stringBuilder.Append(message);
+        var builder = new StringBuilder();
+        builder.Append(DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff", CultureInfo.InvariantCulture));
+        builder.Append(" ");
+        builder.Append(level.ToString("g"));
+        builder.Append(" ");
+        builder.Append(message);
 
-        var s = stringBuilder.ToString();
+        var s = builder.ToString();
 
         lock (@lock)
         {

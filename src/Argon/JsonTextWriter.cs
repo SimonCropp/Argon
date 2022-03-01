@@ -179,7 +179,7 @@ public partial class JsonTextWriter : JsonWriter
                 writer.Write(']');
                 break;
             default:
-                throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}", null);
+                throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}");
         }
     }
 

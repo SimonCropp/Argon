@@ -131,7 +131,7 @@ public abstract partial class JsonWriter : IDisposable
                 case State.Start:
                     return WriteState.Start;
                 default:
-                    throw JsonWriterException.Create(this, $"Invalid state: {currentState}", null);
+                    throw JsonWriterException.Create(this, $"Invalid state: {currentState}");
             }
         }
     }
@@ -496,7 +496,7 @@ public abstract partial class JsonWriter : IDisposable
 
         if (IsWriteTokenIncomplete(reader, writeChildren, initialDepth))
         {
-            throw JsonWriterException.Create(this, "Unexpected end when reading token.", null);
+            throw JsonWriterException.Create(this, "Unexpected end when reading token.");
         }
     }
 
@@ -540,7 +540,7 @@ public abstract partial class JsonWriter : IDisposable
                 WriteEndArray();
                 break;
             default:
-                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}", null);
+                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}");
         }
     }
 
@@ -561,7 +561,7 @@ public abstract partial class JsonWriter : IDisposable
             case JsonContainerType.Array:
                 return JsonToken.EndArray;
             default:
-                throw JsonWriterException.Create(this, $"No close token for type: {type}", null);
+                throw JsonWriterException.Create(this, $"No close token for type: {type}");
         }
     }
 
@@ -617,7 +617,7 @@ public abstract partial class JsonWriter : IDisposable
 
         if (levelsToComplete == 0)
         {
-            throw JsonWriterException.Create(this, "No token to close.", null);
+            throw JsonWriterException.Create(this, "No token to close.");
         }
 
         return levelsToComplete;
@@ -639,7 +639,7 @@ public abstract partial class JsonWriter : IDisposable
                 currentState = State.Start;
                 break;
             default:
-                throw JsonWriterException.Create(this, $"Unknown JsonType: {currentLevelType}", null);
+                throw JsonWriterException.Create(this, $"Unknown JsonType: {currentLevelType}");
         }
     }
 
@@ -678,7 +678,7 @@ public abstract partial class JsonWriter : IDisposable
 
         if (newState == State.Error)
         {
-            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {currentState.ToString()} would result in an invalid JSON object.", null);
+            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {currentState.ToString()} would result in an invalid JSON object.");
         }
 
         if (currentState is State.Object or State.Array &&
@@ -1428,7 +1428,7 @@ public abstract partial class JsonWriter : IDisposable
 
     static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value)
     {
-        return JsonWriterException.Create(writer, $"Unsupported type: {value.GetType()}. Use the JsonSerializer class to get the object's JSON representation.", null);
+        return JsonWriterException.Create(writer, $"Unsupported type: {value.GetType()}. Use the JsonSerializer class to get the object's JSON representation.");
     }
 
     /// <summary>
@@ -1511,7 +1511,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         if (!StringUtils.IsWhiteSpace(ws))
         {
-            throw JsonWriterException.Create(this, "Only white space characters should be used.", null);
+            throw JsonWriterException.Create(this, "Only white space characters should be used.");
         }
     }
 

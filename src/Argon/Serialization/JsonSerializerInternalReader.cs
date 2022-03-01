@@ -133,9 +133,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             return deserializedValue;
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            if (IsErrorHandled(null, contract, null, reader as IJsonLineInfo, reader.Path, ex))
+            if (IsErrorHandled(null, contract, null, reader as IJsonLineInfo, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
                 return null;
@@ -722,9 +722,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 specifiedType = binder.BindToType(typeNameKey.Value1, typeNameKey.Value2);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw JsonSerializationException.Create(reader, $"Error resolving type specified in JSON '{qualifiedTypeName}'.", ex);
+                throw JsonSerializationException.Create(reader, $"Error resolving type specified in JSON '{qualifiedTypeName}'.", exception);
             }
 
             if (specifiedType == null)
@@ -917,9 +917,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                 return ConvertUtils.ConvertOrCast(value, culture, contract.NonNullableUnderlyingType);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw JsonSerializationException.Create(reader, $"Error converting value {MiscellaneousUtils.ToString(value)} to type '{targetType}'.", ex);
+                throw JsonSerializationException.Create(reader, $"Error converting value {MiscellaneousUtils.ToString(value)} to type '{targetType}'.", exception);
             }
         }
 
@@ -1092,9 +1092,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             Serializer.GetReferenceResolver().AddReference(this, id, value);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw JsonSerializationException.Create(reader, $"Error reading object reference '{id}'.", ex);
+            throw JsonSerializationException.Create(reader, $"Error reading object reference '{id}'.", exception);
         }
     }
 
@@ -1322,9 +1322,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                     break;
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception exception)
                         {
-                            throw JsonSerializationException.Create(reader, $"Could not convert string '{reader.Value}' to dictionary key type '{contract.DictionaryKeyType}'. Create a TypeConverter to convert from the string to the key type object.", ex);
+                            throw JsonSerializationException.Create(reader, $"Could not convert string '{reader.Value}' to dictionary key type '{contract.DictionaryKeyType}'. Create a TypeConverter to convert from the string to the key type object.", exception);
                         }
 
                         if (!reader.ReadForType(contract.ItemContract, dictionaryValueConverter != null))
@@ -1344,9 +1344,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         dictionary[keyValue] = itemValue;
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        if (IsErrorHandled(underlyingDictionary, contract, keyValue, reader as IJsonLineInfo, reader.Path, ex))
+                        if (IsErrorHandled(underlyingDictionary, contract, keyValue, reader as IJsonLineInfo, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -1435,11 +1435,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         break;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
                     var errorPosition = reader.GetPosition(initialDepth);
 
-                    if (IsErrorHandled(list, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, ex))
+                    if (IsErrorHandled(list, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, exception))
                     {
                         HandleError(reader, true, initialDepth + 1);
 
@@ -1447,7 +1447,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         {
                             // reader index has not moved since previous error handling
                             // break out of reading array to prevent infinite loop
-                            throw JsonSerializationException.Create(reader, "Infinite loop detected from error handling.", ex);
+                            throw JsonSerializationException.Create(reader, "Infinite loop detected from error handling.", exception);
                         }
 
                         previousErrorIndex = errorPosition.Position;
@@ -1510,9 +1510,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             throw JsonSerializationException.Create(reader, message);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            if (IsErrorHandled(currentObject, contract, null, reader as IJsonLineInfo, reader.Path, ex))
+            if (IsErrorHandled(currentObject, contract, null, reader as IJsonLineInfo, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
             }
@@ -1585,11 +1585,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
                 var errorPosition = reader.GetPosition(initialDepth);
 
-                if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, ex))
+                if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, exception))
                 {
                     HandleError(reader, true, initialDepth + 1);
 
@@ -1597,7 +1597,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     {
                         // reader index has not moved since previous error handling
                         // break out of reading array to prevent infinite loop
-                        throw JsonSerializationException.Create(reader, "Infinite loop detected from error handling.", ex);
+                        throw JsonSerializationException.Create(reader, "Infinite loop detected from error handling.", exception);
                     }
 
                     previousErrorIndex = errorPosition.Position;
@@ -1696,9 +1696,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             contract.TrySetMember(newObject, memberName, value);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, memberName, reader as IJsonLineInfo, reader.Path, ex))
+                        if (IsErrorHandled(newObject, contract, memberName, reader as IJsonLineInfo, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2202,9 +2202,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, propertyName, reader as IJsonLineInfo, reader.Path, ex))
+                        if (IsErrorHandled(newObject, contract, propertyName, reader as IJsonLineInfo, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2294,9 +2294,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             contract.ExtensionDataSetter(o, memberName, value);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw JsonSerializationException.Create(reader, $"Error setting value in extension data for type '{contract.UnderlyingType}'.", ex);
+            throw JsonSerializationException.Create(reader, $"Error setting value in extension data for type '{contract.UnderlyingType}'.", exception);
         }
     }
 
@@ -2348,9 +2348,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                if (IsErrorHandled(newObject, contract, property.PropertyName, reader as IJsonLineInfo, reader.Path, ex))
+                if (IsErrorHandled(newObject, contract, property.PropertyName, reader as IJsonLineInfo, reader.Path, exception))
                 {
                     HandleError(reader, true, initialDepth);
                 }

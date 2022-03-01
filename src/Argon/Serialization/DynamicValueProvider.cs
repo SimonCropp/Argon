@@ -53,9 +53,9 @@ public class DynamicValueProvider : IValueProvider
 
             setter(target, value);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw new JsonSerializationException($"Error setting value to '{member.Name}' on '{target.GetType()}'.", ex);
+            throw new JsonSerializationException($"Error setting value to '{member.Name}' on '{target.GetType()}'.", exception);
         }
     }
 
@@ -72,9 +72,9 @@ public class DynamicValueProvider : IValueProvider
 
             return getter(target);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            throw new JsonSerializationException($"Error getting value from '{member.Name}' on '{target.GetType()}'.", ex);
+            throw new JsonSerializationException($"Error getting value from '{member.Name}' on '{target.GetType()}'.", exception);
         }
     }
 }

@@ -653,9 +653,9 @@ public class TypeNameHandlingTests : TestFixtureBase
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
             });
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.True(ex.Message.StartsWith($@"Type specified in JSON '{employeeRef}' is not compatible with '{personRef}'."));
+            Assert.True(exception.Message.StartsWith($@"Type specified in JSON '{employeeRef}' is not compatible with '{personRef}'."));
         }
     }
 

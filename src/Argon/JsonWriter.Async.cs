@@ -15,7 +15,7 @@ public abstract partial class JsonWriter
 
         if (newState == State.Error)
         {
-            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {oldState.ToString()} would result in an invalid JSON object.", null);
+            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {oldState.ToString()} would result in an invalid JSON object.");
         }
 
         currentState = newState;
@@ -200,7 +200,7 @@ public abstract partial class JsonWriter
                     return cancellation.FromCanceled();
                 }
 
-                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}", null);
+                throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}");
         }
     }
 
@@ -594,7 +594,7 @@ public abstract partial class JsonWriter
 
         if (IsWriteTokenIncomplete(reader, writeChildren, initialDepth))
         {
-            throw JsonWriterException.Create(this, "Unexpected end when reading token.", null);
+            throw JsonWriterException.Create(this, "Unexpected end when reading token.");
         }
     }
 
@@ -615,7 +615,7 @@ public abstract partial class JsonWriter
 
         if (initialDepth < CalculateWriteTokenFinalDepth(reader))
         {
-            throw JsonWriterException.Create(this, "Unexpected end when reading token.", null);
+            throw JsonWriterException.Create(this, "Unexpected end when reading token.");
         }
     }
 

@@ -1819,9 +1819,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             Convert.ToInt64(number, 8);
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid number.", ex);
+                        throw ThrowReaderError($"Input string '{number}' is not a valid number.", exception);
                     }
                 }
                 else
@@ -1853,9 +1853,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         numberValue = integer;
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid integer.", ex);
+                        throw ThrowReaderError($"Input string '{number}' is not a valid integer.", exception);
                     }
                 }
                 else
@@ -1896,9 +1896,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         numberValue = Convert.ToDecimal(integer);
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid decimal.", ex);
+                        throw ThrowReaderError($"Input string '{number}' is not a valid decimal.", exception);
                     }
                 }
                 else
@@ -1935,9 +1935,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         numberValue = Convert.ToDouble(integer);
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid double.", ex);
+                        throw ThrowReaderError($"Input string '{number}' is not a valid double.", exception);
                     }
                 }
                 else
@@ -1974,9 +1974,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         numberValue = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid number.", ex);
+                        throw ThrowReaderError($"Input string '{number}' is not a valid number.", exception);
                     }
 
                     numberType = JsonToken.Integer;

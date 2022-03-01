@@ -30,9 +30,9 @@ public class DeserializeConstructorHandling : TestFixtureBase
         {
             JsonConvert.DeserializeObject<Website>(json);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(exception.Message);
             // Value cannot be null.
             // Parameter name: website
         }

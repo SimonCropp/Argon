@@ -77,9 +77,9 @@ abstract class JsonSerializerInternalBase
         currentErrorContext = null;
     }
 
-    protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception ex)
+    protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception exception)
     {
-        var errorContext = GetErrorContext(currentObject, keyValue, path, ex);
+        var errorContext = GetErrorContext(currentObject, keyValue, path, exception);
 
         if (TraceWriter is {LevelFilter: >= TraceLevel.Error} && !errorContext.Traced)
         {
@@ -92,15 +92,15 @@ abstract class JsonSerializerInternalBase
             {
                 message += $" {contract.UnderlyingType}";
             }
-            message += $". {ex.Message}";
+            message += $". {exception.Message}";
 
             // add line information to non-json.net exception message
-            if (ex is not JsonException)
+            if (exception is not JsonException)
             {
                 message = JsonPosition.FormatMessage(lineInfo, path, message);
             }
 
-            TraceWriter.Trace(TraceLevel.Error, message, ex);
+            TraceWriter.Trace(TraceLevel.Error, message, exception);
         }
 
         // attribute method is non-static so don't invoke if no object

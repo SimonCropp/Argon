@@ -29,9 +29,9 @@ public class DeserializeMissingMemberHandling : TestFixtureBase
                 MissingMemberHandling = MissingMemberHandling.Error
             });
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(exception.Message);
             // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
         }
         #endregion

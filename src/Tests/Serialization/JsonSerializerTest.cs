@@ -2365,9 +2365,9 @@ keyword such as type of business.""
             JsonConvert.DeserializeObject<RequiredMembersClass>(json);
             XUnitAssert.Fail();
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.True(ex.Message.StartsWith("Required property 'FirstName' expects a value but got null. Path ''"));
+            Assert.True(exception.Message.StartsWith("Required property 'FirstName' expects a value but got null. Path ''"));
         }
     }
 
@@ -2400,9 +2400,9 @@ keyword such as type of business.""
             JsonConvert.DeserializeObject<RequiredMembersClass>(json);
             XUnitAssert.Fail();
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.True(ex.Message.StartsWith("Required property 'LastName' not found in JSON. Path ''"));
+            Assert.True(exception.Message.StartsWith("Required property 'LastName' not found in JSON. Path ''"));
         }
     }
 
@@ -2627,9 +2627,9 @@ keyword such as type of business.""
 
             XUnitAssert.Fail();
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.True(ex.Message.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''"));
+            Assert.True(exception.Message.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''"));
         }
     }
 
@@ -3145,9 +3145,9 @@ Path '', line 1, position 1.");
             JsonConvert.DeserializeObject<List<Person>>(json);
             XUnitAssert.Fail();
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.True(ex.Message.StartsWith($@"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type 'System.Collections.Generic.List`1[TestObjects.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}Path ''"));
+            Assert.True(exception.Message.StartsWith($@"Cannot deserialize the current JSON object (e.g. {{""name"":""value""}}) into type 'System.Collections.Generic.List`1[TestObjects.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}Path ''"));
         }
     }
 
@@ -3355,9 +3355,9 @@ Path '', line 1, position 1.");
             JsonConvert.DeserializeObject<Dictionary<Person, int>>(json);
             XUnitAssert.Fail();
         }
-        catch (JsonSerializationException ex)
+        catch (JsonSerializationException exception)
         {
-            Assert.True(ex.Message.StartsWith("Could not convert string 'TestObjects.Person' to dictionary key type 'TestObjects.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['TestObjects.Person']'"));
+            Assert.True(exception.Message.StartsWith("Could not convert string 'TestObjects.Person' to dictionary key type 'TestObjects.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['TestObjects.Person']'"));
         }
     }
 
@@ -4691,9 +4691,9 @@ Path '', line 1, position 1.");
         {
             throw new("Test Exception");
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            classWithException.Exceptions.Add(ex);
+            classWithException.Exceptions.Add(exception);
         }
 
         var sex = JsonConvert.SerializeObject(classWithException);

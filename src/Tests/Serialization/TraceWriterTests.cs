@@ -1169,14 +1169,14 @@ Argon Error: 0 : Error!
             TraceRecords = new List<TraceRecord>();
         }
 
-        public void Trace(TraceLevel level, string message, Exception ex)
+        public void Trace(TraceLevel level, string message, Exception exception)
         {
             TraceRecords.Add(
                 new TraceRecord
                 {
                     Level = level,
                     Message = message,
-                    Exception = ex
+                    Exception = exception
                 });
         }
 

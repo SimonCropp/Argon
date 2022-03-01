@@ -205,9 +205,9 @@ static class JsonTypeReflector
 
                 return defaultConstructor();
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                throw new JsonException($"Error creating '{type}'.", ex);
+                throw new JsonException($"Error creating '{type}'.", exception);
             }
         };
     }

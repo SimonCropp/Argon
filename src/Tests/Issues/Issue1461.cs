@@ -41,7 +41,7 @@ public class Issue1461 : TestFixtureBase
     {
         public TraceLevel LevelFilter => TraceLevel.Verbose;
 
-        public void Trace(TraceLevel level, string message, Exception ex)
+        public void Trace(TraceLevel level, string message, Exception exception)
         {
             Console.WriteLine(message);
         }

@@ -319,10 +319,10 @@ public abstract partial class JsonReader : IDisposable
                     {
                         i = Convert.ToInt32(v, CultureInfo.InvariantCulture);
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
                         // handle error for large integer overflow exceptions
-                        throw JsonReaderException.Create(this, $"Could not convert to integer: {v}.", ex);
+                        throw JsonReaderException.Create(this, $"Could not convert to integer: {v}.", exception);
                     }
                 }
 
@@ -655,10 +655,10 @@ public abstract partial class JsonReader : IDisposable
                     {
                         d = Convert.ToDecimal(v, CultureInfo.InvariantCulture);
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
                         // handle error for large integer overflow exceptions
-                        throw JsonReaderException.Create(this, $"Could not convert to decimal: {v}.", ex);
+                        throw JsonReaderException.Create(this, $"Could not convert to decimal: {v}.", exception);
                     }
                 }
 
