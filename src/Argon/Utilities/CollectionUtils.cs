@@ -5,33 +5,12 @@
 static class CollectionUtils
 {
     /// <summary>
-    /// Determines whether the collection is <c>null</c> or empty.
-    /// </summary>
-    /// <param name="collection">The collection.</param>
-    /// <returns>
-    /// 	<c>true</c> if the collection is <c>null</c> or empty; otherwise, <c>false</c>.
-    /// </returns>
-    public static bool IsNullOrEmpty<T>(ICollection<T> collection)
-    {
-        if (collection != null)
-        {
-            return collection.Count == 0;
-        }
-        return true;
-    }
-
-    /// <summary>
     /// Adds the elements of the specified collection to the specified generic <see cref="IList{T}"/>.
     /// </summary>
     /// <param name="initial">The list to add to.</param>
     /// <param name="collection">The collection of elements to add.</param>
     public static void AddRange<T>(this IList<T> initial, IEnumerable<T> collection)
     {
-        if (collection == null)
-        {
-            return;
-        }
-
         foreach (var value in collection)
         {
             initial.Add(value);
@@ -84,22 +63,6 @@ static class CollectionUtils
         }
 
         return match;
-    }
-
-    public static int IndexOf<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
-    {
-        var index = 0;
-        foreach (var value in collection)
-        {
-            if (predicate(value))
-            {
-                return index;
-            }
-
-            index++;
-        }
-
-        return -1;
     }
 
     public static bool Contains<T>(this List<T> list, T value, IEqualityComparer comparer)

@@ -323,7 +323,7 @@ public class JsonSerializer
 
     static void ApplySerializerSettings(JsonSerializer serializer, JsonSerializerSettings settings)
     {
-        if (!CollectionUtils.IsNullOrEmpty(settings.Converters))
+        if (settings.Converters.Count != 0)
         {
             // insert settings converters at the beginning so they take precedence
             // if user wants to remove one of the default converters they will have to do it manually

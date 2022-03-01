@@ -164,7 +164,8 @@ static class ReflectionUtils
 
     public static bool IsNullable(this Type type)
     {
-        return !type.IsValueType || IsNullableType(type);
+        return !type.IsValueType ||
+               IsNullableType(type);
     }
 
     public static bool IsNullableType(this Type type)
@@ -682,7 +683,7 @@ static class ReflectionUtils
         return fields.Cast<FieldInfo>();
     }
 
-    static void GetChildPrivateFields(IList<MemberInfo> initialFields, Type targetType, BindingFlags bindingFlags)
+    static void GetChildPrivateFields(List<MemberInfo> initialFields, Type targetType, BindingFlags bindingFlags)
     {
         // fix weirdness with private FieldInfos only being returned for the current Type
         // find base type fields and add them to result
@@ -738,7 +739,7 @@ static class ReflectionUtils
             : source;
     }
 
-    static void GetChildPrivateProperties(IList<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingFlags)
+    static void GetChildPrivateProperties(List<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingFlags)
     {
         // fix weirdness with private PropertyInfos only being returned for the current Type
         // find base type properties and add them to result
@@ -753,7 +754,7 @@ static class ReflectionUtils
                 {
                     var subTypePropertyDeclaringType = property.GetBaseDefinition()?.DeclaringType ?? property.DeclaringType;
 
-                    var index = initialProperties.IndexOf(p =>
+                    var index = initialProperties.FindIndex(p =>
                         p.Name == property.Name &&
                         p.IsVirtual() &&
                         (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType!).IsAssignableFrom(subTypePropertyDeclaringType));
@@ -769,8 +770,8 @@ static class ReflectionUtils
 
                 if (IsPublic(property))
                 {
-                    var publicIndex = initialProperties.IndexOf(p => p.Name == property.Name
-                                                                     && p.DeclaringType == property.DeclaringType);
+                    var publicIndex = initialProperties.FindIndex(p => p.Name == property.Name
+                                                                       && p.DeclaringType == property.DeclaringType);
 
                     if (publicIndex == -1)
                     {
@@ -782,7 +783,7 @@ static class ReflectionUtils
 
                 // have to test on name rather than reference because instances are different
                 // depending on the type that GetProperties was called on
-                var nonPublicIndex = initialProperties.IndexOf(p => p.Name == property.Name);
+                var nonPublicIndex = initialProperties.FindIndex(p => p.Name == property.Name);
                 if (nonPublicIndex == -1)
                 {
                     initialProperties.Add(property);

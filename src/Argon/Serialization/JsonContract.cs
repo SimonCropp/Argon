@@ -66,27 +66,27 @@ public abstract class JsonContract
     /// <summary>
     /// Gets or sets all methods called immediately after deserialization of the object.
     /// </summary>
-    public IList<SerializationCallback> OnDeserializedCallbacks => onDeserializedCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnDeserializedCallbacks => onDeserializedCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all methods called during deserialization of the object.
     /// </summary>
-    public IList<SerializationCallback> OnDeserializingCallbacks => onDeserializingCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnDeserializingCallbacks => onDeserializingCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all methods called after serialization of the object graph.
     /// </summary>
-    public IList<SerializationCallback> OnSerializedCallbacks => onSerializedCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnSerializedCallbacks => onSerializedCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all methods called before serialization of the object.
     /// </summary>
-    public IList<SerializationCallback> OnSerializingCallbacks => onSerializingCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnSerializingCallbacks => onSerializingCallbacks ??= new List<SerializationCallback>();
 
     /// <summary>
     /// Gets or sets all method called when an error is thrown during the serialization of the object.
     /// </summary>
-    public IList<SerializationErrorCallback> OnErrorCallbacks => onErrorCallbacks ??= new List<SerializationErrorCallback>();
+    public List<SerializationErrorCallback> OnErrorCallbacks => onErrorCallbacks ??= new List<SerializationErrorCallback>();
 
     /// <summary>
     /// Gets or sets the default creator method used to create the object.
