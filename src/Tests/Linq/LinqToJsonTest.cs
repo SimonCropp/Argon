@@ -675,12 +675,14 @@ keyword such as type of business.""
         //TODO: SIMON: parse should not change date strings
         var o = JObject.Parse(json);
 
+        var established = o.Property("Established")!;
         XUnitAssert.AreEqualNormalized(
             @"""Established"": ""2014-06-04T00:00:00Z""",
-            o.Property("Established")!.ToString());
+            established.ToString());
 
-        XUnitAssert.AreEqualNormalized(@"4/06/2014 12:00:00 AM",
-            o.Property("Established")!.Value.ToString());
+        var establishedValue = (DateTime)established.Value;
+        XUnitAssert.AreEqualNormalized(@"06/04/2014 00:00:00",
+            establishedValue.ToString(DateTimeFormatInfo.InvariantInfo));
         Assert.Equal(@"""Width"": 1.1", o.Property("Width")!.ToString());
         Assert.Equal(@"1.1", ((JValue)o.Property("Width")!.Value).ToString(CultureInfo.InvariantCulture));
         Assert.Equal(@"""Open"": false", o.Property("Open")!.ToString());

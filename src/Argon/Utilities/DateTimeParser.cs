@@ -4,25 +4,6 @@
 
 struct DateTimeParser
 {
-    static DateTimeParser()
-    {
-        Power10 = new[] { -1, 10, 100, 1000, 10000, 100000, 1000000 };
-
-        Lzyyyy = "yyyy".Length;
-        Lzyyyy_ = "yyyy-".Length;
-        Lzyyyy_MM = "yyyy-MM".Length;
-        Lzyyyy_MM_ = "yyyy-MM-".Length;
-        Lzyyyy_MM_dd = "yyyy-MM-dd".Length;
-        Lzyyyy_MM_ddT = "yyyy-MM-ddT".Length;
-        LzHH = "HH".Length;
-        LzHH_ = "HH:".Length;
-        LzHH_mm = "HH:mm".Length;
-        LzHH_mm_ = "HH:mm:".Length;
-        LzHH_mm_ss = "HH:mm:ss".Length;
-        Lz_ = "-".Length;
-        Lz_zz = "-zz".Length;
-    }
-
     public int Year;
     public int Month;
     public int Day;
@@ -37,21 +18,21 @@ struct DateTimeParser
     char[] text;
     int end;
 
-    static readonly int[] Power10;
+    static readonly int[] Power10 = { -1, 10, 100, 1000, 10000, 100000, 1000000 };
 
-    static readonly int Lzyyyy;
-    static readonly int Lzyyyy_;
-    static readonly int Lzyyyy_MM;
-    static readonly int Lzyyyy_MM_;
-    static readonly int Lzyyyy_MM_dd;
-    static readonly int Lzyyyy_MM_ddT;
-    static readonly int LzHH;
-    static readonly int LzHH_;
-    static readonly int LzHH_mm;
-    static readonly int LzHH_mm_;
-    static readonly int LzHH_mm_ss;
-    static readonly int Lz_;
-    static readonly int Lz_zz;
+    static readonly int Lzyyyy = "yyyy".Length;
+    static readonly int Lzyyyy_ = "yyyy-".Length;
+    static readonly int Lzyyyy_MM = "yyyy-MM".Length;
+    static readonly int Lzyyyy_MM_ = "yyyy-MM-".Length;
+    static readonly int Lzyyyy_MM_dd = "yyyy-MM-dd".Length;
+    static readonly int Lzyyyy_MM_ddT = "yyyy-MM-ddT".Length;
+    static readonly int LzHH = "HH".Length;
+    static readonly int LzHH_ = "HH:".Length;
+    static readonly int LzHH_mm = "HH:mm".Length;
+    static readonly int LzHH_mm_ = "HH:mm:".Length;
+    static readonly int LzHH_mm_ss = "HH:mm:ss".Length;
+    static readonly int Lz_ = "-".Length;
+    static readonly int Lz_zz = "-zz".Length;
 
     const short MaxFractionDigits = 7;
 
