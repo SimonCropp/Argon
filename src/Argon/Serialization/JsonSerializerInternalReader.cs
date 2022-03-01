@@ -2364,27 +2364,34 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     static void SetPropertyPresence(JsonReader reader, JsonProperty property, Dictionary<JsonProperty, PropertyPresence>? requiredProperties)
     {
-        if (property != null && requiredProperties != null)
+        if (requiredProperties == null)
         {
-            PropertyPresence propertyPresence;
-            switch (reader.TokenType)
-            {
-                case JsonToken.String:
-                    propertyPresence = CoerceEmptyStringToNull(property.PropertyType, property.PropertyContract, (string)reader.Value!)
-                        ? PropertyPresence.Null
-                        : PropertyPresence.Value;
-                    break;
-                case JsonToken.Null:
-                case JsonToken.Undefined:
-                    propertyPresence = PropertyPresence.Null;
-                    break;
-                default:
-                    propertyPresence = PropertyPresence.Value;
-                    break;
-            }
-
-            requiredProperties[property] = propertyPresence;
+            return;
         }
+
+        PropertyPresence propertyPresence;
+        switch (reader.TokenType)
+        {
+            case JsonToken.String:
+                if (CoerceEmptyStringToNull(property.PropertyType, property.PropertyContract, (string) reader.Value!))
+                {
+                    propertyPresence = PropertyPresence.Null;
+                }
+                else
+                {
+                    propertyPresence = PropertyPresence.Value;
+                }
+                break;
+            case JsonToken.Null:
+            case JsonToken.Undefined:
+                propertyPresence = PropertyPresence.Null;
+                break;
+            default:
+                propertyPresence = PropertyPresence.Value;
+                break;
+        }
+
+        requiredProperties[property] = propertyPresence;
     }
 
     void HandleError(JsonReader reader, bool readPastError, int initialDepth)
