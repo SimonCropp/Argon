@@ -123,15 +123,6 @@ public class ExceptionHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void UnexpectedEndAfterReadingNe()
-    {
-        var reader = new JsonTextReader(new StringReader("ne"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Unexpected end when reading JSON. Path '', line 1, position 2.");
-    }
-
-    [Fact]
     public void UnexpectedEndOfHex()
     {
         JsonReader reader = new JsonTextReader(new StringReader(@"'h\u123"));
@@ -196,7 +187,7 @@ public class ExceptionHandlingTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
-            "Unexpected content while parsing JSON. Path 'u', line 1, position 29.");
+            "Unexpected character encountered while parsing value: n. Path 'u', line 1, position 27.");
     }
 
     [Fact]
@@ -328,39 +319,6 @@ public class ExceptionHandlingTests : TestFixtureBase
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
             @"Invalid character after parsing property name. Expected ':' but got: "". Path 'A', line 3, position 8.");
-    }
-
-    [Fact]
-    public void ParseConstructorWithBadCharacter()
-    {
-        var json = "new Date,()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        XUnitAssert.Throws<JsonReaderException>(
-            () => Assert.True(reader.Read()),
-            "Unexpected character while parsing constructor: ,. Path '', line 1, position 8.");
-    }
-
-    [Fact]
-    public void ParseConstructorWithUnexpectedEnd()
-    {
-        var json = "new Dat";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Unexpected end while parsing constructor. Path '', line 1, position 7.");
-    }
-
-    [Fact]
-    public void ParseConstructorWithUnexpectedCharacter()
-    {
-        var json = "new Date !";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Unexpected character while parsing constructor: !. Path '', line 1, position 9.");
     }
 
     [Fact]
@@ -782,16 +740,6 @@ public class ExceptionHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadAsBytesBadContent()
-    {
-        var reader = new JsonTextReader(new StringReader(@"new Date()"));
-
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsBytes(),
-            "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
-    }
-
-    [Fact]
     public void ReadAsBytes_CommaErrors()
     {
         var reader = new JsonTextReader(new StringReader("[,'']"));
@@ -877,37 +825,6 @@ public class ExceptionHandlingTests : TestFixtureBase
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTime(),
             "Unexpected character encountered while parsing value: t. Path '', line 1, position 1.");
-    }
-
-    [Fact]
-    public void ReadAsDateTimeOffsetBadContent()
-    {
-        var reader = new JsonTextReader(new StringReader(@"new Date()"));
-
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDateTimeOffset(),
-            "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
-    }
-
-    [Fact]
-    public void ReadAsDecimalBadContent()
-    {
-        var reader = new JsonTextReader(new StringReader(@"new Date()"));
-
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDecimal(),
-            "Unexpected character encountered while parsing value: e. Path '', line 1, position 2.");
-    }
-
-    [Fact]
-    public void ReadAsDecimalBadContent_SecondLine()
-    {
-        var reader = new JsonTextReader(new StringReader(@"
-new Date()"));
-
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDecimal(),
-            "Unexpected character encountered while parsing value: e. Path '', line 2, position 2.");
     }
 
     [Fact]

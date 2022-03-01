@@ -942,11 +942,9 @@ public class ReadAsyncTests : TestFixtureBase
     public async Task ReadContentDelimitedByCommentsAsync()
     {
         var json = $@"/*comment*/{{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
-        ""ExpiryDate"":/*comment*/new
-{StringUtils.LineFeed}Date
-(/*comment*/null/*comment*/),
-        ""Price"": 3.99,
-        ""Sizes"":/*comment*/[/*comment*/
+        ExpiryDate:'2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes:/*comment*/[/*comment*/
           ""Small""/*comment*/]/*comment*/}}/*comment*/";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));

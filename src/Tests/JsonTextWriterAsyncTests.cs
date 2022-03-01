@@ -1177,74 +1177,6 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public async Task PathAsync()
-    {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
-
-        using (var writer = new JsonTextWriter(stringWriter))
-        {
-            writer.Formatting = Formatting.Indented;
-
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("", writer.Path);
-            await writer.WriteStartObjectAsync();
-            Assert.Equal("[0]", writer.Path);
-            await writer.WritePropertyNameAsync("Property1");
-            Assert.Equal("[0].Property1", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1", writer.Path);
-            await writer.WriteValueAsync(1);
-            Assert.Equal("[0].Property1[0]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1[1]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1[1][0]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1[1][0][0]", writer.Path);
-            await writer.WriteEndObjectAsync();
-            Assert.Equal("[0]", writer.Path);
-            await writer.WriteStartObjectAsync();
-            Assert.Equal("[1]", writer.Path);
-            await writer.WritePropertyNameAsync("Property2");
-            Assert.Equal("[1].Property2", writer.Path);
-            await writer.WriteNullAsync();
-            Assert.Equal("[1].Property2[0]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[1].Property2[1]", writer.Path);
-            await writer.WriteValueAsync(1);
-            Assert.Equal("[1].Property2[1][0]", writer.Path);
-            await writer.WriteEndAsync();
-            Assert.Equal("[1].Property2[1]", writer.Path);
-            await writer.WriteEndObjectAsync();
-            Assert.Equal("[1]", writer.Path);
-            await writer.WriteEndArrayAsync();
-            Assert.Equal("", writer.Path);
-        }
-
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Property1"": [
-      1,
-      [
-        [
-          []
-        ]
-      ]
-    ]
-  },
-  {
-    ""Property2"": new Constructor1(
-      null,
-      [
-        1
-      ]
-    )
-  }
-]", stringBuilder.ToString());
-    }
-
-    [Fact]
     public async Task DateTimeZoneHandlingAsync()
     {
         var stringWriter = new StringWriter();
@@ -1610,14 +1542,9 @@ _____'propertyName': NaN,
 Name://comment
 true//comment after true{StringUtils.CarriageReturn}
 ,//comment after comma{StringUtils.CarriageReturnLineFeed}
-""ExpiryDate""://comment{StringUtils.LineFeed}
-new
-{StringUtils.LineFeed}Constructor
-(//comment
-null//comment
-),
-        ""Price"": 3.99,
-        ""Sizes"": //comment
+ExpiryDate:'2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes: //comment
 [//comment
 
           ""Small""//comment
@@ -1637,11 +1564,7 @@ null//comment
 
         XUnitAssert.AreEqualNormalized(@"/*comment*//*hi*/*/{/*comment*/
   ""Name"": /*comment*/ true/*comment after true*//*comment after comma*/,
-  ""ExpiryDate"": /*comment*/ new Constructor(
-    /*comment*/,
-    null
-    /*comment*/
-  ),
+  ""ExpiryDate"": ""2014-06-04T00:00:00Z"",
   ""Price"": 3.99,
   ""Sizes"": /*comment*/ [
     /*comment*/

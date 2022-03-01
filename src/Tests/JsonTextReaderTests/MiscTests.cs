@@ -286,7 +286,7 @@ public class MiscTests : TestFixtureBase
     {
         var input = @"{
   value:'Purple',
-  array:[1,2,new Date(1)],
+  array:[1,2,'2014-06-04T00:00:00Z'],
   subobject:{prop:1,proparray:[1]}
 }";
 
@@ -613,15 +613,12 @@ public class MiscTests : TestFixtureBase
         var json = $@"//comment*//*hi*/
 {{//comment
 Name://comment
-true//comment after true{StringUtils.CarriageReturn},//comment after comma{StringUtils.CarriageReturnLineFeed}""ExpiryDate""://comment{StringUtils.LineFeed}new {StringUtils.LineFeed}Date
-(//comment
-null//comment
-),
-        ""Price"": 3.99,
-        ""Sizes"": //comment
+true//comment after true{StringUtils.CarriageReturn},//comment after comma{StringUtils.CarriageReturnLineFeed}'ExpiryDate':'2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes: //comment
 [//comment
 
-          ""Small""//comment
+          'Small'//comment
 ]//comment
 }}//comment 
 //comment 1 ";

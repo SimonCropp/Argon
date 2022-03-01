@@ -22,26 +22,29 @@ ITraceWriter traceWriter = new MemoryTraceWriter();
 JsonConvert.SerializeObject(
     staff,
     new JsonSerializerSettings { TraceWriter = traceWriter });
-
-Console.WriteLine(traceWriter);
-// 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
-// 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
-// 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
-// 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-// 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-// 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
-// 2013-05-18T21:38:11.255 Verbose Serialized JSON:
-// {
-//   "Name": "Arnie Admin",
-//   "StartDate": new Date(
-//     976623132000
-//   ),
-//   "Roles": [
-//     "Administrator"
-//   ]
-// }
 ```
-<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L92-L123' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L92-L106' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Results in:
+
+<!-- snippet: TraceWriterTests.MemoryTraceWriterTest.verified.txt -->
+<a id='snippet-TraceWriterTests.MemoryTraceWriterTest.verified.txt'></a>
+```txt
+2022-03-01T11:39:05.182 Info Started serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
+2022-03-01T11:39:05.182 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
+2022-03-01T11:39:05.182 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
+2022-03-01T11:39:05.182 Info Finished serializing Argon.Tests.Documentation.TraceWriterTests+Staff. Path ''.
+2022-03-01T11:39:05.182 Verbose Serialized JSON: 
+{
+  "Name": "Arnie Admin",
+  "StartDate": "2000-12-12T12:12:12Z",
+  "Roles": [
+    "Administrator"
+  ]
+}
+```
+<sup><a href='/src/Tests/Documentation/TraceWriterTests.MemoryTraceWriterTest.verified.txt#L1-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-TraceWriterTests.MemoryTraceWriterTest.verified.txt' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Json.NET has two implementations of ITraceWriter: `Argon.Serialization.MemoryTraceWriter`, which keeps messages in memory for simple debugging, like the example above, and `Argon.Serialization.DiagnosticsTraceWriter`, which writes messages to any System.Diagnostics.TraceListeners your application is using.

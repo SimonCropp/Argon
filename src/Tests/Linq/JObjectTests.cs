@@ -521,13 +521,13 @@ Parameter name: arrayIndex",
     public void Example()
     {
         var json = @"{
-        ""Name"": ""Apple"",
-        ""Expiry"": new Date(1230422400000),
-        ""Price"": 3.99,
-        ""Sizes"": [
-          ""Small"",
-          ""Medium"",
-          ""Large""
+        Name: 'Apple',
+        Expiry: '2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes: [
+          'Small',
+          'Medium',
+          'Large'
         ]
       }";
 
@@ -1388,13 +1388,13 @@ Parameter name: arrayIndex",
             () =>
             {
                 var json = @"{
-""Name"": ""Apple"",
-""Expiry"": new Date(1230422400000),
-""Price"": 3.99,
-""Sizes"": [
-""Small"",
-""Medium"",
-""Large""
+Name: 'Apple',
+Expiry: '2014-06-04T00:00:00Z',
+Price: 3.99,
+Sizes: [
+'Small',
+'Medium',
+'Large'
 ]
 }, 987987";
 

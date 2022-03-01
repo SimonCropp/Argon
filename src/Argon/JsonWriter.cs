@@ -40,7 +40,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         var allStates = StateArrayTemplate.ToList();
         var errorStates = StateArrayTemplate[0];
-        var valueStates = StateArrayTemplate[7];
+        var valueStates = StateArrayTemplate[6];
 
         var enumValuesAndNames = EnumUtils.GetEnumValuesAndNames(typeof(JsonToken));
 
@@ -161,8 +161,8 @@ public abstract partial class JsonWriter : IDisposable
                 return string.Empty;
             }
 
-            var insideContainer = currentState != State.ArrayStart
-                                  && currentState != State.ObjectStart;
+            var insideContainer = currentState != State.ArrayStart &&
+                                  currentState != State.ObjectStart;
 
             var current = insideContainer ? (JsonPosition?)currentPosition : null;
 

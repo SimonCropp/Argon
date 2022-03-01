@@ -240,11 +240,6 @@ public class CustomJsonReader : TestFixtureBase
                 <String type=""String"">This is a string!</String>
                 <Null type=""Null"" />
               </Object>
-              <Constructor type=""Constructor"" name=""Date"">
-                <Item type=""Integer"">2000</Item>
-                <Item type=""Integer"">12</Item>
-                <Item type=""Integer"">30</Item>
-              </Constructor>
             </Root>";
 
         var sr = new StringReader(xml);
@@ -273,8 +268,7 @@ public class CustomJsonReader : TestFixtureBase
             //  "Object": {
             //    "String": "This is a string!",
             //    "Null": null
-            //  },
-            //  "Constructor": new Date(2000, 12, 30)
+            //  }
             //}
         }
         #endregion

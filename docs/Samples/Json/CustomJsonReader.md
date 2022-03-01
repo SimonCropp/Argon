@@ -239,11 +239,6 @@ var xml = @"<Root type=""Object"">
         <String type=""String"">This is a string!</String>
         <Null type=""Null"" />
       </Object>
-      <Constructor type=""Constructor"" name=""Date"">
-        <Item type=""Integer"">2000</Item>
-        <Item type=""Integer"">12</Item>
-        <Item type=""Integer"">30</Item>
-      </Constructor>
     </Root>";
 
 var sr = new StringReader(xml);
@@ -272,10 +267,9 @@ using (var reader = new XmlJsonReader(xmlReader))
     //  "Object": {
     //    "String": "This is a string!",
     //    "Null": null
-    //  },
-    //  "Constructor": new Date(2000, 12, 30)
+    //  }
     //}
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L221-L280' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L221-L274' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

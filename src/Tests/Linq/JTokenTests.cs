@@ -1129,12 +1129,6 @@ public class JTokenTests : TestFixtureBase
         token = o.SelectToken("");
         Assert.Equal("", token.Path);
 
-        token = o.SelectToken("Test4[0][0]");
-        Assert.Equal("Test4[0][0]", token.Path);
-
-        token = o.SelectToken("Test4[0]");
-        Assert.Equal("Test4[0]", token.Path);
-
         token = token.DeepClone();
         Assert.Equal("", token.Path);
 

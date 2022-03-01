@@ -192,9 +192,7 @@ public class DemoTests : TestFixtureBase
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Name"": ""Serialize All The Things"",
-  ""Date"": new Date(
-    1401840000000
-  )
+  ""Date"": ""2014-06-04T00:00:00Z""
 }", j);
     }
 

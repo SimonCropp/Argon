@@ -1005,34 +1005,6 @@ public class JPathExecuteTests : TestFixtureBase
     }
 
     [Fact]
-    public void PathWithConstructor()
-    {
-        var a = JArray.Parse(@"[
-  {
-    ""Property1"": [
-      1,
-      [
-        [
-          []
-        ]
-      ]
-    ]
-  },
-  {
-    ""Property2"": new Constructor1(
-      null,
-      [
-        1
-      ]
-    )
-  }
-]");
-
-        var v = (JValue)a.SelectToken("[1].Property2[1][0]");
-        Assert.Equal(1L, v.Value);
-    }
-
-    [Fact]
     public void MultiplePaths()
     {
         var a = JArray.Parse(@"[

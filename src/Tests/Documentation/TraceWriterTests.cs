@@ -87,7 +87,7 @@ public class TraceWriterTests : TestFixtureBase
     }
 
     [Fact]
-    public void MemoryTraceWriterTest()
+    public Task MemoryTraceWriterTest()
     {
         #region MemoryTraceWriterExample
         var staff = new Staff
@@ -103,27 +103,11 @@ public class TraceWriterTests : TestFixtureBase
             staff,
             new JsonSerializerSettings { TraceWriter = traceWriter });
 
-        Console.WriteLine(traceWriter);
-        // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
-        // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
-        // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-        // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-        // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2013-05-18T21:38:11.255 Verbose Serialized JSON:
-        // {
-        //   "Name": "Arnie Admin",
-        //   "StartDate": new Date(
-        //     976623132000
-        //   ),
-        //   "Roles": [
-        //     "Administrator"
-        //   ]
-        // }
         #endregion
 
-        var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
-
-        Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
+        // var memoryTraceWriter = (MemoryTraceWriter)traceWriter;
+        //
+        // Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
+        return Verify(traceWriter.ToString());
     }
 }

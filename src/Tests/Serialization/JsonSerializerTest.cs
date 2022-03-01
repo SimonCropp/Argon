@@ -1381,7 +1381,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var deserializedStore = (Store) JsonConvert.DeserializeObject(jsonText, typeof(Store));
 
-        Assert.Equal(store.Establised, deserializedStore.Establised);
+        Assert.Equal(store.Established, deserializedStore.Established);
         Assert.Equal(store.product.Count, deserializedStore.product.Count);
 
         Console.WriteLine(jsonText);
@@ -3133,26 +3133,6 @@ Path '', line 1, position 1.");
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<JObject>(json),
             "Deserialized JSON type 'Argon.JArray' is not compatible with expected type 'Argon.JObject'. Path '', line 1, position 2.");
-    }
-
-    [Fact]
-    public void CannotDeserializeConstructorIntoObject()
-    {
-        var json = @"new Constructor(123)";
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Person>(json),
-            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '', line 1, position 16.");
-    }
-
-    [Fact]
-    public void CannotDeserializeConstructorIntoObjectNested()
-    {
-        var json = @"[new Constructor(123)]";
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<List<Person>>(json),
-            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '[0]', line 1, position 17.");
     }
 
     [Fact]
