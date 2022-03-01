@@ -32,17 +32,12 @@ public enum WriteState
     Array = 3,
 
     /// <summary>
-    /// A constructor is being written.
-    /// </summary>
-    Constructor = 4,
-
-    /// <summary>
     /// A property is being written.
     /// </summary>
-    Property = 5,
+    Property = 4,
 
     /// <summary>
     /// A <see cref="JsonWriter"/> write method has not been called.
     /// </summary>
-    Start = 6
+    Start = 5
 }

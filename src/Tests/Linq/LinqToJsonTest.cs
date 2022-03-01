@@ -642,20 +642,51 @@ keyword such as type of business.""
     [Fact]
     public void JTokenToStringTypes()
     {
-        var json = @"{""Color"":2,""Establised"":new Date(1264118400000),""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":new Date(949532490000),""Price"":0},{""Name"":""Alien"",""ExpiryDate"":new Date(-62135596800000),""Price"":0}]}";
+        var json = @"{
+    Color:2,
+    Established:'2014-06-04T00:00:00Z',
+    Width:1.1,
+    Employees:999, 
+    RoomsPerFloor:[1,2,3,4,5,6,7,8,9],
+    Open:false,
+    Symbol:'@',
+    Mottos:[
+        'Hello World',
+        ""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",
+        null,
+        ' '],
+    Cost:100980.1,
+    Escape:""\r\n\t\f\b?{\\r\\n\""'"",
+    product:
+    [
+        {
+            Name:'Rocket',
+            ExpiryDate:'2014-06-04T00:00:00Z',
+            Price:0
+        },
+        {
+            Name:'Alien',
+            ExpiryDate:'2014-06-04T00:00:00Z',
+            Price:0
+        }
+    ]
+}";
 
+        //TODO: SIMON: parse should not change date strings
         var o = JObject.Parse(json);
 
-        XUnitAssert.AreEqualNormalized(@"""Establised"": new Date(
-  1264118400000
-)", o.Property("Establised").ToString());
-        XUnitAssert.AreEqualNormalized(@"new Date(
-  1264118400000
-)", o.Property("Establised").Value.ToString());
-        Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
-        Assert.Equal(@"1.1", ((JValue)o.Property("Width").Value).ToString(CultureInfo.InvariantCulture));
-        Assert.Equal(@"""Open"": false", o.Property("Open").ToString());
-        Assert.Equal(@"False", o.Property("Open").Value.ToString());
+        var established = o.Property("Established")!;
+        XUnitAssert.AreEqualNormalized(
+            @"""Established"": ""2014-06-04T00:00:00Z""",
+            established.ToString());
+
+        var establishedValue = (DateTime)established.Value;
+        XUnitAssert.AreEqualNormalized(@"06/04/2014 00:00:00",
+            establishedValue.ToString(DateTimeFormatInfo.InvariantInfo));
+        Assert.Equal(@"""Width"": 1.1", o.Property("Width")!.ToString());
+        Assert.Equal(@"1.1", ((JValue)o.Property("Width")!.Value).ToString(CultureInfo.InvariantCulture));
+        Assert.Equal(@"""Open"": false", o.Property("Open")!.ToString());
+        Assert.Equal(@"False", o.Property("Open")!.Value.ToString());
 
         json = @"[null,undefined]";
 
@@ -698,16 +729,10 @@ keyword such as type of business.""
                     2,
                     3.0,
                     new DateTime(4, 5, 6, 7, 8, 9, DateTimeKind.Utc)
-                ),
-                new JConstructor(
-                    "ConstructorName",
-                    "param1",
-                    2,
-                    3.0
                 )
             );
 
-        Assert.Equal(5, a.Count());
+        Assert.Equal(4, a.Count());
         XUnitAssert.AreEqualNormalized(@"[
   {
     ""Test1"": ""Test1Value"",
@@ -722,12 +747,7 @@ keyword such as type of business.""
     2,
     3.0,
     ""0004-05-06T07:08:09Z""
-  ],
-  new ConstructorName(
-    ""param1"",
-    2,
-    3.0
-  )
+  ]
 ]", a.ToString());
     }
 
@@ -973,16 +993,6 @@ keyword such as type of business.""
     }
 
     [Fact]
-    public void JConstructorStringIndex()
-    {
-        XUnitAssert.Throws<ArgumentException>(() =>
-        {
-            var c = new JConstructor("ConstructorValue");
-            Assert.Equal(null, c["purple"]);
-        }, @"Accessed JConstructor values with invalid key value: ""purple"". Argument position index expected.");
-    }
-
-    [Fact]
     public void ToStringJsonConverter()
     {
         var o =
@@ -994,7 +1004,6 @@ keyword such as type of business.""
             );
 
         var serializer = new JsonSerializer();
-        serializer.Converters.Add(new JavaScriptDateTimeConverter());
         var stringWriter = new StringWriter();
         JsonWriter jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.Formatting = Formatting.Indented;
@@ -1003,12 +1012,8 @@ keyword such as type of business.""
         var json = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""Test1"": new Date(
-    971586305000
-  ),
-  ""Test2"": new Date(
-    971546045000
-  ),
+  ""Test1"": ""2000-10-15T05:05:05Z"",
+  ""Test2"": ""2000-10-15T05:05:05+11:11"",
   ""Test3"": ""Test3Value"",
   ""Test4"": null
 }", json);

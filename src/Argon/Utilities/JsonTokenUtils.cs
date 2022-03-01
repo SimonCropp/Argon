@@ -10,7 +10,6 @@ static class JsonTokenUtils
         {
             case JsonToken.EndObject:
             case JsonToken.EndArray:
-            case JsonToken.EndConstructor:
                 return true;
             default:
                 return false;
@@ -23,7 +22,6 @@ static class JsonTokenUtils
         {
             case JsonToken.StartObject:
             case JsonToken.StartArray:
-            case JsonToken.StartConstructor:
                 return true;
             default:
                 return false;

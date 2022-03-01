@@ -25,77 +25,72 @@ public enum JTokenType
     Array = 2,
 
     /// <summary>
-    /// A JSON constructor.
-    /// </summary>
-    Constructor = 3,
-
-    /// <summary>
     /// A JSON object property.
     /// </summary>
-    Property = 4,
+    Property = 3,
 
     /// <summary>
     /// A comment.
     /// </summary>
-    Comment = 5,
+    Comment = 4,
 
     /// <summary>
     /// An integer value.
     /// </summary>
-    Integer = 6,
+    Integer = 5,
 
     /// <summary>
     /// A float value.
     /// </summary>
-    Float = 7,
+    Float = 6,
 
     /// <summary>
     /// A string value.
     /// </summary>
-    String = 8,
+    String = 7,
 
     /// <summary>
     /// A boolean value.
     /// </summary>
-    Boolean = 9,
+    Boolean = 8,
 
     /// <summary>
     /// A null value.
     /// </summary>
-    Null = 10,
+    Null = 9,
 
     /// <summary>
     /// An undefined value.
     /// </summary>
-    Undefined = 11,
+    Undefined = 10,
 
     /// <summary>
     /// A date value.
     /// </summary>
-    Date = 12,
+    Date = 11,
 
     /// <summary>
     /// A raw JSON value.
     /// </summary>
-    Raw = 13,
+    Raw = 12,
 
     /// <summary>
     /// A collection of bytes value.
     /// </summary>
-    Bytes = 14,
+    Bytes = 13,
 
     /// <summary>
     /// A Guid value.
     /// </summary>
-    Guid = 15,
+    Guid = 14,
 
     /// <summary>
     /// A Uri value.
     /// </summary>
-    Uri = 16,
+    Uri = 15,
 
     /// <summary>
     /// A TimeSpan value.
     /// </summary>
-    TimeSpan = 17
+    TimeSpan = 16
 }

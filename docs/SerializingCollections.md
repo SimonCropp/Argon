@@ -43,7 +43,7 @@ var json = JsonConvert.SerializeObject(products, Formatting.Indented);
 //  }
 //]
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L543-L578' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsserializing' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L544-L579' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsserializing' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -79,7 +79,7 @@ var p1 = products[0];
 Console.WriteLine(p1.Name);
 // Product 1
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L599-L624' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializing' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L600-L625' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializing' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -100,7 +100,7 @@ Console.WriteLine(values.Count);
 Console.WriteLine(values["key1"]);
 // value1
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L632-L642' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializingdictionaries' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L633-L643' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializingdictionaries' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

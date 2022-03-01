@@ -77,46 +77,16 @@
     Value: comment
   },
   {
-    TokenType: StartConstructor,
-    LineNumber: 9,
-    LinePosition: 1,
+    TokenType: Date,
+    LineNumber: 7,
+    LinePosition: 22,
     Path: ExpiryDate,
     Depth: 1,
-    Value: Date
-  },
-  {
-    TokenType: Comment,
-    LineNumber: 9,
-    LinePosition: 10,
-    Path: ExpiryDate,
-    Depth: 2,
-    Value: comment
-  },
-  {
-    TokenType: Null,
-    LineNumber: 10,
-    LinePosition: 4,
-    Path: ExpiryDate[0],
-    Depth: 2
-  },
-  {
-    TokenType: Comment,
-    LineNumber: 10,
-    LinePosition: 13,
-    Path: ExpiryDate[0],
-    Depth: 2,
-    Value: comment
-  },
-  {
-    TokenType: EndConstructor,
-    LineNumber: 11,
-    LinePosition: 1,
-    Path: ExpiryDate,
-    Depth: 1
+    Value: DateTime_1
   },
   {
     TokenType: PropertyName,
-    LineNumber: 12,
+    LineNumber: 8,
     LinePosition: 16,
     Path: Price,
     Depth: 1,
@@ -124,7 +94,7 @@
   },
   {
     TokenType: Float,
-    LineNumber: 12,
+    LineNumber: 8,
     LinePosition: 21,
     Path: Price,
     Depth: 1,
@@ -132,7 +102,7 @@
   },
   {
     TokenType: PropertyName,
-    LineNumber: 13,
+    LineNumber: 9,
     LinePosition: 16,
     Path: Sizes,
     Depth: 1,
@@ -140,7 +110,7 @@
   },
   {
     TokenType: Comment,
-    LineNumber: 13,
+    LineNumber: 9,
     LinePosition: 26,
     Path: Sizes,
     Depth: 1,
@@ -148,14 +118,14 @@
   },
   {
     TokenType: StartArray,
-    LineNumber: 14,
+    LineNumber: 10,
     LinePosition: 1,
     Path: Sizes,
     Depth: 1
   },
   {
     TokenType: Comment,
-    LineNumber: 14,
+    LineNumber: 10,
     LinePosition: 10,
     Path: Sizes,
     Depth: 2,
@@ -163,7 +133,7 @@
   },
   {
     TokenType: String,
-    LineNumber: 16,
+    LineNumber: 12,
     LinePosition: 17,
     Path: Sizes[0],
     Depth: 2,
@@ -171,7 +141,7 @@
   },
   {
     TokenType: Comment,
-    LineNumber: 16,
+    LineNumber: 12,
     LinePosition: 26,
     Path: Sizes[0],
     Depth: 2,
@@ -179,14 +149,14 @@
   },
   {
     TokenType: EndArray,
-    LineNumber: 17,
+    LineNumber: 13,
     LinePosition: 1,
     Path: Sizes,
     Depth: 1
   },
   {
     TokenType: Comment,
-    LineNumber: 17,
+    LineNumber: 13,
     LinePosition: 10,
     Path: Sizes,
     Depth: 1,
@@ -194,20 +164,20 @@
   },
   {
     TokenType: EndObject,
-    LineNumber: 18,
+    LineNumber: 14,
     LinePosition: 1,
     Path: 
   },
   {
     TokenType: Comment,
-    LineNumber: 18,
+    LineNumber: 14,
     LinePosition: 11,
     Path: ,
     Value: comment 
   },
   {
     TokenType: Comment,
-    LineNumber: 19,
+    LineNumber: 15,
     LinePosition: 12,
     Path: ,
     Value: comment 1 

@@ -53,7 +53,7 @@ public class PopulateTests : TestFixtureBase
 
         var json = @"{
   ""Color"": 2,
-  ""Establised"": ""2013-08-14T04:38:31.000+1230"",
+  ""Established"": ""2013-08-14T04:38:31.000+1230"",
   ""Width"": 99.99,
   ""Employees"": 999,
   ""RoomsPerFloor"": [

@@ -221,24 +221,6 @@ public class XmlJsonWriter : JsonWriter
         }
     }
 
-    public override void WriteStartConstructor(string name)
-    {
-        var isStart = WriteState == WriteState.Start;
-
-        base.WriteStartConstructor(name);
-
-        if (isStart)
-        {
-            WriteValueElement("Root", JTokenType.Constructor);
-        }
-        else
-        {
-            WriteValueElement(JTokenType.Constructor);
-        }
-
-        writer.WriteAttributeString("name", name);
-    }
-
     public override void WriteEndArray()
     {
         base.WriteEndArray();
@@ -248,12 +230,6 @@ public class XmlJsonWriter : JsonWriter
     public override void WriteEndObject()
     {
         base.WriteEndObject();
-        writer.WriteEndElement();
-    }
-
-    public override void WriteEndConstructor()
-    {
-        base.WriteEndConstructor();
         writer.WriteEndElement();
     }
 
@@ -281,7 +257,7 @@ public class XmlJsonWriter : JsonWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L9-L285' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L9-L261' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonWriterUsage -->
@@ -321,5 +297,5 @@ Console.WriteLine(stringWriter.ToString());
 //  </Roles>
 //</Root>
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L292-L326' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L268-L302' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -29,10 +29,8 @@ public abstract partial class JsonWriter
                 case State.Property:
                     return WriteIndentSpaceAsync(cancellation);
                 case State.ArrayStart:
-                case State.ConstructorStart:
                     return WriteIndentAsync(cancellation);
                 case State.Array:
-                case State.Constructor:
                     return tokenBeingWritten == JsonToken.Comment ? WriteIndentAsync(cancellation) : AutoCompleteAsync(cancellation);
                 case State.Object:
                     switch (tokenBeingWritten)
@@ -61,7 +59,6 @@ public abstract partial class JsonWriter
             {
                 case State.Object:
                 case State.Array:
-                case State.Constructor:
                     return WriteValueDelimiterAsync(cancellation);
             }
         }
@@ -197,8 +194,6 @@ public abstract partial class JsonWriter
                 return WriteEndObjectAsync(cancellation);
             case JsonContainerType.Array:
                 return WriteEndArrayAsync(cancellation);
-            case JsonContainerType.Constructor:
-                return WriteEndConstructorAsync(cancellation);
             default:
                 if (cancellation.IsCancellationRequested)
                 {
@@ -340,20 +335,6 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes the end of a constructor.
-    /// </summary>
-    public virtual Task WriteEndConstructorAsync(CancellationToken cancellation = default)
-    {
-        if (cancellation.IsCancellationRequested)
-        {
-            return cancellation.FromCanceled();
-        }
-
-        WriteEndConstructor();
-        return AsyncUtils.CompletedTask;
-    }
-
-    /// <summary>
     /// Asynchronously writes the end of a JSON object.
     /// </summary>
     public virtual Task WriteEndObjectAsync(CancellationToken cancellation = default)
@@ -476,20 +457,6 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes the start of a constructor with the given name.
-    /// </summary>
-    public virtual Task WriteStartConstructorAsync(string name, CancellationToken cancellation = default)
-    {
-        if (cancellation.IsCancellationRequested)
-        {
-            return cancellation.FromCanceled();
-        }
-
-        WriteStartConstructor(name);
-        return AsyncUtils.CompletedTask;
-    }
-
-    /// <summary>
     /// Asynchronously writes the beginning of a JSON object.
     /// </summary>
     public virtual Task WriteStartObjectAsync(CancellationToken cancellation = default)
@@ -552,8 +519,6 @@ public abstract partial class JsonWriter
                 return WriteStartObjectAsync(cancellation);
             case JsonToken.StartArray:
                 return WriteStartArrayAsync(cancellation);
-            case JsonToken.StartConstructor:
-                return WriteStartConstructorAsync(value!.ToString()!, cancellation);
             case JsonToken.PropertyName:
                 return WritePropertyNameAsync(value!.ToString()!, cancellation);
             case JsonToken.Comment:
@@ -590,8 +555,6 @@ public abstract partial class JsonWriter
                 return WriteEndObjectAsync(cancellation);
             case JsonToken.EndArray:
                 return WriteEndArrayAsync(cancellation);
-            case JsonToken.EndConstructor:
-                return WriteEndConstructorAsync(cancellation);
             case JsonToken.Date:
                 if (value is DateTimeOffset offset)
                 {
@@ -619,17 +582,9 @@ public abstract partial class JsonWriter
 
         do
         {
-            // write a JValue date when the constructor is for a date
-            if (writeDateConstructorAsDate && reader.TokenType == JsonToken.StartConstructor && string.Equals(reader.Value?.ToString(), "Date", StringComparison.Ordinal))
+            if (writeComments || reader.TokenType != JsonToken.Comment)
             {
-                await WriteConstructorDateAsync(reader, cancellation).ConfigureAwait(false);
-            }
-            else
-            {
-                if (writeComments || reader.TokenType != JsonToken.Comment)
-                {
-                    await WriteTokenAsync(reader.TokenType, reader.Value, cancellation).ConfigureAwait(false);
-                }
+                await WriteTokenAsync(reader.TokenType, reader.Value, cancellation).ConfigureAwait(false);
             }
         } while (
             // stop if we have reached the end of the token being read
@@ -652,15 +607,7 @@ public abstract partial class JsonWriter
 
         do
         {
-            // write a JValue date when the constructor is for a date
-            if (reader.TokenType == JsonToken.StartConstructor && string.Equals(reader.Value?.ToString(), "Date", StringComparison.Ordinal))
-            {
-                WriteConstructorDate(reader);
-            }
-            else
-            {
-                WriteToken(reader.TokenType, reader.Value);
-            }
+            WriteToken(reader.TokenType, reader.Value);
         } while (
             // stop if we have reached the end of the token being read
             initialDepth - 1 < reader.Depth - (JsonTokenUtils.IsEndToken(reader.TokenType) ? 1 : 0)
@@ -670,31 +617,6 @@ public abstract partial class JsonWriter
         {
             throw JsonWriterException.Create(this, "Unexpected end when reading token.", null);
         }
-    }
-
-    async Task WriteConstructorDateAsync(JsonReader reader, CancellationToken cancellation)
-    {
-        if (!await reader.ReadAsync(cancellation).ConfigureAwait(false))
-        {
-            throw JsonWriterException.Create(this, "Unexpected end when reading date constructor.", null);
-        }
-        if (reader.TokenType != JsonToken.Integer)
-        {
-            throw JsonWriterException.Create(this, $"Unexpected token when reading date constructor. Expected Integer, got {reader.TokenType}", null);
-        }
-
-        var date = DateTimeUtils.ConvertJavaScriptTicksToDateTime((long)reader.Value!);
-
-        if (!await reader.ReadAsync(cancellation).ConfigureAwait(false))
-        {
-            throw JsonWriterException.Create(this, "Unexpected end when reading date constructor.", null);
-        }
-        if (reader.TokenType != JsonToken.EndConstructor)
-        {
-            throw JsonWriterException.Create(this, $"Unexpected token when reading date constructor. Expected EndConstructor, got {reader.TokenType}", null);
-        }
-
-        await WriteValueAsync(date, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1284,8 +1206,6 @@ public abstract partial class JsonWriter
                 return InternalWriteStartAsync(token, JsonContainerType.Object, cancellation);
             case JsonToken.StartArray:
                 return InternalWriteStartAsync(token, JsonContainerType.Array, cancellation);
-            case JsonToken.StartConstructor:
-                return InternalWriteStartAsync(token, JsonContainerType.Constructor, cancellation);
             case JsonToken.PropertyName:
                 if (value is not string s)
                 {
@@ -1310,8 +1230,6 @@ public abstract partial class JsonWriter
                 return InternalWriteEndAsync(JsonContainerType.Object, cancellation);
             case JsonToken.EndArray:
                 return InternalWriteEndAsync(JsonContainerType.Array, cancellation);
-            case JsonToken.EndConstructor:
-                return InternalWriteEndAsync(JsonContainerType.Constructor, cancellation);
             default:
                 throw new ArgumentOutOfRangeException(nameof(token));
         }

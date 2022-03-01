@@ -1381,7 +1381,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var deserializedStore = (Store) JsonConvert.DeserializeObject(jsonText, typeof(Store));
 
-        Assert.Equal(store.Establised, deserializedStore.Establised);
+        Assert.Equal(store.Established, deserializedStore.Established);
         Assert.Equal(store.product.Count, deserializedStore.product.Count);
 
         Console.WriteLine(jsonText);
@@ -2115,7 +2115,7 @@ keyword such as type of business.""
     [Fact]
     public void SerializerShouldUseMemberConverter_IsoDate()
     {
-        var testDate = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
+        var testDate = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1);
@@ -2130,7 +2130,7 @@ keyword such as type of business.""
     [Fact]
     public void SerializerShouldUseMemberConverter_DateParseNone()
     {
-        var testDate = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
+        var testDate = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
         var json = JsonConvert.SerializeObject(m1, new JsonSerializerSettings());
@@ -2145,13 +2145,13 @@ keyword such as type of business.""
     [Fact]
     public void SerializerShouldUseMemberConverterOverArgumentConverter()
     {
-        var testDate = new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc);
+        var testDate = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
         var m1 = new MemberConverterClass {DefaultConverter = testDate, MemberConverter = testDate};
 
-        var json = JsonConvert.SerializeObject(m1, new JavaScriptDateTimeConverter());
-        Assert.Equal(@"{""DefaultConverter"":new Date(0),""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
+        var json = JsonConvert.SerializeObject(m1);
+        Assert.Equal(@"{""DefaultConverter"":""1970-01-01T00:00:00Z"",""MemberConverter"":""1970-01-01T00:00:00Z""}", json);
 
-        var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json, new JavaScriptDateTimeConverter());
+        var m2 = JsonConvert.DeserializeObject<MemberConverterClass>(json);
 
         Assert.Equal(testDate, m2.DefaultConverter);
         Assert.Equal(testDate, m2.MemberConverter);
@@ -2525,12 +2525,8 @@ keyword such as type of business.""
         var isoJson = JsonConvert.SerializeObject(entry, new IsoDateTimeConverter());
         // {"Details":"Application started.","LogDate":"2009-02-15T00:00:00.0000000Z"}
 
-        var javascriptJson = JsonConvert.SerializeObject(entry, new JavaScriptDateTimeConverter());
-        // {"Details":"Application started.","LogDate":new Date(1234656000000)}
-
         Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", defaultJson);
         Assert.Equal(@"{""Details"":""Application started."",""LogDate"":""2009-02-15T00:00:00Z""}", isoJson);
-        Assert.Equal(@"{""Details"":""Application started."",""LogDate"":new Date(1234656000000)}", javascriptJson);
     }
 
     [Fact]
@@ -3137,26 +3133,6 @@ Path '', line 1, position 1.");
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<JObject>(json),
             "Deserialized JSON type 'Argon.JArray' is not compatible with expected type 'Argon.JObject'. Path '', line 1, position 2.");
-    }
-
-    [Fact]
-    public void CannotDeserializeConstructorIntoObject()
-    {
-        var json = @"new Constructor(123)";
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Person>(json),
-            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '', line 1, position 16.");
-    }
-
-    [Fact]
-    public void CannotDeserializeConstructorIntoObjectNested()
-    {
-        var json = @"[new Constructor(123)]";
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<List<Person>>(json),
-            @"Error converting value ""Constructor"" to type 'TestObjects.Person'. Path '[0]', line 1, position 17.");
     }
 
     [Fact]
@@ -5627,9 +5603,9 @@ Path '', line 1, position 1.");
             Venue = "Gryphon Theatre",
             Performances = new List<DateTime>
             {
-                DateTimeUtils.ConvertJavaScriptTicksToDateTime(1336458600000),
-                DateTimeUtils.ConvertJavaScriptTicksToDateTime(1336545000000),
-                DateTimeUtils.ConvertJavaScriptTicksToDateTime(1336636800000)
+                new(2000,1,1),
+                new(2000,1,2),
+                new(2000,1,3)
             }
         };
 
@@ -5648,15 +5624,9 @@ Path '', line 1, position 1.");
   ""EventName"": ""Blackadder III"",
   ""Venue"": ""Gryphon Theatre"",
   ""Performances"": [
-    new Date(
-      1336458600000
-    ),
-    new Date(
-      1336545000000
-    ),
-    new Date(
-      1336636800000
-    )
+    ""2000-01-01T00:00:00"",
+    ""2000-01-02T00:00:00"",
+    ""2000-01-03T00:00:00""
   ]
 }", json);
     }
@@ -6980,29 +6950,23 @@ This is just junk, though.";
 
         var settings = new JsonSerializerSettings
         {
-            ContractResolver = new JsonPropertyConverterContractResolver(),
             Formatting = Formatting.Indented
         };
 
         var c1 = new JsonPropertyConverterTestClass
         {
-            NormalDate = dt,
-            JavaScriptDate = dt
+            NormalDate = dt
         };
 
         var json = JsonConvert.SerializeObject(c1, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
-  ""NormalDate"": ""2000-12-20T00:00:00Z"",
-  ""JavaScriptDate"": new Date(
-    977270400000
-  )
+  ""NormalDate"": ""2000-12-20T00:00:00Z""
 }", json);
 
         var c2 = JsonConvert.DeserializeObject<JsonPropertyConverterTestClass>(json, settings);
 
         Assert.Equal(dt, c2.NormalDate);
-        Assert.Equal(dt, c2.JavaScriptDate);
     }
 
     [Fact]

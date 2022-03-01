@@ -63,107 +63,69 @@
   {
     TokenType: PropertyName,
     LineNumber: 2,
-    LinePosition: 21,
+    LinePosition: 19,
     Path: ExpiryDate,
     Depth: 1,
     Value: ExpiryDate
   },
   {
-    TokenType: Comment,
+    TokenType: Date,
     LineNumber: 2,
-    LinePosition: 32,
+    LinePosition: 41,
     Path: ExpiryDate,
     Depth: 1,
-    Value: comment
-  },
-  {
-    TokenType: StartConstructor,
-    LineNumber: 5,
-    LinePosition: 1,
-    Path: ExpiryDate,
-    Depth: 1,
-    Value: Date
-  },
-  {
-    TokenType: Comment,
-    LineNumber: 5,
-    LinePosition: 12,
-    Path: ExpiryDate,
-    Depth: 2,
-    Value: comment
-  },
-  {
-    TokenType: Null,
-    LineNumber: 5,
-    LinePosition: 16,
-    Path: ExpiryDate[0],
-    Depth: 2
-  },
-  {
-    TokenType: Comment,
-    LineNumber: 5,
-    LinePosition: 27,
-    Path: ExpiryDate[0],
-    Depth: 2,
-    Value: comment
-  },
-  {
-    TokenType: EndConstructor,
-    LineNumber: 5,
-    LinePosition: 28,
-    Path: ExpiryDate,
-    Depth: 1
+    Value: DateTime_1
   },
   {
     TokenType: PropertyName,
-    LineNumber: 6,
-    LinePosition: 16,
+    LineNumber: 3,
+    LinePosition: 14,
     Path: Price,
     Depth: 1,
     Value: Price
   },
   {
     TokenType: Float,
-    LineNumber: 6,
-    LinePosition: 21,
+    LineNumber: 3,
+    LinePosition: 19,
     Path: Price,
     Depth: 1,
     Value: 3.99
   },
   {
     TokenType: PropertyName,
-    LineNumber: 7,
-    LinePosition: 16,
+    LineNumber: 4,
+    LinePosition: 14,
     Path: Sizes,
     Depth: 1,
     Value: Sizes
   },
   {
     TokenType: Comment,
-    LineNumber: 7,
-    LinePosition: 27,
+    LineNumber: 4,
+    LinePosition: 25,
     Path: Sizes,
     Depth: 1,
     Value: comment
   },
   {
     TokenType: StartArray,
-    LineNumber: 7,
-    LinePosition: 28,
+    LineNumber: 4,
+    LinePosition: 26,
     Path: Sizes,
     Depth: 1
   },
   {
     TokenType: Comment,
-    LineNumber: 7,
-    LinePosition: 39,
+    LineNumber: 4,
+    LinePosition: 37,
     Path: Sizes,
     Depth: 2,
     Value: comment
   },
   {
     TokenType: String,
-    LineNumber: 8,
+    LineNumber: 5,
     LinePosition: 17,
     Path: Sizes[0],
     Depth: 2,
@@ -171,7 +133,7 @@
   },
   {
     TokenType: Comment,
-    LineNumber: 8,
+    LineNumber: 5,
     LinePosition: 28,
     Path: Sizes[0],
     Depth: 2,
@@ -179,14 +141,14 @@
   },
   {
     TokenType: EndArray,
-    LineNumber: 8,
+    LineNumber: 5,
     LinePosition: 29,
     Path: Sizes,
     Depth: 1
   },
   {
     TokenType: Comment,
-    LineNumber: 8,
+    LineNumber: 5,
     LinePosition: 40,
     Path: Sizes,
     Depth: 1,
@@ -194,13 +156,13 @@
   },
   {
     TokenType: EndObject,
-    LineNumber: 8,
+    LineNumber: 5,
     LinePosition: 41,
     Path: 
   },
   {
     TokenType: Comment,
-    LineNumber: 8,
+    LineNumber: 5,
     LinePosition: 52,
     Path: ,
     Value: comment

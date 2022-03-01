@@ -404,9 +404,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteValueAsync((decimal?)null);
             await jsonWriter.WriteValueAsync((decimal?)1.1m);
             await jsonWriter.WriteValueAsync((DateTime?)null);
-            await jsonWriter.WriteValueAsync((DateTime?)new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc));
+            await jsonWriter.WriteValueAsync((DateTime?)new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc));
             await jsonWriter.WriteValueAsync((DateTimeOffset?)null);
-            await jsonWriter.WriteValueAsync((DateTimeOffset?)new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero));
+            await jsonWriter.WriteValueAsync((DateTimeOffset?)new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, TimeSpan.Zero));
             await jsonWriter.WriteEndArrayAsync();
         }
 
@@ -925,30 +925,6 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task WriteObjectNestedInConstructorAsync()
-    {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
-
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
-        {
-            await jsonWriter.WriteStartObjectAsync();
-            await jsonWriter.WritePropertyNameAsync("con");
-
-            await jsonWriter.WriteStartConstructorAsync("Ext.data.JsonStore");
-            await jsonWriter.WriteStartObjectAsync();
-            await jsonWriter.WritePropertyNameAsync("aa");
-            await jsonWriter.WriteValueAsync("aa");
-            await jsonWriter.WriteEndObjectAsync();
-            await jsonWriter.WriteEndConstructorAsync();
-
-            await jsonWriter.WriteEndObjectAsync();
-        }
-
-        Assert.Equal(@"{""con"":new Ext.data.JsonStore({""aa"":""aa""})}", stringBuilder.ToString());
-    }
-
-    [Fact]
     public async Task WriteFloatingPointNumberAsync()
     {
         var stringBuilder = new StringBuilder();
@@ -1198,76 +1174,6 @@ _____'propertyName': NaN,
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
-    }
-
-    [Fact]
-    public async Task PathAsync()
-    {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
-
-        using (var writer = new JsonTextWriter(stringWriter))
-        {
-            writer.Formatting = Formatting.Indented;
-
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("", writer.Path);
-            await writer.WriteStartObjectAsync();
-            Assert.Equal("[0]", writer.Path);
-            await writer.WritePropertyNameAsync("Property1");
-            Assert.Equal("[0].Property1", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1", writer.Path);
-            await writer.WriteValueAsync(1);
-            Assert.Equal("[0].Property1[0]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1[1]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1[1][0]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[0].Property1[1][0][0]", writer.Path);
-            await writer.WriteEndObjectAsync();
-            Assert.Equal("[0]", writer.Path);
-            await writer.WriteStartObjectAsync();
-            Assert.Equal("[1]", writer.Path);
-            await writer.WritePropertyNameAsync("Property2");
-            Assert.Equal("[1].Property2", writer.Path);
-            await writer.WriteStartConstructorAsync("Constructor1");
-            Assert.Equal("[1].Property2", writer.Path);
-            await writer.WriteNullAsync();
-            Assert.Equal("[1].Property2[0]", writer.Path);
-            await writer.WriteStartArrayAsync();
-            Assert.Equal("[1].Property2[1]", writer.Path);
-            await writer.WriteValueAsync(1);
-            Assert.Equal("[1].Property2[1][0]", writer.Path);
-            await writer.WriteEndAsync();
-            Assert.Equal("[1].Property2[1]", writer.Path);
-            await writer.WriteEndObjectAsync();
-            Assert.Equal("[1]", writer.Path);
-            await writer.WriteEndArrayAsync();
-            Assert.Equal("", writer.Path);
-        }
-
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Property1"": [
-      1,
-      [
-        [
-          []
-        ]
-      ]
-    ]
-  },
-  {
-    ""Property2"": new Constructor1(
-      null,
-      [
-        1
-      ]
-    )
-  }
-]", stringBuilder.ToString());
     }
 
     [Fact]
@@ -1636,14 +1542,9 @@ _____'propertyName': NaN,
 Name://comment
 true//comment after true{StringUtils.CarriageReturn}
 ,//comment after comma{StringUtils.CarriageReturnLineFeed}
-""ExpiryDate""://comment{StringUtils.LineFeed}
-new
-{StringUtils.LineFeed}Constructor
-(//comment
-null//comment
-),
-        ""Price"": 3.99,
-        ""Sizes"": //comment
+ExpiryDate:'2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes: //comment
 [//comment
 
           ""Small""//comment
@@ -1663,11 +1564,7 @@ null//comment
 
         XUnitAssert.AreEqualNormalized(@"/*comment*//*hi*/*/{/*comment*/
   ""Name"": /*comment*/ true/*comment after true*//*comment after comma*/,
-  ""ExpiryDate"": /*comment*/ new Constructor(
-    /*comment*/,
-    null
-    /*comment*/
-  ),
+  ""ExpiryDate"": ""2014-06-04T00:00:00Z"",
   ""Price"": 3.99,
   ""Sizes"": /*comment*/ [
     /*comment*/
@@ -1691,7 +1588,6 @@ null//comment
         Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
         Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
         Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
         Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteNullAsync(token).IsCanceled);
         Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
@@ -1699,7 +1595,6 @@ null//comment
         Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
         Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
@@ -1774,7 +1669,6 @@ null//comment
         Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
         Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
         Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
         Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteNullAsync(token).IsCanceled);
         Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
@@ -1782,7 +1676,6 @@ null//comment
         Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
         Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);
@@ -1843,7 +1736,6 @@ null//comment
         Assert.True(writer.WriteCommentAsync("test", token).IsCanceled);
         Assert.True(writer.WriteEndArrayAsync(token).IsCanceled);
         Assert.True(writer.WriteEndAsync(token).IsCanceled);
-        Assert.True(writer.WriteEndConstructorAsync(token).IsCanceled);
         Assert.True(writer.WriteEndObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteNullAsync(token).IsCanceled);
         Assert.True(writer.WritePropertyNameAsync("test", token).IsCanceled);
@@ -1851,7 +1743,6 @@ null//comment
         Assert.True(writer.WriteRawAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteRawValueAsync("{}", token).IsCanceled);
         Assert.True(writer.WriteStartArrayAsync(token).IsCanceled);
-        Assert.True(writer.WriteStartConstructorAsync("test", token).IsCanceled);
         Assert.True(writer.WriteStartObjectAsync(token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Comment, token).IsCanceled);
         Assert.True(writer.WriteTokenAsync(JsonToken.Boolean, true, token).IsCanceled);

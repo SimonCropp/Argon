@@ -53,32 +53,17 @@
     Value: 2
   },
   {
-    TokenType: StartConstructor,
+    TokenType: Date,
     LineNumber: 3,
-    LinePosition: 22,
+    LinePosition: 35,
     Path: array[2],
     Depth: 2,
-    Value: Date
-  },
-  {
-    TokenType: Integer,
-    LineNumber: 3,
-    LinePosition: 23,
-    Path: array[2][0],
-    Depth: 3,
-    Value: 1
-  },
-  {
-    TokenType: EndConstructor,
-    LineNumber: 3,
-    LinePosition: 24,
-    Path: array[2],
-    Depth: 2
+    Value: DateTime_1
   },
   {
     TokenType: EndArray,
     LineNumber: 3,
-    LinePosition: 25,
+    LinePosition: 36,
     Path: array,
     Depth: 1
   },

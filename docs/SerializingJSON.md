@@ -53,16 +53,17 @@ var product = new Product
     ExpiryDate = new DateTime(2008, 12, 28)
 };
 
-var serializer = new JsonSerializer();
-serializer.Converters.Add(new JavaScriptDateTimeConverter());
-serializer.NullValueHandling = NullValueHandling.Ignore;
+var serializer = new JsonSerializer
+{
+    NullValueHandling = NullValueHandling.Ignore
+};
 
 using var streamWriter = new StreamWriter(@"c:\json.txt");
 using JsonWriter writer = new JsonTextWriter(streamWriter);
 serializer.Serialize(writer, product);
 // {"ExpiryDate":new Date(1230375600000),"Price":0}
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L53-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonserializertostream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L53-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonserializertostream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 JsonSerializer has a number of properties on it to customize how it serializes JSON. These can also be used with the methods on JsonConvert via the JsonSerializerSettings overloads.

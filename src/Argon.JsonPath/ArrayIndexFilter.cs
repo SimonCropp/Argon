@@ -8,7 +8,7 @@ class ArrayIndexFilter : PathFilter
         {
             if (Index == null)
             {
-                if (t is JArray or JConstructor)
+                if (t is JArray)
                 {
                     foreach (var v in t)
                     {

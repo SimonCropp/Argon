@@ -590,24 +590,6 @@ public class JPathExecuteTests : TestFixtureBase
     }
 
     [Fact]
-    public void EvaluateConstructorOutOfBoundsIndxerWithError()
-    {
-        var c = new JConstructor("Blah");
-
-        XUnitAssert.Throws<JsonException>(
-            () => c.SelectToken("[1]", true),
-                @"Index 1 outside the bounds of JConstructor.");
-    }
-
-    [Fact]
-    public void EvaluateConstructorOutOfBoundsIndxer()
-    {
-        var c = new JConstructor("Blah");
-
-        Assert.Null(c.SelectToken("[1]"));
-    }
-
-    [Fact]
     public void EvaluateMissingPropertyWithError()
     {
         var o = new JObject(
@@ -1020,34 +1002,6 @@ public class JPathExecuteTests : TestFixtureBase
         Assert.Equal(2, tokens.Count);
         Assert.Equal("Bad Boys", (string)tokens[0]);
         Assert.Equal("Independence Day", (string)tokens[1]);
-    }
-
-    [Fact]
-    public void PathWithConstructor()
-    {
-        var a = JArray.Parse(@"[
-  {
-    ""Property1"": [
-      1,
-      [
-        [
-          []
-        ]
-      ]
-    ]
-  },
-  {
-    ""Property2"": new Constructor1(
-      null,
-      [
-        1
-      ]
-    )
-  }
-]");
-
-        var v = (JValue)a.SelectToken("[1].Property2[1][0]");
-        Assert.Equal(1L, v.Value);
     }
 
     [Fact]

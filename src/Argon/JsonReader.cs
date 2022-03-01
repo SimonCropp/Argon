@@ -60,16 +60,6 @@ public abstract partial class JsonReader : IDisposable
         PostValue,
 
         /// <summary>
-        /// Reader is at the start of a constructor.
-        /// </summary>
-        ConstructorStart,
-
-        /// <summary>
-        /// Reader is in a constructor.
-        /// </summary>
-        Constructor,
-
-        /// <summary>
         /// An error occurred that prevents the read operation from continuing.
         /// </summary>
         Error,
@@ -200,7 +190,6 @@ public abstract partial class JsonReader : IDisposable
             }
 
             var insideContainer = currentState != State.ArrayStart
-                                  && currentState != State.ConstructorStart
                                   && currentState != State.ObjectStart;
 
             var current = insideContainer ? (JsonPosition?)currentPosition : null;
@@ -898,18 +887,11 @@ public abstract partial class JsonReader : IDisposable
                 currentState = State.ArrayStart;
                 Push(JsonContainerType.Array);
                 break;
-            case JsonToken.StartConstructor:
-                currentState = State.ConstructorStart;
-                Push(JsonContainerType.Constructor);
-                break;
             case JsonToken.EndObject:
                 ValidateEnd(JsonToken.EndObject);
                 break;
             case JsonToken.EndArray:
                 ValidateEnd(JsonToken.EndArray);
-                break;
-            case JsonToken.EndConstructor:
-                ValidateEnd(JsonToken.EndConstructor);
                 break;
             case JsonToken.PropertyName:
                 currentState = State.Property;
@@ -989,9 +971,6 @@ public abstract partial class JsonReader : IDisposable
             case JsonContainerType.Array:
                 currentState = State.Array;
                 break;
-            case JsonContainerType.Constructor:
-                currentState = State.Constructor;
-                break;
             case JsonContainerType.None:
                 SetFinished();
                 break;
@@ -1013,8 +992,6 @@ public abstract partial class JsonReader : IDisposable
                 return JsonContainerType.Object;
             case JsonToken.EndArray:
                 return JsonContainerType.Array;
-            case JsonToken.EndConstructor:
-                return JsonContainerType.Constructor;
             default:
                 throw JsonReaderException.Create(this, $"Not a valid close JsonToken: {token}");
         }

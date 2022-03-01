@@ -202,7 +202,7 @@ public class MiscAsyncTests : TestFixtureBase
     {
         var input = @"{
   value:'Purple',
-  array:[1,2,new Date(1)],
+  array:[1,2,'2014-06-04T00:00:00Z'],
   subobject:{prop:1,proparray:[1]}
 }";
 
@@ -217,20 +217,20 @@ public class MiscAsyncTests : TestFixtureBase
     {
         var json = @"[
   {
-    ""$id"": ""1"",
-    ""Name"": ""e1"",
-    ""Manager"": null
+    '$id': '1',
+    Name: 'e1',
+    Manager: null
   },
   {
-    ""$id"": ""2"",
-    ""Name"": ""e2"",
-    ""Manager"": null
+    '$id': '2',
+    Name: 'e2',
+    Manager: null
   },
   {
-    ""$ref"": ""1""
+    '$ref': '1'
   },
   {
-    ""$ref"": ""2""
+    '$ref': '2'
   }
 ]";
 
@@ -472,10 +472,7 @@ public class MiscAsyncTests : TestFixtureBase
         var json = $@"//comment*//*hi*/
 {{//comment
 Name://comment
-true//comment after true{StringUtils.CarriageReturn},//comment after comma{StringUtils.CarriageReturnLineFeed}""ExpiryDate""://comment{StringUtils.LineFeed}new {StringUtils.LineFeed}Date
-(//comment
-null//comment
-),
+true//comment after true{StringUtils.CarriageReturn},//comment after comma{StringUtils.CarriageReturnLineFeed}""ExpiryDate""://comment{StringUtils.LineFeed}'2014-06-04T00:00:00Z',
         ""Price"": 3.99,
         ""Sizes"": //comment
 [//comment

@@ -54,7 +54,6 @@ public class XmlJsonReader : JsonReader
                             stateStack.Push(JTokenType.Property);
                             return true;
                         case JTokenType.Array:
-                        case JTokenType.Constructor:
                             continue;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -72,14 +71,6 @@ public class XmlJsonReader : JsonReader
                             return true;
                         case JTokenType.Array:
                             SetToken(JsonToken.EndArray);
-                            stateStack.Pop();
-                            if (PeekState() == JTokenType.Property)
-                            {
-                                stateStack.Pop();
-                            }
-                            return true;
-                        case JTokenType.Constructor:
-                            SetToken(JsonToken.EndConstructor);
                             stateStack.Pop();
                             if (PeekState() == JTokenType.Property)
                             {
@@ -154,17 +145,6 @@ public class XmlJsonReader : JsonReader
             case JTokenType.Array:
                 SetToken(JsonToken.StartArray);
                 stateStack.Push(JTokenType.Array);
-                valueType = null;
-                return true;
-            case JTokenType.Constructor:
-                var constructorName = reader.GetAttribute("name");
-                if (constructorName == null)
-                {
-                    throw new("No constructor name specified.");
-                }
-
-                SetToken(JsonToken.StartConstructor, constructorName);
-                stateStack.Push(JTokenType.Constructor);
                 valueType = null;
                 return true;
         }
@@ -260,11 +240,6 @@ public class CustomJsonReader : TestFixtureBase
                 <String type=""String"">This is a string!</String>
                 <Null type=""Null"" />
               </Object>
-              <Constructor type=""Constructor"" name=""Date"">
-                <Item type=""Integer"">2000</Item>
-                <Item type=""Integer"">12</Item>
-                <Item type=""Integer"">30</Item>
-              </Constructor>
             </Root>";
 
         var sr = new StringReader(xml);
@@ -293,8 +268,7 @@ public class CustomJsonReader : TestFixtureBase
             //  "Object": {
             //    "String": "This is a string!",
             //    "Null": null
-            //  },
-            //  "Constructor": new Date(2000, 12, 30)
+            //  }
             //}
         }
         #endregion

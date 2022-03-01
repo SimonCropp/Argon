@@ -225,7 +225,7 @@ public class ParseAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseContentDelimitedByNonStandardWhitespaceAsync()
     {
-        var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0new\x00a0Date\x00a0(\x00a0)\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
+        var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0'2014-06-04T00:00:00Z'\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
         await reader.VerifyReaderState();
@@ -270,19 +270,6 @@ public class ParseAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ParseEmptyConstructorAsync()
-    {
-        var json = "new Date()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
     public async Task ParseHexNumberAsync()
     {
         var json = @"0x20";
@@ -321,37 +308,6 @@ public class ParseAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ParseLineFeedDelimitedConstructorAsync()
-    {
-        var json = "new Date\n()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal("Date", reader.Value);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
-    public async Task ParseNullStringConstructorAsync()
-    {
-        var json = "new Date\0()";
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[7];
-#endif
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal("Date", reader.Value);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
     public async Task ParseOctalNumberAsync()
     {
         var json = @"010";
@@ -373,7 +329,7 @@ public class ParseAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
+        Assert.Equal(new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
 
         reader = new JsonTextReader(new StringReader(json));
@@ -381,7 +337,7 @@ public class ParseAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
+        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         reader = new JsonTextReader(new StringReader(json));
@@ -397,7 +353,7 @@ public class ParseAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
         await reader.ReadAsDateTimeOffsetAsync();
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
+        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         reader = new JsonTextReader(new StringReader(json));
@@ -405,7 +361,7 @@ public class ParseAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
         await reader.ReadAsDateTimeAsync();
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
+        Assert.Equal(new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
     }
 }

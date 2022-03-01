@@ -360,8 +360,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case State.Property:
                 case State.Array:
                 case State.ArrayStart:
-                case State.Constructor:
-                case State.ConstructorStart:
                     return ParseValue();
                 case State.Object:
                 case State.ObjectStart:
@@ -449,8 +447,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];
@@ -553,8 +549,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];
@@ -716,8 +710,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];
@@ -852,8 +844,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.Property:
             case State.Array:
             case State.ArrayStart:
-            case State.Constructor:
-            case State.ConstructorStart:
                 while (true)
                 {
                     var currentChar = CharBuffer[CharPos];
@@ -1391,10 +1381,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     CharPos++;
                     SetToken(JsonToken.EndArray);
                     return true;
-                case ')':
-                    CharPos++;
-                    SetToken(JsonToken.EndConstructor);
-                    return true;
                 case '/':
                     ParseComment(!ignoreComments);
                     if (!ignoreComments)
@@ -1650,10 +1636,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         {
                             ParseNull();
                         }
-                        else if (next == 'e')
-                        {
-                            ParseConstructor();
-                        }
                         else
                         {
                             throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);
@@ -1703,10 +1685,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     // don't increment position, the next call to read will handle comma
                     // this is done to handle multiple empty comma values
                     SetToken(JsonToken.Undefined);
-                    return true;
-                case ')':
-                    CharPos++;
-                    SetToken(JsonToken.EndConstructor);
                     return true;
                 case StringUtils.CarriageReturn:
                     ProcessCarriageReturn(false);
@@ -1790,91 +1768,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     break;
             }
-        }
-    }
-
-    void ParseConstructor()
-    {
-        MiscellaneousUtils.Assert(CharBuffer != null);
-
-        if (MatchValueWithTrailingSeparator("new"))
-        {
-            EatWhitespace();
-
-            var initialPosition = CharPos;
-            int endPosition;
-
-            while (true)
-            {
-                var currentChar = CharBuffer[CharPos];
-                if (currentChar == '\0')
-                {
-                    if (charsUsed == CharPos)
-                    {
-                        if (ReadData(true) == 0)
-                        {
-                            throw JsonReaderException.Create(this, "Unexpected end while parsing constructor.");
-                        }
-                    }
-                    else
-                    {
-                        endPosition = CharPos;
-                        CharPos++;
-                        break;
-                    }
-                }
-                else if (char.IsLetterOrDigit(currentChar))
-                {
-                    CharPos++;
-                }
-                else if (currentChar == StringUtils.CarriageReturn)
-                {
-                    endPosition = CharPos;
-                    ProcessCarriageReturn(true);
-                    break;
-                }
-                else if (currentChar == StringUtils.LineFeed)
-                {
-                    endPosition = CharPos;
-                    ProcessLineFeed();
-                    break;
-                }
-                else if (char.IsWhiteSpace(currentChar))
-                {
-                    endPosition = CharPos;
-                    CharPos++;
-                    break;
-                }
-                else if (currentChar == '(')
-                {
-                    endPosition = CharPos;
-                    break;
-                }
-                else
-                {
-                    throw JsonReaderException.Create(this, $"Unexpected character while parsing constructor: {currentChar}.");
-                }
-            }
-
-            stringReference = new StringReference(CharBuffer, initialPosition, endPosition - initialPosition);
-            var constructorName = stringReference.ToString();
-
-            EatWhitespace();
-
-            if (CharBuffer[CharPos] != '(')
-            {
-                throw JsonReaderException.Create(this, $"Unexpected character while parsing constructor: {CharBuffer[CharPos]}.");
-            }
-
-            CharPos++;
-
-            ClearRecentString();
-
-            SetToken(JsonToken.StartConstructor, constructorName);
-        }
-        else
-        {
-            throw JsonReaderException.Create(this, "Unexpected content while parsing JSON.");
         }
     }
 
@@ -2338,12 +2231,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 var nextChart = CharBuffer[CharPos + 1];
 
                 return nextChart is '*' or '/';
-            case ')':
-                if (CurrentState is State.Constructor or State.ConstructorStart)
-                {
-                    return true;
-                }
-                break;
             case ' ':
             case StringUtils.Tab:
             case StringUtils.LineFeed:

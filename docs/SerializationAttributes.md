@@ -39,7 +39,7 @@ public class Person
     public string Department { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L71-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationattributes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L72-L91' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationattributes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

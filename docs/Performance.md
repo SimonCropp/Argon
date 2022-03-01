@@ -32,7 +32,7 @@ var json3 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
     Formatting = Formatting.Indented
 });
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L77-L100' title='Snippet source file'>snippet source</a> | <a href='#snippet-reusecontractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L57-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-reusecontractresolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -55,7 +55,7 @@ var json = client.GetStringAsync("http://www.test.com/large.json").Result;
 
 var p = JsonConvert.DeserializeObject<Person>(json);
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L130-L138' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L110-L118' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeStream -->
@@ -72,7 +72,7 @@ var serializer = new JsonSerializer();
 // json size doesn't matter because only a small piece is read at a time from the HTTP request
 var p = serializer.Deserialize<Person>(reader);
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L144-L156' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L124-L136' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -101,8 +101,8 @@ public class Person
 <!-- endSnippet -->
 
 If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by creating a `Argon.Serialization.IContractResolver`.
-<!-- snippet: JsonConverterContractResolver -->
-<a id='snippet-jsonconvertercontractresolver'></a>
+
+//TODO
 ```cs
 public class ConverterContractResolver : DefaultContractResolver
 {
@@ -122,8 +122,6 @@ public class ConverterContractResolver : DefaultContractResolver
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L21-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconvertercontractresolver' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
 
 The IContractResolver in the example above will set all DateTimes to use the JavaScriptDateConverter.
 
@@ -162,7 +160,7 @@ public static string ToJson(this Person p)
     return stringWriter.ToString();
 }
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L162-L189' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L142-L169' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If performance is important, then this is the best choice. More about using JsonReader/JsonWriter here: [ReadingWritingJSON]

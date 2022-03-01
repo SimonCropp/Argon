@@ -265,10 +265,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
 
                     return EnsureType(reader, s, CultureInfo.InvariantCulture, contract, type);
-                case JsonToken.StartConstructor:
-                    var constructorName = reader.Value!.ToString();
-
-                    return EnsureType(reader, constructorName, CultureInfo.InvariantCulture, contract, type);
                 case JsonToken.Null:
                 case JsonToken.Undefined:
                     if (type == typeof(DBNull))

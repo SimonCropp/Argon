@@ -36,10 +36,6 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal("pie", p.Name);
         XUnitAssert.True((bool)p.Value);
 
-        var c = (JConstructor)JToken.ReadFrom(new JsonTextReader(new StringReader("new Date(1)")));
-        Assert.Equal("Date", c.Name);
-        Assert.True(JToken.DeepEquals(new JValue(1), c.Values().ElementAt(0)));
-
         var v = (JValue)JToken.ReadFrom(new JsonTextReader(new StringReader(@"""stringvalue""")));
         Assert.Equal("stringvalue", (string)v);
 
@@ -54,7 +50,7 @@ public class JTokenTests : TestFixtureBase
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
         Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
+        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
     }
 
     [Fact]
@@ -69,48 +65,6 @@ public class JTokenTests : TestFixtureBase
     {
         var o = (JObject)JToken.Parse("{'pie':true}");
         XUnitAssert.True((bool)o["pie"]);
-    }
-
-    [Fact]
-    public void Parent()
-    {
-        var v = new JArray(new JConstructor("TestConstructor"), new JValue(new DateTime(2000, 12, 20)));
-
-        Assert.Equal(null, v.Parent);
-
-        var o =
-            new JObject(
-                new JProperty("Test1", v),
-                new JProperty("Test2", "Test2Value"),
-                new JProperty("Test3", "Test3Value"),
-                new JProperty("Test4", null)
-            );
-
-        Assert.Equal(o.Property("Test1"), v.Parent);
-
-        var p = new JProperty("NewProperty", v);
-
-        // existing value should still have same parent
-        Assert.Equal(o.Property("Test1"), v.Parent);
-
-        // new value should be cloned
-        Assert.NotSame(p.Value, v);
-
-        Assert.Equal((DateTime)((JValue)p.Value[1]).Value, (DateTime)((JValue)v[1]).Value);
-
-        Assert.Equal(v, o["Test1"]);
-
-        Assert.Equal(null, o.Parent);
-        var o1 = new JProperty("O1", o);
-        Assert.Equal(o, o1.Value);
-
-        Assert.NotEqual(null, o.Parent);
-        var o2 = new JProperty("O2", o);
-
-        Assert.NotSame(o1.Value, o2.Value);
-        Assert.Equal(o1.Value.Children().Count(), o2.Value.Children().Count());
-        XUnitAssert.False(JToken.DeepEquals(o1, o2));
-        XUnitAssert.True(JToken.DeepEquals(o1.Value, o2.Value));
     }
 
     [Fact]
@@ -1059,7 +1013,6 @@ public class JTokenTests : TestFixtureBase
                     new JProperty("First", new JValue(Encoding.UTF8.GetBytes("Hi"))),
                     new JProperty("Second", 1),
                     new JProperty("Third", null),
-                    new JProperty("Fourth", new JConstructor("Date", 12345)),
                     new JProperty("Fifth", double.PositiveInfinity),
                     new JProperty("Sixth", double.NaN)
                 )
@@ -1085,9 +1038,6 @@ public class JTokenTests : TestFixtureBase
     ""First"": ""SGk="",
     ""Second"": 1,
     ""Third"": null,
-    ""Fourth"": new Date(
-      12345
-    ),
     ""Fifth"": ""Infinity"",
     ""Sixth"": ""NaN""
   }
@@ -1109,7 +1059,6 @@ public class JTokenTests : TestFixtureBase
                     new JProperty("First", new JValue(Encoding.UTF8.GetBytes("Hi"))),
                     new JProperty("Second", 1),
                     new JProperty("Third", null),
-                    new JProperty("Fourth", new JConstructor("Date", 12345)),
                     new JProperty("Fifth", double.PositiveInfinity),
                     new JProperty("Sixth", double.NaN)
                 )
@@ -1168,8 +1117,7 @@ public class JTokenTests : TestFixtureBase
             new JObject(
                 new JProperty("Test1", new JArray(1, 2, 3)),
                 new JProperty("Test2", "Test2Value"),
-                new JProperty("Test3", new JObject(new JProperty("Test1", new JArray(1, new JObject(new JProperty("Test1", 1)), 3)))),
-                new JProperty("Test4", new JConstructor("Date", new JArray(1, 2, 3)))
+                new JProperty("Test3", new JObject(new JProperty("Test1", new JArray(1, new JObject(new JProperty("Test1", 1)), 3))))
             );
 
         var token = o.SelectToken("Test1[0]");
@@ -1180,12 +1128,6 @@ public class JTokenTests : TestFixtureBase
 
         token = o.SelectToken("");
         Assert.Equal("", token.Path);
-
-        token = o.SelectToken("Test4[0][0]");
-        Assert.Equal("Test4[0][0]", token.Path);
-
-        token = o.SelectToken("Test4[0]");
-        Assert.Equal("Test4[0]", token.Path);
 
         token = token.DeepClone();
         Assert.Equal("", token.Path);

@@ -59,8 +59,6 @@ public partial class JsonTextWriter
                 return writer.WriteAsync('}', cancellation);
             case JsonToken.EndArray:
                 return writer.WriteAsync(']', cancellation);
-            case JsonToken.EndConstructor:
-                return writer.WriteAsync(')', cancellation);
             default:
                 throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}", null);
         }
@@ -388,25 +386,6 @@ public partial class JsonTextWriter
         await task.ConfigureAwait(false);
 
         await writer.WriteAsync('{', cancellation).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Asynchronously writes the start of a constructor with the given name.
-    /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteStartConstructorAsync(string name, CancellationToken cancellation = default)
-    {
-        return safeAsync ? DoWriteStartConstructorAsync(name, cancellation) : base.WriteStartConstructorAsync(name, cancellation);
-    }
-
-    internal async Task DoWriteStartConstructorAsync(string name, CancellationToken cancellation)
-    {
-        await InternalWriteStartAsync(JsonToken.StartConstructor, JsonContainerType.Constructor, cancellation).ConfigureAwait(false);
-
-        await writer.WriteAsync("new ", cancellation).ConfigureAwait(false);
-        await writer.WriteAsync(name, cancellation).ConfigureAwait(false);
-        await writer.WriteAsync('(').ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1075,16 +1054,6 @@ public partial class JsonTextWriter
     public override Task WriteEndArrayAsync(CancellationToken cancellation = default)
     {
         return safeAsync ? InternalWriteEndAsync(JsonContainerType.Array, cancellation) : base.WriteEndArrayAsync(cancellation);
-    }
-
-    /// <summary>
-    /// Asynchronously writes the end of a constructor.
-    /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
-    public override Task WriteEndConstructorAsync(CancellationToken cancellation = default)
-    {
-        return safeAsync ? InternalWriteEndAsync(JsonContainerType.Constructor, cancellation) : base.WriteEndConstructorAsync(cancellation);
     }
 
     /// <summary>

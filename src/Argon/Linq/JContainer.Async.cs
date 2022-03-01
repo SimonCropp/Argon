@@ -77,20 +77,6 @@ public abstract partial class JContainer
 
                     parent = parent.Parent;
                     break;
-                case JsonToken.StartConstructor:
-                    var constructor = new JConstructor(reader.Value!.ToString()!);
-                    constructor.SetLineInfo(lineInfo, settings);
-                    parent.Add(constructor);
-                    parent = constructor;
-                    break;
-                case JsonToken.EndConstructor:
-                    if (parent == this)
-                    {
-                        return;
-                    }
-
-                    parent = parent.Parent;
-                    break;
                 case JsonToken.String:
                 case JsonToken.Integer:
                 case JsonToken.Float:

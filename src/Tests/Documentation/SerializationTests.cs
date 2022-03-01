@@ -56,9 +56,10 @@ public class SerializationTests : TestFixtureBase
             ExpiryDate = new DateTime(2008, 12, 28)
         };
 
-        var serializer = new JsonSerializer();
-        serializer.Converters.Add(new JavaScriptDateTimeConverter());
-        serializer.NullValueHandling = NullValueHandling.Ignore;
+        var serializer = new JsonSerializer
+        {
+            NullValueHandling = NullValueHandling.Ignore
+        };
 
         using var streamWriter = new StreamWriter(@"c:\json.txt");
         using JsonWriter writer = new JsonTextWriter(streamWriter);

@@ -487,20 +487,6 @@ class TraceJsonWriter : JsonWriter
         base.WriteEndArray();
     }
 
-    public override void WriteStartConstructor(string name)
-    {
-        textWriter.WriteStartConstructor(name);
-        innerWriter.WriteStartConstructor(name);
-        base.WriteStartConstructor(name);
-    }
-
-    public override void WriteEndConstructor()
-    {
-        textWriter.WriteEndConstructor();
-        innerWriter.WriteEndConstructor();
-        base.WriteEndConstructor();
-    }
-
     public override void WritePropertyName(string name)
     {
         textWriter.WritePropertyName(name);

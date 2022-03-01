@@ -17,33 +17,30 @@ public abstract partial class JsonWriter : IDisposable
         Object = 3,
         ArrayStart = 4,
         Array = 5,
-        ConstructorStart = 6,
-        Constructor = 7,
-        Closed = 8,
-        Error = 9
+        Closed = 6,
+        Error = 7
     }
 
     // array that gives a new state based on the current state an the token being written
     static readonly State[][] StateArray;
 
     internal static readonly State[][] StateArrayTemplate = {
-        //                                      Start                    PropertyName            ObjectStart         Object            ArrayStart              Array                   ConstructorStart        Constructor             Closed       Error
+        //                                 Start               PropertyName       ObjectStart        Object          ArrayStart         Array              Closed       Error
         //
-        /* None                        */new[] { State.Error,            State.Error,            State.Error,        State.Error,      State.Error,            State.Error,            State.Error,            State.Error,            State.Error, State.Error },
-        /* StartObject                 */new[] { State.ObjectStart,      State.ObjectStart,      State.Error,        State.Error,      State.ObjectStart,      State.ObjectStart,      State.ObjectStart,      State.ObjectStart,      State.Error, State.Error },
-        /* StartArray                  */new[] { State.ArrayStart,       State.ArrayStart,       State.Error,        State.Error,      State.ArrayStart,       State.ArrayStart,       State.ArrayStart,       State.ArrayStart,       State.Error, State.Error },
-        /* StartConstructor            */new[] { State.ConstructorStart, State.ConstructorStart, State.Error,        State.Error,      State.ConstructorStart, State.ConstructorStart, State.ConstructorStart, State.ConstructorStart, State.Error, State.Error },
-        /* Property                    */new[] { State.Property,         State.Error,            State.Property,     State.Property,   State.Error,            State.Error,            State.Error,            State.Error,            State.Error, State.Error },
-        /* Comment                     */new[] { State.Start,            State.Property,         State.ObjectStart,  State.Object,     State.ArrayStart,       State.Array,            State.Constructor,      State.Constructor,      State.Error, State.Error },
-        /* Raw                         */new[] { State.Start,            State.Property,         State.ObjectStart,  State.Object,     State.ArrayStart,       State.Array,            State.Constructor,      State.Constructor,      State.Error, State.Error },
-        /* Value (this will be copied) */new[] { State.Start,            State.Object,           State.Error,        State.Error,      State.Array,            State.Array,            State.Constructor,      State.Constructor,      State.Error, State.Error }
+        /* None                   */new[] { State.Error,       State.Error,       State.Error,       State.Error,    State.Error,       State.Error,       State.Error, State.Error },
+        /* StartObject            */new[] { State.ObjectStart, State.ObjectStart, State.Error,       State.Error,    State.ObjectStart, State.ObjectStart, State.Error, State.Error },
+        /* StartArray             */new[] { State.ArrayStart,  State.ArrayStart,  State.Error,       State.Error,    State.ArrayStart,  State.ArrayStart,  State.Error, State.Error },
+        /* Property               */new[] { State.Property,    State.Error,       State.Property,    State.Property, State.Error,       State.Error,       State.Error, State.Error },
+        /* Comment                */new[] { State.Start,       State.Property,    State.ObjectStart, State.Object,   State.ArrayStart,  State.Array,       State.Error, State.Error },
+        /* Raw                    */new[] { State.Start,       State.Property,    State.ObjectStart, State.Object,   State.ArrayStart,  State.Array,       State.Error, State.Error },
+        /* Value (will be copied) */new[] { State.Start,       State.Object,      State.Error,       State.Error,    State.Array,       State.Array,       State.Error, State.Error }
     };
 
     internal static State[][] BuildStateArray()
     {
         var allStates = StateArrayTemplate.ToList();
         var errorStates = StateArrayTemplate[0];
-        var valueStates = StateArrayTemplate[7];
+        var valueStates = StateArrayTemplate[6];
 
         var enumValuesAndNames = EnumUtils.GetEnumValuesAndNames(typeof(JsonToken));
 
@@ -129,9 +126,6 @@ public abstract partial class JsonWriter : IDisposable
                 case State.Array:
                 case State.ArrayStart:
                     return WriteState.Array;
-                case State.Constructor:
-                case State.ConstructorStart:
-                    return WriteState.Constructor;
                 case State.Property:
                     return WriteState.Property;
                 case State.Start:
@@ -167,9 +161,8 @@ public abstract partial class JsonWriter : IDisposable
                 return string.Empty;
             }
 
-            var insideContainer = currentState != State.ArrayStart
-                                  && currentState != State.ConstructorStart
-                                  && currentState != State.ObjectStart;
+            var insideContainer = currentState != State.ArrayStart &&
+                                  currentState != State.ObjectStart;
 
             var current = insideContainer ? (JsonPosition?)currentPosition : null;
 
@@ -333,22 +326,6 @@ public abstract partial class JsonWriter : IDisposable
     }
 
     /// <summary>
-    /// Writes the start of a constructor with the given name.
-    /// </summary>
-    public virtual void WriteStartConstructor(string name)
-    {
-        InternalWriteStart(JsonToken.StartConstructor, JsonContainerType.Constructor);
-    }
-
-    /// <summary>
-    /// Writes the end constructor.
-    /// </summary>
-    public virtual void WriteEndConstructor()
-    {
-        InternalWriteEnd(JsonContainerType.Constructor);
-    }
-
-    /// <summary>
     /// Writes the property name of a name/value pair of a JSON object.
     /// </summary>
     public virtual void WritePropertyName(string name)
@@ -411,9 +388,6 @@ public abstract partial class JsonWriter : IDisposable
             case JsonToken.StartArray:
                 WriteStartArray();
                 break;
-            case JsonToken.StartConstructor:
-                WriteStartConstructor(value!.ToString()!);
-                break;
             case JsonToken.PropertyName:
                 WritePropertyName(value!.ToString()!);
                 break;
@@ -468,9 +442,6 @@ public abstract partial class JsonWriter : IDisposable
             case JsonToken.EndArray:
                 WriteEndArray();
                 break;
-            case JsonToken.EndConstructor:
-                WriteEndConstructor();
-                break;
             case JsonToken.Date:
                 if (value is DateTimeOffset dt)
                 {
@@ -513,17 +484,9 @@ public abstract partial class JsonWriter : IDisposable
 
         do
         {
-            // write a JValue date when the constructor is for a date
-            if (writeDateConstructorAsDate && reader.TokenType == JsonToken.StartConstructor && string.Equals(reader.Value?.ToString(), "Date", StringComparison.Ordinal))
+            if (writeComments || reader.TokenType != JsonToken.Comment)
             {
-                WriteConstructorDate(reader);
-            }
-            else
-            {
-                if (writeComments || reader.TokenType != JsonToken.Comment)
-                {
-                    WriteToken(reader.TokenType, reader.Value);
-                }
+                WriteToken(reader.TokenType, reader.Value);
             }
         } while (
             // stop if we have reached the end of the token being read
@@ -566,16 +529,6 @@ public abstract partial class JsonWriter : IDisposable
         return JsonTokenUtils.IsEndToken(type) ? reader.Depth - 1 : reader.Depth;
     }
 
-    void WriteConstructorDate(JsonReader reader)
-    {
-        if (!JavaScriptUtils.TryGetDateFromConstructorJson(reader, out var dateTime, out var errorMessage))
-        {
-            throw JsonWriterException.Create(this, errorMessage, null);
-        }
-
-        WriteValue(dateTime);
-    }
-
     void WriteEnd(JsonContainerType type)
     {
         switch (type)
@@ -585,9 +538,6 @@ public abstract partial class JsonWriter : IDisposable
                 break;
             case JsonContainerType.Array:
                 WriteEndArray();
-                break;
-            case JsonContainerType.Constructor:
-                WriteEndConstructor();
                 break;
             default:
                 throw JsonWriterException.Create(this, $"Unexpected type when writing end: {type}", null);
@@ -610,8 +560,6 @@ public abstract partial class JsonWriter : IDisposable
                 return JsonToken.EndObject;
             case JsonContainerType.Array:
                 return JsonToken.EndArray;
-            case JsonContainerType.Constructor:
-                return JsonToken.EndConstructor;
             default:
                 throw JsonWriterException.Create(this, $"No close token for type: {type}", null);
         }
@@ -687,9 +635,6 @@ public abstract partial class JsonWriter : IDisposable
             case JsonContainerType.Array:
                 currentState = State.Array;
                 break;
-            case JsonContainerType.Constructor:
-                currentState = State.Array;
-                break;
             case JsonContainerType.None:
                 currentState = State.Start;
                 break;
@@ -736,7 +681,8 @@ public abstract partial class JsonWriter : IDisposable
             throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {currentState.ToString()} would result in an invalid JSON object.", null);
         }
 
-        if (currentState is State.Object or State.Array or State.Constructor && tokenBeingWritten != JsonToken.Comment)
+        if (currentState is State.Object or State.Array &&
+            tokenBeingWritten != JsonToken.Comment)
         {
             WriteValueDelimiter();
         }
@@ -749,7 +695,8 @@ public abstract partial class JsonWriter : IDisposable
             }
 
             // don't indent a property when it is the first token to be written (i.e. at the start)
-            if (currentState is State.Array or State.ArrayStart or State.Constructor or State.ConstructorStart || (tokenBeingWritten == JsonToken.PropertyName && currentState != State.Start))
+            if (currentState is State.Array or State.ArrayStart ||
+                (tokenBeingWritten == JsonToken.PropertyName && currentState != State.Start))
             {
                 WriteIndent();
             }
@@ -1497,9 +1444,6 @@ public abstract partial class JsonWriter : IDisposable
             case JsonToken.StartArray:
                 InternalWriteStart(token, JsonContainerType.Array);
                 break;
-            case JsonToken.StartConstructor:
-                InternalWriteStart(token, JsonContainerType.Constructor);
-                break;
             case JsonToken.PropertyName:
                 if (value is not string s)
                 {
@@ -1529,9 +1473,6 @@ public abstract partial class JsonWriter : IDisposable
                 break;
             case JsonToken.EndArray:
                 InternalWriteEnd(JsonContainerType.Array);
-                break;
-            case JsonToken.EndConstructor:
-                InternalWriteEnd(JsonContainerType.Constructor);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(token));

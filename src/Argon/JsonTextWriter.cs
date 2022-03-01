@@ -166,18 +166,6 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes the start of a constructor with the given name.
-    /// </summary>
-    public override void WriteStartConstructor(string name)
-    {
-        InternalWriteStart(JsonToken.StartConstructor, JsonContainerType.Constructor);
-
-        writer.Write("new ");
-        writer.Write(name);
-        writer.Write('(');
-    }
-
-    /// <summary>
     /// Writes the specified end token.
     /// </summary>
     protected override void WriteEnd(JsonToken token)
@@ -189,9 +177,6 @@ public partial class JsonTextWriter : JsonWriter
                 break;
             case JsonToken.EndArray:
                 writer.Write(']');
-                break;
-            case JsonToken.EndConstructor:
-                writer.Write(')');
                 break;
             default:
                 throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}", null);

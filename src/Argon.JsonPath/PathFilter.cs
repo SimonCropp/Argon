@@ -19,21 +19,6 @@ abstract class PathFilter
             return a[index];
         }
 
-        if (t is JConstructor c)
-        {
-            if (c.Count <= index)
-            {
-                if (settings.ErrorWhenNoMatch)
-                {
-                    throw new JsonException($"Index {index} outside the bounds of JConstructor.");
-                }
-
-                return null;
-            }
-
-            return c[index];
-        }
-
         if (settings.ErrorWhenNoMatch)
         {
             throw new JsonException($"Index {index} not valid on {t.GetType().Name}.");

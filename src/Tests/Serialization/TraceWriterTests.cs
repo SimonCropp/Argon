@@ -235,7 +235,7 @@ Argon Error: 0 : Error!
     }
 
     [Fact]
-    public void MemoryTraceWriterSerializeTest()
+    public Task MemoryTraceWriterSerializeTest()
     {
         var staff = new Staff
         {
@@ -248,56 +248,24 @@ Argon Error: 0 : Error!
 
         JsonConvert.SerializeObject(
             staff,
-            new JsonSerializerSettings {TraceWriter = traceWriter, Converters = {new JavaScriptDateTimeConverter()}});
-
-        // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
-        // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
-        // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-        // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-        // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
+            new JsonSerializerSettings {TraceWriter = traceWriter});
 
         var memoryTraceWriter = (MemoryTraceWriter) traceWriter;
-        var output = memoryTraceWriter.ToString();
 
-        Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
-
-        var json = @"Serialized JSON: 
-{
-  ""Name"": ""Arnie Admin"",
-  ""StartDate"": new Date(
-    976623132000
-  ),
-  ""Roles"": [
-    ""Administrator""
-  ]
-}";
-
-        json = XUnitAssert.Normalize(json);
-        output = XUnitAssert.Normalize(output);
-
-        Assert.True(output.Contains(json));
+        var lines = memoryTraceWriter.GetTraceMessages().Select(x => x[24..]);
+        return Verify(string.Join(Environment.NewLine, lines));
     }
 
     [Fact]
-    public void MemoryTraceWriterDeserializeTest()
+    public Task MemoryTraceWriterDeserializeTest()
     {
         var json = @"{
   ""Name"": ""Arnie Admin"",
-  ""StartDate"": new Date(
-    976623132000
-  ),
+  ""StartDate"": '2000-08-14T00:00:00',
   ""Roles"": [
     ""Administrator""
   ]
 }";
-
-        var staff = new Staff
-        {
-            Name = "Arnie Admin",
-            Roles = new List<string> {"Administrator"},
-            StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
-        };
 
         ITraceWriter traceWriter = new MemoryTraceWriter();
 
@@ -306,36 +274,13 @@ Argon Error: 0 : Error!
             new JsonSerializerSettings
             {
                 TraceWriter = traceWriter,
-                Converters = {new JavaScriptDateTimeConverter()},
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
 
-        // 2012-11-11T12:08:42.761 Info Started serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2012-11-11T12:08:42.785 Info Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path 'StartDate'.
-        // 2012-11-11T12:08:42.791 Info Finished serializing System.DateTime with converter TestObjects.Converters.JavaScriptDateTimeConverter. Path 'StartDate'.
-        // 2012-11-11T12:08:42.797 Info Started serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-        // 2012-11-11T12:08:42.798 Info Finished serializing System.Collections.Generic.List`1[System.String]. Path 'Roles'.
-        // 2012-11-11T12:08:42.799 Info Finished serializing Argon.Tests.Serialization.Staff. Path ''.
-        // 2013-05-19T00:07:24.360 Verbose Deserialized JSON:
-        // {
-        //   "Name": "Arnie Admin",
-        //   "StartDate": new Date(
-        //     976623132000
-        //   ),
-        //   "Roles": [
-        //     "Administrator"
-        //   ]
-        // }
-
         var memoryTraceWriter = (MemoryTraceWriter) traceWriter;
-        var output = memoryTraceWriter.ToString();
 
-        Assert.Equal(7, memoryTraceWriter.GetTraceMessages().Count());
-
-        json = XUnitAssert.Normalize(json);
-        output = XUnitAssert.Normalize(output);
-
-        Assert.True(output.Contains(json));
+        var lines = memoryTraceWriter.GetTraceMessages().Select(x => x[24..]);
+        return Verify(string.Join(Environment.NewLine, lines));
     }
 
     [Fact]
@@ -733,7 +678,7 @@ Argon Error: 0 : Error!
     }
 
     [Fact]
-    public void SerializeConverter()
+    public Task SerializeConverter()
     {
         var traceWriter = new InMemoryTraceWriter
         {
@@ -748,20 +693,16 @@ Argon Error: 0 : Error!
         JsonConvert.SerializeObject(d, Formatting.Indented,
             new JsonSerializerSettings
             {
-                Converters = {new JavaScriptDateTimeConverter()},
                 TraceWriter = traceWriter
             });
 
-        Assert.Equal("Started serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal("Started serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path ''.", traceWriter.TraceRecords[1].Message);
-        Assert.Equal("Finished serializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path '[0]'.", traceWriter.TraceRecords[2].Message);
-        Assert.Equal("Finished serializing System.Collections.Generic.List`1[System.DateTime]. Path ''.", traceWriter.TraceRecords[3].Message);
+        return Verify(traceWriter.TraceRecords);
     }
 
     [Fact]
-    public void DeserializeConverter()
+    public Task DeserializeConverter()
     {
-        var json = @"[new Date(976623132000)]";
+        var json = @"['2014-06-04T00:00:00Z']";
 
         var traceWriter =
             new InMemoryTraceWriter
@@ -773,14 +714,10 @@ Argon Error: 0 : Error!
             json,
             new JsonSerializerSettings
             {
-                Converters = {new JavaScriptDateTimeConverter()},
                 TraceWriter = traceWriter
             });
 
-        Assert.Equal("Started deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 1.", traceWriter.TraceRecords[0].Message);
-        Assert.Equal("Started deserializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path '[0]', line 1, position 10.", traceWriter.TraceRecords[1].Message);
-        Assert.Equal("Finished deserializing System.DateTime with converter Argon.JavaScriptDateTimeConverter. Path '[0]', line 1, position 23.", traceWriter.TraceRecords[2].Message);
-        Assert.Equal("Finished deserializing System.Collections.Generic.List`1[System.DateTime]. Path '', line 1, position 24.", traceWriter.TraceRecords[3].Message);
+        return Verify(traceWriter.TraceRecords);
     }
 
     [Fact]
@@ -1074,7 +1011,7 @@ Argon Error: 0 : Error!
     }
 
     [Fact]
-    public void TraceJsonWriterTest()
+    public async Task TraceJsonWriterTest()
     {
         var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
         var w = new JsonTextWriter(stringWriter);
@@ -1128,9 +1065,6 @@ Argon Error: 0 : Error!
         traceWriter.WriteRaw("[2]");
         traceWriter.WriteNull();
         traceWriter.WriteUndefined();
-        traceWriter.WriteStartConstructor("ctor");
-        traceWriter.WriteValue(1);
-        traceWriter.WriteEndConstructor();
         traceWriter.WriteComment("A comment");
         traceWriter.WriteWhitespace("       ");
         traceWriter.WriteEnd();
@@ -1138,79 +1072,24 @@ Argon Error: 0 : Error!
         traceWriter.Flush();
         traceWriter.Close();
 
-        var json = @"{
-  ""Array"": [
-    ""String!"",
-    ""2000-12-12T12:12:12Z"",
-    ""2000-12-12T12:12:12+02:00"",
-    1.1,
-    1.1,
-    1.1,
-    1,
-    ""!"",
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    true,
-    ""2000-12-12T12:12:12Z"",
-    ""2000-12-12T12:12:12+02:00"",
-    1.1,
-    1.1,
-    1.1,
-    1,
-    ""!"",
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    true,
-    9999999990000000000000000000000000000000000,
-    true,
-    ""00:01:00"",
-    ""00000000-0000-0000-0000-000000000000"",
-    ""http://www.google.com/"",
-    ""U3RyaW5nIQ=="",
-    [1],[2],
-    null,
-    undefined,
-    new ctor(
-      1
-    )
-    /*A comment*/       
-  ]
-}";
-
-        XUnitAssert.AreEqualNormalized($"Serialized JSON: {Environment.NewLine}{json}", traceWriter.GetSerializedJsonMessage());
+        await Verify(traceWriter.GetSerializedJsonMessage());
     }
 
     [Fact]
-    public void TraceJsonReaderTest()
+    public async Task TraceJsonReaderTest()
     {
         var json = @"{
   ""Array"": [
     ""String!"",
     ""2000-12-12T12:12:12Z"",
     ""2000-12-12T12:12:12Z"",
-    ""2000-12-12T12:12:12+00:00"",
     ""U3RyaW5nIQ=="",
     1,
     1.1,
     1.2,
     9999999990000000000000000000000000000000000,
     null,
-    undefined,
-    new ctor(
-      1
-    )
+    undefined
     /*A comment*/
   ]
 }";
@@ -1219,88 +1098,7 @@ Argon Error: 0 : Error!
         var w = new JsonTextReader(stringReader);
         var traceReader = new TraceJsonReader(w);
 
-        traceReader.Read();
-        Assert.Equal(JsonToken.StartObject, traceReader.TokenType);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.PropertyName, traceReader.TokenType);
-        Assert.Equal("Array", traceReader.Value);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.StartArray, traceReader.TokenType);
-        Assert.Equal(null, traceReader.Value);
-
-        traceReader.ReadAsString();
-        Assert.Equal(JsonToken.String, traceReader.TokenType);
-        Assert.Equal('"', traceReader.QuoteChar);
-        Assert.Equal("String!", traceReader.Value);
-
-        // for great code coverage justice!
-        traceReader.QuoteChar = '\'';
-        Assert.Equal('\'', traceReader.QuoteChar);
-
-        traceReader.ReadAsString();
-        Assert.Equal(JsonToken.String, traceReader.TokenType);
-        Assert.Equal("2000-12-12T12:12:12Z", traceReader.Value);
-
-        traceReader.ReadAsDateTime();
-        Assert.Equal(JsonToken.Date, traceReader.TokenType);
-        Assert.Equal(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), traceReader.Value);
-
-        traceReader.ReadAsDateTimeOffset();
-        Assert.Equal(JsonToken.Date, traceReader.TokenType);
-        Assert.Equal(new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero), traceReader.Value);
-
-        traceReader.ReadAsBytes();
-        Assert.Equal(JsonToken.Bytes, traceReader.TokenType);
-        Assert.Equal(Encoding.UTF8.GetBytes("String!"), (byte[]) traceReader.Value);
-
-        traceReader.ReadAsInt32();
-        Assert.Equal(JsonToken.Integer, traceReader.TokenType);
-        Assert.Equal(1, traceReader.Value);
-
-        traceReader.ReadAsDecimal();
-        Assert.Equal(JsonToken.Float, traceReader.TokenType);
-        Assert.Equal(1.1m, traceReader.Value);
-
-        traceReader.ReadAsDouble();
-        Assert.Equal(JsonToken.Float, traceReader.TokenType);
-        Assert.Equal(1.2d, traceReader.Value);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.Integer, traceReader.TokenType);
-        Assert.Equal(typeof(BigInteger), traceReader.ValueType);
-        Assert.Equal(BigInteger.Parse("9999999990000000000000000000000000000000000"), traceReader.Value);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.Null, traceReader.TokenType);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.Undefined, traceReader.TokenType);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.StartConstructor, traceReader.TokenType);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.Integer, traceReader.TokenType);
-        Assert.Equal(1L, traceReader.Value);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.EndConstructor, traceReader.TokenType);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.Comment, traceReader.TokenType);
-        Assert.Equal("A comment", traceReader.Value);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.EndArray, traceReader.TokenType);
-
-        traceReader.Read();
-        Assert.Equal(JsonToken.EndObject, traceReader.TokenType);
-
-        Assert.False(traceReader.Read());
-
-        traceReader.Close();
+        await traceReader.VerifyReaderState();
 
         XUnitAssert.AreEqualNormalized($"Deserialized JSON: {Environment.NewLine}{json}", traceReader.GetDeserializedJsonMessage());
     }

@@ -18,26 +18,6 @@ public class Person
 }
 #endregion
 
-#region JsonConverterContractResolver
-public class ConverterContractResolver : DefaultContractResolver
-{
-    public new static readonly ConverterContractResolver Instance = new();
-
-    protected override JsonContract CreateContract(Type type)
-    {
-        var contract = base.CreateContract(type);
-
-        // this will only be called once and then cached
-        if (type == typeof(DateTime) || type == typeof(DateTimeOffset))
-        {
-            contract.Converter = new JavaScriptDateTimeConverter();
-        }
-
-        return contract;
-    }
-}
-#endregion
-
 public class PersonConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -105,7 +85,7 @@ public class PerformanceTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new DateTime(2000, 10, 10, 10, 10, 10, DateTimeKind.Utc), new JsonSerializerSettings
         {
-            ContractResolver = ConverterContractResolver.Instance
+            ContractResolver = DefaultContractResolver.Instance
         });
 
         Console.WriteLine(json);

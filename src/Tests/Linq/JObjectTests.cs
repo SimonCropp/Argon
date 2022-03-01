@@ -415,17 +415,6 @@ Parameter name: arrayIndex",
     }
 
     [Fact]
-    public void ParseJavaScriptDate()
-    {
-        var json = @"[new Date(1207285200000)]";
-
-        var a = (JArray) JsonConvert.DeserializeObject(json);
-        var v = (JValue) a[0];
-
-        Assert.Equal(DateTimeUtils.ConvertJavaScriptTicksToDateTime(1207285200000), (DateTime) v);
-    }
-
-    [Fact]
     public void GenericValueCast()
     {
         var json = @"{""foo"":true}";
@@ -532,13 +521,13 @@ Parameter name: arrayIndex",
     public void Example()
     {
         var json = @"{
-        ""Name"": ""Apple"",
-        ""Expiry"": new Date(1230422400000),
-        ""Price"": 3.99,
-        ""Sizes"": [
-          ""Small"",
-          ""Medium"",
-          ""Large""
+        Name: 'Apple',
+        Expiry: '2014-06-04T00:00:00Z',
+        Price: 3.99,
+        Sizes: [
+          'Small',
+          'Medium',
+          'Large'
         ]
       }";
 
@@ -1399,13 +1388,13 @@ Parameter name: arrayIndex",
             () =>
             {
                 var json = @"{
-""Name"": ""Apple"",
-""Expiry"": new Date(1230422400000),
-""Price"": 3.99,
-""Sizes"": [
-""Small"",
-""Medium"",
-""Large""
+Name: 'Apple',
+Expiry: '2014-06-04T00:00:00Z',
+Price: 3.99,
+Sizes: [
+'Small',
+'Medium',
+'Large'
 ]
 }, 987987";
 

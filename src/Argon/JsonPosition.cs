@@ -6,8 +6,7 @@ enum JsonContainerType
 {
     None = 0,
     Object = 1,
-    Array = 2,
-    Constructor = 3
+    Array = 2
 }
 
 struct JsonPosition
@@ -34,7 +33,6 @@ struct JsonPosition
             case JsonContainerType.Object:
                 return PropertyName!.Length + 5;
             case JsonContainerType.Array:
-            case JsonContainerType.Constructor:
                 return MathUtils.IntLength((ulong)Position) + 2;
             default:
                 throw new ArgumentOutOfRangeException(nameof(Type));
@@ -68,7 +66,6 @@ struct JsonPosition
                 }
                 break;
             case JsonContainerType.Array:
-            case JsonContainerType.Constructor:
                 sb.Append('[');
                 sb.Append(Position);
                 sb.Append(']');
@@ -78,7 +75,7 @@ struct JsonPosition
 
     internal static bool TypeHasIndex(JsonContainerType type)
     {
-        return type is JsonContainerType.Array or JsonContainerType.Constructor;
+        return type is JsonContainerType.Array;
     }
 
     internal static string BuildPath(List<JsonPosition> positions, JsonPosition? currentPosition)

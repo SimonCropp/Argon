@@ -208,41 +208,6 @@
     Depth: 1
   },
   {
-    TokenType: PropertyName,
-    Path: Constructor,
-    Depth: 1,
-    Value: Constructor
-  },
-  {
-    TokenType: StartConstructor,
-    Path: Constructor,
-    Depth: 1,
-    Value: Date
-  },
-  {
-    TokenType: Integer,
-    Path: Constructor[0],
-    Depth: 2,
-    Value: 2000
-  },
-  {
-    TokenType: Integer,
-    Path: Constructor[1],
-    Depth: 2,
-    Value: 12
-  },
-  {
-    TokenType: Integer,
-    Path: Constructor[2],
-    Depth: 2,
-    Value: 30
-  },
-  {
-    TokenType: EndConstructor,
-    Path: Constructor,
-    Depth: 1
-  },
-  {
     TokenType: EndObject,
     Path: 
   }

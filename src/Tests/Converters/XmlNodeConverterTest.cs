@@ -1368,31 +1368,6 @@ public class XmlNodeConverterTest : TestFixtureBase
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Prop2', line 1, position 15.");
     }
 
-    [Fact]
-    public void JavaScriptConstructor()
-    {
-        var jsonText = @"{root:{r:new Date(34343, 55)}}";
-
-        var newDoc = (XmlDocument) DeserializeXmlNode(jsonText);
-
-        var expected = @"<root><r><Date>34343</Date><Date>55</Date></r></root>";
-
-        Assert.Equal(expected, newDoc.InnerXml);
-
-        var json = SerializeXmlNode(newDoc);
-        expected = @"{
-  ""root"": {
-    ""r"": {
-      ""Date"": [
-        ""34343"",
-        ""55""
-      ]
-    }
-  }
-}";
-
-        XUnitAssert.AreEqualNormalized(expected, json);
-    }
 
     [Fact]
     public void ForceJsonArray()

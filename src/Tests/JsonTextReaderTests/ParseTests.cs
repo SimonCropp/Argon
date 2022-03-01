@@ -251,7 +251,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public async Task ParseContentDelimitedByNonStandardWhitespace()
     {
-        var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,\x00a0new\x00a0Date\x00a0(\x00a0)\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
+        var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,'2014-06-04T00:00:00Z'\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
         await reader.VerifyReaderState();
     }
@@ -295,19 +295,6 @@ public class ParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseEmptyConstructor()
-    {
-        var json = "new Date()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
     public void ParseHexNumber()
     {
         var json = @"0x20";
@@ -345,36 +332,6 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
     }
 
-    [Fact]
-    public void ParseLineFeedDelimitedConstructor()
-    {
-        var json = "new Date\n()";
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(reader.Read());
-        Assert.Equal("Date", reader.Value);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
-
-    [Fact]
-    public void ParseNullStringConstructor()
-    {
-        var json = "new Date\0()";
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[7];
-#endif
-
-        Assert.True(reader.Read());
-        Assert.Equal("Date", reader.Value);
-        Assert.Equal(JsonToken.StartConstructor, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndConstructor, reader.TokenType);
-    }
 
     [Fact]
     public void ParseOctalNumber()
@@ -398,7 +355,7 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         Assert.True(reader.Read());
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
+        Assert.Equal(new DateTime(InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
         Assert.True(reader.Read());
 
@@ -407,7 +364,7 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         Assert.True(reader.Read());
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
+        Assert.Equal(new DateTimeOffset(InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         reader = new JsonTextReader(new StringReader(json));
@@ -423,7 +380,7 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         reader.ReadAsDateTimeOffset();
-        Assert.Equal(new DateTimeOffset(DateTimeUtils.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
+        Assert.Equal(new DateTimeOffset(InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         reader = new JsonTextReader(new StringReader(json));
@@ -431,7 +388,8 @@ public class ParseTests : TestFixtureBase
 
         Assert.True(reader.Read());
         reader.ReadAsDateTime();
-        Assert.Equal(new DateTime(DateTimeUtils.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
+        Assert.Equal(new DateTime(InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
     }
+    internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
 }
