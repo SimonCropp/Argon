@@ -671,7 +671,7 @@ public abstract partial class JsonWriter : IDisposable
     {
     }
 
-    internal void AutoComplete(JsonToken tokenBeingWritten)
+    void AutoComplete(JsonToken tokenBeingWritten)
     {
         // gets new state based on the current state and what is being written
         var newState = StateArray[(int)tokenBeingWritten][(int)currentState];
@@ -1479,7 +1479,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    internal void InternalWriteEnd(JsonContainerType container)
+    void InternalWriteEnd(JsonContainerType container)
     {
         AutoCompleteClose(container);
     }

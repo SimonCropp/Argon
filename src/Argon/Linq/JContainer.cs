@@ -130,7 +130,7 @@ public abstract partial class JContainer :
         return GetDescendants(true);
     }
 
-    internal IEnumerable<JToken> GetDescendants(bool self)
+    IEnumerable<JToken> GetDescendants(bool self)
     {
         if (self)
         {

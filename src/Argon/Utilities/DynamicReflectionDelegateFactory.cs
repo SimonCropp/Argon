@@ -322,7 +322,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Action<T, object?>)dynamicMethod.CreateDelegate(typeof(Action<T, object?>));
     }
 
-    internal static void GenerateCreateSetFieldIL(FieldInfo field, ILGenerator generator)
+    static void GenerateCreateSetFieldIL(FieldInfo field, ILGenerator generator)
     {
         if (!field.IsStatic)
         {
@@ -354,7 +354,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (Action<T, object?>)dynamicMethod.CreateDelegate(typeof(Action<T, object>));
     }
 
-    internal static void GenerateCreateSetPropertyIL(PropertyInfo property, ILGenerator generator)
+    static void GenerateCreateSetPropertyIL(PropertyInfo property, ILGenerator generator)
     {
         var setMethod = property.SetMethod!;
         if (!setMethod.IsStatic)

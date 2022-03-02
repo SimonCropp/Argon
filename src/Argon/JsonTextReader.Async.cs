@@ -1293,7 +1293,7 @@ public partial class JsonTextReader
         return base.ReadAsBooleanAsync(cancellation);
     }
 
-    internal async Task<bool?> DoReadAsBooleanAsync(CancellationToken cancellation)
+    async Task<bool?> DoReadAsBooleanAsync(CancellationToken cancellation)
     {
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
@@ -1429,7 +1429,7 @@ public partial class JsonTextReader
         return base.ReadAsBytesAsync(cancellation);
     }
 
-    internal async Task<byte[]?> DoReadAsBytesAsync(CancellationToken cancellation)
+    async Task<byte[]?> DoReadAsBytesAsync(CancellationToken cancellation)
     {
         EnsureBuffer();
         MiscellaneousUtils.Assert(CharBuffer != null);
@@ -1574,7 +1574,7 @@ public partial class JsonTextReader
         return base.ReadAsDateTimeAsync(cancellation);
     }
 
-    internal async Task<DateTime?> DoReadAsDateTimeAsync(CancellationToken cancellation)
+    async Task<DateTime?> DoReadAsDateTimeAsync(CancellationToken cancellation)
     {
         return (DateTime?)await ReadStringValueAsync(ReadType.ReadAsDateTime, cancellation).ConfigureAwait(false);
     }
@@ -1596,7 +1596,7 @@ public partial class JsonTextReader
         return base.ReadAsDateTimeOffsetAsync(cancellation);
     }
 
-    internal async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(CancellationToken cancellation)
+    async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(CancellationToken cancellation)
     {
         return (DateTimeOffset?)await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancellation).ConfigureAwait(false);
     }
@@ -1617,7 +1617,7 @@ public partial class JsonTextReader
         };
     }
 
-    internal async Task<decimal?> DoReadAsDecimalAsync(CancellationToken cancellation)
+    async Task<decimal?> DoReadAsDecimalAsync(CancellationToken cancellation)
     {
         return (decimal?)await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancellation).ConfigureAwait(false);
     }
@@ -1639,7 +1639,7 @@ public partial class JsonTextReader
         return base.ReadAsDoubleAsync(cancellation);
     }
 
-    internal async Task<double?> DoReadAsDoubleAsync(CancellationToken cancellation)
+    async Task<double?> DoReadAsDoubleAsync(CancellationToken cancellation)
     {
         return (double?)await ReadNumberValueAsync(ReadType.ReadAsDouble, cancellation).ConfigureAwait(false);
     }
@@ -1661,7 +1661,7 @@ public partial class JsonTextReader
         return base.ReadAsInt32Async(cancellation);
     }
 
-    internal async Task<int?> DoReadAsInt32Async(CancellationToken cancellation)
+    async Task<int?> DoReadAsInt32Async(CancellationToken cancellation)
     {
         return (int?)await ReadNumberValueAsync(ReadType.ReadAsInt32, cancellation).ConfigureAwait(false);
     }
@@ -1683,7 +1683,7 @@ public partial class JsonTextReader
         return base.ReadAsStringAsync(cancellation);
     }
 
-    internal async Task<string?> DoReadAsStringAsync(CancellationToken cancellation)
+    async Task<string?> DoReadAsStringAsync(CancellationToken cancellation)
     {
         return (string?)await ReadStringValueAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
     }

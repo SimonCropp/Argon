@@ -228,7 +228,7 @@ static class ConvertUtils
         }
     }
 
-    internal enum ConvertResult
+    enum ConvertResult
     {
         Success = 0,
         CannotConvertNull = 1,
