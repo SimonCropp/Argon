@@ -182,14 +182,20 @@ public static class JsonConvert
 
     static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
-        if (floatFormatHandling == FloatFormatHandling.Symbol || !(double.IsInfinity(value) || double.IsNaN(value)))
+        if (floatFormatHandling == FloatFormatHandling.Symbol ||
+            !(double.IsInfinity(value) || double.IsNaN(value)))
         {
             return text;
         }
 
         if (floatFormatHandling == FloatFormatHandling.DefaultValue)
         {
-            return !nullable ? "0.0" : Null;
+            if (nullable)
+            {
+                return Null;
+            }
+
+            return "0.0";
         }
 
         return quoteChar + text + quoteChar;
@@ -206,12 +212,17 @@ public static class JsonConvert
 
     internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
-        return EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture)), floatFormatHandling, quoteChar, nullable);
+        var ensureDecimalPlace = EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
+        return EnsureFloatFormat(value, ensureDecimalPlace, floatFormatHandling, quoteChar, nullable);
     }
 
     static string EnsureDecimalPlace(double value, string text)
     {
-        if (double.IsNaN(value) || double.IsInfinity(value) || text.IndexOf('.') != -1 || text.IndexOf('E') != -1 || text.IndexOf('e') != -1)
+        if (double.IsNaN(value) ||
+            double.IsInfinity(value) ||
+            text.IndexOf('.') != -1 ||
+            text.IndexOf('E') != -1 ||
+            text.IndexOf('e') != -1)
         {
             return text;
         }
@@ -265,7 +276,7 @@ public static class JsonConvert
         return ToString(value, '"');
     }
 
-    internal static string ToString(Guid value, char quoteChar)
+    static string ToString(Guid value, char quoteChar)
     {
         var text = value.ToString("D", CultureInfo.InvariantCulture);
         var qc = quoteChar.ToString(CultureInfo.InvariantCulture);

@@ -830,7 +830,8 @@ public partial class JsonTextWriter
 
     Task WriteValueAsync(double value, bool nullable, CancellationToken cancellation)
     {
-        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellation);
+        var convertedValue = JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable);
+        return WriteValueInternalAsync(JsonToken.Float, convertedValue, cancellation);
     }
 
     /// <summary>
