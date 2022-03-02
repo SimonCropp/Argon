@@ -351,7 +351,7 @@ static class ConvertUtils
             }
             if (targetType == typeof(Version))
             {
-                if (VersionTryParse(s, out var result))
+                if (Version.TryParse(s, out var result))
                 {
                     value = result;
                     return ConvertResult.Success;
@@ -476,11 +476,6 @@ static class ConvertUtils
         }
 
         throw new ArgumentException($"Could not cast or convert from {initialType.ToString() ?? "{null}"} to {targetType}.");
-    }
-
-    public static bool VersionTryParse(string input, [NotNullWhen(true)]out Version? result)
-    {
-        return Version.TryParse(input, out result);
     }
 
     public static bool IsInteger(object value)
