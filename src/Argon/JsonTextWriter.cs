@@ -12,9 +12,9 @@ public partial class JsonTextWriter : JsonWriter
     const int indentCharBufferSize = 12;
     readonly TextWriter writer;
     Base64Encoder? base64Encoder;
-    char indentChar;
-    int indentation;
-    char quoteChar;
+    char indentChar = ' ';
+    int indentation = 2;
+    char quoteChar = '"';
     bool[]? charEscapeFlags;
     char[]? writeBuffer;
     IArrayPool<char>? arrayPool;
@@ -93,7 +93,7 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Gets or sets a value indicating whether object names will be surrounded with quotes.
     /// </summary>
-    public bool QuoteName { get; set; }
+    public bool QuoteName { get; set; } = true;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextWriter"/> class using the specified <see cref="TextWriter"/>.
@@ -101,10 +101,6 @@ public partial class JsonTextWriter : JsonWriter
     public JsonTextWriter(TextWriter textWriter)
     {
         writer = textWriter;
-        quoteChar = '"';
-        QuoteName = true;
-        indentChar = ' ';
-        indentation = 2;
 
         UpdateCharEscapeFlags();
 
