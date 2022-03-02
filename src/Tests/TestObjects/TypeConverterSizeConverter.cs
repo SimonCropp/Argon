@@ -25,11 +25,7 @@ public class TypeConverterSizeConverter : TypeConverter
         {
             return null;
         }
-        //TODO: debug this
-        if (culture == null)
-        {
-            culture = CultureInfo.CurrentCulture;
-        }
+
         var strArray = str2.Split(',');
         var numArray = new int[strArray.Length];
         var converter = TypeDescriptor.GetConverter(typeof(int));
