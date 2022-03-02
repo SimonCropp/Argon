@@ -273,15 +273,8 @@ public static class JsonConvert
     /// <returns>A JSON string representation of the <see cref="Guid"/>.</returns>
     public static string ToString(Guid value)
     {
-        return ToString(value, '"');
-    }
-
-    static string ToString(Guid value, char quoteChar)
-    {
         var text = value.ToString("D", CultureInfo.InvariantCulture);
-        var qc = quoteChar.ToString(CultureInfo.InvariantCulture);
-
-        return qc + text + qc;
+        return $"\"{text}\"";
     }
 
     /// <summary>
@@ -290,12 +283,7 @@ public static class JsonConvert
     /// <returns>A JSON string representation of the <see cref="TimeSpan"/>.</returns>
     public static string ToString(TimeSpan value)
     {
-        return ToString(value, '"');
-    }
-
-    internal static string ToString(TimeSpan value, char quoteChar)
-    {
-        return ToString(value.ToString(), quoteChar);
+        return ToString(value.ToString(), '"');
     }
 
     /// <summary>
@@ -342,7 +330,8 @@ public static class JsonConvert
     /// <returns>A JSON string representation of the <see cref="String"/>.</returns>
     public static string ToString(string? value, char delimiter, StringEscapeHandling stringEscapeHandling)
     {
-        if (delimiter != '"' && delimiter != '\'')
+        if (delimiter != '"' &&
+            delimiter != '\'')
         {
             throw new ArgumentException("Delimiter must be a single or double quote.", nameof(delimiter));
         }
@@ -437,9 +426,11 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static string SerializeObject(object? value, params JsonConverter[] converters)
     {
-        var settings = converters is {Length: > 0}
-            ? new JsonSerializerSettings { Converters = converters }
-            : null;
+        JsonSerializerSettings? settings = null;
+        if (converters is {Length: > 0})
+        {
+            settings = new JsonSerializerSettings {Converters = converters};
+        }
 
         return SerializeObject(value, null, settings);
     }
@@ -450,9 +441,11 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static string SerializeObject(object? value, Formatting formatting, params JsonConverter[] converters)
     {
-        var settings = converters is {Length: > 0}
-            ? new JsonSerializerSettings { Converters = converters }
-            : null;
+        JsonSerializerSettings? settings = null;
+        if (converters is {Length: > 0})
+        {
+            settings = new JsonSerializerSettings {Converters = converters};
+        }
 
         return SerializeObject(value, null, formatting, settings);
     }
@@ -633,9 +626,11 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static object? DeserializeObject(string value, Type type, params JsonConverter[] converters)
     {
-        var settings = converters is {Length: > 0}
-            ? new JsonSerializerSettings { Converters = converters }
-            : null;
+        JsonSerializerSettings? settings = null;
+        if (converters is {Length: > 0})
+        {
+            settings = new JsonSerializerSettings {Converters = converters};
+        }
 
         return DeserializeObject(value, type, settings);
     }
@@ -686,14 +681,16 @@ public static class JsonConvert
         using var jsonReader = new JsonTextReader(new StringReader(value));
         jsonSerializer.Populate(jsonReader, target);
 
-        if (settings is {CheckAdditionalContent: true})
+        if (settings is not {CheckAdditionalContent: true})
         {
-            while (jsonReader.Read())
+            return;
+        }
+
+        while (jsonReader.Read())
+        {
+            if (jsonReader.TokenType != JsonToken.Comment)
             {
-                if (jsonReader.TokenType != JsonToken.Comment)
-                {
-                    throw JsonSerializationException.Create(jsonReader, "Additional text found in JSON string after finishing deserializing object.");
-                }
+                throw JsonSerializationException.Create(jsonReader, "Additional text found in JSON string after finishing deserializing object.");
             }
         }
     }
