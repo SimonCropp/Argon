@@ -17,7 +17,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task FlushAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? DoFlushAsync(cancellation) : base.FlushAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoFlushAsync(cancellation);
+        }
+
+        return base.FlushAsync(cancellation);
     }
 
     internal Task DoFlushAsync(CancellationToken cancellation)
@@ -32,7 +37,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     protected override Task WriteValueDelimiterAsync(CancellationToken cancellation)
     {
-        return safeAsync ? DoWriteValueDelimiterAsync(cancellation) : base.WriteValueDelimiterAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueDelimiterAsync(cancellation);
+        }
+
+        return base.WriteValueDelimiterAsync(cancellation);
     }
 
     internal Task DoWriteValueDelimiterAsync(CancellationToken cancellation)
@@ -48,7 +58,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
     {
-        return safeAsync ? DoWriteEndAsync(token, cancellation) : base.WriteEndAsync(token, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteEndAsync(token, cancellation);
+        }
+
+        return base.WriteEndAsync(token, cancellation);
     }
 
     internal Task DoWriteEndAsync(JsonToken token, CancellationToken cancellation)
@@ -72,7 +87,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task CloseAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? DoCloseAsync(cancellation) : base.CloseAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoCloseAsync(cancellation);
+        }
+
+        return base.CloseAsync(cancellation);
     }
 
     internal async Task DoCloseAsync(CancellationToken cancellation)
@@ -97,7 +117,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteEndAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteEndInternalAsync(cancellation) : base.WriteEndAsync(cancellation);
+        if (safeAsync)
+        {
+            return WriteEndInternalAsync(cancellation);
+        }
+
+        return base.WriteEndAsync(cancellation);
     }
 
     /// <summary>
@@ -107,7 +132,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     protected override Task WriteIndentAsync(CancellationToken cancellation)
     {
-        return safeAsync ? DoWriteIndentAsync(cancellation) : base.WriteIndentAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoWriteIndentAsync(cancellation);
+        }
+
+        return base.WriteIndentAsync(cancellation);
     }
 
     internal Task DoWriteIndentAsync(CancellationToken cancellation)
@@ -202,7 +232,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteNullAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteNullAsync(cancellation) : base.WriteNullAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return base.WriteNullAsync(cancellation);
     }
 
     internal Task DoWriteNullAsync(CancellationToken cancellation)
@@ -266,7 +301,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWritePropertyNameAsync(name, cancellation) : base.WritePropertyNameAsync(name, cancellation);
+        if (safeAsync)
+        {
+            return DoWritePropertyNameAsync(name, cancellation);
+        }
+
+        return base.WritePropertyNameAsync(name, cancellation);
     }
 
     internal Task DoWritePropertyNameAsync(string name, CancellationToken cancellation)
@@ -303,7 +343,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWritePropertyNameAsync(name, escape, cancellation) : base.WritePropertyNameAsync(name, escape, cancellation);
+        if (safeAsync)
+        {
+            return DoWritePropertyNameAsync(name, escape, cancellation);
+        }
+
+        return base.WritePropertyNameAsync(name, escape, cancellation);
     }
 
     internal async Task DoWritePropertyNameAsync(string name, bool escape, CancellationToken cancellation)
@@ -339,7 +384,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteStartArrayAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteStartArrayAsync(cancellation) : base.WriteStartArrayAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoWriteStartArrayAsync(cancellation);
+        }
+
+        return base.WriteStartArrayAsync(cancellation);
     }
 
     internal Task DoWriteStartArrayAsync(CancellationToken cancellation)
@@ -367,7 +417,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteStartObjectAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteStartObjectAsync(cancellation) : base.WriteStartObjectAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoWriteStartObjectAsync(cancellation);
+        }
+
+        return base.WriteStartObjectAsync(cancellation);
     }
 
     internal Task DoWriteStartObjectAsync(CancellationToken cancellation)
@@ -395,7 +450,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteUndefinedAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteUndefinedAsync(cancellation) : base.WriteUndefinedAsync(cancellation);
+        if (safeAsync)
+        {
+            return DoWriteUndefinedAsync(cancellation);
+        }
+
+        return base.WriteUndefinedAsync(cancellation);
     }
 
     internal Task DoWriteUndefinedAsync(CancellationToken cancellation)
@@ -422,7 +482,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteWhitespaceAsync(string ws, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteWhitespaceAsync(ws, cancellation) : base.WriteWhitespaceAsync(ws, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteWhitespaceAsync(ws, cancellation);
+        }
+
+        return base.WriteWhitespaceAsync(ws, cancellation);
     }
 
     internal Task DoWriteWhitespaceAsync(string ws, CancellationToken cancellation)
@@ -438,7 +503,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(bool value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(bool value, CancellationToken cancellation)
@@ -453,12 +523,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(bool? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(bool? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -468,7 +548,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(byte value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -479,12 +564,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(byte? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(byte? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -494,7 +589,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(byte[]? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? value == null ? WriteNullAsync(cancellation) : WriteValueNonNullAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return value == null ? WriteNullAsync(cancellation) : WriteValueNonNullAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal async Task WriteValueNonNullAsync(byte[] value, CancellationToken cancellation)
@@ -513,7 +613,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(char value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(char value, CancellationToken cancellation)
@@ -528,12 +633,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(char? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(char? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -543,7 +658,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTime value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal async Task DoWriteValueAsync(DateTime value, CancellationToken cancellation)
@@ -572,12 +692,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTime? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(DateTime? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -587,7 +717,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTimeOffset value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal async Task DoWriteValueAsync(DateTimeOffset value, CancellationToken cancellation)
@@ -615,12 +750,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(DateTimeOffset? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(DateTimeOffset? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -630,7 +775,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(decimal value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(decimal value, CancellationToken cancellation)
@@ -645,12 +795,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(decimal? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(decimal? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -660,7 +820,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(double value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteValueAsync(value, false, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteValueAsync(value, false, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task WriteValueAsync(double value, bool nullable, CancellationToken cancellation)
@@ -675,7 +840,17 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(double? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellation) : WriteNullAsync(cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            if (value.HasValue)
+            {
+                return WriteValueAsync(value.GetValueOrDefault(), true, cancellation);
+            }
+
+            return WriteNullAsync(cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -685,7 +860,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(float value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteValueAsync(value, false, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteValueAsync(value, false, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task WriteValueAsync(float value, bool nullable, CancellationToken cancellation)
@@ -700,7 +880,17 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(float? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? value.HasValue ? WriteValueAsync(value.GetValueOrDefault(), true, cancellation) : WriteNullAsync(cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            if (value.HasValue)
+            {
+                return WriteValueAsync(value.GetValueOrDefault(), true, cancellation);
+            }
+
+            return WriteNullAsync(cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -710,7 +900,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(Guid value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal async Task DoWriteValueAsync(Guid value, CancellationToken cancellation)
@@ -729,12 +924,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(Guid? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(Guid? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -744,7 +949,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(int value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -754,12 +964,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(int? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(int? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -769,7 +989,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(long value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -779,7 +1004,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(long? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(long? value, CancellationToken cancellation)
@@ -823,7 +1053,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(sbyte value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -833,12 +1068,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(sbyte? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(sbyte? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -848,7 +1093,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(short value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -858,12 +1108,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(short? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(short? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -873,7 +1133,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(string? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(string? value, CancellationToken cancellation)
@@ -900,7 +1165,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(TimeSpan value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal async Task DoWriteValueAsync(TimeSpan value, CancellationToken cancellation)
@@ -918,7 +1188,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(TimeSpan? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(TimeSpan? value, CancellationToken cancellation)
@@ -933,7 +1208,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(uint value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -943,12 +1223,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(uint? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(uint? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -958,7 +1248,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(ulong value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -968,12 +1263,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(ulong? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(ulong? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -983,7 +1288,17 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(Uri? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? value == null ? WriteNullAsync(cancellation) : WriteValueNotNullAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            if (value == null)
+            {
+                return WriteNullAsync(cancellation);
+            }
+
+            return WriteValueNotNullAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task WriteValueNotNullAsync(Uri value, CancellationToken cancellation)
@@ -1010,7 +1325,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(ushort value, CancellationToken cancellation = default)
     {
-        return safeAsync ? WriteIntegerValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return WriteIntegerValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     /// <summary>
@@ -1020,12 +1340,22 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteValueAsync(ushort? value, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteValueAsync(value, cancellation) : base.WriteValueAsync(value, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteValueAsync(value, cancellation);
+        }
+
+        return base.WriteValueAsync(value, cancellation);
     }
 
     internal Task DoWriteValueAsync(ushort? value, CancellationToken cancellation)
     {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        if (value == null)
+        {
+            return DoWriteNullAsync(cancellation);
+        }
+
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
     }
 
     /// <summary>
@@ -1035,7 +1365,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteCommentAsync(string? text, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteCommentAsync(text, cancellation) : base.WriteCommentAsync(text, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteCommentAsync(text, cancellation);
+        }
+
+        return base.WriteCommentAsync(text, cancellation);
     }
 
     internal async Task DoWriteCommentAsync(string? text, CancellationToken cancellation)
@@ -1053,7 +1388,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteEndArrayAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? InternalWriteEndAsync(JsonContainerType.Array, cancellation) : base.WriteEndArrayAsync(cancellation);
+        if (safeAsync)
+        {
+            return InternalWriteEndAsync(JsonContainerType.Array, cancellation);
+        }
+
+        return base.WriteEndArrayAsync(cancellation);
     }
 
     /// <summary>
@@ -1063,7 +1403,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteEndObjectAsync(CancellationToken cancellation = default)
     {
-        return safeAsync ? InternalWriteEndAsync(JsonContainerType.Object, cancellation) : base.WriteEndObjectAsync(cancellation);
+        if (safeAsync)
+        {
+            return InternalWriteEndAsync(JsonContainerType.Object, cancellation);
+        }
+
+        return base.WriteEndObjectAsync(cancellation);
     }
 
     /// <summary>
@@ -1073,7 +1418,12 @@ public partial class JsonTextWriter
     /// execute synchronously, returning an already-completed task.</remarks>
     public override Task WriteRawValueAsync(string? json, CancellationToken cancellation = default)
     {
-        return safeAsync ? DoWriteRawValueAsync(json, cancellation) : base.WriteRawValueAsync(json, cancellation);
+        if (safeAsync)
+        {
+            return DoWriteRawValueAsync(json, cancellation);
+        }
+
+        return base.WriteRawValueAsync(json, cancellation);
     }
 
     internal Task DoWriteRawValueAsync(string? json, CancellationToken cancellation)
