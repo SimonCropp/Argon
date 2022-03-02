@@ -99,10 +99,7 @@ struct JsonPosition
             state.WriteTo(stringBuilder, ref writer, ref buffer);
         }
 
-        if (currentPosition != null)
-        {
-            currentPosition.GetValueOrDefault().WriteTo(stringBuilder, ref writer, ref buffer);
-        }
+        currentPosition?.WriteTo(stringBuilder, ref writer, ref buffer);
 
         return stringBuilder.ToString();
     }

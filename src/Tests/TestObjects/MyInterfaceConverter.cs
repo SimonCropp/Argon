@@ -34,13 +34,8 @@ class MyInterfaceConverter : TypeConverter
         return (from w in _writers where w.Name == value.ToString() select w).FirstOrDefault();
     }
 
-    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value,
-        Type destinationType)
+    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
     {
-        if (value == null)
-        {
-            return null;
-        }
-        return ((IMyInterface)value).Name;
+        return ((IMyInterface) value)?.Name;
     }
 }
