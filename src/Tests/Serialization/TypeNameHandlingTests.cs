@@ -2212,9 +2212,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         public override bool Equals(object obj)
         {
-            var w = obj as SerializableWrapper;
-
-            if (w == null)
+            if (obj is not SerializableWrapper w)
             {
                 return false;
             }
