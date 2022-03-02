@@ -321,14 +321,14 @@ public static class JsonConvert
     /// <returns>A JSON string representation of the <see cref="String"/>.</returns>
     public static string ToString(string? value, char delimiter)
     {
-        return ToString(value, delimiter, StringEscapeHandling.Default);
+        return ToString(value, delimiter, EscapeHandling.Default);
     }
 
     /// <summary>
     /// Converts the <see cref="String"/> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="String"/>.</returns>
-    public static string ToString(string? value, char delimiter, StringEscapeHandling stringEscapeHandling)
+    public static string ToString(string? value, char delimiter, EscapeHandling escapeHandling)
     {
         if (delimiter != '"' &&
             delimiter != '\'')
@@ -336,7 +336,7 @@ public static class JsonConvert
             throw new ArgumentException("Delimiter must be a single or double quote.", nameof(delimiter));
         }
 
-        return JavaScriptUtils.ToEscapedJavaScriptString(value, delimiter, true, stringEscapeHandling);
+        return JavaScriptUtils.ToEscapedJavaScriptString(value, delimiter, true, escapeHandling);
     }
 
     /// <summary>

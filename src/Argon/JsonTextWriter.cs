@@ -221,14 +221,14 @@ public partial class JsonTextWriter : JsonWriter
         writer.Write(':');
     }
 
-    internal override void OnStringEscapeHandlingChanged()
+    protected override void OnEscapeHandlingChanged()
     {
         UpdateCharEscapeFlags();
     }
 
     void UpdateCharEscapeFlags()
     {
-        charEscapeFlags = JavaScriptUtils.GetCharEscapeFlags(StringEscapeHandling, quoteChar);
+        charEscapeFlags = JavaScriptUtils.GetCharEscapeFlags(EscapeHandling, quoteChar);
     }
 
     /// <summary>
@@ -364,7 +364,7 @@ public partial class JsonTextWriter : JsonWriter
     void WriteEscapedString(string value, bool quote)
     {
         EnsureWriteBuffer();
-        JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, StringEscapeHandling, arrayPool, ref writeBuffer);
+        JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, arrayPool, ref writeBuffer);
     }
 
     /// <summary>

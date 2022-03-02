@@ -291,7 +291,7 @@ public partial class JsonTextWriter
 
     Task WriteEscapedStringAsync(string value, bool quote, CancellationToken cancellation)
     {
-        return JavaScriptUtils.WriteEscapedJavaScriptStringAsync(writer, value, quoteChar, quote, charEscapeFlags!, StringEscapeHandling, this, writeBuffer!, cancellation);
+        return JavaScriptUtils.WriteEscapedJavaScriptStringAsync(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, this, writeBuffer!, cancellation);
     }
 
     /// <summary>
@@ -1147,7 +1147,12 @@ public partial class JsonTextWriter
         var task = InternalWriteValueAsync(JsonToken.String, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return value == null ? writer.WriteAsync(JsonConvert.Null, cancellation) : WriteEscapedStringAsync(value, true, cancellation);
+            if (value == null)
+            {
+                return writer.WriteAsync(JsonConvert.Null, cancellation);
+            }
+
+            return WriteEscapedStringAsync(value, true, cancellation);
         }
 
         return DoWriteValueAsync(task, value, cancellation);
@@ -1156,7 +1161,14 @@ public partial class JsonTextWriter
     async Task DoWriteValueAsync(Task task, string? value, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await (value == null ? writer.WriteAsync(JsonConvert.Null, cancellation) : WriteEscapedStringAsync(value, true, cancellation)).ConfigureAwait(false);
+
+        if (value == null)
+        {
+           await writer.WriteAsync(JsonConvert.Null, cancellation).ConfigureAwait(false);
+           return;
+        }
+
+        await WriteEscapedStringAsync(value, true, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>

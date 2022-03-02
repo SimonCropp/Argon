@@ -884,8 +884,8 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.ReferenceResolver = referenceResolver;
         Assert.Equal(referenceResolver, serializer.ReferenceResolver);
 
-        serializer.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
-        Assert.Equal(StringEscapeHandling.EscapeNonAscii, serializer.StringEscapeHandling);
+        serializer.EscapeHandling = EscapeHandling.EscapeNonAscii;
+        Assert.Equal(EscapeHandling.EscapeNonAscii, serializer.EscapeHandling);
 
         var traceWriter = new MemoryTraceWriter();
         serializer.TraceWriter = traceWriter;
@@ -978,8 +978,8 @@ public class JsonSerializerTest : TestFixtureBase
         settings.ReferenceResolverProvider = () => referenceResolver;
         Assert.Equal(referenceResolver, settings.ReferenceResolverProvider());
 
-        settings.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
-        Assert.Equal(StringEscapeHandling.EscapeNonAscii, settings.StringEscapeHandling);
+        settings.EscapeHandling = EscapeHandling.EscapeNonAscii;
+        Assert.Equal(EscapeHandling.EscapeNonAscii, settings.EscapeHandling);
 
         var traceWriter = new MemoryTraceWriter();
         settings.TraceWriter = traceWriter;
@@ -1072,8 +1072,8 @@ public class JsonSerializerTest : TestFixtureBase
         serializerProxy.ReferenceResolver = referenceResolver;
         Assert.Equal(referenceResolver, serializerProxy.ReferenceResolver);
 
-        serializerProxy.StringEscapeHandling = StringEscapeHandling.EscapeNonAscii;
-        Assert.Equal(StringEscapeHandling.EscapeNonAscii, serializerProxy.StringEscapeHandling);
+        serializerProxy.EscapeHandling = EscapeHandling.EscapeNonAscii;
+        Assert.Equal(EscapeHandling.EscapeNonAscii, serializerProxy.EscapeHandling);
 
         var traceWriter = new MemoryTraceWriter();
         serializerProxy.TraceWriter = traceWriter;
@@ -6100,19 +6100,19 @@ This is just junk, though.";
     }
 
     [Fact]
-    public void JsonSerializerStringEscapeHandling()
+    public void JsonSerializerEscapeHandling()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter);
 
         var serializer = JsonSerializer.Create(new JsonSerializerSettings
         {
-            StringEscapeHandling = StringEscapeHandling.EscapeHtml,
+            EscapeHandling = EscapeHandling.EscapeHtml,
             Formatting = Formatting.Indented
         });
         serializer.Serialize(jsonWriter, new {html = "<html></html>"});
 
-        Assert.Equal(StringEscapeHandling.Default, jsonWriter.StringEscapeHandling);
+        Assert.Equal(EscapeHandling.Default, jsonWriter.EscapeHandling);
 
         var json = stringWriter.ToString();
 

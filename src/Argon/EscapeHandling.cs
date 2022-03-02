@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Specifies how strings are escaped when writing JSON text.
 /// </summary>
-public enum StringEscapeHandling
+public enum EscapeHandling
 {
     /// <summary>
     /// Only control characters (e.g. newline) are escaped.
