@@ -207,7 +207,7 @@ public class JsonSerializerSettings
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
-    /// The default value is <see cref="EscapeHandling.Default" />.
+    /// The default value is <see cref="Argon.EscapeHandling.Default" />.
     /// </summary>
     public EscapeHandling? EscapeHandling { get; set; }
 
