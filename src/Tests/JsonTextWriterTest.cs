@@ -1151,12 +1151,12 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public void HtmlStringEscapeHandling()
+    public void HtmlEscapeHandling()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.EscapeHtml
+            EscapeHandling = EscapeHandling.EscapeHtml
         };
 
         var script = @"<script type=""text/javascript"">alert('hi');</script>";
@@ -1173,12 +1173,12 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public void NonAsciiStringEscapeHandling()
+    public void NonAsciiEscapeHandling()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+            EscapeHandling = EscapeHandling.EscapeNonAscii
         };
 
         var unicode = "\u5f20";
@@ -1197,7 +1197,7 @@ _____'propertyName': NaN,
         stringWriter = new StringWriter();
         jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.Default
+            EscapeHandling = EscapeHandling.Default
         };
 
         jsonWriter.WriteValue(unicode);

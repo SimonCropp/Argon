@@ -307,7 +307,7 @@ public class ContractResolverTests : TestFixtureBase
                     PropertyPrefix = "<b>",
                     PropertySuffix = "</b>"
                 },
-                StringEscapeHandling = StringEscapeHandling.EscapeHtml
+                EscapeHandling = EscapeHandling.EscapeHtml
             });
 
         Assert.Equal(@"{""\u003cb\u003eAddressLine1\u003c/b\u003e"":""value!""}", json);

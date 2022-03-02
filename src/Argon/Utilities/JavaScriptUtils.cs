@@ -37,9 +37,9 @@ static class JavaScriptUtils
 
     const string escapedUnicodeText = "!";
 
-    public static bool[] GetCharEscapeFlags(StringEscapeHandling stringEscapeHandling, char quoteChar)
+    public static bool[] GetCharEscapeFlags(EscapeHandling escapeHandling, char quoteChar)
     {
-        if (stringEscapeHandling == StringEscapeHandling.EscapeHtml)
+        if (escapeHandling == EscapeHandling.EscapeHtml)
         {
             return HtmlCharEscapeFlags;
         }
@@ -72,7 +72,7 @@ static class JavaScriptUtils
     }
 
     public static void WriteEscapedJavaScriptString(TextWriter writer, string? s, char delimiter, bool appendDelimiters,
-        bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, IArrayPool<char>? bufferPool, ref char[]? writeBuffer)
+        bool[] charEscapeFlags, EscapeHandling escapeHandling, IArrayPool<char>? bufferPool, ref char[]? writeBuffer)
     {
         // leading delimiter
         if (appendDelimiters)
@@ -82,7 +82,7 @@ static class JavaScriptUtils
 
         if (!StringUtils.IsNullOrEmpty(s))
         {
-            var lastWritePosition = FirstCharToEscape(s, charEscapeFlags, stringEscapeHandling);
+            var lastWritePosition = FirstCharToEscape(s, charEscapeFlags, escapeHandling);
             if (lastWritePosition == -1)
             {
                 writer.Write(s);
@@ -143,13 +143,13 @@ static class JavaScriptUtils
                             escapedValue = @"\u2029";
                             break;
                         default:
-                            if (c < charEscapeFlags.Length || stringEscapeHandling == StringEscapeHandling.EscapeNonAscii)
+                            if (c < charEscapeFlags.Length || escapeHandling == EscapeHandling.EscapeNonAscii)
                             {
-                                if (c == '\'' && stringEscapeHandling != StringEscapeHandling.EscapeHtml)
+                                if (c == '\'' && escapeHandling != EscapeHandling.EscapeHtml)
                                 {
                                     escapedValue = @"\'";
                                 }
-                                else if (c == '"' && stringEscapeHandling != StringEscapeHandling.EscapeHtml)
+                                else if (c == '"' && escapeHandling != EscapeHandling.EscapeHtml)
                                 {
                                     escapedValue = "\\\"";
                                 }
@@ -244,17 +244,17 @@ static class JavaScriptUtils
         }
     }
 
-    public static string ToEscapedJavaScriptString(string? value, char delimiter, bool appendDelimiters, StringEscapeHandling stringEscapeHandling)
+    public static string ToEscapedJavaScriptString(string? value, char delimiter, bool appendDelimiters, EscapeHandling escapeHandling)
     {
-        var charEscapeFlags = GetCharEscapeFlags(stringEscapeHandling, delimiter);
+        var charEscapeFlags = GetCharEscapeFlags(escapeHandling, delimiter);
 
         using var w = StringUtils.CreateStringWriter(value?.Length ?? 16);
         char[]? buffer = null;
-        WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, charEscapeFlags, stringEscapeHandling, null, ref buffer);
+        WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, charEscapeFlags, escapeHandling, null, ref buffer);
         return w.ToString();
     }
 
-    static int FirstCharToEscape(string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling)
+    static int FirstCharToEscape(string s, bool[] charEscapeFlags, EscapeHandling escapeHandling)
     {
         for (var i = 0; i != s.Length; i++)
         {
@@ -267,7 +267,7 @@ static class JavaScriptUtils
                     return i;
                 }
             }
-            else if (stringEscapeHandling == StringEscapeHandling.EscapeNonAscii)
+            else if (escapeHandling == EscapeHandling.EscapeNonAscii)
             {
                 return i;
             }
@@ -286,7 +286,7 @@ static class JavaScriptUtils
         return -1;
     }
 
-    public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string s, char delimiter, bool appendDelimiters, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation = default)
+    public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string s, char delimiter, bool appendDelimiters, bool[] charEscapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
         {
@@ -295,7 +295,7 @@ static class JavaScriptUtils
 
         if (appendDelimiters)
         {
-            return WriteEscapedJavaScriptStringWithDelimitersAsync(writer, s, delimiter, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
+            return WriteEscapedJavaScriptStringWithDelimitersAsync(writer, s, delimiter, charEscapeFlags, escapeHandling, client, writeBuffer, cancellation);
         }
 
         if (StringUtils.IsNullOrEmpty(s))
@@ -303,21 +303,21 @@ static class JavaScriptUtils
             return cancellation.CancelIfRequestedAsync() ?? AsyncUtils.CompletedTask;
         }
 
-        return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
+        return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, escapeHandling, client, writeBuffer, cancellation);
     }
 
     static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter,
-        bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
+        bool[] charEscapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
     {
         var task = writer.WriteAsync(delimiter, cancellation);
         if (!task.IsCompletedSucessfully())
         {
-            return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, s, delimiter, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
+            return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, s, delimiter, charEscapeFlags, escapeHandling, client, writeBuffer, cancellation);
         }
 
         if (!StringUtils.IsNullOrEmpty(s))
         {
-            task = WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
+            task = WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, escapeHandling, client, writeBuffer, cancellation);
             if (task.IsCompletedSucessfully())
             {
                 return writer.WriteAsync(delimiter, cancellation);
@@ -328,13 +328,13 @@ static class JavaScriptUtils
     }
 
     static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string s, char delimiter,
-        bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
+        bool[] charEscapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
 
         if (!StringUtils.IsNullOrEmpty(s))
         {
-            await WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation).ConfigureAwait(false);
+            await WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, charEscapeFlags, escapeHandling, client, writeBuffer, cancellation).ConfigureAwait(false);
         }
 
         await writer.WriteAsync(delimiter).ConfigureAwait(false);
@@ -347,18 +347,18 @@ static class JavaScriptUtils
     }
 
     static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(
-        TextWriter writer, string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling,
+        TextWriter writer, string s, bool[] charEscapeFlags, EscapeHandling escapeHandling,
         JsonTextWriter client, char[] writeBuffer, CancellationToken cancellation)
     {
-        var i = FirstCharToEscape(s, charEscapeFlags, stringEscapeHandling);
+        var i = FirstCharToEscape(s, charEscapeFlags, escapeHandling);
         return i == -1
             ? writer.WriteAsync(s, cancellation)
-            : WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, charEscapeFlags, stringEscapeHandling, client, writeBuffer, cancellation);
+            : WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, charEscapeFlags, escapeHandling, client, writeBuffer, cancellation);
     }
 
     static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(
         TextWriter writer, string s, int lastWritePosition, bool[] charEscapeFlags,
-        StringEscapeHandling stringEscapeHandling, JsonTextWriter client, char[] writeBuffer,
+        EscapeHandling escapeHandling, JsonTextWriter client, char[] writeBuffer,
         CancellationToken cancellation)
     {
         if (writeBuffer == null || writeBuffer.Length < lastWritePosition)
@@ -417,13 +417,13 @@ static class JavaScriptUtils
                     escapedValue = @"\u2029";
                     break;
                 default:
-                    if (c < charEscapeFlags.Length || stringEscapeHandling == StringEscapeHandling.EscapeNonAscii)
+                    if (c < charEscapeFlags.Length || escapeHandling == EscapeHandling.EscapeNonAscii)
                     {
-                        if (c == '\'' && stringEscapeHandling != StringEscapeHandling.EscapeHtml)
+                        if (c == '\'' && escapeHandling != EscapeHandling.EscapeHtml)
                         {
                             escapedValue = @"\'";
                         }
-                        else if (c == '"' && stringEscapeHandling != StringEscapeHandling.EscapeHtml)
+                        else if (c == '"' && escapeHandling != EscapeHandling.EscapeHtml)
                         {
                             escapedValue = @"\""";
                         }
