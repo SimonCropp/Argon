@@ -13,11 +13,6 @@ public class TypeConverterSizeConverter : TypeConverter
         return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
     }
 
-    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-    {
-        return base.CanConvertTo(context, destinationType);
-    }
-
     public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
         var str = value as string;
