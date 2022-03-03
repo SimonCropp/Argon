@@ -226,7 +226,7 @@ public partial class JObject :
     /// <returns>A <see cref="JEnumerable{T}"/> of <see cref="JToken"/> of this object's property values.</returns>
     public JEnumerable<JToken> PropertyValues()
     {
-        return new JEnumerable<JToken>(Properties().Select(p => p.Value));
+        return new(Properties().Select(p => p.Value));
     }
 
     /// <summary>
@@ -558,7 +558,7 @@ public partial class JObject :
         var index = 0;
         foreach (JProperty property in properties)
         {
-            array[arrayIndex + index] = new KeyValuePair<string, JToken?>(property.Name, property.Value);
+            array[arrayIndex + index] = new(property.Name, property.Value);
             index++;
         }
     }
@@ -592,7 +592,7 @@ public partial class JObject :
     {
         foreach (JProperty property in properties)
         {
-            yield return new KeyValuePair<string, JToken?>(property.Name, property.Value);
+            yield return new(property.Name, property.Value);
         }
     }
 

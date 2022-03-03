@@ -17,7 +17,7 @@ public static class Extensions
         while (await reader.ReadAsync())
         {
             tokens.Add(
-                new ReaderState(
+                new(
                     reader.TokenType,
                     reader.Path,
                     reader.Depth,
@@ -35,7 +35,7 @@ public static class Extensions
         while (await reader.ReadAsync())
         {
             tokens.Add(
-                new TextReaderState(
+                new(
                     reader.TokenType,
                     reader.LineNumber,
                     reader.LinePosition,
@@ -52,7 +52,7 @@ public static class Extensions
         var chars = new char[8];
         var pos = DateTimeUtils.WriteDateTimeOffset(chars, 0, DateTime.SpecifyKind(d, DateTimeKind.Local).GetUtcOffset());
 
-        return new string(chars, 0, pos);
+        return new(chars, 0, pos);
     }
 
     public static string BytesToHex(this byte[] bytes)

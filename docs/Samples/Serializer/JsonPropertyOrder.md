@@ -35,9 +35,9 @@ var account = new Account
     FullName = "Aaron Account",
     EmailAddress = "aaron@example.com",
     Deleted = true,
-    DeletedDate = new DateTime(2013, 1, 25),
-    UpdatedDate = new DateTime(2013, 1, 25),
-    CreatedDate = new DateTime(2010, 10, 1)
+    DeletedDate = new(2013, 1, 25),
+    UpdatedDate = new(2013, 1, 25),
+    CreatedDate = new(2010, 10, 1)
 };
 
 var json = JsonConvert.SerializeObject(account, Formatting.Indented);

@@ -100,7 +100,7 @@ xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
 			  <role json:Array='true'>Admin</role>
 			</person>";
 
-doc = new XmlDocument();
+doc = new();
 doc.LoadXml(xml);
 
 json = JsonXmlConvert.SerializeXmlNode(doc);

@@ -42,7 +42,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         var converter = new UnixDateTimeConverter();
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => converter.WriteJson(new JTokenWriter(), new object(), new JsonSerializer()),
+            () => converter.WriteJson(new JTokenWriter(), new(), new()),
             "Expected date object value."
         );
     }
@@ -72,7 +72,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
 
         Assert.Equal(@"{""PreField"":null,""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":null}", result);
 
-        t = new NullableDateTimeTestClass
+        t = new()
         {
             DateTimeField = new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc),
             DateTimeOffsetField = new DateTimeOffset(1970, 2, 1, 20, 6, 18, TimeSpan.Zero)
@@ -104,7 +104,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
 
         var result = JsonConvert.DeserializeObject<DateTimeOffset>(json, converter);
 
-        Assert.Equal(new DateTimeOffset(1970, 2, 1, 20, 6, 18, TimeSpan.Zero), result);
+        Assert.Equal(new(1970, 2, 1, 20, 6, 18, TimeSpan.Zero), result);
     }
 
     [Fact]
@@ -112,7 +112,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     {
         var result = JsonConvert.DeserializeObject<DateTimeOffset>(@"""1514840476""", new UnixDateTimeConverter());
 
-        Assert.Equal(new DateTimeOffset(2018, 1, 1, 21, 1, 16, TimeSpan.Zero), result);
+        Assert.Equal(new(2018, 1, 1, 21, 1, 16, TimeSpan.Zero), result);
     }
 
     [Fact]
@@ -129,7 +129,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     {
         var result = JsonConvert.DeserializeObject<DateTime>("1514840476", new UnixDateTimeConverter());
 
-        Assert.Equal(new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc), result);
+        Assert.Equal(new(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc), result);
     }
 
     [Fact]

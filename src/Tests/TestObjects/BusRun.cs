@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-public partial class BusRun
+public class BusRun
 {
     public IEnumerable<DateTime?> Departures { get; set; }
     public bool WheelchairAccessible { get; set; }

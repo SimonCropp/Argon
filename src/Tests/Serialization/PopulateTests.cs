@@ -38,17 +38,17 @@ public class PopulateTests : TestFixtureBase
         var s = new Store
         {
             Color = StoreColor.Red,
-            product = new List<Product>
+            product = new()
             {
                 new()
                 {
-                    ExpiryDate = new DateTime(2000, 12, 3, 0, 0, 0, DateTimeKind.Utc),
+                    ExpiryDate = new(2000, 12, 3, 0, 0, 0, DateTimeKind.Utc),
                     Name = "ProductName!",
                     Price = 9.9m
                 }
             },
             Width = 99.99d,
-            Mottos = new List<string> { "Can do!", "We deliver!" }
+            Mottos = new() { "Can do!", "We deliver!" }
         };
 
         var json = @"{
@@ -84,7 +84,7 @@ public class PopulateTests : TestFixtureBase
   ]
 }";
 
-        JsonConvert.PopulateObject(json, s, new JsonSerializerSettings
+        JsonConvert.PopulateObject(json, s, new()
         {
             ObjectCreationHandling = ObjectCreationHandling.Replace
         });

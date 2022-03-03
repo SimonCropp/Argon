@@ -18,6 +18,6 @@ public class GameObject
 
     public GameObject()
     {
-        Components = new ConcurrentDictionary<string, Component>();
+        Components = new();
     }
 }

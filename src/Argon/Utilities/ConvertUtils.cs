@@ -160,36 +160,36 @@ static class ConvertUtils
 
         if (value is float f)
         {
-            return new BigInteger(f);
+            return new(f);
         }
         if (value is double d)
         {
-            return new BigInteger(d);
+            return new(d);
         }
         if (value is decimal @decimal)
         {
-            return new BigInteger(@decimal);
+            return new(@decimal);
         }
         if (value is int i)
         {
-            return new BigInteger(i);
+            return new(i);
         }
         if (value is long l)
         {
-            return new BigInteger(l);
+            return new(l);
         }
         if (value is uint u)
         {
-            return new BigInteger(u);
+            return new(u);
         }
         if (value is ulong @ulong)
         {
-            return new BigInteger(@ulong);
+            return new(@ulong);
         }
 
         if (value is byte[] bytes)
         {
-            return new BigInteger(bytes);
+            return new(bytes);
         }
 
         throw new InvalidCastException($"Cannot convert {value.GetType()} to BigInteger.");
@@ -461,7 +461,7 @@ static class ConvertUtils
                 return value;
             }
 
-            var castConverter = castConverters.Get(new StructMultiKey<Type, Type>(valueType, targetType));
+            var castConverter = castConverters.Get(new(valueType, targetType));
             if (castConverter != null)
             {
                 return castConverter(value);

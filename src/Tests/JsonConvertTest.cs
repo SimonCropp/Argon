@@ -92,7 +92,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         try
         {
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            JsonConvert.DefaultSettings = () => new()
             {
                 Formatting = Formatting.Indented
             };
@@ -196,7 +196,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         try
         {
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            JsonConvert.DefaultSettings = () => new()
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -206,7 +206,7 @@ public class JsonConvertTest : TestFixtureBase
             {
                 FirstName = "Eric",
                 LastName = "Example",
-                BirthDate = new DateTime(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
+                BirthDate = new(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
                 Department = "IT",
                 JobTitle = "Web Dude"
             };
@@ -239,7 +239,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         try
         {
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            JsonConvert.DefaultSettings = () => new()
             {
                 Formatting = Formatting.Indented
             };
@@ -262,7 +262,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         try
         {
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            JsonConvert.DefaultSettings = () => new()
             {
                 Formatting = Formatting.Indented
             };
@@ -279,19 +279,19 @@ public class JsonConvertTest : TestFixtureBase
   3
 ]", stringWriter.ToString());
 
-            stringWriter = new StringWriter();
+            stringWriter = new();
             serializer.Formatting = Formatting.None;
             serializer.Serialize(stringWriter, l);
 
             Assert.Equal(@"[1,2,3]", stringWriter.ToString());
 
-            stringWriter = new StringWriter();
-            serializer = new JsonSerializer();
+            stringWriter = new();
+            serializer = new();
             serializer.Serialize(stringWriter, l);
 
             Assert.Equal(@"[1,2,3]", stringWriter.ToString());
 
-            stringWriter = new StringWriter();
+            stringWriter = new();
             serializer = JsonSerializer.Create();
             serializer.Serialize(stringWriter, l);
 
@@ -308,7 +308,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         try
         {
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            JsonConvert.DefaultSettings = () => new()
             {
                 Formatting = Formatting.Indented
             };
@@ -316,7 +316,7 @@ public class JsonConvertTest : TestFixtureBase
             var l = new List<int> { 1, 2, 3 };
 
             var stringWriter = new StringWriter();
-            var serializer = JsonSerializer.CreateDefault(new JsonSerializerSettings
+            var serializer = JsonSerializer.CreateDefault(new()
             {
                 Converters = { new IntConverter() }
             });
@@ -328,7 +328,7 @@ public class JsonConvertTest : TestFixtureBase
   6
 ]", stringWriter.ToString());
 
-            stringWriter = new StringWriter();
+            stringWriter = new();
             serializer.Converters.Clear();
             serializer.Serialize(stringWriter, l);
 
@@ -338,8 +338,8 @@ public class JsonConvertTest : TestFixtureBase
   3
 ]", stringWriter.ToString());
 
-            stringWriter = new StringWriter();
-            serializer = JsonSerializer.Create(new JsonSerializerSettings { Formatting = Formatting.Indented });
+            stringWriter = new();
+            serializer = JsonSerializer.Create(new() { Formatting = Formatting.Indented });
             serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
@@ -588,7 +588,7 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(1, i);
 
         var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""2013-08-14T04:38:31.000+0000""");
-        Assert.Equal(new DateTimeOffset(new DateTime(2013, 8, 14, 4, 38, 31, DateTimeKind.Utc)), d);
+        Assert.Equal(new(new(2013, 8, 14, 4, 38, 31, DateTimeKind.Utc)), d);
 
         var b = JsonConvert.DeserializeObject<bool>("true");
         XUnitAssert.True(b);
@@ -941,7 +941,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void MaximumDateTimeOffsetLength()
     {
-        var dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new TimeSpan(0, 11, 33, 0, 0));
+        var dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new(0, 11, 33, 0, 0));
         dt = dt.AddTicks(9999999);
 
         var stringWriter = new StringWriter();
@@ -974,7 +974,7 @@ public class JsonConvertTest : TestFixtureBase
         var v = (JValue)o["biginteger"];
         Assert.Equal(JTokenType.Integer, v.Type);
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
-        Assert.Equal(BigInteger.Parse(new string('9', 380)), (BigInteger)v.Value);
+        Assert.Equal(BigInteger.Parse(new('9', 380)), (BigInteger)v.Value);
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse(@"{""biginteger"":" + new string('9', 381) + "}"),
@@ -1404,8 +1404,8 @@ public class JsonConvertTest : TestFixtureBase
     {
         var measurements = new Measurements
         {
-            Loads = new List<double> { 23283.567554707258, 23224.849899771067, 23062.5, 22846.272519910868, 22594.281246368635 },
-            Positions = new List<double> { 57.724227689317019, 60.440934405753069, 63.444192925248643, 66.813119113482557, 70.4496501404433 },
+            Loads = new() { 23283.567554707258, 23224.849899771067, 23062.5, 22846.272519910868, 22594.281246368635 },
+            Positions = new() { 57.724227689317019, 60.440934405753069, 63.444192925248643, 66.813119113482557, 70.4496501404433 },
             Gain = 12345.67895111213
         };
 
@@ -1620,7 +1620,7 @@ public class JsonConvertTest : TestFixtureBase
 }";
         var value = JsonConvert.DeserializeObject<ItemsRequiredObjectWithIgnoredProperty>(json);
         Assert.NotNull(value);
-        Assert.Equal(value.Expiration, new DateTime(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+        Assert.Equal(value.Expiration, new(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));
         Assert.Equal(value.Active, true);
     }
 

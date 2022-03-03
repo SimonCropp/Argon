@@ -55,7 +55,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new DateTime(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)await reader.ReadAsDateTimeAsync());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)await reader.ReadAsDateTimeAsync());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsDateTimeAsync(),
@@ -69,7 +69,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new DateTimeOffset(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)await reader.ReadAsDateTimeOffsetAsync());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)await reader.ReadAsDateTimeOffsetAsync());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsDateTimeOffsetAsync(),
@@ -143,11 +143,11 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Unexpected character encountered while parsing number: q. Path '', line 1, position 2.");
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Unexpected character encountered while parsing number: q. Path '', line 1, position 2.");
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsInt32Async(); }, "Unexpected character encountered while parsing number: q. Path '', line 1, position 2.");
     }
@@ -492,7 +492,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
             var total = j + i;
             await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
-                reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 await reader.ReadAsInt32Async();
             }, $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 10.");
         }
@@ -513,7 +513,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
             var total = -j + i;
             await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
             {
-                reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                 await reader.ReadAsInt32Async();
             }, $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 11.");
         }
@@ -532,7 +532,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         {
             var total = i + j;
 
-            reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
             await reader.ReadAsync();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);
@@ -552,7 +552,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         {
             var total = i + -j;
 
-            reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
             await reader.ReadAsync();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);

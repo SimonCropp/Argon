@@ -21,7 +21,7 @@ The `Argon.Serialization.DefaultContractResolver` is the default resolver used b
 ```cs
 var product = new Product
 {
-    ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
+    ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
     Name = "Widget",
     Price = 9.99m,
     Sizes = new[] { "Small", "Medium", "Large" }

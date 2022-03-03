@@ -58,7 +58,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     JsonSerializerProxy GetInternalSerializer()
     {
-        return InternalSerializer ??= new JsonSerializerProxy(this);
+        return InternalSerializer ??= new(this);
     }
 
     JsonContract? GetContractSafe(object? value)

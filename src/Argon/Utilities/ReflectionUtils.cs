@@ -641,7 +641,7 @@ static class ReflectionUtils
             assemblyName = null;
         }
 
-        return new StructMultiKey<string?, string>(assemblyName, typeName);
+        return new(assemblyName, typeName);
     }
 
     static int? GetAssemblyDelimiterIndex(string fullyQualifiedTypeName)

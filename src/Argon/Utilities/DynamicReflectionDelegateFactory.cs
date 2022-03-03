@@ -12,7 +12,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
     static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
     {
         var dynamicMethod = !owner.IsInterface
-            ? new DynamicMethod(name, returnType, parameterTypes, owner, true)
+            ? new(name, returnType, parameterTypes, owner, true)
             : new DynamicMethod(name, returnType, parameterTypes, owner.Module, true);
 
         return dynamicMethod;

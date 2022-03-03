@@ -12,13 +12,13 @@ var p1 = new Product
 {
     Name = "Product 1",
     Price = 99.95m,
-    ExpiryDate = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
+    ExpiryDate = new(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
 };
 var p2 = new Product
 {
     Name = "Product 2",
     Price = 12.50m,
-    ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
+    ExpiryDate = new(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
 };
 
 var products = new List<Product>

@@ -300,9 +300,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 ]", new IsoDateTimeConverter());
 
         Assert.Equal(3, c.Count);
-        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-        Assert.Equal(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-        Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+        Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.Equal(new(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
     }
 
     [Fact]
@@ -310,7 +310,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<string>();
 
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             Error = delegate(object _, ErrorEventArgs args)
             {
@@ -339,9 +339,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         // Cannot convert null value to System.DateTime.
 
         Assert.Equal(3, c.Count);
-        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-        Assert.Equal(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-        Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+        Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.Equal(new(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
         Assert.Equal(3, errors.Count);
         var possibleErrs = new[]
@@ -384,9 +384,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             });
 
         Assert.Equal(3, c.Count);
-        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
-        Assert.Equal(new DateTime(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
-        Assert.Equal(new DateTime(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
+        Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
+        Assert.Equal(new(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
         XUnitAssert.False(eventErrorHandlerCalled);
     }
@@ -584,7 +584,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var reader = new JTokenReader(new JArray(0, true));
 
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             Error = (_, arg) =>
             {
@@ -642,7 +642,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         const int maxDepth = 256;
         using (var jsonTextReader = new JsonTextReader(new StringReader(input)) {MaxDepth = maxDepth})
         {
-            var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
+            var jsonSerializer = JsonSerializer.Create(new()
             {
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
@@ -676,7 +676,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         const int maxDepth = 256;
         using (var jsonTextReader = new JsonTextReader(new StringReader(input)) {MaxDepth = maxDepth})
         {
-            var jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings {MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default});
+            var jsonSerializer = JsonSerializer.Create(new() {MaxDepth = maxDepth, MetadataPropertyHandling = MetadataPropertyHandling.Default});
             jsonSerializer.Error += (_, e) =>
             {
                 errors.Add(e.ErrorContext.Error.Message);
@@ -860,7 +860,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         public Something()
         {
-            RootSomethingElse = new RootSomethingElse();
+            RootSomethingElse = new();
         }
     }
 
@@ -892,7 +892,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeWrappingErrorsAndErrorHandling()
     {
-        var serialiser = JsonSerializer.Create(new JsonSerializerSettings());
+        var serialiser = JsonSerializer.Create(new());
 
         var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
         var reader = new StringReader(foo);
@@ -905,13 +905,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeWrappingErrorsAndErrorHandling()
     {
-        var serialiser = JsonSerializer.Create(new JsonSerializerSettings());
+        var serialiser = JsonSerializer.Create(new());
 
         var s = new Something
         {
-            RootSomethingElse = new RootSomethingElse
+            RootSomethingElse = new()
             {
-                SomethingElse = new SomethingElse()
+                SomethingElse = new()
             }
         };
         var r = new RootThing

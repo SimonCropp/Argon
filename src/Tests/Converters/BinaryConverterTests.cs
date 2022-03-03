@@ -99,7 +99,7 @@ public class BinaryConverterTests : TestFixtureBase
     {
         var sqlBinaryClass = new SqlBinaryClass
         {
-            SqlBinary = new SqlBinary(TestData),
+            SqlBinary = new(TestData),
             NullableSqlBinary1 = new SqlBinary(TestData),
             NullableSqlBinary2 = null
         };
@@ -124,7 +124,7 @@ public class BinaryConverterTests : TestFixtureBase
 
         var sqlBinaryClass = JsonConvert.DeserializeObject<SqlBinaryClass>(json, new BinaryConverter());
 
-        Assert.Equal(new SqlBinary(TestData), sqlBinaryClass.SqlBinary);
+        Assert.Equal(new(TestData), sqlBinaryClass.SqlBinary);
         Assert.Equal(new SqlBinary(TestData), sqlBinaryClass.NullableSqlBinary1);
         Assert.Equal(null, sqlBinaryClass.NullableSqlBinary2);
     }

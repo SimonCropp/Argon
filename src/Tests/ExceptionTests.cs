@@ -13,7 +13,7 @@ public class ExceptionTests : TestFixtureBase
         Assert.Equal("Message!", exception.Message);
         Assert.Equal(null, exception.InnerException);
 
-        exception = new JsonSerializationException("Message!", new Exception("Inner!"));
+        exception = new("Message!", new("Inner!"));
         Assert.Equal("Message!", exception.Message);
         Assert.Equal("Inner!", exception.InnerException.Message);
     }
@@ -21,7 +21,7 @@ public class ExceptionTests : TestFixtureBase
     [Fact]
     public void JsonReaderException()
     {
-        var exception = new JsonReaderException("Message!", new Exception("Inner!"));
+        var exception = new JsonReaderException("Message!", new("Inner!"));
         Assert.Equal("Message!", exception.Message);
         Assert.Equal("Inner!", exception.InnerException.Message);
     }

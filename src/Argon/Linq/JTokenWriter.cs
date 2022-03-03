@@ -131,7 +131,7 @@ public partial class JTokenWriter : JsonWriter
 
     void AddValue(object? value, JsonToken token)
     {
-        AddValue(new JValue(value), token);
+        AddValue(new(value), token);
     }
 
     internal void AddValue(JValue? value, JsonToken token)

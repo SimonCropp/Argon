@@ -49,8 +49,8 @@ public class TaskController
 {
     public TaskController(ITaskRepository repository, ILogger logger)
     {
-        this.Repository = repository;
-        this.Logger = logger;
+        Repository = repository;
+        Logger = logger;
     }
 
     public ITaskRepository Repository { get; }
@@ -67,7 +67,7 @@ public class TaskController
 var builder = new ContainerBuilder();
 builder.RegisterType<TaskRepository>().As<ITaskRepository>();
 builder.RegisterType<TaskController>();
-builder.Register(_ => new LogManager(new DateTime(2000, 12, 12))).As<ILogger>();
+builder.Register(_ => new LogManager(new(2000, 12, 12))).As<ILogger>();
 
 var container = builder.Build();
 

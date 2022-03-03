@@ -381,7 +381,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeRootTypeNameAutoWithJsonConvert()
     {
-        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new JsonSerializerSettings
+        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new()
         {
             TypeNameHandling = TypeNameHandling.Auto
         });
@@ -398,7 +398,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeRootTypeNameAutoWithJsonConvert_Generic()
     {
-        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new JsonSerializerSettings
+        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new()
         {
             TypeNameHandling = TypeNameHandling.Auto
         });
@@ -415,7 +415,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeRootTypeNameAutoWithJsonConvert_Generic2()
     {
-        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), new JsonSerializerSettings
+        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), new()
         {
             TypeNameHandling = TypeNameHandling.Auto
         });
@@ -541,13 +541,13 @@ public class TypeNameHandlingTests : TestFixtureBase
             new EmployeeReference
             {
                 Name = "Bob",
-                Manager = new EmployeeReference {Name = "Frank"}
+                Manager = new() {Name = "Frank"}
             },
             new Person
             {
                 Department = "Department",
-                BirthDate = new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc),
-                LastModified = new DateTime(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc)
+                BirthDate = new(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc),
+                LastModified = new(2000, 12, 30, 0, 0, 0, DateTimeKind.Utc)
             },
             "String!",
             int.MinValue
@@ -625,8 +625,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("Frank", e.Manager.Name);
 
         Assert.Equal(null, p.Name);
-        Assert.Equal(new DateTime(2013, 8, 14, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
-        Assert.Equal(new DateTime(2013, 8, 14, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
+        Assert.Equal(new(2013, 8, 14, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
+        Assert.Equal(new(2013, 8, 14, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
         Assert.Equal("String!", values[2]);
         Assert.Equal((long) int.MinValue, values[3]);
@@ -1092,7 +1092,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var testObject = new HolderClass
         {
             TestMember = new ContentSubClass("First One"),
-            AnotherTestMember = new Dictionary<int, IList<ContentBaseClass>> {{1, new List<ContentBaseClass>()}}
+            AnotherTestMember = new() {{1, new List<ContentBaseClass>()}}
         };
         testObject.AnotherTestMember[1].Add(new ContentSubClass("Second One"));
         testObject.AThirdTestMember = new ContentSubClass("Third One");
@@ -1307,7 +1307,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         public CustomEnumerable<T> AddFirst(T newVal)
         {
-            return new CustomEnumerable<T>(newVal, this);
+            return new(newVal, this);
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -1354,7 +1354,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var testerObject = new Car
         {
-            Year = new DateTime(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc)
+            Year = new(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc)
         };
         var data = new byte[] {75, 65, 82, 73, 82, 65};
         testerObject.Objects = new object[] {data, "prueba"};
@@ -1463,7 +1463,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             c1,
             new Employee
             {
-                BirthDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
+                BirthDate = new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
                 Department = "Department!"
             },
             "String!",
@@ -1760,7 +1760,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var o1 = new PropertyItemTypeNameHandlingObject
         {
-            Data = new TypeNameHandlingTestObject
+            Data = new()
             {
                 Prop1 = new List<object>
                 {
@@ -2150,7 +2150,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         public DataType()
         {
-            Rows = new Dictionary<string, IEnumerable<IMyInterfaceType>>();
+            Rows = new();
         }
 
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto, TypeNameHandling = TypeNameHandling.Auto)]
@@ -2293,7 +2293,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         public GroupingInfo()
         {
-            ItemIdentifier = new ApplicationItemKeys();
+            ItemIdentifier = new();
         }
     }
 

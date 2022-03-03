@@ -15,7 +15,7 @@ public class XmlJsonReader : JsonReader
     public XmlJsonReader(XmlReader reader)
     {
         this.reader = reader;
-        stateStack = new Stack<JTokenType>();
+        stateStack = new();
     }
 
     JTokenType PeekState()
@@ -243,7 +243,7 @@ var xml = @"<Root type=""Object"">
 
 var sr = new StringReader(xml);
 
-using (var xmlReader = XmlReader.Create(sr, new XmlReaderSettings { IgnoreWhitespace = true }))
+using (var xmlReader = XmlReader.Create(sr, new() { IgnoreWhitespace = true }))
 using (var reader = new XmlJsonReader(xmlReader))
 {
     var o = JObject.Load(reader);

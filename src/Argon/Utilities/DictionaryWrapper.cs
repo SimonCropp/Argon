@@ -233,7 +233,7 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
                 while (e.MoveNext())
                 {
                     var entry = e.Entry;
-                    array[arrayIndex++] = new KeyValuePair<TKey, TValue>((TKey) entry.Key, (TValue) entry.Value);
+                    array[arrayIndex++] = new((TKey) entry.Key, (TValue) entry.Value);
                 }
             }
             finally
@@ -555,7 +555,7 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
         {
             if (syncRoot == null)
             {
-                Interlocked.CompareExchange(ref syncRoot, new object(), null);
+                Interlocked.CompareExchange(ref syncRoot, new(), null);
             }
 
             return syncRoot;

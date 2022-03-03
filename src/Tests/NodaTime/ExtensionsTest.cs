@@ -83,7 +83,7 @@ public class ExtensionsTest
                 NodaConverters.LocalDateConverter
             }
         };
-        var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
+        var interval = new DateInterval(new(2001, 2, 3), new(2004, 5, 6));
         Assert.Equal(Serialize(interval, explicitSerializer),
             Serialize(interval, configuredSerializer));
     }
@@ -99,7 +99,7 @@ public class ExtensionsTest
                 NodaConverters.IsoDateIntervalConverter
             }
         };
-        var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
+        var interval = new DateInterval(new(2001, 2, 3), new(2004, 5, 6));
         Assert.Equal(Serialize(interval, explicitSerializer),
             Serialize(interval, configuredSerializer));
     }
@@ -116,7 +116,7 @@ public class ExtensionsTest
                 NodaConverters.LocalDateConverter
             }
         };
-        var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
+        var interval = new DateInterval(new(2001, 2, 3), new(2004, 5, 6));
         Assert.Equal(JsonConvert.SerializeObject(interval, explicitSettings),
             JsonConvert.SerializeObject(interval, configuredSettings));
     }
@@ -132,7 +132,7 @@ public class ExtensionsTest
                 NodaConverters.IsoDateIntervalConverter
             }
         };
-        var interval = new DateInterval(new LocalDate(2001, 2, 3), new LocalDate(2004, 5, 6));
+        var interval = new DateInterval(new(2001, 2, 3), new(2004, 5, 6));
         Assert.Equal(JsonConvert.SerializeObject(interval, explicitSettings),
             JsonConvert.SerializeObject(interval, configuredSettings));
     }

@@ -60,7 +60,7 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     public DefaultContractResolver()
     {
-        contractCache = new ThreadSafeStore<Type, JsonContract>(CreateContract);
+        contractCache = new(CreateContract);
     }
 
     /// <summary>
@@ -401,7 +401,7 @@ public class DefaultContractResolver : IContractResolver
         contract.ExtensionDataValueType = valueType;
     }
 
-    private static Action<object, object?>? BuildSetExtensionDataDictionary(MemberInfo member)
+    static Action<object, object?>? BuildSetExtensionDataDictionary(MemberInfo member)
     {
         if (member.CanSetMemberValue(true, false))
         {
@@ -426,7 +426,7 @@ public class DefaultContractResolver : IContractResolver
         {
             foreach (var item in e)
             {
-                yield return new KeyValuePair<object, object>(item.Key!, item.Value!);
+                yield return new(item.Key!, item.Value!);
             }
         }
 
@@ -718,31 +718,31 @@ public class DefaultContractResolver : IContractResolver
 
                 if (!skipSerializing && IsValidCallback(method, parameters, typeof(OnSerializingAttribute), currentOnSerializing, ref prevAttributeType))
                 {
-                    onSerializing ??= new List<SerializationCallback>();
+                    onSerializing ??= new();
                     onSerializing.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnSerializing = method;
                 }
                 if (IsValidCallback(method, parameters, typeof(OnSerializedAttribute), currentOnSerialized, ref prevAttributeType))
                 {
-                    onSerialized ??= new List<SerializationCallback>();
+                    onSerialized ??= new();
                     onSerialized.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnSerialized = method;
                 }
                 if (IsValidCallback(method, parameters, typeof(OnDeserializingAttribute), currentOnDeserializing, ref prevAttributeType))
                 {
-                    onDeserializing ??= new List<SerializationCallback>();
+                    onDeserializing ??= new();
                     onDeserializing.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnDeserializing = method;
                 }
                 if (!skipDeserialized && IsValidCallback(method, parameters, typeof(OnDeserializedAttribute), currentOnDeserialized, ref prevAttributeType))
                 {
-                    onDeserialized ??= new List<SerializationCallback>();
+                    onDeserialized ??= new();
                     onDeserialized.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnDeserialized = method;
                 }
                 if (IsValidCallback(method, parameters, typeof(OnErrorAttribute), currentOnError, ref prevAttributeType))
                 {
-                    onError ??= new List<SerializationErrorCallback>();
+                    onError ??= new();
                     onError.Add(JsonContract.CreateSerializationErrorCallback(method));
                     currentOnError = method;
                 }

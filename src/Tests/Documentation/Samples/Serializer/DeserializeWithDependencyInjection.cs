@@ -53,8 +53,8 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
     {
         public TaskController(ITaskRepository repository, ILogger logger)
         {
-            this.Repository = repository;
-            this.Logger = logger;
+            Repository = repository;
+            Logger = logger;
         }
 
         public ITaskRepository Repository { get; }
@@ -70,7 +70,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         var builder = new ContainerBuilder();
         builder.RegisterType<TaskRepository>().As<ITaskRepository>();
         builder.RegisterType<TaskController>();
-        builder.Register(_ => new LogManager(new DateTime(2000, 12, 12))).As<ILogger>();
+        builder.Register(_ => new LogManager(new(2000, 12, 12))).As<ILogger>();
 
         var container = builder.Build();
 
@@ -95,7 +95,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         Assert.NotNull(controller);
         Assert.NotNull(controller.Logger);
 
-        Assert.Equal(new DateTime(2000, 12, 12), controller.Logger.DateTime);
+        Assert.Equal(new(2000, 12, 12), controller.Logger.DateTime);
         Assert.Equal("Debug", controller.Logger.Level);
     }
 

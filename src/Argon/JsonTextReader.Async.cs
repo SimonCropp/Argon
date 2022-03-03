@@ -895,7 +895,7 @@ public partial class JsonTextReader
         CharPos++;
 
         SetToken(JsonToken.PropertyName, propertyName);
-        base.quoteChar = quoteChar;
+        this.quoteChar = quoteChar;
         ClearRecentString();
 
         return true;
@@ -959,7 +959,7 @@ public partial class JsonTextReader
                     continue;
                 }
 
-                stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
+                stringReference = new(CharBuffer, initialPosition, CharPos - initialPosition);
                 return;
             }
 

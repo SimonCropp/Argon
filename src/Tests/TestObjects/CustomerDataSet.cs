@@ -14,7 +14,7 @@ namespace TestObjects;
 [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
 [global::System.Xml.Serialization.XmlRootAttribute("CustomerDataSet")]
 [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-public partial class CustomerDataSet : System.Data.DataSet
+public class CustomerDataSet : System.Data.DataSet
 {
     CustomersDataTable tableCustomers;
 
@@ -200,7 +200,7 @@ public partial class CustomerDataSet : System.Data.DataSet
         Prefix = "";
         EnforceConstraints = true;
         SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-        tableCustomers = new CustomersDataTable();
+        tableCustomers = new();
         base.Tables.Add(tableCustomers);
     }
 
@@ -287,7 +287,7 @@ public partial class CustomerDataSet : System.Data.DataSet
     ///</summary>
     [Serializable()]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-    public partial class CustomersDataTable : System.Data.DataTable, IEnumerable
+    public class CustomersDataTable : System.Data.DataTable, IEnumerable
     {
         System.Data.DataColumn columnCustomerID;
 
@@ -410,7 +410,7 @@ public partial class CustomerDataSet : System.Data.DataSet
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         void InitClass()
         {
-            columnCustomerID = new System.Data.DataColumn("CustomerID", typeof(string), null, System.Data.MappingType.Element);
+            columnCustomerID = new("CustomerID", typeof(string), null, System.Data.MappingType.Element);
             Columns.Add(columnCustomerID);
         }
 
@@ -442,7 +442,7 @@ public partial class CustomerDataSet : System.Data.DataSet
             base.OnRowChanged(e);
             if (CustomersRowChanged != null)
             {
-                CustomersRowChanged(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
+                CustomersRowChanged(this, new((CustomersRow)e.Row, e.Action));
             }
         }
 
@@ -453,7 +453,7 @@ public partial class CustomerDataSet : System.Data.DataSet
             base.OnRowChanging(e);
             if (CustomersRowChanging != null)
             {
-                CustomersRowChanging(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
+                CustomersRowChanging(this, new((CustomersRow)e.Row, e.Action));
             }
         }
 
@@ -464,7 +464,7 @@ public partial class CustomerDataSet : System.Data.DataSet
             base.OnRowDeleted(e);
             if (CustomersRowDeleted != null)
             {
-                CustomersRowDeleted(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
+                CustomersRowDeleted(this, new((CustomersRow)e.Row, e.Action));
             }
         }
 
@@ -475,7 +475,7 @@ public partial class CustomerDataSet : System.Data.DataSet
             base.OnRowDeleting(e);
             if (CustomersRowDeleting != null)
             {
-                CustomersRowDeleting(this, new CustomersRowChangeEvent((CustomersRow)e.Row, e.Action));
+                CustomersRowDeleting(this, new((CustomersRow)e.Row, e.Action));
             }
         }
 
@@ -496,7 +496,7 @@ public partial class CustomerDataSet : System.Data.DataSet
             var any1 = new global::System.Xml.Schema.XmlSchemaAny
             {
                 Namespace = "http://www.w3.org/2001/XMLSchema",
-                MinOccurs = new decimal(0),
+                MinOccurs = new(0),
                 MaxOccurs = decimal.MaxValue,
                 ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax
             };
@@ -504,7 +504,7 @@ public partial class CustomerDataSet : System.Data.DataSet
             var any2 = new global::System.Xml.Schema.XmlSchemaAny
             {
                 Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1",
-                MinOccurs = new decimal(1),
+                MinOccurs = new(1),
                 ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax
             };
             sequence.Items.Add(any2);
@@ -570,7 +570,7 @@ public partial class CustomerDataSet : System.Data.DataSet
     /// <summary>
     ///Represents strongly named DataRow class.
     ///</summary>
-    public partial class CustomersRow : System.Data.DataRow
+    public class CustomersRow : System.Data.DataRow
     {
         CustomersDataTable tableCustomers;
 

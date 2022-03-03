@@ -59,7 +59,7 @@ public class Issue1461 : TestFixtureBase
             }
 
             var str = reader.Value as string;
-            return Guid.TryParse(str, out var guid) ? new Id(guid) : new Id(str);
+            return Guid.TryParse(str, out var guid) ? new(guid) : new Id(str);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

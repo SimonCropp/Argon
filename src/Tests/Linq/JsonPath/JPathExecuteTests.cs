@@ -648,7 +648,7 @@ public class JPathExecuteTests : TestFixtureBase
             () => a.SelectToken("[:-19]", true),
             "Array slice of * to -19 returned no results.");
 
-        a = new JArray();
+        a = new();
 
         XUnitAssert.Throws<JsonException>(
             () => a.SelectToken("[:]", true),

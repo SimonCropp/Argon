@@ -38,7 +38,7 @@ public class JTokenAsyncTests : TestFixtureBase
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
         Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
-        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
+        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, new(12, 31, 0)), v.Value);
     }
 
     [Fact]

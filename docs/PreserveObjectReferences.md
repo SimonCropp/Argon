@@ -7,8 +7,8 @@ By default Json.NET will serialize all objects it encounters by value. If a list
 ```cs
 var p = new Person
 {
-    BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
-    LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
+    BirthDate = new(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
+    LastModified = new(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
     Name = "James"
 };
 

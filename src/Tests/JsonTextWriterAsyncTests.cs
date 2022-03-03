@@ -321,8 +321,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await writer.CloseAsync();
         Assert.False(ms.CanRead);
 
-        ms = new MemoryStream();
-        writer = new JsonTextWriter(new StreamWriter(ms)) { CloseOutput = false };
+        ms = new();
+        writer = new(new StreamWriter(ms)) { CloseOutput = false };
 
         Assert.True(ms.CanRead);
         await writer.CloseAsync();
@@ -1234,8 +1234,8 @@ _____'propertyName': NaN,
 
         Assert.Equal(unicode, reader.ReadAsString());
 
-        stringWriter = new StringWriter();
-        jsonWriter = new JsonTextWriter(stringWriter)
+        stringWriter = new();
+        jsonWriter = new(stringWriter)
         {
             EscapeHandling = EscapeHandling.Default
         };

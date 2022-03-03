@@ -250,7 +250,7 @@ public class XmlJsonWriter : JsonWriter
             // write up to a max of 10 characters at once to avoid creating too many new strings
             var writeCount = Math.Min(currentIndentCount, 10);
 
-            writer.WriteWhitespace(new string(' ', writeCount));
+            writer.WriteWhitespace(new(' ', writeCount));
 
             currentIndentCount -= writeCount;
         }
@@ -277,7 +277,7 @@ var user = new
 
 var stringWriter = new StringWriter();
 
-using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { OmitXmlDeclaration = true }))
+using (var xmlWriter = XmlWriter.Create(stringWriter, new() { OmitXmlDeclaration = true }))
 using (var writer = new XmlJsonWriter(xmlWriter))
 {
     writer.Formatting = Formatting.Indented;

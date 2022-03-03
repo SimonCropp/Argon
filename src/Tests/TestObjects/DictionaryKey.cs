@@ -15,6 +15,6 @@ public class DictionaryKey
 
     public static implicit operator DictionaryKey(string value)
     {
-        return new DictionaryKey { Value = value };
+        return new() { Value = value };
     }
 }

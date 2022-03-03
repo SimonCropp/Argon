@@ -151,7 +151,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     JsonSerializerProxy GetInternalSerializer()
     {
-        return InternalSerializer ??= new JsonSerializerProxy(this);
+        return InternalSerializer ??= new(this);
     }
 
     static JToken? CreateJToken(JsonReader reader, JsonContract? contract)
@@ -1766,7 +1766,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 {
                     if (propertyContexts.All(p => p.Property != property))
                     {
-                        propertyContexts.Add(new CreatorPropertyContext(property.PropertyName!)
+                        propertyContexts.Add(new(property.PropertyName!)
                         {
                             Property = property,
                             Presence = PropertyPresence.None

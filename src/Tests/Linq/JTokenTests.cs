@@ -50,7 +50,7 @@ public class JTokenTests : TestFixtureBase
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
         Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
-        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, new TimeSpan(12, 31, 0)), v.Value);
+        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, new(12, 31, 0)), v.Value);
     }
 
     [Fact]
@@ -172,9 +172,9 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(1L, (long)new JValue(1));
         Assert.Equal(2L, (long)new JArray(1, 2, 3)[1]);
 
-        Assert.Equal(new DateTime(2000, 12, 20), (DateTime)new JValue(new DateTime(2000, 12, 20)));
-        Assert.Equal(new DateTimeOffset(2000, 12, 20, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTime(2000, 12, 20, 0, 0, 0, DateTimeKind.Utc)));
-        Assert.Equal(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
+        Assert.Equal(new(2000, 12, 20), (DateTime)new JValue(new DateTime(2000, 12, 20)));
+        Assert.Equal(new(2000, 12, 20, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTime(2000, 12, 20, 0, 0, 0, DateTimeKind.Utc)));
+        Assert.Equal(new(2000, 12, 20, 23, 50, 10, TimeSpan.Zero), (DateTimeOffset)new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
         Assert.Equal(null, (DateTimeOffset?)new JValue((DateTimeOffset?)null));
         Assert.Equal(null, (DateTimeOffset?)(JValue?)null);
         XUnitAssert.True((bool)new JValue(true));
@@ -251,14 +251,14 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(TimeSpan.FromMinutes(1), (TimeSpan)new JValue("00:01:00"));
         Assert.Equal("46efe013-b56a-4e83-99e4-4dce7678a5bc", (string?)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
         Assert.Equal("http://www.google.com/", (string?)new JValue(new Uri("http://www.google.com")));
-        Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"));
-        Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
-        Assert.Equal(new Uri("http://www.google.com"), (Uri?)new JValue("http://www.google.com"));
-        Assert.Equal(new Uri("http://www.google.com"), (Uri?)new JValue(new Uri("http://www.google.com")));
+        Assert.Equal(new("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"));
+        Assert.Equal(new("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC")));
+        Assert.Equal(new("http://www.google.com"), (Uri?)new JValue("http://www.google.com"));
+        Assert.Equal(new("http://www.google.com"), (Uri?)new JValue(new Uri("http://www.google.com")));
         Assert.Equal(null, (Uri?)JValue.CreateNull());
         Assert.Equal(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi")), (string?)new JValue(Encoding.UTF8.GetBytes("hi")));
         Assert.Equal(Encoding.UTF8.GetBytes("hi"), (byte[]?)new JValue(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi"))));
-        Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
+        Assert.Equal(new("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
         Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid?)new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
         Assert.Equal((sbyte?)1, (sbyte?)new JValue((short?)1));
 
@@ -293,11 +293,11 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(BigInteger.Parse(bigIntegerText), new JValue(BigInteger.Parse(bigIntegerText)).Value);
 
         Assert.Equal(BigInteger.Parse(bigIntegerText), new JValue(bigIntegerText).ToObject<BigInteger>());
-        Assert.Equal(new BigInteger(long.MaxValue), new JValue(long.MaxValue).ToObject<BigInteger>());
-        Assert.Equal(new BigInteger(4.5d), new JValue(4.5d).ToObject<BigInteger>());
-        Assert.Equal(new BigInteger(4.5f), new JValue(4.5f).ToObject<BigInteger>());
-        Assert.Equal(new BigInteger(byte.MaxValue), new JValue(byte.MaxValue).ToObject<BigInteger>());
-        Assert.Equal(new BigInteger(123), new JValue(123).ToObject<BigInteger>());
+        Assert.Equal(new(long.MaxValue), new JValue(long.MaxValue).ToObject<BigInteger>());
+        Assert.Equal(new(4.5d), new JValue(4.5d).ToObject<BigInteger>());
+        Assert.Equal(new(4.5f), new JValue(4.5f).ToObject<BigInteger>());
+        Assert.Equal(new(byte.MaxValue), new JValue(byte.MaxValue).ToObject<BigInteger>());
+        Assert.Equal(new(123), new JValue(123).ToObject<BigInteger>());
         Assert.Equal(new BigInteger(123), new JValue(123).ToObject<BigInteger?>());
         Assert.Equal(null, JValue.CreateNull().ToObject<BigInteger?>());
 
@@ -1146,7 +1146,7 @@ public class JTokenTests : TestFixtureBase
     {
         var json = "{'prop':[1,2/*comment*/,3]}";
 
-        var o = JToken.Parse(json, new JsonLoadSettings
+        var o = JToken.Parse(json, new()
         {
             CommentHandling = CommentHandling.Ignore
         });

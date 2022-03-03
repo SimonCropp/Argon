@@ -20,7 +20,7 @@ public partial class JsonTextWriter : JsonWriter
     IArrayPool<char>? arrayPool;
     char[]? indentChars;
 
-    Base64Encoder Base64Encoder => base64Encoder ??= new Base64Encoder(writer);
+    Base64Encoder Base64Encoder => base64Encoder ??= new(writer);
 
     /// <summary>
     /// Gets or sets the writer's character array pool.

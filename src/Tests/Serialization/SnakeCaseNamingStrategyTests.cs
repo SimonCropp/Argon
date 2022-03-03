@@ -12,8 +12,8 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
     {
         var person = new Person
         {
-            BirthDate = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
-            LastModified = new DateTime(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+            BirthDate = new(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
+            LastModified = new(2000, 11, 20, 23, 55, 44, DateTimeKind.Utc),
             Name = "Name!"
         };
 
@@ -87,7 +87,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
     {
         var product = new Product
         {
-            ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
             Sizes = new[] { "Small", "Medium", "Large" }
@@ -179,7 +179,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         public TestDynamicObject()
         {
-            _members = new Dictionary<string, object>();
+            _members = new();
         }
 
         public override IEnumerable<string> GetDynamicMemberNames()

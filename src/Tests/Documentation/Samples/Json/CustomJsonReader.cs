@@ -15,7 +15,7 @@ public class XmlJsonReader : JsonReader
     public XmlJsonReader(XmlReader reader)
     {
         this.reader = reader;
-        stateStack = new Stack<JTokenType>();
+        stateStack = new();
     }
 
     JTokenType PeekState()
@@ -244,7 +244,7 @@ public class CustomJsonReader : TestFixtureBase
 
         var sr = new StringReader(xml);
 
-        using (var xmlReader = XmlReader.Create(sr, new XmlReaderSettings { IgnoreWhitespace = true }))
+        using (var xmlReader = XmlReader.Create(sr, new() { IgnoreWhitespace = true }))
         using (var reader = new XmlJsonReader(xmlReader))
         {
             var o = JObject.Load(reader);
@@ -273,7 +273,7 @@ public class CustomJsonReader : TestFixtureBase
         }
         #endregion
 
-        using (var xmlReader = XmlReader.Create(new StringReader(xml), new XmlReaderSettings { IgnoreWhitespace = true }))
+        using (var xmlReader = XmlReader.Create(new StringReader(xml), new() { IgnoreWhitespace = true }))
         using (var reader = new XmlJsonReader(xmlReader))
         {
             await reader.VerifyReaderState();

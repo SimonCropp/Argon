@@ -16,7 +16,7 @@ public class VersionConverter : JsonConverter<Version>
     {
         var s = (string)reader.Value;
 
-        return new Version(s);
+        return new(s);
     }
 }
 
@@ -35,7 +35,7 @@ public class NuGetPackage
 var p1 = new NuGetPackage
 {
     PackageId = "Argon",
-    Version = new Version(10, 0, 4)
+    Version = new(10, 0, 4)
 };
 
 var json = JsonConvert.SerializeObject(p1, Formatting.Indented, new VersionConverter());

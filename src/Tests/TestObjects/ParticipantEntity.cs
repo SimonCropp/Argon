@@ -25,7 +25,7 @@ class ParticipantEntity
     [JsonProperty(PropertyName = "pa_info")]
     public Dictionary<string, string> Properties
     {
-        get => _properties ??= new Dictionary<string, string>();
+        get => _properties ??= new();
         set => _properties = value;
     }
 }

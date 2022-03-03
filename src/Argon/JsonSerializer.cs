@@ -257,7 +257,7 @@ public class JsonSerializer
     /// </returns>
     public static JsonSerializer Create()
     {
-        return new JsonSerializer();
+        return new();
     }
 
     /// <summary>

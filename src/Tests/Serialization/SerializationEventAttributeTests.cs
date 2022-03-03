@@ -245,7 +245,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
         {
             Context =
-                new StreamingContext(
+                new(
                     StreamingContextStates.Remoting,
                     "ContextValue")
         });
@@ -263,7 +263,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
 
         Assert.Equal(resolver.OnErrorCallbacks.Count, 1);
 
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             // If I don't specify Error here, the callback isn't called
             // either, but no exception is thrown.
@@ -369,7 +369,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         var d = new ExportPostData
         {
             user = "user!",
-            contract = new Contract
+            contract = new()
             {
                 contractName = "name!"
             }

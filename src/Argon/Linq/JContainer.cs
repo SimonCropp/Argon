@@ -97,7 +97,7 @@ public abstract partial class JContainer :
     /// </returns>
     public override JEnumerable<JToken> Children()
     {
-        return new JEnumerable<JToken>(ChildrenTokens);
+        return new(ChildrenTokens);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public abstract partial class JContainer :
 
     internal bool IsMultiContent([NotNullWhen(true)]object? content)
     {
-        return content is IEnumerable && content is not string && content is not JToken && content is not byte[];
+        return content is IEnumerable and not string and not JToken and not byte[];
     }
 
     internal JToken EnsureParentToken(JToken? item, bool skipParentCheck)

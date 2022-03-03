@@ -14,7 +14,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         Assert.Equal(string.Empty, converter.DateTimeFormat);
         Assert.Equal(DateTimeStyles.RoundtripKind, converter.DateTimeStyles);
 
-        converter = new IsoDateTimeConverter
+        converter = new()
         {
             DateTimeFormat = "F",
             Culture = CultureInfo.InvariantCulture,
@@ -45,7 +45,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         Assert.Equal(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
 
-        d = new DateTime(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Local);
+        d = new(2000, 12, 15, 22, 11, 3, 55, DateTimeKind.Local);
         result = JsonConvert.SerializeObject(d, converter);
         Assert.Equal($@"""2000-12-15T22:11:03.055{GetUtcOffsetText(d)}""", result);
     }
@@ -62,7 +62,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         Assert.Equal(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
 
-        d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Local);
+        d = new(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Local);
         result = JsonConvert.SerializeObject(d, converter);
         Assert.Equal(@"""Friday, 15 December 2000 22:11:03""", result);
     }
@@ -106,7 +106,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
 
         Assert.Equal(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
 
-        d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Local);
+        d = new(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Local);
         result = JsonConvert.SerializeObject(d, converter);
         Assert.Equal(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
     }
@@ -215,7 +215,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
             PostField = "Post"
         };
         var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }); //note that this fails without the Utc converter...
-        c.DateTimeField = new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc);
+        c.DateTimeField = new(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc);
         var json2 = JsonConvert.SerializeObject(c, new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
 
         var offset = localDateTime.GetUtcOffset();
@@ -237,8 +237,8 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var p = new Person
         {
             Name = "Keith",
-            BirthDate = new DateTime(1980, 3, 8),
-            LastModified = new DateTime(2009, 4, 12, 20, 44, 55),
+            BirthDate = new(1980, 3, 8),
+            LastModified = new(2009, 4, 12, 20, 44, 55),
         };
 
         var jsonText = JsonConvert.SerializeObject(p, new IsoDateTimeConverter());

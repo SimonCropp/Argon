@@ -16,7 +16,7 @@ var o2 = JObject.Parse(@"{
       'Roles': [ 'User', 'Admin' ]
     }");
 
-o1.Merge(o2, new JsonMergeSettings
+o1.Merge(o2, new()
 {
     // union array values together to avoid duplicates
     MergeArrayHandling = MergeArrayHandling.Union

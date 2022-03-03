@@ -9,7 +9,7 @@ public class Issue1598 : TestFixtureBase
     {
         var activities = new Activities
         {
-            List = new List<Activity>
+            List = new()
             {
                 new()
                 {
@@ -33,7 +33,7 @@ public class Issue1598 : TestFixtureBase
     {
         var activities = new ActivitiesSubClass
         {
-            List = new List<Activity>
+            List = new()
             {
                 new()
                 {

@@ -14,7 +14,7 @@ class JPath
     public JPath(string expression)
     {
         this.expression = expression;
-        Filters = new List<PathFilter>();
+        Filters = new();
 
         ParseMain();
     }
@@ -279,7 +279,7 @@ class JPath
                     throw new JsonException("Array index expected.");
                 }
 
-                indexes ??= new List<int>();
+                indexes ??= new();
 
                 var indexer = expression.Substring(start, length);
                 indexes.Add(Convert.ToInt32(indexer, CultureInfo.InvariantCulture));
@@ -402,11 +402,11 @@ class JPath
     {
         if (expression[currentIndex] == '$')
         {
-            expressionPath = new List<PathFilter> { RootFilter.Instance };
+            expressionPath = new() { RootFilter.Instance };
         }
         else if (expression[currentIndex] == '@')
         {
-            expressionPath = new List<PathFilter>();
+            expressionPath = new();
         }
         else
         {
@@ -426,7 +426,7 @@ class JPath
 
     JsonException CreateUnexpectedCharacterException()
     {
-        return new JsonException($"Unexpected character while parsing path query: {expression[currentIndex]}");
+        return new($"Unexpected character while parsing path query: {expression[currentIndex]}");
     }
 
     object ParseSide()
@@ -809,7 +809,7 @@ class JPath
                 currentIndex++;
                 EatWhitespace();
 
-                fields ??= new List<string>();
+                fields ??= new();
 
                 fields.Add(field);
             }

@@ -12,7 +12,7 @@ public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerab
 
     public VersionKeyedCollection()
     {
-        Messages = new List<string>();
+        Messages = new();
     }
 
     protected override string GetKeyForItem(Person item)

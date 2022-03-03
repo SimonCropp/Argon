@@ -429,7 +429,7 @@ public static class JsonConvert
         JsonSerializerSettings? settings = null;
         if (converters is {Length: > 0})
         {
-            settings = new JsonSerializerSettings {Converters = converters};
+            settings = new() {Converters = converters};
         }
 
         return SerializeObject(value, null, settings);
@@ -444,7 +444,7 @@ public static class JsonConvert
         JsonSerializerSettings? settings = null;
         if (converters is {Length: > 0})
         {
-            settings = new JsonSerializerSettings {Converters = converters};
+            settings = new() {Converters = converters};
         }
 
         return SerializeObject(value, null, formatting, settings);
@@ -629,7 +629,7 @@ public static class JsonConvert
         JsonSerializerSettings? settings = null;
         if (converters is {Length: > 0})
         {
-            settings = new JsonSerializerSettings {Converters = converters};
+            settings = new() {Converters = converters};
         }
 
         return DeserializeObject(value, type, settings);

@@ -13,7 +13,7 @@ For simple scenarios where you want to convert to and from a JSON string, the `A
 var product = new Product
 {
     Name = "Apple",
-    ExpiryDate = new DateTime(2008, 12, 28),
+    ExpiryDate = new(2008, 12, 28),
     Price = 3.99M,
     Sizes = new[] { "Small", "Medium", "Large" }
 };
@@ -50,7 +50,7 @@ and `Argon.JsonTextWriter`. Other kinds of JsonWriters can also be used, such as
 ```cs
 var product = new Product
 {
-    ExpiryDate = new DateTime(2008, 12, 28)
+    ExpiryDate = new(2008, 12, 28)
 };
 
 var serializer = new JsonSerializer

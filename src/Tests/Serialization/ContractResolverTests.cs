@@ -325,58 +325,58 @@ public class ContractResolverTests : TestFixtureBase
         var p = new JsonProperty {PropertyName = "abc"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "123"};
+        p = new() {PropertyName = "123"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "._-"};
+        p = new() {PropertyName = "._-"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "!@#"};
+        p = new() {PropertyName = "!@#"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "$%^"};
+        p = new() {PropertyName = "$%^"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "?*("};
+        p = new() {PropertyName = "?*("};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = ")_+"};
+        p = new() {PropertyName = ")_+"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "=:,"};
+        p = new() {PropertyName = "=:,"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = null};
+        p = new() {PropertyName = null};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "&"};
+        p = new() {PropertyName = "&"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "<"};
+        p = new() {PropertyName = "<"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = ">"};
+        p = new() {PropertyName = ">"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "'"};
+        p = new() {PropertyName = "'"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = @""""};
+        p = new() {PropertyName = @""""};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = Environment.NewLine};
+        p = new() {PropertyName = Environment.NewLine};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "\0"};
+        p = new() {PropertyName = "\0"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "\n"};
+        p = new() {PropertyName = "\n"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "\v"};
+        p = new() {PropertyName = "\v"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new JsonProperty {PropertyName = "\u00B9"};
+        p = new() {PropertyName = "\u00B9"};
         Assert.False(p.skipPropertyNameEscape);
     }
 
@@ -459,7 +459,7 @@ public class ContractResolverTests : TestFixtureBase
     {
         var employee = new Employee
         {
-            BirthDate = new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
+            BirthDate = new(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
             FirstName = "Maurice",
             LastName = "Moss",
             Department = "IT",
@@ -473,7 +473,7 @@ public class ContractResolverTests : TestFixtureBase
 
         Assert.Equal("Maurice", (string) o["FirstName"]);
         Assert.Equal("Moss", (string) o["LastName"]);
-        Assert.Equal(new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc), (DateTime) o["BirthDate"]);
+        Assert.Equal(new(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc), (DateTime) o["BirthDate"]);
     }
 
     [Fact]

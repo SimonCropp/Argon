@@ -23,6 +23,6 @@ class DictionaryKeyCast
     public static implicit operator DictionaryKeyCast(string dictionaryKey)
     {
         var strings = dictionaryKey.Split(' ');
-        return new DictionaryKeyCast(strings[0], Convert.ToInt32(strings[1]));
+        return new(strings[0], Convert.ToInt32(strings[1]));
     }
 }

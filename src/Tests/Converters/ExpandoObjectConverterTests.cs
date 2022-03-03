@@ -19,7 +19,7 @@ public class ExpandoObjectConverterTests : TestFixtureBase
         var d = new ExpandoContainer
         {
             Before = "Before!",
-            Expando = new ExpandoObject(),
+            Expando = new(),
             After = "After!"
         };
 

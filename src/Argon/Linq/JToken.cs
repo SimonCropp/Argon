@@ -32,7 +32,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Gets a comparer that can compare two tokens for value equality.
     /// </summary>
-    public static JTokenEqualityComparer EqualityComparer => equalityComparer ??= new JTokenEqualityComparer();
+    public static JTokenEqualityComparer EqualityComparer => equalityComparer ??= new();
 
     /// <summary>
     /// Gets or sets the parent.
@@ -115,14 +115,14 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 {
                     case JTokenType.Property:
                         var property = (JProperty)current;
-                        positions.Add(new JsonPosition(JsonContainerType.Object) { PropertyName = property.Name });
+                        positions.Add(new(JsonContainerType.Object) { PropertyName = property.Name });
                         break;
                     case JTokenType.Array:
                         if (previous != null)
                         {
                             var index = ((IList<JToken>)current).IndexOf(previous);
 
-                            positions.Add(new JsonPosition(JsonContainerType.Array) { Position = index });
+                            positions.Add(new(JsonContainerType.Array) { Position = index });
                         }
                         break;
                 }
@@ -279,7 +279,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>A <see cref="JEnumerable{T}"/> containing the child tokens of this <see cref="JToken"/>, in document order.</returns>
     public JEnumerable<T> Children<T>() where T : JToken
     {
-        return new JEnumerable<T>(Children().OfType<T>());
+        return new(Children().OfType<T>());
     }
 
     /// <summary>
@@ -438,7 +438,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return DateTimeOffset.Parse(s, CultureInfo.InvariantCulture);
         }
 
-        return new DateTimeOffset(Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture));
+        return new(Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture));
     }
 
     /// <summary>
@@ -1123,10 +1123,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (v.Value is byte[] bytes)
         {
-            return new Guid(bytes);
+            return new(bytes);
         }
 
-        return v.Value is Guid guid ? guid : new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+        return v.Value is Guid guid ? guid : new(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
     }
 
     /// <summary>
@@ -1922,7 +1922,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// </returns>
     protected virtual DynamicMetaObject GetMetaObject(Expression parameter)
     {
-        return new DynamicProxyMetaObject<JToken>(parameter, this, new DynamicProxy<JToken>());
+        return new DynamicProxyMetaObject<JToken>(parameter, this, new());
     }
 
     /// <summary>

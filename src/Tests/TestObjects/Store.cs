@@ -33,7 +33,7 @@ public class Store
         var rocket = new Product
         {
             Name = "Rocket",
-            ExpiryDate = new DateTime(2000, 2, 2, 23, 1, 30, DateTimeKind.Utc)
+            ExpiryDate = new(2000, 2, 2, 23, 1, 30, DateTimeKind.Utc)
         };
         var alien = new Product
         {

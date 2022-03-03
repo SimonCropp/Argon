@@ -144,13 +144,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public TestCollectionPrivateParameterized()
         {
-            _bars = new List<int>();
+            _bars = new();
         }
 
         [Argon.JsonConstructor]
         TestCollectionPrivateParameterized(IEnumerable<int> bars)
         {
-            _bars = new List<int>(bars);
+            _bars = new(bars);
         }
 
         public void Add(int bar)
@@ -192,7 +192,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public static TestCollectionPrivate Create()
         {
-            return new TestCollectionPrivate();
+            return new();
         }
     }
 
@@ -307,7 +307,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public static TestDictionaryPrivate Create()
         {
-            return new TestDictionaryPrivate();
+            return new();
         }
     }
 
@@ -860,7 +860,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public GenericListTestClass()
         {
-            GenericList = new List<string>();
+            GenericList = new();
         }
     }
 
@@ -906,14 +906,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var list = new List<KeyValuePair<string, WagePerson>>
         {
-            new("key1", new WagePerson
+            new("key1", new()
             {
                 BirthDate = dateTime,
                 Department = "Department1",
                 LastModified = dateTime,
                 HourlyWage = 1
             }),
-            new("key2", new WagePerson
+            new("key2", new()
             {
                 BirthDate = dateTime,
                 Department = "Department2",
@@ -958,10 +958,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var p = new Movie
         {
-            ReleaseCountries = new List<string> {"Existing"}
+            ReleaseCountries = new() {"Existing"}
         };
 
-        JsonConvert.PopulateObject("{'ReleaseCountries':['Appended']}", p, new JsonSerializerSettings
+        JsonConvert.PopulateObject("{'ReleaseCountries':['Appended']}", p, new()
         {
             Converters = new List<JsonConverter> {new StringListAppenderConverter()}
         });
@@ -979,7 +979,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Name = "Existing,"
         };
 
-        JsonConvert.PopulateObject("{'Name':'Appended'}", p, new JsonSerializerSettings
+        JsonConvert.PopulateObject("{'Name':'Appended'}", p, new()
         {
             Converters = new List<JsonConverter> {new StringAppenderConverter()}
         });
@@ -1036,7 +1036,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         };
         var go = new GameObject
         {
-            Components = new ConcurrentDictionary<string, Component>(components),
+            Components = new(components),
             Id = "Id!",
             Name = "Name!"
         };
@@ -1133,11 +1133,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Dictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 5}});
 
             IReadOnlyCollection = new ReadOnlyCollection<int>(new[] {6});
-            ReadOnlyCollection = new ReadOnlyCollection<int>(new[] {7});
+            ReadOnlyCollection = new(new[] {7});
             IReadOnlyList = new ReadOnlyCollection<int>(new[] {8});
 
             IReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 9}});
-            ReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 10}});
+            ReadOnlyDictionary = new(new Dictionary<string, int> {{"first", 10}});
         }
     }
 
@@ -1868,13 +1868,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void GenericCollectionInheritance()
     {
         var foo1 = new GenericClass<GenericItem<string>, string>();
-        foo1.Items.Add(new GenericItem<string> {Value = "Hello"});
+        foo1.Items.Add(new() {Value = "Hello"});
 
         var json = JsonConvert.SerializeObject(new {selectList = foo1});
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
 
         var foo2 = new GenericClass<NonGenericItem, string>();
-        foo2.Items.Add(new NonGenericItem {Value = "Hello"});
+        foo2.Items.Add(new() {Value = "Hello"});
 
         json = JsonConvert.SerializeObject(new {selectList = foo2});
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
@@ -1927,13 +1927,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Name = "Product 1",
             Price = 99.95m,
-            ExpiryDate = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
         };
         var p2 = new Product
         {
             Name = "Product 2",
             Price = 12.50m,
-            ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
         };
 
         var products = new List<Product>
@@ -2003,7 +2003,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void ReadOnlyIntegerListTest()
     {
-        var l = new ReadOnlyIntegerList(new List<int>
+        var l = new ReadOnlyIntegerList(new()
         {
             1,
             2,
@@ -2137,12 +2137,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         [Argon.JsonConstructor]
         MyClass()
         {
-            storage = new List<string>();
+            storage = new();
         }
 
         public MyClass(IEnumerable<string> source)
         {
-            storage = new List<string>(source);
+            storage = new(source);
         }
 
         //Below is generated by VS to implement IList<string>
@@ -2291,7 +2291,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         void ExtractGroups()
         {
-            Groups = new List<string>();
+            Groups = new();
             if (Person.ContainsKey("groups"))
             {
                 var groupsString = Person["groups"];

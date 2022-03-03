@@ -19,7 +19,7 @@ public class LinqDynamicTests : TestFixtureBase
         var dyn = JsonConvert.DeserializeObject<dynamic>(rawJson);
         DateTime dueDate = dyn.task.dueDate.Value;
 
-        Assert.Equal(new DateTime(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
+        Assert.Equal(new(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
     }
 
     [Fact]
@@ -674,7 +674,7 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal("ChildValue", memberNames[0]);
         Assert.Equal("Hello Joe", memberNames[1]);
 
-        o = new JObject(
+        o = new(
             new JProperty("ChildValue1", "blah blah"),
             new JProperty("Hello Joe1", null));
 

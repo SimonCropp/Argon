@@ -24,7 +24,7 @@ public class SerializationTests : TestFixtureBase
         var product = new Product
         {
             Name = "Apple",
-            ExpiryDate = new DateTime(2008, 12, 28),
+            ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
             Sizes = new[] { "Small", "Medium", "Large" }
         };
@@ -53,7 +53,7 @@ public class SerializationTests : TestFixtureBase
         #region JsonSerializerToStream
         var product = new Product
         {
-            ExpiryDate = new DateTime(2008, 12, 28)
+            ExpiryDate = new(2008, 12, 28)
         };
 
         var serializer = new JsonSerializer
@@ -224,7 +224,7 @@ public class SerializationTests : TestFixtureBase
         // Cannot convert null value to System.DateTime.
         #endregion
 
-        Assert.Equal(new DateTime(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
+        Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
     }
 
     [Fact]
@@ -312,8 +312,8 @@ public class SerializationTests : TestFixtureBase
         #region PreservingObjectReferencesOff
         var p = new Person
         {
-            BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
-            LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
+            BirthDate = new(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
+            LastModified = new(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
             Name = "James"
         };
 
@@ -501,7 +501,7 @@ public class SerializationTests : TestFixtureBase
         #region ContractResolver
         var product = new Product
         {
-            ExpiryDate = new DateTime(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
             Sizes = new[] { "Small", "Medium", "Large" }
@@ -546,13 +546,13 @@ public class SerializationTests : TestFixtureBase
         {
             Name = "Product 1",
             Price = 99.95m,
-            ExpiryDate = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
         };
         var p2 = new Product
         {
             Name = "Product 2",
             Price = 12.50m,
-            ExpiryDate = new DateTime(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
         };
 
         var products = new List<Product>
@@ -657,7 +657,7 @@ public class SerializationTests : TestFixtureBase
     {
         var entry = new LogEntry
         {
-            LogDate = new DateTime(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc),
+            LogDate = new(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc),
             Details = "Application started."
         };
 

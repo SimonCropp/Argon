@@ -25,14 +25,14 @@ static class AsyncUtils
     public static Task FromCanceled(this CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(cancellation.IsCancellationRequested);
-        return new Task(() => {}, cancellation);
+        return new(() => {}, cancellation);
     }
 
     static Task<T> FromCanceled<T>(this CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(cancellation.IsCancellationRequested);
 #pragma warning disable CS8603 // Possible null reference return.
-        return new Task<T>(() => default, cancellation);
+        return new(() => default, cancellation);
 #pragma warning restore CS8603 // Possible null reference return.
     }
 

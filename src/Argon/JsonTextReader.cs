@@ -81,7 +81,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (stringBuffer.IsEmpty)
         {
-            stringBuffer = new StringBuffer(arrayPool, 1024);
+            stringBuffer = new(arrayPool, 1024);
         }
     }
 
@@ -160,7 +160,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        dateParseHandling = base.DateParseHandling;
+                        dateParseHandling = DateParseHandling;
                     }
 
                     if (dateParseHandling == DateParseHandling.DateTime)
@@ -1210,7 +1210,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (initialPosition == lastWritePosition)
         {
-            stringReference = new StringReference(CharBuffer, initialPosition, charPos - initialPosition);
+            stringReference = new(CharBuffer, initialPosition, charPos - initialPosition);
         }
         else
         {
@@ -1221,7 +1221,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 stringBuffer.Append(arrayPool, CharBuffer, lastWritePosition, charPos - lastWritePosition);
             }
 
-            stringReference = new StringReference(stringBuffer.InternalBuffer!, 0, stringBuffer.Position);
+            stringReference = new(stringBuffer.InternalBuffer!, 0, stringBuffer.Position);
         }
 
         CharPos = charPos + 1;
@@ -1346,7 +1346,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     void ClearRecentString()
     {
         stringBuffer.Position = 0;
-        stringReference = new StringReference();
+        stringReference = new();
     }
 
     bool ParsePostValue(bool ignoreComments)
@@ -1531,7 +1531,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         CharPos++;
 
         SetToken(JsonToken.PropertyName, propertyName);
-        base.quoteChar = quoteChar;
+        this.quoteChar = quoteChar;
         ClearRecentString();
 
         return true;
@@ -1564,7 +1564,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     continue;
                 }
 
-                stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
+                stringReference = new(CharBuffer, initialPosition, CharPos - initialPosition);
                 return;
             }
 
@@ -1587,7 +1587,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         if (char.IsWhiteSpace(currentChar) || currentChar == ':')
         {
-            stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
+            stringReference = new(CharBuffer, initialPosition, CharPos - initialPosition);
             return true;
         }
 
@@ -1791,7 +1791,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         // set state to PostValue now so that if there is an error parsing the number then the reader can continue
         SetPostValueState(true);
 
-        stringReference = new StringReference(CharBuffer, initialPosition, CharPos - initialPosition);
+        stringReference = new(CharBuffer, initialPosition, CharPos - initialPosition);
 
         object numberValue;
         JsonToken numberType;

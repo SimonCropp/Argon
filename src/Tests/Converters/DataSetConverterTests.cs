@@ -111,7 +111,7 @@ public class DataSetConverterTests : TestFixtureBase
     [Fact]
     public void SerializeNullRoot()
     {
-        var json = JsonConvert.SerializeObject(null, typeof(DataSet), new JsonSerializerSettings
+        var json = JsonConvert.SerializeObject(null, typeof(DataSet), new()
         {
             Formatting = Formatting.Indented
         });
@@ -529,8 +529,8 @@ public class DataSetConverterTests : TestFixtureBase
     {
         var test = new MultipleDataTablesJsonTest
         {
-            TableWrapper1 = new DataTableWrapper { DataTableProperty = CreateDataTable(3, "Table1Col") },
-            TableWrapper2 = new DataTableWrapper { DataTableProperty = CreateDataTable(3, "Table2Col") }
+            TableWrapper1 = new() { DataTableProperty = CreateDataTable(3, "Table1Col") },
+            TableWrapper2 = new() { DataTableProperty = CreateDataTable(3, "Table2Col") }
         };
 
         var json = JsonConvert.SerializeObject(test, Formatting.Indented, new LowercaseDataTableConverter());

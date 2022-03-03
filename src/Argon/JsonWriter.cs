@@ -250,7 +250,7 @@ public abstract partial class JsonWriter : IDisposable
             stack.Add(currentPosition);
         }
 
-        currentPosition = new JsonPosition(value);
+        currentPosition = new(value);
     }
 
     JsonContainerType Pop()
@@ -264,7 +264,7 @@ public abstract partial class JsonWriter : IDisposable
         }
         else
         {
-            currentPosition = new JsonPosition();
+            currentPosition = new();
         }
 
         return oldPosition.Type;

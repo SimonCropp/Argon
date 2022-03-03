@@ -284,7 +284,7 @@ public class ExtensionDataTests : TestFixtureBase
         var c = new JObjectExtensionDataTestClass
         {
             Name = "Name!",
-            ExtensionData = new JObject
+            ExtensionData = new()
             {
                 { "one", 1 },
                 { "two", "II" },
@@ -916,7 +916,7 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void SerializeExtensionData_NoSetter()
     {
-        var json = JsonConvert.SerializeObject(new DocNoSetter(new JObject(new JProperty("Property1", 123)))
+        var json = JsonConvert.SerializeObject(new DocNoSetter(new(new JProperty("Property1", 123)))
         {
             Name = "documentName"
         });
