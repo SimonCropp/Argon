@@ -35,8 +35,8 @@ public class Issue2450
         var json = @"{""prop1"":1,""prop2"":2}";
 
         var d = JsonConvert.DeserializeObject<Dict?>(json);
-        Assert.Equal((Int64)1, d.Value["prop1"]);
-        Assert.Equal((Int64)2, d.Value["prop2"]);
+        Assert.Equal((long)1, d.Value["prop1"]);
+        Assert.Equal((long)2, d.Value["prop2"]);
     }
 
     public struct Dict : IReadOnlyDictionary<string, object>

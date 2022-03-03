@@ -572,7 +572,7 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void ConvertsToType()
     {
-        Assert.Equal(Int32.MaxValue, Convert.ChangeType(new JValue(Int32.MaxValue), typeof(Int32), CultureInfo.InvariantCulture));
+        Assert.Equal(Int32.MaxValue, Convert.ChangeType(new JValue(Int32.MaxValue), typeof(int), CultureInfo.InvariantCulture));
     }
 
     [Fact]

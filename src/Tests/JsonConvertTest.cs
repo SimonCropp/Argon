@@ -970,15 +970,15 @@ public class JsonConvertTest : TestFixtureBase
     public void IntegerLengthOverflows()
     {
         // Maximum javascript number length (in characters) is 380
-        var o = JObject.Parse(@"{""biginteger"":" + new String('9', 380) + "}");
+        var o = JObject.Parse(@"{""biginteger"":" + new string('9', 380) + "}");
         var v = (JValue)o["biginteger"];
         Assert.Equal(JTokenType.Integer, v.Type);
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
-        Assert.Equal(BigInteger.Parse(new String('9', 380)), (BigInteger)v.Value);
+        Assert.Equal(BigInteger.Parse(new string('9', 380)), (BigInteger)v.Value);
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => JObject.Parse(@"{""biginteger"":" + new String('9', 381) + "}"),
-            $"JSON integer {new String('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
+            () => JObject.Parse(@"{""biginteger"":" + new string('9', 381) + "}"),
+            $"JSON integer {new string('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
     }
 
     [Fact]

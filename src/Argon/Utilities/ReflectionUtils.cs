@@ -4,6 +4,23 @@
 
 static class ReflectionUtils
 {
+    public static bool ImplementInterface(this Type type, Type interfaceType)
+    {
+        for (var currentType = type; currentType != null; currentType = currentType.BaseType)
+        {
+            IEnumerable<Type> interfaces = currentType.GetInterfaces();
+            foreach (var i in interfaces)
+            {
+                if (i == interfaceType || (i != null && i.ImplementInterface(interfaceType)))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static T GetValueOrDefault<T>(this T? target, T? fallback)
         where T : struct, Enum
     {
@@ -27,16 +44,16 @@ static class ReflectionUtils
 
     static MethodInfo? Method(this PropertyInfo property)
     {
-        var m = property.GetMethod;
-        if (m != null)
+        var method = property.GetMethod;
+        if (method != null)
         {
-            return m;
+            return method;
         }
 
-        m = property.SetMethod;
-        if (m != null)
+        method = property.SetMethod;
+        if (method != null)
         {
-            return m;
+            return method;
         }
 
         return null;
