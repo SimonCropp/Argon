@@ -219,8 +219,8 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(5f, (float)new JValue(5m));
         Assert.Equal(5f, (float?)new JValue(5m));
         Assert.Equal(5, (byte)new JValue(5));
-        Assert.Equal(SByte.MinValue, (sbyte?)new JValue(SByte.MinValue));
-        Assert.Equal(SByte.MinValue, (sbyte)new JValue(SByte.MinValue));
+        Assert.Equal(sbyte.MinValue, (sbyte?)new JValue(sbyte.MinValue));
+        Assert.Equal(sbyte.MinValue, (sbyte)new JValue(sbyte.MinValue));
 
         Assert.Equal(null, (sbyte?)JValue.CreateNull());
 

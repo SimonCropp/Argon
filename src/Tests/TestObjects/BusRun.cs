@@ -7,5 +7,5 @@ namespace TestObjects;
 public partial class BusRun
 {
     public IEnumerable<DateTime?> Departures { get; set; }
-    public Boolean WheelchairAccessible { get; set; }
+    public bool WheelchairAccessible { get; set; }
 }

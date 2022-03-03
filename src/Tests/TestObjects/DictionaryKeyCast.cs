@@ -6,10 +6,10 @@ namespace TestObjects;
 
 class DictionaryKeyCast
 {
-    String _name;
+    string _name;
     int _number;
 
-    public DictionaryKeyCast(String name, int number)
+    public DictionaryKeyCast(string name, int number)
     {
         _name = name;
         _number = number;

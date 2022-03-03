@@ -614,9 +614,9 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal("-1.0", JsonConvert.ToString(-1d));
         Assert.Equal("1.01", JsonConvert.ToString(1.01));
         Assert.Equal("1.001", JsonConvert.ToString(1.001));
-        Assert.Equal(JsonConvert.PositiveInfinity, JsonConvert.ToString(Double.PositiveInfinity));
-        Assert.Equal(JsonConvert.NegativeInfinity, JsonConvert.ToString(Double.NegativeInfinity));
-        Assert.Equal(JsonConvert.NaN, JsonConvert.ToString(Double.NaN));
+        Assert.Equal(JsonConvert.PositiveInfinity, JsonConvert.ToString(double.PositiveInfinity));
+        Assert.Equal(JsonConvert.NegativeInfinity, JsonConvert.ToString(double.NegativeInfinity));
+        Assert.Equal(JsonConvert.NaN, JsonConvert.ToString(double.NaN));
     }
 
     [Fact]
@@ -634,8 +634,8 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal("1.0", JsonConvert.ToString(1m));
         Assert.Equal("1.01", JsonConvert.ToString(1.01m));
         Assert.Equal("1.001", JsonConvert.ToString(1.001m));
-        Assert.Equal("79228162514264337593543950335.0", JsonConvert.ToString(Decimal.MaxValue));
-        Assert.Equal("-79228162514264337593543950335.0", JsonConvert.ToString(Decimal.MinValue));
+        Assert.Equal("79228162514264337593543950335.0", JsonConvert.ToString(decimal.MaxValue));
+        Assert.Equal("-79228162514264337593543950335.0", JsonConvert.ToString(decimal.MinValue));
     }
 
     [Fact]

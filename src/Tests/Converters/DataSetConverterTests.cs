@@ -575,8 +575,8 @@ public class DataSetConverterTests : TestFixtureBase
     public class DataTableWrapper
     {
         public DataTable DataTableProperty { get; set; }
-        public String StringProperty { get; set; }
-        public Int32 IntProperty { get; set; }
+        public string StringProperty { get; set; }
+        public int IntProperty { get; set; }
     }
 
     public class MultipleDataTablesJsonTest

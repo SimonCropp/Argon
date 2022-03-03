@@ -3231,7 +3231,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void SerializeGenericListOfStrings()
     {
-        var strings = new List<String>
+        var strings = new List<string>
         {
             "str_1",
             "str_2",

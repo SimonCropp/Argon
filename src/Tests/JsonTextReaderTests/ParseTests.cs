@@ -169,12 +169,12 @@ public class ParseTests : TestFixtureBase
         reader = new JsonTextReader(new StringReader("1.7976931348623157E+308"));
         Assert.True(reader.Read());
         Assert.Equal(typeof(double), reader.ValueType);
-        Assert.Equal(Double.MaxValue, reader.Value);
+        Assert.Equal(double.MaxValue, reader.Value);
 
         reader = new JsonTextReader(new StringReader("-1.7976931348623157E+308"));
         Assert.True(reader.Read());
         Assert.Equal(typeof(double), reader.ValueType);
-        Assert.Equal(Double.MinValue, reader.Value);
+        Assert.Equal(double.MinValue, reader.Value);
 
         reader = new JsonTextReader(new StringReader("1E+309"));
 #if !(NET5_0_OR_GREATER)
@@ -184,7 +184,7 @@ public class ParseTests : TestFixtureBase
 #else
             Assert.True(reader.Read());
             Assert.Equal(typeof(double), reader.ValueType);
-            Assert.Equal(Double.PositiveInfinity, reader.Value);
+            Assert.Equal(double.PositiveInfinity, reader.Value);
 #endif
 
         reader = new JsonTextReader(new StringReader("-1E+5000"));
@@ -195,7 +195,7 @@ public class ParseTests : TestFixtureBase
 #else
             Assert.True(reader.Read());
             Assert.Equal(typeof(double), reader.ValueType);
-            Assert.Equal(Double.NegativeInfinity, reader.Value);
+            Assert.Equal(double.NegativeInfinity, reader.Value);
 #endif
 
         reader = new JsonTextReader(new StringReader("5.1231231E"));

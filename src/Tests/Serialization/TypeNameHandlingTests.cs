@@ -2169,7 +2169,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class MyChild : ISomeBase
     {
-        [JsonProperty("p")] public String MyProperty { get; internal set; }
+        [JsonProperty("p")] public string MyProperty { get; internal set; }
     }
 
     public class MyChildList : List<string>, ISomeBase

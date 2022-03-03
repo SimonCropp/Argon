@@ -10,5 +10,5 @@ public class NullableTestClass
     public int? MyNullableInteger { get; set; }
     public DateTime? MyNullableDateTime { get; set; }
     public DateTimeOffset? MyNullableDateTimeOffset { get; set; }
-    public Decimal? MyNullableDecimal { get; set; }
+    public decimal? MyNullableDecimal { get; set; }
 }
