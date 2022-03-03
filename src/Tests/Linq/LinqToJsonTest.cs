@@ -213,7 +213,7 @@ public class LinqToJsonTest : TestFixtureBase
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var a = (JArray)JToken.ReadFrom(jsonReader, new JsonLoadSettings
+        var a = (JArray)JToken.ReadFrom(jsonReader, new()
         {
             CommentHandling = CommentHandling.Load
         });
@@ -253,7 +253,7 @@ public class LinqToJsonTest : TestFixtureBase
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var v = (JValue)JToken.ReadFrom(jsonReader, new JsonLoadSettings
+        var v = (JValue)JToken.ReadFrom(jsonReader, new()
         {
             CommentHandling = CommentHandling.Load
         });
@@ -278,7 +278,7 @@ public class LinqToJsonTest : TestFixtureBase
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var a = (JArray)JToken.ReadFrom(jsonReader, new JsonLoadSettings
+        var a = (JArray)JToken.ReadFrom(jsonReader, new()
         {
             CommentHandling = CommentHandling.Ignore
         });
@@ -761,7 +761,7 @@ keyword such as type of business.""
 
     static List<Post> GetPosts()
     {
-        return new List<Post>
+        return new()
         {
             new()
             {
@@ -998,7 +998,7 @@ keyword such as type of business.""
         var o =
             new JObject(
                 new JProperty("Test1", new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc)),
-                new JProperty("Test2", new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0))),
+                new JProperty("Test2", new DateTimeOffset(2000, 10, 15, 5, 5, 5, new(11, 11, 0))),
                 new JProperty("Test3", "Test3Value"),
                 new JProperty("Test4", null)
             );
@@ -1024,7 +1024,7 @@ keyword such as type of business.""
     {
         var testDates = new List<DateTimeOffset>
         {
-            new(new DateTime(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
+            new(new(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
             new(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
             new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
             new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
@@ -1033,7 +1033,7 @@ keyword such as type of business.""
         var jsonSerializer = new JsonSerializer();
 
         JTokenWriter jsonWriter;
-        using (jsonWriter = new JTokenWriter())
+        using (jsonWriter = new())
         {
             jsonSerializer.Serialize(jsonWriter, testDates);
         }
@@ -1172,7 +1172,7 @@ keyword such as type of business.""
     [Fact]
     public void AsJEnumerable()
     {
-        JObject o =
+        var o =
             new JObject(
                 new JProperty("Test1", new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc)),
                 new JProperty("Test2", "Test2Value"),
@@ -1185,7 +1185,7 @@ keyword such as type of business.""
 
         var d = enumerable["Test1"].Value<DateTime>();
 
-        Assert.Equal(new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), d);
+        Assert.Equal(new(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc), d);
     }
 
     [Fact]
@@ -1308,11 +1308,11 @@ keyword such as type of business.""
     {
         var c1 = new UriGuidTimeSpanTestClass
         {
-            Guid = new Guid("1924129C-F7E0-40F3-9607-9939C531395A"),
+            Guid = new("1924129C-F7E0-40F3-9607-9939C531395A"),
             NullableGuid = new Guid("9E9F3ADF-E017-4F72-91E0-617EBE85967D"),
             TimeSpan = TimeSpan.FromDays(1),
             NullableTimeSpan = TimeSpan.FromHours(1),
-            Uri = new Uri("http://testuri.com")
+            Uri = new("http://testuri.com")
         };
         var o = JObject.FromObject(c1);
 
@@ -1464,7 +1464,7 @@ keyword such as type of business.""
     static string SerializeWithNoRedundantIdProperties(object o)
     {
         var writer = new JTokenWriter();
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             Formatting = Formatting.Indented,
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
