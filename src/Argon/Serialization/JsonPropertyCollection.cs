@@ -64,10 +64,12 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
             }
             else
             {
-                if (property.DeclaringType != null && existingProperty.DeclaringType != null)
+                if (property.DeclaringType != null &&
+                    existingProperty.DeclaringType != null)
                 {
-                    if (property.DeclaringType.IsSubclassOf(existingProperty.DeclaringType)
-                        || (existingProperty.DeclaringType.IsInterface && property.DeclaringType.ImplementInterface(existingProperty.DeclaringType)))
+                    if (property.DeclaringType.IsSubclassOf(existingProperty.DeclaringType) ||
+                        (existingProperty.DeclaringType.IsInterface &&
+                         property.DeclaringType.ImplementInterface(existingProperty.DeclaringType)))
                     {
                         // current property is on a derived class and hides the existing
                         Remove(existingProperty);
@@ -106,8 +108,21 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     /// <returns>A matching property if found.</returns>
     public JsonProperty? GetClosestMatchProperty(string propertyName)
     {
-        return GetProperty(propertyName, StringComparison.Ordinal) ??
-               GetProperty(propertyName, StringComparison.OrdinalIgnoreCase);
+        if (TryGetProperty(propertyName, out var property))
+        {
+            return property;
+        }
+
+        for (var i = 0; i < list.Count; i++)
+        {
+            property = list[i];
+            if (string.Equals(propertyName, property.PropertyName, StringComparison.OrdinalIgnoreCase))
+            {
+                return property;
+            }
+        }
+
+        return null;
     }
 
     bool TryGetProperty(string key, [NotNullWhen(true)]out JsonProperty? item)
@@ -119,36 +134,5 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
         }
 
         return Dictionary.TryGetValue(key, out item);
-    }
-
-    /// <summary>
-    /// Gets a property by property name.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to get.</param>
-    /// <param name="comparisonType">Type property name string comparison.</param>
-    /// <returns>A matching property if found.</returns>
-    public JsonProperty? GetProperty(string propertyName, StringComparison comparisonType)
-    {
-        // KeyedCollection has an ordinal comparer
-        if (comparisonType == StringComparison.Ordinal)
-        {
-            if (TryGetProperty(propertyName, out var property))
-            {
-                return property;
-            }
-
-            return null;
-        }
-
-        for (var i = 0; i < list.Count; i++)
-        {
-            var property = list[i];
-            if (string.Equals(propertyName, property.PropertyName, comparisonType))
-            {
-                return property;
-            }
-        }
-
-        return null;
     }
 }

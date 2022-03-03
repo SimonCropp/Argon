@@ -13,35 +13,27 @@ public class TypeConverterSizeConverter : TypeConverter
         return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
     }
 
-    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-    {
-        return base.CanConvertTo(context, destinationType);
-    }
-
     public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
-        var str = value as string;
-        if (str == null)
+        if (value is not string stringValue)
         {
             return base.ConvertFrom(context, culture, value);
         }
-        var str2 = str.Trim();
-        if (str2.Length == 0)
+
+        var trimmed = stringValue.Trim();
+        if (trimmed.Length == 0)
         {
             return null;
         }
-        //TODO: debug this
-        if (culture == null)
-        {
-            culture = CultureInfo.CurrentCulture;
-        }
-        var strArray = str2.Split(',');
+
+        var strArray = trimmed.Split(',');
         var numArray = new int[strArray.Length];
         var converter = TypeDescriptor.GetConverter(typeof(int));
         for (var i = 0; i < numArray.Length; i++)
         {
-            numArray[i] = (int)converter.ConvertFromString(context, culture, strArray[i]);
+            numArray[i] = (int) converter.ConvertFromString(context, culture, strArray[i]);
         }
+
         if (numArray.Length == 2)
         {
             return new TypeConverterSize(numArray[0], numArray[1]);

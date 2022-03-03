@@ -176,9 +176,9 @@ public class JsonSerializer
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
-    /// The default value is <see cref="Argon.StringEscapeHandling.Default" />.
+    /// The default value is <see cref="Argon.EscapeHandling.Default" />.
     /// </summary>
-    public virtual StringEscapeHandling? StringEscapeHandling { get; set; }
+    public virtual EscapeHandling? EscapeHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how <see cref="DateTime"/> and <see cref="DateTimeOffset"/> values are formatted when writing JSON text,
@@ -436,9 +436,9 @@ public class JsonSerializer
         {
             serializer.FloatParseHandling = settings.FloatParseHandling;
         }
-        if (settings.StringEscapeHandling != null)
+        if (settings.EscapeHandling != null)
         {
-            serializer.StringEscapeHandling = settings.StringEscapeHandling;
+            serializer.EscapeHandling = settings.EscapeHandling;
         }
         if (settings.culture != null)
         {
@@ -750,11 +750,11 @@ public class JsonSerializer
             jsonWriter.FloatFormatHandling = FloatFormatHandling.GetValueOrDefault();
         }
 
-        StringEscapeHandling? previousStringEscapeHandling = null;
-        if (StringEscapeHandling != null && jsonWriter.StringEscapeHandling != StringEscapeHandling)
+        EscapeHandling? previousEscapeHandling = null;
+        if (EscapeHandling != null && jsonWriter.EscapeHandling != EscapeHandling)
         {
-            previousStringEscapeHandling = jsonWriter.StringEscapeHandling;
-            jsonWriter.StringEscapeHandling = StringEscapeHandling.GetValueOrDefault();
+            previousEscapeHandling = jsonWriter.EscapeHandling;
+            jsonWriter.EscapeHandling = EscapeHandling.GetValueOrDefault();
         }
 
         CultureInfo? previousCulture = null;
@@ -796,9 +796,9 @@ public class JsonSerializer
         {
             jsonWriter.FloatFormatHandling = previousFloatFormatHandling.GetValueOrDefault();
         }
-        if (previousStringEscapeHandling != null)
+        if (previousEscapeHandling != null)
         {
-            jsonWriter.StringEscapeHandling = previousStringEscapeHandling.GetValueOrDefault();
+            jsonWriter.EscapeHandling = previousEscapeHandling.GetValueOrDefault();
         }
         if (dateFormatStringSet)
         {

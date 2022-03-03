@@ -104,6 +104,6 @@ If attributes are not mentioned, default values are used in each case.
 
         using var w = StringUtils.CreateStringWriter(text.Length);
         char[] buffer = null;
-        JavaScriptUtils.WriteEscapedJavaScriptString(w, text, '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, StringEscapeHandling.Default, null, ref buffer);
+        JavaScriptUtils.WriteEscapedJavaScriptString(w, text, '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, EscapeHandling.Default, null, ref buffer);
     }
 }

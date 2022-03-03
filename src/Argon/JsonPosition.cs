@@ -51,7 +51,7 @@ struct JsonPosition
 
                     writer ??= new StringWriter(sb);
 
-                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteCharEscapeFlags, StringEscapeHandling.Default, null, ref buffer);
+                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteCharEscapeFlags, EscapeHandling.Default, null, ref buffer);
 
                     sb.Append(@"']");
                 }
@@ -99,10 +99,7 @@ struct JsonPosition
             state.WriteTo(stringBuilder, ref writer, ref buffer);
         }
 
-        if (currentPosition != null)
-        {
-            currentPosition.GetValueOrDefault().WriteTo(stringBuilder, ref writer, ref buffer);
-        }
+        currentPosition?.WriteTo(stringBuilder, ref writer, ref buffer);
 
         return stringBuilder.ToString();
     }

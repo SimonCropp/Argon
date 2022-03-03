@@ -54,7 +54,9 @@ public class Issue1461 : TestFixtureBase
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType == JsonToken.Integer)
+            {
                 return new Id((long)reader.Value);
+            }
 
             var str = reader.Value as string;
             return Guid.TryParse(str, out var guid) ? new Id(guid) : new Id(str);
@@ -96,15 +98,31 @@ public class Issue1461 : TestFixtureBase
 
         public bool Equals(Id other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
             return Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
             return obj.GetType() == GetType() && Equals((Id)obj);
         }
 

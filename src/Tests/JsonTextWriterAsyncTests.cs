@@ -1191,12 +1191,12 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public async Task HtmlStringEscapeHandlingAsync()
+    public async Task HtmlEscapeHandlingAsync()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.EscapeHtml
+            EscapeHandling = EscapeHandling.EscapeHtml
         };
 
         var script = @"<script type=""text/javascript"">alert('hi');</script>";
@@ -1213,12 +1213,12 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public async Task NonAsciiStringEscapeHandlingAsync()
+    public async Task NonAsciiEscapeHandlingAsync()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+            EscapeHandling = EscapeHandling.EscapeNonAscii
         };
 
         var unicode = "\u5f20";
@@ -1237,7 +1237,7 @@ _____'propertyName': NaN,
         stringWriter = new StringWriter();
         jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.Default
+            EscapeHandling = EscapeHandling.Default
         };
 
         await jsonWriter.WriteValueAsync(unicode);
@@ -1343,7 +1343,7 @@ _____'propertyName': NaN,
         {
             var swNew = new StringWriter();
             var jsonWriter = new JsonTextWriter(new StreamWriter(Stream.Null));
-            await JavaScriptUtils.WriteEscapedJavaScriptStringAsync(swNew, c.ToString(), '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, StringEscapeHandling.Default, jsonWriter, null);
+            await JavaScriptUtils.WriteEscapedJavaScriptStringAsync(swNew, c.ToString(), '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, EscapeHandling.Default, jsonWriter, null);
 
             var swOld = new StringWriter();
             WriteEscapedJavaScriptStringOld(swOld, c.ToString(), '"', true);

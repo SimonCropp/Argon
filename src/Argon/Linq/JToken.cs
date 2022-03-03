@@ -363,9 +363,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             value = property.Value;
         }
 
-        var v = value as JValue;
-
-        return v;
+        return value as JValue;
     }
 
     static string GetType(JToken token)
@@ -378,9 +376,30 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         return token.Type.ToString();
     }
 
-    static bool ValidateToken(JToken o, JTokenType[] validTypes, bool nullable)
+    static bool ValidateTokenNullable(JToken o, JTokenType[] validTypes)
     {
-        return Array.IndexOf(validTypes, o.Type) != -1 || (nullable && o.Type is JTokenType.Null or JTokenType.Undefined);
+        return Array.IndexOf(validTypes, o.Type) != -1 ||
+               o.Type is JTokenType.Null or JTokenType.Undefined;
+    }
+
+    static bool ValidateToken(JToken o, JTokenType[] validTypes)
+    {
+        return Array.IndexOf(validTypes, o.Type) != -1;
+    }
+
+    static void ValidateToken<T>(JToken value, [NotNull]JValue? v, JTokenType[] jTokenTypes)
+    {
+        if (v == null || !ValidateToken(v, jTokenTypes))
+        {
+            throw new ArgumentException($"Can not convert {GetType(value)} to {typeof(T).Name}.");
+        }
+    }
+    static void ValidateTokenNullable<T>(JToken value, [NotNull]JValue? v, JTokenType[] jTokenTypes)
+    {
+        if (v == null || !ValidateTokenNullable(v, jTokenTypes))
+        {
+            throw new ArgumentException($"Can not convert {GetType(value)} to {typeof(T).Name}.");
+        }
     }
 
     #region Cast from operators
@@ -391,10 +410,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator bool(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, BooleanTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Boolean.");
-        }
+        ValidateToken<bool>(value, v, BooleanTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -403,7 +419,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         return Convert.ToBoolean(v.Value, CultureInfo.InvariantCulture);
     }
-
     /// <summary>
     /// Performs an explicit conversion from <see cref="Argon.JToken"/> to <see cref="System.DateTimeOffset"/>.
     /// </summary>
@@ -411,10 +426,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator DateTimeOffset(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, DateTimeTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to DateTimeOffset.");
-        }
+        ValidateToken<DateTimeOffset>(value, v, DateTimeTypes);
 
         if (v.Value is DateTimeOffset offset)
         {
@@ -441,7 +453,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, BooleanTypes, true))
+        if (v == null || !ValidateTokenNullable(v, BooleanTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Boolean.");
         }
@@ -461,10 +473,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator long(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Int64.");
-        }
+        ValidateToken<long>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -486,7 +495,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, DateTimeTypes, true))
+        if (v == null || !ValidateTokenNullable(v, DateTimeTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to DateTime.");
         }
@@ -511,7 +520,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, DateTimeTypes, true))
+        if (v == null || !ValidateTokenNullable(v, DateTimeTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to DateTimeOffset.");
         }
@@ -545,7 +554,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Decimal.");
         }
@@ -570,7 +579,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Double.");
         }
@@ -595,7 +604,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, CharTypes, true))
+        if (v == null || !ValidateTokenNullable(v, CharTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Char.");
         }
@@ -615,10 +624,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator int(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Int32.");
-        }
+        ValidateToken<int>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -635,10 +641,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator short(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Int16.");
-        }
+        ValidateToken<short>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -655,10 +658,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator ushort(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to UInt16.");
-        }
+        ValidateToken<ushort>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -675,10 +675,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator char(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, CharTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Char.");
-        }
+        ValidateToken<char>(value, v, CharTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -695,10 +692,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator byte(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Byte.");
-        }
+        ValidateToken<byte>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -715,10 +709,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator sbyte(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to SByte.");
-        }
+        ValidateToken<sbyte>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -740,7 +731,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Int32.");
         }
@@ -765,7 +756,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Int16.");
         }
@@ -790,7 +781,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to UInt16.");
         }
@@ -815,7 +806,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Byte.");
         }
@@ -840,7 +831,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to SByte.");
         }
@@ -860,10 +851,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator DateTime(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, DateTimeTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to DateTime.");
-        }
+        ValidateToken<DateTime>(value, v, DateTimeTypes);
 
         if (v.Value is DateTimeOffset offset)
         {
@@ -885,7 +873,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Int64.");
         }
@@ -910,7 +898,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Single.");
         }
@@ -930,10 +918,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator decimal(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Decimal.");
-        }
+        ValidateToken<decimal>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -955,7 +940,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to UInt32.");
         }
@@ -980,7 +965,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, true))
+        if (v == null || !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to UInt64.");
         }
@@ -1000,10 +985,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator double(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Double.");
-        }
+        ValidateToken<double>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -1020,10 +1002,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator float(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Single.");
-        }
+        ValidateToken<float>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -1045,7 +1024,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, StringTypes, true))
+        if (v == null || !ValidateTokenNullable(v, StringTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to String.");
         }
@@ -1075,10 +1054,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator uint(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to UInt32.");
-        }
+        ValidateToken<uint>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -1095,10 +1071,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator ulong(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, NumberTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to UInt64.");
-        }
+        ValidateToken<ulong>(value, v, NumberTypes);
 
         if (v.Value is BigInteger integer)
         {
@@ -1120,10 +1093,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, BytesTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to byte array.");
-        }
+        ValidateToken<byte[]>(value, v, BytesTypes);
 
         if (v.Value is string)
         {
@@ -1149,10 +1119,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator Guid(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, GuidTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to Guid.");
-        }
+        ValidateToken<Guid>(value, v, GuidTypes);
 
         if (v.Value is byte[] bytes)
         {
@@ -1174,7 +1141,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, GuidTypes, true))
+        if (v == null || !ValidateTokenNullable(v, GuidTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Guid.");
         }
@@ -1204,10 +1171,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public static explicit operator TimeSpan(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, TimeSpanTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to TimeSpan.");
-        }
+        ValidateToken<TimeSpan>(value, v, TimeSpanTypes);
 
         if (v.Value is TimeSpan span)
         {
@@ -1229,7 +1193,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, TimeSpanTypes, true))
+        if (v == null || !ValidateTokenNullable(v, TimeSpanTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to TimeSpan.");
         }
@@ -1254,7 +1218,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, UriTypes, true))
+        if (v == null || !ValidateTokenNullable(v, UriTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Uri.");
         }
@@ -1264,16 +1228,13 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return null;
         }
 
-        return v.Value is Uri uri ? uri : new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+        return v.Value as Uri ?? new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
     }
 
     static BigInteger ToBigInteger(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, BigIntegerTypes, false))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to BigInteger.");
-        }
+        ValidateToken<BigInteger>(value, v, BigIntegerTypes);
 
         return ConvertUtils.ToBigInteger(v.Value!);
     }
@@ -1281,7 +1242,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     static BigInteger? ToBigIntegerNullable(JToken value)
     {
         var v = EnsureValue(value);
-        if (v == null || !ValidateToken(v, BigIntegerTypes, true))
+        if (v == null || !ValidateTokenNullable(v, BigIntegerTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to BigInteger.");
         }

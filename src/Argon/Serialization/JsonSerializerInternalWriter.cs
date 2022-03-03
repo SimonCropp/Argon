@@ -26,7 +26,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             if (ShouldWriteReference(value, null, contract, null, null))
             {
-                WriteReference(jsonWriter, value!);
+                WriteReference(jsonWriter, value);
             }
             else
             {
@@ -147,7 +147,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 break;
             case JsonContractType.Dictionary:
                 var dictionaryContract = (JsonDictionaryContract)valueContract;
-                SerializeDictionary(writer, value is IDictionary dictionary ? dictionary : dictionaryContract.CreateWrapper(value), dictionaryContract, member, containerContract, containerProperty);
+                SerializeDictionary(writer, value as IDictionary ?? dictionaryContract.CreateWrapper(value), dictionaryContract, member, containerContract, containerProperty);
                 break;
             case JsonContractType.Dynamic:
                 SerializeDynamic(writer, (IDynamicMetaObjectProvider)value, (JsonDynamicContract)valueContract, member, containerContract, containerProperty);
@@ -181,7 +181,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return isReference ?? contract.IsReference;
     }
 
-    bool ShouldWriteReference(object? value, JsonProperty? property, JsonContract? valueContract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
+    bool ShouldWriteReference([NotNullWhen(true)]object? value, JsonProperty? property, JsonContract? valueContract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
         if (value == null)
         {
@@ -467,7 +467,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 if (ShouldWriteReference(memberValue, property, memberContract, contract, member))
                 {
                     property.WritePropertyName(writer);
-                    WriteReference(writer, memberValue!);
+                    WriteReference(writer, memberValue);
                     return false;
                 }
 

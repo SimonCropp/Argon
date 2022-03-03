@@ -2374,17 +2374,34 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
 
                 if (eduPerson.ContainsKey("domain"))
+                {
                     Domain = eduPerson["domain"];
+                }
+
                 if (eduPerson.ContainsKey("organizationName"))
+                {
                     OrganizationName = eduPerson["organizationName"];
+                }
+
                 if (eduPerson.ContainsKey("mail"))
+                {
                     Mail = eduPerson["mail"];
+                }
+
                 if (eduPerson.ContainsKey("sn"))
+                {
                     Surname = eduPerson["sn"];
+                }
+
                 if (eduPerson.ContainsKey("gn"))
+                {
                     Givenname = eduPerson["gn"];
+                }
+
                 if (eduPerson.ContainsKey("cn"))
+                {
                     CommonName = eduPerson["cn"];
+                }
 
                 Person = eduPerson;
                 XMLResponce = xmlString;
@@ -2577,10 +2594,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 {
                     yield return item;
                 }
-            }
-            else
-            {
-                yield break;
             }
         }
 

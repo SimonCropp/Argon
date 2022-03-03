@@ -404,7 +404,10 @@ public class DefaultContractResolver : IContractResolver
     private static Action<object, object?>? BuildSetExtensionDataDictionary(MemberInfo member)
     {
         if (member.CanSetMemberValue(true, false))
+        {
             return JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(member);
+        }
+
         return null;
     }
 

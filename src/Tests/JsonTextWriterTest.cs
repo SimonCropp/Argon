@@ -1151,12 +1151,12 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public void HtmlStringEscapeHandling()
+    public void HtmlEscapeHandling()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.EscapeHtml
+            EscapeHandling = EscapeHandling.EscapeHtml
         };
 
         var script = @"<script type=""text/javascript"">alert('hi');</script>";
@@ -1173,12 +1173,12 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public void NonAsciiStringEscapeHandling()
+    public void NonAsciiEscapeHandling()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
+            EscapeHandling = EscapeHandling.EscapeNonAscii
         };
 
         var unicode = "\u5f20";
@@ -1197,7 +1197,7 @@ _____'propertyName': NaN,
         stringWriter = new StringWriter();
         jsonWriter = new JsonTextWriter(stringWriter)
         {
-            StringEscapeHandling = StringEscapeHandling.Default
+            EscapeHandling = EscapeHandling.Default
         };
 
         jsonWriter.WriteValue(unicode);
@@ -1339,159 +1339,6 @@ _____'propertyName': NaN,
   '2000 a.m.',
   '2000 a.m.'
 ]", stringWriter.ToString());
-    }
-
-    [Fact]
-    public void CompareNewStringEscapingWithOld()
-    {
-        var c = (char)0;
-
-        do
-        {
-            var swNew = new StringWriter();
-            char[] buffer = null;
-            JavaScriptUtils.WriteEscapedJavaScriptString(swNew, c.ToString(), '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, StringEscapeHandling.Default, null, ref buffer);
-
-            var swOld = new StringWriter();
-            WriteEscapedJavaScriptStringOld(swOld, c.ToString(), '"', true);
-
-            var newText = swNew.ToString();
-            var oldText = swOld.ToString();
-
-            if (newText != oldText)
-            {
-                throw new($"Difference for char '{c}' (value {(int) c}). Old text: {oldText}, New text: {newText}");
-            }
-
-            c++;
-        } while (c != char.MaxValue);
-    }
-
-    const string EscapedUnicodeText = "!";
-
-    static void WriteEscapedJavaScriptStringOld(TextWriter writer, string s, char delimiter, bool appendDelimiters)
-    {
-        // leading delimiter
-        if (appendDelimiters)
-        {
-            writer.Write(delimiter);
-        }
-
-        if (s != null)
-        {
-            char[] chars = null;
-            char[] unicodeBuffer = null;
-            var lastWritePosition = 0;
-
-            for (var i = 0; i < s.Length; i++)
-            {
-                var c = s[i];
-
-                // don't escape standard text/numbers except '\' and the text delimiter
-                if (c >= ' ' && c < 128 && c != '\\' && c != delimiter)
-                {
-                    continue;
-                }
-
-                string escapedValue;
-
-                switch (c)
-                {
-                    case '\t':
-                        escapedValue = @"\t";
-                        break;
-                    case '\n':
-                        escapedValue = @"\n";
-                        break;
-                    case '\r':
-                        escapedValue = @"\r";
-                        break;
-                    case '\f':
-                        escapedValue = @"\f";
-                        break;
-                    case '\b':
-                        escapedValue = @"\b";
-                        break;
-                    case '\\':
-                        escapedValue = @"\\";
-                        break;
-                    case '\u0085': // Next Line
-                        escapedValue = @"\u0085";
-                        break;
-                    case '\u2028': // Line Separator
-                        escapedValue = @"\u2028";
-                        break;
-                    case '\u2029': // Paragraph Separator
-                        escapedValue = @"\u2029";
-                        break;
-                    case '\'':
-                        // this charater is being used as the delimiter
-                        escapedValue = @"\'";
-                        break;
-                    case '"':
-                        // this charater is being used as the delimiter
-                        escapedValue = "\\\"";
-                        break;
-                    default:
-                        if (c <= '\u001f')
-                        {
-                            unicodeBuffer ??= new char[6];
-
-                            StringUtils.ToCharAsUnicode(c, unicodeBuffer);
-
-                            // slightly hacky but it saves multiple conditions in if test
-                            escapedValue = EscapedUnicodeText;
-                        }
-                        else
-                        {
-                            escapedValue = null;
-                        }
-                        break;
-                }
-
-                if (escapedValue == null)
-                {
-                    continue;
-                }
-
-                if (i > lastWritePosition)
-                {
-                    chars ??= s.ToCharArray();
-
-                    // write unchanged chars before writing escaped text
-                    writer.Write(chars, lastWritePosition, i - lastWritePosition);
-                }
-
-                lastWritePosition = i + 1;
-                if (string.Equals(escapedValue, EscapedUnicodeText))
-                {
-                    writer.Write(unicodeBuffer);
-                }
-                else
-                {
-                    writer.Write(escapedValue);
-                }
-            }
-
-            if (lastWritePosition == 0)
-            {
-                // no escaped text, write entire string
-                writer.Write(s);
-            }
-            else
-            {
-                chars ??= s.ToCharArray();
-
-                // write remaining text
-                writer.Write(chars, lastWritePosition, s.Length - lastWritePosition);
-            }
-        }
-
-        // trailing delimiter
-        if (appendDelimiters)
-        {
-            writer.Write(delimiter);
-        }
     }
 
     [Fact]

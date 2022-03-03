@@ -853,8 +853,10 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     static bool HasNoDefinedType(JsonContract? contract)
     {
-        return contract == null || contract.UnderlyingType == typeof(object) || contract.ContractType == JsonContractType.Linq
-               || contract.UnderlyingType == typeof(IDynamicMetaObjectProvider);
+        return contract == null ||
+               contract.UnderlyingType == typeof(object) ||
+               contract.ContractType == JsonContractType.Linq ||
+               contract.UnderlyingType == typeof(IDynamicMetaObjectProvider);
     }
 
     static object? EnsureType(JsonReader reader, object? value, CultureInfo culture, JsonContract? contract, Type? targetType)

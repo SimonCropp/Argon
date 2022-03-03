@@ -170,7 +170,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    StringEscapeHandling stringEscapeHandling;
+    EscapeHandling escapeHandling;
     CultureInfo? culture;
 
     /// <summary>
@@ -186,19 +186,19 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
     /// </summary>
-    public StringEscapeHandling StringEscapeHandling
+    public EscapeHandling EscapeHandling
     {
-        get => stringEscapeHandling;
+        get => escapeHandling;
         set
         {
-            stringEscapeHandling = value;
-            OnStringEscapeHandlingChanged();
+            escapeHandling = value;
+            OnEscapeHandlingChanged();
         }
     }
 
-    internal virtual void OnStringEscapeHandlingChanged()
+    protected virtual void OnEscapeHandlingChanged()
     {
-        // hacky but there is a calculated value that relies on StringEscapeHandling
+        // hacky but there is a calculated value that relies on EscapeHandling
     }
 
     /// <summary>
@@ -671,7 +671,7 @@ public abstract partial class JsonWriter : IDisposable
     {
     }
 
-    internal void AutoComplete(JsonToken tokenBeingWritten)
+    void AutoComplete(JsonToken tokenBeingWritten)
     {
         // gets new state based on the current state and what is being written
         var newState = StateArray[(int)tokenBeingWritten][(int)currentState];
@@ -1479,7 +1479,7 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    internal void InternalWriteEnd(JsonContainerType container)
+    void InternalWriteEnd(JsonContainerType container)
     {
         AutoCompleteClose(container);
     }

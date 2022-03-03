@@ -230,8 +230,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         public override bool Equals(object obj)
         {
-            var a = obj as AccountWithEquals;
-            if (a == null)
+            if (obj is not AccountWithEquals a)
             {
                 return false;
             }

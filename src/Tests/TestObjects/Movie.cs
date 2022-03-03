@@ -12,19 +12,4 @@ public class Movie
     public string Studio { get; set; }
     public DateTime? ReleaseDate { get; set; }
     public List<string> ReleaseCountries { get; set; }
-
-    public override string ToString()
-    {
-        return base.ToString();
-    }
-
-    public override bool Equals(object obj)
-    {
-        return base.Equals(obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
 }

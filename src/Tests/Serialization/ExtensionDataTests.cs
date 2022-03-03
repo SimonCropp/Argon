@@ -492,7 +492,7 @@ public class ExtensionDataTests : TestFixtureBase
         public int ForJson { get; set; }
 
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public IDictionary<String, JToken> ExtraInfoJson { get; set; }
+        public IDictionary<string, JToken> ExtraInfoJson { get; set; }
 
         public MyClass(MyClass other = null)
         {

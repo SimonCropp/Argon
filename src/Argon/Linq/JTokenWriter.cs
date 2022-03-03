@@ -60,18 +60,6 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Closes this writer.
-    /// If <see cref="JsonWriter.AutoCompleteOnClose"/> is set to <c>true</c>, the JSON is auto-completed.
-    /// </summary>
-    /// <remarks>
-    /// Setting <see cref="JsonWriter.CloseOutput"/> to <c>true</c> has no additional effect, since the underlying <see cref="JContainer"/> is a type that cannot be closed.
-    /// </remarks>
-    public override void Close()
-    {
-        base.Close();
-    }
-
-    /// <summary>
     /// Writes the beginning of a JSON object.
     /// </summary>
     public override void WriteStartObject()

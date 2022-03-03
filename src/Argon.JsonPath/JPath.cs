@@ -255,6 +255,7 @@ class JPath
 
                     return new ArraySliceFilter { Start = startIndex, End = endIndex, Step = step };
                 }
+                // ReSharper disable once RedundantIfElseBlock
                 else
                 {
                     if (length == 0)

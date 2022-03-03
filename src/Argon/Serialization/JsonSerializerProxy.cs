@@ -144,10 +144,10 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.FloatParseHandling = value;
     }
 
-    public override StringEscapeHandling? StringEscapeHandling
+    public override EscapeHandling? EscapeHandling
     {
-        get => serializer.StringEscapeHandling;
-        set => serializer.StringEscapeHandling = value;
+        get => serializer.EscapeHandling;
+        set => serializer.EscapeHandling = value;
     }
 
     public override string DateFormatString

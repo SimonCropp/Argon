@@ -28,7 +28,7 @@ static class AsyncUtils
         return new Task(() => {}, cancellation);
     }
 
-    public static Task<T> FromCanceled<T>(this CancellationToken cancellation)
+    static Task<T> FromCanceled<T>(this CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(cancellation.IsCancellationRequested);
 #pragma warning disable CS8603 // Possible null reference return.
