@@ -1213,7 +1213,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return contract.CreateTemporaryDictionary();
         }
 
-        if (contract.DefaultCreator != null && (!contract.DefaultCreatorNonPublic || Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor))
+        if (contract.DefaultCreator != null &&
+            (!contract.DefaultCreatorNonPublic || Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor))
         {
             var dictionary = contract.DefaultCreator();
 
