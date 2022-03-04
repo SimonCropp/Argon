@@ -37,7 +37,7 @@ public class JsonObjectContract : JsonContainerContract
     /// <summary>
     /// Gets a collection of <see cref="JsonProperty"/> instances that define the parameters used with <see cref="JsonObjectContract.OverrideCreator"/>.
     /// </summary>
-    public JsonPropertyCollection CreatorParameters => creatorParameters ??= new JsonPropertyCollection(UnderlyingType);
+    public JsonPropertyCollection CreatorParameters => creatorParameters ??= new(UnderlyingType);
 
     /// <summary>
     /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
@@ -117,7 +117,7 @@ public class JsonObjectContract : JsonContainerContract
     {
         ContractType = JsonContractType.Object;
 
-        Properties = new JsonPropertyCollection(UnderlyingType);
+        Properties = new(UnderlyingType);
     }
 
     internal object GetUninitializedObject()

@@ -237,19 +237,18 @@ public abstract partial class JsonReader : IDisposable
 
         if (currentPosition.Type == JsonContainerType.None)
         {
-            currentPosition = new JsonPosition(value);
+            currentPosition = new(value);
+            return;
         }
-        else
-        {
-            stack.Add(currentPosition);
-            currentPosition = new JsonPosition(value);
 
-            // this is a little hacky because Depth increases when first property/value is written but only testing here is faster/simpler
-            if (maxDepth != null && Depth + 1 > maxDepth && !hasExceededMaxDepth)
-            {
-                hasExceededMaxDepth = true;
-                throw JsonReaderException.Create(this, $"The reader's MaxDepth of {maxDepth} has been exceeded.");
-            }
+        stack.Add(currentPosition);
+        currentPosition = new(value);
+
+        // this is a little hacky because Depth increases when first property/value is written but only testing here is faster/simpler
+        if (maxDepth != null && Depth + 1 > maxDepth && !hasExceededMaxDepth)
+        {
+            hasExceededMaxDepth = true;
+            throw JsonReaderException.Create(this, $"The reader's MaxDepth of {maxDepth} has been exceeded.");
         }
     }
 
@@ -265,7 +264,7 @@ public abstract partial class JsonReader : IDisposable
         else
         {
             oldPosition = currentPosition;
-            currentPosition = new JsonPosition();
+            currentPosition = new();
         }
 
         if (maxDepth != null && Depth <= maxDepth)

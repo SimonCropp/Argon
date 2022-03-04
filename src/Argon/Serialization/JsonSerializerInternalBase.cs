@@ -2,8 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using ErrorEventArgs = Argon.ErrorEventArgs;
-
 abstract class JsonSerializerInternalBase
 {
     class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
@@ -39,7 +37,7 @@ abstract class JsonSerializerInternalBase
         {
             // override equality comparer for object key dictionary
             // object will be modified as it deserializes and might have mutable hashcode
-            return mappings ??= new BidirectionalDictionary<string, object>(
+            return mappings ??= new(
                 EqualityComparer<string>.Default,
                 new ReferenceEqualsEqualityComparer(),
                 "A different value already has the Id '{0}'.",
@@ -57,7 +55,7 @@ abstract class JsonSerializerInternalBase
 
     ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
     {
-        currentErrorContext ??= new ErrorContext(currentObject, member, path, error);
+        currentErrorContext ??= new(currentObject, member, path, error);
 
         if (currentErrorContext.Error != error)
         {
@@ -111,7 +109,7 @@ abstract class JsonSerializerInternalBase
 
         if (!errorContext.Handled)
         {
-            Serializer.OnError(new ErrorEventArgs(currentObject, errorContext));
+            Serializer.OnError(new(currentObject, errorContext));
         }
 
         return errorContext.Handled;

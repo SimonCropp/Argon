@@ -49,7 +49,7 @@ public class JsonDynamicContract : JsonContainerContract
     {
         ContractType = JsonContractType.Dynamic;
 
-        Properties = new JsonPropertyCollection(UnderlyingType);
+        Properties = new(UnderlyingType);
     }
 
     internal bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)

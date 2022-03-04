@@ -56,26 +56,28 @@ public class DefaultSerializationBinder :
             }
 
             var type = assembly.GetType(typeName);
+            if (type != null)
+            {
+                return type;
+            }
+
+            // if generic type, try manually parsing the type arguments for the case of dynamically loaded assemblies
+            // example generic typeName format: System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+            if (typeName.IndexOf('`') >= 0)
+            {
+                try
+                {
+                    type = GetGenericTypeFromTypeName(typeName, assembly);
+                }
+                catch (Exception exception)
+                {
+                    throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.", exception);
+                }
+            }
+
             if (type == null)
             {
-                // if generic type, try manually parsing the type arguments for the case of dynamically loaded assemblies
-                // example generic typeName format: System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
-                if (typeName.IndexOf('`') >= 0)
-                {
-                    try
-                    {
-                        type = GetGenericTypeFromTypeName(typeName, assembly);
-                    }
-                    catch (Exception exception)
-                    {
-                        throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.", exception);
-                    }
-                }
-
-                if (type == null)
-                {
-                    throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.");
-                }
+                throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.");
             }
 
             return type;
@@ -86,48 +88,49 @@ public class DefaultSerializationBinder :
 
     Type? GetGenericTypeFromTypeName(string typeName, Assembly assembly)
     {
-        Type? type = null;
         var openBracketIndex = typeName.IndexOf('[');
-        if (openBracketIndex >= 0)
+        if (openBracketIndex < 0)
         {
-            var genericTypeDefName = typeName.Substring(0, openBracketIndex);
-            var genericTypeDef = assembly.GetType(genericTypeDefName);
-            if (genericTypeDef != null)
+            return null;
+        }
+
+        var genericTypeDefName = typeName.Substring(0, openBracketIndex);
+        var genericTypeDef = assembly.GetType(genericTypeDefName);
+        if (genericTypeDef == null)
+        {
+            return null;
+        }
+
+        var genericTypeArguments = new List<Type>();
+        var scope = 0;
+        var typeArgStartIndex = 0;
+        var endIndex = typeName.Length - 1;
+        for (var i = openBracketIndex + 1; i < endIndex; ++i)
+        {
+            var current = typeName[i];
+            switch (current)
             {
-                var genericTypeArguments = new List<Type>();
-                var scope = 0;
-                var typeArgStartIndex = 0;
-                var endIndex = typeName.Length - 1;
-                for (var i = openBracketIndex + 1; i < endIndex; ++i)
-                {
-                    var current = typeName[i];
-                    switch (current)
+                case '[':
+                    if (scope == 0)
                     {
-                        case '[':
-                            if (scope == 0)
-                            {
-                                typeArgStartIndex = i + 1;
-                            }
-                            ++scope;
-                            break;
-                        case ']':
-                            --scope;
-                            if (scope == 0)
-                            {
-                                var typeArgAssemblyQualifiedName = typeName.Substring(typeArgStartIndex, i - typeArgStartIndex);
-
-                                var typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(typeArgAssemblyQualifiedName);
-                                genericTypeArguments.Add(GetTypeByName(typeNameKey));
-                            }
-                            break;
+                        typeArgStartIndex = i + 1;
                     }
-                }
+                    ++scope;
+                    break;
+                case ']':
+                    --scope;
+                    if (scope == 0)
+                    {
+                        var typeArgAssemblyQualifiedName = typeName.Substring(typeArgStartIndex, i - typeArgStartIndex);
 
-                type = genericTypeDef.MakeGenericType(genericTypeArguments.ToArray());
+                        var typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(typeArgAssemblyQualifiedName);
+                        genericTypeArguments.Add(GetTypeByName(typeNameKey));
+                    }
+                    break;
             }
         }
 
-        return type;
+        return genericTypeDef.MakeGenericType(genericTypeArguments.ToArray());
     }
 
     Type GetTypeByName(StructMultiKey<string?, string> typeNameKey)
