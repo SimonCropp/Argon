@@ -58,7 +58,7 @@ public class DataTableConverterTests : TestFixtureBase
         };
 
         var converter = new DataTableConverter();
-        converter.WriteJson(jsonWriter, dt, new JsonSerializer());
+        converter.WriteJson(jsonWriter, dt, new());
 
         XUnitAssert.AreEqualNormalized(@"[
   {
@@ -104,7 +104,7 @@ public class DataTableConverterTests : TestFixtureBase
         };
 
         var converter = new DataTableConverter();
-        converter.WriteJson(jsonWriter, dt, new JsonSerializer());
+        converter.WriteJson(jsonWriter, dt, new());
 
         var stringName = typeof(string).AssemblyQualifiedName;
 
@@ -554,10 +554,13 @@ public class DataTableConverterTests : TestFixtureBase
     [Fact]
     public void SerializeNullRoot()
     {
-        var json = JsonConvert.SerializeObject(null, typeof(DataTable), new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        });
+        var json = JsonConvert.SerializeObject(
+            null,
+            typeof(DataTable),
+            new()
+            {
+                Formatting = Formatting.Indented
+            });
 
         XUnitAssert.AreEqualNormalized(@"null", json);
     }
@@ -585,7 +588,7 @@ public class DataTableConverterTests : TestFixtureBase
         settings.Converters.Add(new SqlDateTimeConverter());
         var ds = JsonConvert.DeserializeObject<SqlTypesDataSet>(json, settings);
 
-        Assert.Equal(new System.Data.SqlTypes.SqlDateTime(2015, 11, 28), ds.TestTable[0].DateTimeValue);
+        Assert.Equal(new(2015, 11, 28), ds.TestTable[0].DateTimeValue);
         Assert.Equal(System.Data.SqlTypes.SqlDateTime.Null, ds.TestTable[1].DateTimeValue);
 
         var json2 = JsonConvert.SerializeObject(ds, settings);

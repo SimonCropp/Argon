@@ -14,7 +14,7 @@ var staff = new Staff
 {
     Name = "Arnie Admin",
     Roles = new List<string> {"Administrator"},
-    StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+    StartDate = new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
 };
 
 ITraceWriter traceWriter = new MemoryTraceWriter();

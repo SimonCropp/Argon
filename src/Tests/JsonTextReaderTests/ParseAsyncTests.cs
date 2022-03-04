@@ -43,37 +43,37 @@ public class ParseAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader("1"));
         Assert.Equal(1, await reader.ReadAsInt32Async());
 
-        reader = new JsonTextReader(new StringReader("-1"));
+        reader = new(new StringReader("-1"));
         Assert.Equal(-1, await reader.ReadAsInt32Async());
 
-        reader = new JsonTextReader(new StringReader("0"));
+        reader = new(new StringReader("0"));
         Assert.Equal(0, await reader.ReadAsInt32Async());
 
-        reader = new JsonTextReader(new StringReader("-0"));
+        reader = new(new StringReader("-0"));
         Assert.Equal(0, await reader.ReadAsInt32Async());
 
-        reader = new JsonTextReader(new StringReader(int.MaxValue.ToString()));
+        reader = new(new StringReader(int.MaxValue.ToString()));
         Assert.Equal(int.MaxValue, await reader.ReadAsInt32Async());
 
-        reader = new JsonTextReader(new StringReader(int.MinValue.ToString()));
+        reader = new(new StringReader(int.MinValue.ToString()));
         Assert.Equal(int.MinValue, await reader.ReadAsInt32Async());
 
-        reader = new JsonTextReader(new StringReader(long.MaxValue.ToString()));
+        reader = new(new StringReader(long.MaxValue.ToString()));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsInt32Async(), "JSON integer 9223372036854775807 is too large or small for an Int32. Path '', line 1, position 19.");
 
-        reader = new JsonTextReader(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
+        reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsInt32Async(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
-        reader = new JsonTextReader(new StringReader("1E-06"));
+        reader = new(new StringReader("1E-06"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsInt32Async(), "Input string '1E-06' is not a valid integer. Path '', line 1, position 5.");
 
-        reader = new JsonTextReader(new StringReader("1.1"));
+        reader = new(new StringReader("1.1"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsInt32Async(), "Input string '1.1' is not a valid integer. Path '', line 1, position 3.");
 
-        reader = new JsonTextReader(new StringReader(""));
+        reader = new(new StringReader(""));
         Assert.Equal(null, await reader.ReadAsInt32Async());
 
-        reader = new JsonTextReader(new StringReader("-"));
+        reader = new(new StringReader("-"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsInt32Async(), "Input string '-' is not a valid integer. Path '', line 1, position 1.");
     }
 
@@ -83,29 +83,29 @@ public class ParseAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader("1.1"));
         Assert.Equal(1.1m, await reader.ReadAsDecimalAsync());
 
-        reader = new JsonTextReader(new StringReader("-1.1"));
+        reader = new(new StringReader("-1.1"));
         Assert.Equal(-1.1m, await reader.ReadAsDecimalAsync());
 
-        reader = new JsonTextReader(new StringReader("0.0"));
+        reader = new(new StringReader("0.0"));
         Assert.Equal(0.0m, await reader.ReadAsDecimalAsync());
 
-        reader = new JsonTextReader(new StringReader("-0.0"));
+        reader = new(new StringReader("-0.0"));
         Assert.Equal(0, await reader.ReadAsDecimalAsync());
 
-        reader = new JsonTextReader(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
+        reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsDecimalAsync(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
-        reader = new JsonTextReader(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
+        reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
         reader.FloatParseHandling = FloatParseHandling.Decimal;
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
-        reader = new JsonTextReader(new StringReader("1E-06"));
+        reader = new(new StringReader("1E-06"));
         Assert.Equal(0.000001m, await reader.ReadAsDecimalAsync());
 
-        reader = new JsonTextReader(new StringReader(""));
+        reader = new(new StringReader(""));
         Assert.Equal(null, await reader.ReadAsDecimalAsync());
 
-        reader = new JsonTextReader(new StringReader("-"));
+        reader = new(new StringReader("-"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsDecimalAsync(), "Input string '-' is not a valid decimal. Path '', line 1, position 1.");
     }
 
@@ -117,46 +117,46 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(1.1d, reader.Value);
 
-        reader = new JsonTextReader(new StringReader("-1.1"));
+        reader = new(new StringReader("-1.1"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(-1.1d, reader.Value);
 
-        reader = new JsonTextReader(new StringReader("0.0"));
+        reader = new(new StringReader("0.0"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(0.0d, reader.Value);
 
-        reader = new JsonTextReader(new StringReader("-0.0"));
+        reader = new(new StringReader("-0.0"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(-0.0d, reader.Value);
 
-        reader = new JsonTextReader(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
+        reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
 
-        reader = new JsonTextReader(new StringReader("1E-06"));
+        reader = new(new StringReader("1E-06"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(0.000001d, reader.Value);
 
-        reader = new JsonTextReader(new StringReader(""));
+        reader = new(new StringReader(""));
         Assert.False(await reader.ReadAsync());
 
-        reader = new JsonTextReader(new StringReader("-"));
+        reader = new(new StringReader("-"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Input string '-' is not a valid number. Path '', line 1, position 1.");
 
-        reader = new JsonTextReader(new StringReader("1.7976931348623157E+308"));
+        reader = new(new StringReader("1.7976931348623157E+308"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(double.MaxValue, reader.Value);
 
-        reader = new JsonTextReader(new StringReader("-1.7976931348623157E+308"));
+        reader = new(new StringReader("-1.7976931348623157E+308"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(double.MinValue, reader.Value);
 
-        reader = new JsonTextReader(new StringReader("1E+309"));
+        reader = new(new StringReader("1E+309"));
 #if !(NET5_0_OR_GREATER)
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Input string '1E+309' is not a valid number. Path '', line 1, position 6.");
 #else
@@ -165,7 +165,7 @@ public class ParseAsyncTests : TestFixtureBase
             Assert.Equal(double.PositiveInfinity, reader.Value);
 #endif
 
-        reader = new JsonTextReader(new StringReader("-1E+5000"));
+        reader = new(new StringReader("-1E+5000"));
 #if !(NET5_0_OR_GREATER)
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Input string '-1E+5000' is not a valid number. Path '', line 1, position 8.");
 #else
@@ -174,10 +174,10 @@ public class ParseAsyncTests : TestFixtureBase
             Assert.Equal(double.NegativeInfinity, reader.Value);
 #endif
 
-        reader = new JsonTextReader(new StringReader("5.1231231E"));
+        reader = new(new StringReader("5.1231231E"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await reader.ReadAsync(), "Input string '5.1231231E' is not a valid number. Path '', line 1, position 10.");
 
-        reader = new JsonTextReader(new StringReader("1E-23"));
+        reader = new(new StringReader("1E-23"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(typeof(double), reader.ValueType);
         Assert.Equal(1e-23, reader.Value);
@@ -332,7 +332,7 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
         reader.DateParseHandling = DateParseHandling.DateTimeOffset;
 
         Assert.True(await reader.ReadAsync());
@@ -340,7 +340,7 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
         reader.DateParseHandling = DateParseHandling.None;
 
         Assert.True(await reader.ReadAsync());
@@ -348,7 +348,7 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(@"1970-01-01T00:00:00Z", reader.Value);
         Assert.Equal(typeof(string), reader.ValueType);
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
         reader.DateParseHandling = DateParseHandling.DateTime;
 
         Assert.True(await reader.ReadAsync());
@@ -356,7 +356,7 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
         reader.DateParseHandling = DateParseHandling.DateTimeOffset;
 
         Assert.True(await reader.ReadAsync());

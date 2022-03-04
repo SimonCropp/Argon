@@ -72,7 +72,7 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     void EnsureDictionary()
     {
-        dictionary ??= new Dictionary<string, JToken>(Comparer);
+        dictionary ??= new(Comparer);
     }
 
     static string GetKeyForItem(JToken item)

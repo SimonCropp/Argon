@@ -2,10 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if (!NET5_0_OR_GREATER)
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Web.Script.Serialization;
-#endif
 using System.Runtime.Serialization.Json;
 using BenchmarkDotNet.Attributes;
 using TestObjects;
@@ -18,7 +14,12 @@ public class SerializeComparisonBenchmarks
     {
         var test = new TestClass
         {
-            dictionary = new Dictionary<string, int> { { "Val & asd1", 1 }, { "Val2 & asd1", 3 }, { "Val3 & asd1", 4 } },
+            dictionary = new()
+            {
+                { "Val & asd1", 1 },
+                { "Val2 & asd1", 3 },
+                { "Val3 & asd1", 4 }
+            },
             Address1 =
             {
                 Street = "fff Street",
@@ -26,7 +27,12 @@ public class SerializeComparisonBenchmarks
             },
             BigNumber = 34123123123.121M,
             Now = DateTime.Now.AddHours(1),
-            strings = new List<string> { null, "Markus egger ]><[, (2nd)", null }
+            strings = new()
+            {
+                null,
+                "Markus egger ]><[, (2nd)",
+                null
+            }
         };
 
         var address = new Address
@@ -37,7 +43,7 @@ public class SerializeComparisonBenchmarks
 
         test.Addresses.Add(address);
 
-        address = new Address
+        address = new()
         {
             Entered = DateTime.Now.AddDays(-2),
             Street = "array 2 address"

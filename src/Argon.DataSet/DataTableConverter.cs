@@ -57,7 +57,7 @@ public class DataTableConverter : JsonConverter
             // handle typed datasets
             if (type == typeof(DataTable))
             {
-                table = new DataTable();
+                table = new();
             }
             else
             {
@@ -181,7 +181,7 @@ public class DataTableConverter : JsonConverter
         }
 
         var columnType = GetColumnDataType(reader);
-        column = new DataColumn(name, columnType);
+        column = new(name, columnType);
         table.Columns.Add(column);
 
         return column;

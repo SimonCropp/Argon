@@ -37,7 +37,7 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
               <role json:Array='true'>Admin</role>
             </person>";
 
-        doc = new XmlDocument();
+        doc = new();
         doc.LoadXml(xml);
 
         json = JsonXmlConvert.SerializeXmlNode(doc);

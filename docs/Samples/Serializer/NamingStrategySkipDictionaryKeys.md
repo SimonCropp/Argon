@@ -20,9 +20,9 @@ public class DailyHighScores
 ```cs
 var dailyHighScores = new DailyHighScores
 {
-    Date = new DateTime(2016, 6, 27, 0, 0, 0, DateTimeKind.Utc),
+    Date = new(2016, 6, 27, 0, 0, 0, DateTimeKind.Utc),
     Game = "Donkey Kong",
-    UserPoints = new Dictionary<string, int>
+    UserPoints = new()
     {
         ["JamesNK"] = 9001,
         ["JoC"] = 1337,

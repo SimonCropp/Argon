@@ -30,7 +30,7 @@ public class SerializeWithLinq : TestFixtureBase
                 Title = "Json.NET is awesome!",
                 AuthorName = "James Newton-King",
                 AuthorTwitter = "JamesNK",
-                PostedDate = new DateTime(2013, 1, 23, 19, 30, 0),
+                PostedDate = new(2013, 1, 23, 19, 30, 0),
                 Body = @"<h3>Title!</h3><p>Content!</p>"
             }
         };

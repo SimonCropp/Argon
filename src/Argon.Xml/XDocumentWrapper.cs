@@ -64,39 +64,39 @@ class XDocumentWrapper : XContainerWrapper, IXmlDocument
 
     public IXmlNode CreateXmlDeclaration(string? version, string? encoding, string? standalone)
     {
-        return new XDeclarationWrapper(new XDeclaration(version, encoding, standalone));
+        return new XDeclarationWrapper(new(version, encoding, standalone));
     }
 
     public IXmlNode CreateXmlDocumentType(string name, string? publicId, string? systemId, string? internalSubset)
     {
-        return new XDocumentTypeWrapper(new XDocumentType(name, publicId, systemId, internalSubset));
+        return new XDocumentTypeWrapper(new(name, publicId, systemId, internalSubset));
     }
 
     public IXmlNode CreateProcessingInstruction(string target, string data)
     {
-        return new XProcessingInstructionWrapper(new XProcessingInstruction(target, data));
+        return new XProcessingInstructionWrapper(new(target, data));
     }
 
     public IXmlElement CreateElement(string elementName)
     {
-        return new XElementWrapper(new XElement(elementName));
+        return new XElementWrapper(new(elementName));
     }
 
     public IXmlElement CreateElement(string qualifiedName, string namespaceUri)
     {
         var localName = MiscellaneousUtils.GetLocalName(qualifiedName);
-        return new XElementWrapper(new XElement(XName.Get(localName, namespaceUri)));
+        return new XElementWrapper(new(XName.Get(localName, namespaceUri)));
     }
 
     public IXmlNode CreateAttribute(string name, string value)
     {
-        return new XAttributeWrapper(new XAttribute(name, value));
+        return new XAttributeWrapper(new(name, value));
     }
 
     public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string value)
     {
         var localName = MiscellaneousUtils.GetLocalName(qualifiedName);
-        return new XAttributeWrapper(new XAttribute(XName.Get(localName, namespaceUri), value));
+        return new XAttributeWrapper(new(XName.Get(localName, namespaceUri), value));
     }
 
     public IXmlElement? DocumentElement

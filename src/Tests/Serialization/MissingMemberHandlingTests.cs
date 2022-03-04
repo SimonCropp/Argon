@@ -12,7 +12,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
         var product = new Product
         {
             Name = "Apple",
-            ExpiryDate = new DateTime(2008, 12, 28),
+            ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
             Sizes = new[] { "Small", "Medium", "Large" }
         };
@@ -41,7 +41,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
         var product = new Product
         {
             Name = "Apple",
-            ExpiryDate = new DateTime(2008, 12, 28),
+            ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
             Sizes = new[] { "Small", "Medium", "Large" }
         };
@@ -73,7 +73,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
         var deserializedProductShort = (ProductShort)deserializedValue;
 
         Assert.Equal("Apple", deserializedProductShort.Name);
-        Assert.Equal(new DateTime(2008, 12, 28), deserializedProductShort.ExpiryDate);
+        Assert.Equal(new(2008, 12, 28), deserializedProductShort.ExpiryDate);
         Assert.Equal("Small", deserializedProductShort.Sizes[0]);
         Assert.Equal("Medium", deserializedProductShort.Sizes[1]);
         Assert.Equal("Large", deserializedProductShort.Sizes[2]);

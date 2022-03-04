@@ -22,8 +22,8 @@ public class MemoryTraceWriter : ITraceWriter
     public MemoryTraceWriter()
     {
         LevelFilter = TraceLevel.Verbose;
-        traceMessages = new Queue<string>();
-        @lock = new object();
+        traceMessages = new();
+        @lock = new();
     }
 
     /// <summary>

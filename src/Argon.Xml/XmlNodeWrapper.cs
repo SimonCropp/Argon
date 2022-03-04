@@ -27,7 +27,7 @@ class XmlNodeWrapper : IXmlNode
             {
                 if (node.HasChildNodes)
                 {
-                    childNodes = new List<IXmlNode>(node.ChildNodes.Count);
+                    childNodes = new(node.ChildNodes.Count);
                     foreach (XmlNode childNode in node.ChildNodes)
                     {
                         childNodes.Add(WrapNode(childNode));
@@ -68,7 +68,7 @@ class XmlNodeWrapper : IXmlNode
             {
                 if (HasAttributes)
                 {
-                    attributes = new List<IXmlNode>(node.Attributes!.Count);
+                    attributes = new(node.Attributes!.Count);
                     foreach (XmlAttribute attribute in node.Attributes)
                     {
                         attributes.Add(WrapNode(attribute));

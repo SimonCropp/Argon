@@ -22,7 +22,7 @@ public class JsonPropertyName : TestFixtureBase
         var starcraft = new Videogame
         {
             Name = "Starcraft",
-            ReleaseDate = new DateTime(1998, 1, 1)
+            ReleaseDate = new(1998, 1, 1)
         };
 
         var json = JsonConvert.SerializeObject(starcraft, Formatting.Indented);

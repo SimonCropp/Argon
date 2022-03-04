@@ -22,9 +22,9 @@ public class SerializeDateTimeZoneHandling : TestFixtureBase
         var flight = new Flight
         {
             Destination = "Dubai",
-            DepartureDate = new DateTime(2013, 1, 21, 0, 0, 0, DateTimeKind.Unspecified),
-            DepartureDateUtc = new DateTime(2013, 1, 21, 0, 0, 0, DateTimeKind.Utc),
-            DepartureDateLocal = new DateTime(2013, 1, 21, 0, 0, 0, DateTimeKind.Local),
+            DepartureDate = new(2013, 1, 21, 0, 0, 0, DateTimeKind.Unspecified),
+            DepartureDateUtc = new(2013, 1, 21, 0, 0, 0, DateTimeKind.Utc),
+            DepartureDateLocal = new(2013, 1, 21, 0, 0, 0, DateTimeKind.Local),
             Duration = TimeSpan.FromHours(5.5)
         };
 

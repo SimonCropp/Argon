@@ -55,7 +55,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
-        Assert.Equal(new DateTime(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)reader.ReadAsDateTime());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)reader.ReadAsDateTime());
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTime(),
@@ -69,7 +69,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
-        Assert.Equal(new DateTimeOffset(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)reader.ReadAsDateTimeOffset());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)reader.ReadAsDateTimeOffset());
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTimeOffset(),
@@ -153,13 +153,13 @@ public class ExceptionHandlingTests : TestFixtureBase
             () => reader.Read(),
             "Unexpected character encountered while parsing number: q. Path '', line 1, position 2.");
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDecimal(),
             "Unexpected character encountered while parsing number: q. Path '', line 1, position 2.");
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsInt32(),
@@ -541,7 +541,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             XUnitAssert.Throws<JsonReaderException>(
                 () =>
                 {
-                    reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                    reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                     reader.ReadAsInt32();
                 },
                 $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 10.");
@@ -564,7 +564,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             XUnitAssert.Throws<JsonReaderException>(
                 () =>
                 {
-                    reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                    reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
                     reader.ReadAsInt32();
                 },
                 $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 11.");
@@ -584,7 +584,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         {
             var total = i + j;
 
-            reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);
@@ -604,7 +604,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         {
             var total = i + -j;
 
-            reader = new JsonTextReader(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
             reader.Read();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);

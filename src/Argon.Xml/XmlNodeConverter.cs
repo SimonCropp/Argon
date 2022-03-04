@@ -91,7 +91,7 @@ public class XmlNodeConverter : JsonConverter
         {
             if (parent.NodeType == XmlNodeType.Element)
             {
-                parentElements ??= new List<IXmlNode>();
+                parentElements ??= new();
 
                 parentElements.Add(parent);
             }
@@ -225,7 +225,7 @@ public class XmlNodeConverter : JsonConverter
                         }
                         else
                         {
-                            nodesGroupedByName = new Dictionary<string, object>();
+                            nodesGroupedByName = new();
                             if (i > 1)
                             {
                                 var nodes = new List<IXmlNode>(i);
@@ -248,7 +248,7 @@ public class XmlNodeConverter : JsonConverter
                         {
                             if (value is not List<IXmlNode> nodes)
                             {
-                                nodes = new List<IXmlNode> {(IXmlNode) value};
+                                nodes = new() {(IXmlNode) value};
                                 nodesGroupedByName[currentNodeName] = nodes;
                             }
 
@@ -920,7 +920,7 @@ public class XmlNodeConverter : JsonConverter
                     switch (firstChar)
                     {
                         case '@':
-                            attributeNameValues ??= new Dictionary<string, string?>();
+                            attributeNameValues ??= new();
 
                             attributeName = attributeName.Substring(1);
                             reader.ReadAndAssert();
@@ -946,7 +946,7 @@ public class XmlNodeConverter : JsonConverter
                                     var jsonPrefix = manager.LookupPrefix(jsonNamespaceUri);
                                     if (jsonPrefix == null)
                                     {
-                                        attributeNameValues ??= new Dictionary<string, string?>();
+                                        attributeNameValues ??= new();
 
                                         // ensure that the prefix used is free
                                         int? i = null;
@@ -976,7 +976,7 @@ public class XmlNodeConverter : JsonConverter
                                         throw JsonSerializationException.Create(reader, $"Unexpected JsonToken: {reader.TokenType}");
                                     }
 
-                                    attributeNameValues ??= new Dictionary<string, string?>();
+                                    attributeNameValues ??= new();
 
                                     attributeValue = reader.Value?.ToString();
                                     attributeNameValues.Add($"{jsonPrefix}:{attributeName}", attributeValue);

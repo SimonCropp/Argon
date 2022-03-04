@@ -36,7 +36,7 @@ public class DeserializeWithJsonSerializerFromFile : TestFixtureBase
 
         public static StreamReader OpenText(string s)
         {
-            return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
+            return new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
         }
     }
 }

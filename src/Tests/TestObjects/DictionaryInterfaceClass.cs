@@ -24,7 +24,7 @@ public class DictionaryInterfaceClass
             2,
             3
         };
-        Employee = new EmployeeReference
+        Employee = new()
         {
             Name = "EmployeeName!"
         };

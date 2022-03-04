@@ -334,7 +334,7 @@ public class JTokenWriterTest : TestFixtureBase
         var value = (JValue)writer.Token;
         var dt = (DateTime)value.Value;
 
-        Assert.Equal(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
+        Assert.Equal(new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
     }
 
     [Fact]

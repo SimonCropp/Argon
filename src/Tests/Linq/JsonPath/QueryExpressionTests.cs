@@ -9,7 +9,7 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var compositeExpression = new CompositeExpression(QueryOperator.And)
         {
-            Expressions = new List<QueryExpression>
+            Expressions = new()
             {
                 new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> { new FieldFilter("FirstName") }, null),
                 new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> { new FieldFilter("LastName") }, null)
@@ -46,7 +46,7 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var compositeExpression = new CompositeExpression(QueryOperator.Or)
         {
-            Expressions = new List<QueryExpression>
+            Expressions = new()
             {
                 new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> { new FieldFilter("FirstName") }, null),
                 new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> { new FieldFilter("LastName") }, null)

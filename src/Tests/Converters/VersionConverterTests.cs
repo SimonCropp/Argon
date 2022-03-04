@@ -7,8 +7,8 @@ public class VersionClass
     public VersionClass(string version1, string version2)
     {
         StringProperty1 = "StringProperty1";
-        Version1 = new Version(version1);
-        Version2 = new Version(version2);
+        Version1 = new(version1);
+        Version2 = new(version2);
         StringProperty2 = "StringProperty2";
     }
 

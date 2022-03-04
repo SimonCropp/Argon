@@ -89,9 +89,7 @@ public class ExpandoObjectConverter : JsonConverter
                         throw JsonSerializationException.Create(reader, "Unexpected end when reading ExpandoObject.");
                     }
 
-                    var v = ReadValue(reader);
-
-                    expandoObject[propertyName] = v;
+                    expandoObject[propertyName] = ReadValue(reader);
                     break;
                 case JsonToken.Comment:
                     break;

@@ -35,7 +35,7 @@ public class MiscAsyncTests : TestFixtureBase
 
         json = "\n{\"a\":\"bc\"}";
 
-        jsonTextReader = new JsonTextReader(new StringReader(json));
+        jsonTextReader = new(new StringReader(json));
 
         Assert.True(await jsonTextReader.ReadAsync());
         Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -59,7 +59,7 @@ public class MiscAsyncTests : TestFixtureBase
 
         json = "\n{\"a\":\n\"bc\",\"d\":true\n}";
 
-        jsonTextReader = new JsonTextReader(new StringReader(json));
+        jsonTextReader = new(new StringReader(json));
 
         Assert.True(await jsonTextReader.ReadAsync());
         Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -397,8 +397,8 @@ public class MiscAsyncTests : TestFixtureBase
 
         var jsonObject = serializer.Deserialize(new JsonTextReader(new StringReader(json)));
 
-        stringBuilder = new StringBuilder();
-        stringWriter = new StringWriter(stringBuilder);
+        stringBuilder = new();
+        stringWriter = new(stringBuilder);
 
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
@@ -537,7 +537,7 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
 
         await reader.ReadAsync();
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
 
         await reader.ReadAsync();
 
@@ -618,7 +618,7 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
 
         var json2 = "\n{'a':'bc'}";
 
-        r = new JsonTextReader(new StringReader(json2));
+        r = new(new StringReader(json2));
 
         Assert.True(await r.ReadAsync());
         Assert.Equal(2, r.LineNumber);

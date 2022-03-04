@@ -13,7 +13,7 @@ public class DateTimeUtilsTests : TestFixtureBase
 
     static StringReference CreateStringReference(string s)
     {
-        return new StringReference(s.ToCharArray(), 0, s.Length);
+        return new(s.ToCharArray(), 0, s.Length);
     }
 
     static void RoundtripDateIso(DateTime value)
@@ -31,7 +31,7 @@ public class DateTimeUtilsTests : TestFixtureBase
     public void Parse24HourDateTime()
     {
         Assert.True(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00Z"), DateTimeZoneHandling.RoundtripKind, out var dt));
-        Assert.Equal(new DateTime(2000, 12, 16, 0, 0, 0, DateTimeKind.Utc), dt);
+        Assert.Equal(new(2000, 12, 16, 0, 0, 0, DateTimeKind.Utc), dt);
 
         Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:01:00Z"), DateTimeZoneHandling.RoundtripKind, out dt));
         Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:01Z"), DateTimeZoneHandling.RoundtripKind, out dt));
@@ -42,7 +42,7 @@ public class DateTimeUtilsTests : TestFixtureBase
     public void Parse24HourDateTimeOffset()
     {
         Assert.True(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:00Z"), out var dt));
-        Assert.Equal(new DateTimeOffset(2000, 12, 16, 0, 0, 0, TimeSpan.Zero), dt);
+        Assert.Equal(new(2000, 12, 16, 0, 0, 0, TimeSpan.Zero), dt);
 
         Assert.False(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:01:00Z"), out dt));
         Assert.False(DateTimeUtils.TryParseDateTimeOffsetIso(CreateStringReference("2000-12-15T24:00:01Z"), out dt));

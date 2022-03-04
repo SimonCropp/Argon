@@ -88,7 +88,7 @@ class FSharpUtils
         {
             lock (Lock)
             {
-                instance ??= new FSharpUtils(fsharpCoreAssembly);
+                instance ??= new(fsharpCoreAssembly);
             }
         }
     }

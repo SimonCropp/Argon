@@ -30,13 +30,13 @@ public class LowLevelBenchmarks
     [Benchmark]
     public void DictionaryGet()
     {
-        NormalDictionary.TryGetValue("1", out var _);
+        NormalDictionary.TryGetValue("1", out _);
     }
 
     [Benchmark]
     public void ConcurrentDictionaryGet()
     {
-        ConcurrentDictionary.TryGetValue("1", out var _);
+        ConcurrentDictionary.TryGetValue("1", out _);
     }
 
     [Benchmark]

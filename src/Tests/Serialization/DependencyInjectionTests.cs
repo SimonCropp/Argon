@@ -39,7 +39,7 @@ public class DependencyInjectionTests : TestFixtureBase
         builder.Register(_ =>
         {
             count++;
-            return new LogManager(new DateTime(2000, 12, 12));
+            return new LogManager(new(2000, 12, 12));
         }).As<ILogger>();
 
         var container = builder.Build();
@@ -62,7 +62,7 @@ public class DependencyInjectionTests : TestFixtureBase
 
         Assert.Equal(1, count);
 
-        Assert.Equal(new DateTime(2000, 12, 12), controller.Logger.DateTime);
+        Assert.Equal(new(2000, 12, 12), controller.Logger.DateTime);
         Assert.Equal("Debug", controller.Logger.Level);
     }
 
@@ -81,7 +81,7 @@ public class DependencyInjectionTests : TestFixtureBase
         builder.Register(_ =>
         {
             count++;
-            return new LogManager(new DateTime(2000, 12, 12));
+            return new LogManager(new(2000, 12, 12));
         }).As<ILogger>();
 
         var container = builder.Build();
@@ -121,7 +121,7 @@ public class DependencyInjectionTests : TestFixtureBase
 
         Assert.Equal(2, count);
 
-        Assert.Equal(new DateTime(2000, 12, 12), o.Logger.DateTime);
+        Assert.Equal(new(2000, 12, 12), o.Logger.DateTime);
         Assert.Equal("Debug", o.Logger.Level);
         Assert.Equal("server=.", o.Repository.ConnectionString);
         Assert.Equal(2, o.People.Count);

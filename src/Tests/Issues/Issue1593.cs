@@ -17,7 +17,7 @@ public class Issue1593 : TestFixtureBase
     {
         public BaseModel()
         {
-            Extra = new ExpandoObject();
+            Extra = new();
         }
         [JsonExtensionData]
         public ExpandoObject Extra { get; set; }

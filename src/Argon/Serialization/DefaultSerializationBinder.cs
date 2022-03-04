@@ -19,7 +19,7 @@ public class DefaultSerializationBinder :
     /// </summary>
     public DefaultSerializationBinder()
     {
-        typeCache = new ThreadSafeStore<StructMultiKey<string?, string>, Type>(GetTypeFromTypeNameKey);
+        typeCache = new(GetTypeFromTypeNameKey);
     }
 
     Type GetTypeFromTypeNameKey(StructMultiKey<string?, string> typeNameKey)
@@ -145,7 +145,7 @@ public class DefaultSerializationBinder :
     /// </returns>
     public Type BindToType(string? assemblyName, string typeName)
     {
-        return GetTypeByName(new StructMultiKey<string?, string>(assemblyName, typeName));
+        return GetTypeByName(new(assemblyName, typeName));
     }
 
     /// <summary>

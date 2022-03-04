@@ -59,7 +59,7 @@ public class LinqToJsonTests : TestFixtureBase
 
     static List<Post> GetPosts()
     {
-        return new List<Post>();
+        return new();
     }
 
     [Fact]
@@ -182,7 +182,7 @@ public class LinqToJsonTests : TestFixtureBase
     {
         public static StreamReader OpenText(string path)
         {
-            return new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
+            return new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
         }
     }
 
@@ -349,7 +349,7 @@ public class LinqToJsonTests : TestFixtureBase
         {
             Original = (string)json["short"]["original"],
             Short = (string)json["short"]["short"],
-            Error = new ShortieException
+            Error = new()
             {
                 Code = (int)json["short"]["error"]["code"],
                 ErrorMessage = (string)json["short"]["error"]["msg"]

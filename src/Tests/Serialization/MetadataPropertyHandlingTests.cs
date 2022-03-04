@@ -102,11 +102,11 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     {
         var expected = new Item
         {
-            SourceTypeID = new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"),
-            BrokerID = new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"),
+            SourceTypeID = new("d8220a4b-75b1-4b7a-8112-b7bdae956a45"),
+            BrokerID = new("951663c4-924e-4c86-a57a-7ed737501dbd"),
             Latitude = 33.657145,
             Longitude = -117.766684,
-            TimeStamp = new DateTime(2000, 3, 1, 23, 59, 59, DateTimeKind.Utc),
+            TimeStamp = new(2000, 3, 1, 23, 59, 59, DateTimeKind.Utc),
             Payload = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
         };
 
@@ -129,8 +129,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
 
-        Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
-        Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
+        Assert.Equal(new("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
+        Assert.Equal(new("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
         var bytes = (byte[]) actual.Payload;
         Assert.Equal(new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}, bytes);
     }
@@ -288,7 +288,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var t1 = JToken.Parse(json);
         var t2 = t1.CloneToken();
 
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
@@ -349,8 +349,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         Assert.Equal("Frank", e.Manager.Name);
 
         Assert.Equal(null, p.Name);
-        Assert.Equal(new DateTime(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
-        Assert.Equal(new DateTime(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
+        Assert.Equal(new(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
+        Assert.Equal(new(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
         Assert.Equal("String!", values[2]);
         Assert.Equal((long) int.MinValue, values[3]);
@@ -484,8 +484,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });
 
-        Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
-        Assert.Equal(new Guid("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
+        Assert.Equal(new("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
+        Assert.Equal(new("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
         var o = (JObject) actual.Payload;
         Assert.Equal("System.Byte[], mscorlib", (string) o["$type"]);
         Assert.Equal("AAECAwQFBgcICQ==", (string) o["$value"]);
@@ -606,7 +606,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         JsonConvert.PopulateObject(
             json,
             c,
-            new JsonSerializerSettings
+            new()
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });

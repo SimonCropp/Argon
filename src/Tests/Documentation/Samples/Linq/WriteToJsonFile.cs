@@ -29,7 +29,7 @@ public class WriteToJsonFile : TestFixtureBase
     {
         public static StreamWriter CreateText(string path)
         {
-            return new StreamWriter(new MemoryStream());
+            return new(new MemoryStream());
         }
 
         public static void WriteAllText(string s1, string s2)

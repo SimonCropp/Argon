@@ -141,7 +141,7 @@ var shortie = new Shortie
 {
     Original = (string)json["short"]["original"],
     Short = (string)json["short"]["short"],
-    Error = new ShortieException
+    Error = new()
     {
         Code = (int)json["short"]["error"]["code"],
         ErrorMessage = (string)json["short"]["error"]["msg"]

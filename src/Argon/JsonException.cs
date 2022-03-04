@@ -32,6 +32,6 @@ public class JsonException : Exception
     {
         message = JsonPosition.FormatMessage(lineInfo, path, message);
 
-        return new JsonException(message);
+        return new(message);
     }
 }

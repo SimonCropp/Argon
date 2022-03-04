@@ -76,6 +76,6 @@ public class JsonReaderException : JsonException
             linePosition = 0;
         }
 
-        return new JsonReaderException(message, path, lineNumber, linePosition, exception);
+        return new(message, path, lineNumber, linePosition, exception);
     }
 }

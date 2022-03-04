@@ -76,7 +76,7 @@ struct StringBuffer
     public string ToString(int start, int length)
     {
         // TODO: validation
-        return new string(InternalBuffer!, start, length);
+        return new(InternalBuffer!, start, length);
     }
 
     public char[]? InternalBuffer { get; private set; }

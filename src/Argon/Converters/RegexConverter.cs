@@ -123,7 +123,7 @@ public class RegexConverter : JsonConverter
                         throw JsonSerializationException.Create(reader, "Error deserializing Regex. No pattern found.");
                     }
 
-                    return new Regex(pattern, options ?? RegexOptions.None);
+                    return new(pattern, options ?? RegexOptions.None);
             }
         }
 

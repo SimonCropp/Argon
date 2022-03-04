@@ -15,7 +15,7 @@ Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https
 var product = new Product
 {
     Name = "Apple",
-    Expiry = new DateTime(2008, 12, 28),
+    Expiry = new(2008, 12, 28),
     Sizes = new string[] { "Small" }
 };
 

@@ -21,7 +21,7 @@ class XContainerWrapper : XObjectWrapper
             {
                 if (HasChildNodes)
                 {
-                    childNodes = new List<IXmlNode>();
+                    childNodes = new();
                     foreach (var node in Container.Nodes())
                     {
                         childNodes.Add(WrapNode(node));

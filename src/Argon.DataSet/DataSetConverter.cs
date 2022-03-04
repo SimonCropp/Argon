@@ -72,7 +72,7 @@ public class DataSetConverter : JsonConverter
         // handle typed datasets
         if (type == typeof(DataSet))
         {
-            return new DataSet();
+            return new();
         }
 
         return (DataSet) Activator.CreateInstance(type)!;

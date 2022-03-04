@@ -28,7 +28,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
             {
                 if (Element.HasAttributes || HasImplicitNamespaceAttribute(NamespaceUri))
                 {
-                    attributes = new List<IXmlNode>();
+                    attributes = new();
                     foreach (var attribute in Element.Attributes())
                     {
                         attributes.Add(new XAttributeWrapper(attribute));
@@ -39,7 +39,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
                     var namespaceUri = NamespaceUri;
                     if (HasImplicitNamespaceAttribute(namespaceUri))
                     {
-                        attributes.Insert(0, new XAttributeWrapper(new XAttribute("xmlns", namespaceUri)));
+                        attributes.Insert(0, new XAttributeWrapper(new("xmlns", namespaceUri)));
                     }
                 }
                 else

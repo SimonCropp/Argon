@@ -12,7 +12,7 @@ public class PersonWithPrivateConstructor
 
     public static PersonWithPrivateConstructor CreatePerson()
     {
-        return new PersonWithPrivateConstructor();
+        return new();
     }
 
     public string Name { get; set; }

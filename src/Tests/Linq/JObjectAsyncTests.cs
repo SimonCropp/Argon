@@ -39,7 +39,7 @@ public class JObjectAsyncTests : TestFixtureBase
         var raw = new PersonRaw
         {
             FirstName = "FirstNameValue",
-            RawContent = new JRaw("[1,2,3,4,5]"),
+            RawContent = new("[1,2,3,4,5]"),
             LastName = "LastNameValue"
         };
 

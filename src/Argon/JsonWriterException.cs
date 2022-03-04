@@ -29,6 +29,6 @@ public class JsonWriterException : JsonException
     {
         message = JsonPosition.FormatMessage(null, writer.ContainerPath, message);
 
-        return new JsonWriterException(message, writer.ContainerPath);
+        return new(message, writer.ContainerPath);
     }
 }

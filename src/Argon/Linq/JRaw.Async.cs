@@ -18,6 +18,6 @@ public partial class JRaw
         using var jsonWriter = new JsonTextWriter(stringWriter);
         await jsonWriter.WriteTokenSyncReadingAsync(reader, cancellation).ConfigureAwait(false);
 
-        return new JRaw(stringWriter.ToString());
+        return new(stringWriter.ToString());
     }
 }

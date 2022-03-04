@@ -21,8 +21,8 @@ Parameter name: content",
     public void MergeArraySelf()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.Equal(new JArray { "1", "2" }, a);
+        a.Merge(a, new() { MergeArrayHandling = MergeArrayHandling.Replace });
+        Assert.Equal(new() { "1", "2" }, a);
     }
 
     [Fact]
@@ -33,8 +33,8 @@ Parameter name: content",
             ["1"] = 1,
             ["2"] = 2
         };
-        a.Merge(a, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.Equal(new JObject
+        a.Merge(a, new() { MergeArrayHandling = MergeArrayHandling.Replace });
+        Assert.Equal(new()
         {
             ["1"] = 1,
             ["2"] = 2
@@ -45,32 +45,32 @@ Parameter name: content",
     public void MergeArrayIntoArray_Replace()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.Equal(new JArray { "3", "4" }, a);
+        a.Merge(new[] { "3", "4" }, new() { MergeArrayHandling = MergeArrayHandling.Replace });
+        Assert.Equal(new() { "3", "4" }, a);
     }
 
     [Fact]
     public void MergeArrayIntoArray_Concat()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new[] { "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Concat });
-        Assert.Equal(new JArray { "1", "2", "3", "4" }, a);
+        a.Merge(new[] { "3", "4" }, new() { MergeArrayHandling = MergeArrayHandling.Concat });
+        Assert.Equal(new() { "1", "2", "3", "4" }, a);
     }
 
     [Fact]
     public void MergeArrayIntoArray_Union()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new[] { "2", "3", "4" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Union });
-        Assert.Equal(new JArray { "1", "2", "3", "4" }, a);
+        a.Merge(new[] { "2", "3", "4" }, new() { MergeArrayHandling = MergeArrayHandling.Union });
+        Assert.Equal(new() { "1", "2", "3", "4" }, a);
     }
 
     [Fact]
     public void MergeArrayIntoArray_Merge()
     {
         var a = new JArray { "1", "2" };
-        a.Merge(new[] { "2" }, new JsonMergeSettings { MergeArrayHandling = MergeArrayHandling.Merge });
-        Assert.Equal(new JArray { "2", "2" }, a);
+        a.Merge(new[] { "2" }, new() { MergeArrayHandling = MergeArrayHandling.Merge });
+        Assert.Equal(new() { "2", "2" }, a);
     }
 
     [Fact]
@@ -232,7 +232,7 @@ Parameter name: content",
             }
         });
 
-        left.Merge(right, new JsonMergeSettings
+        left.Merge(right, new()
         {
             MergeArrayHandling = MergeArrayHandling.Merge
         });
@@ -283,7 +283,7 @@ Parameter name: content",
             }
         });
 
-        left.Merge(right, new JsonMergeSettings
+        left.Merge(right, new()
         {
             MergeArrayHandling = MergeArrayHandling.Concat
         });
@@ -335,7 +335,7 @@ Parameter name: content",
             null
         });
 
-        left.Merge(right, new JsonMergeSettings
+        left.Merge(right, new()
         {
             MergeArrayHandling = MergeArrayHandling.Merge
         });
@@ -427,7 +427,7 @@ Parameter name: content",
             }
         });
 
-        left.Merge(right, new JsonMergeSettings
+        left.Merge(right, new()
         {
             MergeArrayHandling = MergeArrayHandling.Replace
         });
@@ -457,7 +457,7 @@ Parameter name: content",
             5
         });
 
-        left.Merge(right, new JsonMergeSettings
+        left.Merge(right, new()
         {
             MergeArrayHandling = MergeArrayHandling.Replace
         });
@@ -491,7 +491,7 @@ Parameter name: content",
             }
         });
 
-        left.Merge(right, new JsonMergeSettings
+        left.Merge(right, new()
         {
             MergeArrayHandling = MergeArrayHandling.Union
         });
@@ -550,7 +550,7 @@ Parameter name: content",
 
         var patch = JObject.Parse("{Property1: null, Property2: null, Property3: null, Property4: null, Property5: null}");
 
-        source.Merge(patch, new JsonMergeSettings
+        source.Merge(patch, new()
         {
             MergeNullValueHandling = MergeNullValueHandling.Merge
         });
@@ -584,14 +584,14 @@ Parameter name: content",
         var oldFoo = JObject.Parse(originalJson);
         var newFoo = JObject.Parse(newJson);
 
-        oldFoo.Merge(newFoo, new JsonMergeSettings
+        oldFoo.Merge(newFoo, new()
         {
             MergeNullValueHandling = MergeNullValueHandling.Ignore
         });
 
         XUnitAssert.AreEqualNormalized(originalJson, oldFoo.ToString());
 
-        oldFoo.Merge(newFoo, new JsonMergeSettings
+        oldFoo.Merge(newFoo, new()
         {
             MergeNullValueHandling = MergeNullValueHandling.Merge
         });
@@ -612,14 +612,14 @@ Parameter name: content",
         var oldFoo = JObject.Parse(originalJson);
         var newFoo = JObject.Parse(newJson);
 
-        oldFoo.Merge(newFoo, new JsonMergeSettings
+        oldFoo.Merge(newFoo, new()
         {
             MergeNullValueHandling = MergeNullValueHandling.Ignore
         });
 
         XUnitAssert.AreEqualNormalized(originalJson, oldFoo.ToString());
 
-        oldFoo.Merge(newFoo, new JsonMergeSettings
+        oldFoo.Merge(newFoo, new()
         {
             MergeNullValueHandling = MergeNullValueHandling.Merge
         });
@@ -639,7 +639,7 @@ Parameter name: content",
                                             'words': [ 'Name' ]
                                         }");
 
-        o1.Merge(o2, new JsonMergeSettings
+        o1.Merge(o2, new()
         {
             MergeArrayHandling = MergeArrayHandling.Concat,
             MergeNullValueHandling = MergeNullValueHandling.Merge,

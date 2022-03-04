@@ -66,27 +66,27 @@ public abstract class JsonContract
     /// <summary>
     /// Gets or sets all methods called immediately after deserialization of the object.
     /// </summary>
-    public List<SerializationCallback> OnDeserializedCallbacks => onDeserializedCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnDeserializedCallbacks => onDeserializedCallbacks ??= new();
 
     /// <summary>
     /// Gets or sets all methods called during deserialization of the object.
     /// </summary>
-    public List<SerializationCallback> OnDeserializingCallbacks => onDeserializingCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnDeserializingCallbacks => onDeserializingCallbacks ??= new();
 
     /// <summary>
     /// Gets or sets all methods called after serialization of the object graph.
     /// </summary>
-    public List<SerializationCallback> OnSerializedCallbacks => onSerializedCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnSerializedCallbacks => onSerializedCallbacks ??= new();
 
     /// <summary>
     /// Gets or sets all methods called before serialization of the object.
     /// </summary>
-    public List<SerializationCallback> OnSerializingCallbacks => onSerializingCallbacks ??= new List<SerializationCallback>();
+    public List<SerializationCallback> OnSerializingCallbacks => onSerializingCallbacks ??= new();
 
     /// <summary>
     /// Gets or sets all method called when an error is thrown during the serialization of the object.
     /// </summary>
-    public List<SerializationErrorCallback> OnErrorCallbacks => onErrorCallbacks ??= new List<SerializationErrorCallback>();
+    public List<SerializationErrorCallback> OnErrorCallbacks => onErrorCallbacks ??= new();
 
     /// <summary>
     /// Gets or sets the default creator method used to create the object.

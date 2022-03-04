@@ -238,7 +238,7 @@ public class StringEnumConverterTests : TestFixtureBase
   ""Enum"": ""@first""
 }", json);
 
-        c = new EnumContainer<NamedEnum>
+        c = new()
         {
             Enum = NamedEnum.Third
         };

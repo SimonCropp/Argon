@@ -122,8 +122,8 @@ public class NodaConvertersTest
     {
         // Deliberately give it an ambiguous local time, in both ways.
         var zone = DateTimeZoneProviders.Tzdb["Europe/London"];
-        var earlierValue = new ZonedDateTime(new LocalDateTime(2012, 10, 28, 1, 30), zone, Offset.FromHours(1));
-        var laterValue = new ZonedDateTime(new LocalDateTime(2012, 10, 28, 1, 30), zone, Offset.FromHours(0));
+        var earlierValue = new ZonedDateTime(new(2012, 10, 28, 1, 30), zone, Offset.FromHours(1));
+        var laterValue = new ZonedDateTime(new(2012, 10, 28, 1, 30), zone, Offset.FromHours(0));
         var earlierJson = "\"2012-10-28T01:30:00+01 Europe/London\"";
         var laterJson = "\"2012-10-28T01:30:00Z Europe/London\"";
         var converter = NodaConverters.CreateZonedDateTimeConverter(DateTimeZoneProviders.Tzdb);

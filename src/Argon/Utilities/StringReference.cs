@@ -21,7 +21,7 @@ readonly struct StringReference
 
     public override string ToString()
     {
-        return new string(Chars, StartIndex, Length);
+        return new(Chars, StartIndex, Length);
     }
 }
 

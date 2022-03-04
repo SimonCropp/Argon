@@ -32,7 +32,7 @@ public class ShouldSerializeTests : TestFixtureBase
         var setFoo = new Foo2
         {
             name = Guid.NewGuid().ToString(),
-            myBar = new Bar2
+            myBar = new()
             {
                 name = Guid.NewGuid().ToString(),
                 myBaz = new Baz1[]

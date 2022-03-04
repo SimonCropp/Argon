@@ -31,7 +31,7 @@ public static class LogManager
 {
     public static Logger GetLogger(string className)
     {
-        return new Logger();
+        return new();
     }
 }
 
@@ -96,7 +96,7 @@ public class TraceWriterTests : TestFixtureBase
         {
             Name = "Arnie Admin",
             Roles = new List<string> {"Administrator"},
-            StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+            StartDate = new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
         };
 
         ITraceWriter traceWriter = new MemoryTraceWriter();

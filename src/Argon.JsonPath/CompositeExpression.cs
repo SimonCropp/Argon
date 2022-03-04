@@ -4,7 +4,7 @@
 
     public CompositeExpression(QueryOperator @operator) : base(@operator)
     {
-        Expressions = new List<QueryExpression>();
+        Expressions = new();
     }
 
     public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)

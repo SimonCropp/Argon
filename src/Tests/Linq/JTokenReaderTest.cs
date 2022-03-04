@@ -58,7 +58,7 @@ public class JTokenReaderTest : TestFixtureBase
         var o =
             new JObject(
                 new JProperty("Test1", new DateTime(2000, 10, 15, 5, 5, 5, DateTimeKind.Utc)),
-                new JProperty("Test2", new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0))),
+                new JProperty("Test2", new DateTimeOffset(2000, 10, 15, 5, 5, 5, new(11, 11, 0))),
                 new JProperty("Test3", "Test3Value"),
                 new JProperty("Test4", null)
             );
@@ -89,7 +89,7 @@ public class JTokenReaderTest : TestFixtureBase
 
             jsonReader.Read();
             Assert.Equal(JsonToken.Date, jsonReader.TokenType);
-            Assert.Equal(new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0)), jsonReader.Value);
+            Assert.Equal(new DateTimeOffset(2000, 10, 15, 5, 5, 5, new(11, 11, 0)), jsonReader.Value);
 
             jsonReader.Read();
             Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
@@ -122,7 +122,7 @@ public class JTokenReaderTest : TestFixtureBase
 
             Assert.True(jsonReader.Read());
             Assert.Equal(JsonToken.Date, jsonReader.TokenType);
-            Assert.Equal(new DateTimeOffset(2000, 10, 15, 5, 5, 5, new TimeSpan(11, 11, 0)), jsonReader.Value);
+            Assert.Equal(new DateTimeOffset(2000, 10, 15, 5, 5, 5, new(11, 11, 0)), jsonReader.Value);
 
             Assert.False(jsonReader.Read());
             Assert.Equal(JsonToken.None, jsonReader.TokenType);

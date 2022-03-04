@@ -43,9 +43,16 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
             lock (TypeContractCacheLock)
             {
                 cache = contractCache;
-                var updatedCache = cache != null
-                    ? new Dictionary<StructMultiKey<Type, Type>, JsonContract>(cache)
-                    : new Dictionary<StructMultiKey<Type, Type>, JsonContract>();
+                Dictionary<StructMultiKey<Type, Type>, JsonContract> updatedCache;
+                if (cache == null)
+                {
+                    updatedCache = new();
+                }
+                else
+                {
+                    updatedCache = new(cache);
+                }
+
                 updatedCache[key] = contract;
 
                 contractCache = updatedCache;

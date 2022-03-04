@@ -39,7 +39,7 @@ public class Snippets
         var product = new Product
         {
             Name = "Apple",
-            Expiry = new DateTime(2008, 12, 28),
+            Expiry = new(2008, 12, 28),
             Sizes = new string[] { "Small" }
         };
 

@@ -364,7 +364,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
     public static TestStruct StructMethod(TestStruct s)
     {
-        return new TestStruct(s.Value + s.Value);
+        return new(s.Value + s.Value);
     }
 
     [Fact]

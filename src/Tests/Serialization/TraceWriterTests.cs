@@ -241,7 +241,7 @@ Argon Error: 0 : Error!
         {
             Name = "Arnie Admin",
             Roles = new List<string> {"Administrator"},
-            StartDate = new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
+            StartDate = new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)
         };
 
         ITraceWriter traceWriter = new MemoryTraceWriter();
@@ -370,7 +370,7 @@ Argon Error: 0 : Error!
                 {
                     StringArray = new[] {"1", "2"},
                     IntList = new List<int> {1, 2},
-                    Version = new VersionOld(1, 2, 3, 4),
+                    Version = new(1, 2, 3, 4),
                     StringDictionary =
                         new Dictionary<string, string>
                         {
@@ -495,7 +495,7 @@ Argon Error: 0 : Error!
   ""Double"": 1.1
 }",
             o2,
-            new JsonSerializerSettings
+            new()
             {
                 TraceWriter = traceWriter,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
@@ -588,7 +588,7 @@ Argon Error: 0 : Error!
     public void SerializeDictionaryWithPreserveObjectReferences()
     {
         var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new CircularDictionary {{"blah", null}});
+        circularDictionary.Add("other", new() {{"blah", null}});
         circularDictionary.Add("self", circularDictionary);
 
         var traceWriter = new InMemoryTraceWriter
@@ -856,7 +856,7 @@ Argon Error: 0 : Error!
         Assert.Equal("ShouldSerialize result for property 'Name' on TraceWriterTests+ShouldSerializeTestClass: True. Path ''.", traceWriter.TraceRecords[1].Message);
         Assert.Equal(TraceLevel.Verbose, traceWriter.TraceRecords[1].Level);
 
-        traceWriter = new InMemoryTraceWriter
+        traceWriter = new()
         {
             LevelFilter = TraceLevel.Verbose
         };
@@ -915,7 +915,7 @@ Argon Error: 0 : Error!
   ""Age"": 27
 }", json);
 
-        traceWriter = new InMemoryTraceWriter
+        traceWriter = new()
         {
             LevelFilter = TraceLevel.Verbose
         };
@@ -946,7 +946,7 @@ Argon Error: 0 : Error!
   ""FavoriteNumber"": 23
 }", json);
 
-        traceWriter = new InMemoryTraceWriter
+        traceWriter = new()
         {
             LevelFilter = TraceLevel.Verbose
         };
@@ -1172,7 +1172,7 @@ Argon Error: 0 : Error!
         public void Trace(TraceLevel level, string message, Exception exception)
         {
             TraceRecords.Add(
-                new TraceRecord
+                new()
                 {
                     Level = level,
                     Message = message,

@@ -12,11 +12,11 @@ class TraceJsonReader : JsonReader, IJsonLineInfo
     {
         this.innerReader = innerReader;
 
-        stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        stringWriter = new(CultureInfo.InvariantCulture);
         // prefix the message in the stringwriter to avoid concat with a potentially large JSON string
         stringWriter.Write($"Deserialized JSON: {Environment.NewLine}");
 
-        textWriter = new JsonTextWriter(stringWriter);
+        textWriter = new(stringWriter);
         textWriter.Formatting = Formatting.Indented;
     }
 

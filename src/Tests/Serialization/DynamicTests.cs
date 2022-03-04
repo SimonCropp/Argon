@@ -295,7 +295,7 @@ public class TestDynamicObject : DynamicObject
 
     public TestDynamicObject()
     {
-        members = new Dictionary<string, object>();
+        members = new();
     }
 
     public override IEnumerable<string> GetDynamicMemberNames()

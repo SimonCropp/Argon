@@ -47,7 +47,7 @@ static class MiscellaneousUtils
     {
         var newMessage = $@"{message}{Environment.NewLine}Actual value was {actualValue}.";
 
-        return new ArgumentOutOfRangeException(paramName, newMessage);
+        return new(paramName, newMessage);
     }
 
     public static string ToString(object? value)

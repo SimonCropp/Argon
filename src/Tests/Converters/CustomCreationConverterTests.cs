@@ -13,7 +13,7 @@ public class CustomCreationConverterTests : TestFixtureBase
         {
             new()
             {
-                BirthDate = new DateTime(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
+                BirthDate = new(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
                 FirstName = "Maurice",
                 LastName = "Moss",
                 Department = "IT",
@@ -21,7 +21,7 @@ public class CustomCreationConverterTests : TestFixtureBase
             },
             new()
             {
-                BirthDate = new DateTime(1978, 3, 15, 1, 1, 1, DateTimeKind.Utc),
+                BirthDate = new(1978, 3, 15, 1, 1, 1, DateTimeKind.Utc),
                 FirstName = "Jen",
                 LastName = "Barber",
                 Department = "IT",
@@ -161,7 +161,7 @@ public class CustomCreationConverterTests : TestFixtureBase
         {
             Company = "Company!",
             DecimalRange = new Range<decimal> { First = 0, Last = 1 },
-            Id = new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
+            Id = new(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
             IntRange = new Range<int> { First = int.MinValue, Last = int.MaxValue },
             Year = 2010,
             NullDecimalRange = null
@@ -188,7 +188,7 @@ public class CustomCreationConverterTests : TestFixtureBase
             json, new IntRangeConverter(), new DecimalRangeConverter());
 
         Assert.Equal("Company!", deserialized.Company);
-        Assert.Equal(new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), deserialized.Id);
+        Assert.Equal(new(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), deserialized.Id);
         Assert.Equal(0, deserialized.DecimalRange.First);
         Assert.Equal(1, deserialized.DecimalRange.Last);
         Assert.Equal(int.MinValue, deserialized.IntRange.First);

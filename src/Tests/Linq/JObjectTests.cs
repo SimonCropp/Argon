@@ -149,10 +149,10 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject {{"PropertyNameValue", v}};
         Assert.Equal(1, o.Children().Count());
 
-        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1))));
-        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2))));
-        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1))));
-        XUnitAssert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new KeyValuePair<string, JToken>("PropertyNameValue", v)));
+        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue1", new JValue(1))));
+        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(2))));
+        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(1))));
+        XUnitAssert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", v)));
 
         Assert.Equal(0, o.Children().Count());
     }
@@ -189,7 +189,7 @@ public class JObjectTests : TestFixtureBase
     public void GenericCollectionAdd()
     {
         var o = new JObject();
-        ((ICollection<KeyValuePair<string, JToken>>) o).Add(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
+        ((ICollection<KeyValuePair<string, JToken>>) o).Add(new("PropertyNameValue", new JValue(1)));
 
         Assert.Equal(1, (int) o["PropertyNameValue"]);
         Assert.Equal(1, o.Children().Count());
@@ -216,16 +216,16 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject {{"PropertyNameValue", v}};
         Assert.Equal(1, o.Children().Count());
 
-        var contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(1)));
+        var contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", new JValue(1)));
         XUnitAssert.False(contains);
 
-        contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", v));
+        contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", v));
         XUnitAssert.True(contains);
 
-        contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue", new JValue(2)));
+        contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", new JValue(2)));
         XUnitAssert.False(contains);
 
-        contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new KeyValuePair<string, JToken>("PropertyNameValue1", new JValue(1)));
+        contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue1", new JValue(1)));
         XUnitAssert.False(contains);
     }
 
@@ -330,7 +330,7 @@ Parameter name: arrayIndex",
         var raw = new PersonRaw
         {
             FirstName = "FirstNameValue",
-            RawContent = new JRaw("[1,2,3,4,5]"),
+            RawContent = new("[1,2,3,4,5]"),
             LastName = "LastNameValue"
         };
 
@@ -348,7 +348,7 @@ Parameter name: arrayIndex",
         var raw = new PersonRaw
         {
             FirstName = "FirstNameValue",
-            RawContent = new JRaw("[1,2,3,4,5]"),
+            RawContent = new("[1,2,3,4,5]"),
             LastName = "LastNameValue"
         };
 
@@ -389,7 +389,7 @@ Parameter name: arrayIndex",
         var raw = new PersonRaw
         {
             FirstName = "FirstNameValue",
-            RawContent = new JRaw("[1,2,3,4,5]"),
+            RawContent = new("[1,2,3,4,5]"),
             LastName = "LastNameValue"
         };
 
@@ -567,7 +567,7 @@ Parameter name: arrayIndex",
         {
             Original = (string) json["short"]["original"],
             Short = (string) json["short"]["short"],
-            Error = new ShortieException
+            Error = new()
             {
                 Code = (int) json["short"]["error"]["code"],
                 ErrorMessage = (string) json["short"]["error"]["msg"]
@@ -1189,7 +1189,7 @@ Parameter name: arrayIndex",
         ""Name"": ""Name2""
       }";
 
-        var o = JObject.Parse(json, new JsonLoadSettings());
+        var o = JObject.Parse(json, new());
         var value = (string) o["Name"];
 
         Assert.Equal("Name2", value);
@@ -1203,7 +1203,7 @@ Parameter name: arrayIndex",
         ""Name"": ""Name2""
       }";
 
-        var o = JObject.Parse(json, new JsonLoadSettings
+        var o = JObject.Parse(json, new()
         {
             DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Ignore
         });
@@ -1220,7 +1220,7 @@ Parameter name: arrayIndex",
         ""Name"": ""Name2""
       }";
 
-        var o = JObject.Parse(json, new JsonLoadSettings
+        var o = JObject.Parse(json, new()
         {
             DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
         });
@@ -1541,7 +1541,7 @@ Sizes: [
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var token = JToken.FromObject(value, new JsonSerializer
+            var token = JToken.FromObject(value, new()
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
@@ -1594,7 +1594,7 @@ Sizes: [
     {
         var json = "{'prop':[1,2/*comment*/,3]}";
 
-        var o = JObject.Parse(json, new JsonLoadSettings
+        var o = JObject.Parse(json, new()
         {
             CommentHandling = CommentHandling.Ignore
         });

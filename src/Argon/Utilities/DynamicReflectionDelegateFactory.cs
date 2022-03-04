@@ -11,11 +11,12 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
     {
-        var dynamicMethod = !owner.IsInterface
-            ? new(name, returnType, parameterTypes, owner, true)
-            : new DynamicMethod(name, returnType, parameterTypes, owner.Module, true);
+        if (owner.IsInterface)
+        {
+            return new(name, returnType, parameterTypes, owner.Module, true);
+        }
 
-        return dynamicMethod;
+        return new(name, returnType, parameterTypes, owner, true);
     }
 
     public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)

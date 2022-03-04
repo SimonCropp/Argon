@@ -36,7 +36,7 @@ static class DateTimeUtils
                 value = SwitchToUtcTime(value);
                 break;
             case DateTimeZoneHandling.Unspecified:
-                value = new DateTime(value.Ticks, DateTimeKind.Unspecified);
+                value = new(value.Ticks, DateTimeKind.Unspecified);
                 break;
             case DateTimeZoneHandling.RoundtripKind:
                 break;
@@ -52,7 +52,7 @@ static class DateTimeUtils
         switch (value.Kind)
         {
             case DateTimeKind.Unspecified:
-                return new DateTime(value.Ticks, DateTimeKind.Local);
+                return new(value.Ticks, DateTimeKind.Local);
 
             case DateTimeKind.Utc:
                 return value.ToLocalTime();
@@ -68,7 +68,7 @@ static class DateTimeUtils
         switch (value.Kind)
         {
             case DateTimeKind.Unspecified:
-                return new DateTime(value.Ticks, DateTimeKind.Utc);
+                return new(value.Ticks, DateTimeKind.Utc);
 
             case DateTimeKind.Utc:
                 return value;
@@ -129,7 +129,7 @@ static class DateTimeUtils
         switch (dateTimeParser.Zone)
         {
             case ParserTimeZone.Utc:
-                d = new DateTime(d.Ticks, DateTimeKind.Utc);
+                d = new(d.Ticks, DateTimeKind.Utc);
                 break;
 
             case ParserTimeZone.LocalWestOfUtc:
@@ -148,7 +148,7 @@ static class DateTimeUtils
                         ticks = DateTime.MaxValue.Ticks;
                     }
 
-                    d = new DateTime(ticks, DateTimeKind.Local);
+                    d = new(ticks, DateTimeKind.Local);
                 }
                 break;
             }
@@ -168,7 +168,7 @@ static class DateTimeUtils
                         ticks = DateTime.MinValue.Ticks;
                     }
 
-                    d = new DateTime(ticks, DateTimeKind.Local);
+                    d = new(ticks, DateTimeKind.Local);
                 }
                 break;
             }
@@ -194,13 +194,13 @@ static class DateTimeUtils
         switch (dateTimeParser.Zone)
         {
             case ParserTimeZone.Utc:
-                offset = new TimeSpan(0L);
+                offset = new(0L);
                 break;
             case ParserTimeZone.LocalWestOfUtc:
-                offset = new TimeSpan(-dateTimeParser.ZoneHour, -dateTimeParser.ZoneMinute, 0);
+                offset = new(-dateTimeParser.ZoneHour, -dateTimeParser.ZoneMinute, 0);
                 break;
             case ParserTimeZone.LocalEastOfUtc:
-                offset = new TimeSpan(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
+                offset = new(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
                 break;
             default:
                 offset = TimeZoneInfo.Local.GetUtcOffset(d);
@@ -214,7 +214,7 @@ static class DateTimeUtils
             return false;
         }
 
-        dt = new DateTimeOffset(d, offset);
+        dt = new(d, offset);
         return true;
     }
 
@@ -327,7 +327,7 @@ static class DateTimeUtils
             {
                 if (DateTimeOffset.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
-                    if (TryParseDateTimeOffsetIso(new StringReference(s.ToCharArray(), 0, s.Length), out dt))
+                    if (TryParseDateTimeOffsetIso(new(s.ToCharArray(), 0, s.Length), out dt))
                     {
                         return true;
                     }

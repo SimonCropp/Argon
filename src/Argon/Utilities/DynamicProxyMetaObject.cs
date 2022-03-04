@@ -247,7 +247,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
             var convert = Expression.Convert(resultMetaObject.Expression, binder.ReturnType);
             // will always be a cast or unbox
 
-            resultMetaObject = new DynamicMetaObject(convert, resultMetaObject.Restrictions);
+            resultMetaObject = new(convert, resultMetaObject.Restrictions);
         }
 
         if (fallbackInvoke != null)
@@ -305,7 +305,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         callArgs.AddRange(args);
         callArgs[^1] = Expression.Assign(result, callArgs[^1]);
 
-        return new DynamicMetaObject(
+        return new(
             Expression.Block(
                 new[] { result },
                 Expression.Condition(
@@ -347,7 +347,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         // Build a new expression like:
         //   if (TryDeleteMember(payload)) { } else { fallbackResult }
         //
-        return new DynamicMetaObject(
+        return new(
             Expression.Condition(
                 Expression.Call(
                     Expression.Constant(proxy),

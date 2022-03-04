@@ -574,7 +574,7 @@ public class ReadTests : TestFixtureBase
         var json = @"{""Offset"":""1/30/2011""}";
 
         var reader = new JsonTextReader(new StringReader(json));
-        reader.Culture = new CultureInfo("en-US");
+        reader.Culture = new("en-US");
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -587,7 +587,7 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         var dt = (DateTimeOffset)reader.Value;
-        Assert.Equal(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
+        Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.EndObject, reader.TokenType);
@@ -599,7 +599,7 @@ public class ReadTests : TestFixtureBase
         var json = @"{""Offset"":""30/1/2011""}";
 
         var reader = new JsonTextReader(new StringReader(json));
-        reader.Culture = new CultureInfo("en-NZ");
+        reader.Culture = new("en-NZ");
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -612,7 +612,7 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
         var dt = (DateTimeOffset)reader.Value;
-        Assert.Equal(new DateTime(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
+        Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.EndObject, reader.TokenType);
@@ -683,7 +683,7 @@ public class ReadTests : TestFixtureBase
         var json = @"{""decimal"":""9,99""}";
 
         var reader = new JsonTextReader(new StringReader(json));
-        reader.Culture = new CultureInfo("fr-FR");
+        reader.Culture = new("fr-FR");
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -1094,7 +1094,7 @@ public class ReadTests : TestFixtureBase
 
         Assert.Equal(expected, data);
 
-        jsonTextReader = new JsonTextReader(new StringReader("'AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAABAAAA'"));
+        jsonTextReader = new(new StringReader("'AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAABAAAA'"));
         data = jsonTextReader.ReadAsBytes();
         expected = new Guid("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAABAAAA").ToByteArray();
 

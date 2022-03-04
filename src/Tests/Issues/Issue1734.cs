@@ -87,7 +87,7 @@ public class Issue1734
         var reader = XmlReader.Create(new StringReader(xml));
 
         var stringWriter = new StringWriter();
-        var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings {Indent = true, OmitXmlDeclaration = true});
+        var writer = XmlWriter.Create(stringWriter, new() {Indent = true, OmitXmlDeclaration = true});
 
         while (reader.Read())
         {

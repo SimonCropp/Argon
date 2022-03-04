@@ -6,7 +6,7 @@ This sample serializes and deserializes JSON using `Argon.JsonConvert.DefaultSet
 <a id='snippet-defaultsettingsusage'></a>
 ```cs
 // settings will automatically be used by JsonConvert.SerializeObject/DeserializeObject
-JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+JsonConvert.DefaultSettings = () => new()
 {
     Formatting = Formatting.Indented,
     ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -16,7 +16,7 @@ var s = new Staff
 {
     FirstName = "Eric",
     LastName = "Example",
-    BirthDate = new DateTime(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
+    BirthDate = new(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
     Department = "IT",
     JobTitle = "Web Dude"
 };

@@ -37,7 +37,7 @@ public partial class JRaw : JValue
         using var jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.WriteToken(reader);
 
-        return new JRaw(stringWriter.ToString());
+        return new(stringWriter.ToString());
     }
 
     internal override JToken CloneToken()

@@ -20,7 +20,7 @@ public class Issue1962
     {
         var json = @"// comment
 [ 1, 2, 42 ]";
-        var token = JToken.Parse(json, new JsonLoadSettings
+        var token = JToken.Parse(json, new()
         {
             CommentHandling = CommentHandling.Load
         });
@@ -37,7 +37,7 @@ public class Issue1962
     {
         var json = @"// comment
 [ 1, 2, 42 ]";
-        var token = JToken.Parse(json, new JsonLoadSettings
+        var token = JToken.Parse(json, new()
         {
             CommentHandling = CommentHandling.Ignore
         });

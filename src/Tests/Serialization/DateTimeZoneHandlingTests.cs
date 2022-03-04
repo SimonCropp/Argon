@@ -47,17 +47,17 @@ public class DateTimeZoneHandlingTests : TestFixtureBase
 
         var jo = JObject.Parse(json);
 
-        var c1 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+        var c1 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new()
         {
             DateTimeZoneHandling = DateTimeZoneHandling.Utc
         }));
 
-        var c2 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+        var c2 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new()
         {
             DateTimeZoneHandling = DateTimeZoneHandling.Local
         }));
 
-        var c3 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new JsonSerializerSettings
+        var c3 = jo.ToObject<DateTimeWrapper>(JsonSerializer.Create(new()
         {
             DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
         }));

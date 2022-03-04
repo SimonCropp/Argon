@@ -15,7 +15,7 @@ public class DefaultSettings : TestFixtureBase
         {
             #region DefaultSettingsUsage
             // settings will automatically be used by JsonConvert.SerializeObject/DeserializeObject
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            JsonConvert.DefaultSettings = () => new()
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -25,7 +25,7 @@ public class DefaultSettings : TestFixtureBase
             {
                 FirstName = "Eric",
                 LastName = "Example",
-                BirthDate = new DateTime(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
+                BirthDate = new(1980, 4, 20, 0, 0, 0, DateTimeKind.Utc),
                 Department = "IT",
                 JobTitle = "Web Dude"
             };

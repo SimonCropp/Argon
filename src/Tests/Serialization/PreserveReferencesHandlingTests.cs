@@ -20,7 +20,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         public ContentA()
         {
-            B = new ContentB();
+            B = new();
         }
     }
 
@@ -50,8 +50,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         public Container()
         {
-            ListA = new List<ContentA>();
-            ListB = new List<ContentA>();
+            ListA = new();
+            ListB = new();
         }
     }
 
@@ -198,7 +198,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
+        circularDictionary.Add("other", new() { { "blah", null } });
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
@@ -252,8 +252,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new CircularList { null });
-        circularList.Add(new CircularList { new() { circularList } });
+        circularList.Add(new() { null });
+        circularList.Add(new() { new() { circularList } });
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(circularList, Formatting.Indented),
@@ -265,8 +265,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new CircularList { null });
-        circularList.Add(new CircularList { new() { circularList } });
+        circularList.Add(new() { null });
+        circularList.Add(new() { new() { circularList } });
 
         var json = JsonConvert.SerializeObject(circularList,
             Formatting.Indented,
@@ -288,8 +288,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new CircularList { null });
-        circularList.Add(new CircularList { new() { circularList } });
+        circularList.Add(new() { null });
+        circularList.Add(new() { new() { circularList } });
 
         var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
             new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
@@ -407,7 +407,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var classRef = typeof(CircularDictionary).FullName;
 
         var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
+        circularDictionary.Add("other", new() { { "blah", null } });
         circularDictionary.Add("self", circularDictionary);
 
         XUnitAssert.Throws<JsonSerializationException>(
@@ -419,7 +419,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     public void SerializeCircularDictionarysIgnore()
     {
         var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new CircularDictionary { { "blah", null } });
+        circularDictionary.Add("other", new() { { "blah", null } });
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
@@ -888,8 +888,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var p = new Person
         {
-            BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
-            LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
+            BirthDate = new(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
+            LastModified = new(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
             Department = "IT",
             Name = "James"
         };
@@ -920,8 +920,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var p = new Person
         {
-            BirthDate = new DateTime(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
-            LastModified = new DateTime(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
+            BirthDate = new(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
+            LastModified = new(2009, 2, 20, 12, 59, 21, DateTimeKind.Utc),
             Department = "IT",
             Name = "James"
         };
@@ -1070,7 +1070,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   ]
 }", json);
 
-        memoryStream = new MemoryStream(data);
+        memoryStream = new(data);
         IList<MyClass> myClasses2;
 
         using (var sr = new StreamReader(memoryStream))
@@ -1186,11 +1186,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var o1 = new ReferenceObject
         {
-            Component1 = new TestComponentSimple { MyProperty = 1 }
+            Component1 = new() { MyProperty = 1 }
         };
 
         o1.Component2 = o1.Component1;
-        o1.ComponentNotReference = new TestComponentSimple();
+        o1.ComponentNotReference = new();
         o1.String = "String!";
         o1.Integer = int.MaxValue;
 
@@ -1224,7 +1224,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var o1 = new PropertyItemIsReferenceObject
         {
-            Data = new PropertyItemIsReferenceBody
+            Data = new()
             {
                 Prop1 = c1,
                 Prop2 = c1,

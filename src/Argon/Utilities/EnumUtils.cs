@@ -41,7 +41,7 @@ static class EnumUtils
 
         var isFlags = enumType.IsDefined(typeof(FlagsAttribute), false);
 
-        return new EnumInfo(isFlags, values, names, resolvedNames);
+        return new(isFlags, values, names, resolvedNames);
     }
 
     public static IList<T> GetFlagsValues<T>(T value) where T : struct
@@ -86,7 +86,7 @@ static class EnumUtils
 
     public static bool TryToString(Type enumType, object value, NamingStrategy? namingStrategy, [NotNullWhen(true)]out string? name)
     {
-        var enumInfo = ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, namingStrategy));
+        var enumInfo = ValuesAndNamesPerEnum.Get(new(enumType, namingStrategy));
         var v = ToUInt64(value);
 
         if (enumInfo.IsFlags)
@@ -171,12 +171,12 @@ static class EnumUtils
 
     public static EnumInfo GetEnumValuesAndNames(Type enumType)
     {
-        return ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, null));
+        return ValuesAndNamesPerEnum.Get(new(enumType, null));
     }
 
     static ulong ToUInt64(object value)
     {
-        var typeCode = ConvertUtils.GetTypeCode(value.GetType(), out var _);
+        var typeCode = ConvertUtils.GetTypeCode(value.GetType(), out _);
 
         switch (typeCode)
         {
@@ -214,7 +214,7 @@ static class EnumUtils
             throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
         }
 
-        var entry = ValuesAndNamesPerEnum.Get(new StructMultiKey<Type, NamingStrategy?>(enumType, namingStrategy));
+        var entry = ValuesAndNamesPerEnum.Get(new(enumType, namingStrategy));
         var enumNames = entry.Names;
         var resolvedNames = entry.ResolvedNames;
         var enumValues = entry.Values;

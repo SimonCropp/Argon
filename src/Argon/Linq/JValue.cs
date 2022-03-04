@@ -270,7 +270,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     var offsetA = (DateTimeOffset)objA;
                     if (objB is not DateTimeOffset offsetB)
                     {
-                        offsetB = new DateTimeOffset(Convert.ToDateTime(objB, CultureInfo.InvariantCulture));
+                        offsetB = new(Convert.ToDateTime(objB, CultureInfo.InvariantCulture));
                     }
 
                     return offsetA.CompareTo(offsetB);
@@ -487,7 +487,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>A <see cref="JValue"/> comment with the given value.</returns>
     public static JValue CreateComment(string? value)
     {
-        return new JValue(value, JTokenType.Comment);
+        return new(value, JTokenType.Comment);
     }
 
     /// <summary>
@@ -496,7 +496,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>A <see cref="JValue"/> string with the given value.</returns>
     public static JValue CreateString(string? value)
     {
-        return new JValue(value, JTokenType.String);
+        return new(value, JTokenType.String);
     }
 
     /// <summary>
@@ -505,7 +505,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>A <see cref="JValue"/> null value.</returns>
     public static JValue CreateNull()
     {
-        return new JValue(null, JTokenType.Null);
+        return new(null, JTokenType.Null);
     }
 
     /// <summary>
@@ -514,7 +514,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>A <see cref="JValue"/> undefined value.</returns>
     public static JValue CreateUndefined()
     {
-        return new JValue(null, JTokenType.Undefined);
+        return new(null, JTokenType.Undefined);
     }
 
     static JTokenType GetValueType(JTokenType? current, object? value)

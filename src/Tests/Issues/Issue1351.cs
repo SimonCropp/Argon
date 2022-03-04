@@ -48,7 +48,7 @@ public class Issue1351 : TestFixtureBase
         {
             new()
             {
-                Color = new Color
+                Color = new()
                 {
                     A = 1,
                     G = 1,
@@ -58,7 +58,7 @@ public class Issue1351 : TestFixtureBase
             },
             new()
             {
-                Color = new Color
+                Color = new()
                 {
                     A = 2,
                     G = 2,
@@ -93,7 +93,7 @@ public class Issue1351 : TestFixtureBase
         {
             new()
             {
-                Color = new Color
+                Color = new()
                 {
                     A = 1,
                     G = 1,
@@ -103,7 +103,7 @@ public class Issue1351 : TestFixtureBase
             },
             new()
             {
-                Color = new Color
+                Color = new()
                 {
                     A = 2,
                     G = 2,

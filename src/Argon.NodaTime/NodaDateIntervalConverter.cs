@@ -56,7 +56,7 @@ sealed class NodaDateIntervalConverter : NodaConverterBase<DateInterval>
             throw new InvalidNodaDataException("Expected date interval; end date was missing.");
         }
 
-        return new DateInterval(startLocalDate.Value, endLocalDate.Value);
+        return new(startLocalDate.Value, endLocalDate.Value);
     }
 
     /// <summary>

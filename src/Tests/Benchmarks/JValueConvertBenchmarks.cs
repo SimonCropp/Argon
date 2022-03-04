@@ -17,7 +17,7 @@ public class JValueConvertBenchmarks
     [Benchmark]
     public string JTokenToObjectWithSerializer()
     {
-        return (string)StringJValue.ToObject(typeof(string), new JsonSerializer());
+        return (string)StringJValue.ToObject(typeof(string), new());
     }
 
     [Benchmark]

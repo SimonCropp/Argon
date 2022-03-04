@@ -10,7 +10,7 @@ public class Issue1619 : TestFixtureBase
     {
         var value = new Foo
         {
-            Bar = new DirectoryInfo(@"c:\temp")
+            Bar = new(@"c:\temp")
         };
 
         var json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());

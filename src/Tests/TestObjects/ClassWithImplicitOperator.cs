@@ -10,6 +10,6 @@ public class ClassWithImplicitOperator
 
     public static implicit operator ClassWithImplicitOperator(string value)
     {
-        return new ClassWithImplicitOperator { Value = value };
+        return new() { Value = value };
     }
 }

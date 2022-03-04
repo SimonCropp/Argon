@@ -89,7 +89,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
                 if (isByRef)
                 {
                     var variable = Expression.Variable(parameterType);
-                    refParameterMap.Add(new ByRefParameter(argExpression, variable, parameter.IsOut));
+                    refParameterMap.Add(new(argExpression, variable, parameter.IsOut));
 
                     argExpression = variable;
                 }

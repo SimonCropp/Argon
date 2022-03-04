@@ -87,6 +87,6 @@ public class JsonSerializationException : JsonException
             linePosition = 0;
         }
 
-        return new JsonSerializationException(message, path, lineNumber, linePosition, exception);
+        return new(message, path, lineNumber, linePosition, exception);
     }
 }

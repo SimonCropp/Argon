@@ -16,7 +16,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
 
     static List<Post> GetPosts()
     {
-        return new List<Post>
+        return new()
         {
             new()
             {

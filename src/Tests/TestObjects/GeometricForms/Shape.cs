@@ -18,7 +18,7 @@ public class Shape
 
     static Shape()
     {
-        _unique_Empty = new Shape(3);
+        _unique_Empty = new(3);
     }
 
     [CompilerGenerated]

@@ -53,13 +53,13 @@ public class XmlNodeConverterTest : TestFixtureBase
             converter.DeserializeRootElementName = deserializeRootElementName;
         }
 
-        var node = (XmlNode) converter.ReadJson(reader, typeof(XmlDocument), null, new JsonSerializer());
+        var node = (XmlNode) converter.ReadJson(reader, typeof(XmlDocument), null, new());
 
         var xmlText = node.OuterXml;
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
         reader.Read();
-        var d = (XDocument) converter.ReadJson(reader, typeof(XDocument), null, new JsonSerializer());
+        var d = (XDocument) converter.ReadJson(reader, typeof(XDocument), null, new());
 
         var linqXmlText = d.ToString(SaveOptions.DisableFormatting);
         if (d.Declaration != null)
@@ -77,7 +77,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var reader = XmlReader.Create(new StringReader(xml));
 
         var stringWriter = new StringWriter();
-        var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings {Indent = true, OmitXmlDeclaration = true});
+        var writer = XmlWriter.Create(stringWriter, new() {Indent = true, OmitXmlDeclaration = true});
 
         while (reader.Read())
         {
@@ -714,7 +714,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var json = JsonXmlConvert.SerializeXmlNode(doc, Formatting.Indented, true);
         Assert.Equal("null", json);
 
-        doc = new XmlDocument();
+        doc = new();
         doc.LoadXml("<root></root>");
 
         json = JsonXmlConvert.SerializeXmlNode(doc, Formatting.Indented, true);
@@ -1080,7 +1080,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     public static string ToStringWithDeclaration(XDocument doc, bool indent = false)
     {
         var builder = new StringBuilder();
-        using (var writer = XmlWriter.Create(new Utf8StringWriter(builder), new XmlWriterSettings {Indent = indent}))
+        using (var writer = XmlWriter.Create(new Utf8StringWriter(builder), new() {Indent = indent}))
         {
             doc.Save(writer);
         }
@@ -1091,7 +1091,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     public static string ToStringWithDeclaration(XmlDocument doc, bool indent = false)
     {
         var builder = new StringBuilder();
-        using (var writer = XmlWriter.Create(new Utf8StringWriter(builder), new XmlWriterSettings {Indent = indent}))
+        using (var writer = XmlWriter.Create(new Utf8StringWriter(builder), new() {Indent = indent}))
         {
             doc.Save(writer);
         }
@@ -1407,7 +1407,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 			  </person>
 			</root>";
 
-        arrayDoc = new XmlDocument();
+        arrayDoc = new();
         arrayDoc.LoadXml(arrayXml);
 
         arrayJsonText = SerializeXmlNode(arrayDoc);
@@ -1434,7 +1434,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 			  </person>
 			</root>";
 
-        arrayDoc = new XmlDocument();
+        arrayDoc = new();
         arrayDoc.LoadXml(arrayXml);
 
         arrayJsonText = SerializeXmlNode(arrayDoc);
@@ -1458,7 +1458,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 			  </person>
 			</root>";
 
-        arrayDoc = new XmlDocument();
+        arrayDoc = new();
         arrayDoc.LoadXml(arrayXml);
 
         arrayJsonText = SerializeXmlNode(arrayDoc);
@@ -1850,7 +1850,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     public void SerializeDeserializeMetadataProperties()
     {
         var circularDictionary = new PreserveReferencesHandlingTests.CircularDictionary();
-        circularDictionary.Add("other", new PreserveReferencesHandlingTests.CircularDictionary {{"blah", null}});
+        circularDictionary.Add("other", new() {{"blah", null}});
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
@@ -2145,7 +2145,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var product = new Product
         {
             Name = "Apple",
-            ExpiryDate = new DateTime(2008, 12, 28, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2008, 12, 28, 0, 0, 0, DateTimeKind.Utc),
             Price = 3.99M,
             Sizes = new[] {"Small"}
         };
@@ -2332,7 +2332,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var dict = new Dictionary<string, object> {{"Int16", (short) 1}, {"Float", 2f}, {"Int32", 3}};
         var obj = JObject.FromObject(dict);
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings {Converters = {new XmlNodeConverter {DeserializeRootElementName = "root"}}});
+        var serializer = JsonSerializer.Create(new() {Converters = {new XmlNodeConverter {DeserializeRootElementName = "root"}}});
         using var reader = obj.CreateReader();
         var value = (XmlDocument) serializer.Deserialize(reader, typeof(XmlDocument));
 
@@ -2359,11 +2359,11 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         try
         {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentCulture = new("ru-RU");
 
             // in russian culture value 12.27 will be written as 12,27
 
-            var serializer = JsonSerializer.Create(new JsonSerializerSettings
+            var serializer = JsonSerializer.Create(new()
             {
                 Converters = {new XmlNodeConverter()},
             });
@@ -2413,7 +2413,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         };
 
         using var jsonReader = o.CreateReader();
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             Converters = {new XmlNodeConverter()},
         });
@@ -2437,7 +2437,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         };
 
         using var jsonReader = o.CreateReader();
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             Converters = {new XmlNodeConverter()},
         });
@@ -2903,7 +2903,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         XmlNode node = JsonXmlConvert.DeserializeXmlNode(json);
 
         var stringWriter = new StringWriter();
-        var writer = XmlWriter.Create(stringWriter, new XmlWriterSettings
+        var writer = XmlWriter.Create(stringWriter, new()
         {
             Indent = true,
             OmitXmlDeclaration = true
@@ -3141,7 +3141,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var d = new XDocument
         {
-            Declaration = new XDeclaration("Version!", "Encoding!", "Standalone!")
+            Declaration = new("Version!", "Encoding!", "Standalone!")
         };
 
         var json = JsonXmlConvert.SerializeXNode(d);
@@ -3306,13 +3306,13 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var model = new Model
         {
-            Document = new XElement("Value", new XAttribute("foo", "bar"))
+            Document = new("Value", new XAttribute("foo", "bar"))
             {
                 Value = "2001-01-01T11:11:11"
             }
         };
 
-        var serializer = JsonSerializer.Create(new JsonSerializerSettings
+        var serializer = JsonSerializer.Create(new()
         {
             Converters = new List<JsonConverter>(new[] {new XmlNodeConverter()})
         });

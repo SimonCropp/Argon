@@ -27,7 +27,7 @@ public class ListOfIds<T> : JsonConverter where T : Bar, new()
         {
             var id = (long)reader.Value;
 
-            list.Add(new T
+            list.Add(new()
             {
                 Id = Convert.ToInt32(id)
             });

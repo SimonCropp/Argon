@@ -10,7 +10,7 @@ class ThreadSafeStore<TKey, TValue> where TKey : notnull
     public ThreadSafeStore(Func<TKey, TValue> creator)
     {
         this.creator = creator;
-        concurrentStore = new ConcurrentDictionary<TKey, TValue>();
+        concurrentStore = new();
     }
 
     public TValue Get(TKey key)

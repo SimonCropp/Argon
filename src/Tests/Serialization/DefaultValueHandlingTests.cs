@@ -468,7 +468,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     {
         public DefaultValueHandlingDeserializeHolder()
         {
-            ClassValue = new DefaultValueHandlingDeserialize
+            ClassValue = new()
             {
                 Derp = "Derp!"
             };
@@ -492,7 +492,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     {
         public DefaultValueHandlingDeserializePopulate()
         {
-            ClassValue = new DefaultValueHandlingDeserialize
+            ClassValue = new()
             {
                 Derp = "Derp!"
             };

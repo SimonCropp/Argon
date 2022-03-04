@@ -8,7 +8,7 @@ public class Foo
 {
     public Foo()
     {
-        Bars = new List<Bar>();
+        Bars = new();
     }
 
     [JsonConverter(typeof(ListOfIds<Bar>))]

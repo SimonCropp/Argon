@@ -77,7 +77,7 @@ public class MiscTests : TestFixtureBase
 
         json = "\n{\"a\":\"bc\"}";
 
-        jsonTextReader = new JsonTextReader(new StringReader(json));
+        jsonTextReader = new(new StringReader(json));
 
         Assert.True(jsonTextReader.Read());
         Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -101,7 +101,7 @@ public class MiscTests : TestFixtureBase
 
         json = "\n{\"a\":\n\"bc\",\"d\":true\n}";
 
-        jsonTextReader = new JsonTextReader(new StringReader(json));
+        jsonTextReader = new(new StringReader(json));
 
         Assert.True(jsonTextReader.Read());
         Assert.Equal(JsonToken.StartObject, jsonTextReader.TokenType);
@@ -243,8 +243,8 @@ public class MiscTests : TestFixtureBase
         reader.Close();
         Assert.False(ms.CanRead);
 
-        ms = new MemoryStream();
-        reader = new JsonTextReader(new StreamReader(ms)) { CloseInput = false };
+        ms = new();
+        reader = new(new StreamReader(ms)) { CloseInput = false };
 
         Assert.True(ms.CanRead);
         reader.Close();
@@ -481,8 +481,8 @@ public class MiscTests : TestFixtureBase
 
         var jsonObject = serializer.Deserialize(new JsonTextReader(new StringReader(json)));
 
-        stringBuilder = new StringBuilder();
-        stringWriter = new StringWriter(stringBuilder);
+        stringBuilder = new();
+        stringWriter = new(stringBuilder);
 
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
@@ -678,7 +678,7 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
 
         reader.Read();
 
-        reader = new JsonTextReader(new StringReader(json));
+        reader = new(new StringReader(json));
 
         reader.Read();
 

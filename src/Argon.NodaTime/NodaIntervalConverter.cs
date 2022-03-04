@@ -48,7 +48,7 @@ sealed class NodaIntervalConverter : NodaConverterBase<Interval>
             }
         }
 
-        return new Interval(startInstant, endInstant);
+        return new(startInstant, endInstant);
     }
 
     /// <summary>

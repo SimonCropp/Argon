@@ -42,7 +42,7 @@ static class StringUtils
     public static StringWriter CreateStringWriter(int capacity)
     {
         var stringBuilder = new StringBuilder(capacity);
-        return new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
+        return new(stringBuilder, CultureInfo.InvariantCulture);
     }
 
     public static void ToCharAsUnicode(char c, char[] buffer)
@@ -106,7 +106,7 @@ static class StringUtils
             chars[i] = ToLower(chars[i]);
         }
 
-        return new string(chars);
+        return new(chars);
     }
 
     static char ToLower(char c)

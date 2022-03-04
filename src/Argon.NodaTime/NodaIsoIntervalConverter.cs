@@ -27,7 +27,7 @@ sealed class NodaIsoIntervalConverter : NodaConverterBase<Interval>
         var start = startText == "" ? (Instant?) null : pattern.Parse(startText).Value;
         var end = endText == "" ? (Instant?) null : pattern.Parse(endText).Value;
 
-        return new Interval(start, end);
+        return new(start, end);
     }
 
     /// <summary>

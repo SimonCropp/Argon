@@ -18,8 +18,8 @@ public class SerializeRawJson : TestFixtureBase
         #region SerializeRawJsonUsage
         var settings = new JavaScriptSettings
         {
-            OnLoadFunction = new JRaw("OnLoad"),
-            OnUnloadFunction = new JRaw("function(e) { alert(e); }")
+            OnLoadFunction = new("OnLoad"),
+            OnUnloadFunction = new("function(e) { alert(e); }")
         };
 
         var json = JsonConvert.SerializeObject(settings, Formatting.Indented);

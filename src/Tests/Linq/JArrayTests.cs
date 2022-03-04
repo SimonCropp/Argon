@@ -517,14 +517,14 @@ Parameter name: index",
     {
         var json = "[1,2/*comment*/,3]";
 
-        var a = JArray.Parse(json, new JsonLoadSettings());
+        var a = JArray.Parse(json, new());
 
         Assert.Equal(3, a.Count);
         Assert.Equal(1, (int)a[0]);
         Assert.Equal(2, (int)a[1]);
         Assert.Equal(3, (int)a[2]);
 
-        a = JArray.Parse(json, new JsonLoadSettings
+        a = JArray.Parse(json, new()
         {
             CommentHandling = CommentHandling.Ignore
         });
@@ -534,7 +534,7 @@ Parameter name: index",
         Assert.Equal(2, (int)a[1]);
         Assert.Equal(3, (int)a[2]);
 
-        a = JArray.Parse(json, new JsonLoadSettings
+        a = JArray.Parse(json, new()
         {
             CommentHandling = CommentHandling.Load
         });
@@ -577,14 +577,14 @@ Parameter name: index",
     {
         var json = "[1,2,3]";
 
-        var a = JArray.Parse(json, new JsonLoadSettings());
+        var a = JArray.Parse(json, new());
 
         XUnitAssert.True(((IJsonLineInfo)a).HasLineInfo());
         XUnitAssert.True(((IJsonLineInfo)a[0]).HasLineInfo());
         XUnitAssert.True(((IJsonLineInfo)a[1]).HasLineInfo());
         XUnitAssert.True(((IJsonLineInfo)a[2]).HasLineInfo());
 
-        a = JArray.Parse(json, new JsonLoadSettings
+        a = JArray.Parse(json, new()
         {
             LineInfoHandling = LineInfoHandling.Ignore
         });
@@ -594,7 +594,7 @@ Parameter name: index",
         XUnitAssert.False(((IJsonLineInfo)a[1]).HasLineInfo());
         XUnitAssert.False(((IJsonLineInfo)a[2]).HasLineInfo());
 
-        a = JArray.Parse(json, new JsonLoadSettings
+        a = JArray.Parse(json, new()
         {
             LineInfoHandling = LineInfoHandling.Load
         });

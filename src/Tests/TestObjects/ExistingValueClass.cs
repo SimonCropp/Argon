@@ -11,11 +11,11 @@ public class ExistingValueClass
 
     public ExistingValueClass()
     {
-        Dictionary = new Dictionary<string, string>
+        Dictionary = new()
         {
             { "existing", "yup" }
         };
-        List = new List<string>
+        List = new()
         {
             "existing"
         };

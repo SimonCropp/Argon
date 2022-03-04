@@ -178,7 +178,7 @@ public class DemoTests : TestFixtureBase
         var s = new Session
         {
             Name = "Serialize All The Things",
-            Date = new DateTime(2014, 6, 4, 0, 0, 0, DateTimeKind.Utc)
+            Date = new(2014, 6, 4, 0, 0, 0, DateTimeKind.Utc)
         };
 
         var j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
@@ -216,7 +216,7 @@ public class DemoTests : TestFixtureBase
     {
         var s = new Session
         {
-            Date = new DateTime(2014, 6, 4)
+            Date = new(2014, 6, 4)
         };
 
         var j = @"{
@@ -474,7 +474,7 @@ public class DemoTests : TestFixtureBase
             StreetAddress = "221B Baker Street",
             Bedrooms = 2,
             FloorArea = 100m,
-            BuildDate = new DateTime(1890, 1, 1)
+            BuildDate = new(1890, 1, 1)
         };
 
         var json = JsonConvert.SerializeObject(house, Formatting.Indented);
@@ -518,7 +518,7 @@ public class DemoTests : TestFixtureBase
               'Roles': [ 'User', 'Admin' ]
             }");
 
-        o1.Merge(o2, new JsonMergeSettings
+        o1.Merge(o2, new()
         {
             // union arrays together to avoid duplicates
             MergeArrayHandling = MergeArrayHandling.Union

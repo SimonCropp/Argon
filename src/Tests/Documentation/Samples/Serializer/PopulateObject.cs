@@ -22,8 +22,8 @@ public class PopulateObject : TestFixtureBase
         {
             Email = "james@example.com",
             Active = true,
-            CreatedDate = new DateTime(2013, 1, 20, 0, 0, 0, DateTimeKind.Utc),
-            Roles = new List<string>
+            CreatedDate = new(2013, 1, 20, 0, 0, 0, DateTimeKind.Utc),
+            Roles = new()
             {
                 "User",
                 "Admin"

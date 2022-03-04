@@ -9,9 +9,9 @@ public class Issue1877
     {
         var f2 = new Fubar2
         {
-            Version = new Version("3.0")
+            Version = new("3.0")
         };
-        ((Fubar) f2).Version = new Version("4.0");
+        ((Fubar) f2).Version = new("4.0");
 
         var s = JsonConvert.SerializeObject(f2, new JsonSerializerSettings
         {

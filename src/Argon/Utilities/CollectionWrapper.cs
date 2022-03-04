@@ -234,7 +234,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         {
             if (syncRoot == null)
             {
-                Interlocked.CompareExchange(ref syncRoot, new object(), null);
+                Interlocked.CompareExchange(ref syncRoot, new(), null);
             }
 
             return syncRoot;
