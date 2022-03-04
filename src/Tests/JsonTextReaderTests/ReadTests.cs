@@ -1518,7 +1518,7 @@ third line", jsonTextReader.Value);
                 }
             ";
 
-        var settings = new JsonLoadSettings {DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error};
+        var settings = new JsonLoadSettings();
 
         var reader = new JsonTextReader(new StringReader(json));
         XUnitAssert.Throws<JsonException>(() =>

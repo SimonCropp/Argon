@@ -18,7 +18,7 @@ public class JObjectAsyncTests : TestFixtureBase
 
         while (true)
         {
-            var role = (JObject)await JToken.ReadFromAsync(reader);
+            var role = (JObject) await JToken.ReadFromAsync(reader);
 
             roles.Add(role);
 
@@ -29,8 +29,8 @@ public class JObjectAsyncTests : TestFixtureBase
         }
 
         Assert.Equal(2, roles.Count);
-        Assert.Equal("Admin", (string)roles[0]["name"]);
-        Assert.Equal("Publisher", (string)roles[1]["name"]);
+        Assert.Equal("Admin", (string) roles[0]["name"]);
+        Assert.Equal("Publisher", (string) roles[1]["name"]);
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public class JObjectAsyncTests : TestFixtureBase
         await reader.ReadAsync();
         await reader.ReadAsync();
 
-        var o = (JObject)await JToken.ReadFromAsync(reader);
+        var o = (JObject) await JToken.ReadFromAsync(reader);
         Assert.NotNull(o);
         XUnitAssert.AreEqualNormalized(@"{
   ""code"": 0,
@@ -106,56 +106,25 @@ public class JObjectAsyncTests : TestFixtureBase
     [Fact]
     public async Task LoadFromNestedObjectIncompleteAsync()
     {
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            var jsonText = @"{
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            async () =>
+            {
+                var jsonText = @"{
   ""short"":
   {
     ""error"":
     {
       ""code"":0";
 
-            JsonReader reader = new JsonTextReader(new StringReader(jsonText));
-            await reader.ReadAsync();
-            await reader.ReadAsync();
-            await reader.ReadAsync();
-            await reader.ReadAsync();
-            await reader.ReadAsync();
+                JsonReader reader = new JsonTextReader(new StringReader(jsonText));
+                await reader.ReadAsync();
+                await reader.ReadAsync();
+                await reader.ReadAsync();
+                await reader.ReadAsync();
+                await reader.ReadAsync();
 
-            await JToken.ReadFromAsync(reader);
-        }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
-    }
-
-    [Fact]
-    public async Task ParseMultipleProperties_EmptySettingsAsync()
-    {
-        var json = @"{
-        ""Name"": ""Name1"",
-        ""Name"": ""Name2""
-      }";
-
-        var reader = new JsonTextReader(new StringReader(json));
-        var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings());
-        var value = (string)o["Name"];
-
-        Assert.Equal("Name2", value);
-    }
-
-    [Fact]
-    public async Task ParseMultipleProperties_IgnoreDuplicateSettingAsync()
-    {
-        var json = @"{
-        ""Name"": ""Name1"",
-        ""Name"": ""Name2""
-      }";
-
-        var reader = new JsonTextReader(new StringReader(json));
-        var o = (JObject)await JToken.ReadFromAsync(reader, new JsonLoadSettings
-        {
-            DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Ignore
-        });
-        var value = (string)o["Name"];
-
-        Assert.Equal("Name1", value);
+                await JToken.ReadFromAsync(reader);
+            },
+            "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
     }
 }

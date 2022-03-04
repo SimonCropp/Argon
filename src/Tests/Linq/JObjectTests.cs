@@ -1168,65 +1168,25 @@ Parameter name: arrayIndex",
     }
 
     [Fact]
-    public void ParseMultipleProperties()
+    public Task ParseMultipleProperties()
     {
         var json = @"{
-        ""Name"": ""Name1"",
-        ""Name"": ""Name2""
+        Name: 'Name1',
+        Name: 'Name2'
       }";
 
-        var o = JObject.Parse(json);
-        var value = (string) o["Name"];
-
-        Assert.Equal("Name2", value);
+        return Throws(() => JObject.Parse(json)).IgnoreStackTrack();
     }
 
     [Fact]
-    public void ParseMultipleProperties_EmptySettings()
+    public Task ParseMultipleProperties_EmptySettings()
     {
         var json = @"{
-        ""Name"": ""Name1"",
-        ""Name"": ""Name2""
+        Name: 'Name1',
+        Name: 'Name2'
       }";
 
-        var o = JObject.Parse(json, new());
-        var value = (string) o["Name"];
-
-        Assert.Equal("Name2", value);
-    }
-
-    [Fact]
-    public void ParseMultipleProperties_IgnoreDuplicateSetting()
-    {
-        var json = @"{
-        ""Name"": ""Name1"",
-        ""Name"": ""Name2""
-      }";
-
-        var o = JObject.Parse(json, new()
-        {
-            DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Ignore
-        });
-        var value = (string) o["Name"];
-
-        Assert.Equal("Name1", value);
-    }
-
-    [Fact]
-    public void ParseMultipleProperties_ReplaceDuplicateSetting()
-    {
-        var json = @"{
-        ""Name"": ""Name1"",
-        ""Name"": ""Name2""
-      }";
-
-        var o = JObject.Parse(json, new()
-        {
-            DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Replace
-        });
-        var value = (string) o["Name"];
-
-        Assert.Equal("Name2", value);
+        return Throws(() => JObject.Parse(json, new())).IgnoreStackTrack();
     }
 
     [Fact]
