@@ -645,22 +645,13 @@ public abstract partial class JContainer :
 
     static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
     {
-        var duplicatePropertyNameHandling = settings?.DuplicatePropertyNameHandling ?? DuplicatePropertyNameHandling.Replace;
 
         var parentObject = (JObject)parent;
         var propertyName = r.Value!.ToString()!;
         var existingPropertyWithName = parentObject.Property(propertyName, StringComparison.Ordinal);
         if (existingPropertyWithName != null)
         {
-            if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Ignore)
-            {
-                return null;
-            }
-
-            if (duplicatePropertyNameHandling == DuplicatePropertyNameHandling.Error)
-            {
-                throw JsonReaderException.Create(r, $"Property with the name '{propertyName}' already exists in the current JSON object.");
-            }
+            throw JsonReaderException.Create(r, $"Property with the name '{propertyName}' already exists in the current JSON object.");
         }
 
         var property = new JProperty(propertyName);

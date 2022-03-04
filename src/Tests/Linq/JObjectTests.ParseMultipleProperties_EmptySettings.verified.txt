@@ -1,0 +1,7 @@
+﻿{
+  Type: JsonReaderException,
+  LineNumber: 3,
+  LinePosition: 15,
+  Path: Name,
+  Message: Property with the name 'Name' already exists in the current JSON object. Path 'Name', line 3, position 15.
+}
