@@ -50,3 +50,6 @@
 *.fsproj text merge=union 
 *.dbproj text merge=union 
 *.sln text eol=crlf merge=union 
+
+.editorconfig -text
+*.sln.DotSettings -text
