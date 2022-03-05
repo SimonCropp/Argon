@@ -70,37 +70,6 @@ public class SerializeComparisonBenchmarks
         using var sr = new StreamReader(ms);
         return sr.ReadToEnd();
     }
-    static readonly byte[] Buffer = new byte[4096];
-
-#if (!NET5_0_OR_GREATER)
-    [Benchmark]
-    public byte[] BinaryFormatter()
-    {
-        return SerializeBinaryFormatter(TestClass);
-    }
-
-    static byte[] SerializeBinaryFormatter(object value)
-    {
-        var ms = new MemoryStream(Buffer);
-        var formatter = new BinaryFormatter();
-        formatter.Serialize(ms, value);
-
-        return ms.ToArray();
-    }
-
-    [Benchmark]
-    public string JavaScriptSerializer()
-    {
-        return SerializeWebExtensions(TestClass);
-    }
-
-    static string SerializeWebExtensions(object value)
-    {
-        var ser = new JavaScriptSerializer();
-
-        return ser.Serialize(value);
-    }
-#endif
 
     [Benchmark]
     public string DataContractJsonSerializer()
