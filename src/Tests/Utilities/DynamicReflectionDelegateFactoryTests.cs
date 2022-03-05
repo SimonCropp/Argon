@@ -79,17 +79,15 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateGetWithBadObjectTarget()
     {
-        XUnitAssert.Throws<InvalidCastException>(() =>
+        var p = new Person
         {
-            var p = new Person
-            {
-                Name = "Hi"
-            };
+            Name = "Hi"
+        };
+        var setter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
-            var setter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
-
-            setter(p);
-        }, "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
+        XUnitAssert.Throws<InvalidCastException>(
+            () => setter(p),
+            "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
     }
 
     [Fact]
@@ -202,7 +200,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
     public static TestStruct StructMethod(TestStruct s)
     {
-        return new TestStruct(s.Value + s.Value);
+        return new(s.Value + s.Value);
     }
 
     [Fact]

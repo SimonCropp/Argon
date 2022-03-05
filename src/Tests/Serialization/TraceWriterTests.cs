@@ -533,15 +533,13 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        XUnitAssert.Throws<Exception>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<IntegerTestClass>(
-                json,
-                new JsonSerializerSettings
-                {
-                    TraceWriter = traceWriter
-                });
-        }, "Could not convert string to integer: hi. Path 'Integer', line 1, position 15.");
+            TraceWriter = traceWriter
+        };
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<IntegerTestClass>(json, settings),
+            "Could not convert string to integer: hi. Path 'Integer', line 1, position 15.");
 
         Assert.Equal(2, traceWriter.TraceRecords.Count);
 
@@ -562,15 +560,13 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        XUnitAssert.Throws<Exception>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<TraceTestObject>(
-                json,
-                new JsonSerializerSettings
-                {
-                    TraceWriter = traceWriter
-                });
-        }, "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
+            TraceWriter = traceWriter
+        };
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<TraceTestObject>(json, settings),
+            "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
 
         Assert.Equal(3, traceWriter.TraceRecords.Count);
 

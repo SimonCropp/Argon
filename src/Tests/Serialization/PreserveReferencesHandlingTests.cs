@@ -390,11 +390,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   ]
 }";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.DeserializeObject<string[][]>(json,
-                new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
-        }, @"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
+        var settings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<string[][]>(json, settings),
+            @"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
     }
 
     public class CircularDictionary : Dictionary<string, CircularDictionary>
@@ -438,15 +437,14 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = @"{
   ""$id"":";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<string[][]>(json,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.All,
-                    MetadataPropertyHandling = MetadataPropertyHandling.Default
-                });
-        }, @"Unexpected end when reading JSON. Path '$id', line 2, position 8.");
+            PreserveReferencesHandling = PreserveReferencesHandling.All,
+            MetadataPropertyHandling = MetadataPropertyHandling.Default
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<string[][]>(json, settings),
+            @"Unexpected end when reading JSON. Path '$id', line 2, position 8.");
     }
 
     public class CircularReferenceClassConverter : JsonConverter

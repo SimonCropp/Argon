@@ -2499,7 +2499,7 @@ keyword such as type of business.""
 
     Person GetPerson()
     {
-        return new Person
+        return new()
         {
             Name = "Mike Manager",
             BirthDate = new(1983, 8, 3, 0, 0, 0, DateTimeKind.Utc),
@@ -5752,21 +5752,19 @@ lines.*/
     [Fact]
     public void AdditionalContentAfterFinish()
     {
-        XUnitAssert.Throws<JsonException>(() =>
+        var json = "[{},1]";
+
+        var serializer = new JsonSerializer
         {
-            var json = "[{},1]";
+            CheckAdditionalContent = true
+        };
 
-            var serializer = new JsonSerializer
-            {
-                CheckAdditionalContent = true
-            };
-
-            var reader = new JsonTextReader(new StringReader(json));
-            reader.Read();
-            reader.Read();
-
-            serializer.Deserialize(reader, typeof(ItemConverterTestClass));
-        }, "Additional text found in JSON string after finishing deserializing object. Path '[1]', line 1, position 5.");
+        var reader = new JsonTextReader(new StringReader(json));
+        reader.Read();
+        reader.Read();
+        XUnitAssert.Throws<JsonException>(
+            () => serializer.Deserialize(reader, typeof(ItemConverterTestClass)),
+            "Additional text found in JSON string after finishing deserializing object. Path '[1]', line 1, position 5.");
     }
 
     [Fact]
@@ -6644,17 +6642,20 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTime()
     {
         var dt = new DateTime(2000, 12, 22);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd",
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTime, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTime, string>
+            {
+                {
+                    dt, "123"
+                }
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22"": ""123""
@@ -6669,18 +6670,19 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTime_ReadAhead()
     {
         var dt = new DateTime(2000, 12, 22);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd",
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTime, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTime, string>
+            {
+                {dt, "123"}
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22"": ""123""
@@ -6695,17 +6697,18 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTimeOffset()
     {
         var dt = new DateTimeOffset(2000, 12, 22, 0, 0, 0, TimeSpan.Zero);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K",
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTimeOffset, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTimeOffset, string>
+            {
+                {dt, "123"}
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22!+00:00"": ""123""
@@ -6720,18 +6723,19 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTimeOffset_ReadAhead()
     {
         var dt = new DateTimeOffset(2000, 12, 22, 0, 0, 0, TimeSpan.Zero);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K",
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTimeOffset, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTimeOffset, string>
+            {
+                {dt, "123"}
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22!+00:00"": ""123""
@@ -6749,7 +6753,7 @@ This is just junk, though.";
         var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd"
         };
 
         var json = JsonConvert.SerializeObject(dt, settings);

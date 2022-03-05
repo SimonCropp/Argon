@@ -28,9 +28,11 @@ static class AsyncUtils
     public static Task FromCanceled(this CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(cancellation.IsCancellationRequested);
-        return new(() =>
-        {
-        }, cancellation);
+        return new(
+            () =>
+            {
+            },
+            cancellation);
     }
 
     static Task<T> FromCanceled<T>(this CancellationToken cancellation)
