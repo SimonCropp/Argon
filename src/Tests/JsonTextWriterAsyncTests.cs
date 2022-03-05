@@ -436,14 +436,12 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteValueObjectWithUnsupportedValueAsync()
     {
-        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
-        {
-            var stringWriter = new StringWriter();
-            using var jsonWriter = new JsonTextWriter(stringWriter);
-            await jsonWriter.WriteStartArrayAsync();
-            await jsonWriter.WriteValueAsync(new Version(1, 1, 1, 1));
-            await jsonWriter.WriteEndArrayAsync();
-        }, @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
+        var stringWriter = new StringWriter();
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        await jsonWriter.WriteStartArrayAsync();
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(
+            () => jsonWriter.WriteValueAsync(new Version(1, 1, 1, 1)),
+            @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
     }
 
     [Fact]
@@ -1055,19 +1053,18 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task BadWriteEndArrayAsync()
     {
-        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () =>
-        {
-            var stringBuilder = new StringBuilder();
-            var stringWriter = new StringWriter(stringBuilder);
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
 
-            using var jsonWriter = new JsonTextWriter(stringWriter);
-            await jsonWriter.WriteStartArrayAsync();
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        await jsonWriter.WriteStartArrayAsync();
 
-            await jsonWriter.WriteValueAsync(0.0);
+        await jsonWriter.WriteValueAsync(0.0);
 
-            await jsonWriter.WriteEndArrayAsync();
-            await jsonWriter.WriteEndArrayAsync();
-        }, "No token to close. Path ''.");
+        await jsonWriter.WriteEndArrayAsync();
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(
+            () => jsonWriter.WriteEndArrayAsync(),
+            "No token to close. Path ''.");
     }
 
     [Fact]
@@ -1557,7 +1554,7 @@ ExpiryDate:'2014-06-04T00:00:00Z',
 }}//comment 
 //comment 1 ";
 
-        var r = new JsonTextReader(new StringReader(json));
+        var reader = new JsonTextReader(new StringReader(json));
 
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
@@ -1565,7 +1562,7 @@ ExpiryDate:'2014-06-04T00:00:00Z',
             Formatting = Formatting.Indented
         };
 
-        await jsonWriter.WriteTokenAsync(r, true);
+        await jsonWriter.WriteTokenAsync(reader, true);
 
         XUnitAssert.AreEqualNormalized(@"/*comment*//*hi*/*/{/*comment*/
   ""Name"": /*comment*/ true/*comment after true*//*comment after comma*/,

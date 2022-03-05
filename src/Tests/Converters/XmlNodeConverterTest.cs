@@ -754,8 +754,8 @@ public class XmlNodeConverterTest : TestFixtureBase
             Formatting = Formatting.Indented
         };
         settings.Converters.Add(new XmlNodeConverter());
-        var json1 = JsonXmlConvert.SerializeXNode(xml);
-        var xmlBack = JsonConvert.DeserializeObject<XElement>(json1, settings);
+        var json = JsonXmlConvert.SerializeXNode(xml);
+        var xmlBack = JsonConvert.DeserializeObject<XElement>(json, settings);
 
         var equals = XNode.DeepEquals(xmlBack, xml);
         Assert.True(equals);
@@ -3024,8 +3024,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var xml = XElement.Parse(xmlString);
 
-        var json1 = JsonXmlConvert.SerializeXNode(xml);
-        var xmlBack = JsonConvert.DeserializeObject<XElement>(json1, settings);
+        var json = JsonXmlConvert.SerializeXNode(xml);
+        var xmlBack = JsonConvert.DeserializeObject<XElement>(json, settings);
 
         var equals = XNode.DeepEquals(xmlBack, xml);
         Assert.True(equals);
@@ -3048,8 +3048,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         var xml = new XmlDocument();
         xml.LoadXml(xmlString);
 
-        var json1 = JsonXmlConvert.SerializeXmlNode(xml);
-        var xmlBack = JsonConvert.DeserializeObject<XmlDocument>(json1, settings);
+        var json = JsonXmlConvert.SerializeXmlNode(xml);
+        var xmlBack = JsonConvert.DeserializeObject<XmlDocument>(json, settings);
 
         Assert.Equal(@"<root><b xmlns=""http://www.example.com/ns"">Asd</b><c>AAA</c><test>adad</test></root>", xmlBack.OuterXml);
     }

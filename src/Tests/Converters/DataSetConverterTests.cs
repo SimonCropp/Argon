@@ -476,24 +476,7 @@ public class DataSetConverterTests : TestFixtureBase
         };
 
         settings.AddDataSetConverters();
-        var json = JsonConvert.SerializeObject(ds, settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Customers"": [
-    {
-      ""CustomerID"": ""234""
-    }
-  ]
-}", json);
-
-        var ds1 = new CustomerDataSet();
-        var table = ds1.Tables["Customers"];
-        var row = ds1.Tables["Customers"].NewRow();
-        row["CustomerID"] = "234";
-
-        table.Rows.Add(row);
-
-        var json1 = JsonConvert.SerializeObject(ds1, settings);
+        var json1 = JsonConvert.SerializeObject(ds, settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Customers"": [
@@ -502,6 +485,23 @@ public class DataSetConverterTests : TestFixtureBase
     }
   ]
 }", json1);
+
+        var ds1 = new CustomerDataSet();
+        var table = ds1.Tables["Customers"];
+        var row = ds1.Tables["Customers"].NewRow();
+        row["CustomerID"] = "234";
+
+        table.Rows.Add(row);
+
+        var json = JsonConvert.SerializeObject(ds1, settings);
+
+        XUnitAssert.AreEqualNormalized(@"{
+  ""Customers"": [
+    {
+      ""CustomerID"": ""234""
+    }
+  ]
+}", json);
     }
 
     [Fact]

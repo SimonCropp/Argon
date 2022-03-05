@@ -1407,13 +1407,13 @@ ExpiryDate: '2014-06-04T00:00:00Z',
 }}//comment 
 //comment 1 ";
 
-        var r = new JsonTextReader(new StringReader(json));
+        var reader = new JsonTextReader(new StringReader(json));
 
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.Formatting = Formatting.Indented;
 
-        jsonWriter.WriteToken(r, true);
+        jsonWriter.WriteToken(reader, true);
 
         XUnitAssert.AreEqualNormalized(@"/*comment*//*hi*/*/{/*comment*/
   ""Name"": /*comment*/ true/*comment after true*//*comment after comma*/,
@@ -1428,7 +1428,7 @@ ExpiryDate: '2014-06-04T00:00:00Z',
     }
 
     [Fact]
-    public void DisposeSupressesFinalization()
+    public void DisposeSuppressesFinalization()
     {
         UnmanagedResourceFakingJsonWriter.CreateAndDispose();
         GC.Collect();

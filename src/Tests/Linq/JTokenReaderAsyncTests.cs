@@ -108,10 +108,9 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsDateTimeOffsetAsync();
-        }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsDateTimeOffsetAsync(),
+            "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
     }
 
     [Fact]
@@ -129,10 +128,9 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsDateTimeOffsetAsync();
-        }, "Error reading date. Unexpected token: Boolean. Path 'Offset', line 1, position 14.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsDateTimeOffsetAsync(),
+            "Error reading date. Unexpected token: Boolean. Path 'Offset', line 1, position 14.");
     }
 
     [Fact]
@@ -286,8 +284,6 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadBytesFailureAsync()
     {
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
             var o =
                 new JObject(
                     new JProperty("Test1", 1)
@@ -300,9 +296,9 @@ public class JTokenReaderAsyncTests : TestFixtureBase
             await jsonReader.ReadAsync();
             Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
             Assert.Equal("Test1", jsonReader.Value);
-
-            await jsonReader.ReadAsBytesAsync();
-        }, "Error reading bytes. Unexpected token: Integer. Path 'Test1'.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => jsonReader.ReadAsBytesAsync(),
+            "Error reading bytes. Unexpected token: Integer. Path 'Test1'.");
     }
 
     public class HasBytes
@@ -370,10 +366,9 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsInt32Async();
-        }, "Could not convert string to integer: hi. Path 'Name', line 1, position 12.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsInt32Async(),
+            "Could not convert string to integer: hi. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -391,10 +386,9 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsInt32Async();
-        }, "Error reading integer. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsInt32Async(),
+            "Error reading integer. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -433,10 +427,9 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsDecimalAsync();
-        }, "Could not convert string to decimal: blah. Path 'Name', line 1, position 14.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsDecimalAsync(),
+            "Could not convert string to decimal: blah. Path 'Name', line 1, position 14.");
     }
 
     [Fact]
@@ -454,10 +447,9 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsDecimalAsync();
-        }, "Error reading decimal. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsDecimalAsync(),
+            "Error reading decimal. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
