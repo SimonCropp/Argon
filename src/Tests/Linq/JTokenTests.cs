@@ -283,7 +283,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(null, (double?)(JValue?)null);
         Assert.Equal(null, (float?)(JValue?)null);
 
-        var data = Array.Empty<byte>();
+        var data = new byte[0];
         Assert.Equal(data, (byte[]?)new JValue(data));
 
         Assert.Equal(5, (int)new JValue(StringComparison.OrdinalIgnoreCase));
@@ -469,7 +469,7 @@ public class JTokenTests : TestFixtureBase
         Assert.False(JToken.DeepEquals(new JValue(true), (JValue)(bool?)null));
         Assert.False(JToken.DeepEquals(JValue.CreateNull(), null));
 
-        var emptyData = Array.Empty<byte>();
+        var emptyData = new byte[0];
         Assert.True(JToken.DeepEquals(new JValue(emptyData), (JValue)emptyData));
         Assert.False(JToken.DeepEquals(new JValue(emptyData), (JValue)new byte[1]));
         Assert.True(JToken.DeepEquals(new JValue(Encoding.UTF8.GetBytes("Hi")), (JValue)Encoding.UTF8.GetBytes("Hi")));
@@ -700,10 +700,10 @@ public class JTokenTests : TestFixtureBase
         var descendants = a.Descendants().ToList();
         Assert.Equal(10, descendants.Count());
         Assert.Equal(5, (int)descendants[0]);
-        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[^4]));
-        Assert.Equal(1, (int)descendants[^3]);
-        Assert.Equal(2, (int)descendants[^2]);
-        Assert.Equal(3, (int)descendants[^1]);
+        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 4]));
+        Assert.Equal(1, (int)descendants[descendants.Count - 3]);
+        Assert.Equal(2, (int)descendants[descendants.Count - 2]);
+        Assert.Equal(3, (int)descendants[descendants.Count - 1]);
     }
 
     [Fact]
@@ -727,12 +727,12 @@ public class JTokenTests : TestFixtureBase
         var descendants = source.Descendants().ToList();
         Assert.Equal(12, descendants.Count());
         Assert.Equal(5, (int)descendants[0]);
-        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[^6]));
-        Assert.Equal(1, (int)descendants[^5]);
-        Assert.Equal(2, (int)descendants[^4]);
-        Assert.Equal(3, (int)descendants[^3]);
-        Assert.Equal(o.Property("prop1"), descendants[^2]);
-        Assert.Equal(o["prop1"], descendants[^1]);
+        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 6]));
+        Assert.Equal(1, (int)descendants[descendants.Count - 5]);
+        Assert.Equal(2, (int)descendants[descendants.Count - 4]);
+        Assert.Equal(3, (int)descendants[descendants.Count - 3]);
+        Assert.Equal(o.Property("prop1"), descendants[descendants.Count - 2]);
+        Assert.Equal(o["prop1"], descendants[descendants.Count - 1]);
     }
 
     [Fact]
@@ -750,10 +750,10 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(11, descendantsAndSelf.Count());
         Assert.Equal(a, descendantsAndSelf[0]);
         Assert.Equal(5, (int)descendantsAndSelf[1]);
-        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[^4]));
-        Assert.Equal(1, (int)descendantsAndSelf[^3]);
-        Assert.Equal(2, (int)descendantsAndSelf[^2]);
-        Assert.Equal(3, (int)descendantsAndSelf[^1]);
+        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 4]));
+        Assert.Equal(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 3]);
+        Assert.Equal(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 2]);
+        Assert.Equal(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 1]);
     }
 
     [Fact]
@@ -778,13 +778,13 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(14, descendantsAndSelf.Count());
         Assert.Equal(a, descendantsAndSelf[0]);
         Assert.Equal(5, (int)descendantsAndSelf[1]);
-        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[^7]));
-        Assert.Equal(1, (int)descendantsAndSelf[^6]);
-        Assert.Equal(2, (int)descendantsAndSelf[^5]);
-        Assert.Equal(3, (int)descendantsAndSelf[^4]);
-        Assert.Equal(o, descendantsAndSelf[^3]);
-        Assert.Equal(o.Property("prop1"), descendantsAndSelf[^2]);
-        Assert.Equal(o["prop1"], descendantsAndSelf[^1]);
+        Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 7]));
+        Assert.Equal(1, (int)descendantsAndSelf[descendantsAndSelf.Count - 6]);
+        Assert.Equal(2, (int)descendantsAndSelf[descendantsAndSelf.Count - 5]);
+        Assert.Equal(3, (int)descendantsAndSelf[descendantsAndSelf.Count - 4]);
+        Assert.Equal(o, descendantsAndSelf[descendantsAndSelf.Count - 3]);
+        Assert.Equal(o.Property("prop1"), descendantsAndSelf[descendantsAndSelf.Count - 2]);
+        Assert.Equal(o["prop1"], descendantsAndSelf[descendantsAndSelf.Count - 1]);
     }
 
     [Fact]

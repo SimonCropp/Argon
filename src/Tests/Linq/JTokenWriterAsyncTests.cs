@@ -75,7 +75,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await jsonWriter.WriteValueAsync(new BigInteger(123));
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-        await jsonWriter.WriteValueAsync(Array.Empty<byte>());
+        await jsonWriter.WriteValueAsync(new byte[0]);
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
         await jsonWriter.WriteEndAsync();
@@ -118,15 +118,15 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await jsonWriter.WriteValueAsync("DVD read/writer");
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
         await jsonWriter.WriteValueAsync(new BigInteger(123));
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
-        await jsonWriter.WriteValueAsync(Array.Empty<byte>());
+        await jsonWriter.WriteValueAsync(new byte[0]);
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
         await jsonWriter.WriteEndAsync();
         Assert.Equal(WriteState.Object, jsonWriter.WriteState);
