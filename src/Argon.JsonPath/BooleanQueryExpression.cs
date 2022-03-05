@@ -15,7 +15,7 @@ class BooleanQueryExpression : QueryExpression
     {
         if (o is JToken resultToken)
         {
-            return new[] { resultToken };
+            return new[] {resultToken};
         }
 
         if (o is List<PathFilter> pathFilters)
@@ -66,54 +66,63 @@ class BooleanQueryExpression : QueryExpression
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.Equals:
                     if (EqualsWithStringCoercion(leftValue, rightValue))
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.StrictEquals:
                     if (EqualsWithStrictMatch(leftValue, rightValue))
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.NotEquals:
                     if (!EqualsWithStringCoercion(leftValue, rightValue))
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.StrictNotEquals:
                     if (!EqualsWithStrictMatch(leftValue, rightValue))
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.GreaterThan:
                     if (leftValue.CompareTo(rightValue) > 0)
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.GreaterThanOrEquals:
                     if (leftValue.CompareTo(rightValue) >= 0)
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.LessThan:
                     if (leftValue.CompareTo(rightValue) < 0)
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.LessThanOrEquals:
                     if (leftValue.CompareTo(rightValue) <= 0)
                     {
                         return true;
                     }
+
                     break;
                 case QueryOperator.Exists:
                     return true;
@@ -141,14 +150,14 @@ class BooleanQueryExpression : QueryExpression
             return false;
         }
 
-        var regexText = (string)pattern.GetValue();
+        var regexText = (string) pattern.GetValue();
         var patternOptionDelimiterIndex = regexText.LastIndexOf('/');
 
         var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
         var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
 
         var timeout = settings.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
-        return Regex.IsMatch((string)input.GetValue(), patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
+        return Regex.IsMatch((string) input.GetValue(), patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
     }
 
     internal static bool EqualsWithStringCoercion(JValue value, JValue queryValue)
@@ -171,7 +180,7 @@ class BooleanQueryExpression : QueryExpression
             return false;
         }
 
-        var queryValueString = (string)queryValue.GetValue();
+        var queryValueString = (string) queryValue.GetValue();
 
         string currentValueString;
 
@@ -187,21 +196,22 @@ class BooleanQueryExpression : QueryExpression
                     }
                     else
                     {
-                        DateTimeUtils.WriteDateTimeString(writer, (DateTime)value.GetValue(), null, CultureInfo.InvariantCulture);
+                        DateTimeUtils.WriteDateTimeString(writer, (DateTime) value.GetValue(), null, CultureInfo.InvariantCulture);
                     }
 
                     currentValueString = writer.ToString();
                 }
+
                 break;
             case JTokenType.Bytes:
-                currentValueString = Convert.ToBase64String((byte[])value.GetValue());
+                currentValueString = Convert.ToBase64String((byte[]) value.GetValue());
                 break;
             case JTokenType.Guid:
             case JTokenType.TimeSpan:
                 currentValueString = value.GetValue().ToString()!;
                 break;
             case JTokenType.Uri:
-                currentValueString = ((Uri)value.GetValue()).OriginalString;
+                currentValueString = ((Uri) value.GetValue()).OriginalString;
                 break;
             default:
                 return false;

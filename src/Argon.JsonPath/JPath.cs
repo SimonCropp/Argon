@@ -104,6 +104,7 @@ class JPath
                     {
                         ended = true;
                     }
+
                     break;
                 case '.':
                     if (currentIndex > currentPartStartIndex)
@@ -117,11 +118,13 @@ class JPath
                         filters.Add(CreatePathFilter(member, scan));
                         scan = false;
                     }
+
                     if (currentIndex + 1 < expression.Length && expression[currentIndex + 1] == '.')
                     {
                         scan = true;
                         currentIndex++;
                     }
+
                     currentIndex++;
                     currentPartStartIndex = currentIndex;
                     followingIndexer = false;
@@ -141,6 +144,7 @@ class JPath
 
                         currentIndex++;
                     }
+
                     break;
             }
         }
@@ -154,6 +158,7 @@ class JPath
             {
                 member = null;
             }
+
             filters.Add(CreatePathFilter(member, scan));
         }
         else
@@ -170,7 +175,7 @@ class JPath
 
     static PathFilter CreatePathFilter(string? member, bool scan)
     {
-        var filter = scan ? (PathFilter)new ScanFilter(member) : new FieldFilter(member);
+        var filter = scan ? (PathFilter) new ScanFilter(member) : new FieldFilter(member);
         return filter;
     }
 
@@ -253,7 +258,7 @@ class JPath
                         }
                     }
 
-                    return new ArraySliceFilter { Start = startIndex, End = endIndex, Step = step };
+                    return new ArraySliceFilter {Start = startIndex, End = endIndex, Step = step};
                 }
                 // ReSharper disable once RedundantIfElseBlock
                 else
@@ -266,7 +271,7 @@ class JPath
                     var indexer = expression.Substring(start, length);
                     var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
 
-                    return new ArrayIndexFilter { Index = index };
+                    return new ArrayIndexFilter {Index = index};
                 }
             }
 
@@ -402,7 +407,7 @@ class JPath
     {
         if (expression[currentIndex] == '$')
         {
-            expressionPath = new() { RootFilter.Instance };
+            expressionPath = new() {RootFilter.Instance};
         }
         else if (expression[currentIndex] == '@')
         {
@@ -488,6 +493,7 @@ class JPath
 
                 return booleanExpression;
             }
+
             if (expression[currentIndex] == '&')
             {
                 if (!Match("&&"))
@@ -508,6 +514,7 @@ class JPath
 
                 parentExpression.Expressions.Add(booleanExpression);
             }
+
             if (expression[currentIndex] == '|')
             {
                 if (!Match("||"))
@@ -760,18 +767,22 @@ class JPath
         {
             return QueryOperator.NotEquals;
         }
+
         if (Match("<="))
         {
             return QueryOperator.LessThanOrEquals;
         }
+
         if (Match("<"))
         {
             return QueryOperator.LessThan;
         }
+
         if (Match(">="))
         {
             return QueryOperator.GreaterThanOrEquals;
         }
+
         if (Match(">"))
         {
             return QueryOperator.GreaterThan;
@@ -837,7 +848,7 @@ class JPath
 
     internal static IEnumerable<JToken> Evaluate(List<PathFilter> filters, JToken root, JToken t, JsonSelectSettings settings)
     {
-        IEnumerable<JToken> current = new[] { t };
+        IEnumerable<JToken> current = new[] {t};
         foreach (var filter in filters)
         {
             current = filter.ExecuteFilter(root, current, settings);
