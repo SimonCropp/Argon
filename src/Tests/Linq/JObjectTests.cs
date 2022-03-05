@@ -162,13 +162,13 @@ public class JObjectTests : TestFixtureBase
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var o = new JObject
             {
-                {"PropertyNameValue", null},
-                {"PropertyNameValue", null}
-            };
-        },
+                var o = new JObject
+                {
+                    {"PropertyNameValue", null},
+                    {"PropertyNameValue", null}
+                };
+            },
             "Can not add property PropertyNameValue to Argon.JObject. Property with the same name already exists on object.");
     }
 
@@ -267,7 +267,7 @@ public class JObjectTests : TestFixtureBase
 
         ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(a, 1);
 
-        Assert.Equal(default(KeyValuePair<string, JToken>), a[0]);
+        Assert.Equal(default, a[0]);
 
         Assert.Equal("PropertyNameValue", a[1].Key);
         Assert.Equal(1, (int) a[1].Value);
@@ -278,7 +278,7 @@ public class JObjectTests : TestFixtureBase
         Assert.Equal("PropertyNameValue3", a[3].Key);
         Assert.Equal(3, (int) a[3].Value);
 
-        Assert.Equal(default(KeyValuePair<string, JToken>), a[4]);
+        Assert.Equal(default, a[4]);
     }
 
     [Fact]
@@ -299,10 +299,10 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var o = new JObject();
-            ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], 1);
-        },
+            {
+                var o = new JObject();
+                ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], 1);
+            },
             @"arrayIndex is equal to or greater than the length of array.");
     }
 
@@ -311,16 +311,16 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var o = new JObject
             {
-                {"PropertyNameValue", new JValue(1)},
-                {"PropertyNameValue2", new JValue(2)},
-                {"PropertyNameValue3", new JValue(3)}
-            };
+                var o = new JObject
+                {
+                    {"PropertyNameValue", new JValue(1)},
+                    {"PropertyNameValue2", new JValue(2)},
+                    {"PropertyNameValue3", new JValue(3)}
+                };
 
-            ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[3], 1);
-        },
+                ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[3], 1);
+            },
             @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
     }
 
@@ -722,13 +722,13 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            l.Add(new JValue("Bad!"));
-        },
+                l.Add(new JValue("Bad!"));
+            },
             "Can not add Argon.JValue to Argon.JObject.");
     }
 
@@ -737,13 +737,13 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            l.Add("Bad!");
-        },
+                l.Add("Bad!");
+            },
             "Can not add Argon.JValue to Argon.JObject.");
     }
 
@@ -752,15 +752,15 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test2", "II");
+                var p3 = new JProperty("Test2", "II");
 
-            l.Add(p3);
-        },
+                l.Add(p3);
+            },
             "Can not add property Test2 to Argon.JObject. Property with the same name already exists on object.");
     }
 
@@ -849,16 +849,16 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test3", "III");
+                var p3 = new JProperty("Test3", "III");
 
-            l[0] = p3;
-            l[1] = p3;
-        },
+                l[0] = p3;
+                l[1] = p3;
+            },
             "Can not add property Test3 to Argon.JObject. Property with the same name already exists on object.");
     }
 
@@ -867,13 +867,13 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            l[0] = new JValue(true);
-        },
+                l[0] = new JValue(true);
+            },
             @"Can not add Argon.JValue to Argon.JObject.");
     }
 
@@ -945,13 +945,13 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            l.Add(new JValue("Bad!"));
-        },
+                l.Add(new JValue("Bad!"));
+            },
             "Can not add Argon.JValue to Argon.JObject.");
     }
 
@@ -960,14 +960,14 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            // string is implicitly converted to JValue
-            l.Add("Bad!");
-        },
+                // string is implicitly converted to JValue
+                l.Add("Bad!");
+            },
             "Can not add Argon.JValue to Argon.JObject.");
     }
 
@@ -976,15 +976,15 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test2", "II");
+                var p3 = new JProperty("Test2", "II");
 
-            l.Add(p3);
-        },
+                l.Add(p3);
+            },
             "Can not add property Test2 to Argon.JObject. Property with the same name already exists on object.");
     }
 
@@ -1073,16 +1073,16 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+            {
+                var p1 = new JProperty("Test1", 1);
+                var p2 = new JProperty("Test2", "Two");
+                IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test3", "III");
+                var p3 = new JProperty("Test3", "III");
 
-            l[0] = p3;
-            l[1] = p3;
-        },
+                l[0] = p3;
+                l[1] = p3;
+            },
             "Can not add property Test3 to Argon.JObject. Property with the same name already exists on object.");
     }
 
@@ -1145,12 +1145,12 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var o = new JObject
             {
-                [0] = new JValue(3)
-            };
-        },
+                var o = new JObject
+                {
+                    [0] = new JValue(3)
+                };
+            },
             "Set JObject values with invalid key value: 0. Object property name expected.");
     }
 
@@ -1214,17 +1214,17 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var json = @"{
+            {
+                var json = @"{
   ""responseData"": {}, 
   ""responseDetails"": null, 
   ""responseStatus"": 200
 }";
 
-            var o = JObject.Parse(json);
+                var o = JObject.Parse(json);
 
-            var name = (string) o["responseData"];
-        },
+                var name = (string) o["responseData"];
+            },
             "Can not convert Object to String.");
     }
 
@@ -1535,7 +1535,7 @@ Sizes: [
     {
         var p = new Person
         {
-            Name = "Daniel Wertheim",
+            Name = "Daniel Wertheim"
         };
 
         var settings = new JsonSerializerSettings

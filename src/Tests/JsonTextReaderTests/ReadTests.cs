@@ -365,17 +365,17 @@ public class ReadTests : TestFixtureBase
         jsonReader.Read();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250, (long)jsonReader.Value);
+        Assert.Equal(250, (long) jsonReader.Value);
 
         jsonReader.Read();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250, (long)jsonReader.Value);
+        Assert.Equal(250, (long) jsonReader.Value);
 
         jsonReader.Read();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250, (long)jsonReader.Value);
+        Assert.Equal(250, (long) jsonReader.Value);
 
         Assert.True(jsonReader.Read());
         Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
@@ -586,7 +586,7 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(JsonToken.Date, reader.TokenType);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
-        var dt = (DateTimeOffset)reader.Value;
+        var dt = (DateTimeOffset) reader.Value;
         Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Assert.True(reader.Read());
@@ -611,7 +611,7 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(JsonToken.Date, reader.TokenType);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
-        var dt = (DateTimeOffset)reader.Value;
+        var dt = (DateTimeOffset) reader.Value;
         Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Assert.True(reader.Read());
@@ -938,11 +938,11 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public async Task ReadContentDelimitedByComments()
     {
-        var json = $@"/*comment*/{{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
+        var json = @"/*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
         ExpiryDate:'2014-06-04T00:00:00Z',
         Price: 3.99,
         Sizes:/*comment*/[/*comment*/
-          'Small'/*comment*/]/*comment*/}}/*comment*/";
+          'Small'/*comment*/]/*comment*/}/*comment*/";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
         await reader.VerifyReaderState();
@@ -1164,7 +1164,7 @@ third line", jsonTextReader.Value);
         Assert.False(jsonTextReader.Read());
 
         var o = JObject.Parse(json);
-        var i = (BigInteger)((JValue)o["ChildId"]).Value;
+        var i = (BigInteger) ((JValue) o["ChildId"]).Value;
         Assert.Equal(BigInteger.Parse("333333333333333333333333333333333333333"), i);
     }
 
@@ -1291,6 +1291,7 @@ third line", jsonTextReader.Value);
         {
             jsonWriter.WriteValue(i);
         }
+
         jsonWriter.WriteEndArray();
 
         var json = stringWriter.ToString();
@@ -1300,8 +1301,9 @@ third line", jsonTextReader.Value);
         for (var i = 0; i < valueCount; i++)
         {
             Assert.True(reader.Read());
-            Assert.Equal((long)i, reader.Value);
+            Assert.Equal((long) i, reader.Value);
         }
+
         Assert.True(reader.Read());
         Assert.False(reader.Read());
     }

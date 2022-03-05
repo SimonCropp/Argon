@@ -228,7 +228,7 @@ public class MiscTests : TestFixtureBase
         var reader = new JsonTextReader(new StreamReader(ms));
         reader.Read();
 
-        var s = (string)reader.Value;
+        var s = (string) reader.Value;
 
         return s;
     }
@@ -244,7 +244,7 @@ public class MiscTests : TestFixtureBase
         Assert.False(ms.CanRead);
 
         ms = new();
-        reader = new(new StreamReader(ms)) { CloseInput = false };
+        reader = new(new StreamReader(ms)) {CloseInput = false};
 
         Assert.True(ms.CanRead);
         reader.Close();
@@ -535,7 +535,7 @@ public class MiscTests : TestFixtureBase
         Assert.Equal("<", reader.Value);
 
         reader.Read();
-        Assert.Equal(24352, Convert.ToInt32(Convert.ToChar((string)reader.Value)));
+        Assert.Equal(24352, Convert.ToInt32(Convert.ToChar((string) reader.Value)));
 
         reader.Read();
         Assert.Equal(JsonToken.EndArray, reader.TokenType);

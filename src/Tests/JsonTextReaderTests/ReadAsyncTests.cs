@@ -365,17 +365,17 @@ public class ReadAsyncTests : TestFixtureBase
         await jsonReader.ReadAsync();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250L, (long)jsonReader.Value);
+        Assert.Equal(250L, (long) jsonReader.Value);
 
         await jsonReader.ReadAsync();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250L, (long)jsonReader.Value);
+        Assert.Equal(250L, (long) jsonReader.Value);
 
         await jsonReader.ReadAsync();
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250L, (long)jsonReader.Value);
+        Assert.Equal(250L, (long) jsonReader.Value);
 
         Assert.True(await jsonReader.ReadAsync());
         Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
@@ -585,7 +585,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.Equal(JsonToken.Date, reader.TokenType);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
-        var dt = (DateTimeOffset)reader.Value;
+        var dt = (DateTimeOffset) reader.Value;
         Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Assert.True(await reader.ReadAsync());
@@ -610,7 +610,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.Equal(JsonToken.Date, reader.TokenType);
         Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
 
-        var dt = (DateTimeOffset)reader.Value;
+        var dt = (DateTimeOffset) reader.Value;
         Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
 
         Assert.True(await reader.ReadAsync());
@@ -941,11 +941,11 @@ public class ReadAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadContentDelimitedByCommentsAsync()
     {
-        var json = $@"/*comment*/{{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
+        var json = @"/*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
         ExpiryDate:'2014-06-04T00:00:00Z',
         Price: 3.99,
         Sizes:/*comment*/[/*comment*/
-          ""Small""/*comment*/]/*comment*/}}/*comment*/";
+          ""Small""/*comment*/]/*comment*/}/*comment*/";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -1168,7 +1168,7 @@ third line", jsonTextReader.Value);
         Assert.False(await jsonTextReader.ReadAsync());
 
         var o = JObject.Parse(json);
-        var i = (BigInteger)((JValue)o["ChildId"]).Value;
+        var i = (BigInteger) ((JValue) o["ChildId"]).Value;
         Assert.Equal(BigInteger.Parse("333333333333333333333333333333333333333"), i);
     }
 
@@ -1305,7 +1305,7 @@ third line", jsonTextReader.Value);
         for (var i = 0; i < valueCount; i++)
         {
             Assert.True(await reader.ReadAsync());
-            Assert.Equal((long)i, reader.Value);
+            Assert.Equal((long) i, reader.Value);
         }
 
         Assert.True(await reader.ReadAsync());
@@ -1526,7 +1526,10 @@ third line", jsonTextReader.Value);
 
     class MinimalOverridesDerivedJsonReader : JsonReader
     {
-        public override bool Read() => true;
+        public override bool Read()
+        {
+            return true;
+        }
     }
 
     [Fact]

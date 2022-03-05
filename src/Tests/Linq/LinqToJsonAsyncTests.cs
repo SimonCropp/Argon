@@ -16,14 +16,14 @@ public class LinqToJsonAsyncTests : TestFixtureBase
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
+        var a = (JArray) await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Load
         });
 
         Assert.Equal(4, a.Count);
         Assert.Equal(JTokenType.Comment, a[0].Type);
-        Assert.Equal(" hi", ((JValue)a[0]).Value);
+        Assert.Equal(" hi", ((JValue) a[0]).Value);
     }
 
     [Fact]
@@ -37,11 +37,11 @@ public class LinqToJsonAsyncTests : TestFixtureBase
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var a = (JArray)await JToken.ReadFromAsync(jsonReader);
+        var a = (JArray) await JToken.ReadFromAsync(jsonReader);
 
         Assert.Equal(3, a.Count);
         Assert.Equal(JTokenType.Integer, a[0].Type);
-        Assert.Equal(1L, ((JValue)a[0]).Value);
+        Assert.Equal(1L, ((JValue) a[0]).Value);
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class LinqToJsonAsyncTests : TestFixtureBase
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var v = (JValue)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
+        var v = (JValue) await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Load
         });
@@ -81,7 +81,7 @@ public class LinqToJsonAsyncTests : TestFixtureBase
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var a = (JArray)await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
+        var a = (JArray) await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
         {
             CommentHandling = CommentHandling.Ignore
         });
@@ -106,7 +106,7 @@ undefined
 ]");
 
         var jsonReader = new JsonTextReader(textReader);
-        var v = (JValue)await JToken.ReadFromAsync(jsonReader);
+        var v = (JValue) await JToken.ReadFromAsync(jsonReader);
 
         Assert.Equal(JTokenType.Undefined, v.Type);
 

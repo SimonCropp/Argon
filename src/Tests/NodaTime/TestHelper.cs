@@ -10,7 +10,7 @@ static class TestHelper
     {
         var settings = new JsonSerializerSettings
         {
-            Converters = { converter },
+            Converters = {converter},
             DateParseHandling = DateParseHandling.None
         };
         AssertConversions(value, expectedJson, settings);

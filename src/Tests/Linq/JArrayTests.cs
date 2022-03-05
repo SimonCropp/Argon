@@ -11,10 +11,10 @@ public class JArrayTests : TestFixtureBase
     {
         var o = new JObject
         {
-            { "results", new JArray(1, 2, 3, 4) }
+            {"results", new JArray(1, 2, 3, 4)}
         };
 
-        var a = (JArray)o["results"];
+        var a = (JArray) o["results"];
 
         var last = a.Last();
 
@@ -29,7 +29,7 @@ public class JArrayTests : TestFixtureBase
     [Fact]
     public void Clear()
     {
-        var a = new JArray { 1 };
+        var a = new JArray {1};
         Assert.Equal(1, a.Count);
 
         a.Clear();
@@ -50,7 +50,7 @@ public class JArrayTests : TestFixtureBase
     {
         var v = new JValue(1);
 
-        var a = new JArray { v };
+        var a = new JArray {v};
 
         XUnitAssert.False(a.Contains(new JValue(2)));
         XUnitAssert.False(a.Contains(new JValue(1)));
@@ -71,15 +71,15 @@ public class JArrayTests : TestFixtureBase
 
         var a = new JToken[5];
 
-        ((ICollection<JToken>)j).CopyTo(a, 1);
+        ((ICollection<JToken>) j).CopyTo(a, 1);
 
         Assert.Equal(null, a[0]);
 
-        Assert.Equal(1, (int)a[1]);
+        Assert.Equal(1, (int) a[1]);
 
-        Assert.Equal(2, (int)a[2]);
+        Assert.Equal(2, (int) a[2]);
 
-        Assert.Equal(3, (int)a[3]);
+        Assert.Equal(3, (int) a[3]);
 
         Assert.Equal(null, a[4]);
     }
@@ -90,7 +90,7 @@ public class JArrayTests : TestFixtureBase
         var j = new JArray();
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
-            () => ((ICollection<JToken>)j).CopyTo(new JToken[1], -1),
+            () => ((ICollection<JToken>) j).CopyTo(new JToken[1], -1),
             @"arrayIndex is less than 0.
 Parameter name: arrayIndex",
             "arrayIndex is less than 0. (Parameter 'arrayIndex')");
@@ -102,7 +102,7 @@ Parameter name: arrayIndex",
         var j = new JArray();
 
         XUnitAssert.Throws<ArgumentException>(
-            () => ((ICollection<JToken>)j).CopyTo(new JToken[1], 1),
+            () => ((ICollection<JToken>) j).CopyTo(new JToken[1], 1),
             @"arrayIndex is equal to or greater than the length of array.");
     }
 
@@ -117,7 +117,7 @@ Parameter name: arrayIndex",
         };
 
         XUnitAssert.Throws<ArgumentException>(
-            () => ((ICollection<JToken>)j).CopyTo(new JToken[3], 1),
+            () => ((ICollection<JToken>) j).CopyTo(new JToken[3], 1),
             @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
     }
 
@@ -281,7 +281,7 @@ Parameter name: index",
         var j = new JArray();
         j.Insert(0, null);
 
-        Assert.Equal(null, ((JValue)j[0]).Value);
+        Assert.Equal(null, ((JValue) j[0]).Value);
     }
 
     [Fact]
@@ -354,9 +354,9 @@ Parameter name: index",
 
         IEnumerable<ListItemFields> t = new List<ListItemFields>
         {
-            new() { ListItemText = "First", ListItemValue = 1 },
-            new() { ListItemText = "Second", ListItemValue = 2 },
-            new() { ListItemText = "Third", ListItemValue = 3 }
+            new() {ListItemText = "First", ListItemValue = 1},
+            new() {ListItemText = "Second", ListItemValue = 2},
+            new() {ListItemText = "Third", ListItemValue = 3}
         };
 
         var optionValues =
@@ -404,7 +404,7 @@ Parameter name: index",
         var i = 1;
         foreach (var token in a)
         {
-            Assert.Equal(i, (int)token);
+            Assert.Equal(i, (int) token);
             i++;
         }
     }
@@ -416,8 +416,8 @@ Parameter name: index",
         a.Add(a);
 
         Assert.Equal(3, a.Count);
-        Assert.Equal(1, (int)a[0]);
-        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(2, (int) a[1]);
         Assert.NotSame(a, a[2]);
     }
 
@@ -426,12 +426,12 @@ Parameter name: index",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var a = new JArray
             {
-                ["badvalue"] = new JValue(3)
-            };
-        },
+                var a = new JArray
+                {
+                    ["badvalue"] = new JValue(3)
+                };
+            },
             @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
     }
 
@@ -440,26 +440,26 @@ Parameter name: index",
     {
         object key = 0;
 
-        var a = new JArray((object)null)
+        var a = new JArray((object) null)
         {
             [key] = new JValue(3)
         };
 
-        Assert.Equal(3, (int)a[key]);
+        Assert.Equal(3, (int) a[key]);
     }
 
     [Fact]
     public void ReplaceAll()
     {
-        var a = new JArray(new[] { 1, 2, 3 });
+        var a = new JArray(new[] {1, 2, 3});
         Assert.Equal(3, a.Count);
-        Assert.Equal(1, (int)a[0]);
-        Assert.Equal(2, (int)a[1]);
-        Assert.Equal(3, (int)a[2]);
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(2, (int) a[1]);
+        Assert.Equal(3, (int) a[2]);
 
         a.ReplaceAll(1);
         Assert.Equal(1, a.Count);
-        Assert.Equal(1, (int)a[0]);
+        Assert.Equal(1, (int) a[0]);
     }
 
     [Fact]
@@ -478,8 +478,8 @@ Parameter name: index",
         array.Insert(1, 456);
 
         Assert.Equal(2, array.Count);
-        Assert.Equal(123, (int)array[0]);
-        Assert.Equal(456, (int)array[1]);
+        Assert.Equal(123, (int) array[0]);
+        Assert.Equal(456, (int) array[1]);
     }
 
     [Fact]
@@ -501,13 +501,13 @@ Parameter name: index",
     {
         var json = @"{""decks"":[]}";
 
-        var decks = (JArray)JObject.Parse(json)["decks"];
+        var decks = (JArray) JObject.Parse(json)["decks"];
         var l = decks.ToList();
         Assert.Equal(0, l.Count);
 
         json = @"{""decks"":[1]}";
 
-        decks = (JArray)JObject.Parse(json)["decks"];
+        decks = (JArray) JObject.Parse(json)["decks"];
         l = decks.ToList();
         Assert.Equal(1, l.Count);
     }
@@ -520,9 +520,9 @@ Parameter name: index",
         var a = JArray.Parse(json, new());
 
         Assert.Equal(3, a.Count);
-        Assert.Equal(1, (int)a[0]);
-        Assert.Equal(2, (int)a[1]);
-        Assert.Equal(3, (int)a[2]);
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(2, (int) a[1]);
+        Assert.Equal(3, (int) a[2]);
 
         a = JArray.Parse(json, new()
         {
@@ -530,9 +530,9 @@ Parameter name: index",
         });
 
         Assert.Equal(3, a.Count);
-        Assert.Equal(1, (int)a[0]);
-        Assert.Equal(2, (int)a[1]);
-        Assert.Equal(3, (int)a[2]);
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(2, (int) a[1]);
+        Assert.Equal(3, (int) a[2]);
 
         a = JArray.Parse(json, new()
         {
@@ -540,10 +540,10 @@ Parameter name: index",
         });
 
         Assert.Equal(4, a.Count);
-        Assert.Equal(1, (int)a[0]);
-        Assert.Equal(2, (int)a[1]);
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(2, (int) a[1]);
         Assert.Equal(JTokenType.Comment, a[2].Type);
-        Assert.Equal(3, (int)a[3]);
+        Assert.Equal(3, (int) a[3]);
     }
 
     [Fact]
@@ -555,9 +555,9 @@ Parameter name: index",
         var a = JArray.Parse(json);
 
         Assert.Equal(3, a.Count);
-        Assert.Equal(1, (int)a[0]);
-        Assert.Equal(2, (int)a[1]);
-        Assert.Equal(3, (int)a[2]);
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(2, (int) a[1]);
+        Assert.Equal(3, (int) a[2]);
     }
 
     [Fact]
@@ -579,29 +579,29 @@ Parameter name: index",
 
         var a = JArray.Parse(json, new());
 
-        XUnitAssert.True(((IJsonLineInfo)a).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo)a[0]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo)a[1]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo)a[2]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a[0]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a[1]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new()
         {
             LineInfoHandling = LineInfoHandling.Ignore
         });
 
-        XUnitAssert.False(((IJsonLineInfo)a).HasLineInfo());
-        XUnitAssert.False(((IJsonLineInfo)a[0]).HasLineInfo());
-        XUnitAssert.False(((IJsonLineInfo)a[1]).HasLineInfo());
-        XUnitAssert.False(((IJsonLineInfo)a[2]).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo) a).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo) a[0]).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo) a[1]).HasLineInfo());
+        XUnitAssert.False(((IJsonLineInfo) a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new()
         {
             LineInfoHandling = LineInfoHandling.Load
         });
 
-        XUnitAssert.True(((IJsonLineInfo)a).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo)a[0]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo)a[1]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo)a[2]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a[0]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a[1]).HasLineInfo());
+        XUnitAssert.True(((IJsonLineInfo) a[2]).HasLineInfo());
     }
 }

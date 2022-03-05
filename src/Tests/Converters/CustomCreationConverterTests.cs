@@ -9,7 +9,8 @@ public class CustomCreationConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeObject()
     {
-        var json = JsonConvert.SerializeObject(new List<Employee>
+        var json = JsonConvert.SerializeObject(
+            new List<Employee>
         {
             new()
             {
@@ -27,7 +28,8 @@ public class CustomCreationConverterTests : TestFixtureBase
                 Department = "IT",
                 JobTitle = "Manager"
             }
-        }, Formatting.Indented);
+        },
+            Formatting.Indented);
 
         //[
         //  {

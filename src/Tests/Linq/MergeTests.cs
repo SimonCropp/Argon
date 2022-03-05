@@ -20,9 +20,9 @@ Parameter name: content",
     [Fact]
     public void MergeArraySelf()
     {
-        var a = new JArray { "1", "2" };
-        a.Merge(a, new() { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.Equal(new() { "1", "2" }, a);
+        var a = new JArray {"1", "2"};
+        a.Merge(a, new() {MergeArrayHandling = MergeArrayHandling.Replace});
+        Assert.Equal(new() {"1", "2"}, a);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ Parameter name: content",
             ["1"] = 1,
             ["2"] = 2
         };
-        a.Merge(a, new() { MergeArrayHandling = MergeArrayHandling.Replace });
+        a.Merge(a, new() {MergeArrayHandling = MergeArrayHandling.Replace});
         Assert.Equal(new()
         {
             ["1"] = 1,
@@ -44,53 +44,53 @@ Parameter name: content",
     [Fact]
     public void MergeArrayIntoArray_Replace()
     {
-        var a = new JArray { "1", "2" };
-        a.Merge(new[] { "3", "4" }, new() { MergeArrayHandling = MergeArrayHandling.Replace });
-        Assert.Equal(new() { "3", "4" }, a);
+        var a = new JArray {"1", "2"};
+        a.Merge(new[] {"3", "4"}, new() {MergeArrayHandling = MergeArrayHandling.Replace});
+        Assert.Equal(new() {"3", "4"}, a);
     }
 
     [Fact]
     public void MergeArrayIntoArray_Concat()
     {
-        var a = new JArray { "1", "2" };
-        a.Merge(new[] { "3", "4" }, new() { MergeArrayHandling = MergeArrayHandling.Concat });
-        Assert.Equal(new() { "1", "2", "3", "4" }, a);
+        var a = new JArray {"1", "2"};
+        a.Merge(new[] {"3", "4"}, new() {MergeArrayHandling = MergeArrayHandling.Concat});
+        Assert.Equal(new() {"1", "2", "3", "4"}, a);
     }
 
     [Fact]
     public void MergeArrayIntoArray_Union()
     {
-        var a = new JArray { "1", "2" };
-        a.Merge(new[] { "2", "3", "4" }, new() { MergeArrayHandling = MergeArrayHandling.Union });
-        Assert.Equal(new() { "1", "2", "3", "4" }, a);
+        var a = new JArray {"1", "2"};
+        a.Merge(new[] {"2", "3", "4"}, new() {MergeArrayHandling = MergeArrayHandling.Union});
+        Assert.Equal(new() {"1", "2", "3", "4"}, a);
     }
 
     [Fact]
     public void MergeArrayIntoArray_Merge()
     {
-        var a = new JArray { "1", "2" };
-        a.Merge(new[] { "2" }, new() { MergeArrayHandling = MergeArrayHandling.Merge });
-        Assert.Equal(new() { "2", "2" }, a);
+        var a = new JArray {"1", "2"};
+        a.Merge(new[] {"2"}, new() {MergeArrayHandling = MergeArrayHandling.Merge});
+        Assert.Equal(new() {"2", "2"}, a);
     }
 
     [Fact]
     public void MergeNullString()
     {
-        var a = new JObject { ["a"] = 1 };
-        var b = new JObject { ["a"] = false ? "2" : null };
+        var a = new JObject {["a"] = 1};
+        var b = new JObject {["a"] = false ? "2" : null};
         a.Merge(b);
 
-        Assert.Equal(1, (int)a["a"]);
+        Assert.Equal(1, (int) a["a"]);
     }
 
     [Fact]
     public void MergeObjectProperty()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
             Property1 = 1
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
             Property2 = 2
         });
@@ -108,13 +108,13 @@ Parameter name: content",
     [Fact]
     public void MergeChildObject()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
-            Property1 = new { SubProperty1 = 1 }
+            Property1 = new {SubProperty1 = 1}
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
-            Property1 = new { SubProperty2 = 2 }
+            Property1 = new {SubProperty2 = 2}
         });
 
         left.Merge(right);
@@ -132,14 +132,14 @@ Parameter name: content",
     [Fact]
     public void MergeMismatchedTypesRoot()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
-            Property1 = new { SubProperty1 = 1 }
+            Property1 = new {SubProperty1 = 1}
         });
-        var right = (JArray)JToken.FromObject(new object[]
+        var right = (JArray) JToken.FromObject(new object[]
         {
-            new { Property1 = 1 },
-            new { Property1 = 1 }
+            new {Property1 = 1},
+            new {Property1 = 1}
         });
 
         left.Merge(right);
@@ -156,13 +156,13 @@ Parameter name: content",
     [Fact]
     public void MergeMultipleObjects()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
-            Property1 = new { SubProperty1 = 1 }
+            Property1 = new {SubProperty1 = 1}
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
-            Property1 = new { SubProperty2 = 2 },
+            Property1 = new {SubProperty2 = 2},
             Property2 = 2
         });
 
@@ -182,7 +182,7 @@ Parameter name: content",
     [Fact]
     public void MergeArray()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
@@ -194,7 +194,7 @@ Parameter name: content",
                         Property2 = 2,
                         Property3 = 3,
                         Property4 = 4,
-                        Property5 = (object)null
+                        Property5 = (object) null
                     }
                 },
                 new { },
@@ -204,7 +204,7 @@ Parameter name: content",
                 null
             }
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
@@ -212,12 +212,12 @@ Parameter name: content",
                 {
                     Property1 = new
                     {
-                        Property1 = (object)null,
+                        Property1 = (object) null,
                         Property2 = 3,
                         Property3 = new
                         {
                         },
-                        Property5 = (object)null
+                        Property5 = (object) null
                     }
                 },
                 null,
@@ -265,21 +265,21 @@ Parameter name: content",
     [Fact]
     public void ConcatArray()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
-                new { Property1 = 1 },
-                new { Property1 = 1 }
+                new {Property1 = 1},
+                new {Property1 = 1}
             }
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
-                new { Property1 = 1 },
-                new { Property2 = 2 },
-                new { Property3 = 3 }
+                new {Property1 = 1},
+                new {Property2 = 2},
+                new {Property3 = 3}
             }
         });
 
@@ -314,24 +314,24 @@ Parameter name: content",
     [Fact]
     public void MergeMismatchingTypesInArray()
     {
-        var left = (JArray)JToken.FromObject(new object[]
+        var left = (JArray) JToken.FromObject(new object[]
         {
             true,
             null,
-            new { Property1 = 1 },
-            new object[] { 1 },
-            new { Property1 = 1 },
+            new {Property1 = 1},
+            new object[] {1},
+            new {Property1 = 1},
             1,
-            new object[] { 1 }
+            new object[] {1}
         });
-        var right = (JArray)JToken.FromObject(new object[]
+        var right = (JArray) JToken.FromObject(new object[]
         {
             1,
             5,
-            new object[] { 1 },
-            new { Property1 = 1 },
+            new object[] {1},
+            new {Property1 = 1},
             true,
-            new { Property1 = 1 },
+            new {Property1 = 1},
             null
         });
 
@@ -366,7 +366,7 @@ Parameter name: content",
     [Fact]
     public void MergeMismatchingTypesInObject()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
             Property1 = new object[]
             {
@@ -379,15 +379,15 @@ Parameter name: content",
             Property3 = true,
             Property4 = true
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
-            Property1 = new { Nested = true },
+            Property1 = new {Nested = true},
             Property2 = true,
             Property3 = new object[]
             {
                 1
             },
-            Property4 = (object)null
+            Property4 = (object) null
         });
 
         left.Merge(right);
@@ -409,7 +409,7 @@ Parameter name: content",
     [Fact]
     public void MergeArrayOverwrite_Nested()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
@@ -418,7 +418,7 @@ Parameter name: content",
                 3
             }
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
@@ -445,13 +445,13 @@ Parameter name: content",
     [Fact]
     public void MergeArrayOverwrite_Root()
     {
-        var left = (JArray)JToken.FromObject(new object[]
+        var left = (JArray) JToken.FromObject(new object[]
         {
             1,
             2,
             3
         });
-        var right = (JArray)JToken.FromObject(new object[]
+        var right = (JArray) JToken.FromObject(new object[]
         {
             4,
             5
@@ -473,21 +473,21 @@ Parameter name: content",
     [Fact]
     public void UnionArrays()
     {
-        var left = (JObject)JToken.FromObject(new
+        var left = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
-                new { Property1 = 1 },
-                new { Property1 = 1 }
+                new {Property1 = 1},
+                new {Property1 = 1}
             }
         });
-        var right = (JObject)JToken.FromObject(new
+        var right = (JObject) JToken.FromObject(new
         {
             Array1 = new object[]
             {
-                new { Property1 = 1 },
-                new { Property2 = 2 },
-                new { Property3 = 3 }
+                new {Property1 = 1},
+                new {Property2 = 2},
+                new {Property3 = 3}
             }
         });
 
@@ -523,17 +523,17 @@ Parameter name: content",
         var p2 = new JProperty("p2", 2);
 
         p1.Merge(p2);
-        Assert.Equal(2, (int)p1.Value);
+        Assert.Equal(2, (int) p1.Value);
 
         var p3 = new JProperty("p3");
 
         p1.Merge(p3);
-        Assert.Equal(2, (int)p1.Value);
+        Assert.Equal(2, (int) p1.Value);
 
         var p4 = new JProperty("p4", null);
 
         p1.Merge(p4);
-        Assert.Equal(2, (int)p1.Value);
+        Assert.Equal(2, (int) p1.Value);
     }
 
     [Fact]
@@ -649,9 +649,9 @@ Parameter name: content",
         Assert.Null(o1["words"]);
         Assert.NotNull(o1["Words"]);
 
-        var words = (JArray)o1["Words"];
-        Assert.Equal("User", (string)words[0]);
-        Assert.Equal("Name", (string)words[1]);
+        var words = (JArray) o1["Words"];
+        Assert.Equal("User", (string) words[0]);
+        Assert.Equal("Name", (string) words[1]);
     }
 
     [Fact]

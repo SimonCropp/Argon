@@ -182,9 +182,9 @@ public class ParseTests : TestFixtureBase
             () => reader.Read(),
             "Input string '1E+309' is not a valid number. Path '', line 1, position 6.");
 #else
-            Assert.True(reader.Read());
-            Assert.Equal(typeof(double), reader.ValueType);
-            Assert.Equal(double.PositiveInfinity, reader.Value);
+        Assert.True(reader.Read());
+        Assert.Equal(typeof(double), reader.ValueType);
+        Assert.Equal(double.PositiveInfinity, reader.Value);
 #endif
 
         reader = new(new StringReader("-1E+5000"));
@@ -193,9 +193,9 @@ public class ParseTests : TestFixtureBase
             () => reader.Read(),
             "Input string '-1E+5000' is not a valid number. Path '', line 1, position 8.");
 #else
-            Assert.True(reader.Read());
-            Assert.Equal(typeof(double), reader.ValueType);
-            Assert.Equal(double.NegativeInfinity, reader.Value);
+        Assert.True(reader.Read());
+        Assert.Equal(typeof(double), reader.ValueType);
+        Assert.Equal(double.NegativeInfinity, reader.Value);
 #endif
 
         reader = new(new StringReader("5.1231231E"));
@@ -391,5 +391,6 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(new DateTime(InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
         Assert.Equal(typeof(DateTime), reader.ValueType);
     }
+
     internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
 }
