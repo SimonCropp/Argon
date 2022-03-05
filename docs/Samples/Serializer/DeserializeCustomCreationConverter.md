@@ -27,7 +27,7 @@ public class PersonConverter : CustomCreationConverter<Person>
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L7-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconvertertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L7-L30' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconvertertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeCustomCreationConverterUsage -->
@@ -46,10 +46,10 @@ var person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
 Console.WriteLine(person.GetType().Name);
 // Employee
 
-var employee = (Employee)person;
+var employee = (Employee) person;
 
 Console.WriteLine(employee.JobTitle);
 // Carpenter
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L33-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

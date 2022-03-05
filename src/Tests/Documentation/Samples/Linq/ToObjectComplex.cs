@@ -7,16 +7,19 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 public class ToObjectComplex : TestFixtureBase
 {
     #region Types
+
     public class Person
     {
         public string Name { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region ToObjectComplex
+
         var json = @"{
               'd': [
                 {
@@ -30,7 +33,7 @@ public class ToObjectComplex : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        var a = (JArray)o["d"];
+        var a = (JArray) o["d"];
 
         var person = a.ToObject<IList<Person>>();
 
@@ -39,6 +42,7 @@ public class ToObjectComplex : TestFixtureBase
 
         Console.WriteLine(person[1].Name);
         // Mike Smith
+
         #endregion
 
         Assert.Equal("John Smith", person[0].Name);

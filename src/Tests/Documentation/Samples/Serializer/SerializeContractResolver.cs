@@ -5,6 +5,7 @@
 public class SerializeContractResolver : TestFixtureBase
 {
     #region SerializeContractResolverTypes
+
     public class Person
     {
         public string FirstName { get; set; }
@@ -12,12 +13,14 @@ public class SerializeContractResolver : TestFixtureBase
 
         public string FullName => $"{FirstName} {LastName}";
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeContractResolverUsage
+
         var person = new Person
         {
             FirstName = "Sarah",
@@ -35,6 +38,7 @@ public class SerializeContractResolver : TestFixtureBase
         //   "lastName": "Security",
         //   "fullName": "Sarah Security"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

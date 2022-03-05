@@ -5,6 +5,7 @@
 public class DeserializeExtensionData : TestFixtureBase
 {
     #region DeserializeExtensionDataTypes
+
     public class DirectoryAccount
     {
         // normal deserialization
@@ -14,15 +15,14 @@ public class DeserializeExtensionData : TestFixtureBase
         public string UserName { get; set; }
         public string Domain { get; set; }
 
-        [JsonExtensionData]
-        IDictionary<string, JToken> _additionalData;
+        [JsonExtensionData] IDictionary<string, JToken> _additionalData;
 
         [OnDeserialized]
         void OnDeserialized(StreamingContext context)
         {
             // SAMAccountName is not deserialized to any property
             // and so it is added to the extension data dictionary
-            var samAccountName = (string)_additionalData["SAMAccountName"];
+            var samAccountName = (string) _additionalData["SAMAccountName"];
 
             Domain = samAccountName.Split('\\')[0];
             UserName = samAccountName.Split('\\')[1];
@@ -33,12 +33,14 @@ public class DeserializeExtensionData : TestFixtureBase
             _additionalData = new Dictionary<string, JToken>();
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DeserializeExtensionDataUsage
+
         var json = @"{
               'DisplayName': 'John Smith',
               'SAMAccountName': 'contoso\\johns'
@@ -54,6 +56,7 @@ public class DeserializeExtensionData : TestFixtureBase
 
         Console.WriteLine(account.UserName);
         // johns
+
         #endregion
 
         Assert.Equal("John Smith", account.DisplayName);

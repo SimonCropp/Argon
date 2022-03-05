@@ -10,11 +10,12 @@ public class User
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
+
     [JsonProperty(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public int SnakeRating { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategyAttributesUsage -->
@@ -36,5 +37,5 @@ Console.WriteLine(json);
 //   "snake_rating": 10
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L21-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategyAttributes.cs#L24-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyattributesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

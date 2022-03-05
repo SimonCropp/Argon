@@ -5,6 +5,7 @@
 public class ErrorHandlingAttribute : TestFixtureBase
 {
     #region ErrorHandlingAttributeTypes
+
     public class Employee
     {
         List<string> roles;
@@ -34,12 +35,14 @@ public class ErrorHandlingAttribute : TestFixtureBase
             errorContext.Handled = true;
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region ErrorHandlingAttributeUsage
+
         var person = new Employee
         {
             Name = "George Michael Bluth",
@@ -56,6 +59,7 @@ public class ErrorHandlingAttribute : TestFixtureBase
         //   "Age": 16,
         //   "Title": "Mister Manager"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

@@ -5,6 +5,7 @@
 public class CustomJsonConverter : TestFixtureBase
 {
     #region CustomJsonConverterTypes
+
     public class KeysJsonConverter : JsonConverter
     {
         readonly Type[] _types;
@@ -24,7 +25,7 @@ public class CustomJsonConverter : TestFixtureBase
             }
             else
             {
-                var o = (JObject)token;
+                var o = (JObject) token;
                 var propertyNames = o.Properties().Select(p => p.Name).ToList();
 
                 o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
@@ -52,12 +53,14 @@ public class CustomJsonConverter : TestFixtureBase
         public string LastName { get; set; }
         public IList<string> Roles { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region CustomJsonConverterUsage
+
         var employee = new Employee
         {
             FirstName = "James",
@@ -88,6 +91,7 @@ public class CustomJsonConverter : TestFixtureBase
 
         Console.WriteLine(newEmployee.FirstName);
         // James
+
         #endregion
 
         Assert.Equal("James", newEmployee.FirstName);

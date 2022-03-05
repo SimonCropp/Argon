@@ -10,11 +10,10 @@ public class Account
     public string FullName { get; set; }
     public string EmailAddress { get; set; }
 
-    [JsonIgnore]
-    public string PasswordHash { get; set; }
+    [JsonIgnore] public string PasswordHash { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoretypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: PropertyJsonIgnoreUsage -->
@@ -32,5 +31,5 @@ var json = JsonConvert.SerializeObject(account);
 Console.WriteLine(json);
 // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L21-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L22-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoreusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -5,6 +5,7 @@
 public class JsonObjectAttributeOptIn : TestFixtureBase
 {
     #region JsonObjectAttributeOptInTypes
+
     [JsonObject(MemberSerialization.OptIn)]
     public class File
     {
@@ -12,18 +13,18 @@ public class JsonObjectAttributeOptIn : TestFixtureBase
         // does not have JsonPropertyAttribute
         public Guid Id { get; set; }
 
-        [JsonProperty]
-        public string Name { get; set; }
+        [JsonProperty] public string Name { get; set; }
 
-        [JsonProperty]
-        public int Size { get; set; }
+        [JsonProperty] public int Size { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonObjectAttributeOptInUsage
+
         var file = new File
         {
             Id = Guid.NewGuid(),
@@ -38,6 +39,7 @@ public class JsonObjectAttributeOptIn : TestFixtureBase
         //   "Name": "ImportantLegalDocuments.docx",
         //   "Size": 51200
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

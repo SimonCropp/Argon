@@ -5,6 +5,7 @@
 public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
 {
     #region JsonObjectAttributeOverrideIEnumerableTypes
+
     [JsonObject]
     public class Directory : IEnumerable<string>
     {
@@ -26,12 +27,14 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
             return GetEnumerator();
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonObjectAttributeOverrideIEnumerableUsage
+
         var directory = new Directory
         {
             Name = "My Documents",
@@ -52,6 +55,7 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
         //     "WiseFinancalAdvice.xlsx"
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

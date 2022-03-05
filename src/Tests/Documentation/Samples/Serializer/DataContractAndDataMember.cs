@@ -5,6 +5,7 @@
 public class DataContractAndDataMember : TestFixtureBase
 {
     #region DataContractAndDataMemberTypes
+
     [DataContract]
     public class File
     {
@@ -12,18 +13,18 @@ public class DataContractAndDataMember : TestFixtureBase
         // does not have DataMemberAttribute
         public Guid Id { get; set; }
 
-        [DataMember]
-        public string Name { get; set; }
+        [DataMember] public string Name { get; set; }
 
-        [DataMember]
-        public int Size { get; set; }
+        [DataMember] public int Size { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DataContractAndDataMemberUsage
+
         var file = new File
         {
             Id = Guid.NewGuid(),
@@ -38,6 +39,7 @@ public class DataContractAndDataMember : TestFixtureBase
         //   "Name": "ImportantLegalDocuments.docx",
         //   "Size": 51200
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

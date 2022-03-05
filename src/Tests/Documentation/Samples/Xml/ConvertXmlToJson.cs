@@ -10,6 +10,7 @@ public class ConvertXmlToJson : TestFixtureBase
     public void Example()
     {
         #region ConvertXmlToJson
+
         var xml = @"<?xml version='1.0' standalone='no'?>
             <root>
               <person id='1'>
@@ -48,6 +49,7 @@ public class ConvertXmlToJson : TestFixtureBase
         //     ]
         //   }
         // }
+
         #endregion
 
         Assert.Equal(@"{""?xml"":{""@version"":""1.0"",""@standalone"":""no""},""root"":{""person"":[{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com""},{""@id"":""2"",""name"":""Louis"",""url"":""http://www.yahoo.com""}]}}", json);

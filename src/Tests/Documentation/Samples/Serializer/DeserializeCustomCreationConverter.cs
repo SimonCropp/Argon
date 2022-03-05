@@ -5,6 +5,7 @@
 public class DeserializeCustomCreationConverter : TestFixtureBase
 {
     #region DeserializeCustomCreationConverterTypes
+
     public class Person
     {
         public string FirstName { get; set; }
@@ -25,12 +26,14 @@ public class DeserializeCustomCreationConverter : TestFixtureBase
             return new Employee();
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DeserializeCustomCreationConverterUsage
+
         var json = @"{
               'Department': 'Furniture',
               'JobTitle': 'Carpenter',
@@ -44,10 +47,11 @@ public class DeserializeCustomCreationConverter : TestFixtureBase
         Console.WriteLine(person.GetType().Name);
         // Employee
 
-        var employee = (Employee)person;
+        var employee = (Employee) person;
 
         Console.WriteLine(employee.JobTitle);
         // Carpenter
+
         #endregion
 
         Assert.Equal("Carpenter", employee.JobTitle);

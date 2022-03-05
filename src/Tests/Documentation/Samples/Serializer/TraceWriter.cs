@@ -5,17 +5,20 @@
 public class TraceWriter : TestFixtureBase
 {
     #region TraceWriterTypes
+
     public class Account
     {
         public string FullName { get; set; }
         public bool Deleted { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region TraceWriterUsage
+
         var json = @"{
               'FullName': 'Dan Deleted',
               'Deleted': true,
@@ -39,6 +42,7 @@ public class TraceWriter : TestFixtureBase
         //   "Deleted": true,
         //   "DeletedDate": "2013-01-20T00:00:00"
         // }
+
         #endregion
 
         Assert.Equal(4, traceWriter.GetTraceMessages().Count());

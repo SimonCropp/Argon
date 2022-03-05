@@ -10,6 +10,7 @@ public class MergeJson : TestFixtureBase
     public void Example()
     {
         #region MergeJson
+
         var o1 = JObject.Parse(@"{
               'FirstName': 'John',
               'LastName': 'Smith',
@@ -37,6 +38,7 @@ public class MergeJson : TestFixtureBase
         //     "Admin"
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

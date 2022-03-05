@@ -7,15 +7,16 @@ public class SerializeExtensionData : TestFixtureBase
 #pragma warning disable 169
 
     #region SerializeExtensionDataTypes
+
     public class CustomerInvoice
     {
         // we're only modifing the tax rate
         public decimal TaxRate { get; set; }
 
         // everything else gets stored here
-        [JsonExtensionData]
-        IDictionary<string, JToken> _additionalData;
+        [JsonExtensionData] IDictionary<string, JToken> _additionalData;
     }
+
     #endregion
 
 #pragma warning restore 169
@@ -24,6 +25,7 @@ public class SerializeExtensionData : TestFixtureBase
     public void Example()
     {
         #region SerializeExtensionDataUsage
+
         var json = @"{
               'HourlyRate': 150,
               'Hours': 40,
@@ -41,6 +43,7 @@ public class SerializeExtensionData : TestFixtureBase
         //   "HourlyRate": 150,
         //   "Hours": 40
         // }
+
         #endregion
 
         Assert.Equal(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);

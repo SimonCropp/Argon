@@ -43,7 +43,7 @@ jsonWriter.WriteEndObject();
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L12-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L12-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 JsonTextReader has settings on it for reading different date formats, time zones, and the cultures when reading text values.
@@ -89,7 +89,7 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L49-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L51-L91' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -106,12 +106,12 @@ var o = new JObject(
 );
 
 var serializer = new JsonSerializer();
-var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
+var p = (Person) serializer.Deserialize(new JTokenReader(o), typeof(Person));
 
 Console.WriteLine(p.Name);
 // John Smith
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L93-L104' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L97-L110' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

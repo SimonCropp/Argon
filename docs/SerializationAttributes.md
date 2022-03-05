@@ -24,22 +24,19 @@ Json.NET attributes take precedence over standard .NET serialization attributes 
 public class Person
 {
     // "John Smith"
-    [JsonProperty]
-    public string Name { get; set; }
+    [JsonProperty] public string Name { get; set; }
 
     // "2000-12-15T22:11:03"
-    [JsonProperty]
-    public DateTime BirthDate { get; set; }
+    [JsonProperty] public DateTime BirthDate { get; set; }
 
     // new Date(976918263055)
-    [JsonProperty]
-    public DateTime LastModified { get; set; }
+    [JsonProperty] public DateTime LastModified { get; set; }
 
     // not serialized because mode is opt-in
     public string Department { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L72-L91' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationattributes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L75-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationattributes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -111,7 +108,7 @@ public class User
     public UserStatus Status { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L7-L24' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertytypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 This example shows the JsonConverterAttribute being applied to a property.
@@ -138,15 +135,14 @@ public class DirectoryAccount
     public string UserName { get; set; }
     public string Domain { get; set; }
 
-    [JsonExtensionData]
-    IDictionary<string, JToken> _additionalData;
+    [JsonExtensionData] IDictionary<string, JToken> _additionalData;
 
     [OnDeserialized]
     void OnDeserialized(StreamingContext context)
     {
         // SAMAccountName is not deserialized to any property
         // and so it is added to the extension data dictionary
-        var samAccountName = (string)_additionalData["SAMAccountName"];
+        var samAccountName = (string) _additionalData["SAMAccountName"];
 
         Domain = samAccountName.Split('\\')[0];
         UserName = samAccountName.Split('\\')[1];
@@ -158,7 +154,7 @@ public class DirectoryAccount
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeExtensionDataUsage -->
@@ -180,7 +176,7 @@ Console.WriteLine(account.Domain);
 Console.WriteLine(account.UserName);
 // johns
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L41-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L42-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -208,7 +204,7 @@ public class User
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributetypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConstructorAttributeUsage -->
@@ -224,7 +220,7 @@ var user = JsonConvert.DeserializeObject<User>(json);
 Console.WriteLine(user.UserName);
 // domain\username
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L31-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

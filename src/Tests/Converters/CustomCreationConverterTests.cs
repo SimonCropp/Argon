@@ -54,7 +54,7 @@ public class CustomCreationConverterTests : TestFixtureBase
 
         Assert.Equal("Maurice", person.FirstName);
 
-        var employee = (Employee)person;
+        var employee = (Employee) person;
 
         Assert.Equal("Support", employee.JobTitle);
     }
@@ -108,7 +108,7 @@ public class CustomCreationConverterTests : TestFixtureBase
         var myClass = new MyClass
         {
             Value = "Foo",
-            Thing = new MyThing { Number = 456, }
+            Thing = new MyThing {Number = 456}
         };
         var json = JsonConvert.SerializeObject(myClass); // <-- Exception here
 
@@ -160,9 +160,9 @@ public class CustomCreationConverterTests : TestFixtureBase
         var initial = new NullInterfaceTestClass
         {
             Company = "Company!",
-            DecimalRange = new Range<decimal> { First = 0, Last = 1 },
+            DecimalRange = new Range<decimal> {First = 0, Last = 1},
             Id = new(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
-            IntRange = new Range<int> { First = int.MinValue, Last = int.MaxValue },
+            IntRange = new Range<int> {First = int.MinValue, Last = int.MaxValue},
             Year = 2010,
             NullDecimalRange = null
         };

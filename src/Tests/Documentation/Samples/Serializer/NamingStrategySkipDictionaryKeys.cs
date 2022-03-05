@@ -5,18 +5,21 @@
 public class NamingStrategySkipDictionaryKeys : TestFixtureBase
 {
     #region NamingStrategySkipDictionaryKeysTypes
+
     public class DailyHighScores
     {
         public DateTime Date { get; set; }
         public string Game { get; set; }
         public Dictionary<string, int> UserPoints { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region NamingStrategySkipDictionaryKeysUsage
+
         var dailyHighScores = new DailyHighScores
         {
             Date = new(2016, 6, 27, 0, 0, 0, DateTimeKind.Utc),
@@ -53,6 +56,7 @@ public class NamingStrategySkipDictionaryKeys : TestFixtureBase
         //     "JessicaN": 1000
         //   }
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

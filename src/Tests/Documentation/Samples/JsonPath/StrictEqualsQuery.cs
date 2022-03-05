@@ -8,6 +8,7 @@ public class StrictEqualsQuery : TestFixtureBase
     public void Example()
     {
         #region StrictEqualsQueryUsage
+
         var items = JArray.Parse(@"[
               {
                 'Name': 'Valid JSON',
@@ -24,9 +25,11 @@ public class StrictEqualsQuery : TestFixtureBase
 
         foreach (var item in strictResults)
         {
-            Console.WriteLine((string)item["Name"]);
+            Console.WriteLine((string) item["Name"]);
         }
+
         // Valid JSON
+
         #endregion
 
         Assert.Equal(1, strictResults.Count);

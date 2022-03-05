@@ -10,7 +10,7 @@ public class Role
     public string Name { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/ReadMultipleContentWithJsonReader.cs#L7-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-readmultiplecontentwithjsonreadertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/ReadMultipleContentWithJsonReader.cs#L7-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-readmultiplecontentwithjsonreadertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReadMultipleContentWithJsonReaderUsage -->
@@ -44,5 +44,5 @@ foreach (var role in roles)
 // Admin
 // Publisher
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/ReadMultipleContentWithJsonReader.cs#L17-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-readmultiplecontentwithjsonreaderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/ReadMultipleContentWithJsonReader.cs#L19-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-readmultiplecontentwithjsonreaderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

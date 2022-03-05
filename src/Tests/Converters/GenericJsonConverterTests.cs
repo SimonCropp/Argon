@@ -13,7 +13,7 @@ public class GenericJsonConverterTests : TestFixtureBase
 
         public override string ReadJson(JsonReader reader, Type type, string existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            return (string)reader.Value + existingValue;
+            return (string) reader.Value + existingValue;
         }
     }
 
@@ -24,7 +24,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var jsonWriter = new JsonTextWriter(stringWriter);
 
         var converter = new TestGenericConverter();
-        converter.WriteJson(jsonWriter, (object)"String!", null);
+        converter.WriteJson(jsonWriter, (object) "String!", null);
 
         Assert.Equal(@"""String!""", stringWriter.ToString());
     }
@@ -88,7 +88,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         jsonReader.Read();
 
         var converter = new TestGenericConverter();
-        var s = (string)converter.ReadJson(jsonReader, typeof(string), null, null);
+        var s = (string) converter.ReadJson(jsonReader, typeof(string), null, null);
 
         Assert.Equal(@"String!", s);
     }

@@ -3,8 +3,10 @@
 // as found in the license.md file.
 
 using System.Data;
+using System.Data.SqlTypes;
 using Argon.DataSetConverters;
 using TestObjects;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class DataTableConverterTests : TestFixtureBase
 {
@@ -24,7 +26,7 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.Equal(1, dt.Rows.Count);
         Assert.NotNull(dt.Rows[0]["col1"]);
 
-        var value = (object[])dt.Rows[0]["col1"];
+        var value = (object[]) dt.Rows[0]["col1"];
         Assert.Equal(0, value.Length);
     }
 
@@ -49,7 +51,7 @@ public class DataTableConverterTests : TestFixtureBase
             dt.Columns.Add(ss.Name, ss);
         }
 
-        dt.Rows.Add(types.Select(_ => (object)null).ToArray());
+        dt.Rows.Add(types.Select(_ => (object) null).ToArray());
 
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter)
@@ -81,10 +83,10 @@ public class DataTableConverterTests : TestFixtureBase
         var types = new Dictionary<Type, object>
         {
             [typeof(TimeSpan)] = TimeSpan.Zero,
-            [typeof(char[])] = new[] {'a', 'b', 'c' },
+            [typeof(char[])] = new[] {'a', 'b', 'c'},
             [typeof(Type)] = typeof(string),
             [typeof(object)] = new(),
-            [typeof(byte[])] = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 },
+            [typeof(byte[])] = new byte[] {1, 2, 3, 4, 5, 6, 7, 8},
             [typeof(Uri)] = new Uri("http://localhost"),
             [typeof(Guid)] = new Guid(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
             [typeof(BigInteger)] = BigInteger.Parse("10000000000000000000000000000000000")
@@ -181,15 +183,15 @@ public class DataTableConverterTests : TestFixtureBase
         var dr1 = deserializedDataTable.Rows[0];
         Assert.Equal(0L, dr1["id"]);
         Assert.Equal("item 0", dr1["item"]);
-        Assert.Equal("0!", ((DataTable)dr1["DataTableCol"]).Rows[0]["NestedStringCol"]);
-        Assert.Equal(0L, ((long[])dr1["ArrayCol"])[0]);
+        Assert.Equal("0!", ((DataTable) dr1["DataTableCol"]).Rows[0]["NestedStringCol"]);
+        Assert.Equal(0L, ((long[]) dr1["ArrayCol"])[0]);
         Assert.Equal(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr1["DateCol"]);
 
         var dr2 = deserializedDataTable.Rows[1];
         Assert.Equal(1L, dr2["id"]);
         Assert.Equal("item 1", dr2["item"]);
-        Assert.Equal("1!", ((DataTable)dr2["DataTableCol"]).Rows[0]["NestedStringCol"]);
-        Assert.Equal(1L, ((long[])dr2["ArrayCol"])[0]);
+        Assert.Equal("1!", ((DataTable) dr2["DataTableCol"]).Rows[0]["NestedStringCol"]);
+        Assert.Equal(1L, ((long[]) dr2["ArrayCol"])[0]);
         Assert.Equal(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr2["DateCol"]);
     }
 
@@ -288,7 +290,7 @@ public class DataTableConverterTests : TestFixtureBase
         myNewRow["TimeSpanCol"] = new TimeSpan(10, 22, 10, 15, 100);
         myNewRow["DateTimeCol"] = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc);
         myNewRow["DecimalCol"] = 64.0021;
-        myNewRow["ArrayCol"] = new[] { 1 };
+        myNewRow["ArrayCol"] = new[] {1};
         myNewRow["BytesCol"] = Encoding.UTF8.GetBytes("Hello world");
 
         var nestedTable = new DataTable("Nested");
@@ -334,14 +336,14 @@ public class DataTableConverterTests : TestFixtureBase
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var d = (DataTable)value;
+            var d = (DataTable) value;
             writer.WriteValue(d.TableName);
         }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             //reader.Read();
-            var d = new DataTable((string)reader.Value);
+            var d = new DataTable((string) reader.Value);
 
             return d;
         }
@@ -379,9 +381,9 @@ public class DataTableConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(table, settings);
         Assert.Equal(@"["
-                        + @"{""item"":""shirt"",""price"":49.99},"
-                        + @"{""item"":""pants"",""price"":54.99},"
-                        + @"{""item"":""shoes"",""price"":null}]", json);
+                     + @"{""item"":""shirt"",""price"":49.99},"
+                     + @"{""item"":""pants"",""price"":54.99},"
+                     + @"{""item"":""shoes"",""price"":null}]", json);
     }
 
     [Fact]
@@ -402,9 +404,9 @@ public class DataTableConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(table, Formatting.None, settings);
         Assert.Equal(@"["
-                        + @"{""item"":""shirt"",""price"":49.99},"
-                        + @"{""item"":""pants"",""price"":54.99},"
-                        + @"{""item"":""shoes""}]", json);
+                     + @"{""item"":""shirt"",""price"":49.99},"
+                     + @"{""item"":""pants"",""price"":54.99},"
+                     + @"{""item"":""shoes""}]", json);
     }
 
     [Fact]
@@ -417,12 +419,12 @@ public class DataTableConverterTests : TestFixtureBase
                             + @"{""item"":""shirt"",""price"":49.99},"
                             + @"{""item"":""pants"",""price"":54.99},"
                             + @"{""item"":""shoes""}]";
-        var table = JsonConvert.DeserializeObject<DataTable>(json,settings);
+        var table = JsonConvert.DeserializeObject<DataTable>(json, settings);
         Assert.Equal("shirt", table.Rows[0]["item"]);
         Assert.Equal("pants", table.Rows[1]["item"]);
         Assert.Equal("shoes", table.Rows[2]["item"]);
-        XUnitAssert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
-        XUnitAssert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
+        XUnitAssert.AreEqual(49.99, (double) table.Rows[0]["price"], 0.01);
+        XUnitAssert.AreEqual(54.99, (double) table.Rows[1]["price"], 0.01);
         Assert.IsType(typeof(DBNull), table.Rows[2]["price"]);
     }
 
@@ -440,8 +442,8 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.Equal("shirt", table.Rows[0]["item"]);
         Assert.Equal("pants", table.Rows[1]["item"]);
         Assert.Equal("shoes", table.Rows[2]["item"]);
-        XUnitAssert.AreEqual(49.99, (double)table.Rows[0]["price"], 0.01);
-        XUnitAssert.AreEqual(54.99, (double)table.Rows[1]["price"], 0.01);
+        XUnitAssert.AreEqual(49.99, (double) table.Rows[0]["price"], 0.01);
+        XUnitAssert.AreEqual(54.99, (double) table.Rows[1]["price"], 0.01);
         Assert.IsType(typeof(DBNull), table.Rows[2]["price"]);
     }
 
@@ -482,7 +484,7 @@ public class DataTableConverterTests : TestFixtureBase
   ""Value"": 1
 }", serializedpair);
 
-        var pair2 = (KeyValuePair<DataTable, int>)JsonConvert.DeserializeObject(serializedpair, typeof(KeyValuePair<DataTable, int>), settings);
+        var pair2 = (KeyValuePair<DataTable, int>) JsonConvert.DeserializeObject(serializedpair, typeof(KeyValuePair<DataTable, int>), settings);
 
         Assert.Equal(1, pair2.Value);
         Assert.Equal(1, pair2.Key.Rows.Count);
@@ -589,7 +591,7 @@ public class DataTableConverterTests : TestFixtureBase
         var ds = JsonConvert.DeserializeObject<SqlTypesDataSet>(json, settings);
 
         Assert.Equal(new(2015, 11, 28), ds.TestTable[0].DateTimeValue);
-        Assert.Equal(System.Data.SqlTypes.SqlDateTime.Null, ds.TestTable[1].DateTimeValue);
+        Assert.Equal(SqlDateTime.Null, ds.TestTable[1].DateTimeValue);
 
         var json2 = JsonConvert.SerializeObject(ds, settings);
 
@@ -600,7 +602,7 @@ public class DataTableConverterTests : TestFixtureBase
     {
         public override bool CanConvert(Type type)
         {
-            return typeof(System.Data.SqlTypes.SqlDateTime).IsAssignableFrom(type);
+            return typeof(SqlDateTime).IsAssignableFrom(type);
         }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
@@ -608,21 +610,21 @@ public class DataTableConverterTests : TestFixtureBase
             if (reader.Value == null ||
                 reader.Value == DBNull.Value)
             {
-                return System.Data.SqlTypes.SqlDateTime.Null;
+                return SqlDateTime.Null;
             }
 
-            return new System.Data.SqlTypes.SqlDateTime((DateTime)serializer.Deserialize(reader));
+            return new SqlDateTime((DateTime) serializer.Deserialize(reader));
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (((System.Data.SqlTypes.SqlDateTime)value).IsNull)
+            if (((SqlDateTime) value).IsNull)
             {
                 writer.WriteNull();
             }
             else
             {
-                writer.WriteValue(((System.Data.SqlTypes.SqlDateTime)value).Value);
+                writer.WriteValue(((SqlDateTime) value).Value);
             }
         }
     }
@@ -665,7 +667,7 @@ public class DataTableConverterTests : TestFixtureBase
             }
         }
 
-        static void OnError(object sender, Argon.ErrorEventArgs e)
+        static void OnError(object sender, ErrorEventArgs e)
         {
             e.ErrorContext.Handled = true;
         }

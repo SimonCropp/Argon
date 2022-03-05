@@ -4,7 +4,7 @@
     public void SerializeUsingInternalConverter()
     {
         var contractResolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract)contractResolver.ResolveContract(typeof(KeyValuePair<string, int>));
+        var contract = (JsonObjectContract) contractResolver.ResolveContract(typeof(KeyValuePair<string, int>));
 
         Assert.Equal(typeof(KeyValuePairConverter), contract.InternalConverter.GetType());
 

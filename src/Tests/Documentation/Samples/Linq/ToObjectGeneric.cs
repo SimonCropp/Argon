@@ -10,6 +10,7 @@ public class ToObjectGeneric : TestFixtureBase
     public void Example()
     {
         #region ToObjectGeneric
+
         var v1 = new JValue(true);
 
         var b = v1.ToObject<bool>();
@@ -26,6 +27,7 @@ public class ToObjectGeneric : TestFixtureBase
 
         Console.WriteLine(s);
         // "True"
+
         #endregion
 
         Assert.Equal("True", s);

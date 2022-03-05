@@ -2,9 +2,9 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using TestObjects;
 using System.Data;
 using Argon.DataSetConverters;
+using TestObjects;
 
 public class DataSetConverterTests : TestFixtureBase
 {
@@ -529,8 +529,8 @@ public class DataSetConverterTests : TestFixtureBase
     {
         var test = new MultipleDataTablesJsonTest
         {
-            TableWrapper1 = new() { DataTableProperty = CreateDataTable(3, "Table1Col") },
-            TableWrapper2 = new() { DataTableProperty = CreateDataTable(3, "Table2Col") }
+            TableWrapper1 = new() {DataTableProperty = CreateDataTable(3, "Table1Col")},
+            TableWrapper2 = new() {DataTableProperty = CreateDataTable(3, "Table2Col")}
         };
 
         var json = JsonConvert.SerializeObject(test, Formatting.Indented, new LowercaseDataTableConverter());
@@ -566,8 +566,9 @@ public class DataSetConverterTests : TestFixtureBase
         var table = new DataTable();
         for (var i = 1; i <= cols; i++)
         {
-            table.Columns.Add(new DataColumn { ColumnName = colNamePrefix + i, DefaultValue = i });
+            table.Columns.Add(new DataColumn {ColumnName = colNamePrefix + i, DefaultValue = i});
         }
+
         table.Rows.Add(table.NewRow());
         return table;
     }
@@ -589,7 +590,7 @@ public class DataSetConverterTests : TestFixtureBase
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var dataTableSerializer = new JsonSerializer { ContractResolver = new LowercaseContractResolver() };
+            var dataTableSerializer = new JsonSerializer {ContractResolver = new LowercaseContractResolver()};
 
             base.WriteJson(writer, value, dataTableSerializer);
         }

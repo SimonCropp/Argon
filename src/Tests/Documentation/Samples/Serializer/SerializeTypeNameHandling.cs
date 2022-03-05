@@ -5,6 +5,7 @@
 public class SerializeTypeNameHandling : TestFixtureBase
 {
     #region SerializeTypeNameHandlingTypes
+
     public abstract class Business
     {
         public string Name { get; set; }
@@ -20,12 +21,14 @@ public class SerializeTypeNameHandling : TestFixtureBase
         public string FullName { get; set; }
         public IList<Business> Businesses { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeTypeNameHandlingUsage
+
         var stockholder = new Stockholder
         {
             FullName = "Steve Stockholder",
@@ -85,6 +88,7 @@ public class SerializeTypeNameHandling : TestFixtureBase
 
         Console.WriteLine(newStockholder.Businesses[0].GetType().Name);
         // Hotel
+
         #endregion
 
         Assert.Equal("Hotel", newStockholder.Businesses[0].GetType().Name);

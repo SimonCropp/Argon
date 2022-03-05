@@ -42,7 +42,7 @@ public class XmlJsonReader : JsonReader
                         throw new("No type specified.");
                     }
 
-                    valueType = (JTokenType)Enum.Parse(typeof(JTokenType), typeName, true);
+                    valueType = (JTokenType) Enum.Parse(typeof(JTokenType), typeName, true);
 
                     switch (PeekState())
                     {
@@ -68,6 +68,7 @@ public class XmlJsonReader : JsonReader
                             {
                                 stateStack.Pop();
                             }
+
                             return true;
                         case JTokenType.Array:
                             SetToken(JsonToken.EndArray);
@@ -76,6 +77,7 @@ public class XmlJsonReader : JsonReader
                             {
                                 stateStack.Pop();
                             }
+
                             return true;
                     }
 
@@ -114,6 +116,7 @@ public class XmlJsonReader : JsonReader
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+
                     stateStack.Push(valueType.Value);
                     return true;
                 default:
@@ -136,6 +139,7 @@ public class XmlJsonReader : JsonReader
                 {
                     stateStack.Pop();
                 }
+
                 return true;
             case JTokenType.Object:
                 SetToken(JsonToken.StartObject);
@@ -148,6 +152,7 @@ public class XmlJsonReader : JsonReader
                 valueType = null;
                 return true;
         }
+
         return false;
     }
 
@@ -212,7 +217,7 @@ public class XmlJsonReader : JsonReader
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L7-L214' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L7-L221' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonReaderUsage -->
@@ -243,7 +248,7 @@ var xml = @"<Root type=""Object"">
 
 var sr = new StringReader(xml);
 
-using (var xmlReader = XmlReader.Create(sr, new() { IgnoreWhitespace = true }))
+using (var xmlReader = XmlReader.Create(sr, new() {IgnoreWhitespace = true}))
 using (var reader = new XmlJsonReader(xmlReader))
 {
     var o = JObject.Load(reader);
@@ -271,5 +276,5 @@ using (var reader = new XmlJsonReader(xmlReader))
     //}
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L221-L274' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonReader.cs#L228-L283' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

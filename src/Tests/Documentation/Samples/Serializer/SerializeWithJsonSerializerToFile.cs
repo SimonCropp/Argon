@@ -5,17 +5,20 @@
 public class SerializeWithJsonSerializerToFile : TestFixtureBase
 {
     #region SerializeWithJsonSerializerToFileTypes
+
     public class Movie
     {
         public string Name { get; set; }
         public int Year { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeWithJsonSerializerToFileUsage
+
         var movie = new Movie
         {
             Name = "Bad Boys",

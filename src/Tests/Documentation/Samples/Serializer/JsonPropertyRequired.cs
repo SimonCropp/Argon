@@ -5,6 +5,7 @@
 public class JsonPropertyRequired : TestFixtureBase
 {
     #region JsonPropertyRequiredTypes
+
     public class Videogame
     {
         [JsonProperty(Required = Required.Always)]
@@ -13,12 +14,14 @@ public class JsonPropertyRequired : TestFixtureBase
         [JsonProperty(Required = Required.AllowNull)]
         public DateTime? ReleaseDate { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonPropertyRequiredUsage
+
         var json = @"{
               'Name': 'Starcraft III',
               'ReleaseDate': null
@@ -31,6 +34,7 @@ public class JsonPropertyRequired : TestFixtureBase
 
         Console.WriteLine(starcraft.ReleaseDate);
         // null
+
         #endregion
     }
 }

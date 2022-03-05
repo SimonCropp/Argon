@@ -47,37 +47,29 @@ public class StringEnumConverterTests : TestFixtureBase
 
     public enum NamedEnum
     {
-        [EnumMember(Value = "@first")]
-        First,
+        [EnumMember(Value = "@first")] First,
 
-        [EnumMember(Value = "@second")]
-        Second,
+        [EnumMember(Value = "@second")] Second,
         Third
     }
 
     public enum NamedEnumDuplicate
     {
-        [EnumMember(Value = "Third")]
-        First,
+        [EnumMember(Value = "Third")] First,
 
-        [EnumMember(Value = "@second")]
-        Second,
+        [EnumMember(Value = "@second")] Second,
         Third
     }
 
     public enum NamedEnumWithComma
     {
-        [EnumMember(Value = "@first")]
-        First,
+        [EnumMember(Value = "@first")] First,
 
-        [EnumMember(Value = "@second")]
-        Second,
+        [EnumMember(Value = "@second")] Second,
 
-        [EnumMember(Value = ",third")]
-        Third,
+        [EnumMember(Value = ",third")] Third,
 
-        [EnumMember(Value = ",")]
-        JustComma
+        [EnumMember(Value = ",")] JustComma
     }
 
     public class NegativeEnumClass
@@ -142,7 +134,7 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void StringEnumConverter_NamingStrategyTypeCtor()
     {
-        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] { true, true, true }, false);
+        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] {true, true, true}, false);
 
         Assert.NotNull(converter.NamingStrategy);
         Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
@@ -195,9 +187,9 @@ public class StringEnumConverterTests : TestFixtureBase
     {
         var ex = XUnitAssert.Throws<JsonException>(
             () =>
-        {
-            JsonConvert.DeserializeObject<NullArgumentInAttribute>(@"""9""");
-        });
+            {
+                JsonConvert.DeserializeObject<NullArgumentInAttribute>(@"""9""");
+            });
 
         Assert.Equal("Cannot pass a null parameter to the constructor.", ex.InnerException.Message);
     }
@@ -206,7 +198,7 @@ public class StringEnumConverterTests : TestFixtureBase
     public void Deserialize_AllowIntegerValuesAttribute()
     {
         var e = JsonConvert.DeserializeObject<AllowIntegerValuesEnum>(@"""9""");
-        Assert.Equal(9, (int)e);
+        Assert.Equal(9, (int) e);
     }
 
     [Fact]
@@ -337,7 +329,7 @@ public class StringEnumConverterTests : TestFixtureBase
             NullableStoreColor2 = null
         };
 
-        var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
+        var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
 
         XUnitAssert.AreEqualNormalized(@"{
   ""StoreColor"": ""red"",
@@ -351,8 +343,8 @@ public class StringEnumConverterTests : TestFixtureBase
     {
         var enumClass = new EnumClass
         {
-            StoreColor = (StoreColor)1000,
-            NullableStoreColor1 = (StoreColor)1000,
+            StoreColor = (StoreColor) 1000,
+            NullableStoreColor1 = (StoreColor) 1000,
             NullableStoreColor2 = null
         };
 
@@ -421,7 +413,7 @@ public class StringEnumConverterTests : TestFixtureBase
         var negativeEnumClass = new NegativeEnumClass
         {
             Value1 = NegativeEnum.Negative,
-            Value2 = (NegativeEnum)int.MinValue
+            Value2 = (NegativeEnum) int.MinValue
         };
 
         var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
@@ -443,7 +435,7 @@ public class StringEnumConverterTests : TestFixtureBase
         var negativeEnumClass = JsonConvert.DeserializeObject<NegativeEnumClass>(json, new StringEnumConverter());
 
         Assert.Equal(NegativeEnum.Negative, negativeEnumClass.Value1);
-        Assert.Equal((NegativeEnum)int.MinValue, negativeEnumClass.Value2);
+        Assert.Equal((NegativeEnum) int.MinValue, negativeEnumClass.Value2);
     }
 
     [Fact]
@@ -458,7 +450,7 @@ public class StringEnumConverterTests : TestFixtureBase
         var enumClass = JsonConvert.DeserializeObject<EnumClass>(json, new StringEnumConverter());
 
         Assert.Equal(StoreColor.Red | StoreColor.White, enumClass.StoreColor);
-        Assert.Equal((StoreColor)0, enumClass.NullableStoreColor1);
+        Assert.Equal((StoreColor) 0, enumClass.NullableStoreColor1);
         Assert.Equal(StoreColor.Red | StoreColor.White | StoreColor.Black, enumClass.NullableStoreColor2);
     }
 
@@ -489,8 +481,8 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var enumClass = JsonConvert.DeserializeObject<EnumClass>(json, new StringEnumConverter());
 
-        Assert.Equal((StoreColor)1000, enumClass.StoreColor);
-        Assert.Equal((StoreColor)1000, enumClass.NullableStoreColor1);
+        Assert.Equal((StoreColor) 1000, enumClass.StoreColor);
+        Assert.Equal((StoreColor) 1000, enumClass.NullableStoreColor1);
         Assert.Equal(null, enumClass.NullableStoreColor2);
     }
 
@@ -502,7 +494,7 @@ public class StringEnumConverterTests : TestFixtureBase
             Enum = FlagsTestEnum.First | FlagsTestEnum.Second
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy()  });
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
         XUnitAssert.AreEqualNormalized(@"{
   ""Enum"": ""first, second""
 }", json);
@@ -515,7 +507,7 @@ public class StringEnumConverterTests : TestFixtureBase
   ""Enum"": ""first, second""
 }";
 
-        var c = JsonConvert.DeserializeObject<EnumContainer<FlagsTestEnum>>(json, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy()  });
+        var c = JsonConvert.DeserializeObject<EnumContainer<FlagsTestEnum>>(json, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
         Assert.Equal(FlagsTestEnum.First | FlagsTestEnum.Second, c.Enum);
     }
 
@@ -555,7 +547,7 @@ public class StringEnumConverterTests : TestFixtureBase
     public enum MyEnum
     {
         Alpha,
-        Beta,
+        Beta
     }
 
     [Fact]
@@ -566,7 +558,7 @@ public class StringEnumConverterTests : TestFixtureBase
         try
         {
             var serializer = new JsonSerializer();
-            serializer.Converters.Add(new StringEnumConverter { AllowIntegerValues = false });
+            serializer.Converters.Add(new StringEnumConverter {AllowIntegerValues = false});
             serializer.Deserialize<Bucket>(new JsonTextReader(new StringReader(json)));
         }
         catch (JsonSerializationException exception)
@@ -591,10 +583,10 @@ public class StringEnumConverterTests : TestFixtureBase
                 Foo.Bat,
                 Foo.SerializeAsBaz,
                 Foo.FooBar | Foo.SerializeAsBaz,
-                (Foo)int.MaxValue
+                (Foo) int.MaxValue
             };
 
-        var json1 = JsonConvert.SerializeObject(lfoo, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy()  });
+        var json1 = JsonConvert.SerializeObject(lfoo, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
 
         XUnitAssert.AreEqualNormalized(@"[
   ""Bat, baz"",
@@ -613,11 +605,11 @@ public class StringEnumConverterTests : TestFixtureBase
         Assert.Equal(Foo.Bat, foos[2]);
         Assert.Equal(Foo.SerializeAsBaz, foos[3]);
         Assert.Equal(Foo.FooBar | Foo.SerializeAsBaz, foos[4]);
-        Assert.Equal((Foo)int.MaxValue, foos[5]);
+        Assert.Equal((Foo) int.MaxValue, foos[5]);
 
-        var lbar = new List<Bar> { Bar.FooBar, Bar.Bat, Bar.SerializeAsBaz };
+        var lbar = new List<Bar> {Bar.FooBar, Bar.Bat, Bar.SerializeAsBaz};
 
-        var json2 = JsonConvert.SerializeObject(lbar, Formatting.Indented, new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() });
+        var json2 = JsonConvert.SerializeObject(lbar, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
 
         XUnitAssert.AreEqualNormalized(@"[
   ""foo_bar"",
@@ -646,23 +638,19 @@ public class StringEnumConverterTests : TestFixtureBase
     [JsonConverter(typeof(StringEnumConverter))]
     enum Foo
     {
-        [EnumMember(Value = "foo_bar")]
-        FooBar = 0x01,
+        [EnumMember(Value = "foo_bar")] FooBar = 0x01,
         Bat = 0x02,
 
-        [EnumMember(Value = "baz")]
-        SerializeAsBaz = 0x4,
+        [EnumMember(Value = "baz")] SerializeAsBaz = 0x4
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
     enum Bar
     {
-        [EnumMember(Value = "foo_bar")]
-        FooBar,
+        [EnumMember(Value = "foo_bar")] FooBar,
         Bat,
 
-        [EnumMember(Value = "baz")]
-        SerializeAsBaz
+        [EnumMember(Value = "baz")] SerializeAsBaz
     }
 
     [Fact]
@@ -718,7 +706,7 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void EnumMemberWithNumbers_NoIntegerValues()
     {
-        var converter = new StringEnumConverter { AllowIntegerValues = false };
+        var converter = new StringEnumConverter {AllowIntegerValues = false};
 
         var e = JsonConvert.DeserializeObject<NumberNamesEnum>("\"1\"", converter);
 
@@ -829,8 +817,7 @@ public class StringEnumConverterTests : TestFixtureBase
     [JsonConverter(typeof(StringEnumConverter))]
     public enum EnumMemberDoesNotMatchName
     {
-        [EnumMember(Value = "first_value")]
-        First
+        [EnumMember(Value = "first_value")] First
     }
 
     [Fact]
@@ -871,10 +858,8 @@ public class StringEnumConverterTests : TestFixtureBase
     [JsonConverter(typeof(StringEnumConverter))]
     public enum EnumMemberWithDiffrentCases
     {
-        [EnumMember(Value = "first_value")]
-        First,
-        [EnumMember(Value = "second_value")]
-        first
+        [EnumMember(Value = "first_value")] First,
+        [EnumMember(Value = "second_value")] first
     }
 
     [Fact]
@@ -894,10 +879,8 @@ public class StringEnumConverterTests : TestFixtureBase
     [DataContract(Name = "DateFormats")]
     public enum EnumMemberWithDifferentCases
     {
-        [EnumMember(Value = "M")]
-        Month,
-        [EnumMember(Value = "m")]
-        Minute
+        [EnumMember(Value = "M")] Month,
+        [EnumMember(Value = "m")] Minute
     }
 
     [Fact]
@@ -928,54 +911,40 @@ public class StringEnumConverterTests : TestFixtureBase
 [DataContract]
 public class DuplicateEnumNameTestClass
 {
-    [DataMember]
-    public DuplicateNameEnum Value { get; set; }
+    [DataMember] public DuplicateNameEnum Value { get; set; }
 
-    [DataMember]
-    public DuplicateNameEnum2 Value2 { get; set; }
+    [DataMember] public DuplicateNameEnum2 Value2 { get; set; }
 }
 
 [DataContract]
 public enum NumberNamesEnum
 {
-    [EnumMember(Value = "2")]
-    first,
-    [EnumMember(Value = "1")]
-    second,
-    [EnumMember(Value = "3")]
-    third,
-    [EnumMember(Value = "-4")]
-    fourth
+    [EnumMember(Value = "2")] first,
+    [EnumMember(Value = "1")] second,
+    [EnumMember(Value = "3")] third,
+    [EnumMember(Value = "-4")] fourth
 }
 
 [DataContract]
 public enum DuplicateNameEnum
 {
-    [EnumMember]
-    first = 0,
+    [EnumMember] first = 0,
 
-    [EnumMember]
-    foo_bar = 1,
+    [EnumMember] foo_bar = 1,
 
-    [EnumMember(Value = "foo_bar")]
-    FooBar = 2,
+    [EnumMember(Value = "foo_bar")] FooBar = 2,
 
-    [EnumMember]
-    foo_bar_NOT_USED = 3
+    [EnumMember] foo_bar_NOT_USED = 3
 }
 
 [DataContract]
 public enum DuplicateNameEnum2
 {
-    [EnumMember]
-    first = 0,
+    [EnumMember] first = 0,
 
-    [EnumMember(Value = "foo_bar")]
-    FooBar = 1,
+    [EnumMember(Value = "foo_bar")] FooBar = 1,
 
-    [EnumMember]
-    foo_bar = 2,
+    [EnumMember] foo_bar = 2,
 
-    [EnumMember(Value = "TEST")]
-    foo_bar_NOT_USED = 3
+    [EnumMember(Value = "TEST")] foo_bar_NOT_USED = 3
 }

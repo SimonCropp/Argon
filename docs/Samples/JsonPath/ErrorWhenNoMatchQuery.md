@@ -18,12 +18,12 @@ var items = JArray.Parse(@"[
 string result;
 try
 {
-    result = (string)items.SelectToken(@"$.[3]['Name']", errorWhenNoMatch: true);
+    result = (string) items.SelectToken(@"$.[3]['Name']", errorWhenNoMatch: true);
 }
 catch (JsonException)
 {
     result = "Unable to find result in JSON.";
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/ErrorWhenNoMatchQuery.cs#L10-L30' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorwhennomatchquery' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/ErrorWhenNoMatchQuery.cs#L10-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorwhennomatchquery' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

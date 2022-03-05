@@ -24,5 +24,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonObject.cs#L12-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ParseJsonObject.cs#L12-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

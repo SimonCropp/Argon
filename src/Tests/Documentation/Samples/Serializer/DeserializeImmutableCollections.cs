@@ -10,6 +10,7 @@ public class DeserializeImmutableCollections : TestFixtureBase
     public void Example()
     {
         #region DeserializeImmutableCollections
+
         var json = @"[
               'One',
               'II',
@@ -22,9 +23,11 @@ public class DeserializeImmutableCollections : TestFixtureBase
         {
             Console.WriteLine(s);
         }
+
         // One
         // II
         // 3
+
         #endregion
 
         Assert.Equal(3, l.Count);

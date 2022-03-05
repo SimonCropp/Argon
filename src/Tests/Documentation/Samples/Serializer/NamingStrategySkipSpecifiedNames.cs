@@ -5,19 +5,21 @@
 public class NamingStrategySkipSpecifiedNames : TestFixtureBase
 {
     #region NamingStrategySkipSpecifiedNamesTypes
+
     public class User
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        [JsonProperty(PropertyName = "UPN")]
-        public string Upn { get; set; }
+        [JsonProperty(PropertyName = "UPN")] public string Upn { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region NamingStrategySkipSpecifiedNamesUsage
+
         var user = new User
         {
             FirstName = "John",
@@ -45,6 +47,7 @@ public class NamingStrategySkipSpecifiedNames : TestFixtureBase
         //   "lastName": "Smith",
         //   "UPN": "john.smith@acme.com"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

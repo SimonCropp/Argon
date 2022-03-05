@@ -11,6 +11,7 @@ public class SerializeDataSet : TestFixtureBase
     public void Example()
     {
         #region SerializeDataSet
+
         var dataSet = new DataSet("dataSet");
         dataSet.Namespace = "NetFrameWork";
         var table = new DataTable();
@@ -51,6 +52,7 @@ public class SerializeDataSet : TestFixtureBase
         //     }
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

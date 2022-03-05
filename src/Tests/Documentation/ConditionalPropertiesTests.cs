@@ -11,6 +11,7 @@ public class Employee
 }
 
 #region ShouldSerializeContractResolver
+
 public class ShouldSerializeContractResolver : DefaultContractResolver
 {
     public new static readonly ShouldSerializeContractResolver Instance = new();
@@ -24,7 +25,7 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
             property.ShouldSerialize =
                 instance =>
                 {
-                    var e = (Employee)instance;
+                    var e = (Employee) instance;
                     return e.Manager != e;
                 };
         }
@@ -32,11 +33,13 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
         return property;
     }
 }
+
 #endregion
 
 public class ConditionalPropertiesTests : TestFixtureBase
 {
     #region EmployeeShouldSerializeExample
+
     public class Employee
     {
         public string Name { get; set; }
@@ -48,12 +51,14 @@ public class ConditionalPropertiesTests : TestFixtureBase
             return Manager != this;
         }
     }
+
     #endregion
 
     [Fact]
     public void ShouldSerializeClassTest()
     {
         #region ShouldSerializeClassTest
+
         var joe = new Employee
         {
             Name = "Joe Employee"
@@ -69,7 +74,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
         // ShouldSerialize will skip this property
         mike.Manager = mike;
 
-        var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(new[] {joe, mike}, Formatting.Indented);
         // [
         //   {
         //     "Name": "Joe Employee",
@@ -81,6 +86,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
         //     "Name": "Mike Manager"
         //   }
         // ]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[
@@ -99,11 +105,11 @@ public class ConditionalPropertiesTests : TestFixtureBase
     [Fact]
     public void ShouldSerializeContractResolverTest()
     {
-        var joe = new Argon.Tests.Documentation.Employee
+        var joe = new Documentation.Employee
         {
             Name = "Joe Employee"
         };
-        var mike = new Argon.Tests.Documentation.Employee
+        var mike = new Documentation.Employee
         {
             Name = "Mike Manager"
         };
@@ -112,7 +118,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
         mike.Manager = mike;
 
         var json = JsonConvert.SerializeObject(
-            new[] { joe, mike },
+            new[] {joe, mike},
             Formatting.Indented,
             new JsonSerializerSettings
             {

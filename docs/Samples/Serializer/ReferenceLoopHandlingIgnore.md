@@ -11,14 +11,14 @@ public class Employee
     public Employee Manager { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L7-L13' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoretypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReferenceLoopHandlingIgnoreUsage -->
 <a id='snippet-referenceloophandlingignoreusage'></a>
 ```cs
-var joe = new Employee { Name = "Joe User" };
-var mike = new Employee { Name = "Mike Manager" };
+var joe = new Employee {Name = "Joe User"};
+var mike = new Employee {Name = "Mike Manager"};
 joe.Manager = mike;
 mike.Manager = mike;
 
@@ -35,5 +35,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L18-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L20-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoreusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -5,6 +5,7 @@
 public class DefaultValueHandlingIgnore : TestFixtureBase
 {
     #region DefaultValueHandlingIgnoreTypes
+
     public class Person
     {
         public string Name { get; set; }
@@ -12,12 +13,14 @@ public class DefaultValueHandlingIgnore : TestFixtureBase
         public Person Partner { get; set; }
         public decimal? Salary { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DefaultValueHandlingIgnoreUsage
+
         var person = new Person();
 
         var jsonIncludeDefaultValues = JsonConvert.SerializeObject(person, Formatting.Indented);
@@ -37,6 +40,7 @@ public class DefaultValueHandlingIgnore : TestFixtureBase
 
         Console.WriteLine(jsonIgnoreDefaultValues);
         // {}
+
         #endregion
 
         Assert.Equal("{}", jsonIgnoreDefaultValues);

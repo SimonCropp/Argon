@@ -10,10 +10,11 @@ public class JObjectProperties : TestFixtureBase
     public void Example()
     {
         #region JObjectProperties
+
         var o = new JObject
         {
-            { "name1", "value1" },
-            { "name2", "value2" }
+            {"name1", "value1"},
+            {"name2", "value2"}
         };
 
         foreach (var property in o.Properties())
@@ -27,8 +28,10 @@ public class JObjectProperties : TestFixtureBase
         {
             Console.WriteLine($"{property.Key} - {property.Value}");
         }
+
         // name1 - value1
         // name2 - value2
+
         #endregion
 
         Assert.Equal(2, o.Count);

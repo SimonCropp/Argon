@@ -5,6 +5,7 @@
 public class PreserveReferencesHandlingObject : TestFixtureBase
 {
     #region PreserveReferencesHandlingObjectTypes
+
     public class Directory
     {
         public string Name { get; set; }
@@ -17,18 +18,20 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
         public string Name { get; set; }
         public Directory Parent { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region PreserveReferencesHandlingObjectUsage
-        var root = new Directory { Name = "Root" };
-        var documents = new Directory { Name = "My Documents", Parent = root };
 
-        var file = new File { Name = "ImportantLegalDocument.docx", Parent = documents };
+        var root = new Directory {Name = "Root"};
+        var documents = new Directory {Name = "My Documents", Parent = root};
 
-        documents.Files = new List<File> { file };
+        var file = new File {Name = "ImportantLegalDocument.docx", Parent = documents};
+
+        documents.Files = new List<File> {file};
 
         try
         {
@@ -94,6 +97,7 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
         //     }
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

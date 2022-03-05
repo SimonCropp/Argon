@@ -14,6 +14,7 @@ public class DefaultSettings : TestFixtureBase
         try
         {
             #region DefaultSettingsUsage
+
             // settings will automatically be used by JsonConvert.SerializeObject/DeserializeObject
             JsonConvert.DefaultSettings = () => new()
             {
@@ -38,6 +39,7 @@ public class DefaultSettings : TestFixtureBase
             //   "department": "IT",
             //   "jobTitle": "Web Dude"
             // }
+
             #endregion
         }
         finally

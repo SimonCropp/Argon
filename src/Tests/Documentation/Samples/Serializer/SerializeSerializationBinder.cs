@@ -5,6 +5,7 @@
 public class SerializeSerializationBinder : TestFixtureBase
 {
     #region SerializeSerializationBinderTypes
+
     public class KnownTypesBinder : ISerializationBinder
     {
         public IList<Type> KnownTypes { get; set; }
@@ -26,15 +27,17 @@ public class SerializeSerializationBinder : TestFixtureBase
         public string Maker { get; set; }
         public string Model { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeSerializationBinderUsage
+
         var knownTypesBinder = new KnownTypesBinder
         {
-            KnownTypes = new List<Type> { typeof(Car) }
+            KnownTypes = new List<Type> {typeof(Car)}
         };
 
         var car = new Car
@@ -64,6 +67,7 @@ public class SerializeSerializationBinder : TestFixtureBase
 
         Console.WriteLine(newValue.GetType().Name);
         // Car
+
         #endregion
 
         Assert.Equal("Car", newValue.GetType().Name);

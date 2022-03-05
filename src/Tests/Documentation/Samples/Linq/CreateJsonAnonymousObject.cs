@@ -7,6 +7,7 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 public class CreateJsonAnonymousObject : TestFixtureBase
 {
     #region CreateJsonAnonymousObjectTypes
+
     public class Post
     {
         public string Title { get; set; }
@@ -14,12 +15,14 @@ public class CreateJsonAnonymousObject : TestFixtureBase
         public string Link { get; set; }
         public IList<string> Categories { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region CreateJsonAnonymousObjectUsage
+
         var posts = new List<Post>
         {
             new()
@@ -74,6 +77,7 @@ public class CreateJsonAnonymousObject : TestFixtureBase
         //     ]
         //   }
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

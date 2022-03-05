@@ -11,14 +11,14 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var d = (double)value;
+            var d = (double) value;
 
             writer.WriteValue(d * 2);
         }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
-            var d = (double)reader.Value;
+            var d = (double) reader.Value;
 
             return d / 2;
         }
@@ -39,7 +39,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         var c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter());
         XUnitAssert.True(c.IsRectangle);
 
-        var r = (Shape.Rectangle)c;
+        var r = (Shape.Rectangle) c;
 
         Assert.Equal(5.0, r.length);
         Assert.Equal(10.0, r.width);
@@ -130,7 +130,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         var c = JsonConvert.DeserializeObject<Shape>(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}");
         XUnitAssert.True(c.IsRectangle);
 
-        var r = (Shape.Rectangle)c;
+        var r = (Shape.Rectangle) c;
 
         Assert.Equal(5.0, r.length);
         Assert.Equal(10.0, r.width);
@@ -202,7 +202,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
 
         var caseInfo = union.Cases.Single(c => c.Name == "Rectangle");
 
-        var value = (Shape.Rectangle)caseInfo.Constructor.Invoke(new object[]
+        var value = (Shape.Rectangle) caseInfo.Constructor.Invoke(new object[]
         {
             10.0, 5.0
         });
@@ -274,7 +274,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         var c = JsonConvert.DeserializeObject<Shape>(json);
         XUnitAssert.True(c.IsRectangle);
 
-        var r = (Shape.Rectangle)c;
+        var r = (Shape.Rectangle) c;
 
         Assert.Equal(5.0, r.length);
         Assert.Equal(10.0, r.width);

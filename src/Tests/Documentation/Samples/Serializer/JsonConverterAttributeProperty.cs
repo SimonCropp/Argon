@@ -5,6 +5,7 @@
 public class JsonConverterAttributeProperty : TestFixtureBase
 {
     #region JsonConverterAttributePropertyTypes
+
     public enum UserStatus
     {
         NotConfirmed,
@@ -19,12 +20,14 @@ public class JsonConverterAttributeProperty : TestFixtureBase
         [JsonConverter(typeof(StringEnumConverter))]
         public UserStatus Status { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonConverterAttributePropertyUsage
+
         var user = new User
         {
             UserName = @"domain\username",
@@ -38,6 +41,7 @@ public class JsonConverterAttributeProperty : TestFixtureBase
         //   "UserName": "domain\\username",
         //   "Status": "Deleted"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

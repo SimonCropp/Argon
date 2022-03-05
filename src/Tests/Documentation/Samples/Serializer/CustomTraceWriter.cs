@@ -7,6 +7,7 @@ using Argon.Tests.Documentation;
 public class CustomTraceWriter : TestFixtureBase
 {
     #region CustomTraceWriterTypes
+
     public class NLogTraceWriter : ITraceWriter
     {
         static readonly Logger Logger = LogManager.GetLogger("NLogTraceWriter");
@@ -45,12 +46,14 @@ public class CustomTraceWriter : TestFixtureBase
             }
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region CustomTraceWriterUsage
+
         var countries = new List<string>
         {
             "New Zealand",
@@ -71,6 +74,7 @@ public class CustomTraceWriter : TestFixtureBase
         //   "Denmark",
         //   "China"
         // ]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[

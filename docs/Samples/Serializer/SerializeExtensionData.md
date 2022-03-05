@@ -11,11 +11,10 @@ public class CustomerInvoice
     public decimal TaxRate { get; set; }
 
     // everything else gets stored here
-    [JsonExtensionData]
-    IDictionary<string, JToken> _additionalData;
+    [JsonExtensionData] IDictionary<string, JToken> _additionalData;
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L9-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L9-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeExtensionDataUsage -->
@@ -39,5 +38,5 @@ var result = JsonConvert.SerializeObject(invoice);
 //   "Hours": 40
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L26-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L27-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

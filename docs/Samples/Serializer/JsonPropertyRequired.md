@@ -14,7 +14,7 @@ public class Videogame
     public DateTime? ReleaseDate { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L7-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyRequiredUsage -->
@@ -33,5 +33,5 @@ Console.WriteLine(starcraft.Name);
 Console.WriteLine(starcraft.ReleaseDate);
 // null
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L21-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L23-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

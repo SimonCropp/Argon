@@ -8,6 +8,7 @@ public class SerializeWithJsonConverters : TestFixtureBase
     public void Example()
     {
         #region SerializeWithJsonConvertersUsage
+
         var stringComparisons = new List<StringComparison>
         {
             StringComparison.CurrentCulture,
@@ -30,6 +31,7 @@ public class SerializeWithJsonConverters : TestFixtureBase
 
         Console.WriteLine(string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
         // CurrentCulture, Ordinal
+
         #endregion
 
         Assert.Equal("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));

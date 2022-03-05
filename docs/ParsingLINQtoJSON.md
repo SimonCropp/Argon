@@ -20,7 +20,7 @@ var json = @"{
 
 var o = JObject.Parse(json);
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L154-L164' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparse' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L162-L174' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparse' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: LinqToJsonCreateParseArray -->
@@ -34,7 +34,7 @@ var json = @"[
 
 var a = JArray.Parse(json);
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L170-L178' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparsearray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L180-L190' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparsearray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -46,10 +46,10 @@ JSON can also be loaded directly from a file using `Argon.Linq.JToken.ReadFrom(A
 <a id='snippet-linqtojsonreadobject'></a>
 ```cs
 using var reader = File.OpenText(@"c:\person.json");
-var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+var o = (JObject) JToken.ReadFrom(new JsonTextReader(reader));
 // do stuff
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L192-L198' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L204-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

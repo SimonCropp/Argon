@@ -5,6 +5,7 @@
 public class DeserializeObjectCreationHandling : TestFixtureBase
 {
     #region DeserializeObjectCreationHandlingTypes
+
     public class UserViewModel
     {
         public string Name { get; set; }
@@ -20,12 +21,14 @@ public class DeserializeObjectCreationHandling : TestFixtureBase
             };
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DeserializeObjectCreationHandlingUsage
+
         var json = @"{
               'Name': 'James',
               'Offices': [
@@ -57,9 +60,11 @@ public class DeserializeObjectCreationHandling : TestFixtureBase
         {
             Console.WriteLine(office);
         }
+
         // Auckland
         // Wellington
         // Christchurch
+
         #endregion
 
         Assert.Equal(3, model2.Offices.Count);

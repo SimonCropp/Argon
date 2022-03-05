@@ -8,6 +8,7 @@ public class MaxDepth : TestFixtureBase
     public void Example()
     {
         #region MaxDepth
+
         var json = @"[
               [
                 [
@@ -30,6 +31,7 @@ public class MaxDepth : TestFixtureBase
             Console.WriteLine(exception.Message);
             // The reader's MaxDepth of 2 has been exceeded. Path '[0][0]', line 3, position 12.
         }
+
         #endregion
     }
 }

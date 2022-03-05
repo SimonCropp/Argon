@@ -8,6 +8,7 @@ public class SerializeDateFormatString : TestFixtureBase
     public void Example()
     {
         #region SerializeDateFormatString
+
         var dateList = new List<DateTime>
         {
             new(2009, 12, 7, 23, 10, 0, DateTimeKind.Utc),
@@ -27,6 +28,7 @@ public class SerializeDateFormatString : TestFixtureBase
         //   "1 January, 2010",
         //   "10 February, 2010"
         // ]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[

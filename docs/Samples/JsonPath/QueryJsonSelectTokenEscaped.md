@@ -12,17 +12,17 @@ var o = JObject.Parse(@"{
       'Government ""Intelligence""': 'Make-Believe'
     }");
 
-var spaceInvaders = (string)o.SelectToken("['Space Invaders']");
+var spaceInvaders = (string) o.SelectToken("['Space Invaders']");
 // Taito
 
-var doom3 = (string)o.SelectToken("['Doom ]|[']");
+var doom3 = (string) o.SelectToken("['Doom ]|[']");
 // id
 
-var yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
+var yarsRevenge = (string) o.SelectToken("['Yar\\'s Revenge']");
 // Atari
 
-var governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
+var governmentIntelligence = (string) o.SelectToken("['Government \"Intelligence\"']");
 // Make-Believe
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L10-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L10-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

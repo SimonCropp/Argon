@@ -21,12 +21,13 @@ public class SerializationTests : TestFixtureBase
     public void SerializeObject()
     {
         #region SerializeObject
+
         var product = new Product
         {
             Name = "Apple",
             ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new[] { "Small", "Medium", "Large" }
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var output = JsonConvert.SerializeObject(product);
@@ -42,6 +43,7 @@ public class SerializationTests : TestFixtureBase
         //}
 
         var deserializedProduct = JsonConvert.DeserializeObject<Product>(output);
+
         #endregion
 
         Assert.Equal("Apple", deserializedProduct.Name);
@@ -51,6 +53,7 @@ public class SerializationTests : TestFixtureBase
     public void JsonSerializerToStream()
     {
         #region JsonSerializerToStream
+
         var product = new Product
         {
             ExpiryDate = new(2008, 12, 28)
@@ -70,27 +73,27 @@ public class SerializationTests : TestFixtureBase
     }
 
     #region SerializationAttributes
+
     [JsonObject(MemberSerialization.OptIn)]
     public class Person
     {
         // "John Smith"
-        [JsonProperty]
-        public string Name { get; set; }
+        [JsonProperty] public string Name { get; set; }
 
         // "2000-12-15T22:11:03"
-        [JsonProperty]
-        public DateTime BirthDate { get; set; }
+        [JsonProperty] public DateTime BirthDate { get; set; }
 
         // new Date(976918263055)
-        [JsonProperty]
-        public DateTime LastModified { get; set; }
+        [JsonProperty] public DateTime LastModified { get; set; }
 
         // not serialized because mode is opt-in
         public string Department { get; set; }
     }
+
     #endregion
 
     #region SerializationCallbacksObject
+
     public class SerializationEventTestObject
     {
         // 2222
@@ -103,8 +106,7 @@ public class SerializationTests : TestFixtureBase
 
         // This field is not serialized. The OnDeserializedAttribute
         // is used to set the member value after serialization.
-        [JsonIgnore]
-        public string Member3 { get; set; }
+        [JsonIgnore] public string Member3 { get; set; }
 
         // This field is set to null, but populated after deserialization.
         public string Member4 { get; set; }
@@ -141,12 +143,14 @@ public class SerializationTests : TestFixtureBase
             Member4 = "This value was set after deserialization.";
         }
     }
+
     #endregion
 
     [Fact]
     public void SerializationCallbacksExample()
     {
         #region SerializationCallbacksExample
+
         var obj = new SerializationEventTestObject();
 
         Console.WriteLine(obj.Member1);
@@ -184,6 +188,7 @@ public class SerializationTests : TestFixtureBase
         // This value was set during deserialization
         Console.WriteLine(obj.Member4);
         // This value was set after deserialization.
+
         #endregion
 
         Assert.Equal(11, obj.Member1);
@@ -193,6 +198,7 @@ public class SerializationTests : TestFixtureBase
     public void SerializationErrorHandling()
     {
         #region SerializationErrorHandling
+
         var errors = new List<string>();
 
         var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
@@ -212,7 +218,7 @@ public class SerializationTests : TestFixtureBase
                     errors.Add(args.ErrorContext.Error.Message);
                     args.ErrorContext.Handled = true;
                 },
-                Converters = { new IsoDateTimeConverter() }
+                Converters = {new IsoDateTimeConverter()}
             });
 
         // 2009-09-09T00:00:00Z
@@ -222,6 +228,7 @@ public class SerializationTests : TestFixtureBase
         // The string was not recognized as a valid DateTime. There is a unknown word starting at index 0.
         // Unexpected token parsing date. Expected String, got StartArray.
         // Cannot convert null value to System.DateTime.
+
         #endregion
 
         Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
@@ -231,6 +238,7 @@ public class SerializationTests : TestFixtureBase
     public void SerializationErrorHandlingWithParent()
     {
         #region SerializationErrorHandlingWithParent
+
         var errors = new List<string>();
 
         var serializer = new JsonSerializer();
@@ -242,10 +250,12 @@ public class SerializationTests : TestFixtureBase
                 errors.Add(args.ErrorContext.Error.Message);
             }
         };
+
         #endregion
     }
 
     #region SerializationErrorHandlingAttributeObject
+
     public class PersonError
     {
         List<string> roles;
@@ -275,12 +285,14 @@ public class SerializationTests : TestFixtureBase
             errorContext.Handled = true;
         }
     }
+
     #endregion
 
     [Fact]
     public void SerializationErrorHandlingAttributeExample()
     {
         #region SerializationErrorHandlingAttributeExample
+
         var person = new PersonError
         {
             Name = "George Michael Bluth",
@@ -297,6 +309,7 @@ public class SerializationTests : TestFixtureBase
         //  "Age": 16,
         //  "Title": "Mister Manager"
         //}
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -310,6 +323,7 @@ public class SerializationTests : TestFixtureBase
     public void PreservingObjectReferencesOff()
     {
         #region PreservingObjectReferencesOff
+
         var p = new Person
         {
             BirthDate = new(1980, 12, 23, 0, 0, 0, DateTimeKind.Utc),
@@ -336,6 +350,7 @@ public class SerializationTests : TestFixtureBase
         //    "LastModified": "2009-02-20T12:59:21Z"
         //  }
         //]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[
@@ -366,8 +381,9 @@ public class SerializationTests : TestFixtureBase
         };
 
         #region PreservingObjectReferencesOn
+
         var json = JsonConvert.SerializeObject(people, Formatting.Indented,
-            new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+            new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.Objects});
 
         //[
         //  {
@@ -382,7 +398,7 @@ public class SerializationTests : TestFixtureBase
         //]
 
         var deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
-            new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+            new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.Objects});
 
         Console.WriteLine(deserializedPeople.Count);
         // 2
@@ -397,21 +413,25 @@ public class SerializationTests : TestFixtureBase
 
         var equal = ReferenceEquals(p1, p2);
         // true
+
         #endregion
 
         XUnitAssert.True(equal);
     }
 
     #region PreservingObjectReferencesAttribute
+
     [JsonObject(IsReference = true)]
     public class EmployeeReference
     {
         public string Name { get; set; }
         public EmployeeReference Manager { get; set; }
     }
+
     #endregion
 
     #region CustomCreationConverterObject
+
     public interface IPerson
     {
         string FirstName { get; set; }
@@ -436,6 +456,7 @@ public class SerializationTests : TestFixtureBase
             return new Employee();
         }
     }
+
     #endregion
 
     [Fact]
@@ -459,6 +480,7 @@ public class SerializationTests : TestFixtureBase
 ]";
 
         #region CustomCreationConverterExample
+
         //[
         //  {
         //    "FirstName": "Maurice",
@@ -486,10 +508,11 @@ public class SerializationTests : TestFixtureBase
         Console.WriteLine(person.FirstName);
         // Maurice
 
-        var employee = (Employee)person;
+        var employee = (Employee) person;
 
         Console.WriteLine(employee.JobTitle);
         // Support
+
         #endregion
 
         Assert.Equal("Support", employee.JobTitle);
@@ -499,19 +522,20 @@ public class SerializationTests : TestFixtureBase
     public void ContractResolver()
     {
         #region ContractResolver
+
         var product = new Product
         {
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[] { "Small", "Medium", "Large" }
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var json =
             JsonConvert.SerializeObject(
                 product,
                 Formatting.Indented,
-                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }
+                new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()}
             );
 
         //{
@@ -524,6 +548,7 @@ public class SerializationTests : TestFixtureBase
         //    "Large"
         //  ]
         //}
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -542,17 +567,18 @@ public class SerializationTests : TestFixtureBase
     public void SerializingCollectionsSerializing()
     {
         #region SerializingCollectionsSerializing
+
         var p1 = new Product
         {
             Name = "Product 1",
             Price = 99.95m,
-            ExpiryDate = new(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc)
         };
         var p2 = new Product
         {
             Name = "Product 2",
             Price = 12.50m,
-            ExpiryDate = new(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc)
         };
 
         var products = new List<Product>
@@ -576,6 +602,7 @@ public class SerializationTests : TestFixtureBase
         //    "Sizes": null
         //  }
         //]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[
@@ -598,6 +625,7 @@ public class SerializationTests : TestFixtureBase
     public void SerializingCollectionsDeserializing()
     {
         #region SerializingCollectionsDeserializing
+
         var json = @"[
               {
                 'Name': 'Product 1',
@@ -622,6 +650,7 @@ public class SerializationTests : TestFixtureBase
 
         Console.WriteLine(p1.Name);
         // Product 1
+
         #endregion
 
         Assert.Equal("Product 1", p1.Name);
@@ -631,6 +660,7 @@ public class SerializationTests : TestFixtureBase
     public void SerializingCollectionsDeserializingDictionaries()
     {
         #region SerializingCollectionsDeserializingDictionaries
+
         var json = @"{""key1"":""value1"",""key2"":""value2""}";
 
         var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
@@ -640,12 +670,14 @@ public class SerializationTests : TestFixtureBase
 
         Console.WriteLine(values["key1"]);
         // value1
+
         #endregion
 
         Assert.Equal("value1", values["key1"]);
     }
 
     #region SerializingDatesInJson
+
     public class LogEntry
     {
         public string Details { get; set; }
@@ -665,9 +697,11 @@ public class SerializationTests : TestFixtureBase
         var isoJson = JsonConvert.SerializeObject(entry);
         // {"Details":"Application started.","LogDate":"2009-02-15T00:00:00Z"}
     }
+
     #endregion
 
     #region ReducingSerializedJsonSizeOptOut
+
     public class Car
     {
         // included in JSON
@@ -676,21 +710,20 @@ public class SerializationTests : TestFixtureBase
         public List<string> Features { get; set; }
 
         // ignored
-        [JsonIgnore]
-        public DateTime LastModified { get; set; }
+        [JsonIgnore] public DateTime LastModified { get; set; }
     }
+
     #endregion
 
     #region ReducingSerializedJsonSizeOptIn
+
     [DataContract]
     public class Computer
     {
         // included in JSON
-        [DataMember]
-        public string Name { get; set; }
+        [DataMember] public string Name { get; set; }
 
-        [DataMember]
-        public decimal SalePrice { get; set; }
+        [DataMember] public decimal SalePrice { get; set; }
 
         // ignored
         public string Manufacture { get; set; }
@@ -698,9 +731,11 @@ public class SerializationTests : TestFixtureBase
         public decimal WholeSalePrice { get; set; }
         public DateTime NextShipmentDate { get; set; }
     }
+
     #endregion
 
     #region ReducingSerializedJsonSizeNullValueHandlingObject
+
     public class Movie
     {
         public string Name { get; set; }
@@ -710,12 +745,14 @@ public class SerializationTests : TestFixtureBase
         public DateTime? ReleaseDate { get; set; }
         public List<string> ReleaseCountries { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void ReducingSerializedJsonSizeNullValueHandlingExample()
     {
         #region ReducingSerializedJsonSizeNullValueHandlingExample
+
         var movie = new Movie
         {
             Name = "Bad Boys III",
@@ -737,12 +774,13 @@ public class SerializationTests : TestFixtureBase
 
         var ignored = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 
         // {
         //   "Name": "Bad Boys III",
         //   "Description": "It's no Bad Boys"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -761,6 +799,7 @@ public class SerializationTests : TestFixtureBase
     }
 
     #region ReducingSerializedJsonSizeDefaultValueHandlingObject
+
     public class Invoice
     {
         public string Company { get; set; }
@@ -768,22 +807,23 @@ public class SerializationTests : TestFixtureBase
 
         // false is default value of bool
         public bool Paid { get; set; }
+
         // null is default value of nullable
         public DateTime? PaidDate { get; set; }
 
         // customize default values
-        [DefaultValue(30)]
-        public int FollowUpDays { get; set; }
+        [DefaultValue(30)] public int FollowUpDays { get; set; }
 
-        [DefaultValue("")]
-        public string FollowUpEmailAddress { get; set; }
+        [DefaultValue("")] public string FollowUpEmailAddress { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void ReducingSerializedJsonSizeDefaultValueHandlingExample()
     {
         #region ReducingSerializedJsonSizeDefaultValueHandlingExample
+
         var invoice = new Invoice
         {
             Company = "Acme Ltd.",
@@ -809,12 +849,13 @@ public class SerializationTests : TestFixtureBase
 
         var ignored = JsonConvert.SerializeObject(invoice,
             Formatting.Indented,
-            new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore });
+            new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
 
         // {
         //   "Company": "Acme Ltd.",
         //   "Amount": 50.0
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -833,6 +874,7 @@ public class SerializationTests : TestFixtureBase
     }
 
     #region ReducingSerializedJsonSizeContractResolverObject
+
     public class DynamicContractResolver : DefaultContractResolver
     {
         readonly char _startingWithChar;
@@ -862,12 +904,14 @@ public class SerializationTests : TestFixtureBase
         public int AuthorAge { get; set; }
         public string AuthorCountry { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void ReducingSerializedJsonSizeContractResolverExample()
     {
         #region ReducingSerializedJsonSizeContractResolverExample
+
         var book = new Book
         {
             BookName = "The Gathering Storm",
@@ -878,7 +922,7 @@ public class SerializationTests : TestFixtureBase
         };
 
         var startingWithA = JsonConvert.SerializeObject(book, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('A') });
+            new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('A')});
 
         // {
         //   "AuthorName": "Brandon Sanderson",
@@ -887,12 +931,13 @@ public class SerializationTests : TestFixtureBase
         // }
 
         var startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('B') });
+            new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('B')});
 
         // {
         //   "BookName": "The Gathering Storm",
         //   "BookPrice": 16.19
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -908,18 +953,21 @@ public class SerializationTests : TestFixtureBase
     }
 
     #region SerializingPartialJsonFragmentsObject
+
     public class SearchResult
     {
         public string Title { get; set; }
         public string Content { get; set; }
         public string Url { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void SerializingPartialJsonFragmentsExample()
     {
         #region SerializingPartialJsonFragmentsExample
+
         var googleSearchText = @"{
               'responseData': {
                 'results': [
@@ -993,6 +1041,7 @@ public class SerializationTests : TestFixtureBase
         // Title = <b>Paris Hilton</b>
         // Content = Self: Zoolander. Socialite <b>Paris Hilton</b>...
         // Url = http://www.imdb.com/name/nm0385296/
+
         #endregion
 
         Assert.Equal("<b>Paris Hilton</b> - Wikipedia, the free encyclopedia", searchResults[0].Title);
@@ -1003,10 +1052,10 @@ public class SerializationTests : TestFixtureBase
     {
         var famousCouples = new[,]
         {
-            { "Adam", "Eve" },
-            { "Bonnie", "Clyde" },
-            { "Donald", "Daisy" },
-            { "Han", "Leia" }
+            {"Adam", "Eve"},
+            {"Bonnie", "Clyde"},
+            {"Donald", "Daisy"},
+            {"Han", "Leia"}
         };
 
         var json = JsonConvert.SerializeObject(famousCouples, Formatting.Indented);

@@ -5,17 +5,20 @@
 public class DeserializeMissingMemberHandling : TestFixtureBase
 {
     #region DeserializeMissingMemberHandlingTypes
+
     public class Account
     {
         public string FullName { get; set; }
         public bool Deleted { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DeserializeMissingMemberHandlingUsage
+
         var json = @"{
               'FullName': 'Dan Deleted',
               'Deleted': true,
@@ -34,6 +37,7 @@ public class DeserializeMissingMemberHandling : TestFixtureBase
             Console.WriteLine(exception.Message);
             // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
         }
+
         #endregion
     }
 }

@@ -8,6 +8,7 @@ public class SerializeCollection : TestFixtureBase
     public void Example()
     {
         #region SerializeCollection
+
         var videogames = new List<string>
         {
             "Starcraft",
@@ -19,6 +20,7 @@ public class SerializeCollection : TestFixtureBase
 
         Console.WriteLine(json);
         // ["Starcraft","Halo","Legend of Zelda"]
+
         #endregion
 
         Assert.Equal(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);

@@ -5,11 +5,12 @@
 public class JsonConverterAttributeClass : TestFixtureBase
 {
     #region JsonConverterAttributeClassTypes
+
     public class UserConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var user = (User)value;
+            var user = (User) value;
 
             writer.WriteValue(user.UserName);
         }
@@ -18,7 +19,7 @@ public class JsonConverterAttributeClass : TestFixtureBase
         {
             var user = new User
             {
-                UserName = (string)reader.Value
+                UserName = (string) reader.Value
             };
 
             return user;
@@ -35,12 +36,14 @@ public class JsonConverterAttributeClass : TestFixtureBase
     {
         public string UserName { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonConverterAttributeClassUsage
+
         var user = new User
         {
             UserName = @"domain\username"
@@ -50,6 +53,7 @@ public class JsonConverterAttributeClass : TestFixtureBase
 
         Console.WriteLine(json);
         // "domain\\username"
+
         #endregion
 
         Assert.Equal(@"""domain\\username""", json);
