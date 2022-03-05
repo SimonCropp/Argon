@@ -22,9 +22,9 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class from another <see cref="JValue"/> object.
+    /// Initializes a new instance of the <see cref="JValue" /> class from another <see cref="JValue" /> object.
     /// </summary>
-    /// <param name="other">A <see cref="JValue"/> object to copy from.</param>
+    /// <param name="other">A <see cref="JValue" /> object to copy from.</param>
     public JValue(JValue other)
         : this(other.Value, other.Type)
     {
@@ -32,7 +32,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(long value)
         : this(value, JTokenType.Integer)
@@ -40,7 +40,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(decimal value)
         : this(value, JTokenType.Float)
@@ -48,7 +48,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(char value)
         : this(value, JTokenType.String)
@@ -56,7 +56,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(ulong value)
         : this(value, JTokenType.Integer)
@@ -64,7 +64,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(double value)
         : this(value, JTokenType.Float)
@@ -72,7 +72,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(float value)
         : this(value, JTokenType.Float)
@@ -80,7 +80,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(DateTime value)
         : this(value, JTokenType.Date)
@@ -88,7 +88,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(DateTimeOffset value)
         : this(value, JTokenType.Date)
@@ -96,7 +96,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(bool value)
         : this(value, JTokenType.Boolean)
@@ -104,7 +104,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(string? value)
         : this(value, JTokenType.String)
@@ -112,7 +112,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(Guid value)
         : this(value, JTokenType.Guid)
@@ -120,7 +120,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(Uri? value)
         : this(value, value != null ? JTokenType.Uri : JTokenType.Null)
@@ -128,7 +128,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(TimeSpan value)
         : this(value, JTokenType.TimeSpan)
@@ -136,7 +136,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JValue"/> class with the given value.
+    /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(object? value)
         : this(value, GetValueType(null, value))
@@ -149,6 +149,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return false;
         }
+
         return other == this ||
                ValuesEquals(this, other);
     }
@@ -189,10 +190,12 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return 0;
         }
+
         if (objB == null)
         {
             return 1;
         }
+
         if (objA == null)
         {
             return -1;
@@ -206,10 +209,12 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 {
                     return CompareBigInteger(integerA, objB);
                 }
+
                 if (objB is BigInteger integerB)
                 {
                     return -CompareBigInteger(integerB, objA);
                 }
+
                 if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
                 {
                     return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
@@ -219,6 +224,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 {
                     return CompareFloat(objA, objB);
                 }
+
                 return Convert.ToInt64(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToInt64(objB, CultureInfo.InvariantCulture));
             }
             case JTokenType.Float:
@@ -227,14 +233,17 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 {
                     return CompareBigInteger(integerA, objB);
                 }
+
                 if (objB is BigInteger integerB)
                 {
                     return -CompareBigInteger(integerB, objA);
                 }
+
                 if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
                 {
                     return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
                 }
+
                 return CompareFloat(objA, objB);
             }
             case JTokenType.Comment:
@@ -267,7 +276,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 }
                 else
                 {
-                    var offsetA = (DateTimeOffset)objA;
+                    var offsetA = (DateTimeOffset) objA;
                     if (objB is not DateTimeOffset offsetB)
                     {
                         offsetB = new(Convert.ToDateTime(objB, CultureInfo.InvariantCulture));
@@ -281,7 +290,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     throw new ArgumentException("Object must be of type byte[].");
                 }
 
-                var bytesA = (byte[])objA;
+                var bytesA = (byte[]) objA;
 
                 return MiscellaneousUtils.ByteArrayCompare(bytesA, bytesB);
             case JTokenType.Guid:
@@ -290,7 +299,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     throw new ArgumentException("Object must be of type Guid.");
                 }
 
-                var guid1 = (Guid)objA;
+                var guid1 = (Guid) objA;
 
                 return guid1.CompareTo(guid2);
             case JTokenType.Uri:
@@ -300,7 +309,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     throw new ArgumentException("Object must be of type Uri.");
                 }
 
-                var uri1 = (Uri)objA;
+                var uri1 = (Uri) objA;
 
                 return Comparer<string>.Default.Compare(uri1.ToString(), uri2.ToString());
             case JTokenType.TimeSpan:
@@ -309,7 +318,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     throw new ArgumentException("Object must be of type TimeSpan.");
                 }
 
-                var ts1 = (TimeSpan)objA;
+                var ts1 = (TimeSpan) objA;
 
                 return ts1.CompareTo(timeSpan);
             default:
@@ -377,8 +386,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     return true;
             }
         }
-        else
-        if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
+        else if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
         {
             if (objA == null || objB == null)
             {
@@ -482,36 +490,36 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Creates a <see cref="JValue"/> comment with the given value.
+    /// Creates a <see cref="JValue" /> comment with the given value.
     /// </summary>
-    /// <returns>A <see cref="JValue"/> comment with the given value.</returns>
+    /// <returns>A <see cref="JValue" /> comment with the given value.</returns>
     public static JValue CreateComment(string? value)
     {
         return new(value, JTokenType.Comment);
     }
 
     /// <summary>
-    /// Creates a <see cref="JValue"/> string with the given value.
+    /// Creates a <see cref="JValue" /> string with the given value.
     /// </summary>
-    /// <returns>A <see cref="JValue"/> string with the given value.</returns>
+    /// <returns>A <see cref="JValue" /> string with the given value.</returns>
     public static JValue CreateString(string? value)
     {
         return new(value, JTokenType.String);
     }
 
     /// <summary>
-    /// Creates a <see cref="JValue"/> null value.
+    /// Creates a <see cref="JValue" /> null value.
     /// </summary>
-    /// <returns>A <see cref="JValue"/> null value.</returns>
+    /// <returns>A <see cref="JValue" /> null value.</returns>
     public static JValue CreateNull()
     {
         return new(null, JTokenType.Null);
     }
 
     /// <summary>
-    /// Creates a <see cref="JValue"/> undefined value.
+    /// Creates a <see cref="JValue" /> undefined value.
     /// </summary>
-    /// <returns>A <see cref="JValue"/> undefined value.</returns>
+    /// <returns>A <see cref="JValue" /> undefined value.</returns>
     public static JValue CreateUndefined()
     {
         return new(null, JTokenType.Undefined);
@@ -558,26 +566,32 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         {
             return JTokenType.Date;
         }
+
         if (value is DateTimeOffset)
         {
             return JTokenType.Date;
         }
+
         if (value is byte[])
         {
             return JTokenType.Bytes;
         }
+
         if (value is bool)
         {
             return JTokenType.Boolean;
         }
+
         if (value is Guid)
         {
             return JTokenType.Guid;
         }
+
         if (value is Uri)
         {
             return JTokenType.Uri;
         }
+
         if (value is TimeSpan)
         {
             return JTokenType.TimeSpan;
@@ -605,7 +619,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Gets the node type for this <see cref="JToken"/>.
+    /// Gets the node type for this <see cref="JToken" />.
     /// </summary>
     public override JTokenType Type => valueType;
 
@@ -643,9 +657,9 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Writes this token to a <see cref="JsonWriter"/>.
+    /// Writes this token to a <see cref="JsonWriter" />.
     /// </summary>
-    /// <param name="converters">A collection of <see cref="JsonConverter"/>s which will be used when writing the token.</param>
+    /// <param name="converters">A collection of <see cref="JsonConverter" />s which will be used when writing the token.</param>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
         if (converters is {Length: > 0} && value != null)
@@ -693,6 +707,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 {
                     writer.WriteValue(Convert.ToInt64(value, CultureInfo.InvariantCulture));
                 }
+
                 return;
             case JTokenType.Float:
                 if (value is decimal dec)
@@ -711,6 +726,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 {
                     writer.WriteValue(Convert.ToDouble(value, CultureInfo.InvariantCulture));
                 }
+
                 return;
             case JTokenType.String:
                 writer.WriteValue(value?.ToString());
@@ -727,18 +743,19 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 {
                     writer.WriteValue(Convert.ToDateTime(value, CultureInfo.InvariantCulture));
                 }
+
                 return;
             case JTokenType.Bytes:
-                writer.WriteValue((byte[]?)value);
+                writer.WriteValue((byte[]?) value);
                 return;
             case JTokenType.Guid:
-                writer.WriteValue(value != null ? (Guid?)value : null);
+                writer.WriteValue(value != null ? (Guid?) value : null);
                 return;
             case JTokenType.TimeSpan:
-                writer.WriteValue(value != null ? (TimeSpan?)value : null);
+                writer.WriteValue(value != null ? (TimeSpan?) value : null);
                 return;
             case JTokenType.Uri:
-                writer.WriteValue((Uri?)value);
+                writer.WriteValue((Uri?) value);
                 return;
         }
 
@@ -750,7 +767,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         var valueHashCode = value != null ? value.GetHashCode() : 0;
 
         // GetHashCode on an enum boxes so cast to int
-        return ((int)valueType).GetHashCode() ^ valueHashCode;
+        return ((int) valueType).GetHashCode() ^ valueHashCode;
     }
 
     static bool ValuesEquals(JValue v1, JValue v2)
@@ -762,7 +779,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Indicates whether the current object is equal to another object of the same type.
     /// </summary>
     /// <returns>
-    /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
+    /// <c>true</c> if the current object is equal to the <paramref name="other" /> parameter; otherwise, <c>false</c>.
     /// </returns>
     /// <param name="other">An object to compare with this object.</param>
     public bool Equals(JValue? other)
@@ -772,11 +789,11 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Determines whether the specified <see cref="Object"/> is equal to the current <see cref="Object"/>.
+    /// Determines whether the specified <see cref="Object" /> is equal to the current <see cref="Object" />.
     /// </summary>
-    /// <param name="obj">The <see cref="Object"/> to compare with the current <see cref="Object"/>.</param>
+    /// <param name="obj">The <see cref="Object" /> to compare with the current <see cref="Object" />.</param>
     /// <returns>
-    /// <c>true</c> if the specified <see cref="Object"/> is equal to the current <see cref="Object"/>; otherwise, <c>false</c>.
+    /// <c>true</c> if the specified <see cref="Object" /> is equal to the current <see cref="Object" />; otherwise, <c>false</c>.
     /// </returns>
     public override bool Equals(object? obj)
     {
@@ -792,7 +809,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Serves as a hash function for a particular type.
     /// </summary>
     /// <returns>
-    /// A hash code for the current <see cref="Object"/>.
+    /// A hash code for the current <see cref="Object" />.
     /// </returns>
     public override int GetHashCode()
     {
@@ -805,14 +822,14 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Returns a <see cref="String"/> that represents this instance.
+    /// Returns a <see cref="String" /> that represents this instance.
     /// </summary>
     /// <remarks>
-    /// <c>ToString()</c> returns a non-JSON string value for tokens with a type of <see cref="JTokenType.String"/>.
-    /// If you want the JSON for all token types then you should use <see cref="WriteTo(JsonWriter, JsonConverter[])"/>.
+    /// <c>ToString()</c> returns a non-JSON string value for tokens with a type of <see cref="JTokenType.String" />.
+    /// If you want the JSON for all token types then you should use <see cref="WriteTo(JsonWriter, JsonConverter[])" />.
     /// </remarks>
     /// <returns>
-    /// A <see cref="String"/> that represents this instance.
+    /// A <see cref="String" /> that represents this instance.
     /// </returns>
     public override string ToString()
     {
@@ -825,10 +842,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Returns a <see cref="String"/> that represents this instance.
+    /// Returns a <see cref="String" /> that represents this instance.
     /// </summary>
     /// <returns>
-    /// A <see cref="String"/> that represents this instance.
+    /// A <see cref="String" /> that represents this instance.
     /// </returns>
     public string ToString(string format)
     {
@@ -836,10 +853,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Returns a <see cref="String"/> that represents this instance.
+    /// Returns a <see cref="String" /> that represents this instance.
     /// </summary>
     /// <returns>
-    /// A <see cref="String"/> that represents this instance.
+    /// A <see cref="String" /> that represents this instance.
     /// </returns>
     public string ToString(IFormatProvider? formatProvider)
     {
@@ -847,10 +864,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Returns a <see cref="String"/> that represents this instance.
+    /// Returns a <see cref="String" /> that represents this instance.
     /// </summary>
     /// <returns>
-    /// A <see cref="String"/> that represents this instance.
+    /// A <see cref="String" /> that represents this instance.
     /// </returns>
     public string ToString(string? format, IFormatProvider? formatProvider)
     {
@@ -868,11 +885,11 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     }
 
     /// <summary>
-    /// Returns the <see cref="DynamicMetaObject"/> responsible for binding operations performed on this object.
+    /// Returns the <see cref="DynamicMetaObject" /> responsible for binding operations performed on this object.
     /// </summary>
     /// <param name="parameter">The expression tree representation of the runtime value.</param>
     /// <returns>
-    /// The <see cref="DynamicMetaObject"/> to bind this object.
+    /// The <see cref="DynamicMetaObject" /> to bind this object.
     /// </returns>
     protected override DynamicMetaObject GetMetaObject(Expression parameter)
     {
@@ -881,7 +898,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
     class JValueDynamicProxy : DynamicProxy<JValue>
     {
-        public override bool TryConvert(JValue instance, ConvertBinder binder, [NotNullWhen(true)]out object? result)
+        public override bool TryConvert(JValue instance, ConvertBinder binder, [NotNullWhen(true)] out object? result)
         {
             if (binder.Type == typeof(JValue) || binder.Type == typeof(JToken))
             {
@@ -901,7 +918,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             return true;
         }
 
-        public override bool TryBinaryOperation(JValue instance, BinaryOperationBinder binder, object arg, [NotNullWhen(true)]out object? result)
+        public override bool TryBinaryOperation(JValue instance, BinaryOperationBinder binder, object arg, [NotNullWhen(true)] out object? result)
         {
             var compareValue = arg is JValue value ? value.Value : arg;
 
@@ -938,6 +955,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                         result = new JValue(result);
                         return true;
                     }
+
                     break;
             }
 
@@ -980,14 +998,14 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Value
     /// Meaning
     /// Less than zero
-    /// This instance is less than <paramref name="obj"/>.
+    /// This instance is less than <paramref name="obj" />.
     /// Zero
-    /// This instance is equal to <paramref name="obj"/>.
+    /// This instance is equal to <paramref name="obj" />.
     /// Greater than zero
-    /// This instance is greater than <paramref name="obj"/>.
+    /// This instance is greater than <paramref name="obj" />.
     /// </returns>
     /// <exception cref="ArgumentException">
-    /// 	<paramref name="obj"/> is not of the same type as this instance.
+    /// <paramref name="obj" /> is not of the same type as this instance.
     /// </exception>
     public int CompareTo(JValue? obj)
     {
@@ -1020,72 +1038,72 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
     bool IConvertible.ToBoolean(IFormatProvider? provider)
     {
-        return (bool)this;
+        return (bool) this;
     }
 
     char IConvertible.ToChar(IFormatProvider? provider)
     {
-        return (char)this;
+        return (char) this;
     }
 
     sbyte IConvertible.ToSByte(IFormatProvider? provider)
     {
-        return (sbyte)this;
+        return (sbyte) this;
     }
 
     byte IConvertible.ToByte(IFormatProvider? provider)
     {
-        return (byte)this;
+        return (byte) this;
     }
 
     short IConvertible.ToInt16(IFormatProvider? provider)
     {
-        return (short)this;
+        return (short) this;
     }
 
     ushort IConvertible.ToUInt16(IFormatProvider? provider)
     {
-        return (ushort)this;
+        return (ushort) this;
     }
 
     int IConvertible.ToInt32(IFormatProvider? provider)
     {
-        return (int)this;
+        return (int) this;
     }
 
     uint IConvertible.ToUInt32(IFormatProvider? provider)
     {
-        return (uint)this;
+        return (uint) this;
     }
 
     long IConvertible.ToInt64(IFormatProvider? provider)
     {
-        return (long)this;
+        return (long) this;
     }
 
     ulong IConvertible.ToUInt64(IFormatProvider? provider)
     {
-        return (ulong)this;
+        return (ulong) this;
     }
 
     float IConvertible.ToSingle(IFormatProvider? provider)
     {
-        return (float)this;
+        return (float) this;
     }
 
     double IConvertible.ToDouble(IFormatProvider? provider)
     {
-        return (double)this;
+        return (double) this;
     }
 
     decimal IConvertible.ToDecimal(IFormatProvider? provider)
     {
-        return (decimal)this;
+        return (decimal) this;
     }
 
     DateTime IConvertible.ToDateTime(IFormatProvider? provider)
     {
-        return (DateTime)this;
+        return (DateTime) this;
     }
 
     object IConvertible.ToType(Type conversionType, IFormatProvider? provider)

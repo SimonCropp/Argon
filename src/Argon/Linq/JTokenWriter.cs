@@ -10,12 +10,14 @@ namespace Argon;
 public partial class JTokenWriter : JsonWriter
 {
     JContainer? token;
+
     JContainer? parent;
+
     // used when writer is writing single value and the value has no containing parent
     JValue? value;
 
     /// <summary>
-    /// Gets the <see cref="JToken"/> at the writer's current position.
+    /// Gets the <see cref="JToken" /> at the writer's current position.
     /// </summary>
     public JToken? CurrentToken { get; private set; }
 
@@ -36,7 +38,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JTokenWriter"/> class writing to the given <see cref="JContainer"/>.
+    /// Initializes a new instance of the <see cref="JTokenWriter" /> class writing to the given <see cref="JContainer" />.
     /// </summary>
     /// <param name="container">The container being written to.</param>
     public JTokenWriter(JContainer container)
@@ -46,14 +48,14 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JTokenWriter"/> class.
+    /// Initializes a new instance of the <see cref="JTokenWriter" /> class.
     /// </summary>
     public JTokenWriter()
     {
     }
 
     /// <summary>
-    /// Flushes whatever is in the buffer to the underlying <see cref="JContainer"/>.
+    /// Flushes whatever is in the buffer to the underlying <see cref="JContainer" />.
     /// </summary>
     public override void Flush()
     {
@@ -158,8 +160,9 @@ public partial class JTokenWriter : JsonWriter
     }
 
     #region WriteValue methods
+
     /// <summary>
-    /// Writes a <see cref="Object"/> value.
+    /// Writes a <see cref="Object" /> value.
     /// An error will be raised if the value cannot be written as a single JSON token.
     /// </summary>
     public override void WriteValue(object? value)
@@ -212,7 +215,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="String"/> value.
+    /// Writes a <see cref="String" /> value.
     /// </summary>
     public override void WriteValue(string? value)
     {
@@ -221,7 +224,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Int32"/> value.
+    /// Writes a <see cref="Int32" /> value.
     /// </summary>
     public override void WriteValue(int value)
     {
@@ -230,7 +233,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="UInt32"/> value.
+    /// Writes a <see cref="UInt32" /> value.
     /// </summary>
     public override void WriteValue(uint value)
     {
@@ -239,7 +242,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Int64"/> value.
+    /// Writes a <see cref="Int64" /> value.
     /// </summary>
     public override void WriteValue(long value)
     {
@@ -248,7 +251,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="UInt64"/> value.
+    /// Writes a <see cref="UInt64" /> value.
     /// </summary>
     public override void WriteValue(ulong value)
     {
@@ -257,7 +260,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Single"/> value.
+    /// Writes a <see cref="Single" /> value.
     /// </summary>
     public override void WriteValue(float value)
     {
@@ -266,7 +269,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Double"/> value.
+    /// Writes a <see cref="Double" /> value.
     /// </summary>
     public override void WriteValue(double value)
     {
@@ -275,7 +278,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Boolean"/> value.
+    /// Writes a <see cref="Boolean" /> value.
     /// </summary>
     public override void WriteValue(bool value)
     {
@@ -284,7 +287,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Int16"/> value.
+    /// Writes a <see cref="Int16" /> value.
     /// </summary>
     public override void WriteValue(short value)
     {
@@ -293,7 +296,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="UInt16"/> value.
+    /// Writes a <see cref="UInt16" /> value.
     /// </summary>
     public override void WriteValue(ushort value)
     {
@@ -302,7 +305,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Char"/> value.
+    /// Writes a <see cref="Char" /> value.
     /// </summary>
     public override void WriteValue(char value)
     {
@@ -312,7 +315,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Byte"/> value.
+    /// Writes a <see cref="Byte" /> value.
     /// </summary>
     public override void WriteValue(byte value)
     {
@@ -321,7 +324,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="SByte"/> value.
+    /// Writes a <see cref="SByte" /> value.
     /// </summary>
     public override void WriteValue(sbyte value)
     {
@@ -330,7 +333,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Decimal"/> value.
+    /// Writes a <see cref="Decimal" /> value.
     /// </summary>
     public override void WriteValue(decimal value)
     {
@@ -339,7 +342,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="DateTime"/> value.
+    /// Writes a <see cref="DateTime" /> value.
     /// </summary>
     public override void WriteValue(DateTime value)
     {
@@ -349,7 +352,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="DateTimeOffset"/> value.
+    /// Writes a <see cref="DateTimeOffset" /> value.
     /// </summary>
     public override void WriteValue(DateTimeOffset value)
     {
@@ -358,7 +361,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Byte"/>[] value.
+    /// Writes a <see cref="Byte" />[] value.
     /// </summary>
     public override void WriteValue(byte[]? value)
     {
@@ -367,7 +370,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="TimeSpan"/> value.
+    /// Writes a <see cref="TimeSpan" /> value.
     /// </summary>
     public override void WriteValue(TimeSpan value)
     {
@@ -376,7 +379,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Guid"/> value.
+    /// Writes a <see cref="Guid" /> value.
     /// </summary>
     public override void WriteValue(Guid value)
     {
@@ -385,13 +388,14 @@ public partial class JTokenWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Uri"/> value.
+    /// Writes a <see cref="Uri" /> value.
     /// </summary>
     public override void WriteValue(Uri? value)
     {
         base.WriteValue(value);
         AddValue(value, JsonToken.String);
     }
+
     #endregion
 
     internal override void WriteToken(JsonReader reader, bool writeChildren, bool writeDateConstructorAsDate, bool writeComments)

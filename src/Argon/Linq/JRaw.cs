@@ -10,16 +10,16 @@ namespace Argon;
 public partial class JRaw : JValue
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="JRaw"/> class from another <see cref="JRaw"/> object.
+    /// Initializes a new instance of the <see cref="JRaw" /> class from another <see cref="JRaw" /> object.
     /// </summary>
-    /// <param name="other">A <see cref="JRaw"/> object to copy from.</param>
+    /// <param name="other">A <see cref="JRaw" /> object to copy from.</param>
     public JRaw(JRaw other)
         : base(other)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JRaw"/> class.
+    /// Initializes a new instance of the <see cref="JRaw" /> class.
     /// </summary>
     public JRaw(object? rawJson)
         : base(rawJson, JTokenType.Raw)
@@ -27,10 +27,10 @@ public partial class JRaw : JValue
     }
 
     /// <summary>
-    /// Creates an instance of <see cref="JRaw"/> with the content of the reader's current token.
+    /// Creates an instance of <see cref="JRaw" /> with the content of the reader's current token.
     /// </summary>
     /// <param name="reader">The reader.</param>
-    /// <returns>An instance of <see cref="JRaw"/> with the content of the reader's current token.</returns>
+    /// <returns>An instance of <see cref="JRaw" /> with the content of the reader's current token.</returns>
     public static JRaw Create(JsonReader reader)
     {
         using var stringWriter = new StringWriter(CultureInfo.InvariantCulture);

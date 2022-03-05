@@ -7,7 +7,7 @@ namespace Argon;
 public partial class JArray
 {
     /// <summary>
-    /// Writes this token to a <see cref="JsonWriter"/> asynchronously.
+    /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
     public override async Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
     {
@@ -22,23 +22,27 @@ public partial class JArray
     }
 
     /// <summary>
-    /// Asynchronously loads a <see cref="JArray"/> from a <see cref="JsonReader"/>.
+    /// Asynchronously loads a <see cref="JArray" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> that will be read for the content of the <see cref="JArray"/>.
-    /// If this is <c>null</c>, default load settings will be used.</param>
-    /// <returns>A <see cref="Task{TResult}"/> representing the asynchronous load. The <see cref="Task{TResult}.Result"/> property contains the JSON that was read from the specified <see cref="JsonReader"/>.</returns>
+    /// <param name="reader">
+    /// A <see cref="JsonReader" /> that will be read for the content of the <see cref="JArray" />.
+    /// If this is <c>null</c>, default load settings will be used.
+    /// </param>
+    /// <returns>A <see cref="Task{TResult}" /> representing the asynchronous load. The <see cref="Task{TResult}.Result" /> property contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
     public new static Task<JArray> LoadAsync(JsonReader reader, CancellationToken cancellation = default)
     {
         return LoadAsync(reader, null, cancellation);
     }
 
     /// <summary>
-    /// Asynchronously loads a <see cref="JArray"/> from a <see cref="JsonReader"/>.
+    /// Asynchronously loads a <see cref="JArray" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> that will be read for the content of the <see cref="JArray"/>.</param>
-    /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
-    /// If this is <c>null</c>, default load settings will be used.</param>
-    /// <returns>A <see cref="Task{TResult}"/> representing the asynchronous load. The <see cref="Task{TResult}.Result"/> property contains the JSON that was read from the specified <see cref="JsonReader"/>.</returns>
+    /// <param name="reader">A <see cref="JsonReader" /> that will be read for the content of the <see cref="JArray" />.</param>
+    /// <param name="settings">
+    /// The <see cref="JsonLoadSettings" /> used to load the JSON.
+    /// If this is <c>null</c>, default load settings will be used.
+    /// </param>
+    /// <returns>A <see cref="Task{TResult}" /> representing the asynchronous load. The <see cref="Task{TResult}.Result" /> property contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
     public new static async Task<JArray> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
     {
         if (reader.TokenType == JsonToken.None)

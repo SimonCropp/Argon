@@ -93,7 +93,7 @@ public abstract partial class JContainer :
     /// Returns a collection of the child tokens of this token, in document order.
     /// </summary>
     /// <returns>
-    /// An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing the child tokens of this <see cref="JToken"/>, in document order.
+    /// An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> containing the child tokens of this <see cref="JToken" />, in document order.
     /// </returns>
     public override JEnumerable<JToken> Children()
     {
@@ -105,7 +105,7 @@ public abstract partial class JContainer :
     /// </summary>
     /// <typeparam name="T">The type to convert the values to.</typeparam>
     /// <returns>
-    /// A <see cref="IEnumerable{T}"/> containing the child values of this <see cref="JToken"/>, in document order.
+    /// A <see cref="IEnumerable{T}" /> containing the child values of this <see cref="JToken" />, in document order.
     /// </returns>
     public override IEnumerable<T?> Values<T>() where T : default
     {
@@ -115,7 +115,7 @@ public abstract partial class JContainer :
     /// <summary>
     /// Returns a collection of the descendant tokens for this token in document order.
     /// </summary>
-    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing the descendant tokens of the <see cref="JToken"/>.</returns>
+    /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> containing the descendant tokens of the <see cref="JToken" />.</returns>
     public IEnumerable<JToken> Descendants()
     {
         return GetDescendants(false);
@@ -124,7 +124,7 @@ public abstract partial class JContainer :
     /// <summary>
     /// Returns a collection of the tokens that contain this token, and all descendant tokens of this token, in document order.
     /// </summary>
-    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JToken"/> containing this token, and all the descendant tokens of the <see cref="JToken"/>.</returns>
+    /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> containing this token, and all the descendant tokens of the <see cref="JToken" />.</returns>
     public IEnumerable<JToken> DescendantsAndSelf()
     {
         return GetDescendants(true);
@@ -150,7 +150,7 @@ public abstract partial class JContainer :
         }
     }
 
-    internal bool IsMultiContent([NotNullWhen(true)]object? content)
+    internal bool IsMultiContent([NotNullWhen(true)] object? content)
     {
         return content is IEnumerable and not string and not JToken and not byte[];
     }
@@ -225,6 +225,7 @@ public abstract partial class JContainer :
         {
             throw new ArgumentOutOfRangeException(nameof(index), "Index is less than 0.");
         }
+
         if (index >= children.Count)
         {
             throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
@@ -238,6 +239,7 @@ public abstract partial class JContainer :
         {
             previous.Next = next;
         }
+
         if (next != null)
         {
             next.Previous = previous;
@@ -278,6 +280,7 @@ public abstract partial class JContainer :
         {
             throw new ArgumentOutOfRangeException(nameof(index), "Index is less than 0.");
         }
+
         if (index >= children.Count)
         {
             throw new ArgumentOutOfRangeException(nameof(index), "Index is equal to or greater than Count.");
@@ -330,7 +333,6 @@ public abstract partial class JContainer :
         }
 
         children.Clear();
-
     }
 
     internal virtual void ReplaceItem(JToken existing, JToken replacement)
@@ -355,10 +357,12 @@ public abstract partial class JContainer :
         {
             throw new ArgumentOutOfRangeException(nameof(arrayIndex), "arrayIndex is less than 0.");
         }
+
         if (arrayIndex >= array.Length && arrayIndex != 0)
         {
             throw new ArgumentException("arrayIndex is equal to or greater than the length of array.");
         }
+
         if (Count > array.Length - arrayIndex)
         {
             throw new ArgumentException("The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
@@ -397,7 +401,7 @@ public abstract partial class JContainer :
     }
 
     /// <summary>
-    /// Adds the specified content as children of this <see cref="JToken"/>.
+    /// Adds the specified content as children of this <see cref="JToken" />.
     /// </summary>
     /// <param name="content">The content to be added.</param>
     public virtual void Add(object? content)
@@ -416,7 +420,7 @@ public abstract partial class JContainer :
     }
 
     /// <summary>
-    /// Adds the specified content as the first children of this <see cref="JToken"/>.
+    /// Adds the specified content as the first children of this <see cref="JToken" />.
     /// </summary>
     /// <param name="content">The content to be added.</param>
     public void AddFirst(object? content)
@@ -428,7 +432,7 @@ public abstract partial class JContainer :
     {
         if (IsMultiContent(content))
         {
-            var enumerable = (IEnumerable)content;
+            var enumerable = (IEnumerable) content;
 
             var multiIndex = index;
             foreach (var c in enumerable)
@@ -456,9 +460,9 @@ public abstract partial class JContainer :
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonWriter"/> that can be used to add tokens to the <see cref="JToken"/>.
+    /// Creates a <see cref="JsonWriter" /> that can be used to add tokens to the <see cref="JToken" />.
     /// </summary>
-    /// <returns>A <see cref="JsonWriter"/> that is ready to have content written to it.</returns>
+    /// <returns>A <see cref="JsonWriter" /> that is ready to have content written to it.</returns>
     public JsonWriter CreateWriter()
     {
         return new JTokenWriter(this);
@@ -484,7 +488,7 @@ public abstract partial class JContainer :
     internal abstract void MergeItem(object content, JsonMergeSettings? settings);
 
     /// <summary>
-    /// Merge the specified content into this <see cref="JToken"/>.
+    /// Merge the specified content into this <see cref="JToken" />.
     /// </summary>
     public void Merge(object? content)
     {
@@ -498,7 +502,7 @@ public abstract partial class JContainer :
     }
 
     /// <summary>
-    /// Merge the specified content into this <see cref="JToken"/> using <see cref="JsonMergeSettings"/>.
+    /// Merge the specified content into this <see cref="JToken" /> using <see cref="JsonMergeSettings" />.
     /// </summary>
     public void Merge(object? content, JsonMergeSettings? settings)
     {
@@ -517,6 +521,7 @@ public abstract partial class JContainer :
         {
             return;
         }
+
         if (IsMultiContent(content))
         {
             return;
@@ -611,10 +616,11 @@ public abstract partial class JContainer :
                 case JsonToken.Comment:
                     if (settings is {CommentHandling: CommentHandling.Load})
                     {
-                        v = JValue.CreateComment( (string?) r.GetValue());
+                        v = JValue.CreateComment((string?) r.GetValue());
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                     }
+
                     break;
                 case JsonToken.Null:
                     v = JValue.CreateNull();
@@ -636,6 +642,7 @@ public abstract partial class JContainer :
                     {
                         r.Skip();
                     }
+
                     break;
                 default:
                     throw new InvalidOperationException($"The JsonReader should not be on a token of type {r.TokenType}.");
@@ -645,9 +652,8 @@ public abstract partial class JContainer :
 
     static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
     {
-
-        var parentObject = (JObject)parent;
-        var propertyName =  (string) r.GetValue();
+        var parentObject = (JObject) parent;
+        var propertyName = (string) r.GetValue();
         var existingPropertyWithName = parentObject.PropertyOrNull(propertyName);
         if (existingPropertyWithName != null)
         {
@@ -676,10 +682,12 @@ public abstract partial class JContainer :
         {
             hashCode ^= item.GetDeepHashCode();
         }
+
         return hashCode;
     }
 
     #region IList<JToken> Members
+
     int IList<JToken>.IndexOf(JToken item)
     {
         return IndexOfItem(item);
@@ -700,9 +708,11 @@ public abstract partial class JContainer :
         get => GetItem(index);
         set => SetItem(index, value);
     }
+
     #endregion
 
     #region ICollection<JToken> Members
+
     void ICollection<JToken>.Add(JToken item)
     {
         Add(item);
@@ -729,6 +739,7 @@ public abstract partial class JContainer :
     {
         return RemoveItem(item);
     }
+
     #endregion
 
     static JToken? EnsureValue(object? value)
@@ -760,6 +771,7 @@ public abstract partial class JContainer :
                 {
                     target.Add(CreateFromContent(item));
                 }
+
                 break;
             case MergeArrayHandling.Union:
                 var items = new HashSet<JToken>(target, EqualityComparer);
@@ -773,17 +785,20 @@ public abstract partial class JContainer :
                         target.Add(contentItem);
                     }
                 }
+
                 break;
             case MergeArrayHandling.Replace:
                 if (target == content)
                 {
                     break;
                 }
+
                 target.ClearItems();
                 foreach (var item in content)
                 {
                     target.Add(CreateFromContent(item));
                 }
+
                 break;
             case MergeArrayHandling.Merge:
                 var i = 0;
@@ -816,6 +831,7 @@ public abstract partial class JContainer :
 
                     i++;
                 }
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(settings), "Unexpected merge array handling when merging JSON.");
