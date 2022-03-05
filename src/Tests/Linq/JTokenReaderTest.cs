@@ -366,7 +366,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadBytesFromEmptyString()
     {
-        var bytes = new HasBytes { Bytes = new byte[0] };
+        var bytes = new HasBytes { Bytes = Array.Empty<byte>() };
         var json = JsonConvert.SerializeObject(bytes);
 
         TextReader textReader = new StringReader(json);
@@ -379,7 +379,7 @@ public class JTokenReaderTest : TestFixtureBase
         var result2 = (HasBytes)JsonSerializer.Create(null)
             .Deserialize(jsonReader, typeof(HasBytes));
 
-        Assert.Equal(new byte[0], result2.Bytes);
+        Assert.Equal(Array.Empty<byte>(), result2.Bytes);
     }
 
     public class ReadAsBytesTestObject
