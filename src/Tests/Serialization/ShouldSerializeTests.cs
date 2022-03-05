@@ -2,6 +2,8 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using System.Xml.Serialization;
+
 public class ShouldSerializeTests : TestFixtureBase
 {
     public class A
@@ -60,7 +62,7 @@ public class ShouldSerializeTests : TestFixtureBase
                         {
                             new() {name = Guid.NewGuid().ToString()}
                         }
-                    },
+                    }
                 }
             }
         };
@@ -271,8 +273,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
         // Use the XmlIgnoreAttribute to ignore the
         // special field named "FirstOrderSpecified".
-        [System.Xml.Serialization.XmlIgnoreAttribute]
-        public bool FirstOrderSpecified;
+        [XmlIgnore] public bool FirstOrderSpecified;
     }
 
     public class FamilyDetails
@@ -398,10 +399,10 @@ public class ShouldSerializeTests : TestFixtureBase
         var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(
             json,
             new JsonSerializerSettings
-        {
-            ContractResolver = ShouldDeserializeContractResolver.Instance,
-            TraceWriter = traceWriter
-        });
+            {
+                ContractResolver = ShouldDeserializeContractResolver.Instance,
+                TraceWriter = traceWriter
+            });
 
         Assert.Equal(1, c.ExtensionData.Count);
         Assert.Equal("Name!", (string) c.ExtensionData["Name"]);
@@ -453,8 +454,6 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class SpecifiedTestClass
     {
-        bool nameSpecified;
-
         public string Name { get; set; }
         public int Age { get; set; }
         public int Weight { get; set; }
@@ -464,17 +463,11 @@ public class ShouldSerializeTests : TestFixtureBase
         // dummy. should never be used because it isn't of type bool
         [JsonIgnore] public long AgeSpecified { get; set; }
 
-        [JsonIgnore]
-        public bool NameSpecified
-        {
-            get => nameSpecified;
-            set => nameSpecified = value;
-        }
+        [JsonIgnore] public bool NameSpecified { get; set; }
 
         [JsonIgnore] public bool WeightSpecified;
 
-        [JsonIgnore] [System.Xml.Serialization.XmlIgnoreAttribute]
-        public bool HeightSpecified;
+        [JsonIgnore] [XmlIgnore] public bool HeightSpecified;
 
         [JsonIgnore]
         public bool FavoriteNumberSpecified =>
@@ -484,21 +477,9 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class Foo2
     {
-        Bar2 myBarField;
+        public Bar2 myBar { get; set; }
 
-        public Bar2 myBar
-        {
-            get => myBarField;
-            set => myBarField = value;
-        }
-
-        string nameField;
-
-        public string name
-        {
-            get => nameField;
-            set => nameField = value;
-        }
+        public string name { get; set; }
 
         public virtual bool ShouldSerializemyBar()
         {
@@ -560,7 +541,7 @@ public class ShouldSerializeTests : TestFixtureBase
 
     public class ShouldDeserializeContractResolver : DefaultContractResolver
     {
-        public static new readonly ShouldDeserializeContractResolver Instance = new();
+        public new static readonly ShouldDeserializeContractResolver Instance = new();
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {

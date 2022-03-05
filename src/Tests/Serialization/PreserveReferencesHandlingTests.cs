@@ -33,12 +33,12 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
-            return new ContentA { B = serializer.Deserialize<ContentB>(reader) }; // Construct my data back.
+            return new ContentA {B = serializer.Deserialize<ContentB>(reader)}; // Construct my data back.
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var b = ((ContentA)value).B;
+            var b = ((ContentA) value).B;
             serializer.Serialize(writer, b); // My Content.B contains all useful data.
         }
     }
@@ -198,11 +198,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
         var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new() { { "blah", null } });
+        circularDictionary.Add("other", new() {{"blah", null}});
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
-            new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
+            new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
@@ -252,8 +252,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new() { null });
-        circularList.Add(new() { new() { circularList } });
+        circularList.Add(new() {null});
+        circularList.Add(new() {new() {circularList}});
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(circularList, Formatting.Indented),
@@ -265,12 +265,12 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new() { null });
-        circularList.Add(new() { new() { circularList } });
+        circularList.Add(new() {null});
+        circularList.Add(new() {new() {circularList}});
 
         var json = JsonConvert.SerializeObject(circularList,
             Formatting.Indented,
-            new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
         XUnitAssert.AreEqualNormalized(@"[
   null,
@@ -288,11 +288,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new() { null });
-        circularList.Add(new() { new() { circularList } });
+        circularList.Add(new() {null});
+        circularList.Add(new() {new() {circularList}});
 
         var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
-            new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
+            new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
@@ -351,7 +351,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 }";
 
         var circularList = JsonConvert.DeserializeObject<CircularList>(json,
-            new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All });
+            new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
         Assert.Equal(3, circularList.Count);
         Assert.Equal(null, circularList[0]);
@@ -390,7 +390,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   ]
 }";
 
-        var settings = new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.All };
+        var settings = new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All};
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<string[][]>(json, settings),
             @"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
@@ -406,7 +406,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var classRef = typeof(CircularDictionary).FullName;
 
         var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new() { { "blah", null } });
+        circularDictionary.Add("other", new() {{"blah", null}});
         circularDictionary.Add("self", circularDictionary);
 
         XUnitAssert.Throws<JsonSerializationException>(
@@ -418,11 +418,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     public void SerializeCircularDictionarysIgnore()
     {
         var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new() { { "blah", null } });
+        circularDictionary.Add("other", new() {{"blah", null}});
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
-            new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
         XUnitAssert.AreEqualNormalized(@"{
   ""other"": {
@@ -451,7 +451,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var circularReferenceClass = (CircularReferenceClass)value;
+            var circularReferenceClass = (CircularReferenceClass) value;
 
             var reference = serializer.ReferenceResolver.GetReference(serializer, circularReferenceClass);
 
@@ -471,7 +471,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
             var o = JObject.Load(reader);
-            var id = (string)o["$id"];
+            var id = (string) o["$id"];
             if (id == null)
             {
                 var reference = (string) o["$ref"];
@@ -492,9 +492,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeCircularReferencesWithConverter()
     {
-        var c1 = new CircularReferenceClass { Name = "c1" };
-        var c2 = new CircularReferenceClass { Name = "c2" };
-        var c3 = new CircularReferenceClass { Name = "c3" };
+        var c1 = new CircularReferenceClass {Name = "c1"};
+        var c2 = new CircularReferenceClass {Name = "c2"};
+        var c3 = new CircularReferenceClass {Name = "c3"};
 
         c1.Child = c2;
         c2.Child = c3;
@@ -503,7 +503,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented, new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Converters = new List<JsonConverter> { new CircularReferenceClassConverter() }
+            Converters = new List<JsonConverter> {new CircularReferenceClassConverter()}
         });
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -551,7 +551,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var c1 = JsonConvert.DeserializeObject<CircularReferenceClass>(json, new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Converters = new List<JsonConverter> { new CircularReferenceClassConverter() }
+            Converters = new List<JsonConverter> {new CircularReferenceClassConverter()}
         });
 
         Assert.Equal("c1", c1.Name);
@@ -685,9 +685,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeCircularReference()
     {
-        var c1 = new CircularReferenceClass { Name = "c1" };
-        var c2 = new CircularReferenceClass { Name = "c2" };
-        var c3 = new CircularReferenceClass { Name = "c3" };
+        var c1 = new CircularReferenceClass {Name = "c1"};
+        var c2 = new CircularReferenceClass {Name = "c2"};
+        var c3 = new CircularReferenceClass {Name = "c3"};
 
         c1.Child = c2;
         c2.Child = c3;
@@ -749,10 +749,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeReferenceInList()
     {
-        var e1 = new EmployeeReference { Name = "e1" };
-        var e2 = new EmployeeReference { Name = "e2" };
+        var e1 = new EmployeeReference {Name = "e1"};
+        var e2 = new EmployeeReference {Name = "e2"};
 
-        var employees = new List<EmployeeReference> { e1, e2, e1, e2 };
+        var employees = new List<EmployeeReference> {e1, e2, e1, e2};
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
@@ -813,15 +813,15 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeReferenceInDictionary()
     {
-        var e1 = new EmployeeReference { Name = "e1" };
-        var e2 = new EmployeeReference { Name = "e2" };
+        var e1 = new EmployeeReference {Name = "e1"};
+        var e2 = new EmployeeReference {Name = "e2"};
 
         var employees = new Dictionary<string, EmployeeReference>
         {
-            { "One", e1 },
-            { "Two", e2 },
-            { "Three", e1 },
-            { "Four", e2 }
+            {"One", e1},
+            {"Two", e2},
+            {"Three", e1},
+            {"Four", e2}
         };
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
@@ -931,7 +931,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(people, Formatting.Indented,
-            new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+            new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.Objects});
         //[
         //  {
         //    "$id": "1",
@@ -945,7 +945,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         //]
 
         var deserializedPeople = JsonConvert.DeserializeObject<List<Person>>(json,
-            new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+            new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.Objects});
 
         Assert.Equal(2, deserializedPeople.Count);
 
@@ -963,6 +963,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     public class User
     {
         #region properties
+
         [JsonProperty(Required = Required.Always, PropertyName = "SecretType")]
         string secretType;
 
@@ -975,11 +976,12 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             set => secretType = value.AssemblyQualifiedName;
         }
 
-        [JsonProperty]
-        public User Friend { get; set; }
+        [JsonProperty] public User Friend { get; set; }
+
         #endregion
 
         #region constructors
+
         public User()
         {
         }
@@ -990,9 +992,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             Login = login;
             SecretType = secretType;
         }
+
         #endregion
 
         #region methods
+
         public override int GetHashCode()
         {
             return SecretType.GetHashCode();
@@ -1002,6 +1006,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         {
             return $"SecretType: {secretType}, Login: {Login}";
         }
+
         #endregion
     }
 
@@ -1046,7 +1051,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var memoryStream = new MemoryStream();
 
         using (var streamWriter = new StreamWriter(memoryStream))
-        using (var jsonWriter = new JsonTextWriter(streamWriter) { Formatting = Formatting.Indented })
+        using (var jsonWriter = new JsonTextWriter(streamWriter) {Formatting = Formatting.Indented})
         {
             serializer.Serialize(jsonWriter, myClasses1);
         }
@@ -1184,7 +1189,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var o1 = new ReferenceObject
         {
-            Component1 = new() { MyProperty = 1 }
+            Component1 = new() {MyProperty = 1}
         };
 
         o1.Component2 = o1.Component1;
@@ -1300,14 +1305,12 @@ public class PropertyItemIsReferenceBody
 
 public class PropertyItemIsReferenceObject
 {
-    [JsonProperty(ItemIsReference = true)]
-    public PropertyItemIsReferenceBody Data { get; set; }
+    [JsonProperty(ItemIsReference = true)] public PropertyItemIsReferenceBody Data { get; set; }
 }
 
 public class PropertyItemIsReferenceList
 {
-    [JsonProperty(ItemIsReference = true)]
-    public IList<IList<object>> Data { get; set; }
+    [JsonProperty(ItemIsReference = true)] public IList<IList<object>> Data { get; set; }
 }
 
 [JsonArray(ItemIsReference = true)]
@@ -1326,8 +1329,7 @@ public class ReferenceObject
     public TestComponentSimple Component1 { get; set; }
     public TestComponentSimple Component2 { get; set; }
 
-    [JsonProperty(IsReference = false)]
-    public TestComponentSimple ComponentNotReference { get; set; }
+    [JsonProperty(IsReference = false)] public TestComponentSimple ComponentNotReference { get; set; }
 
     public string String { get; set; }
     public int Integer { get; set; }

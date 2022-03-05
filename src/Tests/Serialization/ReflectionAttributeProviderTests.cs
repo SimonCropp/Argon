@@ -8,13 +8,9 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
 {
     public class ReflectionTestObject
     {
-        [DefaultValue("1")]
-        [JsonProperty]
-        public int TestProperty { get; set; }
+        [DefaultValue("1")] [JsonProperty] public int TestProperty { get; set; }
 
-        [DefaultValue("1")]
-        [JsonProperty]
-        public int TestField;
+        [DefaultValue("1")] [JsonProperty] public int TestField;
 
         public ReflectionTestObject(
             [DefaultValue("1")] [JsonProperty] int testParameter)
@@ -55,7 +51,7 @@ public class ReflectionAttributeProviderTests : TestFixtureBase
     [Fact]
     public void GetAttributes_Parameter()
     {
-        var parameters = typeof(ReflectionTestObject).GetConstructor(new[] { typeof(int) }).GetParameters();
+        var parameters = typeof(ReflectionTestObject).GetConstructor(new[] {typeof(int)}).GetParameters();
 
         var parameter = parameters[0];
 

@@ -4,8 +4,8 @@
 
 using System.Collections.ObjectModel;
 using System.Dynamic;
-using TestObjects;
 using System.Net;
+using TestObjects;
 
 public class TypeNameHandlingTests : TestFixtureBase
 {
