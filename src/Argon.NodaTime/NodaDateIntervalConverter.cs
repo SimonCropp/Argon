@@ -27,7 +27,7 @@ sealed class NodaDateIntervalConverter : NodaConverterBase<DateInterval>
                 break;
             }
 
-            var propertyName = (string)reader.Value!;
+            var propertyName = (string)reader.GetValue();
             if (!reader.Read())
             {
                 break;

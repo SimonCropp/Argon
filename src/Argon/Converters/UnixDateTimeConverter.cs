@@ -59,11 +59,11 @@ public class UnixDateTimeConverter : DateTimeConverterBase
 
         if (reader.TokenType == JsonToken.Integer)
         {
-            seconds = (long)reader.Value!;
+            seconds = (long)reader.GetValue();
         }
         else if (reader.TokenType == JsonToken.String)
         {
-            if (!long.TryParse((string)reader.Value!, out seconds))
+            if (!long.TryParse((string)reader.GetValue(), out seconds))
             {
                 throw JsonSerializationException.Create(reader, $"Cannot convert invalid value to {type}.");
             }

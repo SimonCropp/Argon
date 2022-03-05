@@ -151,9 +151,35 @@ public abstract partial class JsonReader : IDisposable
     public virtual JsonToken TokenType => tokenType;
 
     /// <summary>
+    /// Gets the underlying token value.
+    /// </summary>
+    public object GetValue()
+    {
+        if (Value is null)
+        {
+            throw new("Cannot GetValue when underlying value is null");
+        }
+
+        return Value!;
+    }
+
+    /// <summary>
     /// Gets the text value of the current JSON token.
     /// </summary>
     public virtual object? Value => value;
+
+    /// <summary>
+    /// Gets the underlying token value.
+    /// </summary>
+    public object GetValueType()
+    {
+        if (Value == null)
+        {
+            throw new("Cannot GetValueType when underlying value is null");
+        }
+
+        return Value.GetType();
+    }
 
     /// <summary>
     /// Gets the .NET type for the current JSON token.

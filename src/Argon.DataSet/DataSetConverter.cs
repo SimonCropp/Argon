@@ -51,7 +51,7 @@ public class DataSetConverter : JsonConverter
 
         while (reader.TokenType == JsonToken.PropertyName)
         {
-            var table = set.Tables[(string)reader.Value!];
+            var table = set.Tables[(string)reader.GetValue()];
             var exists = table != null;
 
             table = (DataTable)converter.ReadJson(reader, typeof(DataTable), table, serializer)!;

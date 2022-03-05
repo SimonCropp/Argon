@@ -1236,7 +1236,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         var v = EnsureValue(value);
         ValidateToken<BigInteger>(value, v, BigIntegerTypes);
 
-        return ConvertUtils.ToBigInteger(v.Value!);
+        return ConvertUtils.ToBigInteger(v.GetValue());
     }
 
     static BigInteger? ToBigIntegerNullable(JToken value)
@@ -1252,7 +1252,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return null;
         }
 
-        return ConvertUtils.ToBigInteger(v.Value);
+        return ConvertUtils.ToBigInteger(v.GetValue());
     }
     #endregion
 
@@ -1627,7 +1627,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 if (Type == JTokenType.Integer)
                 {
                     var enumType = type.IsEnum ? type : Nullable.GetUnderlyingType(type)!;
-                    return Enum.ToObject(enumType, ((JValue)this).Value!);
+                    return Enum.ToObject(enumType, ((JValue)this).GetValue());
                 }
             }
 
@@ -1813,7 +1813,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 v.SetLineInfo(lineInfo, settings);
                 return v;
             case JsonToken.Comment:
-                v = JValue.CreateComment(reader.Value!.ToString());
+                v = JValue.CreateComment(reader.GetValue().ToString());
                 v.SetLineInfo(lineInfo, settings);
                 return v;
             case JsonToken.Null:

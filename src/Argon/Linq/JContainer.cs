@@ -611,7 +611,7 @@ public abstract partial class JContainer :
                 case JsonToken.Comment:
                     if (settings is {CommentHandling: CommentHandling.Load})
                     {
-                        v = JValue.CreateComment(r.Value!.ToString());
+                        v = JValue.CreateComment(r.GetValue().ToString());
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                     }
@@ -647,8 +647,8 @@ public abstract partial class JContainer :
     {
 
         var parentObject = (JObject)parent;
-        var propertyName = r.Value!.ToString()!;
-        var existingPropertyWithName = parentObject.PropertyOrNull(propertyName, StringComparison.Ordinal);
+        var propertyName = r.GetValue().ToString()!;
+        var existingPropertyWithName = parentObject.PropertyOrNull(propertyName);
         if (existingPropertyWithName != null)
         {
             throw JsonReaderException.Create(r, $"Property with the name '{propertyName}' already exists in the current JSON object.");

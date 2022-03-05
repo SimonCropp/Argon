@@ -612,6 +612,19 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Gets or sets the underlying token value.
     /// </summary>
+    public object GetValue()
+    {
+        if (value == null)
+        {
+            throw new("Cannot GetValue when underlying value is null");
+        }
+
+        return value!;
+    }
+
+    /// <summary>
+    /// Gets or sets the underlying token value.
+    /// </summary>
     public object? Value
     {
         get => value;

@@ -141,14 +141,14 @@ class BooleanQueryExpression : QueryExpression
             return false;
         }
 
-        var regexText = (string)pattern.Value!;
+        var regexText = (string)pattern.GetValue();
         var patternOptionDelimiterIndex = regexText.LastIndexOf('/');
 
         var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
         var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
 
         var timeout = settings.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
-        return Regex.IsMatch((string)input.Value!, patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
+        return Regex.IsMatch((string)input.GetValue(), patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
     }
 
     internal static bool EqualsWithStringCoercion(JValue value, JValue queryValue)
@@ -171,7 +171,7 @@ class BooleanQueryExpression : QueryExpression
             return false;
         }
 
-        var queryValueString = (string)queryValue.Value!;
+        var queryValueString = (string)queryValue.GetValue();
 
         string currentValueString;
 
@@ -187,21 +187,21 @@ class BooleanQueryExpression : QueryExpression
                     }
                     else
                     {
-                        DateTimeUtils.WriteDateTimeString(writer, (DateTime)value.Value!, null, CultureInfo.InvariantCulture);
+                        DateTimeUtils.WriteDateTimeString(writer, (DateTime)value.GetValue(), null, CultureInfo.InvariantCulture);
                     }
 
                     currentValueString = writer.ToString();
                 }
                 break;
             case JTokenType.Bytes:
-                currentValueString = Convert.ToBase64String((byte[])value.Value!);
+                currentValueString = Convert.ToBase64String((byte[])value.GetValue());
                 break;
             case JTokenType.Guid:
             case JTokenType.TimeSpan:
-                currentValueString = value.Value!.ToString()!;
+                currentValueString = value.GetValue().ToString()!;
                 break;
             case JTokenType.Uri:
-                currentValueString = ((Uri)value.Value!).OriginalString;
+                currentValueString = ((Uri)value.GetValue()).OriginalString;
                 break;
             default:
                 return false;

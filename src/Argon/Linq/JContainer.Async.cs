@@ -90,7 +90,7 @@ public abstract partial class JContainer
                 case JsonToken.Comment:
                     if (settings is {CommentHandling: CommentHandling.Load})
                     {
-                        v = JValue.CreateComment(reader.Value!.ToString());
+                        v = JValue.CreateComment(reader.GetValue().ToString());
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                     }
