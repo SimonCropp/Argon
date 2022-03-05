@@ -125,10 +125,10 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         switch (valueContract.ContractType)
         {
             case JsonContractType.Object:
-                SerializeObject(writer, value, (JsonObjectContract)valueContract, member, containerContract, containerProperty);
+                SerializeObject(writer, value, (JsonObjectContract) valueContract, member, containerContract, containerProperty);
                 break;
             case JsonContractType.Array:
-                var arrayContract = (JsonArrayContract)valueContract;
+                var arrayContract = (JsonArrayContract) valueContract;
                 if (arrayContract.IsMultidimensionalArray)
                 {
                     SerializeMultidimensionalArray(writer, (Array) value, arrayContract, member, containerContract, containerProperty);
@@ -140,20 +140,20 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
                 break;
             case JsonContractType.Primitive:
-                SerializePrimitive(writer, value, (JsonPrimitiveContract)valueContract, member, containerContract, containerProperty);
+                SerializePrimitive(writer, value, (JsonPrimitiveContract) valueContract, member, containerContract, containerProperty);
                 break;
             case JsonContractType.String:
-                SerializeString(writer, value, (JsonStringContract)valueContract);
+                SerializeString(writer, value, (JsonStringContract) valueContract);
                 break;
             case JsonContractType.Dictionary:
-                var dictionaryContract = (JsonDictionaryContract)valueContract;
+                var dictionaryContract = (JsonDictionaryContract) valueContract;
                 SerializeDictionary(writer, value as IDictionary ?? dictionaryContract.CreateWrapper(value), dictionaryContract, member, containerContract, containerProperty);
                 break;
             case JsonContractType.Dynamic:
-                SerializeDynamic(writer, (IDynamicMetaObjectProvider)value, (JsonDynamicContract)valueContract, member, containerContract, containerProperty);
+                SerializeDynamic(writer, (IDynamicMetaObjectProvider) value, (JsonDynamicContract) valueContract, member, containerContract, containerProperty);
                 break;
             case JsonContractType.Linq:
-                ((JToken)value).WriteTo(writer, Serializer.Converters.ToArray());
+                ((JToken) value).WriteTo(writer, Serializer.Converters.ToArray());
                 break;
         }
     }
@@ -181,7 +181,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return isReference ?? contract.IsReference;
     }
 
-    bool ShouldWriteReference([NotNullWhen(true)]object? value, JsonProperty? property, JsonContract? valueContract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
+    bool ShouldWriteReference([NotNullWhen(true)] object? value, JsonProperty? property, JsonContract? valueContract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
         if (value == null)
         {
@@ -270,6 +270,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             {
                 message += $" for property '{property.PropertyName}'";
             }
+
             message += $" with type '{value.GetType()}'.";
 
             switch (referenceLoopHandling.GetValueOrDefault(Serializer.ReferenceLoopHandling))
@@ -323,7 +324,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
     }
 
-    static bool TryConvertToString(object value, Type type, [NotNullWhen(true)]out string? s)
+    static bool TryConvertToString(object value, Type type, [NotNullWhen(true)] out string? s)
     {
         if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out var converter))
         {
@@ -453,7 +454,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         OnSerialized(writer, contract, value);
     }
 
-    bool CalculatePropertyValues(JsonWriter writer, object value, JsonContainerContract contract, JsonProperty? member, JsonProperty property, [NotNullWhen(true)]out JsonContract? memberContract, out object? memberValue)
+    bool CalculatePropertyValues(JsonWriter writer, object value, JsonContainerContract contract, JsonProperty? member, JsonProperty property, [NotNullWhen(true)] out JsonContract? memberContract, out object? memberValue)
     {
         if (!property.Ignored && property.Readable && ShouldSerialize(writer, property, value) && IsSpecified(writer, property, value))
         {
@@ -484,6 +485,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     {
                         throw JsonSerializationException.Create(null, writer.ContainerPath, $"Cannot write a null value for property '{property.PropertyName}'. Property requires a value.", null);
                     }
+
                     if (resolvedRequired == Required.DisallowNull)
                     {
                         throw JsonSerializationException.Create(null, writer.ContainerPath, $"Cannot write a null value for property '{property.PropertyName}'. Property requires a non-null value.", null);
@@ -511,6 +513,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             WriteReferenceIdProperty(writer, contract.UnderlyingType, value);
         }
+
         if (ShouldWriteType(TypeNameHandling.Objects, contract, member, collectionContract, containerProperty))
         {
             WriteTypeProperty(writer, contract.UnderlyingType);
@@ -770,10 +773,12 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             {
                 WriteReferenceIdProperty(writer, contract.UnderlyingType, values);
             }
+
             if (includeTypeDetails)
             {
                 WriteTypeProperty(writer, values.GetType());
             }
+
             writer.WritePropertyName(JsonTypeReflector.ArrayValuesPropertyName, false);
         }
 
@@ -1003,13 +1008,13 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         if (contract.ContractType == JsonContractType.Primitive)
         {
-            var primitiveContract = (JsonPrimitiveContract)contract;
+            var primitiveContract = (JsonPrimitiveContract) contract;
             switch (primitiveContract.TypeCode)
             {
                 case PrimitiveTypeCode.DateTime:
                 case PrimitiveTypeCode.DateTimeNullable:
                 {
-                    var dt = DateTimeUtils.EnsureDateTime((DateTime)name, writer.DateTimeZoneHandling);
+                    var dt = DateTimeUtils.EnsureDateTime((DateTime) name, writer.DateTimeZoneHandling);
 
                     escape = false;
                     var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
@@ -1021,13 +1026,13 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 {
                     escape = false;
                     var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset)name, writer.DateFormatString, writer.Culture);
+                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) name, writer.DateFormatString, writer.Culture);
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.Double:
                 case PrimitiveTypeCode.DoubleNullable:
                 {
-                    var d = (double)name;
+                    var d = (double) name;
 
                     escape = false;
                     return d.ToString("R", CultureInfo.InvariantCulture);
@@ -1035,7 +1040,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case PrimitiveTypeCode.Single:
                 case PrimitiveTypeCode.SingleNullable:
                 {
-                    var f = (float)name;
+                    var f = (float) name;
 
                     escape = false;
                     return f.ToString("R", CultureInfo.InvariantCulture);

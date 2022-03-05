@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonDictionaryContract : JsonContainerContract
 {
@@ -17,12 +17,12 @@ public class JsonDictionaryContract : JsonContainerContract
     public Func<string, string>? DictionaryKeyResolver { get; set; }
 
     /// <summary>
-    /// Gets the <see cref="System.Type"/> of the dictionary keys.
+    /// Gets the <see cref="System.Type" /> of the dictionary keys.
     /// </summary>
     public Type? DictionaryKeyType { get; }
 
     /// <summary>
-    /// Gets the <see cref="System.Type"/> of the dictionary values.
+    /// Gets the <see cref="System.Type" /> of the dictionary values.
     /// </summary>
     public Type? DictionaryValueType { get; }
 
@@ -55,7 +55,7 @@ public class JsonDictionaryContract : JsonContainerContract
     }
 
     /// <summary>
-    /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
+    /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator" />.
     /// </summary>
     public ObjectConstructor<object>? OverrideCreator { get; set; }
 
@@ -67,7 +67,7 @@ public class JsonDictionaryContract : JsonContainerContract
     internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || parameterizedCreator != null || parameterizedConstructor != null;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonDictionaryContract"/> class.
+    /// Initializes a new instance of the <see cref="JsonDictionaryContract" /> class.
     /// </summary>
     public JsonDictionaryContract(Type underlyingType)
         : base(underlyingType)
@@ -99,7 +99,6 @@ public class JsonDictionaryContract : JsonContainerContract
             }
 
             IsReadOnlyOrFixedSize = NonNullableUnderlyingType.InheritsGenericDefinition(typeof(ReadOnlyDictionary<,>));
-
         }
         else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IReadOnlyDictionary<,>), out genericCollectionDefinitionType))
         {
@@ -166,11 +165,11 @@ public class JsonDictionaryContract : JsonContainerContract
         {
             genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType!, DictionaryValueType!);
 
-            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] { genericCollectionDefinitionType! })!;
+            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] {genericCollectionDefinitionType!})!;
             genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 
-        return (IWrappedDictionary)genericWrapperCreator(dictionary);
+        return (IWrappedDictionary) genericWrapperCreator(dictionary);
     }
 
     internal IDictionary CreateTemporaryDictionary()
@@ -182,6 +181,6 @@ public class JsonDictionaryContract : JsonContainerContract
             genericTemporaryDictionaryCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
         }
 
-        return (IDictionary)genericTemporaryDictionaryCreator();
+        return (IDictionary) genericTemporaryDictionaryCreator();
     }
 }

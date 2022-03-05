@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public abstract class JsonContract
 {
@@ -57,9 +57,9 @@ public abstract class JsonContract
     public JsonConverter? Converter { get; set; }
 
     /// <summary>
-    /// Gets the internally resolved <see cref="JsonConverter"/> for the contract's type.
+    /// Gets the internally resolved <see cref="JsonConverter" /> for the contract's type.
     /// This converter is used as a fallback converter when no other converter is resolved.
-    /// Setting <see cref="Converter"/> will always override this converter.
+    /// Setting <see cref="Converter" /> will always override this converter.
     /// </summary>
     public JsonConverter? InternalConverter { get; internal set; }
 
@@ -193,11 +193,11 @@ public abstract class JsonContract
 
     internal static SerializationCallback CreateSerializationCallback(MethodInfo callbackMethodInfo)
     {
-        return (o, context) => callbackMethodInfo.Invoke(o, new object[] { context });
+        return (o, context) => callbackMethodInfo.Invoke(o, new object[] {context});
     }
 
     internal static SerializationErrorCallback CreateSerializationErrorCallback(MethodInfo callbackMethodInfo)
     {
-        return (o, context, econtext) => callbackMethodInfo.Invoke(o, new object[] { context, econtext });
+        return (o, context, econtext) => callbackMethodInfo.Invoke(o, new object[] {context, econtext});
     }
 }

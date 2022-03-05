@@ -7,12 +7,12 @@ using System.Collections.ObjectModel;
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonArrayContract : JsonContainerContract
 {
     /// <summary>
-    /// Gets the <see cref="System.Type"/> of the collection items.
+    /// Gets the <see cref="System.Type" /> of the collection items.
     /// </summary>
     public Type? CollectionItemType { get; }
 
@@ -50,7 +50,7 @@ public class JsonArrayContract : JsonContainerContract
     }
 
     /// <summary>
-    /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
+    /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator" />.
     /// </summary>
     public ObjectConstructor<object>? OverrideCreator
     {
@@ -71,7 +71,7 @@ public class JsonArrayContract : JsonContainerContract
     internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || parameterizedCreator != null || parameterizedConstructor != null;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonArrayContract"/> class.
+    /// Initializes a new instance of the <see cref="JsonArrayContract" /> class.
     /// </summary>
     public JsonArrayContract(Type underlyingType)
         : base(underlyingType)
@@ -227,11 +227,11 @@ public class JsonArrayContract : JsonContainerContract
                 constructorArgument = genericCollectionDefinitionType;
             }
 
-            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] { constructorArgument })!;
+            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] {constructorArgument})!;
             genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 
-        return (IWrappedCollection)genericWrapperCreator(list);
+        return (IWrappedCollection) genericWrapperCreator(list);
     }
 
     internal IList CreateTemporaryCollection()
@@ -247,7 +247,7 @@ public class JsonArrayContract : JsonContainerContract
             genericTemporaryCollectionCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryListType);
         }
 
-        return (IList)genericTemporaryCollectionCreator();
+        return (IList) genericTemporaryCollectionCreator();
     }
 
     void StoreFSharpListCreatorIfNecessary(Type underlyingType)

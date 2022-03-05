@@ -7,7 +7,7 @@ using System.Dynamic;
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonDynamicContract : JsonContainerContract
 {
@@ -29,20 +29,20 @@ public class JsonDynamicContract : JsonContainerContract
 
     static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
     {
-        var getMemberBinder = (GetMemberBinder)DynamicUtils.BinderWrapper.GetMember(name, typeof(DynamicUtils));
+        var getMemberBinder = (GetMemberBinder) DynamicUtils.BinderWrapper.GetMember(name, typeof(DynamicUtils));
 
         return CallSite<Func<CallSite, object, object>>.Create(new NoThrowGetBinderMember(getMemberBinder));
     }
 
     static CallSite<Func<CallSite, object, object?, object>> CreateCallSiteSetter(string name)
     {
-        var binder = (SetMemberBinder)DynamicUtils.BinderWrapper.SetMember(name, typeof(DynamicUtils));
+        var binder = (SetMemberBinder) DynamicUtils.BinderWrapper.SetMember(name, typeof(DynamicUtils));
 
         return CallSite<Func<CallSite, object, object?, object>>.Create(new NoThrowSetBinderMember(binder));
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonDynamicContract"/> class.
+    /// Initializes a new instance of the <see cref="JsonDynamicContract" /> class.
     /// </summary>
     public JsonDynamicContract(Type underlyingType)
         : base(underlyingType)

@@ -5,12 +5,12 @@
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonLinqContract : JsonContract
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonLinqContract"/> class.
+    /// Initializes a new instance of the <see cref="JsonLinqContract" /> class.
     /// </summary>
     public JsonLinqContract(Type underlyingType)
         : base(underlyingType)
