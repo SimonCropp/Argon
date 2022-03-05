@@ -2,7 +2,7 @@
 
 class XTextWrapper : XObjectWrapper
 {
-    XText Text => (XText)WrappedNode!;
+    XText Text => (XText) WrappedNode!;
 
     public XTextWrapper(XText text)
         : base(text)

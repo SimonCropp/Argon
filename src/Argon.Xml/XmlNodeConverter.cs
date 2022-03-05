@@ -45,6 +45,7 @@ public class XmlNodeConverter : JsonConverter
     public bool EncodeSpecialCharacters { get; set; }
 
     #region Writing
+
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
@@ -74,6 +75,7 @@ public class XmlNodeConverter : JsonConverter
         {
             return XContainerWrapper.WrapNode(xObject);
         }
+
         if (value is XmlNode node)
         {
             return XmlNodeWrapper.WrapNode(node);
@@ -233,12 +235,14 @@ public class XmlNodeConverter : JsonConverter
                                 {
                                     nodes.Add(node.ChildNodes[j]);
                                 }
+
                                 nodesGroupedByName.Add(nodeName, nodes);
                             }
                             else
                             {
                                 nodesGroupedByName.Add(nodeName, node.ChildNodes[0]);
                             }
+
                             nodesGroupedByName.Add(currentNodeName, childNode);
                         }
                     }
@@ -277,10 +281,11 @@ public class XmlNodeConverter : JsonConverter
                         }
                         else
                         {
-                            WriteGroupedNodes(writer, manager, writePropertyName, (IXmlNode)nodeNameGroup.Value, nodeNameGroup.Key);
+                            WriteGroupedNodes(writer, manager, writePropertyName, (IXmlNode) nodeNameGroup.Value, nodeNameGroup.Key);
                         }
                     }
                 }
+
                 break;
             }
         }
@@ -382,7 +387,7 @@ public class XmlNodeConverter : JsonConverter
                     }
                     else if (node.ChildNodes.Count == 0 && node.Attributes.Count == 0)
                     {
-                        var element = (IXmlElement)node;
+                        var element = (IXmlElement) node;
 
                         // empty element
                         if (element.IsEmpty)
@@ -417,6 +422,7 @@ public class XmlNodeConverter : JsonConverter
                 {
                     writer.WriteComment(node.Value);
                 }
+
                 break;
             case XmlNodeType.Attribute:
             case XmlNodeType.Text:
@@ -441,10 +447,11 @@ public class XmlNodeConverter : JsonConverter
                 {
                     writer.WritePropertyName(GetPropertyName(node, manager));
                 }
+
                 writer.WriteValue(node.Value);
                 break;
             case XmlNodeType.XmlDeclaration:
-                var declaration = (IXmlDeclaration)node;
+                var declaration = (IXmlDeclaration) node;
                 writer.WritePropertyName(GetPropertyName(node, manager));
                 writer.WriteStartObject();
 
@@ -453,11 +460,13 @@ public class XmlNodeConverter : JsonConverter
                     writer.WritePropertyName("@version");
                     writer.WriteValue(declaration.Version);
                 }
+
                 if (!StringUtils.IsNullOrEmpty(declaration.Encoding))
                 {
                     writer.WritePropertyName("@encoding");
                     writer.WriteValue(declaration.Encoding);
                 }
+
                 if (!StringUtils.IsNullOrEmpty(declaration.Standalone))
                 {
                     writer.WritePropertyName("@standalone");
@@ -467,7 +476,7 @@ public class XmlNodeConverter : JsonConverter
                 writer.WriteEndObject();
                 break;
             case XmlNodeType.DocumentType:
-                var documentType = (IXmlDocumentType)node;
+                var documentType = (IXmlDocumentType) node;
                 writer.WritePropertyName(GetPropertyName(node, manager));
                 writer.WriteStartObject();
 
@@ -476,16 +485,19 @@ public class XmlNodeConverter : JsonConverter
                     writer.WritePropertyName("@name");
                     writer.WriteValue(documentType.Name);
                 }
+
                 if (!StringUtils.IsNullOrEmpty(documentType.Public))
                 {
                     writer.WritePropertyName("@public");
                     writer.WriteValue(documentType.Public);
                 }
+
                 if (!StringUtils.IsNullOrEmpty(documentType.System))
                 {
                     writer.WritePropertyName("@system");
                     writer.WriteValue(documentType.System);
                 }
+
                 if (!StringUtils.IsNullOrEmpty(documentType.InternalSubset))
                 {
                     writer.WritePropertyName("@internalSubset");
@@ -508,11 +520,14 @@ public class XmlNodeConverter : JsonConverter
                 return false;
             }
         }
+
         return true;
     }
+
     #endregion
 
     #region Reading
+
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
@@ -547,6 +562,7 @@ public class XmlNodeConverter : JsonConverter
             document = new XDocumentWrapper(d);
             rootNode = document;
         }
+
         if (typeof(XmlNode).IsAssignableFrom(type))
         {
             if (type != typeof(XmlDocument)
@@ -583,11 +599,12 @@ public class XmlNodeConverter : JsonConverter
 
         if (type == typeof(XElement))
         {
-            var element = (XElement)document.DocumentElement!.WrappedNode!;
+            var element = (XElement) document.DocumentElement!.WrappedNode!;
             element.Remove();
 
             return element;
         }
+
         if (type == typeof(XmlElement))
         {
             return document.DocumentElement!.WrappedNode;
@@ -627,6 +644,7 @@ public class XmlNodeConverter : JsonConverter
                         CreateDocumentType(reader, document, currentNode);
                         return;
                     }
+
                     break;
             }
         }
@@ -733,6 +751,7 @@ public class XmlNodeConverter : JsonConverter
                 {
                     element.AppendChild(document.CreateTextNode(text));
                 }
+
                 break;
             case JsonToken.Null:
 
@@ -766,7 +785,7 @@ public class XmlNodeConverter : JsonConverter
             ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix)!, attributeValue)
             : document.CreateAttribute(encodedName, attributeValue);
 
-        ((IXmlElement)currentNode).SetAttributeNode(attribute);
+        ((IXmlElement) currentNode).SetAttributeNode(attribute);
     }
 
     static string? ConvertTokenToXmlValue(JsonReader reader)
@@ -780,6 +799,7 @@ public class XmlNodeConverter : JsonConverter
                 {
                     return i.ToString(CultureInfo.InvariantCulture);
                 }
+
                 return XmlConvert.ToString(Convert.ToInt64(reader.Value, CultureInfo.InvariantCulture));
             case JsonToken.Float:
             {
@@ -808,7 +828,7 @@ public class XmlNodeConverter : JsonConverter
                 return XmlConvert.ToString(d, ToSerializationMode(d.Kind));
             }
             case JsonToken.Bytes:
-                return Convert.ToBase64String((byte[])reader.GetValue());
+                return Convert.ToBase64String((byte[]) reader.GetValue());
             case JsonToken.Null:
                 return null;
             default:
@@ -830,6 +850,7 @@ public class XmlNodeConverter : JsonConverter
                 throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
         }
     }
+
     void ReadArrayElements(JsonReader reader, IXmlDocument document, string propertyName, IXmlNode currentNode, XmlNamespaceManager manager)
     {
         var elementPrefix = MiscellaneousUtils.GetPrefix(propertyName);
@@ -1131,6 +1152,7 @@ public class XmlNodeConverter : JsonConverter
                     {
                         DeserializeValue(reader, document, manager, propertyName, currentNode);
                     }
+
                     continue;
                 case JsonToken.Comment:
                     currentNode.AppendChild(document.CreateComment(reader.StringValue));
@@ -1146,12 +1168,12 @@ public class XmlNodeConverter : JsonConverter
     }
 
     /// <summary>
-    /// Checks if the <paramref name="attributeName"/> is a namespace attribute.
+    /// Checks if the <paramref name="attributeName" /> is a namespace attribute.
     /// </summary>
     /// <param name="attributeName">Attribute name to test.</param>
     /// <param name="prefix">The attribute name prefix if it has one, otherwise an empty string.</param>
     /// <returns><c>true</c> if attribute name is for a namespace attribute, otherwise <c>false</c>.</returns>
-    static bool IsNamespaceAttribute(string attributeName, [NotNullWhen(true)]out string? prefix)
+    static bool IsNamespaceAttribute(string attributeName, [NotNullWhen(true)] out string? prefix)
     {
         if (attributeName.StartsWith("xmlns", StringComparison.Ordinal))
         {
@@ -1167,6 +1189,7 @@ public class XmlNodeConverter : JsonConverter
                 return true;
             }
         }
+
         prefix = null;
         return false;
     }
@@ -1190,6 +1213,7 @@ public class XmlNodeConverter : JsonConverter
 
         return false;
     }
+
     #endregion
 
     /// <summary>
@@ -1197,7 +1221,7 @@ public class XmlNodeConverter : JsonConverter
     /// </summary>
     /// <param name="valueType">Type of the value.</param>
     /// <returns>
-    /// 	<c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
+    /// <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type valueType)
     {
@@ -1205,6 +1229,7 @@ public class XmlNodeConverter : JsonConverter
         {
             return IsXObject(valueType);
         }
+
         if (valueType.AssignableToTypeName("System.Xml.XmlNode", false))
         {
             return IsXmlNode(valueType);
