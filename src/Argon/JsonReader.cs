@@ -403,14 +403,17 @@ public abstract partial class JsonReader : IDisposable
     {
         var token = GetContentToken();
 
-        switch (token)
+        if (token is
+            JsonToken.None or
+            JsonToken.Null or
+            JsonToken.EndArray)
         {
-            case JsonToken.None:
-            case JsonToken.Null:
-            case JsonToken.EndArray:
-                return null;
-            case JsonToken.String:
-                return (string?) Value;
+            return null;
+        }
+
+        if (token == JsonToken.String)
+        {
+            return (string?) Value;
         }
 
         if (JsonTokenUtils.IsPrimitiveToken(token))

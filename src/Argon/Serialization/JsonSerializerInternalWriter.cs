@@ -332,9 +332,15 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return true;
         }
 
-        if (value is Guid or Uri or TimeSpan)
+        if (value is Guid guid)
         {
-            s = value.ToString()!;
+            s = guid.ToString();
+            return true;
+        }
+
+        if (value is TimeSpan timeSpan)
+        {
+            s = timeSpan.ToString();
             return true;
         }
 

@@ -628,7 +628,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (reader.TokenType == JsonToken.PropertyName)
         {
-            var propertyName = reader.Value!.ToString()!;
+            var propertyName = (string)reader.Value!;
 
             if (propertyName.Length > 0 && propertyName[0] == '$')
             {
@@ -1313,23 +1313,41 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTime:
                                 case PrimitiveTypeCode.DateTimeNullable:
                                 {
-                                    keyValue = DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt)
-                                        ? dt
-                                        : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                    if (DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt))
+                                    {
+                                        keyValue = dt;
+                                    }
+                                    else
+                                    {
+                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                    }
+
                                     break;
                                 }
                                 case PrimitiveTypeCode.DateTimeOffset:
                                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                                 {
-                                    keyValue = DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, reader.DateFormatString, reader.Culture, out var dt)
-                                        ? dt
-                                        : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                    if (DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, reader.DateFormatString, reader.Culture, out var dt))
+                                    {
+                                        keyValue = dt;
+                                    }
+                                    else
+                                    {
+                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                    }
+
                                     break;
                                 }
                                 default:
-                                    keyValue = contract.KeyContract is {IsEnum: true}
-                                        ? EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer.ContractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString()!, false)
-                                        : EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                    if (contract.KeyContract is {IsEnum: true})
+                                    {
+                                        keyValue = EnumUtils.ParseEnum(contract.KeyContract.NonNullableUnderlyingType, (Serializer.ContractResolver as DefaultContractResolver)?.NamingStrategy, keyValue.ToString()!, false);
+                                    }
+                                    else
+                                    {
+                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                    }
+
                                     break;
                             }
                         }

@@ -390,10 +390,10 @@ public abstract partial class JsonWriter : IDisposable
                 WriteStartArray();
                 break;
             case JsonToken.PropertyName:
-                WritePropertyName(value!.ToString()!);
+                WritePropertyName((string)value!);
                 break;
             case JsonToken.Comment:
-                WriteComment(value?.ToString());
+                WriteComment((string)value!);
                 break;
             case JsonToken.Integer:
                 if (value is BigInteger integer)

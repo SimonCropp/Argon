@@ -208,8 +208,10 @@ class BooleanQueryExpression : QueryExpression
                 currentValueString = Convert.ToBase64String((byte[]) value.GetValue());
                 break;
             case JTokenType.Guid:
+                currentValueString = ((Guid) value.GetValue()).ToString();
+                break;
             case JTokenType.TimeSpan:
-                currentValueString = value.GetValue().ToString()!;
+                currentValueString = ((TimeSpan) value.GetValue()).ToString();
                 break;
             case JTokenType.Uri:
                 currentValueString = ((Uri) value.GetValue()).OriginalString;
