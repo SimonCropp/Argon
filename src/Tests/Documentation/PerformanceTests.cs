@@ -127,7 +127,7 @@ public class PerformanceTests : TestFixtureBase
         var serializer = new JsonSerializer();
 
         // read the json from a stream
-        // json size doesn't matter because only a small piece is read at a time from the HTTP request
+        // json size doesn't matter because only a small piece is read at a time from the stream
         var p = serializer.Deserialize<Person>(reader);
 
         #endregion

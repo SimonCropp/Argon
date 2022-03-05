@@ -61,18 +61,15 @@ var p = JsonConvert.DeserializeObject<Person>(json);
 <!-- snippet: DeserializeStream -->
 <a id='snippet-deserializestream'></a>
 ```cs
-var client = new HttpClient();
-
-using var s = client.GetStreamAsync("http://www.test.com/large.json").Result;
-using var sr = new StreamReader(s);
-using var reader = new JsonTextReader(sr);
+using var streamReader = new StreamReader(stream);
+using var reader = new JsonTextReader(streamReader);
 var serializer = new JsonSerializer();
 
 // read the json from a stream
 // json size doesn't matter because only a small piece is read at a time from the HTTP request
 var p = serializer.Deserialize<Person>(reader);
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L124-L136' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L123-L133' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -160,7 +157,7 @@ public static string ToJson(this Person p)
     return stringWriter.ToString();
 }
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L142-L169' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L139-L166' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If performance is important, then this is the best choice. More about using JsonReader/JsonWriter here: [ReadingWritingJSON]
