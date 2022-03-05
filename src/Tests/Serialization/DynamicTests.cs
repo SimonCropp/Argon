@@ -107,18 +107,20 @@ public class DynamicTests : TestFixtureBase
     [Fact]
     public void NoPublicDefaultConstructor()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var settings = new JsonSerializerSettings
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
             {
-                NullValueHandling = NullValueHandling.Ignore
-            };
-            var json = @"{
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+                var json = @"{
   ""contributors"": null
 }";
 
-            JsonConvert.DeserializeObject<DynamicObject>(json, settings);
-        }, "Unable to find a default constructor to use for type System.Dynamic.DynamicObject. Path 'contributors', line 2, position 17.");
+                JsonConvert.DeserializeObject<DynamicObject>(json, settings);
+            },
+            "Unable to find a default constructor to use for type System.Dynamic.DynamicObject. Path 'contributors', line 2, position 17.");
     }
 
     public class DictionaryDynamicObject : DynamicObject

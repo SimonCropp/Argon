@@ -40,7 +40,9 @@ public class Issue1321 : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(@"[""1"","));
 
-        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () => { await writer.WriteTokenAsync(reader); }, "Unexpected end when reading token. Path ''.");
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(
+            () => writer.WriteTokenAsync(reader),
+            "Unexpected end when reading token. Path ''.");
     }
 
     [Fact]
@@ -68,7 +70,9 @@ public class Issue1321 : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(@"[""1"","));
         await reader.ReadAsync();
 
-        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () => { await writer.WriteTokenAsync(reader); }, "Unexpected end when reading token. Path ''.");
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(
+            () => writer.WriteTokenAsync(reader),
+            "Unexpected end when reading token. Path ''.");
     }
 
     [Fact]
@@ -98,7 +102,9 @@ public class Issue1321 : TestFixtureBase
         await reader.ReadAsync();
         await reader.ReadAsync();
 
-        await XUnitAssert.ThrowsAsync<JsonWriterException>(async () => { await writer.WriteTokenAsync(reader); }, "Unexpected end when reading token. Path ''.");
+        await XUnitAssert.ThrowsAsync<JsonWriterException>(
+            () => writer.WriteTokenAsync(reader),
+            "Unexpected end when reading token. Path ''.");
     }
 
     [Fact]
@@ -129,7 +135,7 @@ public class Issue1321 : TestFixtureBase
         await reader.ReadAsync();
 
         await XUnitAssert.ThrowsAsync<JsonWriterException>(
-            async () => { await jsonWriter.WriteTokenAsync(reader); },
+            () => jsonWriter.WriteTokenAsync(reader),
             "Unexpected end when reading token. Path '[0]'.");
     }
 }

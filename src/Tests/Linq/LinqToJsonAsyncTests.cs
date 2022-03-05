@@ -125,6 +125,8 @@ undefined
         await jsonReader.ReadAsync();
         await jsonReader.ReadAsync();
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(jsonReader), @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => JToken.ReadFromAsync(jsonReader),
+            @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 }

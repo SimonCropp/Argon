@@ -1034,17 +1034,21 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         using var jsonWriter = new JsonTextWriter(stringWriter);
         await jsonWriter.WriteTokenAsync(JsonToken.StartArray);
 
-        await XUnitAssert.ThrowsAsync<FormatException>(async () => { await jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"); }, "Input string was not in a correct format.");
+        await XUnitAssert.ThrowsAsync<FormatException>(
+            () => jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"),
+            "Input string was not in a correct format.");
     }
 
     [Fact]
     public async Task TokenTypeOutOfRangeAsync()
     {
         using var jsonWriter = new JsonTextWriter(new StringWriter());
-        var ex = await XUnitAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue));
+        var ex = await XUnitAssert.ThrowsAsync<ArgumentOutOfRangeException>(() => jsonWriter.WriteTokenAsync((JsonToken)int.MinValue));
         Assert.Equal("token", ex.ParamName);
 
-        ex = await XUnitAssert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await jsonWriter.WriteTokenAsync((JsonToken)int.MinValue, "test"));
+        ex = await XUnitAssert.ThrowsAsync<ArgumentOutOfRangeException>(
+            () => jsonWriter.WriteTokenAsync((JsonToken)int.MinValue,
+                "test"));
         Assert.Equal("token", ex.ParamName);
     }
 
@@ -1795,14 +1799,14 @@ ExpiryDate:'2014-06-04T00:00:00Z',
         var writer = new JsonTextWriter(new ThrowingWriter(' '));
         writer.Formatting = Formatting.Indented;
         await writer.WriteStartObjectAsync();
-        await XUnitAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WritePropertyNameAsync("aa"));
+        await XUnitAssert.ThrowsAsync<InvalidOperationException>(() => writer.WritePropertyNameAsync("aa"));
     }
 
     [Fact]
     public async Task FailureOnStartWriteObject()
     {
         var writer = new JsonTextWriter(new ThrowingWriter('{'));
-        await XUnitAssert.ThrowsAsync<InvalidOperationException>(async () => await writer.WriteStartObjectAsync());
+        await XUnitAssert.ThrowsAsync<InvalidOperationException>(() => writer.WriteStartObjectAsync());
     }
 
     public class ThrowingWriter : TextWriter

@@ -1588,7 +1588,7 @@ third line", jsonTextReader.Value);
         var settings = new JsonLoadSettings();
 
         var reader = new JsonTextReader(new StringReader(json));
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => await JToken.ReadFromAsync(reader, settings));
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(() => JToken.ReadFromAsync(reader, settings));
     }
 
     [Fact]
