@@ -7,7 +7,7 @@ using System.Data;
 namespace Argon.DataSetConverters;
 
 /// <summary>
-/// Converts a <see cref="DataTable"/> to and from JSON.
+/// Converts a <see cref="DataTable" /> to and from JSON.
 /// </summary>
 public class DataTableConverter : JsonConverter
 {
@@ -16,7 +16,7 @@ public class DataTableConverter : JsonConverter
     /// </summary>
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        var table = (DataTable)value;
+        var table = (DataTable) value;
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
         writer.WriteStartArray();
@@ -36,6 +36,7 @@ public class DataTableConverter : JsonConverter
                 writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(column.ColumnName) : column.ColumnName);
                 serializer.Serialize(writer, columnValue);
             }
+
             writer.WriteEndObject();
         }
 
@@ -144,7 +145,7 @@ public class DataTableConverter : JsonConverter
                 }
 
                 var destinationArray = Array.CreateInstance(column.DataType.GetElementType()!, list.Count);
-                ((IList)list).CopyTo(destinationArray, 0);
+                ((IList) list).CopyTo(destinationArray, 0);
 
                 row[columnName] = destinationArray;
             }
@@ -224,7 +225,7 @@ public class DataTableConverter : JsonConverter
     /// </summary>
     /// <param name="valueType">Type of the value.</param>
     /// <returns>
-    ///   <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
+    /// <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type valueType)
     {
