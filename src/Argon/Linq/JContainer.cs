@@ -648,7 +648,7 @@ public abstract partial class JContainer :
 
         var parentObject = (JObject)parent;
         var propertyName = r.Value!.ToString()!;
-        var existingPropertyWithName = parentObject.Property(propertyName, StringComparison.Ordinal);
+        var existingPropertyWithName = parentObject.PropertyOrNull(propertyName, StringComparison.Ordinal);
         if (existingPropertyWithName != null)
         {
             throw JsonReaderException.Create(r, $"Property with the name '{propertyName}' already exists in the current JSON object.");

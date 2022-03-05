@@ -537,7 +537,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             var current = (JObject)reader.CurrentToken!;
 
-            var refProperty = current.Property(JsonTypeReflector.RefPropertyName, StringComparison.Ordinal);
+            var refProperty = current.PropertyOrNull(JsonTypeReflector.RefPropertyName);
             if (refProperty != null)
             {
                 var refToken = refProperty.Value;

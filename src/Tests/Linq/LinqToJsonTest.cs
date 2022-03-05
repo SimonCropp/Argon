@@ -675,7 +675,7 @@ keyword such as type of business.""
         //TODO: SIMON: parse should not change date strings
         var o = JObject.Parse(json);
 
-        var established = o.Property("Established")!;
+        var established = o.Property("Established");
         XUnitAssert.AreEqualNormalized(
             @"""Established"": ""2014-06-04T00:00:00Z""",
             established.ToString());
@@ -683,10 +683,10 @@ keyword such as type of business.""
         var establishedValue = (DateTime)established.Value;
         XUnitAssert.AreEqualNormalized(@"06/04/2014 00:00:00",
             establishedValue.ToString(DateTimeFormatInfo.InvariantInfo));
-        Assert.Equal(@"""Width"": 1.1", o.Property("Width")!.ToString());
-        Assert.Equal(@"1.1", ((JValue)o.Property("Width")!.Value).ToString(CultureInfo.InvariantCulture));
-        Assert.Equal(@"""Open"": false", o.Property("Open")!.ToString());
-        Assert.Equal(@"False", o.Property("Open")!.Value.ToString());
+        Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
+        Assert.Equal(@"1.1", ((JValue)o.Property("Width").Value).ToString(CultureInfo.InvariantCulture));
+        Assert.Equal(@"""Open"": false", o.Property("Open").ToString());
+        Assert.Equal(@"False", o.Property("Open").Value.ToString());
 
         json = @"[null,undefined]";
 

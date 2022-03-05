@@ -1233,17 +1233,17 @@ Parameter name: arrayIndex",
     {
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var json = @"{
+            {
+                var json = @"{
   ""responseData"": {}, 
   ""responseDetails"": null, 
   ""responseStatus"": 200
 }";
 
-            var o = JObject.Parse(json);
+                var o = JObject.Parse(json);
 
-            var name = (string) o.Property("responseData");
-        },
+                var name = (string) o.Property("responseData");
+            },
             "Can not convert Object to String.");
     }
 
@@ -1601,15 +1601,14 @@ Sizes: [
             ["title"] = "Title!"
         };
 
-        Assert.Equal(null, a.Property("NAME", StringComparison.Ordinal));
-        Assert.Equal(null, a.Property("NAME"));
-        Assert.Equal(null, a.Property("TITLE"));
+        Assert.Equal(null, a.PropertyOrNull("NAME"));
+        Assert.Equal(null, a.PropertyOrNull("TITLE"));
 
         // Return first match when ignoring case
-        Assert.Equal("Name", a.Property("NAME", StringComparison.OrdinalIgnoreCase).Name);
+        Assert.Equal("Name", a.PropertyOrNull("NAME", StringComparison.OrdinalIgnoreCase).Name);
         // Return exact match before ignoring case
-        Assert.Equal("name", a.Property("name", StringComparison.OrdinalIgnoreCase).Name);
+        Assert.Equal("name", a.PropertyOrNull("name", StringComparison.OrdinalIgnoreCase).Name);
         // Return exact match without ignoring case
-        Assert.Equal("name", a.Property("name", StringComparison.Ordinal).Name);
+        Assert.Equal("name", a.PropertyOrNull("name", StringComparison.Ordinal).Name);
     }
 }
