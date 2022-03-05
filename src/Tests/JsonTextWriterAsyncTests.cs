@@ -298,7 +298,10 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     {
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
-        var writer = new JsonTextWriter(stringWriter) {QuoteName = false};
+        var writer = new JsonTextWriter(stringWriter)
+        {
+            QuoteName = false
+        };
 
         await writer.WriteStartObjectAsync();
 
@@ -309,6 +312,27 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await writer.FlushAsync();
 
         Assert.Equal(@"{name:""value""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public async Task QuoteValueAndStringsAsync()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var writer = new JsonTextWriter(stringWriter)
+        {
+            QuoteValue = false
+        };
+
+        await writer.WriteStartObjectAsync();
+
+        await writer.WritePropertyNameAsync("name");
+        await writer.WriteValueAsync("value");
+
+        await writer.WriteEndObjectAsync();
+        await writer.FlushAsync();
+
+        Assert.Equal(@"{""name"":value}", stringBuilder.ToString());
     }
 
     [Fact]
@@ -1526,7 +1550,36 @@ _____'propertyName': NaN,
 
         XUnitAssert.AreEqualNormalized(@"{
   a: 1
-}", stringWriter.ToString());
+}",
+            stringWriter.ToString());
+    }
+
+    [Fact]
+    public async Task QuoteDictionaryValuesAsync()
+    {
+        var d = new Dictionary<string, string>
+        {
+            {"a", "b"}
+        };
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        var serializer = JsonSerializer.Create(settings);
+        using var stringWriter = new StringWriter();
+        using (var writer = new JsonTextWriter(stringWriter)
+               {
+                   QuoteValue = false
+               })
+        {
+            serializer.Serialize(writer, d);
+            await writer.CloseAsync();
+        }
+
+        XUnitAssert.AreEqualNormalized(@"{
+  ""a"": b
+}",
+            stringWriter.ToString());
     }
 
     [Fact]
