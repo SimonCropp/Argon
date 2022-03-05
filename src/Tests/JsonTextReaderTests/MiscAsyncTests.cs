@@ -164,7 +164,7 @@ public class MiscAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StreamReader(ms));
         await reader.ReadAsync();
 
-        return (string)reader.Value;
+        return (string) reader.Value;
     }
 
     [Fact]
@@ -451,7 +451,7 @@ public class MiscAsyncTests : TestFixtureBase
         Assert.Equal("<", reader.Value);
 
         await reader.ReadAsync();
-        Assert.Equal(24352, Convert.ToInt32(Convert.ToChar((string)reader.Value)));
+        Assert.Equal(24352, Convert.ToInt32(Convert.ToChar((string) reader.Value)));
 
         await reader.ReadAsync();
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
@@ -649,6 +649,9 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
         Assert.True(await r.ReadAsync());
         Assert.True(await r.ReadAsync());
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await r.ReadAsync(); }, @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            await r.ReadAsync();
+        }, @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
     }
 }

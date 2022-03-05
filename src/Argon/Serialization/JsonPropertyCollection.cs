@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 namespace Argon;
 
 /// <summary>
-/// A collection of <see cref="JsonProperty"/> objects.
+/// A collection of <see cref="JsonProperty" /> objects.
 /// </summary>
 public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
 {
@@ -15,7 +15,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     readonly List<JsonProperty> list;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonPropertyCollection"/> class.
+    /// Initializes a new instance of the <see cref="JsonPropertyCollection" /> class.
     /// </summary>
     /// <param name="type">The type.</param>
     public JsonPropertyCollection(Type type)
@@ -24,7 +24,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
         this.type = type;
 
         // foreach over List<T> to avoid boxing the Enumerator
-        list = (List<JsonProperty>)Items;
+        list = (List<JsonProperty>) Items;
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     }
 
     /// <summary>
-    /// Adds a <see cref="JsonProperty"/> object.
+    /// Adds a <see cref="JsonProperty" /> object.
     /// </summary>
     /// <param name="property">The property to add to the collection.</param>
     public void AddProperty(JsonProperty property)
@@ -75,6 +75,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
                         Remove(existingProperty);
                         duplicateProperty = false;
                     }
+
                     if (existingProperty.DeclaringType.IsSubclassOf(property.DeclaringType)
                         || (property.DeclaringType.IsInterface && existingProperty.DeclaringType.ImplementInterface(property.DeclaringType)))
                     {
@@ -100,8 +101,8 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     }
 
     /// <summary>
-    /// Gets the closest matching <see cref="JsonProperty"/> object.
-    /// First attempts to get an exact case match of <paramref name="propertyName"/> and then
+    /// Gets the closest matching <see cref="JsonProperty" /> object.
+    /// First attempts to get an exact case match of <paramref name="propertyName" /> and then
     /// a case insensitive match.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
@@ -125,7 +126,7 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
         return null;
     }
 
-    bool TryGetProperty(string key, [NotNullWhen(true)]out JsonProperty? item)
+    bool TryGetProperty(string key, [NotNullWhen(true)] out JsonProperty? item)
     {
         if (Dictionary == null)
         {

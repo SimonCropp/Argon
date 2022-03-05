@@ -5,6 +5,7 @@
 public class SerializeConditionalProperty : TestFixtureBase
 {
     #region SerializeConditionalPropertyTypes
+
     public class Employee
     {
         public string Name { get; set; }
@@ -16,12 +17,14 @@ public class SerializeConditionalProperty : TestFixtureBase
             return Manager != this;
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeConditionalPropertyUsage
+
         var joe = new Employee
         {
             Name = "Joe Employee"
@@ -37,7 +40,7 @@ public class SerializeConditionalProperty : TestFixtureBase
         // ShouldSerialize will skip this property
         mike.Manager = mike;
 
-        var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(new[] {joe, mike}, Formatting.Indented);
 
         Console.WriteLine(json);
         // [
@@ -51,6 +54,7 @@ public class SerializeConditionalProperty : TestFixtureBase
         //     "Name": "Mike Manager"
         //   }
         // ]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[

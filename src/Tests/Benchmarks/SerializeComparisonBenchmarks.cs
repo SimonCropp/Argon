@@ -16,9 +16,9 @@ public class SerializeComparisonBenchmarks
         {
             dictionary = new()
             {
-                { "Val & asd1", 1 },
-                { "Val2 & asd1", 3 },
-                { "Val3 & asd1", 4 }
+                {"Val & asd1", 1},
+                {"Val2 & asd1", 3},
+                {"Val3 & asd1", 4}
             },
             Address1 =
             {
@@ -70,37 +70,6 @@ public class SerializeComparisonBenchmarks
         using var sr = new StreamReader(ms);
         return sr.ReadToEnd();
     }
-    static readonly byte[] Buffer = new byte[4096];
-
-#if (!NET5_0_OR_GREATER)
-    [Benchmark]
-    public byte[] BinaryFormatter()
-    {
-        return SerializeBinaryFormatter(TestClass);
-    }
-
-    static byte[] SerializeBinaryFormatter(object value)
-    {
-        var ms = new MemoryStream(Buffer);
-        var formatter = new BinaryFormatter();
-        formatter.Serialize(ms, value);
-
-        return ms.ToArray();
-    }
-
-    [Benchmark]
-    public string JavaScriptSerializer()
-    {
-        return SerializeWebExtensions(TestClass);
-    }
-
-    static string SerializeWebExtensions(object value)
-    {
-        var ser = new JavaScriptSerializer();
-
-        return ser.Serialize(value);
-    }
-#endif
 
     [Benchmark]
     public string DataContractJsonSerializer()
@@ -156,6 +125,7 @@ public class SerializeComparisonBenchmarks
 
         return o.ToString(Formatting.None);
     }
+
     #endregion
 
     [Benchmark]
@@ -165,6 +135,7 @@ public class SerializeComparisonBenchmarks
     }
 
     #region SerializeJsonNetManual
+
     static string SerializeJsonNetManual(TestClass c)
     {
         var stringWriter = new StringWriter();
@@ -176,6 +147,7 @@ public class SerializeComparisonBenchmarks
         {
             jsonWriter.WriteValue(s);
         }
+
         jsonWriter.WriteEndArray();
         jsonWriter.WritePropertyName("dictionary");
         jsonWriter.WriteStartObject();
@@ -184,6 +156,7 @@ public class SerializeComparisonBenchmarks
             jsonWriter.WritePropertyName(keyValuePair.Key);
             jsonWriter.WriteValue(keyValuePair.Value);
         }
+
         jsonWriter.WriteEndObject();
         jsonWriter.WritePropertyName("Name");
         jsonWriter.WriteValue(c.Name);
@@ -213,12 +186,14 @@ public class SerializeComparisonBenchmarks
             jsonWriter.WriteValue(address.Entered);
             jsonWriter.WriteEndObject();
         }
+
         jsonWriter.WriteEndArray();
         jsonWriter.WriteEndObject();
 
         jsonWriter.Flush();
         return stringWriter.ToString();
     }
+
     #endregion
 
     [Benchmark]
@@ -246,6 +221,7 @@ public class SerializeComparisonBenchmarks
         {
             await jsonWriter.WriteValueAsync(s);
         }
+
         await jsonWriter.WriteEndArrayAsync();
         await jsonWriter.WritePropertyNameAsync("dictionary");
         await jsonWriter.WriteStartObjectAsync();
@@ -254,6 +230,7 @@ public class SerializeComparisonBenchmarks
             await jsonWriter.WritePropertyNameAsync(keyValuePair.Key);
             await jsonWriter.WriteValueAsync(keyValuePair.Value);
         }
+
         await jsonWriter.WriteEndObjectAsync();
         await jsonWriter.WritePropertyNameAsync("Name");
         await jsonWriter.WriteValueAsync(c.Name);
@@ -283,6 +260,7 @@ public class SerializeComparisonBenchmarks
             await jsonWriter.WriteValueAsync(address.Entered);
             await jsonWriter.WriteEndObjectAsync();
         }
+
         await jsonWriter.WriteEndArrayAsync();
         await jsonWriter.WriteEndObjectAsync();
 

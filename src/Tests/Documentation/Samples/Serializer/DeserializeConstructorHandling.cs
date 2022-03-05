@@ -5,6 +5,7 @@
 public class DeserializeConstructorHandling : TestFixtureBase
 {
     #region DeserializeConstructorHandlingTypes
+
     public class Website
     {
         public string Url { get; set; }
@@ -18,12 +19,14 @@ public class DeserializeConstructorHandling : TestFixtureBase
             Url = website.Url;
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DeserializeConstructorHandlingUsage
+
         var json = @"{'Url':'http://www.google.com'}";
 
         try
@@ -44,6 +47,7 @@ public class DeserializeConstructorHandling : TestFixtureBase
 
         Console.WriteLine(website.Url);
         // http://www.google.com
+
         #endregion
 
         Assert.Equal("http://www.google.com", website.Url);

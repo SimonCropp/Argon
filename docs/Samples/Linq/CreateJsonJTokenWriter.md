@@ -16,7 +16,7 @@ writer.WriteValue(2);
 writer.WriteEndArray();
 writer.WriteEndObject();
 
-var o = (JObject)writer.Token;
+var o = (JObject) writer.Token;
 
 Console.WriteLine(o.ToString());
 // {
@@ -27,5 +27,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonJTokenWriter.cs#L12-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonjtokenwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonJTokenWriter.cs#L12-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonjtokenwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

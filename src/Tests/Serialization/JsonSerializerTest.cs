@@ -2,22 +2,23 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.ComponentModel.DataAnnotations;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
 using System.Drawing;
 #endif
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
+using System.Net.Mail;
+using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
 using System.Xml;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization.Json;
-using TestObjects;
 using System.Xml.Linq;
-using System.Collections.Specialized;
-using System.Dynamic;
+using TestObjects;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 using Formatting = Argon.Formatting;
 using JsonConstructor = Argon.JsonConstructorAttribute;
-using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class JsonSerializerTest : TestFixtureBase
 {
@@ -1743,7 +1744,7 @@ keyword such as type of business.""
             new(100, 1, 1, 1, 1, 1, DateTimeKind.Utc),
             new(2000, 1, 1, 1, 1, 1, DateTimeKind.Local),
             new(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
-            new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc),
+            new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
         };
 
         var ms = new MemoryStream();
@@ -1763,7 +1764,7 @@ keyword such as type of business.""
             new(new(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
             new(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
             new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
-            new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
+            new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5))
         };
 
         var result = JsonConvert.SerializeObject(testDates);
@@ -2197,11 +2198,10 @@ keyword such as type of business.""
     [Fact]
     public void IncompatibleJsonAttributeShouldThrow()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var c = new IncompatibleJsonAttributeClass();
-            JsonConvert.SerializeObject(c);
-        }, "Unexpected value when converting date. Expected DateTime or DateTimeOffset, got TestObjects.IncompatibleJsonAttributeClass.");
+        var c = new IncompatibleJsonAttributeClass();
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(c),
+            "Unexpected value when converting date. Expected DateTime or DateTimeOffset, got TestObjects.IncompatibleJsonAttributeClass.");
     }
 
     [Fact]
@@ -2374,29 +2374,27 @@ keyword such as type of business.""
     [Fact]
     public void SerializeRequiredMembersClassNullRequiredValueProperty()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var requiredMembersClass = new RequiredMembersClass
         {
-            var requiredMembersClass = new RequiredMembersClass
-            {
-                FirstName = null,
-                BirthDate = new(2000, 10, 10, 10, 10, 10, DateTimeKind.Utc),
-                LastName = null,
-                MiddleName = null
-            };
-
-            var json = JsonConvert.SerializeObject(requiredMembersClass);
-        }, "Cannot write a null value for property 'FirstName'. Property requires a value. Path ''.");
+            FirstName = null,
+            BirthDate = new(2000, 10, 10, 10, 10, 10, DateTimeKind.Utc),
+            LastName = null,
+            MiddleName = null
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(requiredMembersClass),
+            "Cannot write a null value for property 'FirstName'. Property requires a value. Path ''.");
     }
 
     [Fact]
     public void RequiredMembersClassMissingRequiredProperty()
     {
-        try
-        {
-            var json = @"{
+        var json = @"{
   ""FirstName"": ""Bob""
 }";
 
+        try
+        {
             JsonConvert.DeserializeObject<RequiredMembersClass>(json);
             XUnitAssert.Fail();
         }
@@ -2492,22 +2490,23 @@ keyword such as type of business.""
         };
         var strFromTest = JsonConvert.SerializeObject(testClass);
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var testFromDe = (InterfacePropertyTestClass) JsonConvert.DeserializeObject(strFromTest, typeof(InterfacePropertyTestClass));
-        }, @"Could not create an instance of type TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                var testFromDe = (InterfacePropertyTestClass) JsonConvert.DeserializeObject(strFromTest, typeof(InterfacePropertyTestClass));
+            },
+            @"Could not create an instance of type TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
     }
 
     Person GetPerson()
     {
-        var person = new Person
+        return new()
         {
             Name = "Mike Manager",
             BirthDate = new(1983, 8, 3, 0, 0, 0, DateTimeKind.Utc),
             Department = "IT",
             LastModified = new(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc)
         };
-        return person;
     }
 
     [Fact]
@@ -2724,14 +2723,12 @@ keyword such as type of business.""
     public void JsonPropertyWithHandlingValues_ReferenceLoopError()
     {
         var classRef = typeof(JsonPropertyWithHandlingValues).FullName;
+        var o = new JsonPropertyWithHandlingValues();
+        o.ReferenceLoopHandlingErrorProperty = o;
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var o = new JsonPropertyWithHandlingValues();
-            o.ReferenceLoopHandlingErrorProperty = o;
-
-            JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
-        }, $"Self referencing loop detected for property 'ReferenceLoopHandlingErrorProperty' with type '{classRef}'. Path ''.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore}),
+            $"Self referencing loop detected for property 'ReferenceLoopHandlingErrorProperty' with type '{classRef}'. Path ''.");
     }
 
     [Fact]
@@ -3183,49 +3180,49 @@ Path '', line 1, position 1.");
     [Fact]
     public void SerializePropertyGetError()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.SerializeObject(new MemoryStream(), new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver()
-            });
-        }, @"Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.");
+            ContractResolver = new DefaultContractResolver()
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.SerializeObject(new MemoryStream(), settings),
+            @"Error getting value from 'ReadTimeout' on 'System.IO.MemoryStream'.");
     }
 
     [Fact]
     public void DeserializePropertySetError()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:0}", new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver()
-            });
-        }, @"Error setting value to 'ReadTimeout' on 'System.IO.MemoryStream'.");
+            ContractResolver = new DefaultContractResolver()
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:0}", settings),
+            @"Error setting value to 'ReadTimeout' on 'System.IO.MemoryStream'.");
     }
 
     [Fact]
     public void DeserializeEnsureTypeEmptyStringToIntError()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:''}", new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver()
-            });
-        }, @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 15.");
+            ContractResolver = new DefaultContractResolver()
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:''}", settings),
+            @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 15.");
     }
 
     [Fact]
     public void DeserializeEnsureTypeNullToIntError()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:null}", new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver()
-            });
-        }, @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 17.");
+            ContractResolver = new DefaultContractResolver()
+        };
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<MemoryStream>("{ReadTimeout:null}", settings),
+            @"Error converting value {null} to type 'System.Int32'. Path 'ReadTimeout', line 1, position 17.");
     }
 
     [Fact]
@@ -3901,26 +3898,25 @@ Path '', line 1, position 1.");
     [Fact]
     public void SerializeRefBadType()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
+        //Additional text found in JSON string after finishing deserializing object.
+        //Test 1
+        var reference = new Dictionary<string, object>
         {
-            //Additional text found in JSON string after finishing deserializing object.
-            //Test 1
-            var reference = new Dictionary<string, object>
-            {
-                {"$ref", 1},
-                {"$id", 1}
-            };
+            {"$ref", 1},
+            {"$id", 1}
+        };
 
-            var child = new Dictionary<string, object>
-            {
-                {"_id", 2},
-                {"Name", "Isabell"},
-                {"Father", reference}
-            };
+        var child = new Dictionary<string, object>
+        {
+            {"_id", 2},
+            {"Name", "Isabell"},
+            {"Father", reference}
+        };
 
-            var json = JsonConvert.SerializeObject(child, Formatting.Indented);
-            JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-        }, "JSON reference $ref property must have a string or null value. Path 'Father.$ref', line 5, position 13.");
+        var json = JsonConvert.SerializeObject(child, Formatting.Indented);
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<Dictionary<string, object>>(json),
+            "JSON reference $ref property must have a string or null value. Path 'Father.$ref', line 5, position 13.");
     }
 
     [Fact]
@@ -4044,12 +4040,14 @@ Path '', line 1, position 1.");
     [Fact]
     public void SerializeHashSet()
     {
-        var jsonText = JsonConvert.SerializeObject(new HashSet<string>
-        {
-            "One",
-            "2",
-            "III"
-        }, Formatting.Indented);
+        var jsonText = JsonConvert.SerializeObject(
+            new HashSet<string>
+            {
+                "One",
+                "2",
+                "III"
+            },
+            Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"[
   ""One"",
@@ -4598,23 +4596,27 @@ Path '', line 1, position 1.");
     [Fact]
     public void ClassAttributesInheritance()
     {
-        var json = JsonConvert.SerializeObject(new ClassAttributeDerived
-        {
-            BaseClassValue = "BaseClassValue!",
-            DerivedClassValue = "DerivedClassValue!",
-            NonSerialized = "NonSerialized!"
-        }, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(
+            new ClassAttributeDerived
+            {
+                BaseClassValue = "BaseClassValue!",
+                DerivedClassValue = "DerivedClassValue!",
+                NonSerialized = "NonSerialized!"
+            },
+            Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""DerivedClassValue"": ""DerivedClassValue!"",
   ""BaseClassValue"": ""BaseClassValue!""
 }", json);
 
-        json = JsonConvert.SerializeObject(new CollectionClassAttributeDerived
-        {
-            BaseClassValue = "BaseClassValue!",
-            CollectionDerivedClassValue = "CollectionDerivedClassValue!"
-        }, Formatting.Indented);
+        json = JsonConvert.SerializeObject(
+            new CollectionClassAttributeDerived
+            {
+                BaseClassValue = "BaseClassValue!",
+                CollectionDerivedClassValue = "CollectionDerivedClassValue!"
+            },
+            Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""CollectionDerivedClassValue"": ""CollectionDerivedClassValue!"",
@@ -4958,10 +4960,9 @@ Path '', line 1, position 1.");
   null
 ]";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var numbers = JsonConvert.DeserializeObject<List<int>>(json);
-        }, "Error converting value {null} to type 'System.Int32'. Path '[3]', line 5, position 6.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<List<int>>(json),
+            "Error converting value {null} to type 'System.Int32'. Path '[3]', line 5, position 6.");
     }
 
     [Fact]
@@ -5022,27 +5023,23 @@ Path '', line 1, position 1.");
     [Fact]
     public void DeserializeBoolInt()
     {
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var json = @"{
+        var json = @"{
   ""PreProperty"": true,
   ""PostProperty"": ""-1""
 }";
 
-            JsonConvert.DeserializeObject<MyClass>(json);
-        }, "Unexpected character encountered while parsing value: t. Path 'PreProperty', line 2, position 18.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JsonConvert.DeserializeObject<MyClass>(json),
+            "Unexpected character encountered while parsing value: t. Path 'PreProperty', line 2, position 18.");
     }
 
     [Fact]
     public void DeserializeUnexpectedEndInt()
     {
-        XUnitAssert.Throws<JsonException>(() =>
-        {
-            var json = @"{
+        var json = @"{
   ""PreProperty"": ";
 
-            JsonConvert.DeserializeObject<MyClass>(json);
-        });
+        XUnitAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<MyClass>(json));
     }
 
     [Fact]
@@ -5603,9 +5600,9 @@ Path '', line 1, position 1.");
             Venue = "Gryphon Theatre",
             Performances = new List<DateTime>
             {
-                new(2000,1,1),
-                new(2000,1,2),
-                new(2000,1,3)
+                new(2000, 1, 1),
+                new(2000, 1, 2),
+                new(2000, 1, 3)
             }
         };
 
@@ -5756,21 +5753,19 @@ lines.*/
     [Fact]
     public void AdditionalContentAfterFinish()
     {
-        XUnitAssert.Throws<JsonException>(() =>
+        var json = "[{},1]";
+
+        var serializer = new JsonSerializer
         {
-            var json = "[{},1]";
+            CheckAdditionalContent = true
+        };
 
-            var serializer = new JsonSerializer
-            {
-                CheckAdditionalContent = true
-            };
-
-            var reader = new JsonTextReader(new StringReader(json));
-            reader.Read();
-            reader.Read();
-
-            serializer.Deserialize(reader, typeof(ItemConverterTestClass));
-        }, "Additional text found in JSON string after finishing deserializing object. Path '[1]', line 1, position 5.");
+        var reader = new JsonTextReader(new StringReader(json));
+        reader.Read();
+        reader.Read();
+        XUnitAssert.Throws<JsonException>(
+            () => serializer.Deserialize(reader, typeof(ItemConverterTestClass)),
+            "Additional text found in JSON string after finishing deserializing object. Path '[1]', line 1, position 5.");
     }
 
     [Fact]
@@ -5944,7 +5939,10 @@ This is just junk, though.";
 
         MyTuple<int> obj = null;
 
-        var doStuff = () => { obj = JsonConvert.DeserializeObject<MyTuple<int>>(json); };
+        var doStuff = () =>
+        {
+            obj = JsonConvert.DeserializeObject<MyTuple<int>>(json);
+        };
 
         doStuff();
         Assert.Equal(500, obj.Item1);
@@ -6470,7 +6468,7 @@ This is just junk, though.";
         // If dynamic type handling is enabled, case 1 and 3 work fine
         var options = new JsonSerializerSettings
         {
-            Converters = new JsonConverterCollection {new TypeConverterJsonConverter()},
+            Converters = new JsonConverterCollection {new TypeConverterJsonConverter()}
             //TypeNameHandling = TypeNameHandling.All
         };
 
@@ -6648,17 +6646,20 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTime()
     {
         var dt = new DateTime(2000, 12, 22);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd",
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTime, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTime, string>
+            {
+                {
+                    dt, "123"
+                }
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22"": ""123""
@@ -6673,18 +6674,19 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTime_ReadAhead()
     {
         var dt = new DateTime(2000, 12, 22);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd",
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTime, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTime, string>
+            {
+                {dt, "123"}
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22"": ""123""
@@ -6699,17 +6701,18 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTimeOffset()
     {
         var dt = new DateTimeOffset(2000, 12, 22, 0, 0, 0, TimeSpan.Zero);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K",
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTimeOffset, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTimeOffset, string>
+            {
+                {dt, "123"}
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22!+00:00"": ""123""
@@ -6724,18 +6727,19 @@ This is just junk, though.";
     public void DateFormatStringWithDictionaryKey_DateTimeOffset_ReadAhead()
     {
         var dt = new DateTimeOffset(2000, 12, 22, 0, 0, 0, TimeSpan.Zero);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString,
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K",
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
             Formatting = Formatting.Indented
         };
 
-        var json = JsonConvert.SerializeObject(new Dictionary<DateTimeOffset, string>
-        {
-            {dt, "123"}
-        }, settings);
+        var json = JsonConvert.SerializeObject(
+            new Dictionary<DateTimeOffset, string>
+            {
+                {dt, "123"}
+            },
+            settings);
 
         XUnitAssert.AreEqualNormalized(@"{
   ""2000-pie-Dec-Friday-22!+00:00"": ""123""
@@ -6753,7 +6757,7 @@ This is just junk, though.";
         var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
         var settings = new JsonSerializerSettings
         {
-            DateFormatString = dateFormatString
+            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd"
         };
 
         var json = JsonConvert.SerializeObject(dt, settings);
@@ -6910,7 +6914,7 @@ This is just junk, though.";
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
             {
-                JsonConvert.DeserializeObject<System.Net.Mail.MailMessage>(
+                JsonConvert.DeserializeObject<MailMessage>(
                     JsonMessage,
                     new MailAddressReadConverter(),
                     new AttachmentReadConverter(),

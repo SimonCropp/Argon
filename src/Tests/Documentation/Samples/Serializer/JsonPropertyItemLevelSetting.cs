@@ -5,27 +5,28 @@
 public class JsonPropertyItemLevelSetting : TestFixtureBase
 {
     #region JsonPropertyItemLevelSettingTypes
+
     public class Business
     {
         public string Name { get; set; }
 
-        [JsonProperty(ItemIsReference = true)]
-        public IList<Employee> Employees { get; set; }
+        [JsonProperty(ItemIsReference = true)] public IList<Employee> Employees { get; set; }
     }
 
     public class Employee
     {
         public string Name { get; set; }
 
-        [JsonProperty(IsReference = true)]
-        public Employee Manager { get; set; }
+        [JsonProperty(IsReference = true)] public Employee Manager { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonPropertyItemLevelSettingUsage
+
         var manager = new Employee
         {
             Name = "George-Michael"
@@ -66,6 +67,7 @@ public class JsonPropertyItemLevelSetting : TestFixtureBase
         //     }
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

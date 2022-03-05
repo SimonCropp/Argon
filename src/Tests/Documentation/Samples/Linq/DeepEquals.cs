@@ -8,6 +8,7 @@ public class DeepEquals : TestFixtureBase
     public void Example()
     {
         #region DeepEquals
+
         var s1 = new JValue("A string");
         var s2 = new JValue("A string");
         var s3 = new JValue("A STRING");
@@ -20,16 +21,16 @@ public class DeepEquals : TestFixtureBase
 
         var o1 = new JObject
         {
-            { "Integer", 12345 },
-            { "String", "A string" },
-            { "Items", new JArray(1, 2) }
+            {"Integer", 12345},
+            {"String", "A string"},
+            {"Items", new JArray(1, 2)}
         };
 
         var o2 = new JObject
         {
-            { "Integer", 12345 },
-            { "String", "A string" },
-            { "Items", new JArray(1, 2) }
+            {"Integer", 12345},
+            {"String", "A string"},
+            {"Items", new JArray(1, 2)}
         };
 
         Console.WriteLine(JToken.DeepEquals(o1, o2));
@@ -37,6 +38,7 @@ public class DeepEquals : TestFixtureBase
 
         Console.WriteLine(JToken.DeepEquals(s1, o1["String"]));
         // true
+
         #endregion
 
         Assert.True(JToken.DeepEquals(o1, o2));

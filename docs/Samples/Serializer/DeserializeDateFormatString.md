@@ -20,9 +20,10 @@ foreach (var dateTime in dateList)
 {
     Console.WriteLine(dateTime.ToLongDateString());
 }
+
 // Monday, 07 December 2009
 // Friday, 01 January 2010
 // Wednesday, 10 February 2010
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeDateFormatString.cs#L10-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedateformatstring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeDateFormatString.cs#L10-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedateformatstring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

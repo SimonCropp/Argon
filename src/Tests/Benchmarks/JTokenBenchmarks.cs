@@ -17,6 +17,7 @@ public class JTokenBenchmarks
         {
             o[i.ToString()] = i;
         }
+
         JsonTextSample = o.ToString();
 
         NestedJsonText = $"{new string('[', 100000)}1{new string(']', 100000)}";
@@ -59,6 +60,7 @@ public class JTokenBenchmarks
             current.Add(temp);
             current = temp;
         }
+
         current.Add(1);
 
         return root;

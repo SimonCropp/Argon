@@ -9,6 +9,7 @@ using Autofac.Core.Activators.Reflection;
 public class DeserializeWithDependencyInjection : TestFixtureBase
 {
     #region DeserializeWithDependencyInjectionTypes
+
     public class AutofacContractResolver : DefaultContractResolver
     {
         readonly IContainer container;
@@ -61,12 +62,14 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
         public ILogger Logger { get; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DeserializeWithDependencyInjectionUsage
+
         var builder = new ContainerBuilder();
         builder.RegisterType<TaskRepository>().As<ITaskRepository>();
         builder.RegisterType<TaskController>();
@@ -90,6 +93,7 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
         Console.WriteLine(controller.Repository.GetType().Name);
         // TaskRepository
+
         #endregion
 
         Assert.NotNull(controller);
@@ -140,11 +144,9 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
     [DataContract]
     public class User
     {
-        [DataMember(Name = "first_name")]
-        public string FirstName { get; set; }
+        [DataMember(Name = "first_name")] public string FirstName { get; set; }
 
-        [DataMember(Name = "company")]
-        public ICompany Company { get; set; }
+        [DataMember(Name = "company")] public ICompany Company { get; set; }
     }
 
     public interface ICompany
@@ -155,7 +157,6 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
     [DataContract]
     public class Company : ICompany
     {
-        [DataMember(Name = "company_name")]
-        public string CompanyName { get; set; }
+        [DataMember(Name = "company_name")] public string CompanyName { get; set; }
     }
 }

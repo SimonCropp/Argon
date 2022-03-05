@@ -5,6 +5,7 @@
 using System.Xml;
 
 #region CustomJsonReaderTypes
+
 public class XmlJsonReader : JsonReader
 {
     readonly Stack<JTokenType> stateStack;
@@ -42,7 +43,7 @@ public class XmlJsonReader : JsonReader
                         throw new("No type specified.");
                     }
 
-                    valueType = (JTokenType)Enum.Parse(typeof(JTokenType), typeName, true);
+                    valueType = (JTokenType) Enum.Parse(typeof(JTokenType), typeName, true);
 
                     switch (PeekState())
                     {
@@ -68,6 +69,7 @@ public class XmlJsonReader : JsonReader
                             {
                                 stateStack.Pop();
                             }
+
                             return true;
                         case JTokenType.Array:
                             SetToken(JsonToken.EndArray);
@@ -76,6 +78,7 @@ public class XmlJsonReader : JsonReader
                             {
                                 stateStack.Pop();
                             }
+
                             return true;
                     }
 
@@ -114,6 +117,7 @@ public class XmlJsonReader : JsonReader
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+
                     stateStack.Push(valueType.Value);
                     return true;
                 default:
@@ -136,6 +140,7 @@ public class XmlJsonReader : JsonReader
                 {
                     stateStack.Pop();
                 }
+
                 return true;
             case JTokenType.Object:
                 SetToken(JsonToken.StartObject);
@@ -148,6 +153,7 @@ public class XmlJsonReader : JsonReader
                 valueType = null;
                 return true;
         }
+
         return false;
     }
 
@@ -211,6 +217,7 @@ public class XmlJsonReader : JsonReader
         return null;
     }
 }
+
 #endregion
 
 public class CustomJsonReader : TestFixtureBase
@@ -219,6 +226,7 @@ public class CustomJsonReader : TestFixtureBase
     public async Task Example()
     {
         #region CustomJsonReaderUsage
+
         var xml = @"<Root type=""Object"">
               <Null type=""Null"" />
               <String type=""String"">This is a string!</String>
@@ -244,7 +252,7 @@ public class CustomJsonReader : TestFixtureBase
 
         var sr = new StringReader(xml);
 
-        using (var xmlReader = XmlReader.Create(sr, new() { IgnoreWhitespace = true }))
+        using (var xmlReader = XmlReader.Create(sr, new() {IgnoreWhitespace = true}))
         using (var reader = new XmlJsonReader(xmlReader))
         {
             var o = JObject.Load(reader);
@@ -271,9 +279,10 @@ public class CustomJsonReader : TestFixtureBase
             //  }
             //}
         }
+
         #endregion
 
-        using (var xmlReader = XmlReader.Create(new StringReader(xml), new() { IgnoreWhitespace = true }))
+        using (var xmlReader = XmlReader.Create(new StringReader(xml), new() {IgnoreWhitespace = true}))
         using (var reader = new XmlJsonReader(xmlReader))
         {
             await reader.VerifyReaderState();

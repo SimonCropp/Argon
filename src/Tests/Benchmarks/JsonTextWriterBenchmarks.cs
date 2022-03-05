@@ -28,6 +28,7 @@ public class JsonTextWriterBenchmarks
         {
             jsonWriter.WriteValue(i);
         }
+
         jsonWriter.Flush();
 
         return stringWriter.ToString();

@@ -48,8 +48,8 @@ public class JTokenEqualityComparerTests : TestFixtureBase
     public void JObjectDictionary()
     {
         var dic = new Dictionary<JToken, int>(JToken.EqualityComparer);
-        var v11 = new JObject { { "Test", new JValue(1) }, { "Test1", new JValue(1) } };
-        var v12 = new JObject { { "Test", new JValue(1) }, { "Test1", new JValue(1) } };
+        var v11 = new JObject {{"Test", new JValue(1)}, {"Test1", new JValue(1)}};
+        var v12 = new JObject {{"Test", new JValue(1)}, {"Test1", new JValue(1)}};
 
         dic[v11] = 1;
         dic[v12] += 1;

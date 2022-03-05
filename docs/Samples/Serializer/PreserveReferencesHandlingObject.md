@@ -18,18 +18,18 @@ public class File
     public Directory Parent { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L7-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjecttypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: PreserveReferencesHandlingObjectUsage -->
 <a id='snippet-preservereferenceshandlingobjectusage'></a>
 ```cs
-var root = new Directory { Name = "Root" };
-var documents = new Directory { Name = "My Documents", Parent = root };
+var root = new Directory {Name = "Root"};
+var documents = new Directory {Name = "My Documents", Parent = root};
 
-var file = new File { Name = "ImportantLegalDocument.docx", Parent = documents };
+var file = new File {Name = "ImportantLegalDocument.docx", Parent = documents};
 
-documents.Files = new List<File> { file };
+documents.Files = new List<File> {file};
 
 try
 {
@@ -96,5 +96,5 @@ Console.WriteLine(preserveReferenacesObjects);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L25-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L27-L101' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

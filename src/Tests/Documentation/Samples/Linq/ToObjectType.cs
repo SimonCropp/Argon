@@ -10,22 +10,24 @@ public class ToObjectType : TestFixtureBase
     public void Example()
     {
         #region ToObjectType
+
         var v1 = new JValue(true);
 
-        var b = (bool)v1.ToObject(typeof(bool));
+        var b = (bool) v1.ToObject(typeof(bool));
 
         Console.WriteLine(b);
         // true
 
-        var i = (int)v1.ToObject(typeof(int));
+        var i = (int) v1.ToObject(typeof(int));
 
         Console.WriteLine(i);
         // 1
 
-        var s = (string)v1.ToObject(typeof(string));
+        var s = (string) v1.ToObject(typeof(string));
 
         Console.WriteLine(s);
         // "True"
+
         #endregion
 
         Assert.Equal("True", s);

@@ -10,6 +10,7 @@ public class QueryJsonIgnoreCase : TestFixtureBase
     public void Example()
     {
         #region Usage
+
         var json = @"{
               'name': 'James Newton-King',
               'blog': 'http://james.newtonking.com'
@@ -17,8 +18,9 @@ public class QueryJsonIgnoreCase : TestFixtureBase
 
         var profile = JObject.Parse(json);
 
-        var name = (string)profile.GetValue("Name", StringComparison.OrdinalIgnoreCase);
+        var name = (string) profile.GetValue("Name", StringComparison.OrdinalIgnoreCase);
         Console.WriteLine(name);
+
         #endregion
 
         Assert.Equal("James Newton-King", name);

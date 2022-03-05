@@ -5,17 +5,20 @@
 public class NamingStrategyCamelCase : TestFixtureBase
 {
     #region NamingStrategyCamelCaseTypes
+
     public class User
     {
         public string UserName { get; set; }
         public bool Enabled { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region NamingStrategyCamelCaseUsage
+
         var user1 = new User
         {
             UserName = "jamesn",
@@ -38,6 +41,7 @@ public class NamingStrategyCamelCase : TestFixtureBase
         //   "userName": "jamesn",
         //   "enabled": true
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

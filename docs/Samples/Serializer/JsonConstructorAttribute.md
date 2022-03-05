@@ -22,7 +22,7 @@ public class User
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributetypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConstructorAttributeUsage -->
@@ -38,5 +38,5 @@ var user = JsonConvert.DeserializeObject<User>(json);
 Console.WriteLine(user.UserName);
 // domain\username
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L31-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

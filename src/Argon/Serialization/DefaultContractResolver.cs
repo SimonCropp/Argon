@@ -8,7 +8,7 @@ using System.Dynamic;
 namespace Argon;
 
 /// <summary>
-/// Used by <see cref="JsonSerializer"/> to resolve a <see cref="JsonContract"/> for a given <see cref="System.Type"/>.
+/// Used by <see cref="JsonSerializer" /> to resolve a <see cref="JsonContract" /> for a given <see cref="System.Type" />.
 /// </summary>
 public class DefaultContractResolver : IContractResolver
 {
@@ -55,7 +55,7 @@ public class DefaultContractResolver : IContractResolver
     public NamingStrategy? NamingStrategy { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultContractResolver"/> class.
+    /// Initializes a new instance of the <see cref="DefaultContractResolver" /> class.
     /// </summary>
     public DefaultContractResolver()
     {
@@ -173,9 +173,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonObjectContract"/> for the given type.
+    /// Creates a <see cref="JsonObjectContract" /> for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonObjectContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonObjectContract" /> for the given type.</returns>
     protected virtual JsonObjectContract CreateObjectContract(Type type)
     {
         var contract = new JsonObjectContract(type);
@@ -347,12 +347,12 @@ public class DefaultContractResolver : IContractResolver
         {
             var setExtensionDataDictionary = BuildSetExtensionDataDictionary(member);
             var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
-            var setMethod = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.SetMethod;
+            var setMethod = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] {keyType}, null)?.SetMethod;
             if (setMethod == null)
             {
                 // Item is explicitly implemented and non-public
                 // get from dictionary interface
-                setMethod = dictionaryType.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] { keyType }, null)?.SetMethod;
+                setMethod = dictionaryType.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] {keyType}, null)?.SetMethod;
             }
 
             var setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
@@ -391,7 +391,7 @@ public class DefaultContractResolver : IContractResolver
                     return null;
                 }
 
-                return (IEnumerable<KeyValuePair<object, object>>)createEnumerableWrapper(dictionary);
+                return (IEnumerable<KeyValuePair<object, object>>) createEnumerableWrapper(dictionary);
             };
 
             contract.ExtensionDataGetter = extensionDataGetter;
@@ -453,7 +453,7 @@ public class DefaultContractResolver : IContractResolver
         // little hack to get Version objects to deserialize correctly
         if (type == typeof(Version))
         {
-            return type.GetConstructor(new[] { typeof(int), typeof(int), typeof(int), typeof(int) });
+            return type.GetConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
         }
 
         return null;
@@ -497,6 +497,7 @@ public class DefaultContractResolver : IContractResolver
         {
             return constructors[0];
         }
+
         return null;
     }
 
@@ -505,7 +506,7 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     /// <param name="constructor">The constructor to create properties for.</param>
     /// <param name="memberProperties">The type's member properties.</param>
-    /// <returns>Properties for the given <see cref="ConstructorInfo"/>.</returns>
+    /// <returns>Properties for the given <see cref="ConstructorInfo" />.</returns>
     protected virtual IList<JsonProperty> CreateConstructorParameters(ConstructorInfo constructor, JsonPropertyCollection memberProperties)
     {
         var constructorParameters = constructor.GetParameters();
@@ -557,11 +558,11 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonProperty"/> for the given <see cref="ParameterInfo"/>.
+    /// Creates a <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.
     /// </summary>
     /// <param name="matchingMemberProperty">The matching member property.</param>
     /// <param name="parameterInfo">The constructor parameter.</param>
-    /// <returns>A created <see cref="JsonProperty"/> for the given <see cref="ParameterInfo"/>.</returns>
+    /// <returns>A created <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.</returns>
     protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameterInfo)
     {
         var property = new JsonProperty
@@ -721,24 +722,28 @@ public class DefaultContractResolver : IContractResolver
                     onSerializing.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnSerializing = method;
                 }
+
                 if (IsValidCallback(method, parameters, typeof(OnSerializedAttribute), currentOnSerialized, ref prevAttributeType))
                 {
                     onSerialized ??= new();
                     onSerialized.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnSerialized = method;
                 }
+
                 if (IsValidCallback(method, parameters, typeof(OnDeserializingAttribute), currentOnDeserializing, ref prevAttributeType))
                 {
                     onDeserializing ??= new();
                     onDeserializing.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnDeserializing = method;
                 }
+
                 if (!skipDeserialized && IsValidCallback(method, parameters, typeof(OnDeserializedAttribute), currentOnDeserialized, ref prevAttributeType))
                 {
                     onDeserialized ??= new();
                     onDeserialized.Add(JsonContract.CreateSerializationCallback(method));
                     currentOnDeserialized = method;
                 }
+
                 if (IsValidCallback(method, parameters, typeof(OnErrorAttribute), currentOnError, ref prevAttributeType))
                 {
                     onError ??= new();
@@ -811,9 +816,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonDictionaryContract"/> for the given type.
+    /// Creates a <see cref="JsonDictionaryContract" /> for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonDictionaryContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonDictionaryContract" /> for the given type.</returns>
     protected virtual JsonDictionaryContract CreateDictionaryContract(Type type)
     {
         var contract = new JsonDictionaryContract(type);
@@ -859,9 +864,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonArrayContract"/> for the given type.
+    /// Creates a <see cref="JsonArrayContract" /> for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonArrayContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonArrayContract" /> for the given type.</returns>
     protected virtual JsonArrayContract CreateArrayContract(Type type)
     {
         var contract = new JsonArrayContract(type);
@@ -896,9 +901,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonPrimitiveContract"/> for the given type.
+    /// Creates a <see cref="JsonPrimitiveContract" /> for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonPrimitiveContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonPrimitiveContract" /> for the given type.</returns>
     protected virtual JsonPrimitiveContract CreatePrimitiveContract(Type type)
     {
         var contract = new JsonPrimitiveContract(type);
@@ -908,9 +913,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonLinqContract"/> for the given type.
+    /// Creates a <see cref="JsonLinqContract" /> for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonLinqContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonLinqContract" /> for the given type.</returns>
     protected virtual JsonLinqContract CreateLinqContract(Type type)
     {
         var contract = new JsonLinqContract(type);
@@ -920,9 +925,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonDynamicContract"/> for the given type.
+    /// Creates a <see cref="JsonDynamicContract" /> for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonDynamicContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonDynamicContract" /> for the given type.</returns>
     protected virtual JsonDynamicContract CreateDynamicContract(Type type)
     {
         var contract = new JsonDynamicContract(type);
@@ -945,9 +950,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonStringContract"/> for the given type.
+    /// Creates a <see cref="JsonStringContract" /> for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonStringContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonStringContract" /> for the given type.</returns>
     protected virtual JsonStringContract CreateStringContract(Type type)
     {
         var contract = new JsonStringContract(type);
@@ -959,7 +964,7 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Determines which contract type is created for the given type.
     /// </summary>
-    /// <returns>A <see cref="JsonContract"/> for the given type.</returns>
+    /// <returns>A <see cref="JsonContract" /> for the given type.</returns>
     protected virtual JsonContract CreateContract(Type type)
     {
         var t = type.EnsureNotByRefType();
@@ -1011,6 +1016,7 @@ public class DefaultContractResolver : IContractResolver
         {
             return CreateDynamicContract(type);
         }
+
         // tested last because it is not possible to automatically deserialize custom IConvertible types
         if (IsIConvertible(t))
         {
@@ -1108,11 +1114,12 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates properties for the given <see cref="JsonContract"/>.
+    /// Creates properties for the given <see cref="JsonContract" />.
     /// </summary>
     /// <param name="type">The type to create properties for.</param>
-    /// /// <param name="memberSerialization">The member serialization mode for the type.</param>
-    /// <returns>Properties for the given <see cref="JsonContract"/>.</returns>
+    /// ///
+    /// <param name="memberSerialization">The member serialization mode for the type.</param>
+    /// <returns>Properties for the given <see cref="JsonContract" />.</returns>
     protected virtual IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
     {
         var members = GetSerializableMembers(type);
@@ -1150,9 +1157,9 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates the <see cref="IValueProvider"/> used by the serializer to get and set values from a member.
+    /// Creates the <see cref="IValueProvider" /> used by the serializer to get and set values from a member.
     /// </summary>
-    /// <returns>The <see cref="IValueProvider"/> used by the serializer to get and set values from a member.</returns>
+    /// <returns>The <see cref="IValueProvider" /> used by the serializer to get and set values from a member.</returns>
     protected virtual IValueProvider CreateMemberValueProvider(MemberInfo member)
     {
         // warning - this method use to cause errors with Intellitrace. Retest in VS Ultimate after changes
@@ -1165,11 +1172,11 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Creates a <see cref="JsonProperty"/> for the given <see cref="MemberInfo"/>.
+    /// Creates a <see cref="JsonProperty" /> for the given <see cref="MemberInfo" />.
     /// </summary>
-    /// <param name="memberSerialization">The member's parent <see cref="MemberSerialization"/>.</param>
-    /// <param name="member">The member to create a <see cref="JsonProperty"/> for.</param>
-    /// <returns>A created <see cref="JsonProperty"/> for the given <see cref="MemberInfo"/>.</returns>
+    /// <param name="memberSerialization">The member's parent <see cref="MemberSerialization" />.</param>
+    /// <param name="member">The member to create a <see cref="JsonProperty" /> for.</param>
+    /// <returns>A created <see cref="JsonProperty" /> for the given <see cref="MemberInfo" />.</returns>
     protected virtual JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {
         var property = new JsonProperty
@@ -1318,9 +1325,9 @@ public class DefaultContractResolver : IContractResolver
         property.HasMemberAttribute = hasMemberAttribute;
 
         var hasJsonIgnoreAttribute =
-                JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null
-                // automatically ignore extension data dictionary property if it is public
-                || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null;
+            JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null
+            // automatically ignore extension data dictionary property if it is public
+            || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null;
 
         if (memberSerialization != MemberSerialization.OptIn)
         {
@@ -1350,6 +1357,7 @@ public class DefaultContractResolver : IContractResolver
         {
             allowNonPublicAccess = true;
         }
+
         if (memberSerialization == MemberSerialization.Fields)
         {
             allowNonPublicAccess = true;
@@ -1368,7 +1376,7 @@ public class DefaultContractResolver : IContractResolver
         var shouldSerializeCall =
             JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(shouldSerializeMethod);
 
-        return o => (bool)shouldSerializeCall(o)!;
+        return o => (bool) shouldSerializeCall(o)!;
     }
 
     static void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
@@ -1386,7 +1394,7 @@ public class DefaultContractResolver : IContractResolver
 
         Func<object, object> specifiedPropertyGet = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(specifiedMember)!;
 
-        property.GetIsSpecified = o => (bool)specifiedPropertyGet(o);
+        property.GetIsSpecified = o => (bool) specifiedPropertyGet(o);
 
         if (specifiedMember.CanSetMemberValue(allowNonPublicAccess, false))
         {
@@ -1425,7 +1433,7 @@ public class DefaultContractResolver : IContractResolver
     }
 
     /// <summary>
-    /// Resolves the key of the dictionary. By default <see cref="ResolvePropertyName"/> is used to resolve dictionary keys.
+    /// Resolves the key of the dictionary. By default <see cref="ResolvePropertyName" /> is used to resolve dictionary keys.
     /// </summary>
     /// <param name="dictionaryKey">Key of the dictionary.</param>
     /// <returns>Resolved key of the dictionary.</returns>

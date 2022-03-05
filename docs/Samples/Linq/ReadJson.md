@@ -10,7 +10,7 @@ var o1 = JObject.Parse(File.ReadAllText(@"c:\videogames.json"));
 // read JSON directly from a file
 using var file = File.OpenText(@"c:\videogames.json");
 using var reader = new JsonTextReader(file);
-var o2 = (JObject)JToken.ReadFrom(reader);
+var o2 = (JObject) JToken.ReadFrom(reader);
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ReadJson.cs#L12-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ReadJson.cs#L12-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

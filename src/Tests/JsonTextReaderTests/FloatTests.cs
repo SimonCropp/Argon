@@ -57,7 +57,8 @@ public class FloatTests : TestFixtureBase
   NaN,
   Infinity,
   -Infinity
-]"; ;
+]";
+        ;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
@@ -86,7 +87,8 @@ public class FloatTests : TestFixtureBase
   NaN,
   Infinity,
   -Infinity
-]"; ;
+]";
+        ;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 

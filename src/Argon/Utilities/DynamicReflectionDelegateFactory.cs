@@ -21,22 +21,22 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
     {
-        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] { typeof(object[]) }, method.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] {typeof(object[])}, method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 0);
 
-        return (ObjectConstructor<object>)dynamicMethod.CreateDelegate(typeof(ObjectConstructor<object>));
+        return (ObjectConstructor<object>) dynamicMethod.CreateDelegate(typeof(ObjectConstructor<object>));
     }
 
     public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
     {
-        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] { typeof(object), typeof(object[]) }, method.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] {typeof(object), typeof(object[])}, method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 1);
 
-        return (MethodCall<T, object?>)dynamicMethod.CreateDelegate(typeof(MethodCall<T, object?>));
+        return (MethodCall<T, object?>) dynamicMethod.CreateDelegate(typeof(MethodCall<T, object?>));
     }
 
     static void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
@@ -141,7 +141,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
                 {
                     // for primitive types we need to handle type widening (e.g. short -> int)
                     var toParameterTypeMethod = typeof(IConvertible)
-                        .GetMethod($"To{parameterType.Name}", new[] { typeof(IFormatProvider) });
+                        .GetMethod($"To{parameterType.Name}", new[] {typeof(IFormatProvider)});
 
                     if (toParameterTypeMethod != null)
                     {
@@ -189,16 +189,16 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
         if (method.IsConstructor)
         {
-            generator.Emit(OpCodes.Newobj, (ConstructorInfo)method);
+            generator.Emit(OpCodes.Newobj, (ConstructorInfo) method);
         }
         else
         {
-            generator.CallMethod((MethodInfo)method);
+            generator.CallMethod((MethodInfo) method);
         }
 
         var returnType = method.IsConstructor
             ? method.DeclaringType!
-            : ((MethodInfo)method).ReturnType;
+            : ((MethodInfo) method).ReturnType;
 
         if (returnType == typeof(void))
         {
@@ -220,7 +220,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
         GenerateCreateDefaultConstructorIL(type, generator, typeof(T));
 
-        return (Func<T>)dynamicMethod.CreateDelegate(typeof(Func<T>));
+        return (Func<T>) dynamicMethod.CreateDelegate(typeof(Func<T>));
     }
 
     static void GenerateCreateDefaultConstructorIL(Type type, ILGenerator generator, Type delegateType)
@@ -254,12 +254,12 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Func<T, object?> CreateGet<T>(PropertyInfo property)
     {
-        var dynamicMethod = CreateDynamicMethod($"Get{property.Name}", typeof(object), new[] { typeof(T) }, property.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod($"Get{property.Name}", typeof(object), new[] {typeof(T)}, property.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateGetPropertyIL(property, generator);
 
-        return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
+        return (Func<T, object?>) dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
     static void GenerateCreateGetPropertyIL(PropertyInfo property, ILGenerator generator)
@@ -289,12 +289,12 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
             return getter;
         }
 
-        var dynamicMethod = CreateDynamicMethod($"Get{field.Name}", typeof(T), new[] { typeof(object) }, field.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod($"Get{field.Name}", typeof(T), new[] {typeof(object)}, field.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateGetFieldIL(field, generator);
 
-        return (Func<T, object?>)dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
+        return (Func<T, object?>) dynamicMethod.CreateDelegate(typeof(Func<T, object?>));
     }
 
     static void GenerateCreateGetFieldIL(FieldInfo field, ILGenerator generator)
@@ -315,12 +315,12 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(FieldInfo field)
     {
-        var dynamicMethod = CreateDynamicMethod($"Set{field.Name}", null, new[] { typeof(T), typeof(object) }, field.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod($"Set{field.Name}", null, new[] {typeof(T), typeof(object)}, field.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateSetFieldIL(field, generator);
 
-        return (Action<T, object?>)dynamicMethod.CreateDelegate(typeof(Action<T, object?>));
+        return (Action<T, object?>) dynamicMethod.CreateDelegate(typeof(Action<T, object?>));
     }
 
     static void GenerateCreateSetFieldIL(FieldInfo field, ILGenerator generator)
@@ -347,12 +347,12 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(PropertyInfo property)
     {
-        var dynamicMethod = CreateDynamicMethod($"Set{property.Name}", null, new[] { typeof(T), typeof(object) }, property.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod($"Set{property.Name}", null, new[] {typeof(T), typeof(object)}, property.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateSetPropertyIL(property, generator);
 
-        return (Action<T, object?>)dynamicMethod.CreateDelegate(typeof(Action<T, object>));
+        return (Action<T, object?>) dynamicMethod.CreateDelegate(typeof(Action<T, object>));
     }
 
     static void GenerateCreateSetPropertyIL(PropertyInfo property, ILGenerator generator)

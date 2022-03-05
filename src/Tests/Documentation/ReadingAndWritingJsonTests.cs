@@ -10,6 +10,7 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
     public void ReadingAndWritingJsonText()
     {
         #region ReadingAndWritingJsonText
+
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
 
@@ -40,6 +41,7 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
         //     "200 gigabyte hard drive"
         //   ]
         // }
+
         #endregion
     }
 
@@ -47,6 +49,7 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
     public void ReadingJsonText()
     {
         #region ReadingJsonText
+
         var json = @"{
                'CPU': 'Intel',
                'PSU': '500W',
@@ -84,6 +87,7 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
         // Token: String, Value: 200 gigabyte hard drive
         // Token: EndArray
         // Token: EndObject
+
         #endregion
     }
 
@@ -91,16 +95,18 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
     public void ReadingAndWritingJsonLinq()
     {
         #region ReadingAndWritingJsonLinq
+
         var o = new JObject(
             new JProperty("Name", "John Smith"),
             new JProperty("BirthDate", new DateTime(1983, 3, 20))
         );
 
         var serializer = new JsonSerializer();
-        var p = (Person)serializer.Deserialize(new JTokenReader(o), typeof(Person));
+        var p = (Person) serializer.Deserialize(new JTokenReader(o), typeof(Person));
 
         Console.WriteLine(p.Name);
         // John Smith
+
         #endregion
 
         Assert.Equal("John Smith", p.Name);

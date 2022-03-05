@@ -10,6 +10,7 @@ public class SerializeImmutableCollections : TestFixtureBase
     public void Example()
     {
         #region SerializeImmutableCollections
+
         var l = ImmutableList.CreateRange(new List<string>
         {
             "One",
@@ -23,6 +24,7 @@ public class SerializeImmutableCollections : TestFixtureBase
         //   "II",
         //   "3"
         // ]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[

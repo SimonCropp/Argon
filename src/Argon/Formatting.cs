@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies formatting options for the <see cref="JsonTextWriter"/>.
+/// Specifies formatting options for the <see cref="JsonTextWriter" />.
 /// </summary>
 public enum Formatting
 {
@@ -15,7 +15,7 @@ public enum Formatting
     None = 0,
 
     /// <summary>
-    /// Causes child objects to be indented according to the <see cref="JsonTextWriter.Indentation"/> and <see cref="JsonTextWriter.IndentChar"/> settings.
+    /// Causes child objects to be indented according to the <see cref="JsonTextWriter.Indentation" /> and <see cref="JsonTextWriter.IndentChar" /> settings.
     /// </summary>
     Indented = 1
 }

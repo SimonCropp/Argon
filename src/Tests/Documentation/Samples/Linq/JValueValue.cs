@@ -10,6 +10,7 @@ public class JValueValue : TestFixtureBase
     public void Example()
     {
         #region JValueValue
+
         var s = new JValue("A string value");
 
         Console.WriteLine(s.Value.GetType().Name);
@@ -23,6 +24,7 @@ public class JValueValue : TestFixtureBase
         // Uri
         Console.WriteLine(u.Value);
         // http://www.google.com/
+
         #endregion
 
         Assert.Equal(new Uri("http://www.google.com/"), u.Value);

@@ -77,7 +77,7 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     static string GetKeyForItem(JToken item)
     {
-        return ((JProperty)item).Name;
+        return ((JProperty) item).Name;
     }
 
     protected override void InsertItem(int index, JToken item)
@@ -129,6 +129,7 @@ class JPropertyKeyedCollection : Collection<JToken>
                 RemoveKey(keyAtIndex);
             }
         }
+
         base.SetItem(index, item);
     }
 
@@ -145,7 +146,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         }
     }
 
-    public bool TryGetValue(string key, [NotNullWhen(true)]out JToken? value)
+    public bool TryGetValue(string key, [NotNullWhen(true)] out JToken? value)
     {
         if (dictionary == null)
         {
@@ -176,7 +177,7 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     public int IndexOfReference(JToken t)
     {
-        return ((List<JToken>)Items).IndexOfReference(t);
+        return ((List<JToken>) Items).IndexOfReference(t);
     }
 
     public bool Compare(JPropertyKeyedCollection other)
@@ -218,8 +219,8 @@ class JPropertyKeyedCollection : Collection<JToken>
                 return false;
             }
 
-            var p1 = (JProperty)keyAndProperty.Value;
-            var p2 = (JProperty)secondValue;
+            var p1 = (JProperty) keyAndProperty.Value;
+            var p2 = (JProperty) secondValue;
 
             if (p1.Value == null)
             {

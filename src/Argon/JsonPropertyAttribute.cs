@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Instructs the <see cref="JsonSerializer"/> to always serialize the member with the specified name.
+/// Instructs the <see cref="JsonSerializer" /> to always serialize the member with the specified name.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter)]
 public sealed class JsonPropertyAttribute : Attribute
@@ -25,14 +25,14 @@ public sealed class JsonPropertyAttribute : Attribute
     internal TypeNameHandling? itemTypeNameHandling;
 
     /// <summary>
-    /// Gets or sets the <see cref="JsonConverter"/> type used when serializing the property's collection items.
+    /// Gets or sets the <see cref="JsonConverter" /> type used when serializing the property's collection items.
     /// </summary>
     public Type? ItemConverterType { get; set; }
 
     /// <summary>
-    /// The parameter list to use when constructing the <see cref="JsonConverter"/> described by <see cref="ItemConverterType"/>.
+    /// The parameter list to use when constructing the <see cref="JsonConverter" /> described by <see cref="ItemConverterType" />.
     /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="JsonConverter"/> that exactly matches the number,
+    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="JsonConverter" /> that exactly matches the number,
     /// order, and type of these parameters.
     /// </summary>
     /// <example>
@@ -43,14 +43,14 @@ public sealed class JsonPropertyAttribute : Attribute
     public object[]? ItemConverterParameters { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="Type"/> of the <see cref="NamingStrategy"/>.
+    /// Gets or sets the <see cref="Type" /> of the <see cref="NamingStrategy" />.
     /// </summary>
     public Type? NamingStrategyType { get; set; }
 
     /// <summary>
-    /// The parameter list to use when constructing the <see cref="NamingStrategy"/> described by <see cref="JsonPropertyAttribute.NamingStrategyType"/>.
+    /// The parameter list to use when constructing the <see cref="NamingStrategy" /> described by <see cref="JsonPropertyAttribute.NamingStrategyType" />.
     /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="NamingStrategy"/> that exactly matches the number,
+    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="NamingStrategy" /> that exactly matches the number,
     /// order, and type of these parameters.
     /// </summary>
     /// <example>
@@ -165,14 +165,14 @@ public sealed class JsonPropertyAttribute : Attribute
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonPropertyAttribute"/> class.
+    /// Initializes a new instance of the <see cref="JsonPropertyAttribute" /> class.
     /// </summary>
     public JsonPropertyAttribute()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonPropertyAttribute"/> class with the specified name.
+    /// Initializes a new instance of the <see cref="JsonPropertyAttribute" /> class with the specified name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     public JsonPropertyAttribute(string propertyName)

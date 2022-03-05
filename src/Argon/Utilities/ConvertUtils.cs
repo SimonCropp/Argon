@@ -9,46 +9,46 @@ static class ConvertUtils
     static readonly Dictionary<Type, PrimitiveTypeCode> TypeCodeMap =
         new()
         {
-            { typeof(char), PrimitiveTypeCode.Char },
-            { typeof(char?), PrimitiveTypeCode.CharNullable },
-            { typeof(bool), PrimitiveTypeCode.Boolean },
-            { typeof(bool?), PrimitiveTypeCode.BooleanNullable },
-            { typeof(sbyte), PrimitiveTypeCode.SByte },
-            { typeof(sbyte?), PrimitiveTypeCode.SByteNullable },
-            { typeof(short), PrimitiveTypeCode.Int16 },
-            { typeof(short?), PrimitiveTypeCode.Int16Nullable },
-            { typeof(ushort), PrimitiveTypeCode.UInt16 },
-            { typeof(ushort?), PrimitiveTypeCode.UInt16Nullable },
-            { typeof(int), PrimitiveTypeCode.Int32 },
-            { typeof(int?), PrimitiveTypeCode.Int32Nullable },
-            { typeof(byte), PrimitiveTypeCode.Byte },
-            { typeof(byte?), PrimitiveTypeCode.ByteNullable },
-            { typeof(uint), PrimitiveTypeCode.UInt32 },
-            { typeof(uint?), PrimitiveTypeCode.UInt32Nullable },
-            { typeof(long), PrimitiveTypeCode.Int64 },
-            { typeof(long?), PrimitiveTypeCode.Int64Nullable },
-            { typeof(ulong), PrimitiveTypeCode.UInt64 },
-            { typeof(ulong?), PrimitiveTypeCode.UInt64Nullable },
-            { typeof(float), PrimitiveTypeCode.Single },
-            { typeof(float?), PrimitiveTypeCode.SingleNullable },
-            { typeof(double), PrimitiveTypeCode.Double },
-            { typeof(double?), PrimitiveTypeCode.DoubleNullable },
-            { typeof(DateTime), PrimitiveTypeCode.DateTime },
-            { typeof(DateTime?), PrimitiveTypeCode.DateTimeNullable },
-            { typeof(DateTimeOffset), PrimitiveTypeCode.DateTimeOffset },
-            { typeof(DateTimeOffset?), PrimitiveTypeCode.DateTimeOffsetNullable },
-            { typeof(decimal), PrimitiveTypeCode.Decimal },
-            { typeof(decimal?), PrimitiveTypeCode.DecimalNullable },
-            { typeof(Guid), PrimitiveTypeCode.Guid },
-            { typeof(Guid?), PrimitiveTypeCode.GuidNullable },
-            { typeof(TimeSpan), PrimitiveTypeCode.TimeSpan },
-            { typeof(TimeSpan?), PrimitiveTypeCode.TimeSpanNullable },
-            { typeof(BigInteger), PrimitiveTypeCode.BigInteger },
-            { typeof(BigInteger?), PrimitiveTypeCode.BigIntegerNullable },
-            { typeof(Uri), PrimitiveTypeCode.Uri },
-            { typeof(string), PrimitiveTypeCode.String },
-            { typeof(byte[]), PrimitiveTypeCode.Bytes },
-            { typeof(DBNull), PrimitiveTypeCode.DBNull }
+            {typeof(char), PrimitiveTypeCode.Char},
+            {typeof(char?), PrimitiveTypeCode.CharNullable},
+            {typeof(bool), PrimitiveTypeCode.Boolean},
+            {typeof(bool?), PrimitiveTypeCode.BooleanNullable},
+            {typeof(sbyte), PrimitiveTypeCode.SByte},
+            {typeof(sbyte?), PrimitiveTypeCode.SByteNullable},
+            {typeof(short), PrimitiveTypeCode.Int16},
+            {typeof(short?), PrimitiveTypeCode.Int16Nullable},
+            {typeof(ushort), PrimitiveTypeCode.UInt16},
+            {typeof(ushort?), PrimitiveTypeCode.UInt16Nullable},
+            {typeof(int), PrimitiveTypeCode.Int32},
+            {typeof(int?), PrimitiveTypeCode.Int32Nullable},
+            {typeof(byte), PrimitiveTypeCode.Byte},
+            {typeof(byte?), PrimitiveTypeCode.ByteNullable},
+            {typeof(uint), PrimitiveTypeCode.UInt32},
+            {typeof(uint?), PrimitiveTypeCode.UInt32Nullable},
+            {typeof(long), PrimitiveTypeCode.Int64},
+            {typeof(long?), PrimitiveTypeCode.Int64Nullable},
+            {typeof(ulong), PrimitiveTypeCode.UInt64},
+            {typeof(ulong?), PrimitiveTypeCode.UInt64Nullable},
+            {typeof(float), PrimitiveTypeCode.Single},
+            {typeof(float?), PrimitiveTypeCode.SingleNullable},
+            {typeof(double), PrimitiveTypeCode.Double},
+            {typeof(double?), PrimitiveTypeCode.DoubleNullable},
+            {typeof(DateTime), PrimitiveTypeCode.DateTime},
+            {typeof(DateTime?), PrimitiveTypeCode.DateTimeNullable},
+            {typeof(DateTimeOffset), PrimitiveTypeCode.DateTimeOffset},
+            {typeof(DateTimeOffset?), PrimitiveTypeCode.DateTimeOffsetNullable},
+            {typeof(decimal), PrimitiveTypeCode.Decimal},
+            {typeof(decimal?), PrimitiveTypeCode.DecimalNullable},
+            {typeof(Guid), PrimitiveTypeCode.Guid},
+            {typeof(Guid?), PrimitiveTypeCode.GuidNullable},
+            {typeof(TimeSpan), PrimitiveTypeCode.TimeSpan},
+            {typeof(TimeSpan?), PrimitiveTypeCode.TimeSpanNullable},
+            {typeof(BigInteger), PrimitiveTypeCode.BigInteger},
+            {typeof(BigInteger?), PrimitiveTypeCode.BigIntegerNullable},
+            {typeof(Uri), PrimitiveTypeCode.Uri},
+            {typeof(string), PrimitiveTypeCode.String},
+            {typeof(byte[]), PrimitiveTypeCode.Bytes},
+            {typeof(DBNull), PrimitiveTypeCode.DBNull}
         };
 
     static readonly TypeInformation[] PrimitiveTypeCodes =
@@ -112,7 +112,7 @@ static class ConvertUtils
 
     public static TypeInformation GetTypeInformation(IConvertible convertable)
     {
-        var typeInformation = PrimitiveTypeCodes[(int)convertable.GetTypeCode()];
+        var typeInformation = PrimitiveTypeCodes[(int) convertable.GetTypeCode()];
         return typeInformation;
     }
 
@@ -133,8 +133,8 @@ static class ConvertUtils
     {
         var initialType = t.Value1;
         var targetType = t.Value2;
-        var castMethodInfo = targetType.GetMethod("op_Implicit", new[] { initialType })
-                             ?? targetType.GetMethod("op_Explicit", new[] { initialType });
+        var castMethodInfo = targetType.GetMethod("op_Implicit", new[] {initialType})
+                             ?? targetType.GetMethod("op_Explicit", new[] {initialType});
 
         if (castMethodInfo == null)
         {
@@ -162,26 +162,32 @@ static class ConvertUtils
         {
             return new(f);
         }
+
         if (value is double d)
         {
             return new(d);
         }
+
         if (value is decimal @decimal)
         {
             return new(@decimal);
         }
+
         if (value is int i)
         {
             return new(i);
         }
+
         if (value is long l)
         {
             return new(l);
         }
+
         if (value is uint u)
         {
             return new(u);
         }
+
         if (value is ulong @ulong)
         {
             return new(@ulong);
@@ -199,20 +205,24 @@ static class ConvertUtils
     {
         if (targetType == typeof(decimal))
         {
-            return (decimal)i;
+            return (decimal) i;
         }
+
         if (targetType == typeof(double))
         {
-            return (double)i;
+            return (double) i;
         }
+
         if (targetType == typeof(float))
         {
-            return (float)i;
+            return (float) i;
         }
+
         if (targetType == typeof(ulong))
         {
-            return (ulong)i;
+            return (ulong) i;
         }
+
         if (targetType == typeof(bool))
         {
             return i != 0;
@@ -220,7 +230,7 @@ static class ConvertUtils
 
         try
         {
-            return System.Convert.ChangeType((long)i, targetType, CultureInfo.InvariantCulture);
+            return System.Convert.ChangeType((long) i, targetType, CultureInfo.InvariantCulture);
         }
         catch (Exception exception)
         {
@@ -334,21 +344,25 @@ static class ConvertUtils
                 value = new Guid(s);
                 return ConvertResult.Success;
             }
+
             if (targetType == typeof(Uri))
             {
                 value = new Uri(s, UriKind.RelativeOrAbsolute);
                 return ConvertResult.Success;
             }
+
             if (targetType == typeof(TimeSpan))
             {
                 value = ParseTimeSpan(s);
                 return ConvertResult.Success;
             }
+
             if (targetType == typeof(byte[]))
             {
                 value = System.Convert.FromBase64String(s);
                 return ConvertResult.Success;
             }
+
             if (targetType == typeof(Version))
             {
                 if (Version.TryParse(s, out var result))
@@ -356,9 +370,11 @@ static class ConvertUtils
                     value = result;
                     return ConvertResult.Success;
                 }
+
                 value = null;
                 return ConvertResult.NoValidConversion;
             }
+
             if (typeof(Type).IsAssignableFrom(targetType))
             {
                 value = Type.GetType(s, true);
@@ -371,6 +387,7 @@ static class ConvertUtils
             value = ToBigInteger(initialValue);
             return ConvertResult.Success;
         }
+
         if (initialValue is BigInteger integer)
         {
             value = FromBigInteger(integer, targetType);
@@ -393,6 +410,7 @@ static class ConvertUtils
             value = fromConverter.ConvertFrom(null, culture, initialValue);
             return ConvertResult.Success;
         }
+
         // handle DBNull
         if (initialValue == DBNull.Value)
         {
@@ -418,6 +436,7 @@ static class ConvertUtils
     }
 
     #region ConvertOrCast
+
     /// <summary>
     /// Converts the value to the specified type. If the value is unable to be converted, the
     /// value is checked whether it assignable to the specified type.
@@ -448,6 +467,7 @@ static class ConvertUtils
 
         return EnsureTypeAssignable(initialValue, ReflectionUtils.GetObjectType(initialValue)!, targetType);
     }
+
     #endregion
 
     static object? EnsureTypeAssignable(object? value, Type initialType, Type targetType)
@@ -729,6 +749,7 @@ static class ConvertUtils
                     {
                         return ParseResult.Invalid;
                     }
+
                     if (i + 1 == end)
                     {
                         return ParseResult.Invalid;
@@ -748,11 +769,13 @@ static class ConvertUtils
                     {
                         return ParseResult.Invalid;
                     }
+
                     if (i == numDecimalStart)
                     {
                         // E follows decimal point
                         return ParseResult.Invalid;
                     }
+
                     i++;
                     if (i == end)
                     {
@@ -798,6 +821,7 @@ static class ConvertUtils
                     {
                         exponent = -exponent;
                     }
+
                     break;
                 default:
                     if (c is < '0' or > '9')
@@ -815,6 +839,7 @@ static class ConvertUtils
                             {
                                 goto case '.';
                             }
+
                             if (c is 'e' or 'E')
                             {
                                 goto case 'E';
@@ -828,12 +853,13 @@ static class ConvertUtils
                     {
                         if (mantissaDigits < 19)
                         {
-                            hi19 = hi19 * 10UL + (ulong)(c - '0');
+                            hi19 = hi19 * 10UL + (ulong) (c - '0');
                         }
                         else
                         {
-                            lo10 = lo10 * 10UL + (ulong)(c - '0');
+                            lo10 = lo10 * 10UL + (ulong) (c - '0');
                         }
+
                         ++mantissaDigits;
                     }
                     else
@@ -841,6 +867,7 @@ static class ConvertUtils
                         digit29 ??= c;
                         ++exponentFromMantissa;
                     }
+
                     break;
             }
         }
@@ -856,7 +883,7 @@ static class ConvertUtils
         }
         else
         {
-            value = hi19 / new decimal(1, 0, 0, false, (byte)(mantissaDigits - 19)) + lo10;
+            value = hi19 / new decimal(1, 0, 0, false, (byte) (mantissaDigits - 19)) + lo10;
         }
 
         if (exponent > 0)
@@ -866,11 +893,12 @@ static class ConvertUtils
             {
                 return ParseResult.Overflow;
             }
+
             if (mantissaDigits == 29)
             {
                 if (exponent > 1)
                 {
-                    value /= new decimal(1, 0, 0, false, (byte)(exponent - 1));
+                    value /= new decimal(1, 0, 0, false, (byte) (exponent - 1));
                     if (value > decimalMaxValueHi28)
                     {
                         return ParseResult.Overflow;
@@ -880,11 +908,12 @@ static class ConvertUtils
                 {
                     return ParseResult.Overflow;
                 }
+
                 value *= 10M;
             }
             else
             {
-                value /= new decimal(1, 0, 0, false, (byte)exponent);
+                value /= new decimal(1, 0, 0, false, (byte) exponent);
             }
         }
         else
@@ -893,6 +922,7 @@ static class ConvertUtils
             {
                 ++value;
             }
+
             if (exponent < 0)
             {
                 if (mantissaDigits + exponent + 28 <= 0)
@@ -900,14 +930,15 @@ static class ConvertUtils
                     value = isNegative ? -0M : 0M;
                     return ParseResult.Success;
                 }
+
                 if (exponent >= -28)
                 {
-                    value *= new decimal(1, 0, 0, false, (byte)-exponent);
+                    value *= new decimal(1, 0, 0, false, (byte) -exponent);
                 }
                 else
                 {
                     value /= 1e28M;
-                    value *= new decimal(1, 0, 0, false, (byte)(-exponent - 28));
+                    value *= new decimal(1, 0, 0, false, (byte) (-exponent - 28));
                 }
             }
         }

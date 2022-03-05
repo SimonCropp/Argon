@@ -10,6 +10,7 @@ public class WriteToJsonFile : TestFixtureBase
     public void Example()
     {
         #region WriteToJsonFile
+
         var videogameRatings = new JObject(
             new JProperty("Halo", 9),
             new JProperty("Starcraft", 9),

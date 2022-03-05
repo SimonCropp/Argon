@@ -10,6 +10,7 @@ public class ToString : TestFixtureBase
     public void Example()
     {
         #region ToString
+
         var o = JObject.Parse(@"{'string1':'value','integer2':99,'datetime3':'2000-05-23T00:00:00'}");
 
         Console.WriteLine(o.ToString());

@@ -5,16 +5,19 @@
 public class ReadMultipleContentWithJsonReader : TestFixtureBase
 {
     #region ReadMultipleContentWithJsonReaderTypes
+
     public class Role
     {
         public string Name { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region ReadMultipleContentWithJsonReaderUsage
+
         var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
         var roles = new List<Role>();
@@ -42,6 +45,7 @@ public class ReadMultipleContentWithJsonReader : TestFixtureBase
 
         // Admin
         // Publisher
+
         #endregion
 
         Assert.Equal(2, roles.Count);

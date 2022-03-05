@@ -19,6 +19,7 @@
                         return false;
                     }
                 }
+
                 return true;
             case QueryOperator.Or:
                 foreach (var e in Expressions)
@@ -28,6 +29,7 @@
                         return true;
                     }
                 }
+
                 return false;
             default:
                 throw new ArgumentOutOfRangeException();

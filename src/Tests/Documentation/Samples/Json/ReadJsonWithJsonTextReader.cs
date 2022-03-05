@@ -8,6 +8,7 @@ public class ReadJsonWithJsonTextReader : TestFixtureBase
     public void Example()
     {
         #region ReadJsonWithJsonTextReader
+
         var json = @"{
                'CPU': 'Intel',
                'PSU': '500W',
@@ -45,6 +46,7 @@ public class ReadJsonWithJsonTextReader : TestFixtureBase
         // Token: String, Value: 200 gigabyte hard drive
         // Token: EndArray
         // Token: EndObject
+
         #endregion
     }
 }

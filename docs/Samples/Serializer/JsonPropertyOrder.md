@@ -10,21 +10,18 @@ public class Account
     public string EmailAddress { get; set; }
 
     // appear last
-    [JsonProperty(Order = 1)]
-    public bool Deleted { get; set; }
+    [JsonProperty(Order = 1)] public bool Deleted { get; set; }
 
-    [JsonProperty(Order = 2)]
-    public DateTime DeletedDate { get; set; }
+    [JsonProperty(Order = 2)] public DateTime DeletedDate { get; set; }
 
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
 
     // appear first
-    [JsonProperty(Order = -2)]
-    public string FullName { get; set; }
+    [JsonProperty(Order = -2)] public string FullName { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L7-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyordertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L7-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyordertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyOrderUsage -->
@@ -52,5 +49,5 @@ Console.WriteLine(json);
 //   "DeletedDate": "2013-01-25T00:00:00"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L31-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyorderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L30-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyorderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

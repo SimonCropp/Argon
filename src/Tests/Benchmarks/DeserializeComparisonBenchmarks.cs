@@ -2,13 +2,14 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+
+using System.Runtime.Serialization.Json;
+using BenchmarkDotNet.Attributes;
+using TestObjects;
 #if (!NET5_0_OR_GREATER)
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web.Script.Serialization;
 #endif
-using System.Runtime.Serialization.Json;
-using BenchmarkDotNet.Attributes;
-using TestObjects;
 
 public class DeserializeComparisonBenchmarks
 {
@@ -25,7 +26,7 @@ public class DeserializeComparisonBenchmarks
         var serializer = new DataContractSerializer(typeof(T));
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 
-        return (T)serializer.ReadObject(ms);
+        return (T) serializer.ReadObject(ms);
     }
 
     static T DeserializeDataContractJson<T>(string json)
@@ -33,34 +34,34 @@ public class DeserializeComparisonBenchmarks
         var dataContractSerializer = new DataContractJsonSerializer(typeof(T));
         var ms = new MemoryStream(Encoding.UTF8.GetBytes(json));
 
-        return (T)dataContractSerializer.ReadObject(ms);
+        return (T) dataContractSerializer.ReadObject(ms);
     }
 
 #if (!NET5_0_OR_GREATER)
-        [Benchmark]
-        public TestClass BinaryFormatter()
-        {
-            return DeserializeBinaryFormatter<TestClass>(BinaryFormatterData);
-        }
+    [Benchmark]
+    public TestClass BinaryFormatter()
+    {
+        return DeserializeBinaryFormatter<TestClass>(BinaryFormatterData);
+    }
 
-        static T DeserializeBinaryFormatter<T>(byte[] bytes)
-        {
-            var formatter = new BinaryFormatter();
-            return (T)formatter.Deserialize(new MemoryStream(bytes));
-        }
+    static T DeserializeBinaryFormatter<T>(byte[] bytes)
+    {
+        var formatter = new BinaryFormatter();
+        return (T) formatter.Deserialize(new MemoryStream(bytes));
+    }
 
-        [Benchmark]
-        public TestClass JavaScriptSerializer()
-        {
-            return DeserializeWebExtensions<TestClass>(BenchmarkConstants.JsonText);
-        }
+    [Benchmark]
+    public TestClass JavaScriptSerializer()
+    {
+        return DeserializeWebExtensions<TestClass>(BenchmarkConstants.JsonText);
+    }
 
-        public T DeserializeWebExtensions<T>(string json)
-        {
-            var ser = new JavaScriptSerializer { MaxJsonLength = int.MaxValue };
+    public T DeserializeWebExtensions<T>(string json)
+    {
+        var ser = new JavaScriptSerializer {MaxJsonLength = int.MaxValue};
 
-            return ser.Deserialize<T>(json);
-        }
+        return ser.Deserialize<T>(json);
+    }
 #endif
 
     [Benchmark]
@@ -88,6 +89,7 @@ public class DeserializeComparisonBenchmarks
     }
 
     #region DeserializeJsonNetManual
+
     static TestClass DeserializeJsonNetManual(string json)
     {
         var c = new TestClass();
@@ -98,23 +100,25 @@ public class DeserializeComparisonBenchmarks
         {
             if (reader.TokenType == JsonToken.PropertyName)
             {
-                var propertyName = (string)reader.Value;
+                var propertyName = (string) reader.Value;
                 switch (propertyName)
                 {
                     case "strings":
                         reader.Read();
                         while (reader.Read() && reader.TokenType != JsonToken.EndArray)
                         {
-                            c.strings.Add((string)reader.Value);
+                            c.strings.Add((string) reader.Value);
                         }
+
                         break;
                     case "dictionary":
                         reader.Read();
                         while (reader.Read() && reader.TokenType != JsonToken.EndObject)
                         {
-                            var key = (string)reader.Value;
+                            var key = (string) reader.Value;
                             c.dictionary.Add(key, reader.ReadAsInt32().GetValueOrDefault());
                         }
+
                         break;
                     case "Name":
                         c.Name = reader.ReadAsString();
@@ -136,6 +140,7 @@ public class DeserializeComparisonBenchmarks
                             var address = CreateAddress(reader);
                             c.Addresses.Add(address);
                         }
+
                         break;
                 }
             }
@@ -155,7 +160,7 @@ public class DeserializeComparisonBenchmarks
         {
             if (reader.TokenType == JsonToken.PropertyName)
             {
-                switch ((string)reader.Value)
+                switch ((string) reader.Value)
                 {
                     case "Street":
                         a.Street = reader.ReadAsString();
@@ -173,8 +178,10 @@ public class DeserializeComparisonBenchmarks
                 break;
             }
         }
+
         return a;
     }
+
     #endregion
 
     [Benchmark]
@@ -199,23 +206,25 @@ public class DeserializeComparisonBenchmarks
         {
             if (reader.TokenType == JsonToken.PropertyName)
             {
-                var propertyName = (string)reader.Value;
+                var propertyName = (string) reader.Value;
                 switch (propertyName)
                 {
                     case "strings":
                         await reader.ReadAsync();
                         while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndArray)
                         {
-                            c.strings.Add((string)reader.Value);
+                            c.strings.Add((string) reader.Value);
                         }
+
                         break;
                     case "dictionary":
                         await reader.ReadAsync();
                         while (await reader.ReadAsync() && reader.TokenType != JsonToken.EndObject)
                         {
-                            var key = (string)reader.Value;
+                            var key = (string) reader.Value;
                             c.dictionary.Add(key, (await reader.ReadAsInt32Async()).GetValueOrDefault());
                         }
+
                         break;
                     case "Name":
                         c.Name = await reader.ReadAsStringAsync();
@@ -237,6 +246,7 @@ public class DeserializeComparisonBenchmarks
                             var address = await CreateAddressAsync(reader);
                             c.Addresses.Add(address);
                         }
+
                         break;
                 }
             }
@@ -256,7 +266,7 @@ public class DeserializeComparisonBenchmarks
         {
             if (reader.TokenType == JsonToken.PropertyName)
             {
-                switch ((string)reader.Value)
+                switch ((string) reader.Value)
                 {
                     case "Street":
                         a.Street = await reader.ReadAsStringAsync();
@@ -274,6 +284,7 @@ public class DeserializeComparisonBenchmarks
                 break;
             }
         }
+
         return a;
     }
 }

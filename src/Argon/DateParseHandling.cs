@@ -15,11 +15,12 @@ public enum DateParseHandling
     None = 0,
 
     /// <summary>
-    /// Date formatted strings, e.g. <c>"2012-03-21T05:40Z"</c> is parsed to <see cref="System.DateTime"/>.
+    /// Date formatted strings, e.g. <c>"2012-03-21T05:40Z"</c> is parsed to <see cref="System.DateTime" />.
     /// </summary>
     DateTime = 1,
+
     /// <summary>
-    /// Date formatted strings, e.g. <c>"2012-03-21T05:40Z"</c> is parsed to <see cref="System.DateTimeOffset"/>.
+    /// Date formatted strings, e.g. <c>"2012-03-21T05:40Z"</c> is parsed to <see cref="System.DateTimeOffset" />.
     /// </summary>
     DateTimeOffset = 2
 }

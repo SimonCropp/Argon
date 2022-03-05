@@ -38,14 +38,14 @@ public class DemoTests : TestFixtureBase
         json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
-            Converters = { new HtmlColorConverter() }
+            Converters = {new HtmlColorConverter()}
         });
         // "#FF0000"
 
         var r2 = JsonConvert.DeserializeObject<HtmlColor>(json, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
-            Converters = { new HtmlColorConverter() }
+            Converters = {new HtmlColorConverter()}
         });
         Assert.Equal(255, r2.Red);
         Assert.Equal(0, r2.Green);
@@ -72,7 +72,7 @@ public class DemoTests : TestFixtureBase
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             // create hex string from value
-            var color = (HtmlColor)value;
+            var color = (HtmlColor) value;
             var hexString = color.Red.ToString("X2")
                             + color.Green.ToString("X2")
                             + color.Blue.ToString("X2");
@@ -91,7 +91,7 @@ public class DemoTests : TestFixtureBase
             object existingValue, JsonSerializer serializer)
         {
             // get hex string
-            var hexString = (string)reader.Value;
+            var hexString = (string) reader.Value;
             hexString = hexString.TrimStart('#');
 
             // build html color from hex
@@ -126,8 +126,8 @@ public class DemoTests : TestFixtureBase
 
         var dailyRegistrations = new Dictionary<DateTime, int>
         {
-            { new DateTime(2014, 6, 1), 23 },
-            { new DateTime(2014, 6, 2), 50 }
+            {new DateTime(2014, 6, 1), 23},
+            {new DateTime(2014, 6, 2), 50}
         };
 
         var regJson = JsonConvert.SerializeObject(dailyRegistrations, Formatting.Indented);
@@ -136,7 +136,7 @@ public class DemoTests : TestFixtureBase
         //   "2014-06-02T00:00:00": 50
         // }
 
-        var c = new City { Name = "Oslo", Population = 650000 };
+        var c = new City {Name = "Oslo", Population = 650000};
 
         var cityJson = JsonConvert.SerializeObject(c, Formatting.Indented);
         // {
@@ -183,7 +183,7 @@ public class DemoTests : TestFixtureBase
 
         var j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
         {
-            Formatting = Formatting.Indented,
+            Formatting = Formatting.Indented
         });
         // {
         //   "Name": "Serialize All The Things",
@@ -247,12 +247,12 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializeReferencesByValue()
     {
-        var arnie = new Employee { Name = "Arnie Admin" };
-        var mike = new Manager { Name = "Mike Manager" };
-        var susan = new Manager { Name = "Susan Supervisor" };
+        var arnie = new Employee {Name = "Arnie Admin"};
+        var mike = new Manager {Name = "Mike Manager"};
+        var susan = new Manager {Name = "Susan Supervisor"};
 
-        mike.Reportees = new[] { arnie, susan };
-        susan.Reportees = new[] { arnie };
+        mike.Reportees = new[] {arnie, susan};
+        susan.Reportees = new[] {arnie};
 
         var json = JsonConvert.SerializeObject(mike, Formatting.Indented);
         // {
@@ -293,12 +293,12 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializeReferencesWithMetadata()
     {
-        var arnie = new Employee { Name = "Arnie Admin" };
-        var mike = new Manager { Name = "Mike Manager" };
-        var susan = new Manager { Name = "Susan Supervisor" };
+        var arnie = new Employee {Name = "Arnie Admin"};
+        var mike = new Manager {Name = "Mike Manager"};
+        var susan = new Manager {Name = "Susan Supervisor"};
 
-        mike.Reportees = new[] { arnie, susan };
-        susan.Reportees = new[] { arnie };
+        mike.Reportees = new[] {arnie, susan};
+        susan.Reportees = new[] {arnie};
 
         var json = JsonConvert.SerializeObject(mike, new JsonSerializerSettings
         {
@@ -387,8 +387,8 @@ public class DemoTests : TestFixtureBase
         // Name = Mike Manager
         // Reportees = Arnie Admin, Susan Supervisor
 
-        var mike = (Manager)e;
-        var susan = (Manager)mike.Reportees[1];
+        var mike = (Manager) e;
+        var susan = (Manager) mike.Reportees[1];
 
         ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
         // true
@@ -408,21 +408,17 @@ public class DemoTests : TestFixtureBase
     {
         public string StreetAddress { get; set; }
 
-        [JsonIgnore]
-        public int Bedrooms { get; set; }
+        [JsonIgnore] public int Bedrooms { get; set; }
 
-        [JsonIgnore]
-        public decimal FloorArea { get; set; }
+        [JsonIgnore] public decimal FloorArea { get; set; }
 
-        [JsonIgnore]
-        public DateTime BuildDate { get; set; }
+        [JsonIgnore] public DateTime BuildDate { get; set; }
     }
 
     [JsonObject(MemberSerialization.OptIn)]
     public class House3
     {
-        [JsonProperty]
-        public string StreetAddress { get; set; }
+        [JsonProperty] public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
@@ -432,8 +428,7 @@ public class DemoTests : TestFixtureBase
     [JsonObject(MemberSerialization.OptIn)]
     public class House2
     {
-        [JsonProperty("address")]
-        public string StreetAddress { get; set; }
+        [JsonProperty("address")] public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
@@ -443,27 +438,23 @@ public class DemoTests : TestFixtureBase
     [JsonObject(MemberSerialization.OptIn)]
     public class House4
     {
-        [JsonProperty("address", Order = 2)]
-        public string StreetAddress { get; set; }
+        [JsonProperty("address", Order = 2)] public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
 
-        [JsonProperty("buildDate", Order = 1)]
-        public DateTime BuildDate { get; set; }
+        [JsonProperty("buildDate", Order = 1)] public DateTime BuildDate { get; set; }
     }
 
     [JsonObject(MemberSerialization.OptIn)]
     public class House5
     {
-        [JsonProperty("address", Order = 2)]
-        public string StreetAddress { get; set; }
+        [JsonProperty("address", Order = 2)] public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
 
-        [JsonProperty("buildDate", Order = 1)]
-        public DateTime BuildDate { get; set; }
+        [JsonProperty("buildDate", Order = 1)] public DateTime BuildDate { get; set; }
     }
 
     [Fact]

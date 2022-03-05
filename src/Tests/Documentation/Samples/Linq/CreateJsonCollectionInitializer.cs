@@ -10,10 +10,11 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
     public void Example()
     {
         #region CreateJsonCollectionInitializer
+
         var o = new JObject
         {
-            { "Cpu", "Intel" },
-            { "Memory", 32 },
+            {"Cpu", "Intel"},
+            {"Memory", 32},
             {
                 "Drives", new JArray
                 {
@@ -32,6 +33,7 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
         //     "SSD"
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

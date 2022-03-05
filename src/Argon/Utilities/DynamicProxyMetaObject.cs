@@ -182,7 +182,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     static Expression[] GetArgArray(DynamicMetaObject[] args)
     {
-        return new[] { Expression.NewArrayInit(typeof(object), GetArgs(args)) };
+        return new[] {Expression.NewArrayInit(typeof(object), GetArgs(args))};
     }
 
     static Expression[] GetArgArray(DynamicMetaObject[] args, DynamicMetaObject value)
@@ -202,6 +202,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         {
             type = type.BaseType!;
         }
+
         return Expression.Constant(binder, type);
     }
 
@@ -257,7 +258,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
         var callDynamic = new DynamicMetaObject(
             Expression.Block(
-                new[] { result },
+                new[] {result},
                 Expression.Condition(
                     Expression.Call(
                         Expression.Constant(proxy),
@@ -307,7 +308,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
         return new(
             Expression.Block(
-                new[] { result },
+                new[] {result},
                 Expression.Condition(
                     Expression.Call(
                         Expression.Constant(proxy),
@@ -378,7 +379,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     public override IEnumerable<string> GetDynamicMemberNames()
     {
-        return proxy.GetDynamicMemberNames((T)Value!);
+        return proxy.GetDynamicMemberNames((T) Value!);
     }
 
     // It is okay to throw NotSupported from this binder. This object

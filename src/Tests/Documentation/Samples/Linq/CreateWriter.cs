@@ -10,10 +10,11 @@ public class CreateWriter : TestFixtureBase
     public void Example()
     {
         #region CreateWriter
+
         var o = new JObject
         {
-            { "name1", "value1" },
-            { "name2", "value2" }
+            {"name1", "value1"},
+            {"name2", "value2"}
         };
 
         var writer = o.CreateWriter();
@@ -32,6 +33,7 @@ public class CreateWriter : TestFixtureBase
         //     2
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

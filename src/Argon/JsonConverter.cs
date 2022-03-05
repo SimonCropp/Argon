@@ -23,17 +23,17 @@ public abstract class JsonConverter
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
     /// <returns>
-    /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+    /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
     public abstract bool CanConvert(Type type);
 
     /// <summary>
-    /// Gets a value indicating whether this <see cref="JsonConverter"/> can read JSON.
+    /// Gets a value indicating whether this <see cref="JsonConverter" /> can read JSON.
     /// </summary>
     public virtual bool CanRead => true;
 
     /// <summary>
-    /// Gets a value indicating whether this <see cref="JsonConverter"/> can write JSON.
+    /// Gets a value indicating whether this <see cref="JsonConverter" /> can write JSON.
     /// </summary>
     public virtual bool CanWrite => true;
 }
@@ -52,7 +52,8 @@ public abstract class JsonConverter<T> : JsonConverter
         {
             throw new JsonSerializationException($"Converter cannot write specified value to JSON. {typeof(T)} is required.");
         }
-        WriteJson(writer, (T?)value, serializer);
+
+        WriteJson(writer, (T?) value, serializer);
     }
 
     static bool IsValidType(object? value)
@@ -61,6 +62,7 @@ public abstract class JsonConverter<T> : JsonConverter
         {
             return typeof(T).IsNullable();
         }
+
         return value is T;
     }
 
@@ -79,7 +81,8 @@ public abstract class JsonConverter<T> : JsonConverter
         {
             throw new JsonSerializationException($"Converter cannot read JSON with the specified existing value. {typeof(T)} is required.");
         }
-        return ReadJson(reader, type, existingIsNull ? default : (T?)existingValue, !existingIsNull, serializer);
+
+        return ReadJson(reader, type, existingIsNull ? default : (T?) existingValue, !existingIsNull, serializer);
     }
 
     /// <summary>
@@ -91,7 +94,7 @@ public abstract class JsonConverter<T> : JsonConverter
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
     /// <returns>
-    /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+    /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
     public sealed override bool CanConvert(Type type)
     {

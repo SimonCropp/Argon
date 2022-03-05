@@ -3,8 +3,6 @@
 // as found in the license.md file.
 
 using BenchmarkDotNet.Attributes;
-using MemberTypes = System.Reflection.MemberTypes;
-using BindingFlags = System.Reflection.BindingFlags;
 
 public class LowLevelBenchmarks
 {

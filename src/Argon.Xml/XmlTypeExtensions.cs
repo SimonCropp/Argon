@@ -4,7 +4,7 @@
 
 static class XmlTypeExtensions
 {
-    public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces, [NotNullWhen(true)]out Type? match)
+    public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces, [NotNullWhen(true)] out Type? match)
     {
         var current = type;
 

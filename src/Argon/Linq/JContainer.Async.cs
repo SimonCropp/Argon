@@ -90,10 +90,11 @@ public abstract partial class JContainer
                 case JsonToken.Comment:
                     if (settings is {CommentHandling: CommentHandling.Load})
                     {
-                        v = JValue.CreateComment( (string) reader.GetValue());
+                        v = JValue.CreateComment((string) reader.GetValue());
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                     }
+
                     break;
                 case JsonToken.Null:
                     v = JValue.CreateNull();
@@ -115,6 +116,7 @@ public abstract partial class JContainer
                     {
                         await reader.SkipAsync().ConfigureAwait(false);
                     }
+
                     break;
                 default:
                     throw new InvalidOperationException($"The JsonReader should not be on a token of type {reader.TokenType}.");

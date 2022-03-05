@@ -18,7 +18,7 @@ struct DateTimeParser
     char[] text;
     int end;
 
-    static readonly int[] Power10 = { -1, 10, 100, 1000, 10000, 100000, 1000000 };
+    static readonly int[] Power10 = {-1, 10, 100, 1000, 10000, 100000, 1000000};
 
     static readonly int Lzyyyy = "yyyy".Length;
     static readonly int Lzyyyy_ = "yyyy-".Length;
@@ -113,6 +113,7 @@ struct DateTimeParser
                 return false;
             }
         }
+
         return true;
     }
 
@@ -189,6 +190,7 @@ struct DateTimeParser
                 return true;
             }
         }
+
         num = 0;
         return false;
     }
@@ -205,6 +207,7 @@ struct DateTimeParser
                 return true;
             }
         }
+
         num = 0;
         return false;
     }

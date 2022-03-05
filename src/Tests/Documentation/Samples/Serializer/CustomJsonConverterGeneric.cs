@@ -5,6 +5,7 @@
 public class CustomJsonConverterGeneric : TestFixtureBase
 {
     #region CustomJsonConverterGenericTypes
+
     public class VersionConverter : JsonConverter<Version>
     {
         public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer)
@@ -14,7 +15,7 @@ public class CustomJsonConverterGeneric : TestFixtureBase
 
         public override Version ReadJson(JsonReader reader, Type type, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            var s = (string)reader.Value;
+            var s = (string) reader.Value;
 
             return new(s);
         }
@@ -25,12 +26,14 @@ public class CustomJsonConverterGeneric : TestFixtureBase
         public string PackageId { get; set; }
         public Version Version { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region CustomJsonConverterGenericUsage
+
         var p1 = new NuGetPackage
         {
             PackageId = "Argon",
@@ -49,6 +52,7 @@ public class CustomJsonConverterGeneric : TestFixtureBase
 
         Console.WriteLine(p2.Version.ToString());
         // 10.0.4
+
         #endregion
 
         Assert.Equal("10.0.4", p2.Version.ToString());

@@ -34,12 +34,12 @@ class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
     {
         if (type.IsValueType)
         {
-            return () => (T)Activator.CreateInstance(type)!;
+            return () => (T) Activator.CreateInstance(type)!;
         }
 
         var constructorInfo = type.GetDefaultConstructor(true);
 
-        return () => (T)constructorInfo.Invoke(null);
+        return () => (T) constructorInfo.Invoke(null);
     }
 
     public override Func<T, object?> CreateGet<T>(PropertyInfo property)

@@ -7,8 +7,8 @@ This sample creates a `Argon.Linq.JTokenWriter` from a `Argon.Linq.JToken`.
 ```cs
 var o = new JObject
 {
-    { "name1", "value1" },
-    { "name2", "value2" }
+    {"name1", "value1"},
+    {"name2", "value2"}
 };
 
 var writer = o.CreateWriter();
@@ -28,5 +28,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateWriter.cs#L12-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-createwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateWriter.cs#L12-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-createwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

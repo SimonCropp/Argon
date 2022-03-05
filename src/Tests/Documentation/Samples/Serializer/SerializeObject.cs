@@ -5,6 +5,7 @@
 public class SerializeObject : TestFixtureBase
 {
     #region SerializeObjectTypes
+
     public class Account
     {
         public string Email { get; set; }
@@ -12,12 +13,14 @@ public class SerializeObject : TestFixtureBase
         public DateTime CreatedDate { get; set; }
         public IList<string> Roles { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeObjectUsage
+
         var account = new Account
         {
             Email = "james@example.com",
@@ -42,6 +45,7 @@ public class SerializeObject : TestFixtureBase
         // }
 
         Console.WriteLine(json);
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

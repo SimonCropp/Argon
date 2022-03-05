@@ -18,7 +18,7 @@ var json = @"{
 
 var o = JObject.Parse(json);
 
-var a = (JArray)o["d"];
+var a = (JArray) o["d"];
 
 var person = a.ToObject<IList<Person>>();
 
@@ -28,5 +28,5 @@ Console.WriteLine(person[0].Name);
 Console.WriteLine(person[1].Name);
 // Mike Smith
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ToObjectComplex.cs#L19-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectcomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToObjectComplex.cs#L21-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectcomplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

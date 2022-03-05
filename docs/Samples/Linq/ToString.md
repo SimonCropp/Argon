@@ -17,5 +17,5 @@ Console.WriteLine(o.ToString());
 Console.WriteLine(o.ToString(Formatting.None));
 // {"string1":"value","integer2":99,"datetime3":"2000-05-23T00:00:00"}
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ToString.cs#L12-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-tostring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ToString.cs#L12-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-tostring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

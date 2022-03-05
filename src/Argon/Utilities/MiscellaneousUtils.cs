@@ -18,6 +18,7 @@ static class MiscellaneousUtils
         {
             return true;
         }
+
         if (objA == null || objB == null)
         {
             return false;

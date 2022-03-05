@@ -48,11 +48,11 @@ class XmlNodeWrapper : IXmlNode
         switch (node.NodeType)
         {
             case XmlNodeType.Element:
-                return new XmlElementWrapper((XmlElement)node);
+                return new XmlElementWrapper((XmlElement) node);
             case XmlNodeType.XmlDeclaration:
-                return new XmlDeclarationWrapper((XmlDeclaration)node);
+                return new XmlDeclarationWrapper((XmlDeclaration) node);
             case XmlNodeType.DocumentType:
-                return new XmlDocumentTypeWrapper((XmlDocumentType)node);
+                return new XmlDocumentTypeWrapper((XmlDocumentType) node);
             default:
                 return new XmlNodeWrapper(node);
         }
@@ -120,7 +120,7 @@ class XmlNodeWrapper : IXmlNode
 
     public IXmlNode AppendChild(IXmlNode newChild)
     {
-        var xmlNodeWrapper = (XmlNodeWrapper)newChild;
+        var xmlNodeWrapper = (XmlNodeWrapper) newChild;
         node.AppendChild(xmlNodeWrapper.node);
         childNodes = null;
         attributes = null;

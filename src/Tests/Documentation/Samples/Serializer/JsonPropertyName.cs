@@ -5,20 +5,21 @@
 public class JsonPropertyName : TestFixtureBase
 {
     #region JsonPropertyNameTypes
+
     public class Videogame
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
 
-        [JsonProperty("release_date")]
-        public DateTime ReleaseDate { get; set; }
+        [JsonProperty("release_date")] public DateTime ReleaseDate { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonPropertyNameUsage
+
         var starcraft = new Videogame
         {
             Name = "Starcraft",
@@ -32,6 +33,7 @@ public class JsonPropertyName : TestFixtureBase
         //   "name": "Starcraft",
         //   "release_date": "1998-01-01T00:00:00"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

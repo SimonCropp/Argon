@@ -11,7 +11,8 @@ public class ExtensionsTest
     public void Serializer_ConfigureForNodaTime_DefaultInterval()
     {
         var configuredSerializer = new JsonSerializer().ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
-        var explicitSerializer = new JsonSerializer {
+        var explicitSerializer = new JsonSerializer
+        {
             Converters =
             {
                 NodaConverters.IntervalConverter, NodaConverters.InstantConverter

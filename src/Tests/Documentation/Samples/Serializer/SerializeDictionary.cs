@@ -8,11 +8,12 @@ public class SerializeDictionary : TestFixtureBase
     public void Example()
     {
         #region SerializeDictionary
+
         var points = new Dictionary<string, int>
         {
-            { "James", 9001 },
-            { "Jo", 3474 },
-            { "Jess", 11926 }
+            {"James", 9001},
+            {"Jo", 3474},
+            {"Jess", 11926}
         };
 
         var json = JsonConvert.SerializeObject(points, Formatting.Indented);
@@ -23,6 +24,7 @@ public class SerializeDictionary : TestFixtureBase
         //   "Jo": 3474,
         //   "Jess": 11926
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

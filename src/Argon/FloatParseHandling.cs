@@ -10,12 +10,12 @@ namespace Argon;
 public enum FloatParseHandling
 {
     /// <summary>
-    /// Floating point numbers are parsed to <see cref="Double"/>.
+    /// Floating point numbers are parsed to <see cref="Double" />.
     /// </summary>
     Double = 0,
 
     /// <summary>
-    /// Floating point numbers are parsed to <see cref="Decimal"/>.
+    /// Floating point numbers are parsed to <see cref="Decimal" />.
     /// </summary>
     Decimal = 1
 }

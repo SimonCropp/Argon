@@ -10,6 +10,7 @@ namespace Argon;
 public partial class JProperty : JContainer
 {
     #region JPropertyList
+
     class JPropertyList : IList<JToken>
     {
         internal JToken? token;
@@ -57,6 +58,7 @@ public partial class JProperty : JContainer
                 token = null;
                 return true;
             }
+
             return false;
         }
 
@@ -108,6 +110,7 @@ public partial class JProperty : JContainer
             }
         }
     }
+
     #endregion
 
     readonly JPropertyList content = new();
@@ -127,8 +130,7 @@ public partial class JProperty : JContainer
     /// </summary>
     public JToken Value
     {
-        [DebuggerStepThrough]
-        get => content.token!;
+        [DebuggerStepThrough] get => content.token!;
         set
         {
             if (content.token == null)
@@ -143,9 +145,9 @@ public partial class JProperty : JContainer
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JProperty"/> class from another <see cref="JProperty"/> object.
+    /// Initializes a new instance of the <see cref="JProperty" /> class from another <see cref="JProperty" /> object.
     /// </summary>
-    /// <param name="other">A <see cref="JProperty"/> object to copy from.</param>
+    /// <param name="other">A <see cref="JProperty" /> object to copy from.</param>
     public JProperty(JProperty other)
         : base(other)
     {
@@ -244,12 +246,11 @@ public partial class JProperty : JContainer
     }
 
     /// <summary>
-    /// Gets the node type for this <see cref="JToken"/>.
+    /// Gets the node type for this <see cref="JToken" />.
     /// </summary>
     public override JTokenType Type
     {
-        [DebuggerStepThrough]
-        get => JTokenType.Property;
+        [DebuggerStepThrough] get => JTokenType.Property;
     }
 
     internal JProperty(string name)
@@ -259,15 +260,15 @@ public partial class JProperty : JContainer
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JProperty"/> class.
+    /// Initializes a new instance of the <see cref="JProperty" /> class.
     /// </summary>
     public JProperty(string name, params object[] content)
-        : this(name, (object)content)
+        : this(name, (object) content)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JProperty"/> class.
+    /// Initializes a new instance of the <see cref="JProperty" /> class.
     /// </summary>
     public JProperty(string name, object? content)
     {
@@ -279,7 +280,7 @@ public partial class JProperty : JContainer
     }
 
     /// <summary>
-    /// Writes this token to a <see cref="JsonWriter"/>.
+    /// Writes this token to a <see cref="JsonWriter" />.
     /// </summary>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
@@ -302,22 +303,24 @@ public partial class JProperty : JContainer
     }
 
     /// <summary>
-    /// Loads a <see cref="JProperty"/> from a <see cref="JsonReader"/>.
+    /// Loads a <see cref="JProperty" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> that will be read for the content of the <see cref="JProperty"/>.</param>
-    /// <returns>A <see cref="JProperty"/> that contains the JSON that was read from the specified <see cref="JsonReader"/>.</returns>
+    /// <param name="reader">A <see cref="JsonReader" /> that will be read for the content of the <see cref="JProperty" />.</param>
+    /// <returns>A <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
     public new static JProperty Load(JsonReader reader)
     {
         return Load(reader, null);
     }
 
     /// <summary>
-    /// Loads a <see cref="JProperty"/> from a <see cref="JsonReader"/>.
+    /// Loads a <see cref="JProperty" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> that will be read for the content of the <see cref="JProperty"/>.</param>
-    /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
-    /// If this is <c>null</c>, default load settings will be used.</param>
-    /// <returns>A <see cref="JProperty"/> that contains the JSON that was read from the specified <see cref="JsonReader"/>.</returns>
+    /// <param name="reader">A <see cref="JsonReader" /> that will be read for the content of the <see cref="JProperty" />.</param>
+    /// <param name="settings">
+    /// The <see cref="JsonLoadSettings" /> used to load the JSON.
+    /// If this is <c>null</c>, default load settings will be used.
+    /// </param>
+    /// <returns>A <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
     public new static JProperty Load(JsonReader reader, JsonLoadSettings? settings)
     {
         if (reader.TokenType == JsonToken.None)
@@ -335,7 +338,7 @@ public partial class JProperty : JContainer
             throw JsonReaderException.Create(reader, $"Error reading JProperty from JsonReader. Current JsonReader item is not a property: {reader.TokenType}");
         }
 
-        var p = new JProperty((string)reader.Value!);
+        var p = new JProperty((string) reader.Value!);
         p.SetLineInfo(reader as IJsonLineInfo, settings);
 
         p.ReadTokenFrom(reader, settings);

@@ -37,5 +37,5 @@ DateTime postDate = blogPost.Date;
 Console.WriteLine(postDate);
 // 23/01/2013 7:30:00 p.m.
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJsonDynamic.cs#L14-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsondynamic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJsonDynamic.cs#L13-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsondynamic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -10,6 +10,7 @@ public class ParseJsonAny : TestFixtureBase
     public void Example()
     {
         #region ParseJsonAny
+
         var t1 = JToken.Parse("{}");
 
         Console.WriteLine(t1.Type);
@@ -29,6 +30,7 @@ public class ParseJsonAny : TestFixtureBase
 
         Console.WriteLine(t4.Type);
         // String
+
         #endregion
 
         Assert.Equal(JTokenType.String, t4.Type);

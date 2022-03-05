@@ -4,7 +4,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
 {
     List<IXmlNode>? attributes;
 
-    XElement Element => (XElement)WrappedNode!;
+    XElement Element => (XElement) WrappedNode!;
 
     public XElementWrapper(XElement element)
         : base(element)
@@ -13,7 +13,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
 
     public void SetAttributeNode(IXmlNode attribute)
     {
-        var wrapper = (XObjectWrapper)attribute;
+        var wrapper = (XObjectWrapper) attribute;
         Element.Add(wrapper.WrappedNode);
         attributes = null;
     }
@@ -59,6 +59,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
         {
             return false;
         }
+
         if (StringUtils.IsNullOrEmpty(GetPrefixOfNamespace(namespaceUri)))
         {
             var namespaceDeclared = false;

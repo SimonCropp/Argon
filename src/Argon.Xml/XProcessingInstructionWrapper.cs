@@ -2,7 +2,7 @@
 
 class XProcessingInstructionWrapper : XObjectWrapper
 {
-    XProcessingInstruction ProcessingInstruction => (XProcessingInstruction)WrappedNode!;
+    XProcessingInstruction ProcessingInstruction => (XProcessingInstruction) WrappedNode!;
 
     public XProcessingInstructionWrapper(XProcessingInstruction processingInstruction)
         : base(processingInstruction)

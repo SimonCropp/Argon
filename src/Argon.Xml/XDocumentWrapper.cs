@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 class XDocumentWrapper : XContainerWrapper, IXmlDocument
 {
-    XDocument Document => (XDocument)WrappedNode!;
+    XDocument Document => (XDocument) WrappedNode!;
 
     public XDocumentWrapper(XDocument document)
         : base(document)

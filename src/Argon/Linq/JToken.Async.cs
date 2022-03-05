@@ -7,7 +7,7 @@ namespace Argon;
 public abstract partial class JToken
 {
     /// <summary>
-    /// Writes this token to a <see cref="JsonWriter"/> asynchronously.
+    /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
     public virtual Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
     {
@@ -15,7 +15,7 @@ public abstract partial class JToken
     }
 
     /// <summary>
-    /// Writes this token to a <see cref="JsonWriter"/> asynchronously.
+    /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
     public Task WriteToAsync(JsonWriter writer, params JsonConverter[] converters)
     {
@@ -23,12 +23,12 @@ public abstract partial class JToken
     }
 
     /// <summary>
-    /// Asynchronously creates a <see cref="JToken"/> from a <see cref="JsonReader"/>.
+    /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">An <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
+    /// <param name="reader">An <see cref="JsonReader" /> positioned at the token to read into this <see cref="JToken" />.</param>
     /// <returns>
-    /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The
-    /// <see cref="Task{TResult}.Result"/> property returns a <see cref="JToken"/> that contains
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous creation. The
+    /// <see cref="Task{TResult}.Result" /> property returns a <see cref="JToken" /> that contains
     /// the token and its descendant tokens
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
@@ -39,14 +39,16 @@ public abstract partial class JToken
     }
 
     /// <summary>
-    /// Asynchronously creates a <see cref="JToken"/> from a <see cref="JsonReader"/>.
+    /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">An <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
-    /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
-    /// If this is <c>null</c>, default load settings will be used.</param>
+    /// <param name="reader">An <see cref="JsonReader" /> positioned at the token to read into this <see cref="JToken" />.</param>
+    /// <param name="settings">
+    /// The <see cref="JsonLoadSettings" /> used to load the JSON.
+    /// If this is <c>null</c>, default load settings will be used.
+    /// </param>
     /// <returns>
-    /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The
-    /// <see cref="Task{TResult}.Result"/> property returns a <see cref="JToken"/> that contains
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous creation. The
+    /// <see cref="Task{TResult}.Result" /> property returns a <see cref="JToken" /> that contains
     /// the token and its descendant tokens
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
@@ -98,12 +100,12 @@ public abstract partial class JToken
     }
 
     /// <summary>
-    /// Asynchronously creates a <see cref="JToken"/> from a <see cref="JsonReader"/>.
+    /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
+    /// <param name="reader">A <see cref="JsonReader" /> positioned at the token to read into this <see cref="JToken" />.</param>
     /// <returns>
-    /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The <see cref="Task{TResult}.Result"/>
-    /// property returns a <see cref="JToken"/> that contains the token and its descendant tokens
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous creation. The <see cref="Task{TResult}.Result" />
+    /// property returns a <see cref="JToken" /> that contains the token and its descendant tokens
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
@@ -113,14 +115,16 @@ public abstract partial class JToken
     }
 
     /// <summary>
-    /// Asynchronously creates a <see cref="JToken"/> from a <see cref="JsonReader"/>.
+    /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> positioned at the token to read into this <see cref="JToken"/>.</param>
-    /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
-    /// If this is <c>null</c>, default load settings will be used.</param>
+    /// <param name="reader">A <see cref="JsonReader" /> positioned at the token to read into this <see cref="JToken" />.</param>
+    /// <param name="settings">
+    /// The <see cref="JsonLoadSettings" /> used to load the JSON.
+    /// If this is <c>null</c>, default load settings will be used.
+    /// </param>
     /// <returns>
-    /// A <see cref="Task{TResult}"/> that represents the asynchronous creation. The <see cref="Task{TResult}.Result"/>
-    /// property returns a <see cref="JToken"/> that contains the token and its descendant tokens
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous creation. The <see cref="Task{TResult}.Result" />
+    /// property returns a <see cref="JToken" /> that contains the token and its descendant tokens
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>

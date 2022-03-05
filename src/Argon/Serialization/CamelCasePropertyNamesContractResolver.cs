@@ -14,7 +14,7 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
     static Dictionary<StructMultiKey<Type, Type>, JsonContract>? contractCache;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CamelCasePropertyNamesContractResolver"/> class.
+    /// Initializes a new instance of the <see cref="CamelCasePropertyNamesContractResolver" /> class.
     /// </summary>
     public CamelCasePropertyNamesContractResolver()
     {

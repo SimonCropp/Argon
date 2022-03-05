@@ -5,7 +5,7 @@
 static class CollectionUtils
 {
     /// <summary>
-    /// Adds the elements of the specified collection to the specified generic <see cref="IList{T}"/>.
+    /// Adds the elements of the specified collection to the specified generic <see cref="IList{T}" />.
     /// </summary>
     /// <param name="initial">The list to add to.</param>
     /// <param name="collection">The collection of elements to add.</param>
@@ -74,6 +74,7 @@ static class CollectionUtils
                 return true;
             }
         }
+
         return false;
     }
 
@@ -147,7 +148,7 @@ static class CollectionUtils
         }
 
         var dimensionLength = multidimensionalArray.GetLength(dimension);
-        var list = (IList)JaggedArrayGetValue(values, indices);
+        var list = (IList) JaggedArrayGetValue(values, indices);
         var currentValuesLength = list.Count;
         if (currentValuesLength != dimensionLength)
         {
@@ -178,8 +179,9 @@ static class CollectionUtils
                 return currentList[index]!;
             }
 
-            currentList = (IList)currentList[index]!;
+            currentList = (IList) currentList[index]!;
         }
+
         return currentList;
     }
 

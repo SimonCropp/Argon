@@ -10,14 +10,14 @@ namespace Argon;
 public class KebabCaseNamingStrategy : NamingStrategy
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy"/> class.
+    /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy" /> class.
     /// </summary>
     /// <param name="processDictionaryKeys">
     /// A flag indicating whether dictionary keys should be processed.
     /// </param>
     /// <param name="overrideSpecifiedNames">
     /// A flag indicating whether explicitly specified property names should be processed,
-    /// e.g. a property name customized with a <see cref="JsonPropertyAttribute"/>.
+    /// e.g. a property name customized with a <see cref="JsonPropertyAttribute" />.
     /// </param>
     public KebabCaseNamingStrategy(bool processDictionaryKeys, bool overrideSpecifiedNames)
     {
@@ -26,14 +26,14 @@ public class KebabCaseNamingStrategy : NamingStrategy
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy"/> class.
+    /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy" /> class.
     /// </summary>
     /// <param name="processDictionaryKeys">
     /// A flag indicating whether dictionary keys should be processed.
     /// </param>
     /// <param name="overrideSpecifiedNames">
     /// A flag indicating whether explicitly specified property names should be processed,
-    /// e.g. a property name customized with a <see cref="JsonPropertyAttribute"/>.
+    /// e.g. a property name customized with a <see cref="JsonPropertyAttribute" />.
     /// </param>
     /// <param name="processExtensionDataNames">
     /// A flag indicating whether extension data names should be processed.
@@ -45,7 +45,7 @@ public class KebabCaseNamingStrategy : NamingStrategy
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy"/> class.
+    /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy" /> class.
     /// </summary>
     public KebabCaseNamingStrategy()
     {
@@ -54,5 +54,8 @@ public class KebabCaseNamingStrategy : NamingStrategy
     /// <summary>
     /// Resolves the specified property name.
     /// </summary>
-    protected override string ResolvePropertyName(string name) => StringUtils.ToKebabCase(name);
+    protected override string ResolvePropertyName(string name)
+    {
+        return StringUtils.ToKebabCase(name);
+    }
 }

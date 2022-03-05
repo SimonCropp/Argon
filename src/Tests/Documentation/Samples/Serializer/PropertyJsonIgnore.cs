@@ -5,20 +5,22 @@
 public class PropertyJsonIgnore : TestFixtureBase
 {
     #region PropertyJsonIgnoreTypes
+
     public class Account
     {
         public string FullName { get; set; }
         public string EmailAddress { get; set; }
 
-        [JsonIgnore]
-        public string PasswordHash { get; set; }
+        [JsonIgnore] public string PasswordHash { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region PropertyJsonIgnoreUsage
+
         var account = new Account
         {
             FullName = "Joe User",
@@ -30,6 +32,7 @@ public class PropertyJsonIgnore : TestFixtureBase
 
         Console.WriteLine(json);
         // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
+
         #endregion
 
         Assert.Equal(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);

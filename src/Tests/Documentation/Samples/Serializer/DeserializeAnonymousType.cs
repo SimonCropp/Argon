@@ -8,7 +8,8 @@ public class DeserializeAnonymousType : TestFixtureBase
     public void Example()
     {
         #region DeserializeAnonymousType
-        var definition = new { Name = "" };
+
+        var definition = new {Name = ""};
 
         var json1 = @"{'Name':'James'}";
         var customer1 = JsonConvert.DeserializeAnonymousType(json1, definition);
@@ -21,6 +22,7 @@ public class DeserializeAnonymousType : TestFixtureBase
 
         Console.WriteLine(customer2.Name);
         // Mike
+
         #endregion
 
         Assert.Equal("Mike", customer2.Name);

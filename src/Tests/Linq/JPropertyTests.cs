@@ -28,7 +28,7 @@ public class JPropertyTests : TestFixtureBase
     [Fact]
     public void IListClear()
     {
-        var p = (IList<JToken>)new JProperty("TestProperty", null);
+        var p = (IList<JToken>) new JProperty("TestProperty", null);
 
         XUnitAssert.Throws<JsonException>(
             () => p.Clear(),
@@ -38,7 +38,7 @@ public class JPropertyTests : TestFixtureBase
     [Fact]
     public void IListAdd()
     {
-        var p = (IList<JToken>)new JProperty("TestProperty", null);
+        var p = (IList<JToken>) new JProperty("TestProperty", null);
 
         XUnitAssert.Throws<JsonException>(
             () => p.Add(null),
@@ -48,7 +48,7 @@ public class JPropertyTests : TestFixtureBase
     [Fact]
     public void IListRemoveAt()
     {
-        var p = (IList<JToken>)new JProperty("TestProperty", null);
+        var p = (IList<JToken>) new JProperty("TestProperty", null);
 
         XUnitAssert.Throws<JsonException>(
             () => p.RemoveAt(0),
@@ -76,7 +76,7 @@ public class JPropertyTests : TestFixtureBase
     public void JPropertyIndexOf()
     {
         var v = new JValue(1);
-        var p = (IList<JToken>)new JProperty("TestProperty", v);
+        var p = (IList<JToken>) new JProperty("TestProperty", v);
         Assert.Equal(0, p.IndexOf(v));
     }
 
@@ -121,18 +121,18 @@ public class JPropertyTests : TestFixtureBase
     [Fact]
     public void MultiContentConstructor()
     {
-        var p = new JProperty("error", new List<string> { "one", "two" });
-        var a = (JArray)p.Value;
+        var p = new JProperty("error", new List<string> {"one", "two"});
+        var a = (JArray) p.Value;
 
         Assert.Equal(a.Count, 2);
-        Assert.Equal("one", (string)a[0]);
-        Assert.Equal("two", (string)a[1]);
+        Assert.Equal("one", (string) a[0]);
+        Assert.Equal("two", (string) a[1]);
     }
 
     [Fact]
     public void IListGenericAdd()
     {
-        IList<JToken> t = new JProperty("error", new List<string> { "one", "two" });
+        IList<JToken> t = new JProperty("error", new List<string> {"one", "two"});
 
         XUnitAssert.Throws<JsonException>(
             () => t.Add(1),
@@ -159,6 +159,6 @@ public class JPropertyTests : TestFixtureBase
         property.Remove();
         obj.Add(new JProperty("prop2", value));
 
-        Assert.Equal(((JProperty)value.Parent).Name, "prop2");
+        Assert.Equal(((JProperty) value.Parent).Name, "prop2");
     }
 }

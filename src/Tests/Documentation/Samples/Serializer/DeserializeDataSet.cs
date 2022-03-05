@@ -11,6 +11,7 @@ public class DeserializeDataSet : TestFixtureBase
     public void Example()
     {
         #region DeserializeDataSet
+
         var json = @"{
               'Table1': [
                 {
@@ -27,7 +28,7 @@ public class DeserializeDataSet : TestFixtureBase
         var settings = new JsonSerializerSettings();
 
         settings.AddDataSetConverters();
-        var dataSet = JsonConvert.DeserializeObject<DataSet>(json,settings);
+        var dataSet = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
         var dataTable = dataSet.Tables["Table1"];
 
@@ -38,8 +39,10 @@ public class DeserializeDataSet : TestFixtureBase
         {
             Console.WriteLine($"{row["id"]} - {row["item"]}");
         }
+
         // 0 - item 0
         // 1 - item 1
+
         #endregion
 
         Assert.Equal(2, dataTable.Rows.Count);

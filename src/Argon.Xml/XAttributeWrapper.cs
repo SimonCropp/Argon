@@ -2,7 +2,7 @@
 
 class XAttributeWrapper : XObjectWrapper
 {
-    XAttribute Attribute => (XAttribute)WrappedNode!;
+    XAttribute Attribute => (XAttribute) WrappedNode!;
 
     public XAttributeWrapper(XAttribute attribute)
         : base(attribute)

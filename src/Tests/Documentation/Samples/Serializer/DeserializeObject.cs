@@ -5,6 +5,7 @@
 public class DeserializeObject : TestFixtureBase
 {
     #region DeserializeObjectTypes
+
     public class Account
     {
         public string Email { get; set; }
@@ -12,12 +13,14 @@ public class DeserializeObject : TestFixtureBase
         public DateTime CreatedDate { get; set; }
         public IList<string> Roles { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DeserializeObjectUsage
+
         var json = @"{
               'Email': 'james@example.com',
               'Active': true,
@@ -32,6 +35,7 @@ public class DeserializeObject : TestFixtureBase
 
         Console.WriteLine(account.Email);
         // james@example.com
+
         #endregion
 
         Assert.Equal("james@example.com", account.Email);

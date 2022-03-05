@@ -5,6 +5,7 @@
 namespace Argon.Tests.Documentation;
 
 #region JsonConverterAttribute
+
 [JsonConverter(typeof(PersonConverter))]
 public class Person
 {
@@ -16,6 +17,7 @@ public class Person
     public string Name { get; set; }
     public IList<string> Likes { get; }
 }
+
 #endregion
 
 public class PersonConverter : JsonConverter
@@ -26,11 +28,11 @@ public class PersonConverter : JsonConverter
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
-        var o = (JObject)JToken.ReadFrom(reader);
+        var o = (JObject) JToken.ReadFrom(reader);
 
         var p = new Person
         {
-            Name = (string)o["Name"]
+            Name = (string) o["Name"]
         };
 
         return p;
@@ -55,6 +57,7 @@ public class PerformanceTests : TestFixtureBase
         var person = new Person();
 
         #region ReuseContractResolver
+
         // BAD - a new contract resolver is created each time, forcing slow reflection to be used
         var json1 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
         {
@@ -77,6 +80,7 @@ public class PerformanceTests : TestFixtureBase
         {
             Formatting = Formatting.Indented
         });
+
         #endregion
     }
 
@@ -108,6 +112,7 @@ public class PerformanceTests : TestFixtureBase
     public void DeserializeString()
     {
         #region DeserializeString
+
         var client = new HttpClient();
 
         // read the json into a string
@@ -115,6 +120,7 @@ public class PerformanceTests : TestFixtureBase
         var json = client.GetStringAsync("http://www.test.com/large.json").Result;
 
         var p = JsonConvert.DeserializeObject<Person>(json);
+
         #endregion
     }
 
@@ -137,6 +143,7 @@ public class PerformanceTests : TestFixtureBase
 public static class PersonWriter
 {
     #region ReaderWriter
+
     public static string ToJson(this Person p)
     {
         var stringWriter = new StringWriter();
@@ -156,6 +163,7 @@ public static class PersonWriter
         {
             jsonWriter.WriteValue(like);
         }
+
         jsonWriter.WriteEndArray();
 
         // }
@@ -163,6 +171,7 @@ public static class PersonWriter
 
         return stringWriter.ToString();
     }
+
     #endregion
 
     public static Person ToPerson(this string s)
@@ -185,8 +194,9 @@ public static class PersonWriter
         // "Comedy", "Superman", ]
         while (reader.Read() && reader.TokenType != JsonToken.EndArray)
         {
-            p.Likes.Add((string)reader.Value);
+            p.Likes.Add((string) reader.Value);
         }
+
         // }
         reader.Read();
 

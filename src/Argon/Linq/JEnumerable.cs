@@ -5,20 +5,20 @@
 namespace Argon;
 
 /// <summary>
-/// Represents a collection of <see cref="JToken"/> objects.
+/// Represents a collection of <see cref="JToken" /> objects.
 /// </summary>
 /// <typeparam name="T">The type of token.</typeparam>
 public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<T>> where T : JToken
 {
     /// <summary>
-    /// An empty collection of <see cref="JToken"/> objects.
+    /// An empty collection of <see cref="JToken" /> objects.
     /// </summary>
     public static readonly JEnumerable<T> Empty = new(Enumerable.Empty<T>());
 
     readonly IEnumerable<T> enumerable;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JEnumerable{T}"/> struct.
+    /// Initializes a new instance of the <see cref="JEnumerable{T}" /> struct.
     /// </summary>
     public JEnumerable(IEnumerable<T> enumerable)
     {
@@ -29,7 +29,7 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// Returns an enumerator that can be used to iterate through the collection.
     /// </summary>
     /// <returns>
-    /// A <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
+    /// A <see cref="IEnumerator{T}" /> that can be used to iterate through the collection.
     /// </returns>
     public IEnumerator<T> GetEnumerator()
     {
@@ -42,7 +42,7 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     }
 
     /// <summary>
-    /// Gets the <see cref="IJEnumerable{T}"/> of <see cref="JToken"/> with the specified key.
+    /// Gets the <see cref="IJEnumerable{T}" /> of <see cref="JToken" /> with the specified key.
     /// </summary>
     public IJEnumerable<JToken> this[object key]
     {
@@ -58,11 +58,11 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     }
 
     /// <summary>
-    /// Determines whether the specified <see cref="JEnumerable{T}"/> is equal to this instance.
+    /// Determines whether the specified <see cref="JEnumerable{T}" /> is equal to this instance.
     /// </summary>
-    /// <param name="other">The <see cref="JEnumerable{T}"/> to compare with this instance.</param>
+    /// <param name="other">The <see cref="JEnumerable{T}" /> to compare with this instance.</param>
     /// <returns>
-    /// 	<c>true</c> if the specified <see cref="JEnumerable{T}"/> is equal to this instance; otherwise, <c>false</c>.
+    /// <c>true</c> if the specified <see cref="JEnumerable{T}" /> is equal to this instance; otherwise, <c>false</c>.
     /// </returns>
     public bool Equals(JEnumerable<T> other)
     {
@@ -70,11 +70,11 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     }
 
     /// <summary>
-    /// Determines whether the specified <see cref="Object"/> is equal to this instance.
+    /// Determines whether the specified <see cref="Object" /> is equal to this instance.
     /// </summary>
-    /// <param name="obj">The <see cref="Object"/> to compare with this instance.</param>
+    /// <param name="obj">The <see cref="Object" /> to compare with this instance.</param>
     /// <returns>
-    /// 	<c>true</c> if the specified <see cref="Object"/> is equal to this instance; otherwise, <c>false</c>.
+    /// <c>true</c> if the specified <see cref="Object" /> is equal to this instance; otherwise, <c>false</c>.
     /// </returns>
     public override bool Equals(object? obj)
     {

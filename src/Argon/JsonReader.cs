@@ -15,7 +15,7 @@ public abstract partial class JsonReader : IDisposable
     protected internal enum State
     {
         /// <summary>
-        /// A <see cref="JsonReader"/> read method has not been called.
+        /// A <see cref="JsonReader" /> read method has not been called.
         /// </summary>
         Start,
 
@@ -50,7 +50,7 @@ public abstract partial class JsonReader : IDisposable
         Array,
 
         /// <summary>
-        /// The <see cref="JsonReader.Close()"/> method has been called.
+        /// The <see cref="JsonReader.Close()" /> method has been called.
         /// </summary>
         Closed,
 
@@ -107,7 +107,7 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime"/> time zones are handled when reading JSON.
+    /// Gets or sets how <see cref="DateTime" /> time zones are handled when reading JSON.
     /// </summary>
     public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
 
@@ -127,7 +127,7 @@ public abstract partial class JsonReader : IDisposable
     public string? DateFormatString { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException"/>.
+    /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException" />.
     /// A null value means there is no maximum.
     /// The default value is <c>64</c>.
     /// </summary>
@@ -234,14 +234,14 @@ public abstract partial class JsonReader : IDisposable
             var insideContainer = currentState != State.ArrayStart
                                   && currentState != State.ObjectStart;
 
-            var current = insideContainer ? (JsonPosition?)currentPosition : null;
+            var current = insideContainer ? (JsonPosition?) currentPosition : null;
 
             return JsonPosition.BuildPath(stack, current);
         }
     }
 
     /// <summary>
-    /// Gets or sets the culture used when reading JSON. Defaults to <see cref="CultureInfo.InvariantCulture"/>.
+    /// Gets or sets the culture used when reading JSON. Defaults to <see cref="CultureInfo.InvariantCulture" />.
     /// </summary>
     public CultureInfo Culture
     {
@@ -260,7 +260,7 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonReader"/> class.
+    /// Initializes a new instance of the <see cref="JsonReader" /> class.
     /// </summary>
     protected JsonReader()
     {
@@ -329,9 +329,9 @@ public abstract partial class JsonReader : IDisposable
     public abstract bool Read();
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="Int32"/>.
+    /// Reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="Int32" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Int32"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Int32" />. This method will return <c>null</c> at the end of an array.</returns>
     public virtual int? ReadAsInt32()
     {
         var token = GetContentToken();
@@ -352,7 +352,7 @@ public abstract partial class JsonReader : IDisposable
 
                 if (v is BigInteger value)
                 {
-                    i = (int)value;
+                    i = (int) value;
                 }
                 else
                 {
@@ -370,7 +370,7 @@ public abstract partial class JsonReader : IDisposable
                 SetToken(JsonToken.Integer, i, false);
                 return i;
             case JsonToken.String:
-                var s = (string?)Value;
+                var s = (string?) Value;
                 return ReadInt32String(s);
         }
 
@@ -396,21 +396,24 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="String"/>.
+    /// Reads the next JSON token from the source as a <see cref="String" />.
     /// </summary>
-    /// <returns>A <see cref="String"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="String" />. This method will return <c>null</c> at the end of an array.</returns>
     public virtual string? ReadAsString()
     {
         var token = GetContentToken();
 
-        switch (token)
+        if (token is
+            JsonToken.None or
+            JsonToken.Null or
+            JsonToken.EndArray)
         {
-            case JsonToken.None:
-            case JsonToken.Null:
-            case JsonToken.EndArray:
-                return null;
-            case JsonToken.String:
-                return (string?)Value;
+            return null;
+        }
+
+        if (token == JsonToken.String)
+        {
+            return (string?) Value;
         }
 
         if (JsonTokenUtils.IsPrimitiveToken(token))
@@ -444,9 +447,9 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="Byte"/>[].
+    /// Reads the next JSON token from the source as a <see cref="Byte" />[].
     /// </summary>
-    /// <returns>A <see cref="Byte"/>[] or <c>null</c> if the next JSON token is null. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Byte" />[] or <c>null</c> if the next JSON token is null. This method will return <c>null</c> at the end of an array.</returns>
     public virtual byte[]? ReadAsBytes()
     {
         var token = GetContentToken();
@@ -472,7 +475,7 @@ public abstract partial class JsonReader : IDisposable
             {
                 // attempt to convert possible base 64 or GUID string to bytes
                 // GUID has to have format 00000000-0000-0000-0000-000000000000
-                var s = (string)Value!;
+                var s = (string) Value!;
 
                 byte[] data;
 
@@ -504,7 +507,7 @@ public abstract partial class JsonReader : IDisposable
                     return data;
                 }
 
-                return (byte[]?)Value;
+                return (byte[]?) Value;
             case JsonToken.StartArray:
                 return ReadArrayIntoByteArray();
         }
@@ -551,9 +554,9 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="Double"/>.
+    /// Reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="Double" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Double"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Double" />. This method will return <c>null</c> at the end of an array.</returns>
     public virtual double? ReadAsDouble()
     {
         var token = GetContentToken();
@@ -574,7 +577,7 @@ public abstract partial class JsonReader : IDisposable
 
                 if (v is BigInteger value)
                 {
-                    d = (double)value;
+                    d = (double) value;
                 }
                 else
                 {
@@ -585,7 +588,7 @@ public abstract partial class JsonReader : IDisposable
 
                 return d;
             case JsonToken.String:
-                return ReadDoubleString((string?)Value);
+                return ReadDoubleString((string?) Value);
         }
 
         throw JsonReaderException.Create(this, $"Error reading double. Unexpected token: {token}.");
@@ -610,9 +613,9 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="Boolean"/>.
+    /// Reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="Boolean" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Boolean"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Boolean" />. This method will return <c>null</c> at the end of an array.</returns>
     public virtual bool? ReadAsBoolean()
     {
         var token = GetContentToken();
@@ -638,9 +641,9 @@ public abstract partial class JsonReader : IDisposable
                 SetToken(JsonToken.Boolean, b, false);
                 return b;
             case JsonToken.String:
-                return ReadBooleanString((string?)Value);
+                return ReadBooleanString((string?) Value);
             case JsonToken.Boolean:
-                return (bool)Value!;
+                return (bool) Value!;
         }
 
         throw JsonReaderException.Create(this, $"Error reading boolean. Unexpected token: {token}.");
@@ -665,9 +668,9 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="Decimal"/>.
+    /// Reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="Decimal" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Decimal"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Decimal" />. This method will return <c>null</c> at the end of an array.</returns>
     public virtual decimal? ReadAsDecimal()
     {
         var token = GetContentToken();
@@ -688,7 +691,7 @@ public abstract partial class JsonReader : IDisposable
 
                 if (v is BigInteger value)
                 {
-                    d = (decimal)value;
+                    d = (decimal) value;
                 }
                 else
                 {
@@ -706,7 +709,7 @@ public abstract partial class JsonReader : IDisposable
                 SetToken(JsonToken.Float, d, false);
                 return d;
             case JsonToken.String:
-                return ReadDecimalString((string?)Value);
+                return ReadDecimalString((string?) Value);
         }
 
         throw JsonReaderException.Create(this, $"Error reading decimal. Unexpected token: {token}.");
@@ -738,9 +741,9 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="DateTime"/>.
+    /// Reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="DateTime" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTime"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="DateTime" />. This method will return <c>null</c> at the end of an array.</returns>
     public virtual DateTime? ReadAsDateTime()
     {
         switch (GetContentToken())
@@ -755,9 +758,9 @@ public abstract partial class JsonReader : IDisposable
                     SetToken(JsonToken.Date, offset.DateTime, false);
                 }
 
-                return (DateTime)Value!;
+                return (DateTime) Value!;
             case JsonToken.String:
-                return ReadDateTimeString((string?)Value);
+                return ReadDateTimeString((string?) Value);
         }
 
         throw JsonReaderException.Create(this, $"Error reading date. Unexpected token: {TokenType}.");
@@ -789,9 +792,9 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.
+    /// Reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />. This method will return <c>null</c> at the end of an array.</returns>
     public virtual DateTimeOffset? ReadAsDateTimeOffset()
     {
         var token = GetContentToken();
@@ -808,9 +811,9 @@ public abstract partial class JsonReader : IDisposable
                     SetToken(JsonToken.Date, new DateTimeOffset(time), false);
                 }
 
-                return (DateTimeOffset)Value!;
+                return (DateTimeOffset) Value!;
             case JsonToken.String:
-                var s = (string?)Value;
+                var s = (string?) Value;
                 return ReadDateTimeOffsetString(s);
             default:
                 throw JsonReaderException.Create(this, $"Error reading date. Unexpected token: {token}.");
@@ -937,7 +940,7 @@ public abstract partial class JsonReader : IDisposable
             case JsonToken.PropertyName:
                 currentState = State.Property;
 
-                currentPosition.PropertyName = (string)value!;
+                currentPosition.PropertyName = (string) value!;
                 break;
             case JsonToken.Undefined:
             case JsonToken.Integer:
@@ -1053,8 +1056,8 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Changes the reader's state to <see cref="JsonReader.State.Closed"/>.
-    /// If <see cref="JsonReader.CloseInput"/> is set to <c>true</c>, the source is also closed.
+    /// Changes the reader's state to <see cref="JsonReader.State.Closed" />.
+    /// If <see cref="JsonReader.CloseInput" /> is set to <c>true</c>, the source is also closed.
     /// </summary>
     public virtual void Close()
     {
@@ -1103,6 +1106,7 @@ public abstract partial class JsonReader : IDisposable
                 {
                     throw JsonReaderException.Create(this, $"An undefined token is not a valid {contract?.UnderlyingType ?? typeof(long)}.");
                 }
+
                 return result;
             case ReadType.ReadAsDecimal:
                 ReadAsDecimal();

@@ -10,12 +10,13 @@ public class ReadJson : TestFixtureBase
     public void Example()
     {
         #region ReadJson
+
         var o1 = JObject.Parse(File.ReadAllText(@"c:\videogames.json"));
 
         // read JSON directly from a file
         using var file = File.OpenText(@"c:\videogames.json");
         using var reader = new JsonTextReader(file);
-        var o2 = (JObject)JToken.ReadFrom(reader);
+        var o2 = (JObject) JToken.ReadFrom(reader);
 
         #endregion
     }

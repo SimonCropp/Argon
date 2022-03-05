@@ -23,7 +23,7 @@ public abstract class NamingStrategy
 
     /// <summary>
     /// A flag indicating whether explicitly specified property names,
-    /// e.g. a property name customized with a <see cref="JsonPropertyAttribute"/>, should be processed.
+    /// e.g. a property name customized with a <see cref="JsonPropertyAttribute" />, should be processed.
     /// Defaults to <c>false</c>.
     /// </summary>
     public bool OverrideSpecifiedNames { get; set; }
@@ -86,7 +86,7 @@ public abstract class NamingStrategy
     {
         unchecked
         {
-            var hashCode = GetType().GetHashCode();     // make sure different types do not result in equal values
+            var hashCode = GetType().GetHashCode(); // make sure different types do not result in equal values
             hashCode = (hashCode * 397) ^ ProcessDictionaryKeys.GetHashCode();
             hashCode = (hashCode * 397) ^ ProcessExtensionDataNames.GetHashCode();
             hashCode = (hashCode * 397) ^ OverrideSpecifiedNames.GetHashCode();
@@ -97,7 +97,10 @@ public abstract class NamingStrategy
     /// <summary>
     /// Object equality implementation
     /// </summary>
-    public override bool Equals(object? obj) => Equals(obj as NamingStrategy);
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as NamingStrategy);
+    }
 
     /// <summary>
     /// Compare to another NamingStrategy

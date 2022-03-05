@@ -8,6 +8,7 @@ public class QueryJsonSelectTokenEscaped : TestFixtureBase
     public void Example()
     {
         #region QueryJsonSelectTokenEscaped
+
         var o = JObject.Parse(@"{
               'Space Invaders': 'Taito',
               'Doom ]|[': 'id',
@@ -15,17 +16,18 @@ public class QueryJsonSelectTokenEscaped : TestFixtureBase
               'Government ""Intelligence""': 'Make-Believe'
             }");
 
-        var spaceInvaders = (string)o.SelectToken("['Space Invaders']");
+        var spaceInvaders = (string) o.SelectToken("['Space Invaders']");
         // Taito
 
-        var doom3 = (string)o.SelectToken("['Doom ]|[']");
+        var doom3 = (string) o.SelectToken("['Doom ]|[']");
         // id
 
-        var yarsRevenge = (string)o.SelectToken("['Yar\\'s Revenge']");
+        var yarsRevenge = (string) o.SelectToken("['Yar\\'s Revenge']");
         // Atari
 
-        var governmentIntelligence = (string)o.SelectToken("['Government \"Intelligence\"']");
+        var governmentIntelligence = (string) o.SelectToken("['Government \"Intelligence\"']");
         // Make-Believe
+
         #endregion
 
         Assert.Equal("Taito", spaceInvaders);

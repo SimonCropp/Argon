@@ -40,7 +40,7 @@ public class ErrorContext
     public string Path { get; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="ErrorContext"/> is handled.
+    /// Gets or sets a value indicating whether this <see cref="ErrorContext" /> is handled.
     /// </summary>
     public bool Handled { get; set; }
 }

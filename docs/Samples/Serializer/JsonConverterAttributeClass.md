@@ -9,7 +9,7 @@ public class UserConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        var user = (User)value;
+        var user = (User) value;
 
         writer.WriteValue(user.UserName);
     }
@@ -18,7 +18,7 @@ public class UserConverter : JsonConverter
     {
         var user = new User
         {
-            UserName = (string)reader.Value
+            UserName = (string) reader.Value
         };
 
         return user;
@@ -36,7 +36,7 @@ public class User
     public string UserName { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L7-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclasstypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L7-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclasstypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConverterAttributeClassUsage -->
@@ -52,5 +52,5 @@ var json = JsonConvert.SerializeObject(user, Formatting.Indented);
 Console.WriteLine(json);
 // "domain\\username"
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L43-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclassusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L45-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclassusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

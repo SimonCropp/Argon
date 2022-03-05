@@ -8,32 +8,32 @@ public class JTokenAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadFromAsync()
     {
-        var o = (JObject)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("{'pie':true}")));
-        XUnitAssert.True((bool)o["pie"]);
+        var o = (JObject) await JToken.ReadFromAsync(new JsonTextReader(new StringReader("{'pie':true}")));
+        XUnitAssert.True((bool) o["pie"]);
 
-        var a = (JArray)await JToken.ReadFromAsync(new JsonTextReader(new StringReader("[1,2,3]")));
-        Assert.Equal(1, (int)a[0]);
-        Assert.Equal(2, (int)a[1]);
-        Assert.Equal(3, (int)a[2]);
+        var a = (JArray) await JToken.ReadFromAsync(new JsonTextReader(new StringReader("[1,2,3]")));
+        Assert.Equal(1, (int) a[0]);
+        Assert.Equal(2, (int) a[1]);
+        Assert.Equal(3, (int) a[2]);
 
         JsonReader reader = new JsonTextReader(new StringReader("{'pie':true}"));
         await reader.ReadAsync();
         await reader.ReadAsync();
 
-        var p = (JProperty)await JToken.ReadFromAsync(reader);
+        var p = (JProperty) await JToken.ReadFromAsync(reader);
         Assert.Equal("pie", p.Name);
-        XUnitAssert.True((bool)p.Value);
+        XUnitAssert.True((bool) p.Value);
 
-        var v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
-        Assert.Equal("stringvalue", (string)v);
+        var v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
+        Assert.Equal("stringvalue", (string) v);
 
-        v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1")));
-        Assert.Equal(1, (int)v);
+        v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1")));
+        Assert.Equal(1, (int) v);
 
-        v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1.1")));
-        Assert.Equal(1.1, (double)v);
+        v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1.1")));
+        Assert.Equal(1.1, (double) v);
 
-        v = (JValue)await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""1970-01-01T00:00:00+12:31"""))
+        v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""1970-01-01T00:00:00+12:31"""))
         {
             DateParseHandling = DateParseHandling.DateTimeOffset
         });
@@ -44,8 +44,8 @@ public class JTokenAsyncTests : TestFixtureBase
     [Fact]
     public async Task LoadAsync()
     {
-        var o = (JObject)await JToken.LoadAsync(new JsonTextReader(new StringReader("{'pie':true}")));
-        XUnitAssert.True((bool)o["pie"]);
+        var o = (JObject) await JToken.LoadAsync(new JsonTextReader(new StringReader("{'pie':true}")));
+        XUnitAssert.True((bool) o["pie"]);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class JTokenAsyncTests : TestFixtureBase
 
         await writer.WriteValueAsync("String");
         Assert.Equal(5, a.Count);
-        Assert.Equal("String", (string)a[4]);
+        Assert.Equal("String", (string) a[4]);
 
         await writer.WriteStartObjectAsync();
         await writer.WritePropertyNameAsync("Property");

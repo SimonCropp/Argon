@@ -5,19 +5,22 @@
 public class ReferenceLoopHandlingIgnore : TestFixtureBase
 {
     #region ReferenceLoopHandlingIgnoreTypes
+
     public class Employee
     {
         public string Name { get; set; }
         public Employee Manager { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region ReferenceLoopHandlingIgnoreUsage
-        var joe = new Employee { Name = "Joe User" };
-        var mike = new Employee { Name = "Mike Manager" };
+
+        var joe = new Employee {Name = "Joe User"};
+        var mike = new Employee {Name = "Mike Manager"};
         joe.Manager = mike;
         mike.Manager = mike;
 
@@ -33,6 +36,7 @@ public class ReferenceLoopHandlingIgnore : TestFixtureBase
         //     "Name": "Mike Manager"
         //   }
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

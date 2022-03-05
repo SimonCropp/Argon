@@ -5,6 +5,7 @@
 public class NullValueHandlingIgnore : TestFixtureBase
 {
     #region NullValueHandlingIgnoreTypes
+
     public class Person
     {
         public string Name { get; set; }
@@ -12,12 +13,14 @@ public class NullValueHandlingIgnore : TestFixtureBase
         public Person Partner { get; set; }
         public decimal? Salary { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region NullValueHandlingIgnoreUsage
+
         var person = new Person
         {
             Name = "Nigal Newborn",
@@ -44,6 +47,7 @@ public class NullValueHandlingIgnore : TestFixtureBase
         //   "Name": "Nigal Newborn",
         //   "Age": 1
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

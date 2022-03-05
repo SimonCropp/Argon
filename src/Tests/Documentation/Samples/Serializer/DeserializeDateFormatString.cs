@@ -8,6 +8,7 @@ public class DeserializeDateFormatString : TestFixtureBase
     public void Example()
     {
         #region DeserializeDateFormatString
+
         var json = @"[
               '7 December, 2009',
               '1 January, 2010',
@@ -23,9 +24,11 @@ public class DeserializeDateFormatString : TestFixtureBase
         {
             Console.WriteLine(dateTime.ToLongDateString());
         }
+
         // Monday, 07 December 2009
         // Friday, 01 January 2010
         // Wednesday, 10 February 2010
+
         #endregion
 
         Assert.Equal(new(2009, 12, 7, 0, 0, 0, DateTimeKind.Utc), dateList[0]);

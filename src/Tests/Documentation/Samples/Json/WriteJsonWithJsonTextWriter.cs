@@ -7,8 +7,8 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
     [Fact]
     public void Example()
     {
-
         #region WriteJsonWithJsonTextWriter
+
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
 
@@ -42,6 +42,7 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
         //     "200 gigabyte hard drive"
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

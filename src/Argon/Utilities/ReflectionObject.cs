@@ -82,9 +82,10 @@ class ReflectionObject
                     {
                         reflectionMember.Setter = delegateFactory.CreateSet<object>(member);
                     }
+
                     break;
                 case MemberTypes.Method:
-                    var method = (MethodInfo)member;
+                    var method = (MethodInfo) member;
                     if (method.IsPublic)
                     {
                         var parameters = method.GetParameters();
@@ -99,6 +100,7 @@ class ReflectionObject
                             reflectionMember.Setter = (target, arg) => call(target, arg);
                         }
                     }
+
                     break;
                 default:
                     throw new ArgumentException($"Unexpected member type '{member.MemberType}' for member '{member.Name}'.");

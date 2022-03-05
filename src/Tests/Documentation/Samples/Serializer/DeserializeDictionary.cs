@@ -8,6 +8,7 @@ public class DeserializeDictionary : TestFixtureBase
     public void Example()
     {
         #region DeserializeDictionary
+
         var json = @"{
               'href': '/account/login.aspx',
               'target': '_blank'
@@ -20,6 +21,7 @@ public class DeserializeDictionary : TestFixtureBase
 
         Console.WriteLine(htmlAttributes["target"]);
         // _blank
+
         #endregion
 
         Assert.Equal("_blank", htmlAttributes["target"]);

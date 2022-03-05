@@ -32,7 +32,7 @@ var json3 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
     Formatting = Formatting.Indented
 });
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L57-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-reusecontractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L59-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-reusecontractresolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -55,7 +55,7 @@ var json = client.GetStringAsync("http://www.test.com/large.json").Result;
 
 var p = JsonConvert.DeserializeObject<Person>(json);
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L110-L118' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L114-L124' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeStream -->
@@ -70,6 +70,7 @@ var serializer = new JsonSerializer();
 var p = serializer.Deserialize<Person>(reader);
 ```
 <sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L123-L133' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L129-L139' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -94,7 +95,7 @@ public class Person
     public IList<string> Likes { get; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L7-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by creating a `Argon.Serialization.IContractResolver`.
@@ -149,6 +150,7 @@ public static string ToJson(this Person p)
     {
         jsonWriter.WriteValue(like);
     }
+
     jsonWriter.WriteEndArray();
 
     // }
@@ -158,6 +160,7 @@ public static string ToJson(this Person p)
 }
 ```
 <sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L139-L166' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L145-L175' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If performance is important, then this is the best choice. More about using JsonReader/JsonWriter here: [ReadingWritingJSON]

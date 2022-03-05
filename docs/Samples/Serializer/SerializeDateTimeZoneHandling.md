@@ -14,7 +14,7 @@ public class Flight
     public TimeSpan Duration { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDateTimeZoneHandling.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedatetimezonehandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDateTimeZoneHandling.cs#L7-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedatetimezonehandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeDateTimeZoneHandlingUsage -->
@@ -85,5 +85,5 @@ Console.WriteLine(jsonWithUnspecifiedTimeZone);
 //   "Duration": "05:30:00"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDateTimeZoneHandling.cs#L21-L86' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedatetimezonehandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeDateTimeZoneHandling.cs#L23-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedatetimezonehandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

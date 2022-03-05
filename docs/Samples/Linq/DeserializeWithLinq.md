@@ -14,7 +14,7 @@ public class BlogPost
     public DateTime PostedDate { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L9-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L9-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeWithLinqUsage -->
@@ -37,16 +37,16 @@ var blogPostArray = JArray.Parse(json);
 
 var blogPosts = blogPostArray.Select(p => new BlogPost
 {
-    Title = (string)p["Title"],
-    AuthorName = (string)p["Author"]["Name"],
-    AuthorTwitter = (string)p["Author"]["Twitter"],
-    PostedDate = (DateTime)p["Date"],
-    Body = HttpUtility.HtmlDecode((string)p["BodyHtml"])
+    Title = (string) p["Title"],
+    AuthorName = (string) p["Author"]["Name"],
+    AuthorTwitter = (string) p["Author"]["Twitter"],
+    PostedDate = (DateTime) p["Date"],
+    Body = HttpUtility.HtmlDecode((string) p["BodyHtml"])
 }).ToList();
 
 Console.WriteLine(blogPosts[0].Body);
 // <h3>Title!</h3>
 // <p>Content!</p>
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L23-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L25-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

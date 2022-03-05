@@ -13,17 +13,17 @@ var o = JObject.Parse(@"{
       ]
     }");
 
-var cpu = (string)o["CPU"];
+var cpu = (string) o["CPU"];
 // Intel
 
-var firstDrive = (string)o["Drives"][0];
+var firstDrive = (string) o["Drives"][0];
 // DVD read/writer
 
-var allDrives = o["Drives"].Select(t => (string)t).ToList();
+var allDrives = o["Drives"].Select(t => (string) t).ToList();
 // DVD read/writer
 // 500 gigabyte hard drive
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L12-L30' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L12-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

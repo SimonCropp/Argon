@@ -2,7 +2,7 @@
 
 class XCommentWrapper : XObjectWrapper
 {
-    XComment Text => (XComment)WrappedNode!;
+    XComment Text => (XComment) WrappedNode!;
 
     public XCommentWrapper(XComment text)
         : base(text)

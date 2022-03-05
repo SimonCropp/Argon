@@ -1,7 +1,7 @@
 ﻿namespace Argon;
 
 /// <summary>
-/// Instructs the <see cref="JsonSerializer"/> to deserialize properties with no matching class member into the specified collection
+/// Instructs the <see cref="JsonSerializer" /> to deserialize properties with no matching class member into the specified collection
 /// and write values during serialization.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
@@ -18,7 +18,7 @@ public class JsonExtensionDataAttribute : Attribute
     public bool ReadData { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonExtensionDataAttribute"/> class.
+    /// Initializes a new instance of the <see cref="JsonExtensionDataAttribute" /> class.
     /// </summary>
     public JsonExtensionDataAttribute()
     {

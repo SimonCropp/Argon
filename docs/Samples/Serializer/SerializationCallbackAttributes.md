@@ -17,8 +17,7 @@ public class SerializationEventTestObject
 
     // This field is not serialized. The OnDeserializedAttribute
     // is used to set the member value after serialization.
-    [JsonIgnore]
-    public string Member3 { get; set; }
+    [JsonIgnore] public string Member3 { get; set; }
 
     // This field is set to null, but populated after deserialization.
     public string Member4 { get; set; }
@@ -56,7 +55,7 @@ public class SerializationEventTestObject
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializationCallbackAttributesUsage -->
@@ -100,5 +99,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L63-L101' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L64-L104' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

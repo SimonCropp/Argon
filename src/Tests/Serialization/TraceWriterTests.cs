@@ -1,4 +1,5 @@
-﻿using TestObjects;
+﻿using System.Xml.Serialization;
+using TestObjects;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
@@ -533,15 +534,13 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        XUnitAssert.Throws<Exception>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<IntegerTestClass>(
-                json,
-                new JsonSerializerSettings
-                {
-                    TraceWriter = traceWriter
-                });
-        }, "Could not convert string to integer: hi. Path 'Integer', line 1, position 15.");
+            TraceWriter = traceWriter
+        };
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<IntegerTestClass>(json, settings),
+            "Could not convert string to integer: hi. Path 'Integer', line 1, position 15.");
 
         Assert.Equal(2, traceWriter.TraceRecords.Count);
 
@@ -562,15 +561,13 @@ Argon Error: 0 : Error!
             LevelFilter = TraceLevel.Info
         };
 
-        XUnitAssert.Throws<Exception>(() =>
+        var settings = new JsonSerializerSettings
         {
-            JsonConvert.DeserializeObject<TraceTestObject>(
-                json,
-                new JsonSerializerSettings
-                {
-                    TraceWriter = traceWriter
-                });
-        }, "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
+            TraceWriter = traceWriter
+        };
+        XUnitAssert.Throws<Exception>(
+            () => JsonConvert.DeserializeObject<TraceTestObject>(json, settings),
+            "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
 
         Assert.Equal(3, traceWriter.TraceRecords.Count);
 
@@ -1117,8 +1114,6 @@ Argon Error: 0 : Error!
 
     public class SpecifiedTestClass
     {
-        bool nameSpecified;
-
         public string Name { get; set; }
         public int Age { get; set; }
         public int Weight { get; set; }
@@ -1128,17 +1123,11 @@ Argon Error: 0 : Error!
         // dummy. should never be used because it isn't of type bool
         [JsonIgnore] public long AgeSpecified { get; set; }
 
-        [JsonIgnore]
-        public bool NameSpecified
-        {
-            get => nameSpecified;
-            set => nameSpecified = value;
-        }
+        [JsonIgnore] public bool NameSpecified { get; set; }
 
         [JsonIgnore] public bool WeightSpecified;
 
-        [JsonIgnore] [System.Xml.Serialization.XmlIgnoreAttribute]
-        public bool HeightSpecified;
+        [JsonIgnore] [XmlIgnore] public bool HeightSpecified;
 
         [JsonIgnore]
         public bool FavoriteNumberSpecified =>

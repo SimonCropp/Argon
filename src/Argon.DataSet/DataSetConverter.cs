@@ -7,7 +7,7 @@ using System.Data;
 namespace Argon.DataSetConverters;
 
 /// <summary>
-/// Converts a <see cref="DataSet"/> to and from JSON.
+/// Converts a <see cref="DataSet" /> to and from JSON.
 /// </summary>
 public class DataSetConverter : JsonConverter
 {
@@ -16,7 +16,7 @@ public class DataSetConverter : JsonConverter
     /// </summary>
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        var dataSet = (DataSet)value;
+        var dataSet = (DataSet) value;
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
         var converter = new DataTableConverter();
@@ -54,7 +54,7 @@ public class DataSetConverter : JsonConverter
             var table = set.Tables[reader.StringValue];
             var exists = table != null;
 
-            table = (DataTable)converter.ReadJson(reader, typeof(DataTable), table, serializer)!;
+            table = (DataTable) converter.ReadJson(reader, typeof(DataTable), table, serializer)!;
 
             if (!exists)
             {
@@ -83,7 +83,7 @@ public class DataSetConverter : JsonConverter
     /// </summary>
     /// <param name="valueType">Type of the value.</param>
     /// <returns>
-    ///   <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
+    /// <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type valueType)
     {

@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Instructs the <see cref="JsonSerializer"/> how to serialize the object.
+/// Instructs the <see cref="JsonSerializer" /> how to serialize the object.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface)]
 public sealed class JsonObjectAttribute : JsonContainerAttribute
@@ -50,14 +50,14 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonObjectAttribute"/> class.
+    /// Initializes a new instance of the <see cref="JsonObjectAttribute" /> class.
     /// </summary>
     public JsonObjectAttribute()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonObjectAttribute"/> class with the specified member serialization.
+    /// Initializes a new instance of the <see cref="JsonObjectAttribute" /> class with the specified member serialization.
     /// </summary>
     public JsonObjectAttribute(MemberSerialization memberSerialization)
     {
@@ -65,7 +65,7 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonObjectAttribute"/> class with the specified container Id.
+    /// Initializes a new instance of the <see cref="JsonObjectAttribute" /> class with the specified container Id.
     /// </summary>
     public JsonObjectAttribute(string id)
         : base(id)

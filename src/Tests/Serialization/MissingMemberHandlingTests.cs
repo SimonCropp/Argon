@@ -14,7 +14,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new[] { "Small", "Medium", "Large" }
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var output = JsonConvert.SerializeObject(product, Formatting.Indented);
@@ -29,10 +29,9 @@ public class MissingMemberHandlingTests : TestFixtureBase
         //  ]
         //}
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var deserializedProductShort = (ProductShort)JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
-        }, @"Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error}),
+            @"Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
     }
 
     [Fact]
@@ -43,7 +42,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new[] { "Small", "Medium", "Large" }
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var output = JsonConvert.SerializeObject(product);
@@ -70,7 +69,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
             deserializedValue = jsonSerializer.Deserialize(jsonReader, typeof(ProductShort));
         }
 
-        var deserializedProductShort = (ProductShort)deserializedValue;
+        var deserializedProductShort = (ProductShort) deserializedValue;
 
         Assert.Equal("Apple", deserializedProductShort.Name);
         Assert.Equal(new(2008, 12, 28), deserializedProductShort.ExpiryDate);
@@ -82,11 +81,11 @@ public class MissingMemberHandlingTests : TestFixtureBase
     [Fact]
     public void MissingMemberIgnoreComplexValue()
     {
-        var serializer = new JsonSerializer { MissingMemberHandling = MissingMemberHandling.Ignore };
+        var serializer = new JsonSerializer {MissingMemberHandling = MissingMemberHandling.Ignore};
 
         var response = @"{PreProperty:1, DateProperty:'2000-12-05T05:07:59-10:00', PostProperty:2}";
 
-        var myClass = (MyClass)serializer.Deserialize(new StringReader(response), typeof(MyClass));
+        var myClass = (MyClass) serializer.Deserialize(new StringReader(response), typeof(MyClass));
 
         Assert.Equal(1, myClass.PreProperty);
         Assert.Equal(2, myClass.PostProperty);
@@ -97,7 +96,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var json = @"{""height"":1}";
 
-        var c = JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
+        var c = JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error});
 
         Assert.Equal(1d, c.Height);
     }
@@ -211,8 +210,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     [JsonObject(MissingMemberHandling = MissingMemberHandling.Ignore)]
     public class SimpleExtendableObject
     {
-        [JsonExtensionData]
-        public IDictionary<string, object> Data { get; } = new Dictionary<string, object>();
+        [JsonExtensionData] public IDictionary<string, object> Data { get; } = new Dictionary<string, object>();
     }
 
     public class ObjectWithExtendableChild
@@ -224,8 +222,9 @@ public class MissingMemberHandlingTests : TestFixtureBase
     public void TestMissingMemberHandlingForDirectObjects()
     {
         var json = @"{""extensionData1"": [1,2,3]}";
-        var e2 = JsonConvert.DeserializeObject<SimpleExtendableObject>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
-        var o1 = (JArray)e2.Data["extensionData1"];
+        var settings = new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error};
+        var e2 = JsonConvert.DeserializeObject<SimpleExtendableObject>(json, settings);
+        var o1 = (JArray) e2.Data["extensionData1"];
         Assert.Equal(JTokenType.Array, o1.Type);
     }
 
@@ -233,8 +232,9 @@ public class MissingMemberHandlingTests : TestFixtureBase
     public void TestMissingMemberHandlingForChildObjects()
     {
         var json = @"{""Data"":{""extensionData1"": [1,2,3]}}";
-        var e3 = JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
-        var o1 = (JArray)e3.Data.Data["extensionData1"];
+        var settings = new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error};
+        var e3 = JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, settings);
+        var o1 = (JArray) e3.Data.Data["extensionData1"];
         Assert.Equal(JTokenType.Array, o1.Type);
     }
 
@@ -243,9 +243,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var json = @"{""InvalidData"":{""extensionData1"": [1,2,3]}}";
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, new JsonSerializerSettings { MissingMemberHandling = MissingMemberHandling.Error });
-        }, "Could not find member 'InvalidData' on object of type 'ObjectWithExtendableChild'. Path 'InvalidData', line 1, position 15.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<ObjectWithExtendableChild>(json, new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error}),
+            "Could not find member 'InvalidData' on object of type 'ObjectWithExtendableChild'. Path 'InvalidData', line 1, position 15.");
     }
 }

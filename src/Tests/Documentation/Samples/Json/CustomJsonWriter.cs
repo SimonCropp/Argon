@@ -7,6 +7,7 @@ using System.Xml;
 namespace Argon;
 
 #region CustomJsonWriterTypes
+
 public class XmlJsonWriter : JsonWriter
 {
     readonly XmlWriter writer;
@@ -258,6 +259,7 @@ public class XmlJsonWriter : JsonWriter
         }
     }
 }
+
 #endregion
 
 public class CustomJsonWriter : TestFixtureBase
@@ -266,6 +268,7 @@ public class CustomJsonWriter : TestFixtureBase
     public void Example()
     {
         #region CustomJsonWriterUsage
+
         var user = new
         {
             Name = "James",
@@ -280,7 +283,7 @@ public class CustomJsonWriter : TestFixtureBase
 
         var stringWriter = new StringWriter();
 
-        using (var xmlWriter = XmlWriter.Create(stringWriter, new() { OmitXmlDeclaration = true }))
+        using (var xmlWriter = XmlWriter.Create(stringWriter, new() {OmitXmlDeclaration = true}))
         using (var writer = new XmlJsonWriter(xmlWriter))
         {
             writer.Formatting = Formatting.Indented;
@@ -299,11 +302,12 @@ public class CustomJsonWriter : TestFixtureBase
         //    <Item type="String">Administrator</Item>
         //  </Roles>
         //</Root>
+
         #endregion
 
         stringWriter = new();
 
-        using (var xmlWriter = XmlWriter.Create(stringWriter, new() { OmitXmlDeclaration = true }))
+        using (var xmlWriter = XmlWriter.Create(stringWriter, new() {OmitXmlDeclaration = true}))
         using (var writer = new XmlJsonWriter(xmlWriter))
         {
             writer.Formatting = Formatting.Indented;

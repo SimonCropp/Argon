@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies metadata property handling options for the <see cref="JsonSerializer"/>.
+/// Specifies metadata property handling options for the <see cref="JsonSerializer" />.
 /// </summary>
 public enum MetadataPropertyHandling
 {
