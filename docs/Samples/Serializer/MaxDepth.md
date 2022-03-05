@@ -28,5 +28,5 @@ catch (JsonReaderException exception)
     // The reader's MaxDepth of 2 has been exceeded. Path '[0][0]', line 3, position 12.
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/MaxDepth.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-maxdepth' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/MaxDepth.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-maxdepth' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

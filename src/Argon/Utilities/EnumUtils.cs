@@ -65,7 +65,7 @@ static class EnumUtils
 
             if ((num & v) == v && v != 0)
             {
-                selectedFlagsValues.Add((T)Convert.ChangeType(v, underlyingType, CultureInfo.CurrentCulture));
+                selectedFlagsValues.Add((T) Convert.ChangeType(v, underlyingType, CultureInfo.CurrentCulture));
             }
         }
 
@@ -79,12 +79,13 @@ static class EnumUtils
 
     // Used by Newtonsoft.Json.Schema
     static CamelCaseNamingStrategy camelCaseNamingStrategy = new();
-    public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)]out string? name)
+
+    public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)] out string? name)
     {
         return TryToString(enumType, value, camelCase ? camelCaseNamingStrategy : null, out name);
     }
 
-    public static bool TryToString(Type enumType, object value, NamingStrategy? namingStrategy, [NotNullWhen(true)]out string? name)
+    public static bool TryToString(Type enumType, object value, NamingStrategy? namingStrategy, [NotNullWhen(true)] out string? name)
     {
         var enumInfo = ValuesAndNamesPerEnum.Get(new(enumType, namingStrategy));
         var v = ToUInt64(value);
@@ -181,26 +182,26 @@ static class EnumUtils
         switch (typeCode)
         {
             case PrimitiveTypeCode.SByte:
-                return (ulong)(sbyte)value;
+                return (ulong) (sbyte) value;
             case PrimitiveTypeCode.Byte:
-                return (byte)value;
+                return (byte) value;
             case PrimitiveTypeCode.Boolean:
                 // direct cast from bool to byte is not allowed
-                return Convert.ToByte((bool)value);
+                return Convert.ToByte((bool) value);
             case PrimitiveTypeCode.Int16:
-                return (ulong)(short)value;
+                return (ulong) (short) value;
             case PrimitiveTypeCode.UInt16:
-                return (ushort)value;
+                return (ushort) value;
             case PrimitiveTypeCode.Char:
-                return (char)value;
+                return (char) value;
             case PrimitiveTypeCode.UInt32:
-                return (uint)value;
+                return (uint) value;
             case PrimitiveTypeCode.Int32:
-                return (ulong)(int)value;
+                return (ulong) (int) value;
             case PrimitiveTypeCode.UInt64:
-                return (ulong)value;
+                return (ulong) value;
             case PrimitiveTypeCode.Int64:
-                return (ulong)(long)value;
+                return (ulong) (long) value;
             // All unsigned types will be directly cast
             default:
                 throw new InvalidOperationException("Unknown enum type.");
@@ -235,6 +236,7 @@ static class EnumUtils
                 break;
             }
         }
+
         if (firstNonWhitespaceIndex == -1)
         {
             throw new ArgumentException("Must specify valid information for parsing in the string.");
@@ -294,6 +296,7 @@ static class EnumUtils
             {
                 endIndexNoWhitespace--;
             }
+
             var valueSubstringLength = endIndexNoWhitespace - valueIndex;
 
             // match with case sensitivity

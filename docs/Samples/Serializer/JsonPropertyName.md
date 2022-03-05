@@ -7,11 +7,9 @@ This sample uses `Argon.JsonPropertyAttribute` to change the names of properties
 ```cs
 public class Videogame
 {
-    [JsonProperty("name")]
-    public string Name { get; set; }
+    [JsonProperty("name")] public string Name { get; set; }
 
-    [JsonProperty("release_date")]
-    public DateTime ReleaseDate { get; set; }
+    [JsonProperty("release_date")] public DateTime ReleaseDate { get; set; }
 }
 ```
 <sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynametypes' title='Start of snippet'>anchor</a></sup>
@@ -34,5 +32,5 @@ Console.WriteLine(json);
 //   "release_date": "1998-01-01T00:00:00"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L21-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynameusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyName.cs#L21-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertynameusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

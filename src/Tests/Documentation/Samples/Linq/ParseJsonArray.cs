@@ -10,6 +10,7 @@ public class ParseJsonArray : TestFixtureBase
     public void Example()
     {
         #region ParseJsonArray
+
         var json = @"[
               'Small',
               'Medium',
@@ -24,6 +25,7 @@ public class ParseJsonArray : TestFixtureBase
         //   "Medium",
         //   "Large"
         // ]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[

@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Get and set values for a <see cref="MemberInfo"/> using dynamic methods.
+/// Get and set values for a <see cref="MemberInfo" /> using dynamic methods.
 /// </summary>
 public class ExpressionValueProvider : IValueProvider
 {
@@ -14,7 +14,7 @@ public class ExpressionValueProvider : IValueProvider
     Action<object, object?>? setter;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ExpressionValueProvider"/> class.
+    /// Initializes a new instance of the <see cref="ExpressionValueProvider" /> class.
     /// </summary>
     /// <param name="member">The member info.</param>
     public ExpressionValueProvider(MemberInfo member)

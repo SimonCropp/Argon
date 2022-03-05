@@ -16,9 +16,9 @@ public class SerializeComparisonBenchmarks
         {
             dictionary = new()
             {
-                { "Val & asd1", 1 },
-                { "Val2 & asd1", 3 },
-                { "Val3 & asd1", 4 }
+                {"Val & asd1", 1},
+                {"Val2 & asd1", 3},
+                {"Val3 & asd1", 4}
             },
             Address1 =
             {
@@ -125,6 +125,7 @@ public class SerializeComparisonBenchmarks
 
         return o.ToString(Formatting.None);
     }
+
     #endregion
 
     [Benchmark]
@@ -134,6 +135,7 @@ public class SerializeComparisonBenchmarks
     }
 
     #region SerializeJsonNetManual
+
     static string SerializeJsonNetManual(TestClass c)
     {
         var stringWriter = new StringWriter();
@@ -145,6 +147,7 @@ public class SerializeComparisonBenchmarks
         {
             jsonWriter.WriteValue(s);
         }
+
         jsonWriter.WriteEndArray();
         jsonWriter.WritePropertyName("dictionary");
         jsonWriter.WriteStartObject();
@@ -153,6 +156,7 @@ public class SerializeComparisonBenchmarks
             jsonWriter.WritePropertyName(keyValuePair.Key);
             jsonWriter.WriteValue(keyValuePair.Value);
         }
+
         jsonWriter.WriteEndObject();
         jsonWriter.WritePropertyName("Name");
         jsonWriter.WriteValue(c.Name);
@@ -182,12 +186,14 @@ public class SerializeComparisonBenchmarks
             jsonWriter.WriteValue(address.Entered);
             jsonWriter.WriteEndObject();
         }
+
         jsonWriter.WriteEndArray();
         jsonWriter.WriteEndObject();
 
         jsonWriter.Flush();
         return stringWriter.ToString();
     }
+
     #endregion
 
     [Benchmark]
@@ -215,6 +221,7 @@ public class SerializeComparisonBenchmarks
         {
             await jsonWriter.WriteValueAsync(s);
         }
+
         await jsonWriter.WriteEndArrayAsync();
         await jsonWriter.WritePropertyNameAsync("dictionary");
         await jsonWriter.WriteStartObjectAsync();
@@ -223,6 +230,7 @@ public class SerializeComparisonBenchmarks
             await jsonWriter.WritePropertyNameAsync(keyValuePair.Key);
             await jsonWriter.WriteValueAsync(keyValuePair.Value);
         }
+
         await jsonWriter.WriteEndObjectAsync();
         await jsonWriter.WritePropertyNameAsync("Name");
         await jsonWriter.WriteValueAsync(c.Name);
@@ -252,6 +260,7 @@ public class SerializeComparisonBenchmarks
             await jsonWriter.WriteValueAsync(address.Entered);
             await jsonWriter.WriteEndObjectAsync();
         }
+
         await jsonWriter.WriteEndArrayAsync();
         await jsonWriter.WriteEndObjectAsync();
 

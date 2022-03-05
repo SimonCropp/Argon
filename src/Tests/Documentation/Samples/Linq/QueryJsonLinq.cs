@@ -10,6 +10,7 @@ public class QueryJsonLinq : TestFixtureBase
     public void Example()
     {
         #region QueryJsonLinq
+
         var json = @"{
               'channel': {
                 'title': 'James Newton-King',
@@ -42,7 +43,7 @@ public class QueryJsonLinq : TestFixtureBase
 
         var postTitles =
             from p in rss["channel"]["item"]
-            select (string)p["title"];
+            select (string) p["title"];
 
         foreach (var item in postTitles)
         {
@@ -56,15 +57,17 @@ public class QueryJsonLinq : TestFixtureBase
             group c by c
             into g
             orderby g.Count() descending
-            select new { Category = g.Key, Count = g.Count() };
+            select new {Category = g.Key, Count = g.Count()};
 
         foreach (var c in categories)
         {
             Console.WriteLine($"{c.Category} - Count: {c.Count}");
         }
+
         //Json.NET - Count: 2
         //LINQ - Count: 1
         //CodePlex - Count: 1
+
         #endregion
 
         Assert.Equal(3, categories.Count());

@@ -14,7 +14,7 @@ public class JsonMergeSettings
     StringComparison propertyNameComparison;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonMergeSettings"/> class.
+    /// Initializes a new instance of the <see cref="JsonMergeSettings" /> class.
     /// </summary>
     public JsonMergeSettings()
     {
@@ -58,7 +58,7 @@ public class JsonMergeSettings
     /// <summary>
     /// Gets or sets the comparison used to match property names while merging.
     /// The exact property name will be searched for first and if no matching property is found then
-    /// the <see cref="StringComparison"/> will be used to match a property.
+    /// the <see cref="StringComparison" /> will be used to match a property.
     /// </summary>
     public StringComparison PropertyNameComparison
     {

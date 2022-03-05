@@ -123,13 +123,13 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return ((IEnumerable)genericCollection! ?? list!).GetEnumerator();
+        return ((IEnumerable) genericCollection! ?? list!).GetEnumerator();
     }
 
     int IList.Add(object value)
     {
         VerifyValueType(value);
-        Add((T)value);
+        Add((T) value);
 
         return Count - 1;
     }
@@ -137,7 +137,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     bool IList.Contains(object value)
     {
         return IsCompatibleObject(value) &&
-               Contains((T)value);
+               Contains((T) value);
     }
 
     int IList.IndexOf(object value)
@@ -149,7 +149,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
         if (IsCompatibleObject(value))
         {
-            return list!.IndexOf((T)value);
+            return list!.IndexOf((T) value);
         }
 
         return -1;
@@ -173,7 +173,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         }
 
         VerifyValueType(value);
-        list!.Insert(index, (T)value);
+        list!.Insert(index, (T) value);
     }
 
     bool IList.IsFixedSize
@@ -194,7 +194,7 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     {
         if (IsCompatibleObject(value))
         {
-            Remove((T)value);
+            Remove((T) value);
         }
     }
 
@@ -217,13 +217,13 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
             }
 
             VerifyValueType(value);
-            list![index] = (T)value;
+            list![index] = (T) value;
         }
     }
 
     void ICollection.CopyTo(Array array, int arrayIndex)
     {
-        CopyTo((T[])array, arrayIndex);
+        CopyTo((T[]) array, arrayIndex);
     }
 
     bool ICollection.IsSynchronized => false;
@@ -255,5 +255,5 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
                (value == null && (!typeof(T).IsValueType || typeof(T).IsNullableType()));
     }
 
-    public object UnderlyingCollection => (object)genericCollection! ?? list!;
+    public object UnderlyingCollection => (object) genericCollection! ?? list!;
 }

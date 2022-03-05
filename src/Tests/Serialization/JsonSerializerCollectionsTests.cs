@@ -2,10 +2,10 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.Collections.Specialized;
 using System.Collections.ObjectModel;
-using TestObjects;
+using System.Collections.Specialized;
 using System.Xml.Linq;
+using TestObjects;
 
 public class JsonSerializerCollectionsTests : TestFixtureBase
 {
@@ -131,7 +131,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 #if !(NET5_0_OR_GREATER)
         Assert.Equal(@"{""3.40282347E+38"":1}", output);
 #else
-            Assert.Equal(@"{""3.4028235E+38"":1}", output);
+        Assert.Equal(@"{""3.4028235E+38"":1}", output);
 #endif
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<float, int>>(output);
@@ -158,9 +158,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             _bars.Add(bar);
         }
 
-        public IEnumerator<int> GetEnumerator() => _bars.GetEnumerator();
+        public IEnumerator<int> GetEnumerator()
+        {
+            return _bars.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     [Fact]
@@ -449,7 +455,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
-            onebasedArray.SetValue(i.ToString(CultureInfo.InvariantCulture), new[] {i,});
+            onebasedArray.SetValue(i.ToString(CultureInfo.InvariantCulture), new[] {i});
         }
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
@@ -647,7 +653,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         public PrivateDefaultCtorWithIEnumerableCtorList(IEnumerable<T> values)
             : base(values)
         {
-            Add(default(T));
+            Add(default);
         }
     }
 
@@ -1927,13 +1933,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Name = "Product 1",
             Price = 99.95m,
-            ExpiryDate = new(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc)
         };
         var p2 = new Product
         {
             Name = "Product 2",
             Price = 12.50m,
-            ExpiryDate = new(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc),
+            ExpiryDate = new(2009, 7, 31, 0, 0, 0, DateTimeKind.Utc)
         };
 
         var products = new List<Product>
@@ -2043,7 +2049,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var v = new ReadOnlyCollectionWithArrayArgument<double>(new[] {-0.014147478859765236, -0.011419606805541858, -0.010038461483676238});
         var json = JsonConvert.SerializeObject(v);
 
-        XUnitAssert.Throws<JsonSerializationException>(() => { JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json); }, "Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(() =>
+        {
+            JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json);
+        }, "Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
     }
 
     [Fact]
@@ -2302,7 +2311,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                     Groups.Add(group);
                 }
             }
-
         }
 
         void ExtractLanguage()
@@ -2409,7 +2417,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             catch
             {
                 user = "";
-
             }
         }
 
@@ -2449,7 +2456,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         public string CommonName { get; private set; }
 
         public string OrganizationName { get; private set; }
-
     }
 
     public class ReadOnlyCollectionWithArrayArgument<T> : IList<T>

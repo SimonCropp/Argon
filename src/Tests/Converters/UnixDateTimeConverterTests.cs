@@ -20,7 +20,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     public void SerializeDateTimeNow()
     {
         var now = DateTime.Now;
-        var nowSeconds = (long)(now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds;
+        var nowSeconds = (long) (now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds;
 
         var result = JsonConvert.SerializeObject(now, new UnixDateTimeConverter());
 
@@ -164,7 +164,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         var l1 = new UnixConverterList<object>
         {
             new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc),
-            new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc),
+            new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc)
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
@@ -186,7 +186,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         var l1 = new UnixConverterDictionary<object>
         {
             {"First", new DateTime(1970, 1, 1, 0, 0, 3, DateTimeKind.Utc)},
-            {"Second", new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc)},
+            {"Second", new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc)}
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
@@ -229,10 +229,14 @@ public class UnixDateTimeConverterTests : TestFixtureBase
 }
 
 [JsonArray(ItemConverterType = typeof(UnixDateTimeConverter))]
-public class UnixConverterList<T> : List<T> { }
+public class UnixConverterList<T> : List<T>
+{
+}
 
 [JsonDictionary(ItemConverterType = typeof(UnixDateTimeConverter))]
-public class UnixConverterDictionary<T> : Dictionary<string, T> { }
+public class UnixConverterDictionary<T> : Dictionary<string, T>
+{
+}
 
 [JsonObject(ItemConverterType = typeof(UnixDateTimeConverter))]
 public class UnixConverterObject

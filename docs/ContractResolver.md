@@ -24,14 +24,14 @@ var product = new Product
     ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
     Name = "Widget",
     Price = 9.99m,
-    Sizes = new[] { "Small", "Medium", "Large" }
+    Sizes = new[] {"Small", "Medium", "Large"}
 };
 
 var json =
     JsonConvert.SerializeObject(
         product,
         Formatting.Indented,
-        new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }
+        new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()}
     );
 
 //{
@@ -45,7 +45,7 @@ var json =
 //  ]
 //}
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L501-L527' title='Snippet source file'>snippet source</a> | <a href='#snippet-contractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L524-L552' title='Snippet source file'>snippet source</a> | <a href='#snippet-contractresolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -90,7 +90,7 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
             property.ShouldSerialize =
                 instance =>
                 {
-                    var e = (Employee)instance;
+                    var e = (Employee) instance;
                     return e.Manager != e;
                 };
         }
@@ -99,7 +99,7 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L13-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L13-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 This example sets up [conditional serialization for a property](ConditionalProperties) using an IContractResolver. This is useful to conditionally serialize a property but don't want to add additional methods to the type.

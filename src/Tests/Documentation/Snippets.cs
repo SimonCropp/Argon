@@ -40,7 +40,7 @@ public class Snippets
         {
             Name = "Apple",
             Expiry = new(2008, 12, 28),
-            Sizes = new string[] { "Small" }
+            Sizes = new[] {"Small"}
         };
 
         var json = JsonConvert.SerializeObject(product);
@@ -51,6 +51,7 @@ public class Snippets
 //     "Small"
 //   ]
 // }
+
         #endregion
     }
 

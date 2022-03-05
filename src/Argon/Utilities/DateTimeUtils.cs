@@ -16,8 +16,8 @@ static class DateTimeUtils
 
     static DateTimeUtils()
     {
-        DaysToMonth365 = new[] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
-        DaysToMonth366 = new[] { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
+        DaysToMonth365 = new[] {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+        DaysToMonth366 = new[] {0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366};
     }
 
     public static TimeSpan GetUtcOffset(this DateTime d)
@@ -60,6 +60,7 @@ static class DateTimeUtils
             case DateTimeKind.Local:
                 return value;
         }
+
         return value;
     }
 
@@ -76,6 +77,7 @@ static class DateTimeUtils
             case DateTimeKind.Local:
                 return value.ToUniversalTime();
         }
+
         return value;
     }
 
@@ -113,6 +115,7 @@ static class DateTimeUtils
     }
 
     #region Parse
+
     internal static bool TryParseDateTimeIso(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
     {
         var dateTimeParser = new DateTimeParser();
@@ -150,6 +153,7 @@ static class DateTimeUtils
 
                     d = new(ticks, DateTimeKind.Local);
                 }
+
                 break;
             }
             case ParserTimeZone.LocalEastOfUtc:
@@ -170,6 +174,7 @@ static class DateTimeUtils
 
                     d = new(ticks, DateTimeKind.Local);
                 }
+
                 break;
             }
         }
@@ -238,6 +243,7 @@ static class DateTimeUtils
         {
             d = d.AddDays(1);
         }
+
         return d;
     }
 
@@ -371,9 +377,11 @@ static class DateTimeUtils
         dt = default;
         return false;
     }
+
     #endregion
 
     #region Write
+
     internal static void WriteDateTimeString(TextWriter writer, DateTime value, string? formatString, CultureInfo culture)
     {
         if (StringUtils.IsNullOrEmpty(formatString))
@@ -390,19 +398,19 @@ static class DateTimeUtils
 
     internal static int WriteDateTimeString(char[] chars, int start, DateTime value, TimeSpan? offset, DateTimeKind kind)
     {
-          var  pos = WriteDefaultIsoDate(chars, start, value);
+        var pos = WriteDefaultIsoDate(chars, start, value);
 
-          if (kind == DateTimeKind.Local)
-          {
-              return WriteDateTimeOffset(chars, pos, offset ?? value.GetUtcOffset());
-          }
+        if (kind == DateTimeKind.Local)
+        {
+            return WriteDateTimeOffset(chars, pos, offset ?? value.GetUtcOffset());
+        }
 
-          if (kind == DateTimeKind.Utc)
-          {
-              chars[pos++] = 'Z';
-          }
+        if (kind == DateTimeKind.Utc)
+        {
+            chars[pos++] = 'Z';
+        }
 
-          return pos;
+        return pos;
     }
 
     static int WriteDefaultIsoDate(char[] chars, int start, DateTime dt)
@@ -423,7 +431,7 @@ static class DateTimeUtils
         chars[start + 16] = ':';
         CopyIntToCharArray(chars, start + 17, dt.Second, 2);
 
-        var fraction = (int)(dt.Ticks % 10000000L);
+        var fraction = (int) (dt.Ticks % 10000000L);
 
         if (fraction != 0)
         {
@@ -447,7 +455,7 @@ static class DateTimeUtils
     {
         while (digits-- != 0)
         {
-            chars[start + digits] = (char)(value % 10 + 48);
+            chars[start + digits] = (char) (value % 10 + 48);
             value /= 10;
         }
     }
@@ -483,13 +491,14 @@ static class DateTimeUtils
             writer.Write(value.ToString(formatString, culture));
         }
     }
+
     #endregion
 
     static void GetDateValues(DateTime td, out int year, out int month, out int day)
     {
         var ticks = td.Ticks;
         // n = number of days since 1/1/0001
-        var n = (int)(ticks / TicksPerDay);
+        var n = (int) (ticks / TicksPerDay);
         // y400 = number of whole 400-year periods since 1/1/0001
         var y400 = n / DaysPer400Years;
         // n = day number within 400-year period
@@ -501,6 +510,7 @@ static class DateTimeUtils
         {
             y100 = 3;
         }
+
         // n = day number within 100-year period
         n -= y100 * DaysPer100Years;
         // y4 = number of whole 4-year periods within 100-year period
@@ -526,7 +536,7 @@ static class DateTimeUtils
         var days = leapYear ? DaysToMonth366 : DaysToMonth365;
         // All months have less than 32 days, so n >> 5 is a good conservative
         // estimate for the month
-        var m = n >> 5 + 1;
+        var m = n >> (5 + 1);
         // m = 1-based month number
         while (n >= days[m])
         {

@@ -12,9 +12,9 @@ class XmlElementWrapper : XmlNodeWrapper, IXmlElement
 
     public void SetAttributeNode(IXmlNode attribute)
     {
-        var xmlAttributeWrapper = (XmlNodeWrapper)attribute;
+        var xmlAttributeWrapper = (XmlNodeWrapper) attribute;
 
-        element.SetAttributeNode((XmlAttribute)xmlAttributeWrapper.WrappedNode);
+        element.SetAttributeNode((XmlAttribute) xmlAttributeWrapper.WrappedNode);
     }
 
     public string GetPrefixOfNamespace(string namespaceUri)

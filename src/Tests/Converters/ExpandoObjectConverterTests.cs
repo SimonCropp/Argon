@@ -28,10 +28,10 @@ public class ExpandoObjectConverterTests : TestFixtureBase
         o.String = "String!";
         o.Integer = 234;
         o.Float = 1.23d;
-        o.List = new List<string> { "First", "Second", "Third" };
+        o.List = new List<string> {"First", "Second", "Third"};
         o.Object = new Dictionary<string, object>
         {
-            { "First", 1 }
+            {"First", 1}
         };
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);

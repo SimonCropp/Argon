@@ -18,10 +18,10 @@ var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
     MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
 });
 
-var u = (User)o;
+var u = (User) o;
 
 Console.WriteLine(u.Name);
 // James
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

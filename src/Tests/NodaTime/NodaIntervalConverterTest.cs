@@ -2,23 +2,23 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
+using Argon.NodaTime;
 using NodaTime;
 using static TestHelper;
-using Argon.NodaTime;
 
 public class NodaIntervalConverterTest
 {
     readonly JsonSerializerSettings settings = new()
     {
         ContractResolver = new DefaultContractResolver(),
-        Converters = { NodaConverters.IntervalConverter, NodaConverters.InstantConverter },
+        Converters = {NodaConverters.IntervalConverter, NodaConverters.InstantConverter},
         DateParseHandling = DateParseHandling.None
     };
 
     readonly JsonSerializerSettings settingsCamelCase = new()
     {
         ContractResolver = new CamelCasePropertyNamesContractResolver(),
-        Converters = { NodaConverters.IntervalConverter, NodaConverters.InstantConverter },
+        Converters = {NodaConverters.IntervalConverter, NodaConverters.InstantConverter},
         DateParseHandling = DateParseHandling.None
     };
 
@@ -47,7 +47,7 @@ public class NodaIntervalConverterTest
         var endInstant = Instant.FromUtc(2013, 6, 7, 8, 9, 10);
         var interval = new Interval(startInstant, endInstant);
 
-        var testObject = new TestObject { Interval = interval };
+        var testObject = new TestObject {Interval = interval};
 
         var json = JsonConvert.SerializeObject(testObject, Formatting.None, settings);
 
@@ -62,7 +62,7 @@ public class NodaIntervalConverterTest
         var endInstant = Instant.FromUtc(2013, 6, 7, 8, 9, 10);
         var interval = new Interval(startInstant, endInstant);
 
-        var testObject = new TestObject { Interval = interval };
+        var testObject = new TestObject {Interval = interval};
 
         var json = JsonConvert.SerializeObject(testObject, Formatting.None, settingsCamelCase);
 

@@ -10,6 +10,7 @@ public class ErrorHandlingEvent : TestFixtureBase
     public void Example()
     {
         #region ErrorHandlingEventUsage
+
         var errors = new List<string>();
 
         var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
@@ -29,7 +30,7 @@ public class ErrorHandlingEvent : TestFixtureBase
                     errors.Add(args.ErrorContext.Error.Message);
                     args.ErrorContext.Handled = true;
                 },
-                Converters = { new IsoDateTimeConverter() }
+                Converters = {new IsoDateTimeConverter()}
             });
 
         // 2009-09-09T00:00:00Z
@@ -39,6 +40,7 @@ public class ErrorHandlingEvent : TestFixtureBase
         // The string was not recognized as a valid DateTime. There is a unknown word starting at index 0.
         // Unexpected token parsing date. Expected String, got StartArray.
         // Cannot convert null value to System.DateTime.
+
         #endregion
 
         Assert.Equal(3, errors.Count);

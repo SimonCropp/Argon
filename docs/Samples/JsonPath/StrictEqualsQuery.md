@@ -21,9 +21,10 @@ var strictResults = items.SelectTokens(@"$.[?(@.Valid === true)]").ToList();
 
 foreach (var item in strictResults)
 {
-    Console.WriteLine((string)item["Name"]);
+    Console.WriteLine((string) item["Name"]);
 }
+
 // Valid JSON
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L30' title='Snippet source file'>snippet source</a> | <a href='#snippet-strictequalsqueryusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-strictequalsqueryusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

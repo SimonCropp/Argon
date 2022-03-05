@@ -8,6 +8,7 @@ public class ErrorWhenNoMatchQuery : TestFixtureBase
     public void Example()
     {
         #region ErrorWhenNoMatchQuery
+
         var items = JArray.Parse(@"[
               {
                 'Name': 'John Doe',
@@ -21,12 +22,13 @@ public class ErrorWhenNoMatchQuery : TestFixtureBase
         string result;
         try
         {
-            result = (string)items.SelectToken(@"$.[3]['Name']", errorWhenNoMatch: true);
+            result = (string) items.SelectToken(@"$.[3]['Name']", errorWhenNoMatch: true);
         }
         catch (JsonException)
         {
             result = "Unable to find result in JSON.";
         }
+
         #endregion
 
         Assert.Equal("Unable to find result in JSON.", result);

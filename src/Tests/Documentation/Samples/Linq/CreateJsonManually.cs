@@ -8,6 +8,7 @@ public class CreateJsonManually : TestFixtureBase
     public void Example()
     {
         #region CreateJsonManually
+
         var array = new JArray
         {
             "Manual text",
@@ -26,6 +27,7 @@ public class CreateJsonManually : TestFixtureBase
         //     "2000-05-23T00:00:00"
         //   ]
         // }
+
         #endregion
     }
 }

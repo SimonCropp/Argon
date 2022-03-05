@@ -7,8 +7,8 @@ This sample creates a `Argon.Linq.JTokenReader` from a `Argon.Linq.JToken`.
 ```cs
 var o = new JObject
 {
-    { "Cpu", "Intel" },
-    { "Memory", 32 },
+    {"Cpu", "Intel"},
+    {"Memory", 32},
     {
         "Drives", new JArray
         {
@@ -42,5 +42,5 @@ while (reader.Read())
 // EndArray
 // EndObject
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateReader.cs#L12-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-createreader' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateReader.cs#L12-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-createreader' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -5,17 +5,20 @@
 public class NamingStrategySnakeCase : TestFixtureBase
 {
     #region NamingStrategySnakeCaseTypes
+
     public class User
     {
         public string UserName { get; set; }
         public bool Enabled { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region NamingStrategySnakeCaseUsage
+
         var user1 = new User
         {
             UserName = "jamesn",
@@ -38,6 +41,7 @@ public class NamingStrategySnakeCase : TestFixtureBase
         //   "user_name": "jamesn",
         //   "enabled": true
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

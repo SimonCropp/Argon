@@ -12,7 +12,7 @@ var person = new Person
 };
 
 var startingWithF = JsonConvert.SerializeObject(person, Formatting.Indented,
-    new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('F') });
+    new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('F')});
 
 Console.WriteLine(startingWithF);
 // {
@@ -21,12 +21,12 @@ Console.WriteLine(startingWithF);
 // }
 
 var startingWithL = JsonConvert.SerializeObject(person, Formatting.Indented,
-    new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('L') });
+    new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('L')});
 
 Console.WriteLine(startingWithL);
 // {
 //   "LastName": "Deepwater-Diver"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomContractResolver.cs#L41-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcontractresolverusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomContractResolver.cs#L43-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcontractresolverusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

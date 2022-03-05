@@ -15,7 +15,7 @@ public class DefaultSerializationBinder :
     readonly ThreadSafeStore<StructMultiKey<string?, string>, Type> typeCache;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultSerializationBinder"/> class.
+    /// Initializes a new instance of the <see cref="DefaultSerializationBinder" /> class.
     /// </summary>
     public DefaultSerializationBinder()
     {
@@ -115,6 +115,7 @@ public class DefaultSerializationBinder :
                     {
                         typeArgStartIndex = i + 1;
                     }
+
                     ++scope;
                     break;
                 case ']':
@@ -126,6 +127,7 @@ public class DefaultSerializationBinder :
                         var typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(typeArgAssemblyQualifiedName);
                         genericTypeArguments.Add(GetTypeByName(typeNameKey));
                     }
+
                     break;
             }
         }
@@ -141,8 +143,8 @@ public class DefaultSerializationBinder :
     /// <summary>
     /// When overridden in a derived class, controls the binding of a serialized object to a type.
     /// </summary>
-    /// <param name="assemblyName">Specifies the <see cref="Assembly"/> name of the serialized object.</param>
-    /// <param name="typeName">Specifies the <see cref="System.Type"/> name of the serialized object.</param>
+    /// <param name="assemblyName">Specifies the <see cref="Assembly" /> name of the serialized object.</param>
+    /// <param name="typeName">Specifies the <see cref="System.Type" /> name of the serialized object.</param>
     /// <returns>
     /// The type of the object the formatter creates a new instance of.
     /// </returns>
@@ -155,8 +157,8 @@ public class DefaultSerializationBinder :
     /// When overridden in a derived class, controls the binding of a serialized object to a type.
     /// </summary>
     /// <param name="serializedType">The type of the object the formatter creates a new instance of.</param>
-    /// <param name="assemblyName">Specifies the <see cref="Assembly"/> name of the serialized object.</param>
-    /// <param name="typeName">Specifies the <see cref="System.Type"/> name of the serialized object.</param>
+    /// <param name="assemblyName">Specifies the <see cref="Assembly" /> name of the serialized object.</param>
+    /// <param name="typeName">Specifies the <see cref="System.Type" /> name of the serialized object.</param>
     public void BindToName(Type serializedType, out string? assemblyName, out string? typeName)
     {
         assemblyName = serializedType.Assembly.FullName;

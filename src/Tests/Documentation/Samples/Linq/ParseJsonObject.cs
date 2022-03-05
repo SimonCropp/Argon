@@ -10,6 +10,7 @@ public class ParseJsonObject : TestFixtureBase
     public void Example()
     {
         #region ParseJsonObject
+
         var json = @"{
               CPU: 'Intel',
               Drives: [
@@ -28,6 +29,7 @@ public class ParseJsonObject : TestFixtureBase
         //     "500 gigabyte hard drive"
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

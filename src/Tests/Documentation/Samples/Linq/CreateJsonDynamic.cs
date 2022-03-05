@@ -3,7 +3,6 @@
 // as found in the license.md file.
 
 #if !NET5_0_OR_GREATER
-
 namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class CreateJsonDynamic : TestFixtureBase

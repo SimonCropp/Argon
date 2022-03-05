@@ -2,8 +2,8 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
-using NodaTime;
 using Argon.NodaTime;
+using NodaTime;
 using NodaTime.Text;
 
 public class DelegatingConverterBaseTest
@@ -14,7 +14,7 @@ public class DelegatingConverterBaseTest
         var expected = "{'ShortDate':'2017-02-20','LongDate':'20 February 2017'}"
             .Replace("'", "\"");
         var date = new LocalDate(2017, 2, 20);
-        var entity = new Entity { ShortDate = date, LongDate = date };
+        var entity = new Entity {ShortDate = date, LongDate = date};
         var actual = JsonConvert.SerializeObject(entity, Formatting.None);
         Assert.Equal(expected, actual);
     }
@@ -41,7 +41,9 @@ public class DelegatingConverterBaseTest
 
     public class ShortDateConverter : DelegatingConverterBase
     {
-        public ShortDateConverter() : base(NodaConverters.LocalDateConverter) { }
+        public ShortDateConverter() : base(NodaConverters.LocalDateConverter)
+        {
+        }
     }
 
     public class LongDateConverter : DelegatingConverterBase

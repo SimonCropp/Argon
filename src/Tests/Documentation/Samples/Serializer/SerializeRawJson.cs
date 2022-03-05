@@ -5,17 +5,20 @@
 public class SerializeRawJson : TestFixtureBase
 {
     #region SerializeRawJsonTypes
+
     public class JavaScriptSettings
     {
         public JRaw OnLoadFunction { get; set; }
         public JRaw OnUnloadFunction { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeRawJsonUsage
+
         var settings = new JavaScriptSettings
         {
             OnLoadFunction = new("OnLoad"),
@@ -29,6 +32,7 @@ public class SerializeRawJson : TestFixtureBase
         //   "OnLoadFunction": OnLoad,
         //   "OnUnloadFunction": function(e) { alert(e); }
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

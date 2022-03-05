@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonContainerContract : JsonContract
 {
@@ -53,7 +53,7 @@ public class JsonContainerContract : JsonContract
     public TypeNameHandling? ItemTypeNameHandling { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonContainerContract"/> class.
+    /// Initializes a new instance of the <see cref="JsonContainerContract" /> class.
     /// </summary>
     internal JsonContainerContract(Type underlyingType)
         : base(underlyingType)

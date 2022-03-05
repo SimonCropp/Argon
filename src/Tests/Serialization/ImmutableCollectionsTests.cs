@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 public class ImmutableCollectionsTests : TestFixtureBase
 {
     #region List
+
     [Fact]
     public void SerializeList()
     {
@@ -59,9 +60,11 @@ public class ImmutableCollectionsTests : TestFixtureBase
         Assert.Equal("Teemo", champions[1]);
         Assert.Equal("Katarina", champions[2]);
     }
+
     #endregion
 
     #region Array
+
     [Fact]
     public void SerializeArray()
     {
@@ -104,9 +107,11 @@ public class ImmutableCollectionsTests : TestFixtureBase
             () => JsonConvert.SerializeObject(default(ImmutableArray<int>), Formatting.Indented),
             "This operation cannot be performed on a default instance of ImmutableArray<T>.  Consider initializing the array, or checking the ImmutableArray<T>.IsDefault property.");
     }
+
     #endregion
 
     #region Queue
+
     [Fact]
     public void SerializeQueue()
     {
@@ -158,9 +163,11 @@ public class ImmutableCollectionsTests : TestFixtureBase
         Assert.Equal("II", l.ElementAt(1));
         Assert.Equal("3", l.ElementAt(2));
     }
+
     #endregion
 
     #region Stack
+
     [Fact]
     public void SerializeStack()
     {
@@ -212,9 +219,11 @@ public class ImmutableCollectionsTests : TestFixtureBase
         Assert.Equal("II", l.ElementAt(1));
         Assert.Equal("One", l.ElementAt(2));
     }
+
     #endregion
 
     #region HashSet
+
     [Fact]
     public void SerializeHashSet()
     {
@@ -269,9 +278,11 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         Assert.True(l is ImmutableHashSet<string>);
     }
+
     #endregion
 
     #region SortedSet
+
     [Fact]
     public void SerializeSortedSet()
     {
@@ -306,25 +317,27 @@ public class ImmutableCollectionsTests : TestFixtureBase
         Assert.True(l.Contains("II"));
         Assert.True(l.Contains("One"));
     }
+
     #endregion
 
     #region Dictionary
+
     [Fact]
     public void SerializeDictionary()
     {
         var l = ImmutableDictionary.CreateRange(new Dictionary<int, string>
         {
-            { 1, "One" },
-            { 2, "II" },
-            { 3, "3" }
+            {1, "One"},
+            {2, "II"},
+            {3, "3"}
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         var a = JObject.Parse(json);
         Assert.Equal(3, a.Count);
-        Assert.Equal("One", (string)a["1"]);
-        Assert.Equal("II", (string)a["2"]);
-        Assert.Equal("3", (string)a["3"]);
+        Assert.Equal("One", (string) a["1"]);
+        Assert.Equal("II", (string) a["2"]);
+        Assert.Equal("3", (string) a["3"]);
     }
 
     [Fact]
@@ -362,17 +375,19 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         Assert.True(l is ImmutableDictionary<int, string>);
     }
+
     #endregion
 
     #region SortedDictionary
+
     [Fact]
     public void SerializeSortedDictionary()
     {
         var l = ImmutableSortedDictionary.CreateRange(new SortedDictionary<int, string>
         {
-            { 1, "One" },
-            { 2, "II" },
-            { 3, "3" }
+            {1, "One"},
+            {2, "II"},
+            {3, "3"}
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
@@ -399,5 +414,6 @@ public class ImmutableCollectionsTests : TestFixtureBase
         Assert.Equal("II", l[2]);
         Assert.Equal("3", l[3]);
     }
+
     #endregion
 }

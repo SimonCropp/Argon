@@ -163,8 +163,8 @@ public class DateTimeUtilsTests : TestFixtureBase
 
         if (!Equals(oldDt, newDt))
         {
-            var oldTicks = oldDt != null ? (long?)((DateTime)oldDt).Ticks : null;
-            var newTicks = newDt != null ? (long?)((DateTime)newDt).Ticks : null;
+            var oldTicks = oldDt != null ? (long?) ((DateTime) oldDt).Ticks : null;
+            var newTicks = newDt != null ? (long?) ((DateTime) newDt).Ticks : null;
 
             Assert.Equal(oldDt, newDt);
         }

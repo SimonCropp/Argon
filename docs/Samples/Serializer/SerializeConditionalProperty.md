@@ -17,7 +17,7 @@ public class Employee
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L7-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeConditionalPropertyUsage -->
@@ -38,7 +38,7 @@ joe.Manager = mike;
 // ShouldSerialize will skip this property
 mike.Manager = mike;
 
-var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+var json = JsonConvert.SerializeObject(new[] {joe, mike}, Formatting.Indented);
 
 Console.WriteLine(json);
 // [
@@ -53,5 +53,5 @@ Console.WriteLine(json);
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L24-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L26-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

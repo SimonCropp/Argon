@@ -9,6 +9,7 @@ namespace Argon.Tests.Documentation.Samples.Linq;
 public class SerializeWithLinq : TestFixtureBase
 {
     #region SerializeWithLinqTypes
+
     public class BlogPost
     {
         public string Title { get; set; }
@@ -17,12 +18,14 @@ public class SerializeWithLinq : TestFixtureBase
         public string Body { get; set; }
         public DateTime PostedDate { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeWithLinqUsage
+
         var blogPosts = new List<BlogPost>
         {
             new()
@@ -38,16 +41,16 @@ public class SerializeWithLinq : TestFixtureBase
         var blogPostsArray = new JArray(
             blogPosts.Select(p => new JObject
             {
-                { "Title", p.Title },
+                {"Title", p.Title},
                 {
                     "Author", new JObject
                     {
-                        { "Name", p.AuthorName },
-                        { "Twitter", p.AuthorTwitter }
+                        {"Name", p.AuthorName},
+                        {"Twitter", p.AuthorTwitter}
                     }
                 },
-                { "Date", p.PostedDate },
-                { "BodyHtml", HttpUtility.HtmlEncode(p.Body) },
+                {"Date", p.PostedDate},
+                {"BodyHtml", HttpUtility.HtmlEncode(p.Body)}
             })
         );
 
@@ -63,6 +66,7 @@ public class SerializeWithLinq : TestFixtureBase
         //     "BodyHtml": "&lt;h3&gt;Title!&lt;/h3&gt;&lt;p&gt;Content!&lt;/p&gt;"
         //   }
         // ]
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"[

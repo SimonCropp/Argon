@@ -20,7 +20,7 @@ public class ErrorEventArgs : EventArgs
     public ErrorContext ErrorContext { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ErrorEventArgs"/> class.
+    /// Initializes a new instance of the <see cref="ErrorEventArgs" /> class.
     /// </summary>
     public ErrorEventArgs(object? currentObject, ErrorContext errorContext)
     {

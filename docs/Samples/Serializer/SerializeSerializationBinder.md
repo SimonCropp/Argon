@@ -27,7 +27,7 @@ public class Car
     public string Model { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L7-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbindertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L7-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbindertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeSerializationBinderUsage -->
@@ -35,7 +35,7 @@ public class Car
 ```cs
 var knownTypesBinder = new KnownTypesBinder
 {
-    KnownTypes = new List<Type> { typeof(Car) }
+    KnownTypes = new List<Type> {typeof(Car)}
 };
 
 var car = new Car
@@ -66,5 +66,5 @@ var newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
 Console.WriteLine(newValue.GetType().Name);
 // Car
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L34-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbinderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L36-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbinderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

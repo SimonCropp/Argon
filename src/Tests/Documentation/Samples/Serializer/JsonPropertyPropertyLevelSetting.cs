@@ -5,6 +5,7 @@
 public class JsonPropertyPropertyLevelSetting : TestFixtureBase
 {
     #region JsonPropertyPropertyLevelSettingTypes
+
     public class Vessel
     {
         public string Name { get; set; }
@@ -13,12 +14,14 @@ public class JsonPropertyPropertyLevelSetting : TestFixtureBase
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public DateTime? LaunchDate { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonPropertyPropertyLevelSettingUsage
+
         var vessel = new Vessel
         {
             Name = "Red October",
@@ -32,6 +35,7 @@ public class JsonPropertyPropertyLevelSetting : TestFixtureBase
         //   "Name": "Red October",
         //   "Class": "Typhoon"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

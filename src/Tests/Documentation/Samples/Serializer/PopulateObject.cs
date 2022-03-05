@@ -5,6 +5,7 @@
 public class PopulateObject : TestFixtureBase
 {
     #region PopulateObjectTypes
+
     public class Account
     {
         public string Email { get; set; }
@@ -12,12 +13,14 @@ public class PopulateObject : TestFixtureBase
         public DateTime CreatedDate { get; set; }
         public List<string> Roles { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region PopulateObjectUsage
+
         var account = new Account
         {
             Email = "james@example.com",
@@ -47,6 +50,7 @@ public class PopulateObject : TestFixtureBase
 
         Console.WriteLine(string.Join(", ", account.Roles.ToArray()));
         // User, Admin, Expired
+
         #endregion
 
         Assert.Equal("User, Admin, Expired", string.Join(", ", account.Roles.ToArray()));

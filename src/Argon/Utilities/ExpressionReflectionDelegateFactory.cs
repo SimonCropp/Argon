@@ -20,7 +20,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         var lambdaExpression = Expression.Lambda(typeof(ObjectConstructor<object>), callExpression, argsParameterExpression);
 
-        var compiled = (ObjectConstructor<object>)lambdaExpression.Compile();
+        var compiled = (ObjectConstructor<object>) lambdaExpression.Compile();
         return compiled;
     }
 
@@ -35,7 +35,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         var lambdaExpression = Expression.Lambda(typeof(MethodCall<T, object>), callExpression, targetParameterExpression, argsParameterExpression);
 
-        var compiled = (MethodCall<T, object?>)lambdaExpression.Compile();
+        var compiled = (MethodCall<T, object?>) lambdaExpression.Compile();
         return compiled;
     }
 
@@ -101,17 +101,17 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         Expression callExpression;
         if (method.IsConstructor)
         {
-            callExpression = Expression.New((ConstructorInfo)method, argsExpression);
+            callExpression = Expression.New((ConstructorInfo) method, argsExpression);
         }
         else if (method.IsStatic)
         {
-            callExpression = Expression.Call((MethodInfo)method, argsExpression);
+            callExpression = Expression.Call((MethodInfo) method, argsExpression);
         }
         else
         {
             var readParameter = EnsureCastExpression(targetParameterExpression!, method.DeclaringType!);
 
-            callExpression = Expression.Call(readParameter, (MethodInfo)method, argsExpression);
+            callExpression = Expression.Call(readParameter, (MethodInfo) method, argsExpression);
         }
 
         if (method is MethodInfo m)
@@ -157,7 +157,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         // avoid error from expressions compiler because of abstract class
         if (type.IsAbstract)
         {
-            return () => (T)Activator.CreateInstance(type)!;
+            return () => (T) Activator.CreateInstance(type)!;
         }
 
         try
@@ -170,14 +170,14 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
             var lambdaExpression = Expression.Lambda(typeof(Func<T>), expression);
 
-            var compiled = (Func<T>)lambdaExpression.Compile();
+            var compiled = (Func<T>) lambdaExpression.Compile();
             return compiled;
         }
         catch
         {
             // an error can be thrown if constructor is not valid on Win8
             // will have INVOCATION_FLAGS_NON_W8P_FX_API invocation flag
-            return () => (T)Activator.CreateInstance(type)!;
+            return () => (T) Activator.CreateInstance(type)!;
         }
     }
 
@@ -210,7 +210,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         var lambdaExpression = Expression.Lambda(typeof(Func<T, object>), resultExpression, parameterExpression);
 
-        var compiled = (Func<T, object?>)lambdaExpression.Compile();
+        var compiled = (Func<T, object?>) lambdaExpression.Compile();
         return compiled;
     }
 
@@ -266,7 +266,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         var lambdaExpression = Expression.Lambda(typeof(Action<T, object>), assignExpression, sourceParameterExpression, valueParameterExpression);
 
-        var compiled = (Action<T, object?>)lambdaExpression.Compile();
+        var compiled = (Action<T, object?>) lambdaExpression.Compile();
         return compiled;
     }
 
@@ -307,7 +307,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         var lambdaExpression = Expression.Lambda(typeof(Action<T, object?>), setExpression, instanceParameter, valueParameter);
 
-        var compiled = (Action<T, object?>)lambdaExpression.Compile();
+        var compiled = (Action<T, object?>) lambdaExpression.Compile();
         return compiled;
     }
 
@@ -328,7 +328,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
             if (allowWidening && targetType.IsPrimitive)
             {
                 var toTargetTypeMethod = typeof(Convert)
-                    .GetMethod($"To{targetType.Name}", new[] { typeof(object) });
+                    .GetMethod($"To{targetType.Name}", new[] {typeof(object)});
 
                 if (toTargetTypeMethod != null)
                 {

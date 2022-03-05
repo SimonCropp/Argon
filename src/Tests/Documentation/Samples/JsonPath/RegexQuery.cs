@@ -8,6 +8,7 @@ public class RegexQuery : TestFixtureBase
     public void Example()
     {
         #region RegexQuery
+
         var array = JArray.Parse(@"[
               {
                 'PackageId': 'Argon',
@@ -28,10 +29,12 @@ public class RegexQuery : TestFixtureBase
         {
             Console.WriteLine((string) item["PackageId"]);
         }
+
         // Argon
+
         #endregion
 
         Assert.Equal(1, packages.Count);
-        Assert.Equal("Argon", (string)packages[0]["PackageId"]);
+        Assert.Equal("Argon", (string) packages[0]["PackageId"]);
     }
 }

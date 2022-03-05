@@ -27,7 +27,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
-        Assert.Equal(0, (int)reader.ReadAsInt32());
+        Assert.Equal(0, (int) reader.ReadAsInt32());
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsInt32(),
@@ -41,7 +41,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
-        XUnitAssert.True((bool)reader.ReadAsBoolean());
+        XUnitAssert.True((bool) reader.ReadAsBoolean());
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBoolean(),
@@ -55,7 +55,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
-        Assert.Equal(new(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime)reader.ReadAsDateTime());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime) reader.ReadAsDateTime());
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTime(),
@@ -69,7 +69,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
-        Assert.Equal(new(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset)reader.ReadAsDateTimeOffset());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset) reader.ReadAsDateTimeOffset());
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsDateTimeOffset(),
@@ -432,7 +432,7 @@ public class ExceptionHandlingTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
-            "Error reading bytes. Unexpected token: StartObject. Path '', line 1, position 2." );
+            "Error reading bytes. Unexpected token: StartObject. Path '', line 1, position 2.");
     }
 
     [Fact]

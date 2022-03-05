@@ -14,7 +14,7 @@ public class BlogPost
     public DateTime PostedDate { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L11-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L11-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeWithLinqUsage -->
@@ -35,16 +35,16 @@ var blogPosts = new List<BlogPost>
 var blogPostsArray = new JArray(
     blogPosts.Select(p => new JObject
     {
-        { "Title", p.Title },
+        {"Title", p.Title},
         {
             "Author", new JObject
             {
-                { "Name", p.AuthorName },
-                { "Twitter", p.AuthorTwitter }
+                {"Name", p.AuthorName},
+                {"Twitter", p.AuthorTwitter}
             }
         },
-        { "Date", p.PostedDate },
-        { "BodyHtml", HttpUtility.HtmlEncode(p.Body) },
+        {"Date", p.PostedDate},
+        {"BodyHtml", HttpUtility.HtmlEncode(p.Body)}
     })
 );
 
@@ -61,5 +61,5 @@ Console.WriteLine(blogPostsArray.ToString());
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L25-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/SerializeWithLinq.cs#L27-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithlinqusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

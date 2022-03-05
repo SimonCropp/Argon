@@ -24,7 +24,7 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
             errors.Add(args.ErrorContext.Error.Message);
             args.ErrorContext.Handled = true;
         },
-        Converters = { new IsoDateTimeConverter() }
+        Converters = {new IsoDateTimeConverter()}
     });
 
 // 2009-09-09T00:00:00Z
@@ -35,5 +35,5 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
 // Unexpected token parsing date. Expected String, got StartArray.
 // Cannot convert null value to System.DateTime.
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L12-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingeventusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L12-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingeventusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

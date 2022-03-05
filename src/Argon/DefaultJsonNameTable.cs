@@ -22,7 +22,7 @@ public class DefaultJsonNameTable : JsonNameTable
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DefaultJsonNameTable"/> class.
+    /// Initializes a new instance of the <see cref="DefaultJsonNameTable" /> class.
     /// </summary>
     public DefaultJsonNameTable()
     {
@@ -50,6 +50,7 @@ public class DefaultJsonNameTable : JsonNameTable
         {
             hashCode += (hashCode << 7) ^ key[i];
         }
+
         hashCode -= hashCode >> 17;
         hashCode -= hashCode >> 11;
         hashCode -= hashCode >> 5;
@@ -87,6 +88,7 @@ public class DefaultJsonNameTable : JsonNameTable
         {
             hashCode += (hashCode << 7) ^ key[i];
         }
+
         hashCode -= hashCode >> 17;
         hashCode -= hashCode >> 11;
         hashCode -= hashCode >> 5;
@@ -110,6 +112,7 @@ public class DefaultJsonNameTable : JsonNameTable
         {
             Grow();
         }
+
         return entry.Value;
     }
 
@@ -130,6 +133,7 @@ public class DefaultJsonNameTable : JsonNameTable
                 newEntries[index] = entry;
             }
         }
+
         this.entries = newEntries;
         mask = newMask;
     }
@@ -148,6 +152,7 @@ public class DefaultJsonNameTable : JsonNameTable
                 return false;
             }
         }
+
         return true;
     }
 

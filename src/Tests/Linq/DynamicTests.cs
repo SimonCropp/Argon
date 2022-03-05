@@ -4,7 +4,6 @@
 
 using System.Dynamic;
 
-
 public class LinqDynamicTests : TestFixtureBase
 {
     [Fact]

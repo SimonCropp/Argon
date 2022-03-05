@@ -5,6 +5,7 @@
 public class CreateJsonDeclaratively : TestFixtureBase
 {
     #region CreateJsonDeclarativelyTypes
+
     public class Post
     {
         public string Title { get; set; }
@@ -12,6 +13,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
         public string Link { get; set; }
         public IList<string> Categories { get; set; }
     }
+
     #endregion
 
     static List<Post> GetPosts()
@@ -35,6 +37,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
     public void Example()
     {
         #region CreateJsonDeclarativelyUsage
+
         var posts = GetPosts();
 
         var rss =
@@ -86,6 +89,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
         //     ]
         //   }
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

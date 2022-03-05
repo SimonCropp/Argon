@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="System.Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonObjectContract : JsonContainerContract
 {
@@ -35,13 +35,13 @@ public class JsonObjectContract : JsonContainerContract
     public JsonPropertyCollection Properties { get; }
 
     /// <summary>
-    /// Gets a collection of <see cref="JsonProperty"/> instances that define the parameters used with <see cref="JsonObjectContract.OverrideCreator"/>.
+    /// Gets a collection of <see cref="JsonProperty" /> instances that define the parameters used with <see cref="JsonObjectContract.OverrideCreator" />.
     /// </summary>
     public JsonPropertyCollection CreatorParameters => creatorParameters ??= new(UnderlyingType);
 
     /// <summary>
-    /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator"/>.
-    /// This function is called with a collection of arguments which are defined by the <see cref="JsonObjectContract.CreatorParameters"/> collection.
+    /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator" />.
+    /// This function is called with a collection of arguments which are defined by the <see cref="JsonObjectContract.CreatorParameters" /> collection.
     /// </summary>
     public ObjectConstructor<object>? OverrideCreator { get; set; }
 
@@ -110,7 +110,7 @@ public class JsonObjectContract : JsonContainerContract
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonObjectContract"/> class.
+    /// Initializes a new instance of the <see cref="JsonObjectContract" /> class.
     /// </summary>
     public JsonObjectContract(Type underlyingType)
         : base(underlyingType)

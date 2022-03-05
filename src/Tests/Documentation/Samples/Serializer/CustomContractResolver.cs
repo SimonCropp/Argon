@@ -5,6 +5,7 @@
 public class CustomContractResolver : TestFixtureBase
 {
     #region CustomContractResolverTypes
+
     public class DynamicContractResolver : DefaultContractResolver
     {
         readonly char startingWithChar;
@@ -33,12 +34,14 @@ public class CustomContractResolver : TestFixtureBase
 
         public string FullName => $"{FirstName} {LastName}";
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region CustomContractResolverUsage
+
         var person = new Person
         {
             FirstName = "Dennis",
@@ -46,7 +49,7 @@ public class CustomContractResolver : TestFixtureBase
         };
 
         var startingWithF = JsonConvert.SerializeObject(person, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('F') });
+            new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('F')});
 
         Console.WriteLine(startingWithF);
         // {
@@ -55,12 +58,13 @@ public class CustomContractResolver : TestFixtureBase
         // }
 
         var startingWithL = JsonConvert.SerializeObject(person, Formatting.Indented,
-            new JsonSerializerSettings { ContractResolver = new DynamicContractResolver('L') });
+            new JsonSerializerSettings {ContractResolver = new DynamicContractResolver('L')});
 
         Console.WriteLine(startingWithL);
         // {
         //   "LastName": "Deepwater-Diver"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

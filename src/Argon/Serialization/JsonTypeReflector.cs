@@ -75,7 +75,7 @@ static class JsonTypeReflector
         }
 
         // search property and then search base properties if nothing is returned and the property is virtual
-        var property = (PropertyInfo)member;
+        var property = (PropertyInfo) member;
         var result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(property);
         if (result == null)
         {
@@ -85,7 +85,7 @@ static class JsonTypeReflector
 
                 while (result == null && currentType != null)
                 {
-                    var baseProperty = (PropertyInfo)ReflectionUtils.GetMemberInfoFromType(currentType, property);
+                    var baseProperty = (PropertyInfo) ReflectionUtils.GetMemberInfoFromType(currentType, property);
                     if (baseProperty != null && baseProperty.IsVirtual())
                     {
                         result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
@@ -126,7 +126,7 @@ static class JsonTypeReflector
             var creator = CreatorCache.Get(converterAttribute.ConverterType);
             if (creator != null)
             {
-                return (JsonConverter)creator(converterAttribute.ConverterParameters);
+                return (JsonConverter) creator(converterAttribute.ConverterParameters);
             }
         }
 
@@ -134,21 +134,23 @@ static class JsonTypeReflector
     }
 
     /// <summary>
-    /// Lookup and create an instance of the <see cref="JsonConverter"/> type described by the argument.
+    /// Lookup and create an instance of the <see cref="JsonConverter" /> type described by the argument.
     /// </summary>
-    /// <param name="converterType">The <see cref="JsonConverter"/> type to create.</param>
-    /// <param name="args">Optional arguments to pass to an initializing constructor of the JsonConverter.
-    /// If <c>null</c>, the default constructor is used.</param>
+    /// <param name="converterType">The <see cref="JsonConverter" /> type to create.</param>
+    /// <param name="args">
+    /// Optional arguments to pass to an initializing constructor of the JsonConverter.
+    /// If <c>null</c>, the default constructor is used.
+    /// </param>
     public static JsonConverter CreateJsonConverterInstance(Type converterType, object[]? args)
     {
         var converterCreator = CreatorCache.Get(converterType);
-        return (JsonConverter)converterCreator(args);
+        return (JsonConverter) converterCreator(args);
     }
 
     public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
     {
         var converterCreator = CreatorCache.Get(namingStrategyType);
-        return (NamingStrategy)converterCreator(args);
+        return (NamingStrategy) converterCreator(args);
     }
 
     public static NamingStrategy? GetContainerNamingStrategy(JsonContainerAttribute containerAttribute)

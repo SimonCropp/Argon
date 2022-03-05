@@ -8,7 +8,10 @@ static class AsyncUtils
     public static readonly Task<bool> False = Task.FromResult(false);
     public static readonly Task<bool> True = Task.FromResult(true);
 
-    internal static Task<bool> ToAsync(this bool value) => value ? True : False;
+    internal static Task<bool> ToAsync(this bool value)
+    {
+        return value ? True : False;
+    }
 
     public static Task? CancelIfRequestedAsync(this CancellationToken cancellation)
     {
@@ -25,7 +28,11 @@ static class AsyncUtils
     public static Task FromCanceled(this CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(cancellation.IsCancellationRequested);
-        return new(() => {}, cancellation);
+        return new(
+            () =>
+            {
+            },
+            cancellation);
     }
 
     static Task<T> FromCanceled<T>(this CancellationToken cancellation)

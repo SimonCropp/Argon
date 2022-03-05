@@ -37,7 +37,7 @@ var rss = JObject.Parse(json);
 
 var postTitles =
     from p in rss["channel"]["item"]
-    select (string)p["title"];
+    select (string) p["title"];
 
 foreach (var item in postTitles)
 {
@@ -51,15 +51,16 @@ var categories =
     group c by c
     into g
     orderby g.Count() descending
-    select new { Category = g.Key, Count = g.Count() };
+    select new {Category = g.Key, Count = g.Count()};
 
 foreach (var c in categories)
 {
     Console.WriteLine($"{c.Category} - Count: {c.Count}");
 }
+
 //Json.NET - Count: 2
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

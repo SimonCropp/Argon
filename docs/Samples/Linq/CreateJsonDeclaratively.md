@@ -13,7 +13,7 @@ public class Post
     public IList<string> Categories { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelytypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CreateJsonDeclarativelyUsage -->
@@ -71,5 +71,5 @@ Console.WriteLine(rss.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L37-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L39-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelyusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

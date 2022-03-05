@@ -5,17 +5,20 @@
 public class NamingStrategyKebabCase : TestFixtureBase
 {
     #region Types
+
     public class User
     {
         public string UserName { get; set; }
         public bool Enabled { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region Usage
+
         var user1 = new User
         {
             UserName = "jamesn",
@@ -38,6 +41,7 @@ public class NamingStrategyKebabCase : TestFixtureBase
         //   "user-name": "jamesn",
         //   "enabled": true
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

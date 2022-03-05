@@ -5,30 +5,30 @@
 public class JsonPropertyOrder : TestFixtureBase
 {
     #region JsonPropertyOrderTypes
+
     public class Account
     {
         public string EmailAddress { get; set; }
 
         // appear last
-        [JsonProperty(Order = 1)]
-        public bool Deleted { get; set; }
+        [JsonProperty(Order = 1)] public bool Deleted { get; set; }
 
-        [JsonProperty(Order = 2)]
-        public DateTime DeletedDate { get; set; }
+        [JsonProperty(Order = 2)] public DateTime DeletedDate { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 
         // appear first
-        [JsonProperty(Order = -2)]
-        public string FullName { get; set; }
+        [JsonProperty(Order = -2)] public string FullName { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region JsonPropertyOrderUsage
+
         var account = new Account
         {
             FullName = "Aaron Account",
@@ -50,6 +50,7 @@ public class JsonPropertyOrder : TestFixtureBase
         //   "Deleted": true,
         //   "DeletedDate": "2013-01-25T00:00:00"
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

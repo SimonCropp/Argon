@@ -5,6 +5,7 @@
 public class SerializationCallbackAttributes : TestFixtureBase
 {
     #region SerializationCallbackAttributesTypes
+
     public class SerializationEventTestObject
     {
         // 2222
@@ -17,8 +18,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
 
         // This field is not serialized. The OnDeserializedAttribute
         // is used to set the member value after serialization.
-        [JsonIgnore]
-        public string Member3 { get; set; }
+        [JsonIgnore] public string Member3 { get; set; }
 
         // This field is set to null, but populated after deserialization.
         public string Member4 { get; set; }
@@ -55,12 +55,14 @@ public class SerializationCallbackAttributes : TestFixtureBase
             Member4 = "This value was set after deserialization.";
         }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializationCallbackAttributesUsage
+
         var obj = new SerializationEventTestObject();
 
         Console.WriteLine(obj.Member1);
@@ -98,6 +100,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
         // This value was set during deserialization
         Console.WriteLine(obj.Member4);
         // This value was set after deserialization.
+
         #endregion
 
         Assert.Equal("This value was set after deserialization.", obj.Member4);

@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies the settings on a <see cref="JsonSerializer"/> object.
+/// Specifies the settings on a <see cref="JsonSerializer" /> object.
 /// </summary>
 public class JsonSerializerSettings
 {
@@ -54,7 +54,7 @@ public class JsonSerializerSettings
     public DefaultValueHandling? DefaultValueHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets a <see cref="JsonConverter"/> collection that will be used during serialization.
+    /// Gets or sets a <see cref="JsonConverter" /> collection that will be used during serialization.
     /// </summary>
     public IList<JsonConverter> Converters { get; set; } = new List<JsonConverter>();
 
@@ -69,9 +69,9 @@ public class JsonSerializerSettings
     /// The default value is <see cref="Argon.TypeNameHandling.None" />.
     /// </summary>
     /// <remarks>
-    /// <see cref="JsonSerializerSettings.TypeNameHandling"/> should be used with caution when your application deserializes JSON from an external source.
-    /// Incoming types should be validated with a custom <see cref="JsonSerializerSettings.SerializationBinder"/>
-    /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None"/>.
+    /// <see cref="JsonSerializerSettings.TypeNameHandling" /> should be used with caution when your application deserializes JSON from an external source.
+    /// Incoming types should be validated with a custom <see cref="JsonSerializerSettings.SerializationBinder" />
+    /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None" />.
     /// </remarks>
     public TypeNameHandling? TypeNameHandling { get; set; }
 
@@ -105,17 +105,17 @@ public class JsonSerializerSettings
     public IEqualityComparer? EqualityComparer { get; set; }
 
     /// <summary>
-    /// Gets or sets a function that creates the <see cref="IReferenceResolver"/> used by the serializer when resolving references.
+    /// Gets or sets a function that creates the <see cref="IReferenceResolver" /> used by the serializer when resolving references.
     /// </summary>
     public Func<IReferenceResolver?>? ReferenceResolverProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="ITraceWriter"/> used by the serializer when writing trace messages.
+    /// Gets or sets the <see cref="ITraceWriter" /> used by the serializer when writing trace messages.
     /// </summary>
     public ITraceWriter? TraceWriter { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="ISerializationBinder"/> used by the serializer when resolving type names.
+    /// Gets or sets the <see cref="ISerializationBinder" /> used by the serializer when resolving type names.
     /// </summary>
     public ISerializationBinder? SerializationBinder { get; set; }
 
@@ -125,7 +125,7 @@ public class JsonSerializerSettings
     public EventHandler<ErrorEventArgs>? Error { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="StreamingContext"/> used by the serializer when invoking serialization callback methods.
+    /// Gets or sets the <see cref="StreamingContext" /> used by the serializer when invoking serialization callback methods.
     /// </summary>
     public StreamingContext Context
     {
@@ -134,7 +134,7 @@ public class JsonSerializerSettings
     }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime"/> and <see cref="DateTimeOffset"/> values are formatted when writing JSON text,
+    /// Gets or sets how <see cref="DateTime" /> and <see cref="DateTimeOffset" /> values are formatted when writing JSON text,
     /// and the expected date format when reading JSON text.
     /// The default value is <c>"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK"</c>.
     /// </summary>
@@ -149,8 +149,9 @@ public class JsonSerializerSettings
     }
 
     const int DefaultMaxDepth = 64;
+
     /// <summary>
-    /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException"/>.
+    /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException" />.
     /// A null value means there is no maximum.
     /// The default value is <c>64</c>.
     /// </summary>
@@ -176,7 +177,7 @@ public class JsonSerializerSettings
     public Formatting? Formatting { get; set; }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime"/> time zones are handled during serialization and deserialization.
+    /// Gets or sets how <see cref="DateTime" /> time zones are handled during serialization and deserialization.
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>
     public DateTimeZoneHandling? DateTimeZoneHandling { get; set; }
@@ -192,8 +193,8 @@ public class JsonSerializerSettings
     }
 
     /// <summary>
-    /// Gets or sets how special floating point numbers, e.g. <see cref="Double.NaN"/>,
-    /// <see cref="Double.PositiveInfinity"/> and <see cref="Double.NegativeInfinity"/>,
+    /// Gets or sets how special floating point numbers, e.g. <see cref="Double.NaN" />,
+    /// <see cref="Double.PositiveInfinity" /> and <see cref="Double.NegativeInfinity" />,
     /// are written as JSON.
     /// The default value is <see cref="Argon.FloatFormatHandling.String" />.
     /// </summary>
@@ -213,7 +214,7 @@ public class JsonSerializerSettings
 
     /// <summary>
     /// Gets or sets the culture used when reading JSON.
-    /// The default value is <see cref="CultureInfo.InvariantCulture"/>.
+    /// The default value is <see cref="CultureInfo.InvariantCulture" />.
     /// </summary>
     public CultureInfo Culture
     {
@@ -228,7 +229,7 @@ public class JsonSerializerSettings
     public bool? CheckAdditionalContent { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonSerializerSettings"/> class.
+    /// Initializes a new instance of the <see cref="JsonSerializerSettings" /> class.
     /// </summary>
     public JsonSerializerSettings()
     {

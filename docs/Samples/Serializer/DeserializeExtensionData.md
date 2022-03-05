@@ -14,15 +14,14 @@ public class DirectoryAccount
     public string UserName { get; set; }
     public string Domain { get; set; }
 
-    [JsonExtensionData]
-    IDictionary<string, JToken> _additionalData;
+    [JsonExtensionData] IDictionary<string, JToken> _additionalData;
 
     [OnDeserialized]
     void OnDeserialized(StreamingContext context)
     {
         // SAMAccountName is not deserialized to any property
         // and so it is added to the extension data dictionary
-        var samAccountName = (string)_additionalData["SAMAccountName"];
+        var samAccountName = (string) _additionalData["SAMAccountName"];
 
         Domain = samAccountName.Split('\\')[0];
         UserName = samAccountName.Split('\\')[1];
@@ -34,7 +33,7 @@ public class DirectoryAccount
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeExtensionDataUsage -->
@@ -56,5 +55,5 @@ Console.WriteLine(account.Domain);
 Console.WriteLine(account.UserName);
 // johns
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L41-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L42-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

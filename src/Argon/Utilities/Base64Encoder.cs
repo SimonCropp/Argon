@@ -42,7 +42,7 @@ class Base64Encoder
 
         if (leftOverBytesCount > 0)
         {
-            if(FulfillFromLeftover(buffer, index, ref count))
+            if (FulfillFromLeftover(buffer, index, ref count))
             {
                 return;
             }
@@ -61,6 +61,7 @@ class Base64Encoder
             {
                 length = num4 - index;
             }
+
             var num6 = Convert.ToBase64CharArray(buffer, index, length, charsLine, 0);
             WriteChars(charsLine, 0, num6);
             index += length;
@@ -142,6 +143,7 @@ class Base64Encoder
             {
                 length = num4 - index;
             }
+
             var num6 = Convert.ToBase64CharArray(buffer, index, length, charsLine, 0);
             await WriteCharsAsync(charsLine, 0, num6, cancellation).ConfigureAwait(false);
             index += length;

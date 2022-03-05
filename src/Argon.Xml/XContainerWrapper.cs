@@ -4,7 +4,7 @@ class XContainerWrapper : XObjectWrapper
 {
     List<IXmlNode>? childNodes;
 
-    XContainer Container => (XContainer)WrappedNode!;
+    XContainer Container => (XContainer) WrappedNode!;
 
     public XContainerWrapper(XContainer container)
         : base(container)

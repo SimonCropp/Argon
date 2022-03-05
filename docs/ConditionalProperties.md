@@ -22,7 +22,7 @@ public class Employee
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L39-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-employeeshouldserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L41-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-employeeshouldserializeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ShouldSerializeClassTest -->
@@ -43,7 +43,7 @@ joe.Manager = mike;
 // ShouldSerialize will skip this property
 mike.Manager = mike;
 
-var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented);
+var json = JsonConvert.SerializeObject(new[] {joe, mike}, Formatting.Indented);
 // [
 //   {
 //     "Name": "Joe Employee",
@@ -56,7 +56,7 @@ var json = JsonConvert.SerializeObject(new[] { joe, mike }, Formatting.Indented)
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L56-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializeclasstest' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L60-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializeclasstest' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -80,7 +80,7 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
             property.ShouldSerialize =
                 instance =>
                 {
-                    var e = (Employee)instance;
+                    var e = (Employee) instance;
                     return e.Manager != e;
                 };
         }
@@ -89,7 +89,7 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L13-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L13-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

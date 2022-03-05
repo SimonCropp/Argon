@@ -267,7 +267,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
         {
             // If I don't specify Error here, the callback isn't called
             // either, but no exception is thrown.
-            MissingMemberHandling = MissingMemberHandling.Error,
+            MissingMemberHandling = MissingMemberHandling.Error
         });
 
         // This throws with missing member exception, rather than calling my callback.

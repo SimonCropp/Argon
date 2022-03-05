@@ -50,12 +50,12 @@ public class JsonProperty
     public string? UnderlyingName { get; set; }
 
     /// <summary>
-    /// Gets the <see cref="IValueProvider"/> that will get and set the <see cref="JsonProperty"/> during serialization.
+    /// Gets the <see cref="IValueProvider" /> that will get and set the <see cref="JsonProperty" /> during serialization.
     /// </summary>
     public IValueProvider? ValueProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IAttributeProvider"/> for this property.
+    /// Gets or sets the <see cref="IAttributeProvider" /> for this property.
     /// </summary>
     public IAttributeProvider? AttributeProvider { get; set; }
 
@@ -82,22 +82,22 @@ public class JsonProperty
     public JsonConverter? Converter { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="JsonProperty"/> is ignored.
+    /// Gets or sets a value indicating whether this <see cref="JsonProperty" /> is ignored.
     /// </summary>
     public bool Ignored { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="JsonProperty"/> is readable.
+    /// Gets or sets a value indicating whether this <see cref="JsonProperty" /> is readable.
     /// </summary>
     public bool Readable { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="JsonProperty"/> is writable.
+    /// Gets or sets a value indicating whether this <see cref="JsonProperty" /> is writable.
     /// </summary>
     public bool Writable { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="JsonProperty"/> has a member attribute.
+    /// Gets or sets a value indicating whether this <see cref="JsonProperty" /> has a member attribute.
     /// </summary>
     public bool HasMemberAttribute { get; set; }
 
@@ -139,7 +139,7 @@ public class JsonProperty
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="JsonProperty"/> is required.
+    /// Gets or sets a value indicating whether this <see cref="JsonProperty" /> is required.
     /// </summary>
     public Required Required
     {
@@ -148,7 +148,7 @@ public class JsonProperty
     }
 
     /// <summary>
-    /// Gets a value indicating whether <see cref="Required"/> has a value specified.
+    /// Gets a value indicating whether <see cref="Required" /> has a value specified.
     /// </summary>
     public bool IsRequiredSpecified => required != null;
 
@@ -203,10 +203,10 @@ public class JsonProperty
     public Action<object, object?>? SetIsSpecified { get; set; }
 
     /// <summary>
-    /// Returns a <see cref="String"/> that represents this instance.
+    /// Returns a <see cref="String" /> that represents this instance.
     /// </summary>
     /// <returns>
-    /// A <see cref="String"/> that represents this instance.
+    /// A <see cref="String" /> that represents this instance.
     /// </returns>
     public override string ToString()
     {

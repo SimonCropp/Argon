@@ -7,20 +7,22 @@ using System.ComponentModel;
 public class DefaultValueAttributeIgnore : TestFixtureBase
 {
     #region DefaultValueAttributeIgnoreTypes
+
     public class Customer
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        [DefaultValue(" ")]
-        public string FullName => $"{FirstName} {LastName}";
+        [DefaultValue(" ")] public string FullName => $"{FirstName} {LastName}";
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region DefaultValueAttributeIgnoreUsage
+
         var customer = new Customer();
 
         var jsonIncludeDefaultValues = JsonConvert.SerializeObject(customer, Formatting.Indented);
@@ -39,6 +41,7 @@ public class DefaultValueAttributeIgnore : TestFixtureBase
 
         Console.WriteLine(jsonIgnoreDefaultValues);
         // {}
+
         #endregion
 
         Assert.Equal("{}", jsonIgnoreDefaultValues);

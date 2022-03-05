@@ -5,6 +5,7 @@
 public class SerializeDateTimeZoneHandling : TestFixtureBase
 {
     #region SerializeDateTimeZoneHandlingTypes
+
     public class Flight
     {
         public string Destination { get; set; }
@@ -13,12 +14,14 @@ public class SerializeDateTimeZoneHandling : TestFixtureBase
         public DateTime DepartureDateLocal { get; set; }
         public TimeSpan Duration { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region SerializeDateTimeZoneHandlingUsage
+
         var flight = new Flight
         {
             Destination = "Dubai",
@@ -83,6 +86,7 @@ public class SerializeDateTimeZoneHandling : TestFixtureBase
         //   "DepartureDateLocal": "2013-01-21T00:00:00",
         //   "Duration": "05:30:00"
         // }
+
         #endregion
     }
 }

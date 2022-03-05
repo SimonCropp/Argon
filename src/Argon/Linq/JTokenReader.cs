@@ -14,12 +14,12 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     JToken? parent;
 
     /// <summary>
-    /// Gets the <see cref="JToken"/> at the reader's current position.
+    /// Gets the <see cref="JToken" /> at the reader's current position.
     /// </summary>
     public JToken? CurrentToken { get; private set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JTokenReader"/> class.
+    /// Initializes a new instance of the <see cref="JTokenReader" /> class.
     /// </summary>
     public JTokenReader(JToken token)
     {
@@ -27,9 +27,9 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JTokenReader"/> class.
+    /// Initializes a new instance of the <see cref="JTokenReader" /> class.
     /// </summary>
-    /// <param name="initialPath">The initial path of the token. It is prepended to the returned <see cref="Path"/>.</param>
+    /// <param name="initialPath">The initial path of the token. It is prepended to the returned <see cref="Path" />.</param>
     public JTokenReader(JToken token, string initialPath)
         : this(token)
     {
@@ -37,7 +37,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="JToken"/>.
+    /// Reads the next JSON token from the underlying <see cref="JToken" />.
     /// </summary>
     /// <returns>
     /// <c>true</c> if the next token was read successfully; <c>false</c> if there are no more tokens to read.
@@ -154,32 +154,32 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 SetToken(JsonToken.StartArray);
                 break;
             case JTokenType.Property:
-                SetToken(JsonToken.PropertyName, ((JProperty)token).Name);
+                SetToken(JsonToken.PropertyName, ((JProperty) token).Name);
                 break;
             case JTokenType.Comment:
-                SetToken(JsonToken.Comment, ((JValue)token).Value);
+                SetToken(JsonToken.Comment, ((JValue) token).Value);
                 break;
             case JTokenType.Integer:
-                SetToken(JsonToken.Integer, ((JValue)token).Value);
+                SetToken(JsonToken.Integer, ((JValue) token).Value);
                 break;
             case JTokenType.Float:
-                SetToken(JsonToken.Float, ((JValue)token).Value);
+                SetToken(JsonToken.Float, ((JValue) token).Value);
                 break;
             case JTokenType.String:
-                SetToken(JsonToken.String, ((JValue)token).Value);
+                SetToken(JsonToken.String, ((JValue) token).Value);
                 break;
             case JTokenType.Boolean:
-                SetToken(JsonToken.Boolean, ((JValue)token).Value);
+                SetToken(JsonToken.Boolean, ((JValue) token).Value);
                 break;
             case JTokenType.Null:
-                SetToken(JsonToken.Null, ((JValue)token).Value);
+                SetToken(JsonToken.Null, ((JValue) token).Value);
                 break;
             case JTokenType.Undefined:
-                SetToken(JsonToken.Undefined, ((JValue)token).Value);
+                SetToken(JsonToken.Undefined, ((JValue) token).Value);
                 break;
             case JTokenType.Date:
             {
-                var v = ((JValue)token).Value;
+                var v = ((JValue) token).Value;
                 if (v is DateTime dt)
                 {
                     v = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
@@ -189,22 +189,22 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 break;
             }
             case JTokenType.Raw:
-                SetToken(JsonToken.Raw, ((JValue)token).Value);
+                SetToken(JsonToken.Raw, ((JValue) token).Value);
                 break;
             case JTokenType.Bytes:
-                SetToken(JsonToken.Bytes, ((JValue)token).Value);
+                SetToken(JsonToken.Bytes, ((JValue) token).Value);
                 break;
             case JTokenType.Guid:
-                SetToken(JsonToken.String, SafeToString(((JValue)token).Value));
+                SetToken(JsonToken.String, SafeToString(((JValue) token).Value));
                 break;
             case JTokenType.Uri:
             {
-                var v = ((JValue)token).Value;
+                var v = ((JValue) token).Value;
                 SetToken(JsonToken.String, v is Uri uri ? uri.OriginalString : SafeToString(v));
                 break;
             }
             case JTokenType.TimeSpan:
-                SetToken(JsonToken.String, SafeToString(((JValue)token).Value));
+                SetToken(JsonToken.String, SafeToString(((JValue) token).Value));
                 break;
             default:
                 throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(token.Type), token.Type, "Unexpected JTokenType.");

@@ -736,16 +736,19 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public void WriteEndOnPropertyState()
     {
         var settings = new JsonSerializerSettings();
-        settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
+        settings.Error += (_, args) =>
+        {
+            args.ErrorContext.Handled = true;
+        };
 
         var data = new List<ErrorPerson2>
         {
             new() {FirstName = "Scott", LastName = "Hanselman"},
             new() {FirstName = "Scott", LastName = "Hunter"},
-            new() {FirstName = "Scott", LastName = "Guthrie"},
+            new() {FirstName = "Scott", LastName = "Guthrie"}
         };
 
-        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
+        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
         Assert.Equal(@"{""Scott"":[]}", output);
     }
@@ -754,17 +757,20 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public void WriteEndOnPropertyState2()
     {
         var settings = new JsonSerializerSettings();
-        settings.Error += (_, args) => { args.ErrorContext.Handled = true; };
+        settings.Error += (_, args) =>
+        {
+            args.ErrorContext.Handled = true;
+        };
 
         var data = new List<ErrorPerson2>
         {
             new() {FirstName = "Scott", LastName = "Hanselman"},
             new() {FirstName = "Scott", LastName = "Hunter"},
             new() {FirstName = "Scott", LastName = "Guthrie"},
-            new() {FirstName = "James", LastName = "Newton-King"},
+            new() {FirstName = "James", LastName = "Newton-King"}
         };
 
-        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => @group.Key, group => @group.Cast<IErrorPerson2>());
+        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
 
         Assert.Equal(@"{""Scott"":[],""James"":[]}", output);
@@ -778,7 +784,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var stream = new MemoryStream(byteArray);
         var jReader = new JsonTextReader(new StreamReader(stream));
         var s = new JsonSerializer();
-        s.Error += (_, args) => { args.ErrorContext.Handled = true; };
+        s.Error += (_, args) =>
+        {
+            args.ErrorContext.Handled = true;
+        };
         var obj = s.Deserialize<ErrorPerson2>(jReader);
 
         Assert.Null(obj);
@@ -931,7 +940,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
         {
-            Error = (_, e) => { e.ErrorContext.Handled = true; }
+            Error = (_, e) =>
+            {
+                e.ErrorContext.Handled = true;
+            }
         });
 
         Assert.Null(result);
@@ -942,7 +954,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var result = JsonConvert.SerializeObject(new SomethingElse(), new JsonSerializerSettings
         {
-            Error = (_, e) => { e.ErrorContext.Handled = true; }
+            Error = (_, e) =>
+            {
+                e.ErrorContext.Handled = true;
+            }
         });
 
         Assert.Equal(string.Empty, result);
@@ -980,7 +995,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Equal("also blah", data.String2);
         Assert.Equal(0, data.Int2);
         Assert.Equal("more blah", data.String3);
-        Assert.Equal(default(DateTime), data.DateTime1);
+        Assert.Equal(default, data.DateTime1);
         Assert.Equal("even more blah", data.String4);
 
         //Assert.AreEqual(2, errorMessages.Count);
@@ -1027,14 +1042,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
     public class ThrowingReader : TextReader
     {
-        int _position = 0;
+        int _position;
         static string element = "{\"FirstName\":\"Din\",\"LastName\":\"Rav\",\"Item\":{\"ItemName\":\"temp\"}}";
         bool _firstRead = true;
-        bool _readComma = false;
-
-        public ThrowingReader()
-        {
-        }
+        bool _readComma;
 
         public override int Read(char[] buffer, int index, int count)
         {

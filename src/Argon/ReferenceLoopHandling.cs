@@ -5,12 +5,12 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies reference loop handling options for the <see cref="JsonSerializer"/>.
+/// Specifies reference loop handling options for the <see cref="JsonSerializer" />.
 /// </summary>
 public enum ReferenceLoopHandling
 {
     /// <summary>
-    /// Throw a <see cref="JsonSerializationException"/> when a loop is encountered.
+    /// Throw a <see cref="JsonSerializationException" /> when a loop is encountered.
     /// </summary>
     Error = 0,
 

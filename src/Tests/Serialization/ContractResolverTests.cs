@@ -3,8 +3,8 @@
 // as found in the license.md file.
 
 using System.ComponentModel;
-using TestObjects;
 using System.Text.RegularExpressions;
+using TestObjects;
 
 public class DynamicContractResolver : DefaultContractResolver
 {
@@ -584,7 +584,7 @@ public class ContractResolverTests : TestFixtureBase
         {
             Data = new Dictionary<string, object>
             {
-                {"SomeField", "Field"},
+                {"SomeField", "Field"}
             }
         };
 

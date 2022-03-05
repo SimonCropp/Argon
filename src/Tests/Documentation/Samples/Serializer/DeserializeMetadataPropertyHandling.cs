@@ -15,6 +15,7 @@ public class DeserializeMetadataPropertyHandling : TestFixtureBase
         try
         {
             #region DeserializeMetadataPropertyHandling
+
             var json = @"{
                   'Name': 'James',
                   'Password': 'Password1',
@@ -28,10 +29,11 @@ public class DeserializeMetadataPropertyHandling : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
 
-            var u = (User)o;
+            var u = (User) o;
 
             Console.WriteLine(u.Name);
             // James
+
             #endregion
         }
         catch

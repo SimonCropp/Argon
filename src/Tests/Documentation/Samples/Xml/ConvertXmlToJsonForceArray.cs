@@ -10,6 +10,7 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
     public void Example()
     {
         #region ConvertXmlToJsonForceArray
+
         var xml = @"<person id='1'>
               <name>Alan</name>
               <url>http://www.google.com</url>
@@ -53,6 +54,7 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
         //     ]
         //   }
         // }
+
         #endregion
 
         Assert.Equal(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);

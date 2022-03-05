@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Instructs the <see cref="JsonSerializer"/> how to serialize the collection.
+/// Instructs the <see cref="JsonSerializer" /> how to serialize the collection.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
 public sealed class JsonArrayAttribute : JsonContainerAttribute
@@ -16,14 +16,14 @@ public sealed class JsonArrayAttribute : JsonContainerAttribute
     public bool AllowNullItems { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonArrayAttribute"/> class.
+    /// Initializes a new instance of the <see cref="JsonArrayAttribute" /> class.
     /// </summary>
     public JsonArrayAttribute()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonObjectAttribute"/> class with a flag indicating whether the array can contain null items.
+    /// Initializes a new instance of the <see cref="JsonObjectAttribute" /> class with a flag indicating whether the array can contain null items.
     /// </summary>
     /// <param name="allowNullItems">A flag indicating whether the array can contain null items.</param>
     public JsonArrayAttribute(bool allowNullItems)
@@ -32,7 +32,7 @@ public sealed class JsonArrayAttribute : JsonContainerAttribute
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonArrayAttribute"/> class with the specified container Id.
+    /// Initializes a new instance of the <see cref="JsonArrayAttribute" /> class with the specified container Id.
     /// </summary>
     public JsonArrayAttribute(string id)
         : base(id)

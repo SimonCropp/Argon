@@ -108,7 +108,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            await reader.ReadAsDateTimeOffsetAsync();
+        }, "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
     }
 
     [Fact]
@@ -126,7 +129,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDateTimeOffsetAsync(); }, "Error reading date. Unexpected token: Boolean. Path 'Offset', line 1, position 14.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            await reader.ReadAsDateTimeOffsetAsync();
+        }, "Error reading date. Unexpected token: Boolean. Path 'Offset', line 1, position 14.");
     }
 
     [Fact]
@@ -332,7 +338,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        var reader = (JTokenReader)o.CreateReader();
+        var reader = (JTokenReader) o.CreateReader();
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -364,7 +370,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsInt32Async(); }, "Could not convert string to integer: hi. Path 'Name', line 1, position 12.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            await reader.ReadAsInt32Async();
+        }, "Could not convert string to integer: hi. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -382,7 +391,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsInt32Async(); }, "Error reading integer. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            await reader.ReadAsInt32Async();
+        }, "Error reading integer. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -421,7 +433,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Could not convert string to decimal: blah. Path 'Name', line 1, position 14.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            await reader.ReadAsDecimalAsync();
+        }, "Could not convert string to decimal: blah. Path 'Name', line 1, position 14.");
     }
 
     [Fact]
@@ -439,7 +454,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () => { await reader.ReadAsDecimalAsync(); }, "Error reading decimal. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
+        {
+            await reader.ReadAsDecimalAsync();
+        }, "Error reading decimal. Unexpected token: Boolean. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -468,7 +486,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     {
         var o = new JObject
         {
-            { "prop1", true }
+            {"prop1", true}
         };
 
         var reader = new JTokenReader(o, "baseprop");
@@ -496,7 +514,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     {
         var o = new JObject
         {
-            { "prop1", true }
+            {"prop1", true}
         };
 
         var reader = new JTokenReader(o, "[0]");
@@ -586,7 +604,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         var reader = new JTokenReader(a);
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
-            async () => { await reader.ReadAsDoubleAsync(); },
+            async () =>
+            {
+                await reader.ReadAsDoubleAsync();
+            },
             "Error reading double. Unexpected token: StartArray. Path ''.");
     }
 
@@ -601,7 +622,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         var reader = new JTokenReader(a);
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
-            async () => { await reader.ReadAsBooleanAsync(); },
+            async () =>
+            {
+                await reader.ReadAsBooleanAsync();
+            },
             "Error reading boolean. Unexpected token: StartArray. Path ''.");
     }
 
@@ -616,7 +640,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         var reader = new JTokenReader(a);
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
-            async () => { await reader.ReadAsDateTimeAsync(); },
+            async () =>
+            {
+                await reader.ReadAsDateTimeAsync();
+            },
             "Error reading date. Unexpected token: StartArray. Path ''.");
     }
 
@@ -631,7 +658,10 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         var reader = new JTokenReader(a);
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
-            async () => { await reader.ReadAsDateTimeOffsetAsync(); },
+            async () =>
+            {
+                await reader.ReadAsDateTimeOffsetAsync();
+            },
             "Error reading date. Unexpected token: StartArray. Path ''.");
     }
 

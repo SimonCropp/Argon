@@ -15,7 +15,7 @@ public enum CommentHandling
     Ignore = 0,
 
     /// <summary>
-    /// Load comments as a <see cref="JValue"/> with type <see cref="JTokenType.Comment"/>.
+    /// Load comments as a <see cref="JValue" /> with type <see cref="JTokenType.Comment" />.
     /// </summary>
     Load = 1
 }

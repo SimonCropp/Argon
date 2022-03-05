@@ -5,19 +5,19 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies the state of the <see cref="JsonWriter"/>.
+/// Specifies the state of the <see cref="JsonWriter" />.
 /// </summary>
 public enum WriteState
 {
     /// <summary>
-    /// An exception has been thrown, which has left the <see cref="JsonWriter"/> in an invalid state.
-    /// You may call the <see cref="JsonWriter.Close()"/> method to put the <see cref="JsonWriter"/> in the <c>Closed</c> state.
-    /// Any other <see cref="JsonWriter"/> method calls result in an <see cref="InvalidOperationException"/> being thrown.
+    /// An exception has been thrown, which has left the <see cref="JsonWriter" /> in an invalid state.
+    /// You may call the <see cref="JsonWriter.Close()" /> method to put the <see cref="JsonWriter" /> in the <c>Closed</c> state.
+    /// Any other <see cref="JsonWriter" /> method calls result in an <see cref="InvalidOperationException" /> being thrown.
     /// </summary>
     Error = 0,
 
     /// <summary>
-    /// The <see cref="JsonWriter.Close()"/> method has been called.
+    /// The <see cref="JsonWriter.Close()" /> method has been called.
     /// </summary>
     Closed = 1,
 
@@ -37,7 +37,7 @@ public enum WriteState
     Property = 4,
 
     /// <summary>
-    /// A <see cref="JsonWriter"/> write method has not been called.
+    /// A <see cref="JsonWriter" /> write method has not been called.
     /// </summary>
     Start = 5
 }

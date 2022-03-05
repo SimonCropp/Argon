@@ -75,10 +75,10 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         serializer.Serialize(writer, ignoreAttributeOnClassTestClass);
 
-        var o = (JObject)writer.Token;
+        var o = (JObject) writer.Token;
         var p = o.Property("the_field");
 
-        Assert.Equal(int.MinValue, (int)p.Value);
+        Assert.Equal(int.MinValue, (int) p.Value);
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[] { "Small", "Medium", "Large" }
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var contractResolver = new DefaultContractResolver
@@ -101,7 +101,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             JsonConvert.SerializeObject(
                 product,
                 Formatting.Indented,
-                new JsonSerializerSettings { ContractResolver = contractResolver }
+                new JsonSerializerSettings {ContractResolver = contractResolver}
             );
 
         //{
@@ -165,25 +165,22 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
     public class TestDynamicObject : DynamicObject
     {
-        readonly Dictionary<string, object> _members;
-
         public int Int;
 
-        [JsonProperty]
-        public bool Explicit;
+        [JsonProperty] public bool Explicit;
 
         public DynamicChildObject ChildObject { get; set; }
 
-        internal Dictionary<string, object> Members => _members;
+        internal Dictionary<string, object> Members { get; }
 
         public TestDynamicObject()
         {
-            _members = new();
+            Members = new();
         }
 
         public override IEnumerable<string> GetDynamicMemberNames()
         {
-            return _members.Keys.Union(new[] { "Int", "ChildObject" });
+            return Members.Keys.Union(new[] {"Int", "ChildObject"});
         }
 
         public override bool TryConvert(ConvertBinder binder, out object result)
@@ -193,7 +190,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             if (targetType == typeof(IDictionary<string, object>) ||
                 targetType == typeof(IDictionary))
             {
-                result = new Dictionary<string, object>(_members);
+                result = new Dictionary<string, object>(Members);
                 return true;
             }
 
@@ -202,27 +199,28 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         public override bool TryDeleteMember(DeleteMemberBinder binder)
         {
-            return _members.Remove(binder.Name);
+            return Members.Remove(binder.Name);
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            return _members.TryGetValue(binder.Name, out result);
+            return Members.TryGetValue(binder.Name, out result);
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            _members[binder.Name] = value;
+            Members[binder.Name] = value;
             return true;
         }
     }
+
     [Fact]
     public void DictionarySnakeCasePropertyNames_Disabled()
     {
         var values = new Dictionary<string, string>
         {
-            { "First", "Value1!" },
-            { "Second", "Value2!" }
+            {"First", "Value1!"},
+            {"Second", "Value2!"}
         };
 
         var contractResolver = new DefaultContractResolver
@@ -247,8 +245,8 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
     {
         var values = new Dictionary<string, string>
         {
-            { "First", "Value1!" },
-            { "Second", "Value2!" }
+            {"First", "Value1!"},
+            {"Second", "Value2!"}
         };
 
         var contractResolver = new DefaultContractResolver
@@ -273,8 +271,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
     public class PropertyAttributeNamingStrategyTestClass
     {
-        [JsonProperty]
-        public string HasNoAttributeNamingStrategy { get; set; }
+        [JsonProperty] public string HasNoAttributeNamingStrategy { get; set; }
 
         [JsonProperty(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
         public string HasAttributeNamingStrategy { get; set; }
@@ -302,6 +299,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
     {
         public string Prop1 { get; set; }
         public string Prop2 { get; set; }
+
         [JsonProperty(NamingStrategyType = typeof(DefaultNamingStrategy))]
         public string HasAttributeNamingStrategy { get; set; }
     }
@@ -324,7 +322,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 }", json);
     }
 
-    [JsonDictionary(NamingStrategyType = typeof(SnakeCaseNamingStrategy), NamingStrategyParameters = new object[] { true, true })]
+    [JsonDictionary(NamingStrategyType = typeof(SnakeCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true})]
     public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
     {
     }

@@ -347,7 +347,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadBytesFromString()
     {
-        var bytes = new HasBytes { Bytes = new byte[] { 1, 2, 3, 4 } };
+        var bytes = new HasBytes {Bytes = new byte[] {1, 2, 3, 4}};
         var json = JsonConvert.SerializeObject(bytes);
 
         TextReader textReader = new StringReader(json);
@@ -357,16 +357,16 @@ public class JTokenReaderTest : TestFixtureBase
 
         jsonReader = new JTokenReader(jToken);
 
-        var result2 = (HasBytes)JsonSerializer.Create(null)
+        var result2 = (HasBytes) JsonSerializer.Create(null)
             .Deserialize(jsonReader, typeof(HasBytes));
 
-        Assert.Equal(new byte[] { 1, 2, 3, 4 }, result2.Bytes);
+        Assert.Equal(new byte[] {1, 2, 3, 4}, result2.Bytes);
     }
 
     [Fact]
     public void ReadBytesFromEmptyString()
     {
-        var bytes = new HasBytes { Bytes = new byte[0] };
+        var bytes = new HasBytes {Bytes = new byte[0]};
         var json = JsonConvert.SerializeObject(bytes);
 
         TextReader textReader = new StringReader(json);
@@ -376,7 +376,7 @@ public class JTokenReaderTest : TestFixtureBase
 
         jsonReader = new JTokenReader(jToken);
 
-        var result2 = (HasBytes)JsonSerializer.Create(null)
+        var result2 = (HasBytes) JsonSerializer.Create(null)
             .Deserialize(jsonReader, typeof(HasBytes));
 
         Assert.Equal(new byte[0], result2.Bytes);
@@ -400,7 +400,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void DeserializeByteArrayWithTypeNameHandling()
     {
-        var test = new TestObject("Test", new byte[] { 72, 63, 62, 71, 92, 55 });
+        var test = new TestObject("Test", new byte[] {72, 63, 62, 71, 92, 55});
 
         var json = JsonConvert.SerializeObject(test, Formatting.Indented, new JsonSerializerSettings
         {
@@ -416,10 +416,10 @@ public class JTokenReaderTest : TestFixtureBase
 
         using var nodeReader = o.CreateReader();
         // Get exception here
-        var newObject = (TestObject)serializer.Deserialize(nodeReader);
+        var newObject = (TestObject) serializer.Deserialize(nodeReader);
 
         Assert.Equal("Test", newObject.Name);
-        Assert.Equal(new byte[] { 72, 63, 62, 71, 92, 55 }, newObject.Data);
+        Assert.Equal(new byte[] {72, 63, 62, 71, 92, 55}, newObject.Data);
     }
 
     [Fact]
@@ -469,7 +469,7 @@ public class JTokenReaderTest : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        var reader = (JTokenReader)o.CreateReader();
+        var reader = (JTokenReader) o.CreateReader();
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -613,7 +613,7 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var o = new JObject
         {
-            { "prop1", true }
+            {"prop1", true}
         };
 
         var reader = new JTokenReader(o, "baseprop");
@@ -641,7 +641,7 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var o = new JObject
         {
-            { "prop1", true }
+            {"prop1", true}
         };
 
         var reader = new JTokenReader(o, "[0]");

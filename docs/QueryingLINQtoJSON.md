@@ -40,20 +40,20 @@ var json = @"{
 
 var rss = JObject.Parse(json);
 
-var rssTitle = (string)rss["channel"]["title"];
+var rssTitle = (string) rss["channel"]["title"];
 // James Newton-King
 
-var itemTitle = (string)rss["channel"]["item"][0]["title"];
+var itemTitle = (string) rss["channel"]["item"][0]["title"];
 // Json.NET 1.3 + New license + Now on CodePlex
 
-var categories = (JArray)rss["channel"]["item"][0]["categories"];
+var categories = (JArray) rss["channel"]["item"][0]["categories"];
 // ["Json.NET", "CodePlex"]
 
-var categoriesText = categories.Select(c => (string)c).ToList();
+var categoriesText = categories.Select(c => (string) c).ToList();
 // Json.NET
 // CodePlex
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L204-L247' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L216-L261' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -68,7 +68,7 @@ JObject/JArray can also be queried using LINQ. `Argon.Linq.JToken.Children` retu
 ```cs
 var postTitles =
     from p in rss["channel"]["item"]
-    select (string)p["title"];
+    select (string) p["title"];
 
 foreach (var item in postTitles)
 {
@@ -83,7 +83,7 @@ var categories =
     group c by c
     into g
     orderby g.Count() descending
-    select new { Category = g.Key, Count = g.Count() };
+    select new {Category = g.Key, Count = g.Count()};
 
 foreach (var c in categories)
 {
@@ -94,7 +94,7 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L281-L309' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L295-L325' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 LINQ to JSON can also be used to manually convert JSON to a .NET object.
@@ -116,7 +116,7 @@ public class ShortieException
     public string ErrorMessage { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L315-L329' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L331-L347' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Manually serializing and deserializing between .NET objects is useful when working with JSON that doesn't closely match the .NET objects.
@@ -139,12 +139,12 @@ var json = JObject.Parse(jsonText);
 
 var shortie = new Shortie
 {
-    Original = (string)json["short"]["original"],
-    Short = (string)json["short"]["short"],
+    Original = (string) json["short"]["original"],
+    Short = (string) json["short"]["short"],
     Error = new()
     {
-        Code = (int)json["short"]["error"]["code"],
-        ErrorMessage = (string)json["short"]["error"]["msg"]
+        Code = (int) json["short"]["error"]["code"],
+        ErrorMessage = (string) json["short"]["error"]["msg"]
     }
 };
 
@@ -154,7 +154,7 @@ Console.WriteLine(shortie.Original);
 Console.WriteLine(shortie.Error.ErrorMessage);
 // No action taken
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L334-L364' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L352-L384' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

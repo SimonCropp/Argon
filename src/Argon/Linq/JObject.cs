@@ -11,7 +11,7 @@ namespace Argon;
 /// Represents a JSON object.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+/// <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
 /// </example>
 public partial class JObject :
     JContainer,
@@ -25,31 +25,31 @@ public partial class JObject :
     protected override IList<JToken> ChildrenTokens => properties;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JObject"/> class.
+    /// Initializes a new instance of the <see cref="JObject" /> class.
     /// </summary>
     public JObject()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JObject"/> class from another <see cref="JObject"/> object.
+    /// Initializes a new instance of the <see cref="JObject" /> class from another <see cref="JObject" /> object.
     /// </summary>
-    /// <param name="other">A <see cref="JObject"/> object to copy from.</param>
+    /// <param name="other">A <see cref="JObject" /> object to copy from.</param>
     public JObject(JObject other)
         : base(other)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JObject"/> class with the specified content.
+    /// Initializes a new instance of the <see cref="JObject" /> class with the specified content.
     /// </summary>
     public JObject(params object[] content)
-        : this((object)content)
+        : this((object) content)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JObject"/> class with the specified content.
+    /// Initializes a new instance of the <see cref="JObject" /> class with the specified content.
     /// </summary>
     public JObject(object content)
     {
@@ -94,11 +94,11 @@ public partial class JObject :
             throw new ArgumentException($"Can not add {o.GetType()} to {GetType()}.");
         }
 
-        var newProperty = (JProperty)o;
+        var newProperty = (JProperty) o;
 
         if (existing != null)
         {
-            var existingProperty = (JProperty)existing;
+            var existingProperty = (JProperty) existing;
 
             if (newProperty.Name == existingProperty.Name)
             {
@@ -168,26 +168,26 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Gets the node type for this <see cref="JToken"/>.
+    /// Gets the node type for this <see cref="JToken" />.
     /// </summary>
     public override JTokenType Type => JTokenType.Object;
 
     /// <summary>
-    /// Gets an <see cref="IEnumerable{T}"/> of <see cref="JProperty"/> of this object's properties.
+    /// Gets an <see cref="IEnumerable{T}" /> of <see cref="JProperty" /> of this object's properties.
     /// </summary>
-    /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="JProperty"/> of this object's properties.</returns>
+    /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JProperty" /> of this object's properties.</returns>
     public IEnumerable<JProperty> Properties()
     {
         return properties.Cast<JProperty>();
     }
 
     /// <summary>
-    /// Gets the <see cref="JProperty"/> with the specified name.
+    /// Gets the <see cref="JProperty" /> with the specified name.
     /// The exact name will be searched for first and if no matching property is found then
-    /// the <see cref="StringComparison"/> will be used to match a property.
+    /// the <see cref="StringComparison" /> will be used to match a property.
     /// </summary>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
-    /// <returns>A <see cref="JProperty"/> matched with the specified name.</returns>
+    /// <returns>A <see cref="JProperty" /> matched with the specified name.</returns>
     public JProperty Property(string name, StringComparison comparison = StringComparison.Ordinal)
     {
         var property = PropertyOrNull(name, comparison);
@@ -200,17 +200,17 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Gets the <see cref="JProperty"/> with the specified name.
+    /// Gets the <see cref="JProperty" /> with the specified name.
     /// The exact name will be searched for first and if no matching property is found then
-    /// the <see cref="StringComparison"/> will be used to match a property.
+    /// the <see cref="StringComparison" /> will be used to match a property.
     /// </summary>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
-    /// <returns>A <see cref="JProperty"/> matched with the specified name or <c>null</c>.</returns>
+    /// <returns>A <see cref="JProperty" /> matched with the specified name or <c>null</c>.</returns>
     public JProperty? PropertyOrNull(string name, StringComparison comparison = StringComparison.Ordinal)
     {
         if (properties.TryGetValue(name, out var property))
         {
-            return (JProperty)property;
+            return (JProperty) property;
         }
 
         // test above already uses this comparison so no need to repeat
@@ -218,7 +218,7 @@ public partial class JObject :
         {
             for (var i = 0; i < properties.Count; i++)
             {
-                var p = (JProperty)properties[i];
+                var p = (JProperty) properties[i];
                 if (string.Equals(p.Name, name, comparison))
                 {
                     return p;
@@ -230,16 +230,16 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Gets a <see cref="JEnumerable{T}"/> of <see cref="JToken"/> of this object's property values.
+    /// Gets a <see cref="JEnumerable{T}" /> of <see cref="JToken" /> of this object's property values.
     /// </summary>
-    /// <returns>A <see cref="JEnumerable{T}"/> of <see cref="JToken"/> of this object's property values.</returns>
+    /// <returns>A <see cref="JEnumerable{T}" /> of <see cref="JToken" /> of this object's property values.</returns>
     public JEnumerable<JToken> PropertyValues()
     {
         return new(Properties().Select(p => p.Value));
     }
 
     /// <summary>
-    /// Gets the <see cref="JToken"/> with the specified key.
+    /// Gets the <see cref="JToken" /> with the specified key.
     /// </summary>
     public override JToken? this[object key]
     {
@@ -264,7 +264,7 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="JToken"/> with the specified property name.
+    /// Gets or sets the <see cref="JToken" /> with the specified property name.
     /// </summary>
     public JToken? this[string propertyName]
     {
@@ -289,12 +289,12 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Loads a <see cref="JObject"/> from a <see cref="JsonReader"/>.
+    /// Loads a <see cref="JObject" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> that will be read for the content of the <see cref="JObject"/>.</param>
-    /// <returns>A <see cref="JObject"/> that contains the JSON that was read from the specified <see cref="JsonReader"/>.</returns>
+    /// <param name="reader">A <see cref="JsonReader" /> that will be read for the content of the <see cref="JObject" />.</param>
+    /// <returns>A <see cref="JObject" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
     /// <exception cref="JsonReaderException">
-    ///     <paramref name="reader"/> is not valid JSON.
+    /// <paramref name="reader" /> is not valid JSON.
     /// </exception>
     public new static JObject Load(JsonReader reader)
     {
@@ -302,14 +302,16 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Loads a <see cref="JObject"/> from a <see cref="JsonReader"/>.
+    /// Loads a <see cref="JObject" /> from a <see cref="JsonReader" />.
     /// </summary>
-    /// <param name="reader">A <see cref="JsonReader"/> that will be read for the content of the <see cref="JObject"/>.</param>
-    /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
-    /// If this is <c>null</c>, default load settings will be used.</param>
-    /// <returns>A <see cref="JObject"/> that contains the JSON that was read from the specified <see cref="JsonReader"/>.</returns>
+    /// <param name="reader">A <see cref="JsonReader" /> that will be read for the content of the <see cref="JObject" />.</param>
+    /// <param name="settings">
+    /// The <see cref="JsonLoadSettings" /> used to load the JSON.
+    /// If this is <c>null</c>, default load settings will be used.
+    /// </param>
+    /// <returns>A <see cref="JObject" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
     /// <exception cref="JsonReaderException">
-    ///     <paramref name="reader"/> is not valid JSON.
+    /// <paramref name="reader" /> is not valid JSON.
     /// </exception>
     public new static JObject Load(JsonReader reader, JsonLoadSettings? settings)
     {
@@ -337,15 +339,15 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Load a <see cref="JObject"/> from a string that contains JSON.
+    /// Load a <see cref="JObject" /> from a string that contains JSON.
     /// </summary>
-    /// <param name="json">A <see cref="String"/> that contains JSON.</param>
-    /// <returns>A <see cref="JObject"/> populated from the string that contains JSON.</returns>
+    /// <param name="json">A <see cref="String" /> that contains JSON.</param>
+    /// <returns>A <see cref="JObject" /> populated from the string that contains JSON.</returns>
     /// <exception cref="JsonReaderException">
-    ///     <paramref name="json"/> is not valid JSON.
+    /// <paramref name="json" /> is not valid JSON.
     /// </exception>
     /// <example>
-    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+    /// <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
     public new static JObject Parse(string json)
     {
@@ -353,17 +355,19 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Load a <see cref="JObject"/> from a string that contains JSON.
+    /// Load a <see cref="JObject" /> from a string that contains JSON.
     /// </summary>
-    /// <param name="json">A <see cref="String"/> that contains JSON.</param>
-    /// <param name="settings">The <see cref="JsonLoadSettings"/> used to load the JSON.
-    /// If this is <c>null</c>, default load settings will be used.</param>
-    /// <returns>A <see cref="JObject"/> populated from the string that contains JSON.</returns>
+    /// <param name="json">A <see cref="String" /> that contains JSON.</param>
+    /// <param name="settings">
+    /// The <see cref="JsonLoadSettings" /> used to load the JSON.
+    /// If this is <c>null</c>, default load settings will be used.
+    /// </param>
+    /// <returns>A <see cref="JObject" /> populated from the string that contains JSON.</returns>
     /// <exception cref="JsonReaderException">
-    ///     <paramref name="json"/> is not valid JSON.
+    /// <paramref name="json" /> is not valid JSON.
     /// </exception>
     /// <example>
-    ///   <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
+    /// <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
     public new static JObject Parse(string json, JsonLoadSettings? settings)
     {
@@ -379,21 +383,21 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Creates a <see cref="JObject"/> from an object.
+    /// Creates a <see cref="JObject" /> from an object.
     /// </summary>
-    /// <param name="o">The object that will be used to create <see cref="JObject"/>.</param>
-    /// <returns>A <see cref="JObject"/> with the values of the specified object.</returns>
+    /// <param name="o">The object that will be used to create <see cref="JObject" />.</param>
+    /// <returns>A <see cref="JObject" /> with the values of the specified object.</returns>
     public new static JObject FromObject(object o)
     {
         return FromObject(o, JsonSerializer.CreateDefault());
     }
 
     /// <summary>
-    /// Creates a <see cref="JObject"/> from an object.
+    /// Creates a <see cref="JObject" /> from an object.
     /// </summary>
-    /// <param name="o">The object that will be used to create <see cref="JObject"/>.</param>
-    /// <param name="jsonSerializer">The <see cref="JsonSerializer"/> that will be used to read the object.</param>
-    /// <returns>A <see cref="JObject"/> with the values of the specified object.</returns>
+    /// <param name="o">The object that will be used to create <see cref="JObject" />.</param>
+    /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used to read the object.</param>
+    /// <returns>A <see cref="JObject" /> with the values of the specified object.</returns>
     public new static JObject FromObject(object o, JsonSerializer jsonSerializer)
     {
         var token = FromObjectInternal(o, jsonSerializer);
@@ -403,11 +407,11 @@ public partial class JObject :
             throw new ArgumentException($"Object serialized to {token.Type}. JObject instance expected.");
         }
 
-        return (JObject)token;
+        return (JObject) token;
     }
 
     /// <summary>
-    /// Writes this token to a <see cref="JsonWriter"/>.
+    /// Writes this token to a <see cref="JsonWriter" />.
     /// </summary>
     public override void WriteTo(JsonWriter writer, params JsonConverter[] converters)
     {
@@ -422,23 +426,23 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Gets the <see cref="Argon.JToken"/> with the specified property name.
+    /// Gets the <see cref="Argon.JToken" /> with the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <returns>The <see cref="Argon.JToken"/> with the specified property name.</returns>
+    /// <returns>The <see cref="Argon.JToken" /> with the specified property name.</returns>
     public JToken? GetValue(string? propertyName)
     {
         return GetValue(propertyName, StringComparison.Ordinal);
     }
 
     /// <summary>
-    /// Gets the <see cref="Argon.JToken"/> with the specified property name.
+    /// Gets the <see cref="Argon.JToken" /> with the specified property name.
     /// The exact property name will be searched for first and if no matching property is found then
-    /// the <see cref="StringComparison"/> will be used to match a property.
+    /// the <see cref="StringComparison" /> will be used to match a property.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
-    /// <returns>The <see cref="Argon.JToken"/> with the specified property name.</returns>
+    /// <returns>The <see cref="Argon.JToken" /> with the specified property name.</returns>
     public JToken? GetValue(string? propertyName, StringComparison comparison)
     {
         if (propertyName == null)
@@ -453,20 +457,21 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Tries to get the <see cref="Argon.JToken"/> with the specified property name.
+    /// Tries to get the <see cref="Argon.JToken" /> with the specified property name.
     /// The exact property name will be searched for first and if no matching property is found then
-    /// the <see cref="StringComparison"/> will be used to match a property.
+    /// the <see cref="StringComparison" /> will be used to match a property.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
     /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
-    public bool TryGetValue(string propertyName, StringComparison comparison, [NotNullWhen(true)]out JToken? value)
+    public bool TryGetValue(string propertyName, StringComparison comparison, [NotNullWhen(true)] out JToken? value)
     {
         value = GetValue(propertyName, comparison);
         return value != null;
     }
 
     #region IDictionary<string,JToken> Members
+
     /// <summary>
     /// Adds the specified property name.
     /// </summary>
@@ -506,11 +511,11 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Tries to get the <see cref="Argon.JToken"/> with the specified property name.
+    /// Tries to get the <see cref="Argon.JToken" /> with the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
-    public bool TryGetValue(string propertyName, [NotNullWhen(true)]out JToken? value)
+    public bool TryGetValue(string propertyName, [NotNullWhen(true)] out JToken? value)
     {
         var property = PropertyOrNull(propertyName);
         if (property == null)
@@ -528,6 +533,7 @@ public partial class JObject :
     #endregion
 
     #region ICollection<KeyValuePair<string,JToken>> Members
+
     void ICollection<KeyValuePair<string, JToken?>>.Add(KeyValuePair<string, JToken?> item)
     {
         Add(new JProperty(item.Key, item.Value));
@@ -555,10 +561,12 @@ public partial class JObject :
         {
             throw new ArgumentOutOfRangeException(nameof(arrayIndex), "arrayIndex is less than 0.");
         }
+
         if (arrayIndex >= array.Length && arrayIndex != 0)
         {
             throw new ArgumentException("arrayIndex is equal to or greater than the length of array.");
         }
+
         if (Count > array.Length - arrayIndex)
         {
             throw new ArgumentException("The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
@@ -576,14 +584,15 @@ public partial class JObject :
 
     bool ICollection<KeyValuePair<string, JToken?>>.Remove(KeyValuePair<string, JToken?> item)
     {
-        if (!((ICollection<KeyValuePair<string, JToken?>>)this).Contains(item))
+        if (!((ICollection<KeyValuePair<string, JToken?>>) this).Contains(item))
         {
             return false;
         }
 
-        ((IDictionary<string, JToken>)this).Remove(item.Key);
+        ((IDictionary<string, JToken>) this).Remove(item.Key);
         return true;
     }
+
     #endregion
 
     internal override int GetDeepHashCode()
@@ -595,7 +604,7 @@ public partial class JObject :
     /// Returns an enumerator that can be used to iterate through the collection.
     /// </summary>
     /// <returns>
-    /// A <see cref="IEnumerator{T}"/> that can be used to iterate through the collection.
+    /// A <see cref="IEnumerator{T}" /> that can be used to iterate through the collection.
     /// </returns>
     public IEnumerator<KeyValuePair<string, JToken?>> GetEnumerator()
     {
@@ -606,11 +615,11 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Returns the <see cref="DynamicMetaObject"/> responsible for binding operations performed on this object.
+    /// Returns the <see cref="DynamicMetaObject" /> responsible for binding operations performed on this object.
     /// </summary>
     /// <param name="parameter">The expression tree representation of the runtime value.</param>
     /// <returns>
-    /// The <see cref="DynamicMetaObject"/> to bind this object.
+    /// The <see cref="DynamicMetaObject" /> to bind this object.
     /// </returns>
     protected override DynamicMetaObject GetMetaObject(Expression parameter)
     {

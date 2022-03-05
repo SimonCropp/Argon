@@ -12,20 +12,20 @@ public class Computer
     public IList<string> Drives { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L9-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L9-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjecttypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: FromObjectUsage -->
 <a id='snippet-fromobjectusage'></a>
 ```cs
-var i = (JValue)JToken.FromObject(12345);
+var i = (JValue) JToken.FromObject(12345);
 
 Console.WriteLine(i.Type);
 // Integer
 Console.WriteLine(i.ToString());
 // 12345
 
-var s = (JValue)JToken.FromObject("A string");
+var s = (JValue) JToken.FromObject("A string");
 
 Console.WriteLine(s.Type);
 // String
@@ -43,7 +43,7 @@ var computer = new Computer
     }
 };
 
-var o = (JObject)JToken.FromObject(computer);
+var o = (JObject) JToken.FromObject(computer);
 
 Console.WriteLine(o.ToString());
 // {
@@ -55,7 +55,7 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 
-var a = (JArray)JToken.FromObject(computer.Drives);
+var a = (JArray) JToken.FromObject(computer.Drives);
 
 Console.WriteLine(a.ToString());
 // [
@@ -63,5 +63,5 @@ Console.WriteLine(a.ToString());
 //   "SSD"
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L21-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L23-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

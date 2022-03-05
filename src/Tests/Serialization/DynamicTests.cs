@@ -22,7 +22,7 @@ public class DynamicTests : TestFixtureBase
         var values = new Dictionary<string, object>();
 
         var c = DefaultContractResolver.Instance;
-        var dynamicContract = (JsonDynamicContract)c.ResolveContract(dynamicObject.GetType());
+        var dynamicContract = (JsonDynamicContract) c.ResolveContract(dynamicObject.GetType());
 
         foreach (var memberName in dynamicObject.GetDynamicMemberNames())
         {
@@ -107,18 +107,20 @@ public class DynamicTests : TestFixtureBase
     [Fact]
     public void NoPublicDefaultConstructor()
     {
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var settings = new JsonSerializerSettings
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
             {
-                NullValueHandling = NullValueHandling.Ignore
-            };
-            var json = @"{
+                var settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+                var json = @"{
   ""contributors"": null
 }";
 
-            JsonConvert.DeserializeObject<DynamicObject>(json, settings);
-        }, "Unable to find a default constructor to use for type System.Dynamic.DynamicObject. Path 'contributors', line 2, position 17.");
+                JsonConvert.DeserializeObject<DynamicObject>(json, settings);
+            },
+            "Unable to find a default constructor to use for type System.Dynamic.DynamicObject. Path 'contributors', line 2, position 17.");
     }
 
     public class DictionaryDynamicObject : DynamicObject
@@ -218,7 +220,7 @@ public class DynamicTests : TestFixtureBase
 
         string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
         {
-            NullValueHandling = NullValueHandling.Ignore,
+            NullValueHandling = NullValueHandling.Ignore
         });
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -239,7 +241,7 @@ public class DynamicTests : TestFixtureBase
 
         string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
         {
-            NullValueHandling = NullValueHandling.Include,
+            NullValueHandling = NullValueHandling.Include
         });
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -264,7 +266,7 @@ public class DynamicTests : TestFixtureBase
 
         string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
         {
-            DefaultValueHandling = DefaultValueHandling.Ignore,
+            DefaultValueHandling = DefaultValueHandling.Ignore
         });
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -282,25 +284,22 @@ public class DynamicChildObject
 
 public class TestDynamicObject : DynamicObject
 {
-    readonly Dictionary<string, object> members;
-
     public int Int;
 
-    [JsonProperty]
-    public bool Explicit;
+    [JsonProperty] public bool Explicit;
 
     public DynamicChildObject ChildObject { get; set; }
 
-    internal Dictionary<string, object> Members => members;
+    internal Dictionary<string, object> Members { get; }
 
     public TestDynamicObject()
     {
-        members = new();
+        Members = new();
     }
 
     public override IEnumerable<string> GetDynamicMemberNames()
     {
-        return members.Keys.Union(new[] { "Int", "ChildObject" });
+        return Members.Keys.Union(new[] {"Int", "ChildObject"});
     }
 
     public override bool TryConvert(ConvertBinder binder, out object result)
@@ -310,7 +309,7 @@ public class TestDynamicObject : DynamicObject
         if (targetType == typeof(IDictionary<string, object>) ||
             targetType == typeof(IDictionary))
         {
-            result = new Dictionary<string, object>(members);
+            result = new Dictionary<string, object>(Members);
             return true;
         }
 
@@ -319,24 +318,25 @@ public class TestDynamicObject : DynamicObject
 
     public override bool TryDeleteMember(DeleteMemberBinder binder)
     {
-        return members.Remove(binder.Name);
+        return Members.Remove(binder.Name);
     }
 
     public override bool TryGetMember(GetMemberBinder binder, out object result)
     {
-        return members.TryGetValue(binder.Name, out result);
+        return Members.TryGetValue(binder.Name, out result);
     }
 
     public override bool TrySetMember(SetMemberBinder binder, object value)
     {
-        members[binder.Name] = value;
+        Members[binder.Name] = value;
         return true;
     }
-public class ErrorSettingDynamicObject : DynamicObject
-{
-    public override bool TrySetMember(SetMemberBinder binder, object value)
+
+    public class ErrorSettingDynamicObject : DynamicObject
     {
-        return false;
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            return false;
+        }
     }
-}
 }

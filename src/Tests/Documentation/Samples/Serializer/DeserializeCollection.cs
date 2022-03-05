@@ -8,12 +8,14 @@ public class DeserializeCollection : TestFixtureBase
     public void Example()
     {
         #region DeserializeCollection
+
         var json = @"['Starcraft','Halo','Legend of Zelda']";
 
         var videogames = JsonConvert.DeserializeObject<List<string>>(json);
 
         Console.WriteLine(string.Join(", ", videogames.ToArray()));
         // Starcraft, Halo, Legend of Zelda
+
         #endregion
 
         Assert.Equal("Starcraft, Halo, Legend of Zelda", string.Join(", ", videogames.ToArray()));

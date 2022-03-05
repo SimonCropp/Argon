@@ -7,7 +7,7 @@ namespace Argon;
 public partial class JValue
 {
     /// <summary>
-    /// Writes this token to a <see cref="JsonWriter"/> asynchronously.
+    /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
     public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
     {
@@ -83,13 +83,13 @@ public partial class JValue
 
                 return writer.WriteValueAsync(Convert.ToDateTime(value, CultureInfo.InvariantCulture), cancellation);
             case JTokenType.Bytes:
-                return writer.WriteValueAsync((byte[]?)value, cancellation);
+                return writer.WriteValueAsync((byte[]?) value, cancellation);
             case JTokenType.Guid:
-                return writer.WriteValueAsync(value != null ? (Guid?)value : null, cancellation);
+                return writer.WriteValueAsync(value != null ? (Guid?) value : null, cancellation);
             case JTokenType.TimeSpan:
-                return writer.WriteValueAsync(value != null ? (TimeSpan?)value : null, cancellation);
+                return writer.WriteValueAsync(value != null ? (TimeSpan?) value : null, cancellation);
             case JTokenType.Uri:
-                return writer.WriteValueAsync((Uri?)value, cancellation);
+                return writer.WriteValueAsync((Uri?) value, cancellation);
         }
 
         throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(Type), valueType, "Unexpected token type.");

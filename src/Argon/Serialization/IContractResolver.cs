@@ -5,11 +5,11 @@
 namespace Argon;
 
 /// <summary>
-/// Used by <see cref="JsonSerializer"/> to resolve a <see cref="JsonContract"/> for a given <see cref="Type"/>.
+/// Used by <see cref="JsonSerializer" /> to resolve a <see cref="JsonContract" /> for a given <see cref="Type" />.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverObject" title="IContractResolver Class" />
-///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverExample" title="IContractResolver Example" />
+/// <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverObject" title="IContractResolver Class" />
+/// <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeContractResolverExample" title="IContractResolver Example" />
 /// </example>
 public interface IContractResolver
 {

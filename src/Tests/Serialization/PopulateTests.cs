@@ -21,7 +21,7 @@ public class PopulateTests : TestFixtureBase
     {
         var people = new List<Person>
         {
-            new() { Name = "Initial" }
+            new() {Name = "Initial"}
         };
 
         JsonConvert.PopulateObject(@"[{""Name"":""James""}, null]", people);
@@ -48,7 +48,7 @@ public class PopulateTests : TestFixtureBase
                 }
             },
             Width = 99.99d,
-            Mottos = new() { "Can do!", "We deliver!" }
+            Mottos = new() {"Can do!", "We deliver!"}
         };
 
         var json = @"{

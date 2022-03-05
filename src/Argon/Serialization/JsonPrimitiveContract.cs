@@ -5,14 +5,14 @@
 namespace Argon;
 
 /// <summary>
-/// Contract details for a <see cref="Type"/> used by the <see cref="JsonSerializer"/>.
+/// Contract details for a <see cref="Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonPrimitiveContract : JsonContract
 {
     internal PrimitiveTypeCode TypeCode { get; set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonPrimitiveContract"/> class.
+    /// Initializes a new instance of the <see cref="JsonPrimitiveContract" /> class.
     /// </summary>
     public JsonPrimitiveContract(Type underlyingType)
         : base(underlyingType)

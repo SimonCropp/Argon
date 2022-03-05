@@ -10,10 +10,11 @@ public class Clone : TestFixtureBase
     public void Example()
     {
         #region Clone
+
         var o1 = new JObject
         {
-            { "String", "A string!" },
-            { "Items", new JArray(1, 2) }
+            {"String", "A string!"},
+            {"Items", new JArray(1, 2)}
         };
 
         Console.WriteLine(o1.ToString());
@@ -25,7 +26,7 @@ public class Clone : TestFixtureBase
         //   ]
         // }
 
-        var o2 = (JObject)o1.DeepClone();
+        var o2 = (JObject) o1.DeepClone();
 
         Console.WriteLine(o2.ToString());
         // {
@@ -41,6 +42,7 @@ public class Clone : TestFixtureBase
 
         Console.WriteLine(ReferenceEquals(o1, o2));
         // false
+
         #endregion
 
         Assert.True(JToken.DeepEquals(o1, o2));

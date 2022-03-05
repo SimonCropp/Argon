@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies how constructors are used when initializing objects during deserialization by the <see cref="JsonSerializer"/>.
+/// Specifies how constructors are used when initializing objects during deserialization by the <see cref="JsonSerializer" />.
 /// </summary>
 public enum ConstructorHandling
 {

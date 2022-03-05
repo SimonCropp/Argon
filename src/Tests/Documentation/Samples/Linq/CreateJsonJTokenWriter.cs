@@ -10,6 +10,7 @@ public class CreateJsonJTokenWriter : TestFixtureBase
     public void Example()
     {
         #region CreateJsonJTokenWriter
+
         var writer = new JTokenWriter();
         writer.WriteStartObject();
         writer.WritePropertyName("name1");
@@ -21,7 +22,7 @@ public class CreateJsonJTokenWriter : TestFixtureBase
         writer.WriteEndArray();
         writer.WriteEndObject();
 
-        var o = (JObject)writer.Token;
+        var o = (JObject) writer.Token;
 
         Console.WriteLine(o.ToString());
         // {
@@ -31,6 +32,7 @@ public class CreateJsonJTokenWriter : TestFixtureBase
         //     2
         //   ]
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

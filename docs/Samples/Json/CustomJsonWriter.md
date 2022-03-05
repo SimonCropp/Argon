@@ -257,7 +257,7 @@ public class XmlJsonWriter : JsonWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L9-L261' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L9-L263' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonWriterUsage -->
@@ -277,7 +277,7 @@ var user = new
 
 var stringWriter = new StringWriter();
 
-using (var xmlWriter = XmlWriter.Create(stringWriter, new() { OmitXmlDeclaration = true }))
+using (var xmlWriter = XmlWriter.Create(stringWriter, new() {OmitXmlDeclaration = true}))
 using (var writer = new XmlJsonWriter(xmlWriter))
 {
     writer.Formatting = Formatting.Indented;
@@ -297,5 +297,5 @@ Console.WriteLine(stringWriter.ToString());
 //  </Roles>
 //</Root>
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L268-L302' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L270-L306' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

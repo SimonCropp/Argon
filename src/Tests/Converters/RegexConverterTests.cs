@@ -31,7 +31,7 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new JsonSerializerSettings
         {
-            Converters = { new RegexConverter(), new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() } },
+            Converters = {new RegexConverter(), new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()}},
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
@@ -51,7 +51,7 @@ public class RegexConverterTests : TestFixtureBase
 
         var regex = JsonConvert.DeserializeObject<Regex>(json, new JsonSerializerSettings
         {
-            Converters = { new RegexConverter() }
+            Converters = {new RegexConverter()}
         });
 
         Assert.Equal("abc", regex.ToString());
@@ -84,7 +84,7 @@ public class RegexConverterTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
         {
-            Converters = { new RegexConverter() }
+            Converters = {new RegexConverter()}
         });
 
         Assert.Equal("abc", c.Regex.ToString());
@@ -101,7 +101,7 @@ public class RegexConverterTests : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
             {
-                Converters = { new RegexConverter() }
+                Converters = {new RegexConverter()}
             }),
             "Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 18.");
     }
@@ -131,7 +131,7 @@ public class RegexConverterTests : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
             {
-                Converters = { new RegexConverter() }
+                Converters = {new RegexConverter()}
             }),
             "Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 16.");
     }
@@ -154,7 +154,7 @@ public class RegexConverterTests : TestFixtureBase
     {
         var regex = new Regex("");
 
-        var json = JsonConvert.SerializeObject(new RegexTestClass { Regex = regex }, Formatting.Indented, new RegexConverter());
+        var json = JsonConvert.SerializeObject(new RegexTestClass {Regex = regex}, Formatting.Indented, new RegexConverter());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Regex"": {
@@ -176,7 +176,7 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeNullRegex()
     {
-        var json = JsonConvert.SerializeObject(new SimpleClassWithRegex { RegProp = null });
+        var json = JsonConvert.SerializeObject(new SimpleClassWithRegex {RegProp = null});
         Assert.Equal(@"{""RegProp"":null}", json);
 
         var obj = JsonConvert.DeserializeObject<SimpleClassWithRegex>(json);

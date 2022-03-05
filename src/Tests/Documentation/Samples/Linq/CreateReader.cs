@@ -10,10 +10,11 @@ public class CreateReader : TestFixtureBase
     public void Example()
     {
         #region CreateReader
+
         var o = new JObject
         {
-            { "Cpu", "Intel" },
-            { "Memory", 32 },
+            {"Cpu", "Intel"},
+            {"Memory", 32},
             {
                 "Drives", new JArray
                 {
@@ -46,6 +47,7 @@ public class CreateReader : TestFixtureBase
         // String - SSD
         // EndArray
         // EndObject
+
         #endregion
 
         Assert.False(reader.Read());

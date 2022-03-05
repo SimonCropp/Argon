@@ -377,7 +377,7 @@ static class ReflectionUtils
     /// </summary>
     /// <param name="property">The property.</param>
     /// <returns>
-    /// 	<c>true</c> if the property is an indexed property; otherwise, <c>false</c>.
+    /// <c>true</c> if the property is an indexed property; otherwise, <c>false</c>.
     /// </returns>
     public static bool IsIndexedProperty(this PropertyInfo property)
     {
@@ -433,9 +433,10 @@ static class ReflectionUtils
     /// Determines whether the specified MemberInfo can be read.
     /// </summary>
     /// <param name="member">The MemberInfo to determine whether can be read.</param>
-    /// /// <param name="nonPublic">if set to <c>true</c> then allow the member to be gotten non-publicly.</param>
+    /// ///
+    /// <param name="nonPublic">if set to <c>true</c> then allow the member to be gotten non-publicly.</param>
     /// <returns>
-    /// 	<c>true</c> if the specified MemberInfo can be read; otherwise, <c>false</c>.
+    /// <c>true</c> if the specified MemberInfo can be read; otherwise, <c>false</c>.
     /// </returns>
     public static bool CanReadMemberValue(this MemberInfo member, bool nonPublic)
     {
@@ -469,7 +470,7 @@ static class ReflectionUtils
     /// <param name="nonPublic">if set to <c>true</c> then allow the member to be set non-publicly.</param>
     /// <param name="canSetReadOnly">if set to <c>true</c> then allow the member to be set if read-only.</param>
     /// <returns>
-    /// 	<c>true</c> if the specified MemberInfo can be set; otherwise, <c>false</c>.
+    /// <c>true</c> if the specified MemberInfo can be set; otherwise, <c>false</c>.
     /// </returns>
     public static bool CanSetMemberValue(this MemberInfo member, bool nonPublic, bool canSetReadOnly)
     {

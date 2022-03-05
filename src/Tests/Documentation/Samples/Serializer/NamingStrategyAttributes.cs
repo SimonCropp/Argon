@@ -5,20 +5,24 @@
 public class NamingStrategyAttributes : TestFixtureBase
 {
     #region NamingStrategyAttributesTypes
+
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
     public class User
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
         [JsonProperty(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
         public int SnakeRating { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void Example()
     {
         #region NamingStrategyAttributesUsage
+
         var user = new User
         {
             FirstName = "Tom",
@@ -34,6 +38,7 @@ public class NamingStrategyAttributes : TestFixtureBase
         //   "lastName": "Riddle",
         //   "snake_rating": 10
         // }
+
         #endregion
 
         XUnitAssert.AreEqualNormalized(@"{

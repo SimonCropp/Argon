@@ -2,9 +2,9 @@
 // Use of this source code is governed by the Apache License 2.0,
 // as found in the LICENSE.txt file.
 
+using Argon.NodaTime;
 using NodaTime;
 using static TestHelper;
-using Argon.NodaTime;
 
 /// <summary>
 /// The same tests as NodaIntervalConverterTest, but using the ISO-based interval converter.
@@ -66,7 +66,7 @@ public class NodaIsoIntervalConverterTest
         var endInstant = Instant.FromUtc(2013, 6, 7, 8, 9, 10);
         var interval = new Interval(startInstant, endInstant);
 
-        var testObject = new TestObject { Interval = interval };
+        var testObject = new TestObject {Interval = interval};
 
         var json = JsonConvert.SerializeObject(testObject, Formatting.None, settings);
 

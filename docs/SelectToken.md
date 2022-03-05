@@ -43,16 +43,16 @@ var o = JObject.Parse(@"{
       ]
     }");
 
-var name = (string)o.SelectToken("Manufacturers[0].Name");
+var name = (string) o.SelectToken("Manufacturers[0].Name");
 // Acme Co
 
-var productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
+var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price");
 // 50
 
-var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
+var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L414-L454' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L436-L478' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -122,18 +122,18 @@ SelectToken can be used in combination with standard LINQ methods.
 <!-- snippet: SelectTokenLinq -->
 <a id='snippet-selecttokenlinq'></a>
 ```cs
-var storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
+var storeNames = o.SelectToken("Stores").Select(s => (string) s).ToList();
 // Lambton Quay
 // Willis Street
 
-var firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
+var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("Products[1].Name")).ToList();
 // null
 // Headlight Fluid
 
-var totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
+var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
 // 149.95
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L495-L506' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L519-L532' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

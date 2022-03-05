@@ -2,9 +2,9 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using TestObjects;
 using System.Xml;
 using System.Xml.Linq;
+using TestObjects;
 using Formatting = Argon.Formatting;
 
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -134,89 +134,91 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     /**
-        [Fact]
-        public void XmlNode_EncodeSpecialCharacters()
-        {
-            string initialJson = @"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@standalone"": ""no""
-  },
-  ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
-  ""span"": {
-    ""@class"": ""vevent"",
-    ""a"": {
-      ""@class"": ""url"",
-      ""@href"": ""http://www.web2con.com/"",
-      ""span"": [
-        {
-          ""@class"": ""summary"",
-          ""#text"": ""Web 2.0 Conference"",
-          ""#cdata-section"": ""my escaped text""
-        },
-        {
-          ""@class"": ""location"",
-          ""#text"": ""Argent Hotel, San Francisco, CA""
-        }
-      ],
-      ""abbr"": [
-        {
-          ""@class"": ""dtstart"",
-          ""@title"": ""2005-10-05"",
-          ""#text"": ""October 5""
-        },
-        {
-          ""@class"": ""dtend"",
-          ""@title"": ""2005-10-08"",
-          ""#text"": ""7""
-        }
-      ]
-    }
-  }
-}";
-
-            XmlDocument xmlNode = JsonXmlConvert.DeserializeXmlNode(initialJson, "root", false, true);
-
-            StringAssert.AreEqual(@"<root>
-  <_x003F_xml>
-    <_x0040_version>1.0</_x0040_version>
-    <_x0040_standalone>no</_x0040_standalone>
-  </_x003F_xml>
-  <_x003F_xml-stylesheet>href=""classic.xsl"" type=""text/xml""</_x003F_xml-stylesheet>
-  <span>
-    <_x0040_class>vevent</_x0040_class>
-    <a>
-      <_x0040_class>url</_x0040_class>
-      <_x0040_href>http://www.web2con.com/</_x0040_href>
-      <span>
-        <_x0040_class>summary</_x0040_class>
-        <_x0023_text>Web 2.0 Conference</_x0023_text>
-        <_x0023_cdata-section>my escaped text</_x0023_cdata-section>
-      </span>
-      <span>
-        <_x0040_class>location</_x0040_class>
-        <_x0023_text>Argent Hotel, San Francisco, CA</_x0023_text>
-      </span>
-      <abbr>
-        <_x0040_class>dtstart</_x0040_class>
-        <_x0040_title>2005-10-05</_x0040_title>
-        <_x0023_text>October 5</_x0023_text>
-      </abbr>
-      <abbr>
-        <_x0040_class>dtend</_x0040_class>
-        <_x0040_title>2005-10-08</_x0040_title>
-        <_x0023_text>7</_x0023_text>
-      </abbr>
-    </a>
-  </span>
-</root>", IndentXml(xmlNode.OuterXml));
-
-            string json = JsonXmlConvert.SerializeXmlNode(xmlNode, Formatting.Indented, true);
-
-            Xunit.Assert.Equal(initialJson, json);
-        }
-**/
-
+     * [Fact]
+     * public void XmlNode_EncodeSpecialCharacters()
+     * {
+     * string initialJson = @"{
+     * ""?xml"": {
+     * ""@version"": ""1.0"",
+     * ""@standalone"": ""no""
+     * },
+     * ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
+     * ""span"": {
+     * ""@class"": ""vevent"",
+     * ""a"": {
+     * ""@class"": ""url"",
+     * ""@href"": ""http://www.web2con.com/"",
+     * ""span"": [
+     * {
+     * ""@class"": ""summary"",
+     * ""#text"": ""Web 2.0 Conference"",
+     * ""#cdata-section"": ""my escaped text""
+     * },
+     * {
+     * ""@class"": ""location"",
+     * ""#text"": ""Argent Hotel, San Francisco, CA""
+     * }
+     * ],
+     * ""abbr"": [
+     * {
+     * ""@class"": ""dtstart"",
+     * ""@title"": ""2005-10-05"",
+     * ""#text"": ""October 5""
+     * },
+     * {
+     * ""@class"": ""dtend"",
+     * ""@title"": ""2005-10-08"",
+     * ""#text"": ""7""
+     * }
+     * ]
+     * }
+     * }
+     * }";
+     * 
+     * XmlDocument xmlNode = JsonXmlConvert.DeserializeXmlNode(initialJson, "root", false, true);
+     * 
+     * StringAssert.AreEqual(@"
+     * <root>
+     * <_x003F_xml>
+     * <_x0040_version>1.0</_x0040_version>
+     * <_x0040_standalone>no</_x0040_standalone>
+     * </_x003F_xml>
+     * <_x003F_xml-stylesheet>href=""classic.xsl"" type=""text/xml""</_x003F_xml-stylesheet>
+     * <span>
+     * <_x0040_class>vevent</_x0040_class>
+     * <a>
+     * <_x0040_class>url</_x0040_class>
+     * <_x0040_href>http://www.web2con.com/</_x0040_href>
+     * <span>
+     * <_x0040_class>summary</_x0040_class>
+     * <_x0023_text>Web 2.0 Conference</_x0023_text>
+     * <_x0023_cdata-section>my escaped text</_x0023_cdata-section>
+     * </span>
+     * <span>
+     * <_x0040_class>location</_x0040_class>
+     * <_x0023_text>Argent Hotel, San Francisco, CA</_x0023_text>
+     * </span>
+     * <abbr>
+     * <_x0040_class>dtstart</_x0040_class>
+     * <_x0040_title>2005-10-05</_x0040_title>
+     * <_x0023_text>October 5</_x0023_text>
+     * </abbr>
+     * <abbr>
+     * <_x0040_class>dtend</_x0040_class>
+     * <_x0040_title>2005-10-08</_x0040_title>
+     * <_x0023_text>7</_x0023_text>
+     * </abbr>
+     * </a>
+     * </span>
+     * </root>
+     * ", IndentXml(xmlNode.OuterXml));
+     * 
+     * string json = JsonXmlConvert.SerializeXmlNode(xmlNode, Formatting.Indented, true);
+     * 
+     * Xunit.Assert.Equal(initialJson, json);
+     * }
+     * *
+     */
     [Fact]
     public void XmlNode_UnescapeTextContent()
     {
@@ -284,119 +286,124 @@ public class XmlNodeConverterTest : TestFixtureBase
 
     //TODO: re enable
     /**
-        [Fact]
-        public void XNode_EncodeSpecialCharacters()
-        {
-            string initialJson = @"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@standalone"": ""no""
-  },
-  ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
-  ""span"": {
-    ""@class"": ""vevent"",
-    ""a"": {
-      ""@class"": ""url"",
-      ""@href"": ""http://www.web2con.com/"",
-      ""span"": [
-        {
-          ""@class"": ""summary"",
-          ""#text"": ""Web 2.0 Conference"",
-          ""#cdata-section"": ""my escaped text""
-        },
-        {
-          ""@class"": ""location"",
-          ""#text"": ""Argent Hotel, San Francisco, CA""
-        }
-      ],
-      ""abbr"": [
-        {
-          ""@class"": ""dtstart"",
-          ""@title"": ""2005-10-05"",
-          ""#text"": ""October 5""
-        },
-        {
-          ""@class"": ""dtend"",
-          ""@title"": ""2005-10-08"",
-          ""#text"": ""7""
-        }
-      ]
-    }
-  }
-}";
-
-            XDocument xmlNode = JsonXmlConvert.DeserializeXNode(initialJson, "root", false, true);
-
-            StringAssert.AreEqual(@"<root>
-  <_x003F_xml>
-    <_x0040_version>1.0</_x0040_version>
-    <_x0040_standalone>no</_x0040_standalone>
-  </_x003F_xml>
-  <_x003F_xml-stylesheet>href=""classic.xsl"" type=""text/xml""</_x003F_xml-stylesheet>
-  <span>
-    <_x0040_class>vevent</_x0040_class>
-    <a>
-      <_x0040_class>url</_x0040_class>
-      <_x0040_href>http://www.web2con.com/</_x0040_href>
-      <span>
-        <_x0040_class>summary</_x0040_class>
-        <_x0023_text>Web 2.0 Conference</_x0023_text>
-        <_x0023_cdata-section>my escaped text</_x0023_cdata-section>
-      </span>
-      <span>
-        <_x0040_class>location</_x0040_class>
-        <_x0023_text>Argent Hotel, San Francisco, CA</_x0023_text>
-      </span>
-      <abbr>
-        <_x0040_class>dtstart</_x0040_class>
-        <_x0040_title>2005-10-05</_x0040_title>
-        <_x0023_text>October 5</_x0023_text>
-      </abbr>
-      <abbr>
-        <_x0040_class>dtend</_x0040_class>
-        <_x0040_title>2005-10-08</_x0040_title>
-        <_x0023_text>7</_x0023_text>
-      </abbr>
-    </a>
-  </span>
-</root>", xmlNode.ToString());
-
-            string json = JsonXmlConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
-
-            Xunit.Assert.Equal(initialJson, json);
-        }
-
-        [Fact]
-        public void XNode_MetadataArray_EncodeSpecialCharacters()
-        {
-            string initialJson = @"{
-  ""$id"": ""1"",
-  ""$values"": [
-    ""1"",
-    ""2"",
-    ""3"",
-    ""4"",
-    ""5""
-  ]
-}";
-
-            XDocument xmlNode = JsonXmlConvert.DeserializeXNode(initialJson, "root", false, true);
-
-            StringAssert.AreEqual(@"<root>
-  <_x0024_id>1</_x0024_id>
-  <_x0024_values>1</_x0024_values>
-  <_x0024_values>2</_x0024_values>
-  <_x0024_values>3</_x0024_values>
-  <_x0024_values>4</_x0024_values>
-  <_x0024_values>5</_x0024_values>
-</root>", xmlNode.ToString());
-
-            string json = JsonXmlConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
-
-            Xunit.Assert.Equal(initialJson, json);
-        }
-
-**/
+     * [Fact]
+     * public void XNode_EncodeSpecialCharacters()
+     * {
+     * string initialJson = @"{
+     * ""?xml"": {
+     * ""@version"": ""1.0"",
+     * ""@standalone"": ""no""
+     * },
+     * ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
+     * ""span"": {
+     * ""@class"": ""vevent"",
+     * ""a"": {
+     * ""@class"": ""url"",
+     * ""@href"": ""http://www.web2con.com/"",
+     * ""span"": [
+     * {
+     * ""@class"": ""summary"",
+     * ""#text"": ""Web 2.0 Conference"",
+     * ""#cdata-section"": ""my escaped text""
+     * },
+     * {
+     * ""@class"": ""location"",
+     * ""#text"": ""Argent Hotel, San Francisco, CA""
+     * }
+     * ],
+     * ""abbr"": [
+     * {
+     * ""@class"": ""dtstart"",
+     * ""@title"": ""2005-10-05"",
+     * ""#text"": ""October 5""
+     * },
+     * {
+     * ""@class"": ""dtend"",
+     * ""@title"": ""2005-10-08"",
+     * ""#text"": ""7""
+     * }
+     * ]
+     * }
+     * }
+     * }";
+     * 
+     * XDocument xmlNode = JsonXmlConvert.DeserializeXNode(initialJson, "root", false, true);
+     * 
+     * StringAssert.AreEqual(@"
+     * <root>
+     * <_x003F_xml>
+     * <_x0040_version>1.0</_x0040_version>
+     * <_x0040_standalone>no</_x0040_standalone>
+     * </_x003F_xml>
+     * <_x003F_xml-stylesheet>href=""classic.xsl"" type=""text/xml""</_x003F_xml-stylesheet>
+     * <span>
+     * <_x0040_class>vevent</_x0040_class>
+     * <a>
+     * <_x0040_class>url</_x0040_class>
+     * <_x0040_href>http://www.web2con.com/</_x0040_href>
+     * <span>
+     * <_x0040_class>summary</_x0040_class>
+     * <_x0023_text>Web 2.0 Conference</_x0023_text>
+     * <_x0023_cdata-section>my escaped text</_x0023_cdata-section>
+     * </span>
+     * <span>
+     * <_x0040_class>location</_x0040_class>
+     * <_x0023_text>Argent Hotel, San Francisco, CA</_x0023_text>
+     * </span>
+     * <abbr>
+     * <_x0040_class>dtstart</_x0040_class>
+     * <_x0040_title>2005-10-05</_x0040_title>
+     * <_x0023_text>October 5</_x0023_text>
+     * </abbr>
+     * <abbr>
+     * <_x0040_class>dtend</_x0040_class>
+     * <_x0040_title>2005-10-08</_x0040_title>
+     * <_x0023_text>7</_x0023_text>
+     * </abbr>
+     * </a>
+     * </span>
+     * </root>
+     * ", xmlNode.ToString());
+     * 
+     * string json = JsonXmlConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
+     * 
+     * Xunit.Assert.Equal(initialJson, json);
+     * }
+     * 
+     * [Fact]
+     * public void XNode_MetadataArray_EncodeSpecialCharacters()
+     * {
+     * string initialJson = @"{
+     * ""$id"": ""1"",
+     * ""$values"": [
+     * ""1"",
+     * ""2"",
+     * ""3"",
+     * ""4"",
+     * ""5""
+     * ]
+     * }";
+     * 
+     * XDocument xmlNode = JsonXmlConvert.DeserializeXNode(initialJson, "root", false, true);
+     * 
+     * StringAssert.AreEqual(@"
+     * <root>
+     * <_x0024_id>1</_x0024_id>
+     * <_x0024_values>1</_x0024_values>
+     * <_x0024_values>2</_x0024_values>
+     * <_x0024_values>3</_x0024_values>
+     * <_x0024_values>4</_x0024_values>
+     * <_x0024_values>5</_x0024_values>
+     * </root>
+     * ", xmlNode.ToString());
+     * 
+     * string json = JsonXmlConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
+     * 
+     * Xunit.Assert.Equal(initialJson, json);
+     * }
+     * 
+     * *
+     */
     [Fact]
     public void SerializeDollarProperty()
     {
@@ -597,7 +604,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var settings = new JsonSerializerSettings
         {
-          Formatting = Formatting.Indented
+            Formatting = Formatting.Indented
         };
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(result, settings); // <--- fails here with the cast message
@@ -2365,7 +2372,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
             var serializer = JsonSerializer.Create(new()
             {
-                Converters = {new XmlNodeConverter()},
+                Converters = {new XmlNodeConverter()}
             });
 
             var json = new StringBuilder(@"{
@@ -2415,7 +2422,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         using var jsonReader = o.CreateReader();
         var serializer = JsonSerializer.Create(new()
         {
-            Converters = {new XmlNodeConverter()},
+            Converters = {new XmlNodeConverter()}
         });
 
         var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
@@ -2439,7 +2446,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         using var jsonReader = o.CreateReader();
         var serializer = JsonSerializer.Create(new()
         {
-            Converters = {new XmlNodeConverter()},
+            Converters = {new XmlNodeConverter()}
         });
 
         var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
@@ -2972,13 +2979,13 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());
-        var json1 = JsonConvert.SerializeObject(xml,settings);
+        var json1 = JsonConvert.SerializeObject(xml, settings);
 
         Assert.Equal(@"{""root"":{""@xmlns"":""http://www.example.com/ns"",""a"":null,""bns:b"":{""@xmlns:bns"":""http://www.example.com/ns""},""c"":null}}", json1);
         var xml1 = new XmlDocument();
         xml1.LoadXml(xmlString);
 
-        var json2 = JsonConvert.SerializeObject(xml1,settings);
+        var json2 = JsonConvert.SerializeObject(xml1, settings);
 
         Assert.Equal(@"{""root"":{""@xmlns"":""http://www.example.com/ns"",""a"":null,""bns:b"":{""@xmlns:bns"":""http://www.example.com/ns""},""c"":null}}", json2);
     }

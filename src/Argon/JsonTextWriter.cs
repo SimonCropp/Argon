@@ -40,7 +40,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Gets or sets how many <see cref="JsonTextWriter.IndentChar"/>s to write for each level in the hierarchy when <see cref="JsonWriter.Formatting"/> is set to <see cref="Formatting.Indented"/>.
+    /// Gets or sets how many <see cref="JsonTextWriter.IndentChar" />s to write for each level in the hierarchy when <see cref="JsonWriter.Formatting" /> is set to <see cref="Formatting.Indented" />.
     /// </summary>
     public int Indentation
     {
@@ -75,7 +75,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Gets or sets which character to use for indenting when <see cref="JsonWriter.Formatting"/> is set to <see cref="Formatting.Indented"/>.
+    /// Gets or sets which character to use for indenting when <see cref="JsonWriter.Formatting" /> is set to <see cref="Formatting.Indented" />.
     /// </summary>
     public char IndentChar
     {
@@ -96,7 +96,7 @@ public partial class JsonTextWriter : JsonWriter
     public bool QuoteName { get; set; } = true;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonTextWriter"/> class using the specified <see cref="TextWriter"/>.
+    /// Initializes a new instance of the <see cref="JsonTextWriter" /> class using the specified <see cref="TextWriter" />.
     /// </summary>
     public JsonTextWriter(TextWriter textWriter)
     {
@@ -108,7 +108,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Flushes whatever is in the buffer to the underlying <see cref="TextWriter"/> and also flushes the underlying <see cref="TextWriter"/>.
+    /// Flushes whatever is in the buffer to the underlying <see cref="TextWriter" /> and also flushes the underlying <see cref="TextWriter" />.
     /// </summary>
     public override void Flush()
     {
@@ -117,8 +117,8 @@ public partial class JsonTextWriter : JsonWriter
 
     /// <summary>
     /// Closes this writer.
-    /// If <see cref="JsonWriter.CloseOutput"/> is set to <c>true</c>, the underlying <see cref="TextWriter"/> is also closed.
-    /// If <see cref="JsonWriter.AutoCompleteOnClose"/> is set to <c>true</c>, the JSON is auto-completed.
+    /// If <see cref="JsonWriter.CloseOutput" /> is set to <c>true</c>, the underlying <see cref="TextWriter" /> is also closed.
+    /// If <see cref="JsonWriter.AutoCompleteOnClose" /> is set to <c>true</c>, the JSON is auto-completed.
     /// </summary>
     public override void Close()
     {
@@ -299,8 +299,9 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     #region WriteValue methods
+
     /// <summary>
-    /// Writes a <see cref="Object"/> value.
+    /// Writes a <see cref="Object" /> value.
     /// An error will raised if the value cannot be written as a single JSON token.
     /// </summary>
     public override void WriteValue(object? value)
@@ -345,7 +346,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="String"/> value.
+    /// Writes a <see cref="String" /> value.
     /// </summary>
     public override void WriteValue(string? value)
     {
@@ -368,7 +369,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Int32"/> value.
+    /// Writes a <see cref="Int32" /> value.
     /// </summary>
     public override void WriteValue(int value)
     {
@@ -377,7 +378,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="UInt32"/> value.
+    /// Writes a <see cref="UInt32" /> value.
     /// </summary>
     public override void WriteValue(uint value)
     {
@@ -386,7 +387,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Int64"/> value.
+    /// Writes a <see cref="Int64" /> value.
     /// </summary>
     public override void WriteValue(long value)
     {
@@ -395,7 +396,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="UInt64"/> value.
+    /// Writes a <see cref="UInt64" /> value.
     /// </summary>
     public override void WriteValue(ulong value)
     {
@@ -404,7 +405,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Single"/> value.
+    /// Writes a <see cref="Single" /> value.
     /// </summary>
     public override void WriteValue(float value)
     {
@@ -413,7 +414,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Nullable{T}"/> of <see cref="Single"/> value.
+    /// Writes a <see cref="Nullable{T}" /> of <see cref="Single" /> value.
     /// </summary>
     public override void WriteValue(float? value)
     {
@@ -429,7 +430,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Double"/> value.
+    /// Writes a <see cref="Double" /> value.
     /// </summary>
     public override void WriteValue(double value)
     {
@@ -438,7 +439,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Nullable{T}"/> of <see cref="Double"/> value.
+    /// Writes a <see cref="Nullable{T}" /> of <see cref="Double" /> value.
     /// </summary>
     public override void WriteValue(double? value)
     {
@@ -454,7 +455,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Boolean"/> value.
+    /// Writes a <see cref="Boolean" /> value.
     /// </summary>
     public override void WriteValue(bool value)
     {
@@ -463,7 +464,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Int16"/> value.
+    /// Writes a <see cref="Int16" /> value.
     /// </summary>
     public override void WriteValue(short value)
     {
@@ -472,7 +473,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="UInt16"/> value.
+    /// Writes a <see cref="UInt16" /> value.
     /// </summary>
     public override void WriteValue(ushort value)
     {
@@ -481,7 +482,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Char"/> value.
+    /// Writes a <see cref="Char" /> value.
     /// </summary>
     public override void WriteValue(char value)
     {
@@ -490,7 +491,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Byte"/> value.
+    /// Writes a <see cref="Byte" /> value.
     /// </summary>
     public override void WriteValue(byte value)
     {
@@ -499,7 +500,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="SByte"/> value.
+    /// Writes a <see cref="SByte" /> value.
     /// </summary>
     public override void WriteValue(sbyte value)
     {
@@ -508,7 +509,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Decimal"/> value.
+    /// Writes a <see cref="Decimal" /> value.
     /// </summary>
     public override void WriteValue(decimal value)
     {
@@ -517,7 +518,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="DateTime"/> value.
+    /// Writes a <see cref="DateTime" /> value.
     /// </summary>
     public override void WriteValue(DateTime value)
     {
@@ -551,7 +552,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Byte"/>[] value.
+    /// Writes a <see cref="Byte" />[] value.
     /// </summary>
     public override void WriteValue(byte[]? value)
     {
@@ -570,7 +571,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="DateTimeOffset"/> value.
+    /// Writes a <see cref="DateTimeOffset" /> value.
     /// </summary>
     public override void WriteValue(DateTimeOffset value)
     {
@@ -603,7 +604,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Guid"/> value.
+    /// Writes a <see cref="Guid" /> value.
     /// </summary>
     public override void WriteValue(Guid value)
     {
@@ -617,7 +618,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="TimeSpan"/> value.
+    /// Writes a <see cref="TimeSpan" /> value.
     /// </summary>
     public override void WriteValue(TimeSpan value)
     {
@@ -631,7 +632,7 @@ public partial class JsonTextWriter : JsonWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="Uri"/> value.
+    /// Writes a <see cref="Uri" /> value.
     /// </summary>
     public override void WriteValue(Uri? value)
     {
@@ -645,6 +646,7 @@ public partial class JsonTextWriter : JsonWriter
             WriteEscapedString(value.OriginalString, true);
         }
     }
+
     #endregion
 
     /// <summary>
@@ -679,20 +681,20 @@ public partial class JsonTextWriter : JsonWriter
     {
         if (value is >= 0 and <= 9)
         {
-            writer.Write((char)('0' + value));
+            writer.Write((char) ('0' + value));
         }
         else
         {
             var negative = value < 0;
-            WriteIntegerValue(negative ? (ulong)-value : (ulong)value, negative);
+            WriteIntegerValue(negative ? (ulong) -value : (ulong) value, negative);
         }
     }
 
     void WriteIntegerValue(ulong value, bool negative)
     {
-        if (!negative & value <= 9)
+        if (!negative & (value <= 9))
         {
-            writer.Write((char)('0' + value));
+            writer.Write((char) ('0' + value));
         }
         else
         {
@@ -706,7 +708,7 @@ public partial class JsonTextWriter : JsonWriter
         if (value <= uint.MaxValue)
         {
             // avoid the 64 bit division if possible
-            return WriteNumberToBuffer((uint)value, negative);
+            return WriteNumberToBuffer((uint) value, negative);
         }
 
         EnsureWriteBuffer();
@@ -726,7 +728,7 @@ public partial class JsonTextWriter : JsonWriter
         {
             var quotient = value / 10;
             var digit = value - quotient * 10;
-            writeBuffer[--index] = (char)('0' + digit);
+            writeBuffer[--index] = (char) ('0' + digit);
             value = quotient;
         } while (value != 0);
 
@@ -737,20 +739,20 @@ public partial class JsonTextWriter : JsonWriter
     {
         if (value is >= 0 and <= 9)
         {
-            writer.Write((char)('0' + value));
+            writer.Write((char) ('0' + value));
         }
         else
         {
             var negative = value < 0;
-            WriteIntegerValue(negative ? (uint)-value : (uint)value, negative);
+            WriteIntegerValue(negative ? (uint) -value : (uint) value, negative);
         }
     }
 
     void WriteIntegerValue(uint value, bool negative)
     {
-        if (!negative & value <= 9)
+        if (!negative & (value <= 9))
         {
-            writer.Write((char)('0' + value));
+            writer.Write((char) ('0' + value));
         }
         else
         {
@@ -778,7 +780,7 @@ public partial class JsonTextWriter : JsonWriter
         {
             var quotient = value / 10;
             var digit = value - quotient * 10;
-            writeBuffer[--index] = (char)('0' + digit);
+            writeBuffer[--index] = (char) ('0' + digit);
             value = quotient;
         } while (value != 0);
 

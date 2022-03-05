@@ -12,34 +12,42 @@ static class MathUtils
             {
                 return 1;
             }
+
             if (i < 100)
             {
                 return 2;
             }
+
             if (i < 1000)
             {
                 return 3;
             }
+
             if (i < 10000)
             {
                 return 4;
             }
+
             if (i < 100000)
             {
                 return 5;
             }
+
             if (i < 1000000)
             {
                 return 6;
             }
+
             if (i < 10000000)
             {
                 return 7;
             }
+
             if (i < 100000000)
             {
                 return 8;
             }
+
             if (i < 1000000000)
             {
                 return 9;
@@ -52,34 +60,42 @@ static class MathUtils
         {
             return 11;
         }
+
         if (i < 1000000000000)
         {
             return 12;
         }
+
         if (i < 10000000000000)
         {
             return 13;
         }
+
         if (i < 100000000000000)
         {
             return 14;
         }
+
         if (i < 1000000000000000)
         {
             return 15;
         }
+
         if (i < 10000000000000000)
         {
             return 16;
         }
+
         if (i < 100000000000000000)
         {
             return 17;
         }
+
         if (i < 1000000000000000000)
         {
             return 18;
         }
+
         if (i < 10000000000000000000)
         {
             return 19;
@@ -92,10 +108,10 @@ static class MathUtils
     {
         if (n <= 9)
         {
-            return (char)(n + 48);
+            return (char) (n + 48);
         }
 
-        return (char)(n - 10 + 97);
+        return (char) (n - 10 + 97);
     }
 
     public static bool ApproxEquals(double d1, double d2)

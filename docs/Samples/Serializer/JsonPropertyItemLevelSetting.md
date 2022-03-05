@@ -9,16 +9,14 @@ public class Business
 {
     public string Name { get; set; }
 
-    [JsonProperty(ItemIsReference = true)]
-    public IList<Employee> Employees { get; set; }
+    [JsonProperty(ItemIsReference = true)] public IList<Employee> Employees { get; set; }
 }
 
 public class Employee
 {
     public string Name { get; set; }
 
-    [JsonProperty(IsReference = true)]
-    public Employee Manager { get; set; }
+    [JsonProperty(IsReference = true)] public Employee Manager { get; set; }
 }
 ```
 <sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L7-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingtypes' title='Start of snippet'>anchor</a></sup>
@@ -68,5 +66,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L28-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L28-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

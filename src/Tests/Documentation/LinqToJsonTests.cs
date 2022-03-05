@@ -10,6 +10,7 @@ public class LinqToJsonTests : TestFixtureBase
     public void LinqToJsonBasic()
     {
         #region LinqToJsonBasic
+
         var o = JObject.Parse(@"{
               'CPU': 'Intel',
               'Drives': [
@@ -18,15 +19,16 @@ public class LinqToJsonTests : TestFixtureBase
               ]
             }");
 
-        var cpu = (string)o["CPU"];
+        var cpu = (string) o["CPU"];
         // Intel
 
-        var firstDrive = (string)o["Drives"][0];
+        var firstDrive = (string) o["Drives"][0];
         // DVD read/writer
 
-        var allDrives = o["Drives"].Select(t => (string)t).ToList();
+        var allDrives = o["Drives"].Select(t => (string) t).ToList();
         // DVD read/writer
         // 500 gigabyte hard drive
+
         #endregion
     }
 
@@ -34,6 +36,7 @@ public class LinqToJsonTests : TestFixtureBase
     public void LinqToJsonCreateNormal()
     {
         #region LinqToJsonCreateNormal
+
         var array = new JArray();
         var text = new JValue("Manual text");
         var date = new JValue(new DateTime(2000, 5, 23));
@@ -46,6 +49,7 @@ public class LinqToJsonTests : TestFixtureBase
         //   "Manual text",
         //   "2000-05-23T00:00:00"
         // ]
+
         #endregion
     }
 
@@ -66,6 +70,7 @@ public class LinqToJsonTests : TestFixtureBase
     public void LinqToJsonCreateDeclaratively()
     {
         #region LinqToJsonCreateDeclaratively
+
         var posts = GetPosts();
 
         var rss =
@@ -117,6 +122,7 @@ public class LinqToJsonTests : TestFixtureBase
         //    ]
         //  }
         //}
+
         #endregion
     }
 
@@ -126,6 +132,7 @@ public class LinqToJsonTests : TestFixtureBase
         var posts = GetPosts();
 
         #region LinqToJsonCreateFromObject
+
         var o = JObject.FromObject(new
         {
             channel = new
@@ -145,6 +152,7 @@ public class LinqToJsonTests : TestFixtureBase
                     }
             }
         });
+
         #endregion
     }
 
@@ -152,6 +160,7 @@ public class LinqToJsonTests : TestFixtureBase
     public void LinqToJsonCreateParse()
     {
         #region LinqToJsonCreateParse
+
         var json = @"{
               CPU: 'Intel',
               Drives: [
@@ -161,6 +170,7 @@ public class LinqToJsonTests : TestFixtureBase
             }";
 
         var o = JObject.Parse(json);
+
         #endregion
     }
 
@@ -168,6 +178,7 @@ public class LinqToJsonTests : TestFixtureBase
     public void LinqToJsonCreateParseArray()
     {
         #region LinqToJsonCreateParseArray
+
         var json = @"[
               'Small',
               'Medium',
@@ -175,6 +186,7 @@ public class LinqToJsonTests : TestFixtureBase
             ]";
 
         var a = JArray.Parse(json);
+
         #endregion
     }
 
@@ -192,7 +204,7 @@ public class LinqToJsonTests : TestFixtureBase
         #region LinqToJsonReadObject
 
         using var reader = File.OpenText(@"c:\person.json");
-        var o = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+        var o = (JObject) JToken.ReadFrom(new JsonTextReader(reader));
         // do stuff
 
         #endregion
@@ -202,6 +214,7 @@ public class LinqToJsonTests : TestFixtureBase
     public void LinqToJsonSimpleQuerying()
     {
         #region LinqToJsonSimpleQuerying
+
         var json = @"{
               'channel': {
                 'title': 'James Newton-King',
@@ -232,18 +245,19 @@ public class LinqToJsonTests : TestFixtureBase
 
         var rss = JObject.Parse(json);
 
-        var rssTitle = (string)rss["channel"]["title"];
+        var rssTitle = (string) rss["channel"]["title"];
         // James Newton-King
 
-        var itemTitle = (string)rss["channel"]["item"][0]["title"];
+        var itemTitle = (string) rss["channel"]["item"][0]["title"];
         // Json.NET 1.3 + New license + Now on CodePlex
 
-        var categories = (JArray)rss["channel"]["item"][0]["categories"];
+        var categories = (JArray) rss["channel"]["item"][0]["categories"];
         // ["Json.NET", "CodePlex"]
 
-        var categoriesText = categories.Select(c => (string)c).ToList();
+        var categoriesText = categories.Select(c => (string) c).ToList();
         // Json.NET
         // CodePlex
+
         #endregion
     }
 
@@ -279,9 +293,10 @@ public class LinqToJsonTests : TestFixtureBase
             }");
 
         #region LinqToJsonQuerying
+
         var postTitles =
             from p in rss["channel"]["item"]
-            select (string)p["title"];
+            select (string) p["title"];
 
         foreach (var item in postTitles)
         {
@@ -296,7 +311,7 @@ public class LinqToJsonTests : TestFixtureBase
             group c by c
             into g
             orderby g.Count() descending
-            select new { Category = g.Key, Count = g.Count() };
+            select new {Category = g.Key, Count = g.Count()};
 
         foreach (var c in categories)
         {
@@ -306,6 +321,7 @@ public class LinqToJsonTests : TestFixtureBase
         //Json.NET - Count: 2
         //LINQ - Count: 1
         //CodePlex - Count: 1
+
         #endregion
 
         Assert.Equal(2, postTitles.Count());
@@ -313,6 +329,7 @@ public class LinqToJsonTests : TestFixtureBase
     }
 
     #region LinqToJsonDeserializeObject
+
     public class Shortie
     {
         public string Original { get; set; }
@@ -326,12 +343,14 @@ public class LinqToJsonTests : TestFixtureBase
         public int Code { get; set; }
         public string ErrorMessage { get; set; }
     }
+
     #endregion
 
     [Fact]
     public void LinqToJsonDeserializeExample()
     {
         #region LinqToJsonDeserializeExample
+
         var jsonText = @"{
               'short': {
                 'original': 'http://www.foo.com/',
@@ -347,12 +366,12 @@ public class LinqToJsonTests : TestFixtureBase
 
         var shortie = new Shortie
         {
-            Original = (string)json["short"]["original"],
-            Short = (string)json["short"]["short"],
+            Original = (string) json["short"]["original"],
+            Short = (string) json["short"]["short"],
             Error = new()
             {
-                Code = (int)json["short"]["error"]["code"],
-                ErrorMessage = (string)json["short"]["error"]["msg"]
+                Code = (int) json["short"]["error"]["code"],
+                ErrorMessage = (string) json["short"]["error"]["msg"]
             }
         };
 
@@ -361,6 +380,7 @@ public class LinqToJsonTests : TestFixtureBase
 
         Console.WriteLine(shortie.Error.ErrorMessage);
         // No action taken
+
         #endregion
 
         Assert.Equal("http://www.foo.com/", shortie.Original);
@@ -402,7 +422,9 @@ public class LinqToJsonTests : TestFixtureBase
             }");
 
         #region SelectTokenSimple
-        var name = (string)o.SelectToken("Manufacturers[0].Name");
+
+        var name = (string) o.SelectToken("Manufacturers[0].Name");
+
         #endregion
 
         Assert.Equal("Acme Co", name);
@@ -412,6 +434,7 @@ public class LinqToJsonTests : TestFixtureBase
     public void SelectTokenComplex()
     {
         #region SelectTokenComplex
+
         var o = JObject.Parse(@"{
               'Stores': [
                 'Lambton Quay',
@@ -443,14 +466,15 @@ public class LinqToJsonTests : TestFixtureBase
               ]
             }");
 
-        var name = (string)o.SelectToken("Manufacturers[0].Name");
+        var name = (string) o.SelectToken("Manufacturers[0].Name");
         // Acme Co
 
-        var productPrice = (decimal)o.SelectToken("Manufacturers[0].Products[0].Price");
+        var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price");
         // 50
 
-        var productName = (string)o.SelectToken("Manufacturers[1].Products[0].Name");
+        var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
         // Elbow Grease
+
         #endregion
 
         Assert.Equal("Acme Co", name);
@@ -493,16 +517,18 @@ public class LinqToJsonTests : TestFixtureBase
             }");
 
         #region SelectTokenLinq
-        var storeNames = o.SelectToken("Stores").Select(s => (string)s).ToList();
+
+        var storeNames = o.SelectToken("Stores").Select(s => (string) s).ToList();
         // Lambton Quay
         // Willis Street
 
-        var firstProductNames = o["Manufacturers"].Select(m => (string)m.SelectToken("Products[1].Name")).ToList();
+        var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("Products[1].Name")).ToList();
         // null
         // Headlight Fluid
 
-        var totalPrice = o["Manufacturers"].Sum(m => (decimal)m.SelectToken("Products[0].Price"));
+        var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
         // 149.95
+
         #endregion
 
         Assert.Equal(2, storeNames.Count);

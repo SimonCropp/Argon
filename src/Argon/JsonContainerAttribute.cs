@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Instructs the <see cref="JsonSerializer"/> how to serialize the object.
+/// Instructs the <see cref="JsonSerializer" /> how to serialize the object.
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
 public abstract class JsonContainerAttribute : Attribute
@@ -31,9 +31,9 @@ public abstract class JsonContainerAttribute : Attribute
     public Type? ItemConverterType { get; set; }
 
     /// <summary>
-    /// The parameter list to use when constructing the <see cref="JsonConverter"/> described by <see cref="ItemConverterType"/>.
+    /// The parameter list to use when constructing the <see cref="JsonConverter" /> described by <see cref="ItemConverterType" />.
     /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="JsonConverter"/> that exactly matches the number,
+    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="JsonConverter" /> that exactly matches the number,
     /// order, and type of these parameters.
     /// </summary>
     /// <example>
@@ -44,7 +44,7 @@ public abstract class JsonContainerAttribute : Attribute
     public object[]? ItemConverterParameters { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="Type"/> of the <see cref="NamingStrategy"/>.
+    /// Gets or sets the <see cref="Type" /> of the <see cref="NamingStrategy" />.
     /// </summary>
     public Type? NamingStrategyType
     {
@@ -57,9 +57,9 @@ public abstract class JsonContainerAttribute : Attribute
     }
 
     /// <summary>
-    /// The parameter list to use when constructing the <see cref="NamingStrategy"/> described by <see cref="NamingStrategyType"/>.
+    /// The parameter list to use when constructing the <see cref="NamingStrategy" /> described by <see cref="NamingStrategyType" />.
     /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="NamingStrategy"/> that exactly matches the number,
+    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="NamingStrategy" /> that exactly matches the number,
     /// order, and type of these parameters.
     /// </summary>
     /// <example>
@@ -125,14 +125,14 @@ public abstract class JsonContainerAttribute : Attribute
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonContainerAttribute"/> class.
+    /// Initializes a new instance of the <see cref="JsonContainerAttribute" /> class.
     /// </summary>
     protected JsonContainerAttribute()
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonContainerAttribute"/> class with the specified container Id.
+    /// Initializes a new instance of the <see cref="JsonContainerAttribute" /> class with the specified container Id.
     /// </summary>
     protected JsonContainerAttribute(string id)
     {
