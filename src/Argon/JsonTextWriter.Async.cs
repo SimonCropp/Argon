@@ -640,10 +640,16 @@ public partial class JsonTextWriter
     async Task WriteValueNonNullAsync(byte[] value, CancellationToken cancellation)
     {
         await InternalWriteValueAsync(JsonToken.Bytes, cancellation).ConfigureAwait(false);
-        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        if (QuoteValue)
+        {
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        }
         await Base64Encoder.EncodeAsync(value, 0, value.Length, cancellation).ConfigureAwait(false);
         await Base64Encoder.FlushAsync(cancellation).ConfigureAwait(false);
-        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        if (QuoteValue)
+        {
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        }
     }
 
     /// <summary>
@@ -725,9 +731,16 @@ public partial class JsonTextWriter
         }
         else
         {
-            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            if (QuoteValue)
+            {
+                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            }
+
             await writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellation).ConfigureAwait(false);
-            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            if (QuoteValue)
+            {
+                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            }
         }
     }
 
@@ -787,9 +800,16 @@ public partial class JsonTextWriter
         }
         else
         {
-            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            if (QuoteValue)
+            {
+                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            }
+
             await writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellation).ConfigureAwait(false);
-            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            if (QuoteValue)
+            {
+                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+            }
         }
     }
 
@@ -979,9 +999,16 @@ public partial class JsonTextWriter
     {
         await InternalWriteValueAsync(JsonToken.String, cancellation).ConfigureAwait(false);
 
-        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        if (QuoteValue)
+        {
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        }
+
         await writer.WriteAsync(value.ToString("D", CultureInfo.InvariantCulture), cancellation).ConfigureAwait(false);
-        await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        if (QuoteValue)
+        {
+            await writer.WriteAsync(quoteChar).ConfigureAwait(false);
+        }
     }
 
     /// <summary>
@@ -1241,7 +1268,7 @@ public partial class JsonTextWriter
                 return writer.WriteAsync(JsonConvert.Null, cancellation);
             }
 
-            return WriteEscapedStringAsync(value, true, cancellation);
+            return WriteEscapedStringAsync(value, QuoteValue, cancellation);
         }
 
         return DoWriteValueAsync(task, value, cancellation);
@@ -1257,7 +1284,7 @@ public partial class JsonTextWriter
             return;
         }
 
-        await WriteEscapedStringAsync(value, true, cancellation).ConfigureAwait(false);
+        await WriteEscapedStringAsync(value, QuoteValue, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1280,9 +1307,16 @@ public partial class JsonTextWriter
     async Task DoWriteValueAsync(TimeSpan value, CancellationToken cancellation)
     {
         await InternalWriteValueAsync(JsonToken.String, cancellation).ConfigureAwait(false);
-        await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
+        if (QuoteValue)
+        {
+            await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
+        }
+
         await writer.WriteAsync(value.ToString(null, CultureInfo.InvariantCulture), cancellation).ConfigureAwait(false);
-        await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
+        if (QuoteValue)
+        {
+            await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
+        }
     }
 
     /// <summary>
@@ -1422,7 +1456,7 @@ public partial class JsonTextWriter
         var task = InternalWriteValueAsync(JsonToken.String, cancellation);
         if (task.IsCompletedSucessfully())
         {
-            return WriteEscapedStringAsync(value.OriginalString, true, cancellation);
+            return WriteEscapedStringAsync(value.OriginalString, QuoteValue, cancellation);
         }
 
         return WriteValueNotNullAsync(task, value, cancellation);
@@ -1431,7 +1465,7 @@ public partial class JsonTextWriter
     async Task WriteValueNotNullAsync(Task task, Uri value, CancellationToken cancellation)
     {
         await task.ConfigureAwait(false);
-        await WriteEscapedStringAsync(value.OriginalString, true, cancellation).ConfigureAwait(false);
+        await WriteEscapedStringAsync(value.OriginalString, QuoteValue, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>

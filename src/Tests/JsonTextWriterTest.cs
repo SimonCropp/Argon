@@ -147,7 +147,10 @@ public class JsonTextWriterTest : TestFixtureBase
     {
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
-        var jsonWriter = new JsonTextWriter(stringWriter) {QuoteName = false};
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            QuoteName = false
+        };
 
         jsonWriter.WriteStartObject();
 
@@ -158,6 +161,26 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.Flush();
 
         Assert.Equal(@"{name:""value""}", stringBuilder.ToString());
+    }
+    [Fact]
+    public void QuoteValueAndStrings()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            QuoteValue = false
+        };
+
+        jsonWriter.WriteStartObject();
+
+        jsonWriter.WritePropertyName("name");
+        jsonWriter.WriteValue("value");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name"":value}", stringBuilder.ToString());
     }
 
     [Fact]
@@ -957,13 +980,8 @@ public class JsonTextWriterTest : TestFixtureBase
             Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             jsonWriter.Indentation = 5;
-            Assert.Equal(5, jsonWriter.Indentation);
             jsonWriter.IndentChar = '_';
-            Assert.Equal('_', jsonWriter.IndentChar);
-            jsonWriter.QuoteName = true;
-            XUnitAssert.True(jsonWriter.QuoteName);
             jsonWriter.QuoteChar = '\'';
-            Assert.Equal('\'', jsonWriter.QuoteChar);
 
             jsonWriter.WriteStartObject();
 
@@ -971,9 +989,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteValue(double.NaN);
 
             jsonWriter.IndentChar = '?';
-            Assert.Equal('?', jsonWriter.IndentChar);
             jsonWriter.Indentation = 6;
-            Assert.Equal(6, jsonWriter.Indentation);
 
             jsonWriter.WritePropertyName("prop2");
             jsonWriter.WriteValue(123);
@@ -1386,6 +1402,33 @@ _____'propertyName': NaN,
 
         XUnitAssert.AreEqualNormalized(@"{
   a: 1
+}", stringWriter.ToString());
+    }
+
+    [Fact]
+    public void QuoteDictionaryValues()
+    {
+        var d = new Dictionary<string, string>
+        {
+            {"a", "b"}
+        };
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented
+        };
+        var serializer = JsonSerializer.Create(settings);
+        using var stringWriter = new StringWriter();
+        using (var writer = new JsonTextWriter(stringWriter)
+               {
+                   QuoteValue = false
+               })
+        {
+            serializer.Serialize(writer, d);
+            writer.Close();
+        }
+
+        XUnitAssert.AreEqualNormalized(@"{
+  ""a"": b
 }", stringWriter.ToString());
     }
 

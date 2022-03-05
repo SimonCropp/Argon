@@ -96,6 +96,11 @@ public partial class JsonTextWriter : JsonWriter
     public bool QuoteName { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether object values will be surrounded with quotes.
+    /// </summary>
+    public bool QuoteValue { get; set; } = true;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextWriter" /> class using the specified <see cref="TextWriter" />.
     /// </summary>
     public JsonTextWriter(TextWriter textWriter)
@@ -358,7 +363,7 @@ public partial class JsonTextWriter : JsonWriter
         }
         else
         {
-            WriteEscapedString(value, true);
+            WriteEscapedString(value, QuoteValue);
         }
     }
 
@@ -533,9 +538,16 @@ public partial class JsonTextWriter : JsonWriter
         }
         else
         {
-            writer.Write(quoteChar);
+            if (QuoteValue)
+            {
+                writer.Write(quoteChar);
+            }
+
             writer.Write(value.ToString(DateFormatString, Culture));
-            writer.Write(quoteChar);
+            if (QuoteValue)
+            {
+                writer.Write(quoteChar);
+            }
         }
     }
 
@@ -545,9 +557,17 @@ public partial class JsonTextWriter : JsonWriter
         MiscellaneousUtils.Assert(writeBuffer != null);
 
         var pos = 0;
-        writeBuffer[pos++] = quoteChar;
+        if (QuoteValue)
+        {
+            writeBuffer[pos++] = quoteChar;
+        }
+
         pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value, null, value.Kind);
-        writeBuffer[pos++] = quoteChar;
+        if (QuoteValue)
+        {
+            writeBuffer[pos++] = quoteChar;
+        }
+
         return pos;
     }
 
@@ -563,10 +583,17 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.Bytes);
-            writer.Write(quoteChar);
+            if (QuoteValue)
+            {
+                writer.Write(quoteChar);
+            }
+
             Base64Encoder.Encode(value, 0, value.Length);
             Base64Encoder.Flush();
-            writer.Write(quoteChar);
+            if (QuoteValue)
+            {
+                writer.Write(quoteChar);
+            }
         }
     }
 
@@ -585,9 +612,16 @@ public partial class JsonTextWriter : JsonWriter
         }
         else
         {
-            writer.Write(quoteChar);
+            if (QuoteValue)
+            {
+                writer.Write(quoteChar);
+            }
+
             writer.Write(value.ToString(DateFormatString, Culture));
-            writer.Write(quoteChar);
+            if (QuoteValue)
+            {
+                writer.Write(quoteChar);
+            }
         }
     }
 
@@ -597,9 +631,17 @@ public partial class JsonTextWriter : JsonWriter
         MiscellaneousUtils.Assert(writeBuffer != null);
 
         var pos = 0;
-        writeBuffer[pos++] = quoteChar;
+        if (QuoteValue)
+        {
+            writeBuffer[pos++] = quoteChar;
+        }
+
         pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value.DateTime, value.Offset, DateTimeKind.Local);
-        writeBuffer[pos++] = quoteChar;
+        if (QuoteValue)
+        {
+            writeBuffer[pos++] = quoteChar;
+        }
+
         return pos;
     }
 
@@ -612,9 +654,17 @@ public partial class JsonTextWriter : JsonWriter
 
         var text = value.ToString("D", CultureInfo.InvariantCulture);
 
-        writer.Write(quoteChar);
+        if (QuoteValue)
+        {
+            writer.Write(quoteChar);
+        }
+
         writer.Write(text);
-        writer.Write(quoteChar);
+
+        if (QuoteValue)
+        {
+            writer.Write(quoteChar);
+        }
     }
 
     /// <summary>
@@ -626,9 +676,17 @@ public partial class JsonTextWriter : JsonWriter
 
         var text = value.ToString(null, CultureInfo.InvariantCulture);
 
-        writer.Write(quoteChar);
+        if (QuoteValue)
+        {
+            writer.Write(quoteChar);
+        }
+
         writer.Write(text);
-        writer.Write(quoteChar);
+
+        if (QuoteValue)
+        {
+            writer.Write(quoteChar);
+        }
     }
 
     /// <summary>
@@ -643,7 +701,7 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.String);
-            WriteEscapedString(value.OriginalString, true);
+            WriteEscapedString(value.OriginalString, QuoteValue);
         }
     }
 
