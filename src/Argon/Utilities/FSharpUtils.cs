@@ -141,19 +141,19 @@ class FSharpUtils
 
         var creatorGeneric = creatorDefinition.MakeGenericMethod(keyType, valueType);
 
-        return (ObjectConstructor<object>)creatorGeneric.Invoke(this, null)!;
+        return (ObjectConstructor<object>) creatorGeneric.Invoke(this, null)!;
     }
 
     public ObjectConstructor<object> BuildMapCreator<TKey, TValue>()
     {
         var genericMapType = mapType.MakeGenericType(typeof(TKey), typeof(TValue));
-        var ctor = genericMapType.GetConstructor(new[] { typeof(IEnumerable<Tuple<TKey, TValue>>) })!;
+        var ctor = genericMapType.GetConstructor(new[] {typeof(IEnumerable<Tuple<TKey, TValue>>)})!;
         var ctorDelegate = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(ctor);
 
         ObjectConstructor<object> creator = args =>
         {
             // convert dictionary KeyValuePairs to Tuples
-            var values = (IEnumerable<KeyValuePair<TKey, TValue>>)args[0]!;
+            var values = (IEnumerable<KeyValuePair<TKey, TValue>>) args[0]!;
             var tupleValues = values.Select(kv => new Tuple<TKey, TValue>(kv.Key, kv.Value));
 
             return ctorDelegate(tupleValues);

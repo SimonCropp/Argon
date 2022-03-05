@@ -3,7 +3,7 @@
 // as found in the license.md file.
 
 /// <summary>
-/// Builds a string. Unlike <see cref="System.Text.StringBuilder"/> this class lets you reuse its internal buffer.
+/// Builds a string. Unlike <see cref="System.Text.StringBuilder" /> this class lets you reuse its internal buffer.
 /// </summary>
 struct StringBuffer
 {
@@ -52,6 +52,7 @@ struct StringBuffer
             BufferUtils.ReturnBuffer(bufferPool, InternalBuffer);
             InternalBuffer = null;
         }
+
         Position = 0;
     }
 

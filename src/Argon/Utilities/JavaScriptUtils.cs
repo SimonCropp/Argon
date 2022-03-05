@@ -14,22 +14,24 @@ static class JavaScriptUtils
     {
         var escapeChars = new List<char>
         {
-            '\n', '\r', '\t', '\\', '\f', '\b',
+            '\n', '\r', '\t', '\\', '\f', '\b'
         };
         for (var i = 0; i < ' '; i++)
         {
-            escapeChars.Add((char)i);
+            escapeChars.Add((char) i);
         }
 
-        foreach (var escapeChar in escapeChars.Union(new[] { '\'' }))
+        foreach (var escapeChar in escapeChars.Union(new[] {'\''}))
         {
             SingleQuoteCharEscapeFlags[escapeChar] = true;
         }
-        foreach (var escapeChar in escapeChars.Union(new[] { '"' }))
+
+        foreach (var escapeChar in escapeChars.Union(new[] {'"'}))
         {
             DoubleQuoteCharEscapeFlags[escapeChar] = true;
         }
-        foreach (var escapeChar in escapeChars.Union(new[] { '"', '\'', '<', '>', '&' }))
+
+        foreach (var escapeChar in escapeChars.Union(new[] {'"', '\'', '<', '>', '&'}))
         {
             HtmlCharEscapeFlags[escapeChar] = true;
         }
@@ -170,6 +172,7 @@ static class JavaScriptUtils
                             {
                                 escapedValue = null;
                             }
+
                             break;
                     }
 
@@ -443,6 +446,7 @@ static class JavaScriptUtils
                     {
                         continue;
                     }
+
                     break;
             }
 

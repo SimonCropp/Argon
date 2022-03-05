@@ -19,7 +19,7 @@ static class StringUtils
     /// </summary>
     /// <param name="s">The string to test whether it is all white space.</param>
     /// <returns>
-    /// 	<c>true</c> if the string is all white space; otherwise, <c>false</c>.
+    /// <c>true</c> if the string is all white space; otherwise, <c>false</c>.
     /// </returns>
     public static bool IsWhiteSpace(string s)
     {
@@ -114,9 +114,15 @@ static class StringUtils
         return char.ToLower(c, CultureInfo.InvariantCulture);
     }
 
-    public static string ToSnakeCase(string s) => ToSeparatedCase(s, '_');
+    public static string ToSnakeCase(string s)
+    {
+        return ToSeparatedCase(s, '_');
+    }
 
-    public static string ToKebabCase(string s) => ToSeparatedCase(s, '-');
+    public static string ToKebabCase(string s)
+    {
+        return ToSeparatedCase(s, '-');
+    }
 
     enum SeparatedCaseState
     {
@@ -159,6 +165,7 @@ static class StringUtils
                                 stringBuilder.Append(separator);
                             }
                         }
+
                         break;
                     case SeparatedCaseState.Lower:
                     case SeparatedCaseState.NewWord:
@@ -219,15 +226,18 @@ static class StringUtils
         {
             throw new ArgumentOutOfRangeException(nameof(start));
         }
+
         if (length < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(length));
         }
+
         var end = start + length - 1;
         if (end >= s.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(length));
         }
+
         for (; start < end; start++)
         {
             if (!char.IsWhiteSpace(s[start]))
@@ -235,6 +245,7 @@ static class StringUtils
                 break;
             }
         }
+
         for (; end >= start; end--)
         {
             if (!char.IsWhiteSpace(s[end]))
@@ -242,6 +253,7 @@ static class StringUtils
                 break;
             }
         }
+
         return s.Substring(start, end - start + 1);
     }
 }
