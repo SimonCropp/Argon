@@ -69,6 +69,7 @@ var serializer = new JsonSerializer();
 // json size doesn't matter because only a small piece is read at a time from the HTTP request
 var p = serializer.Deserialize<Person>(reader);
 ```
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L123-L133' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
 <sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L129-L139' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
@@ -158,6 +159,7 @@ public static string ToJson(this Person p)
     return stringWriter.ToString();
 }
 ```
+<sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L139-L166' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
 <sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L145-L175' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 

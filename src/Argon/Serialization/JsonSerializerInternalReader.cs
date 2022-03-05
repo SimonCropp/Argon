@@ -101,12 +101,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             if (reader.TokenType == JsonToken.None && !reader.ReadForType(contract, converter != null))
             {
-                if (contract is {IsNullable: false})
-                {
-                    throw JsonSerializationException.Create(reader, $"No JSON content found and type '{contract.UnderlyingType}' is not nullable.");
-                }
-
-                return null;
+                throw JsonSerializationException.Create(reader, "Expected the input to start with a valid JSON token.");
             }
 
             object? deserializedValue;

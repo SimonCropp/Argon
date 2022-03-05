@@ -5170,57 +5170,57 @@ Path '', line 1, position 1.");
     [Fact]
     public void DeserializeEmptyStrings()
     {
-        object v = JsonConvert.DeserializeObject<double?>("");
-        Assert.Null(v);
+        var expected = "Expected the input to start with a valid JSON token.";
+        var exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<object>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-        v = JsonConvert.DeserializeObject<char?>("");
-        Assert.Null(v);
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<StringComparison?>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-        v = JsonConvert.DeserializeObject<int?>("");
-        Assert.Null(v);
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<StringComparison>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-        v = JsonConvert.DeserializeObject<decimal?>("");
-        Assert.Null(v);
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<char?>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-        v = JsonConvert.DeserializeObject<DateTime?>("");
-        Assert.Null(v);
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<char>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-        v = JsonConvert.DeserializeObject<DateTimeOffset?>("");
-        Assert.Null(v);
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<int?>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-        v = JsonConvert.DeserializeObject<byte[]>("");
-        Assert.Null(v);
-    }
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<int>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-    [Fact]
-    public void DeserializeDoubleFromEmptyString()
-    {
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<double>(""),
-            "No JSON content found and type 'System.Double' is not nullable. Path '', line 0, position 0.");
-    }
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<double?>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-    [Fact]
-    public void DeserializeEnumFromEmptyString()
-    {
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<StringComparison>(""),
-            "No JSON content found and type 'System.StringComparison' is not nullable. Path '', line 0, position 0.");
-    }
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<decimal?>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-    [Fact]
-    public void DeserializeInt32FromEmptyString()
-    {
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<int>(""),
-            "No JSON content found and type 'System.Int32' is not nullable. Path '', line 0, position 0.");
-    }
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<decimal>(""));
+        Assert.StartsWith(expected,exception.Message);
 
-    [Fact]
-    public void DeserializeByteArrayFromEmptyString()
-    {
-        var b = JsonConvert.DeserializeObject<byte[]>("");
-        Assert.Null(b);
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<DateTime?>(""));
+        Assert.StartsWith(expected,exception.Message);
+
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<DateTime>(""));
+        Assert.StartsWith(expected,exception.Message);
+
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<DateTimeOffset?>(""));
+        Assert.StartsWith(expected,exception.Message);
+
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<DateTimeOffset>(""));
+        Assert.StartsWith(expected,exception.Message);
+
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<byte[]>(""));
+        Assert.StartsWith(expected,exception.Message);
+
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<double?>(""));
+        Assert.StartsWith(expected,exception.Message);
+
+        exception = Assert.Throws<JsonSerializationException>(()=> JsonConvert.DeserializeObject<double>(""));
+        Assert.StartsWith(expected,exception.Message);
     }
 
     [Fact]

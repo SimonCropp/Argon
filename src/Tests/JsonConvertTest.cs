@@ -372,40 +372,11 @@ public class JsonConvertTest : TestFixtureBase
             return type == typeof(int);
         }
     }
-
-    [Fact]
-    public void DeserializeObject_EmptyString()
-    {
-        var result = JsonConvert.DeserializeObject(string.Empty);
-        Assert.Null(result);
-    }
-
     [Fact]
     public void DeserializeObject_Integer()
     {
         var result = JsonConvert.DeserializeObject("1");
         Assert.Equal(1L, result);
-    }
-
-    [Fact]
-    public void DeserializeObject_Integer_EmptyString()
-    {
-        var value = JsonConvert.DeserializeObject<int?>("");
-        Assert.Null(value);
-    }
-
-    [Fact]
-    public void DeserializeObject_Decimal_EmptyString()
-    {
-        var value = JsonConvert.DeserializeObject<decimal?>("");
-        Assert.Null(value);
-    }
-
-    [Fact]
-    public void DeserializeObject_DateTime_EmptyString()
-    {
-        var value = JsonConvert.DeserializeObject<DateTime?>("");
-        Assert.Null(value);
     }
 
     [Fact]
