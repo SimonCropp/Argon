@@ -1083,13 +1083,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
                })
         {
             jsonWriter.Indentation = 5;
-            Assert.Equal(5, jsonWriter.Indentation);
             jsonWriter.IndentChar = '_';
-            Assert.Equal('_', jsonWriter.IndentChar);
-            jsonWriter.QuoteName = true;
-            XUnitAssert.True(jsonWriter.QuoteName);
             jsonWriter.QuoteChar = '\'';
-            Assert.Equal('\'', jsonWriter.QuoteChar);
 
             await jsonWriter.WriteStartObjectAsync();
 
@@ -1097,9 +1092,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteValueAsync(double.NaN);
 
             jsonWriter.IndentChar = '?';
-            Assert.Equal('?', jsonWriter.IndentChar);
             jsonWriter.Indentation = 6;
-            Assert.Equal(6, jsonWriter.Indentation);
 
             await jsonWriter.WritePropertyNameAsync("prop2");
             await jsonWriter.WriteValueAsync(123);
