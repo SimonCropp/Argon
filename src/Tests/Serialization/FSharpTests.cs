@@ -9,7 +9,7 @@ public class FSharpTests : TestFixtureBase
     [Fact]
     public void List()
     {
-        var l = ListModule.OfSeq(new List<int> { 1, 2, 3 });
+        var l = ListModule.OfSeq(new List<int> {1, 2, 3});
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
@@ -28,7 +28,7 @@ public class FSharpTests : TestFixtureBase
     [Fact]
     public void Set()
     {
-        var l = SetModule.OfSeq(new List<int> { 1, 2, 3 });
+        var l = SetModule.OfSeq(new List<int> {1, 2, 3});
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
@@ -47,7 +47,7 @@ public class FSharpTests : TestFixtureBase
     [Fact]
     public void Map()
     {
-        var m1 = MapModule.OfSeq(new List<Tuple<string, int>> { Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3) });
+        var m1 = MapModule.OfSeq(new List<Tuple<string, int>> {Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3)});
 
         var json = JsonConvert.SerializeObject(m1, Formatting.Indented);
 

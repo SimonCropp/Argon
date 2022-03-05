@@ -87,15 +87,14 @@ public class ExtensionDataTests : TestFixtureBase
             Data = new CustomDictionary();
         }
 
-        [JsonExtensionData]
-        public IDictionary<string, object> Data { get; }
+        [JsonExtensionData] public IDictionary<string, object> Data { get; }
     }
 
     [Fact]
     public void DataBagDoesNotInheritFromDictionaryClass()
     {
         var e = new Example();
-        e.Data.Add("extensionData1", new[] { 1, 2, 3 });
+        e.Data.Add("extensionData1", new[] {1, 2, 3});
 
         var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
@@ -109,13 +108,13 @@ public class ExtensionDataTests : TestFixtureBase
 
         var e2 = JsonConvert.DeserializeObject<Example>(json);
 
-        var o1 = (JArray)e2.Data["extensionData1"];
+        var o1 = (JArray) e2.Data["extensionData1"];
 
         Assert.Equal(JTokenType.Array, o1.Type);
         Assert.Equal(3, o1.Count);
-        Assert.Equal(1, (int)o1[0]);
-        Assert.Equal(2, (int)o1[1]);
-        Assert.Equal(3, (int)o1[2]);
+        Assert.Equal(1, (int) o1[0]);
+        Assert.Equal(2, (int) o1[1]);
+        Assert.Equal(3, (int) o1[2]);
     }
 
     public class ExtensionDataDeserializeWithNonDefaultConstructor
@@ -125,8 +124,7 @@ public class ExtensionDataTests : TestFixtureBase
             Name = name;
         }
 
-        [JsonExtensionData]
-        public IDictionary<string, JToken> _extensionData;
+        [JsonExtensionData] public IDictionary<string, JToken> _extensionData;
 
         public string Name { get; set; }
     }
@@ -138,7 +136,7 @@ public class ExtensionDataTests : TestFixtureBase
         {
             _extensionData = new Dictionary<string, JToken>
             {
-                { "Key!", "Value!" }
+                {"Key!", "Value!"}
             }
         };
 
@@ -154,7 +152,7 @@ public class ExtensionDataTests : TestFixtureBase
         Assert.Equal("Name!", c2.Name);
         Assert.NotNull(c2._extensionData);
         Assert.Equal(1, c2._extensionData.Count);
-        Assert.Equal("Value!", (string)c2._extensionData["Key!"]);
+        Assert.Equal("Value!", (string) c2._extensionData["Key!"]);
     }
 
     [Fact]
@@ -168,7 +166,7 @@ public class ExtensionDataTests : TestFixtureBase
         var invoice = JsonConvert.DeserializeObject<ExtendedObject>(json);
 
         Assert.Equal(JTokenType.Null, invoice._additionalData["a"].Type);
-        Assert.Equal(typeof(double), ((JValue)invoice._additionalData["TaxRate"]).Value.GetType());
+        Assert.Equal(typeof(double), ((JValue) invoice._additionalData["TaxRate"]).Value.GetType());
 
         var result = JsonConvert.SerializeObject(invoice);
 
@@ -188,14 +186,13 @@ public class ExtensionDataTests : TestFixtureBase
             FloatParseHandling = FloatParseHandling.Decimal
         });
 
-        Assert.Equal(typeof(decimal), ((JValue)invoice._additionalData["TaxRate"]).Value.GetType());
+        Assert.Equal(typeof(decimal), ((JValue) invoice._additionalData["TaxRate"]).Value.GetType());
     }
 
 #pragma warning disable 649
     class ExtendedObject
     {
-        [JsonExtensionData]
-        internal IDictionary<string, JToken> _additionalData;
+        [JsonExtensionData] internal IDictionary<string, JToken> _additionalData;
     }
 #pragma warning restore 649
 
@@ -206,8 +203,7 @@ public class ExtensionDataTests : TestFixtureBase
         public decimal TaxRate { get; set; }
 
         // everything else gets stored here
-        [JsonExtensionData]
-        IDictionary<string, JToken> additionalData;
+        [JsonExtensionData] IDictionary<string, JToken> additionalData;
     }
 #pragma warning restore 169
 
@@ -239,11 +235,9 @@ public class ExtensionDataTests : TestFixtureBase
     {
         public string Name { get; set; }
 
-        [JsonProperty("custom_name")]
-        public string CustomName { get; set; }
+        [JsonProperty("custom_name")] public string CustomName { get; set; }
 
-        [JsonIgnore]
-        public IList<int> Ignored { get; set; }
+        [JsonIgnore] public IList<int> Ignored { get; set; }
 
         public bool GetPrivate { get; internal set; }
 
@@ -252,30 +246,27 @@ public class ExtensionDataTests : TestFixtureBase
         public readonly string Readonly = "Readonly";
         public IList<int> Ints { get; set; }
 
-        [JsonExtensionData]
-        internal IDictionary<string, JToken> ExtensionData { get; set; }
+        [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData { get; set; }
 
         public ExtensionDataTestClass()
         {
-            Ints = new List<int> { 0 };
+            Ints = new List<int> {0};
         }
     }
 
-    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] { true, true, true })]
+    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true, true})]
     public class ExtensionDataWithNamingStrategyTestClass
     {
         public string Name { get; set; }
 
-        [JsonExtensionData]
-        internal IDictionary<string, JToken> ExtensionData { get; set; }
+        [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData { get; set; }
     }
 
     public class JObjectExtensionDataTestClass
     {
         public string Name { get; set; }
 
-        [JsonExtensionData]
-        public JObject ExtensionData { get; set; }
+        [JsonExtensionData] public JObject ExtensionData { get; set; }
     }
 
     [Fact]
@@ -286,9 +277,9 @@ public class ExtensionDataTests : TestFixtureBase
             Name = "Name!",
             ExtensionData = new()
             {
-                { "one", 1 },
-                { "two", "II" },
-                { "three", new JArray(1, 1, 1) }
+                {"one", 1},
+                {"two", "II"},
+                {"three", new JArray(1, 1, 1)}
             }
         };
 
@@ -320,11 +311,11 @@ public class ExtensionDataTests : TestFixtureBase
         Assert.Equal("Actually set!", c.Name);
         Assert.Equal(4, c.Ints.Count);
 
-        Assert.Equal("Readonly", (string)c.ExtensionData["Readonly"]);
-        Assert.Equal("Wrong name!", (string)c.ExtensionData["CustomName"]);
-        XUnitAssert.True((bool)c.ExtensionData["GetPrivate"]);
-        XUnitAssert.True((bool)c.ExtensionData["GetOnly"]);
-        XUnitAssert.True((bool)c.ExtensionData["NewValueSimple"]);
+        Assert.Equal("Readonly", (string) c.ExtensionData["Readonly"]);
+        Assert.Equal("Wrong name!", (string) c.ExtensionData["CustomName"]);
+        XUnitAssert.True((bool) c.ExtensionData["GetPrivate"]);
+        XUnitAssert.True((bool) c.ExtensionData["GetOnly"]);
+        XUnitAssert.True((bool) c.ExtensionData["NewValueSimple"]);
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 
@@ -360,11 +351,11 @@ public class ExtensionDataTests : TestFixtureBase
         Assert.Equal("Actually set!", c.Name);
         Assert.Equal(4, c.Ints.Count);
 
-        Assert.Equal("Readonly", (string)c.ExtensionData["Readonly"]);
-        Assert.Equal("Wrong name!", (string)c.ExtensionData["CustomName"]);
-        XUnitAssert.True((bool)c.ExtensionData["GetPrivate"]);
-        XUnitAssert.True((bool)c.ExtensionData["GetOnly"]);
-        XUnitAssert.True((bool)c.ExtensionData["NewValueSimple"]);
+        Assert.Equal("Readonly", (string) c.ExtensionData["Readonly"]);
+        Assert.Equal("Wrong name!", (string) c.ExtensionData["CustomName"]);
+        XUnitAssert.True((bool) c.ExtensionData["GetPrivate"]);
+        XUnitAssert.True((bool) c.ExtensionData["GetOnly"]);
+        XUnitAssert.True((bool) c.ExtensionData["NewValueSimple"]);
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["NewValueComplex"]));
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), c.ExtensionData["Ignored"]));
 
@@ -513,39 +504,34 @@ public class ExtensionDataTests : TestFixtureBase
         JsonConvert.PopulateObject(jsonStirng, c);
 
         Assert.Equal(2, c.ExtraInfoJson.Count);
-        Assert.Equal(11, (int)c.ExtraInfoJson["extra1"]);
-        Assert.Equal(22, (int)c.ExtraInfoJson["extra2"]);
+        Assert.Equal(11, (int) c.ExtraInfoJson["extra1"]);
+        Assert.Equal(22, (int) c.ExtraInfoJson["extra2"]);
     }
 
     public class MultipleExtensionDataAttributesTestClass
     {
         public string Name { get; set; }
 
-        [JsonExtensionData]
-        internal IDictionary<string, JToken> ExtensionData1 { get; set; }
+        [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData1 { get; set; }
 
-        [JsonExtensionData]
-        internal IDictionary<string, JToken> ExtensionData2 { get; set; }
+        [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData2 { get; set; }
     }
 
     public class ExtensionDataAttributesInheritanceTestClass : MultipleExtensionDataAttributesTestClass
     {
-        [JsonExtensionData]
-        internal IDictionary<string, JToken> ExtensionData0 { get; set; }
+        [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData0 { get; set; }
     }
 
     public class FieldExtensionDataAttributeTestClass
     {
-        [JsonExtensionData]
-        internal IDictionary<object, object> ExtensionData;
+        [JsonExtensionData] internal IDictionary<object, object> ExtensionData;
     }
 
     public class PublicExtensionDataAttributeTestClass
     {
         public string Name { get; set; }
 
-        [JsonExtensionData]
-        public IDictionary<object, object> ExtensionData;
+        [JsonExtensionData] public IDictionary<object, object> ExtensionData;
     }
 
     public class PublicExtensionDataAttributeTestClassWithNonDefaultConstructor
@@ -557,32 +543,28 @@ public class ExtensionDataTests : TestFixtureBase
             Name = name;
         }
 
-        [JsonExtensionData]
-        public IDictionary<object, object> ExtensionData;
+        [JsonExtensionData] public IDictionary<object, object> ExtensionData;
     }
 
     public class PublicNoReadExtensionDataAttributeTestClass
     {
         public string Name { get; set; }
 
-        [JsonExtensionData(ReadData = false)]
-        public IDictionary<object, object> ExtensionData;
+        [JsonExtensionData(ReadData = false)] public IDictionary<object, object> ExtensionData;
     }
 
     public class PublicNoWriteExtensionDataAttributeTestClass
     {
         public string Name { get; set; }
 
-        [JsonExtensionData(WriteData = false)]
-        public IDictionary<object, object> ExtensionData;
+        [JsonExtensionData(WriteData = false)] public IDictionary<object, object> ExtensionData;
     }
 
     public class PublicJTokenExtensionDataAttributeTestClass
     {
         public string Name { get; set; }
 
-        [JsonExtensionData]
-        public IDictionary<string, JToken> ExtensionData;
+        [JsonExtensionData] public IDictionary<string, JToken> ExtensionData;
     }
 
     [Fact]
@@ -605,7 +587,7 @@ public class ExtensionDataTests : TestFixtureBase
             Name = "Name!",
             ExtensionData = new Dictionary<object, object>
             {
-                { "Test", 1 }
+                {"Test", 1}
             }
         });
 
@@ -631,7 +613,7 @@ public class ExtensionDataTests : TestFixtureBase
             Name = "Name!",
             ExtensionData = new Dictionary<object, object>
             {
-                { "Test", 1 }
+                {"Test", 1}
             }
         });
 
@@ -654,7 +636,7 @@ public class ExtensionDataTests : TestFixtureBase
             Name = "Name!",
             ExtensionData = new Dictionary<object, object>
             {
-                { "Test", 1 }
+                {"Test", 1}
             }
         };
         c.ExtensionData["Self"] = c;
@@ -681,10 +663,10 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.Equal("Name!", c2.Name);
 
-        var bizzaroC2 = (PublicExtensionDataAttributeTestClass)c2.ExtensionData["Self"];
+        var bizzaroC2 = (PublicExtensionDataAttributeTestClass) c2.ExtensionData["Self"];
 
         Assert.Equal(c2, bizzaroC2);
-        Assert.Equal(1, (long)bizzaroC2.ExtensionData["Test"]);
+        Assert.Equal(1, (long) bizzaroC2.ExtensionData["Test"]);
     }
 
     [Fact]
@@ -706,9 +688,9 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.Equal("Name!", c2.Name);
 
-        var bizzaroC2 = (JObject)c2.ExtensionData["Self"];
+        var bizzaroC2 = (JObject) c2.ExtensionData["Self"];
 
-        Assert.Equal("1", (string)bizzaroC2["$ref"]);
+        Assert.Equal("1", (string) bizzaroC2["$ref"]);
     }
 
     [Fact]
@@ -734,7 +716,7 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.Equal("Name!", c2.Name);
 
-        var bizzaroC2 = (WagePerson)c2.ExtensionData["Self"];
+        var bizzaroC2 = (WagePerson) c2.ExtensionData["Self"];
 
         Assert.Equal(2m, bizzaroC2.HourlyWage);
     }
@@ -762,7 +744,7 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.Equal("Name!", c2.Name);
 
-        var bizzaroC2 = (WagePerson)c2.ExtensionData["Self"];
+        var bizzaroC2 = (WagePerson) c2.ExtensionData["Self"];
 
         Assert.Equal(2m, bizzaroC2.HourlyWage);
     }
@@ -817,13 +799,13 @@ public class ExtensionDataTests : TestFixtureBase
         Assert.Equal("Name!", c.Name);
         Assert.Equal(2, c.ExtensionData.Count);
 
-        Assert.Equal("NoMatch!", (string)c.ExtensionData["NoMatch"]);
+        Assert.Equal("NoMatch!", (string) c.ExtensionData["NoMatch"]);
 
         // the ExtensionData property is put into the extension data
         // inception
-        var o = (JObject)c.ExtensionData["ExtensionData"];
+        var o = (JObject) c.ExtensionData["ExtensionData"];
         Assert.Equal(1, o.Count);
-        Assert.True(JToken.DeepEquals(new JObject { { "HAI", true } }, o));
+        Assert.True(JToken.DeepEquals(new JObject {{"HAI", true}}, o));
     }
 
     [Fact]
@@ -845,8 +827,8 @@ public class ExtensionDataTests : TestFixtureBase
         var c = JsonConvert.DeserializeObject<FieldExtensionDataAttributeTestClass>("{'first':1,'second':2}");
 
         Assert.Equal(2, c.ExtensionData.Count);
-        Assert.Equal(1, (long)c.ExtensionData["first"]);
-        Assert.Equal(2, (long)c.ExtensionData["second"]);
+        Assert.Equal(1, (long) c.ExtensionData["first"]);
+        Assert.Equal(2, (long) c.ExtensionData["second"]);
     }
 
     [Fact]
@@ -856,8 +838,8 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.Equal(null, c.ExtensionData1);
         Assert.Equal(2, c.ExtensionData2.Count);
-        Assert.Equal(1, (int)((JArray)c.ExtensionData2["first"])[0]);
-        Assert.Equal(2, (int)((JArray)c.ExtensionData2["second"])[0]);
+        Assert.Equal(1, (int) ((JArray) c.ExtensionData2["first"])[0]);
+        Assert.Equal(2, (int) ((JArray) c.ExtensionData2["second"])[0]);
     }
 
     [Fact]
@@ -868,17 +850,15 @@ public class ExtensionDataTests : TestFixtureBase
         Assert.Equal(null, c.ExtensionData1);
         Assert.Equal(null, c.ExtensionData2);
         Assert.Equal(2, c.ExtensionData0.Count);
-        Assert.Equal(1, (int)c.ExtensionData0["first"]);
-        Assert.Equal(2, (int)c.ExtensionData0["second"]);
+        Assert.Equal(1, (int) c.ExtensionData0["first"]);
+        Assert.Equal(2, (int) c.ExtensionData0["second"]);
     }
 
     public class TestClass
     {
-        [JsonProperty("LastActivityDate")]
-        public DateTime? LastActivityDate { get; set; }
+        [JsonProperty("LastActivityDate")] public DateTime? LastActivityDate { get; set; }
 
-        [JsonExtensionData]
-        public Dictionary<string, object> CustomFields { get; set; }
+        [JsonExtensionData] public Dictionary<string, object> CustomFields { get; set; }
     }
 
     [Fact]
@@ -890,27 +870,23 @@ public class ExtensionDataTests : TestFixtureBase
 
         Assert.Equal(null, c.LastActivityDate);
         Assert.Equal(1, c.CustomFields.Count);
-        Assert.Equal("Testing", (string)c.CustomFields["CustomField1"]);
+        Assert.Equal("Testing", (string) c.CustomFields["CustomField1"]);
     }
 
     public class DocNoSetter
     {
-        readonly JObject _content;
-
         public DocNoSetter()
         {
         }
 
         public DocNoSetter(JObject content)
         {
-            _content = content;
+            Content = content;
         }
 
-        [JsonProperty("_name")]
-        public string Name { get; set; }
+        [JsonProperty("_name")] public string Name { get; set; }
 
-        [JsonExtensionData]
-        public JObject Content => _content;
+        [JsonExtensionData] public JObject Content { get; }
     }
 
     [Fact]
@@ -974,12 +950,15 @@ public class ExtensionDataTests : TestFixtureBase
 
     public class Item
     {
-        [JsonExtensionData]
-        public IDictionary<string, JToken> ExtensionData;
+        [JsonExtensionData] public IDictionary<string, JToken> ExtensionData;
 
         public IEnumerable<string> Foo
         {
-            get { yield return "foo"; yield return "bar"; }
+            get
+            {
+                yield return "foo";
+                yield return "bar";
+            }
         }
     }
 
@@ -997,14 +976,13 @@ public class ExtensionDataTests : TestFixtureBase
 
         var value = deserialize.ExtensionData["Foo"]["$type"];
         Assert.Equal(JTokenType.String, value.Type);
-        Assert.Equal("foo", (string)deserialize.ExtensionData["Foo"]["$values"][0]);
-        Assert.Equal("bar", (string)deserialize.ExtensionData["Foo"]["$values"][1]);
+        Assert.Equal("foo", (string) deserialize.ExtensionData["Foo"]["$values"][0]);
+        Assert.Equal("bar", (string) deserialize.ExtensionData["Foo"]["$values"][1]);
     }
 
     public class ItemWithConstructor
     {
-        [JsonExtensionData]
-        public IDictionary<string, JToken> ExtensionData;
+        [JsonExtensionData] public IDictionary<string, JToken> ExtensionData;
 
         public ItemWithConstructor(string temp)
         {
@@ -1012,7 +990,11 @@ public class ExtensionDataTests : TestFixtureBase
 
         public IEnumerable<string> Foo
         {
-            get { yield return "foo"; yield return "bar"; }
+            get
+            {
+                yield return "foo";
+                yield return "bar";
+            }
         }
     }
 
@@ -1030,7 +1012,7 @@ public class ExtensionDataTests : TestFixtureBase
 
         var value = deserialize.ExtensionData["Foo"]["$type"];
         Assert.Equal(JTokenType.String, value.Type);
-        Assert.Equal("foo", (string)deserialize.ExtensionData["Foo"]["$values"][0]);
-        Assert.Equal("bar", (string)deserialize.ExtensionData["Foo"]["$values"][1]);
+        Assert.Equal("foo", (string) deserialize.ExtensionData["Foo"]["$values"][0]);
+        Assert.Equal("bar", (string) deserialize.ExtensionData["Foo"]["$values"][1]);
     }
 }

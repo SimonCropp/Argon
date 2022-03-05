@@ -2,22 +2,23 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.ComponentModel.DataAnnotations;
 #if !NET5_0_OR_GREATER
 using System.Web.Script.Serialization;
 using System.Drawing;
 #endif
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
+using System.Net.Mail;
+using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
 using System.Xml;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization.Json;
-using TestObjects;
 using System.Xml.Linq;
-using System.Collections.Specialized;
-using System.Dynamic;
+using TestObjects;
+using ErrorEventArgs = Argon.ErrorEventArgs;
 using Formatting = Argon.Formatting;
 using JsonConstructor = Argon.JsonConstructorAttribute;
-using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class JsonSerializerTest : TestFixtureBase
 {
@@ -1743,7 +1744,7 @@ keyword such as type of business.""
             new(100, 1, 1, 1, 1, 1, DateTimeKind.Utc),
             new(2000, 1, 1, 1, 1, 1, DateTimeKind.Local),
             new(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
-            new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc),
+            new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc)
         };
 
         var ms = new MemoryStream();
@@ -1763,7 +1764,7 @@ keyword such as type of business.""
             new(new(100, 1, 1, 1, 1, 1, DateTimeKind.Utc)),
             new(2000, 1, 1, 1, 1, 1, TimeSpan.Zero),
             new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(13)),
-            new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5)),
+            new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5))
         };
 
         var result = JsonConvert.SerializeObject(testDates);
@@ -5599,9 +5600,9 @@ Path '', line 1, position 1.");
             Venue = "Gryphon Theatre",
             Performances = new List<DateTime>
             {
-                new(2000,1,1),
-                new(2000,1,2),
-                new(2000,1,3)
+                new(2000, 1, 1),
+                new(2000, 1, 2),
+                new(2000, 1, 3)
             }
         };
 
@@ -5938,7 +5939,10 @@ This is just junk, though.";
 
         MyTuple<int> obj = null;
 
-        var doStuff = () => { obj = JsonConvert.DeserializeObject<MyTuple<int>>(json); };
+        var doStuff = () =>
+        {
+            obj = JsonConvert.DeserializeObject<MyTuple<int>>(json);
+        };
 
         doStuff();
         Assert.Equal(500, obj.Item1);
@@ -6464,7 +6468,7 @@ This is just junk, though.";
         // If dynamic type handling is enabled, case 1 and 3 work fine
         var options = new JsonSerializerSettings
         {
-            Converters = new JsonConverterCollection {new TypeConverterJsonConverter()},
+            Converters = new JsonConverterCollection {new TypeConverterJsonConverter()}
             //TypeNameHandling = TypeNameHandling.All
         };
 
@@ -6910,7 +6914,7 @@ This is just junk, though.";
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
             {
-                JsonConvert.DeserializeObject<System.Net.Mail.MailMessage>(
+                JsonConvert.DeserializeObject<MailMessage>(
                     JsonMessage,
                     new MailAddressReadConverter(),
                     new AttachmentReadConverter(),

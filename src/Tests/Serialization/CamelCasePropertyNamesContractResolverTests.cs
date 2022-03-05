@@ -10,10 +10,10 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
     public void EnsureContractsShared()
     {
         var resolver1 = new CamelCasePropertyNamesContractResolver();
-        var contract1 = (JsonObjectContract)resolver1.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
+        var contract1 = (JsonObjectContract) resolver1.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
 
         var resolver2 = new CamelCasePropertyNamesContractResolver();
-        var contract2 = (JsonObjectContract)resolver2.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
+        var contract2 = (JsonObjectContract) resolver2.ResolveContract(typeof(CamelCasePropertyNamesContractResolverTests));
 
         Assert.True(ReferenceEquals(contract1, contract2));
 
@@ -78,10 +78,10 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
 
         serializer.Serialize(writer, ignoreAttributeOnClassTestClass);
 
-        var o = (JObject)writer.Token;
+        var o = (JObject) writer.Token;
         var p = o.Property("theField");
 
-        Assert.Equal(int.MinValue, (int)p.Value);
+        Assert.Equal(int.MinValue, (int) p.Value);
 
         var json = o.ToString();
     }
@@ -94,14 +94,14 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[] { "Small", "Medium", "Large" }
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var json =
             JsonConvert.SerializeObject(
                 product,
                 Formatting.Indented,
-                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }
+                new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()}
             );
 
         //{
@@ -154,8 +154,8 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
     {
         var values = new Dictionary<string, string>
         {
-            { "First", "Value1!" },
-            { "Second", "Value2!" }
+            {"First", "Value1!"},
+            {"Second", "Value2!"}
         };
 
         var json = JsonConvert.SerializeObject(values, Formatting.Indented,

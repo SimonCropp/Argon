@@ -159,14 +159,12 @@ public class DependencyInjectionTests : TestFixtureBase
 
     public class LogManager : ILogger
     {
-        readonly DateTime _dt;
-
         public LogManager(DateTime dt)
         {
-            _dt = dt;
+            DateTime = dt;
         }
 
-        public DateTime DateTime => _dt;
+        public DateTime DateTime { get; }
 
         public string Level { get; set; }
     }

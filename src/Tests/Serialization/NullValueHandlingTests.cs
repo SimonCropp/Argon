@@ -23,15 +23,15 @@ public class NullValueHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeNullIntoDateTime()
     {
-        var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:null}", new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        Assert.Equal(c.DateTimeField, default(DateTime));
+        var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:null}", new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+        Assert.Equal(c.DateTimeField, default);
     }
 
     [Fact]
     public void DeserializeEmptyStringIntoDateTimeWithEmptyStringDefaultValue()
     {
-        var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:""""}", new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-        Assert.Equal(c.DateTimeField, default(DateTime));
+        var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:""""}", new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+        Assert.Equal(c.DateTimeField, default);
     }
 
     [Fact]
@@ -51,13 +51,13 @@ public class NullValueHandlingTests : TestFixtureBase
 
         Assert.Equal(@"{""Color"":4,""Established"":""2010-01-22T01:01:01Z"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""2000-02-02T23:01:30Z"",""Price"":0.0},{""Name"":""Alien"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0}]}", stringWriter.GetStringBuilder().ToString());
 
-        var s2 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader("{}")), typeof(Store));
+        var s2 = (Store) jsonSerializer.Deserialize(new JsonTextReader(new StringReader("{}")), typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s2.Escape);
 
-        var s3 = (Store)jsonSerializer.Deserialize(new JsonTextReader(new StringReader(@"{""Escape"":null}")), typeof(Store));
+        var s3 = (Store) jsonSerializer.Deserialize(new JsonTextReader(new StringReader(@"{""Escape"":null}")), typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s3.Escape);
 
-        var s4 = (Store)jsonSerializer.Deserialize(
+        var s4 = (Store) jsonSerializer.Deserialize(
             new JsonTextReader(
                 new StringReader(@"{Color:2,Established:'2010-01-22T01:01:01Z',Width:1.1,Employees:999,RoomsPerFloor:[1,2,3,4,5,6,7,8,9],Open:false,Symbol:""@"",Mottos:[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],Cost:100980.1,Escape:""\r\n\t\f\b?{\\r\\n\""'"",product:[{Name:'Rocket',ExpiryDate:'2000-02-02T23:01:30Z',Price:0},{Name:'Alien',ExpiryDate:'2000-02-02T23:01:30Z',Price:0.0}]}")), typeof(Store));
         Assert.Equal(s1.Established, s3.Established);
@@ -87,7 +87,7 @@ public class NullValueHandlingTests : TestFixtureBase
 
         var ignored = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 
         // {
         //   "Name": "Bad Boys III",
@@ -110,7 +110,7 @@ public class NullValueHandlingTests : TestFixtureBase
 
         var ignored = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { NullValueHandling = NullValueHandling.Include });
+            new JsonSerializerSettings {NullValueHandling = NullValueHandling.Include});
 
         // {
         //   "Name": "Bad Boys III",
@@ -131,7 +131,7 @@ public class NullValueHandlingTests : TestFixtureBase
 
         var included = JsonConvert.SerializeObject(movie,
             Formatting.Indented,
-            new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 
         // {
         //   "Name": "Bad Boys III",

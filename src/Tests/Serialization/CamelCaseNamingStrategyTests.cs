@@ -74,10 +74,10 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
 
         serializer.Serialize(writer, ignoreAttributeOnClassTestClass);
 
-        var o = (JObject)writer.Token;
+        var o = (JObject) writer.Token;
         var p = o.Property("theField");
 
-        Assert.Equal(int.MinValue, (int)p.Value);
+        Assert.Equal(int.MinValue, (int) p.Value);
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[] { "Small", "Medium", "Large" }
+            Sizes = new[] {"Small", "Medium", "Large"}
         };
 
         var contractResolver = new DefaultContractResolver
@@ -100,7 +100,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
             JsonConvert.SerializeObject(
                 product,
                 Formatting.Indented,
-                new JsonSerializerSettings { ContractResolver = contractResolver }
+                new JsonSerializerSettings {ContractResolver = contractResolver}
             );
 
         //{
@@ -161,8 +161,8 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
     {
         var values = new Dictionary<string, string>
         {
-            { "First", "Value1!" },
-            { "Second", "Value2!" }
+            {"First", "Value1!"},
+            {"Second", "Value2!"}
         };
 
         var contractResolver = new DefaultContractResolver
@@ -187,8 +187,8 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
     {
         var values = new Dictionary<string, string>
         {
-            { "First", "Value1!" },
-            { "Second", "Value2!" }
+            {"First", "Value1!"},
+            {"Second", "Value2!"}
         };
 
         var contractResolver = new DefaultContractResolver
@@ -213,8 +213,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
 
     public class PropertyAttributeNamingStrategyTestClass
     {
-        [JsonProperty]
-        public string HasNoAttributeNamingStrategy { get; set; }
+        [JsonProperty] public string HasNoAttributeNamingStrategy { get; set; }
 
         [JsonProperty(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
         public string HasAttributeNamingStrategy { get; set; }
@@ -242,6 +241,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
     {
         public string Prop1 { get; set; }
         public string Prop2 { get; set; }
+
         [JsonProperty(NamingStrategyType = typeof(DefaultNamingStrategy))]
         public string HasAttributeNamingStrategy { get; set; }
     }
@@ -264,7 +264,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
 }", json);
     }
 
-    [JsonDictionary(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] { true, true })]
+    [JsonDictionary(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true})]
     public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
     {
     }
