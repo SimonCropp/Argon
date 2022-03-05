@@ -596,62 +596,61 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
     {
         var json1 = "{'a':'bc'}";
 
-        var r = new JsonTextReader(new StringReader(json1));
+        var reader = new JsonTextReader(new StringReader(json1));
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(1, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(1, reader.LinePosition);
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(5, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(5, reader.LinePosition);
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(9, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(9, reader.LinePosition);
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(10, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(10, reader.LinePosition);
 
-        Assert.False(await r.ReadAsync());
+        Assert.False(await reader.ReadAsync());
 
         var json2 = "\n{'a':'bc'}";
 
-        r = new(new StringReader(json2));
+        reader = new(new StringReader(json2));
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(1, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(1, reader.LinePosition);
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(5, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(5, reader.LinePosition);
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(9, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(9, reader.LinePosition);
 
-        Assert.True(await r.ReadAsync());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(10, r.LinePosition);
+        Assert.True(await reader.ReadAsync());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(10, reader.LinePosition);
 
-        Assert.False(await r.ReadAsync());
+        Assert.False(await reader.ReadAsync());
     }
 
     [Fact]
     public async Task InvalidUnicodeSequenceAsync()
     {
-        var json1 = @"{'prop':'\u123!'}";
+        var json = @"{'prop':'\u123!'}";
 
-        var r = new JsonTextReader(new StringReader(json1));
+        var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.True(await r.ReadAsync());
-        Assert.True(await r.ReadAsync());
+        Assert.True(await reader.ReadAsync());
+        Assert.True(await reader.ReadAsync());
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await r.ReadAsync();
-        }, @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsync(),
+            @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
     }
 }

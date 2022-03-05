@@ -68,13 +68,11 @@ public class ReadAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ReadAsInt32AsyncWithUndefined()
+    public Task ReadAsInt32AsyncWithUndefined()
     {
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-            {
-                var reader = new JsonTextReader(new StringReader("undefined"));
-                await reader.ReadAsInt32Async();
-            },
+        var reader = new JsonTextReader(new StringReader("undefined"));
+        return XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsInt32Async(),
             "Unexpected character encountered while parsing value: u. Path '', line 1, position 1.");
     }
 
@@ -649,10 +647,9 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsInt32Async();
-        }, "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsInt32Async(),
+            "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
     }
 
     [Fact]
@@ -795,10 +792,9 @@ public class ReadAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsDoubleAsync();
-        }, "Could not convert string to double: Trump. Path '[0]', line 1, position 8.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsDoubleAsync(),
+            "Could not convert string to double: Trump. Path '[0]', line 1, position 8.");
 
         Assert.Equal(1d, await reader.ReadAsDoubleAsync());
         Assert.True(await reader.ReadAsync());
@@ -827,10 +823,9 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsync();
-        }, "Error parsing boolean value. Path 'Test1', line 1, position 14.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsync(),
+            "Error parsing boolean value. Path 'Test1', line 1, position 14.");
 
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
@@ -845,10 +840,9 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
 
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(async () =>
-        {
-            await reader.ReadAsStringAsync();
-        }, "Unexpected character encountered while parsing value: 1. Path 'Test1', line 1, position 14.");
+        await XUnitAssert.ThrowsAsync<JsonReaderException>(
+            () => reader.ReadAsStringAsync(),
+            "Unexpected character encountered while parsing value: 1. Path 'Test1', line 1, position 14.");
 
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());

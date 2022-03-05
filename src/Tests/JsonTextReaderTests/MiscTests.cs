@@ -738,52 +738,52 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
     {
         var json1 = "{'a':'bc'}";
 
-        var r = new JsonTextReader(new StringReader(json1));
+        var reader = new JsonTextReader(new StringReader(json1));
 
-        Assert.True(r.Read());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(1, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(1, reader.LinePosition);
 
-        Assert.True(r.Read());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(5, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(5, reader.LinePosition);
 
-        Assert.True(r.Read());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(9, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(9, reader.LinePosition);
 
-        Assert.True(r.Read());
-        Assert.Equal(1, r.LineNumber);
-        Assert.Equal(10, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(1, reader.LineNumber);
+        Assert.Equal(10, reader.LinePosition);
 
-        Assert.False(r.Read());
+        Assert.False(reader.Read());
 
         var json2 = "\n{'a':'bc'}";
 
-        r = new JsonTextReader(new StringReader(json2));
+        reader = new(new StringReader(json2));
 
-        Assert.True(r.Read());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(1, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(1, reader.LinePosition);
 
-        Assert.True(r.Read());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(5, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(5, reader.LinePosition);
 
-        Assert.True(r.Read());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(9, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(9, reader.LinePosition);
 
-        Assert.True(r.Read());
-        Assert.Equal(2, r.LineNumber);
-        Assert.Equal(10, r.LinePosition);
+        Assert.True(reader.Read());
+        Assert.Equal(2, reader.LineNumber);
+        Assert.Equal(10, reader.LinePosition);
 
-        Assert.False(r.Read());
+        Assert.False(reader.Read());
     }
 #endif
 
     [Fact]
-    public void DisposeSupressesFinalization()
+    public void DisposeSuppressesFinalization()
     {
         UnmanagedResourceFakingJsonReader.CreateAndDispose();
         GC.Collect();
@@ -794,15 +794,15 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
     [Fact]
     public void InvalidUnicodeSequence()
     {
-        var json1 = @"{'prop':'\u123!'}";
+        var json = @"{'prop':'\u123!'}";
 
-        var r = new JsonTextReader(new StringReader(json1));
+        var reader = new JsonTextReader(new StringReader(json));
 
-        Assert.True(r.Read());
-        Assert.True(r.Read());
+        Assert.True(reader.Read());
+        Assert.True(reader.Read());
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => r.Read(),
+            () => reader.Read(),
             @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
     }
 }
