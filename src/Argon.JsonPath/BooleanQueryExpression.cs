@@ -57,7 +57,8 @@ class BooleanQueryExpression : QueryExpression
 
     bool MatchTokens(JToken leftResult, JToken rightResult, JsonSelectSettings settings)
     {
-        if (leftResult is JValue leftValue && rightResult is JValue rightValue)
+        if (leftResult is JValue leftValue &&
+            rightResult is JValue rightValue)
         {
             switch (Operator)
             {
@@ -130,13 +131,13 @@ class BooleanQueryExpression : QueryExpression
         }
         else
         {
-            switch (Operator)
+            // can only specify primitive types in a comparison
+            // notequals will always be true
+            if (Operator is
+                QueryOperator.Exists or
+                QueryOperator.NotEquals)
             {
-                case QueryOperator.Exists:
-                // you can only specify primitive types in a comparison
-                // notequals will always be true
-                case QueryOperator.NotEquals:
-                    return true;
+                return true;
             }
         }
 
