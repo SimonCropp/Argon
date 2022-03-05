@@ -588,9 +588,9 @@ keyword such as type of business.""
 
         Assert.Equal(32, resultObjects.Properties().Count());
 
-        Assert.Equal(32, resultObjects.Cast<JToken>().Values().Count());
+        Assert.Equal(32, resultObjects.Values().Count());
 
-        Assert.Equal(4, resultObjects.Cast<JToken>().Values("GsearchResultClass").Count());
+        Assert.Equal(4, resultObjects.Values("GsearchResultClass").Count());
 
         Assert.Equal(5, o.PropertyValues().Cast<JArray>().Children().Count());
 
