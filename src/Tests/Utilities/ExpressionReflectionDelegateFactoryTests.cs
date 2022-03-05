@@ -13,8 +13,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] { "Value" };
-        var o = (InTestClass)creator(args);
+        var args = new object[] {"Value"};
+        var o = (InTestClass) creator(args);
         Assert.NotNull(o);
         Assert.Equal("Value", o.Value);
     }
@@ -26,8 +26,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] { "Value", true };
-        var o = (InTestClass)creator(args);
+        var args = new object[] {"Value", true};
+        var o = (InTestClass) creator(args);
         Assert.NotNull(o);
         Assert.Equal("Value", o.Value);
         XUnitAssert.True(o.B1);
@@ -40,8 +40,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] { "Input" };
-        var o = (OutAndRefTestClass)creator(args);
+        var args = new object[] {"Input"};
+        var o = (OutAndRefTestClass) creator(args);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
     }
@@ -53,8 +53,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] { "Input", null };
-        var o = (OutAndRefTestClass)creator(args);
+        var args = new object[] {"Input", null};
+        var o = (OutAndRefTestClass) creator(args);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
     }
@@ -66,8 +66,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] { "Input", true, null };
-        var o = (OutAndRefTestClass)creator(args);
+        var args = new object[] {"Input", true, null};
+        var o = (OutAndRefTestClass) creator(args);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
         XUnitAssert.True(o.B1);
@@ -79,7 +79,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(Movie));
 
-        var m = (Movie)create();
+        var m = (Movie) create();
         Assert.NotNull(m);
     }
 
@@ -88,7 +88,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     {
         var create = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(StructTest));
 
-        var m = (StructTest)create();
+        var m = (StructTest) create();
         Assert.NotNull(m);
     }
 
@@ -258,12 +258,12 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         var setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(StructTest).GetProperty("StringProperty"));
 
         setter(structTest, "Hi1");
-        Assert.Equal("Hi1", ((StructTest)structTest).StringProperty);
+        Assert.Equal("Hi1", ((StructTest) structTest).StringProperty);
 
         setter = ExpressionReflectionDelegateFactory.Instance.CreateSet<object>(typeof(StructTest).GetField("StringField"));
 
         setter(structTest, "Hi2");
-        Assert.Equal("Hi2", ((StructTest)structTest).StringField);
+        Assert.Equal("Hi2", ((StructTest) structTest).StringField);
     }
 
     [Fact]
@@ -327,7 +327,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateStaticMethodCall()
     {
-        var castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] { typeof(string) });
+        var castMethodInfo = typeof(DictionaryKey).GetMethod("op_Implicit", new[] {typeof(string)});
 
         Assert.NotNull(castMethodInfo);
 
@@ -336,7 +336,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         var result = call(null, "First!");
         Assert.NotNull(result);
 
-        var key = (DictionaryKey)result;
+        var key = (DictionaryKey) result;
         Assert.Equal("First!", key.Value);
     }
 
@@ -344,7 +344,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     public void ConstructorStruct()
     {
         var creator1 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
-        var myStruct1 = (MyStruct)creator1.Invoke();
+        var myStruct1 = (MyStruct) creator1.Invoke();
         Assert.Equal(0, myStruct1.IntProperty);
 
         var creator2 = ExpressionReflectionDelegateFactory.Instance.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
@@ -370,7 +370,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateStructMethodCall()
     {
-        var methodInfo = typeof(ExpressionReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] { typeof(TestStruct) });
+        var methodInfo = typeof(ExpressionReflectionDelegateFactoryTests).GetMethod(nameof(StructMethod), new[] {typeof(TestStruct)});
 
         Assert.NotNull(methodInfo);
 
@@ -379,7 +379,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         var result = call(null, new TestStruct(123));
         Assert.NotNull(result);
 
-        var s = (TestStruct)result;
+        var s = (TestStruct) result;
         Assert.Equal(246, s.Value);
     }
 }
