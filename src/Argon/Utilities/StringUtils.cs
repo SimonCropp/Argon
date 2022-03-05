@@ -208,7 +208,7 @@ static class StringUtils
 
     public static bool EndsWith(this string source, char value)
     {
-        return source.Length > 0 && source[source.Length - 1] == value;
+        return source.Length > 0 && source[^1] == value;
     }
 
     public static string Trim(this string s, int start, int length)
