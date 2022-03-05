@@ -2763,7 +2763,7 @@ keyword such as type of business.""
         Assert.Equal(new("30c39065-0f31-de11-9442-001e3786a8ec"), n.Uid);
         Assert.Equal(8, n.FidOrder.Count);
         Assert.Equal("id", n.FidOrder[0]);
-        Assert.Equal("titleId", n.FidOrder[^1]);
+        Assert.Equal("titleId", n.FidOrder[n.FidOrder.Count - 1]);
     }
 
     [Fact]
@@ -3023,7 +3023,7 @@ keyword such as type of business.""
         var a = (JArray) setOnly.GetValue();
         Assert.Equal(5, a.Count);
         Assert.Equal(1, (int) a[0]);
-        Assert.Equal(5, (int) a[^1]);
+        Assert.Equal(5, (int) a[a.Count - 1]);
     }
 
     [Fact]

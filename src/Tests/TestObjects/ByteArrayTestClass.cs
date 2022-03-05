@@ -10,6 +10,6 @@ public class ByteArrayTestClass
 
     public ByteArrayTestClass()
     {
-        Prop1 = Array.Empty<byte>();
+        Prop1 = new byte[0];
     }
 }

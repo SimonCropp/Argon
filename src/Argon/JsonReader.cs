@@ -258,7 +258,7 @@ public abstract partial class JsonReader : IDisposable
         if (stack.Count > 0)
         {
             oldPosition = currentPosition;
-            currentPosition = stack[^1];
+            currentPosition = stack[stack.Count - 1];
             stack.RemoveAt(stack.Count - 1);
         }
         else

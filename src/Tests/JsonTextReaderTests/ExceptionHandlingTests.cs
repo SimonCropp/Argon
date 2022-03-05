@@ -750,7 +750,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             reader.ReadAsBytes();
         }, "Unexpected character encountered while parsing value: ,. Path '[0]', line 1, position 2.");
 
-        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
+        Assert.Equal(new byte[0], reader.ReadAsBytes());
         Assert.True(reader.Read());
     }
 
@@ -770,14 +770,14 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         var reader = new JsonTextReader(new StringReader("['',,'']"));
         reader.Read();
-        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
+        Assert.Equal(new byte[0], reader.ReadAsBytes());
 
         XUnitAssert.Throws<JsonReaderException>(() =>
         {
             reader.ReadAsBytes();
         }, "Unexpected character encountered while parsing value: ,. Path '[1]', line 1, position 5.");
 
-        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
+        Assert.Equal(new byte[0], reader.ReadAsBytes());
         Assert.True(reader.Read());
     }
 

@@ -104,7 +104,7 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(DBNull.Value, v.Value);
         Assert.Equal(JTokenType.Null, v.Type);
 
-        var data = Array.Empty<byte>();
+        var data = new byte[0];
         v.Value = data;
 
         Assert.Equal(data, v.Value);
