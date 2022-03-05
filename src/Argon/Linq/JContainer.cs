@@ -611,7 +611,7 @@ public abstract partial class JContainer :
                 case JsonToken.Comment:
                     if (settings is {CommentHandling: CommentHandling.Load})
                     {
-                        v = JValue.CreateComment(r.GetValue().ToString());
+                        v = JValue.CreateComment( (string?) r.GetValue());
                         v.SetLineInfo(lineInfo, settings);
                         parent.Add(v);
                     }
@@ -647,7 +647,7 @@ public abstract partial class JContainer :
     {
 
         var parentObject = (JObject)parent;
-        var propertyName = r.GetValue().ToString()!;
+        var propertyName =  (string) r.GetValue();
         var existingPropertyWithName = parentObject.PropertyOrNull(propertyName);
         if (existingPropertyWithName != null)
         {

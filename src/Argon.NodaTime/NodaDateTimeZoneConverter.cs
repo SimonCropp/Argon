@@ -28,7 +28,7 @@ sealed class NodaDateTimeZoneConverter : NodaConverterBase<DateTimeZone>
             "Unexpected token parsing instant. Expected String, got {0}.",
             reader.TokenType);
 
-        var timeZoneId = reader.GetValue().ToString()!;
+        var timeZoneId =  (string) reader.GetValue();
         return provider[timeZoneId];
     }
 

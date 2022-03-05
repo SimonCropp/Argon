@@ -82,7 +82,7 @@ public class ExpandoObjectConverter : JsonConverter
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var propertyName = reader.GetValue().ToString()!;
+                    var propertyName = (string) reader.GetValue();
 
                     if (!reader.Read())
                     {

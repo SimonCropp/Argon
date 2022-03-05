@@ -1608,7 +1608,5 @@ Sizes: [
         Assert.Equal("Name", a.PropertyOrNull("NAME", StringComparison.OrdinalIgnoreCase).Name);
         // Return exact match before ignoring case
         Assert.Equal("name", a.PropertyOrNull("name", StringComparison.OrdinalIgnoreCase).Name);
-        // Return exact match without ignoring case
-        Assert.Equal("name", a.PropertyOrNull("name", StringComparison.Ordinal).Name);
     }
 }

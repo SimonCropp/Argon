@@ -63,7 +63,7 @@ public class UnixDateTimeConverter : DateTimeConverterBase
         }
         else if (reader.TokenType == JsonToken.String)
         {
-            if (!long.TryParse((string)reader.GetValue(), out seconds))
+            if (!long.TryParse(reader.StringValue, out seconds))
             {
                 throw JsonSerializationException.Create(reader, $"Cannot convert invalid value to {type}.");
             }

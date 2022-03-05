@@ -14,7 +14,7 @@ sealed class NodaIsoDateIntervalConverter : NodaConverterBase<DateInterval>
             throw new InvalidNodaDataException(
                 $"Unexpected token parsing DateInterval. Expected String, got {reader.TokenType}.");
         }
-        var text = reader.GetValue().ToString()!;
+        var text = reader.StringValue;
         var slash = text.IndexOf('/');
         if (slash == -1)
         {

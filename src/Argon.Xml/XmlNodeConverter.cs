@@ -906,7 +906,7 @@ public class XmlNodeConverter : JsonConverter
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var attributeName = reader.GetValue().ToString();
+                    var attributeName = (string) reader.GetValue();
 
                     if (StringUtils.IsNullOrEmpty(attributeName))
                     {
@@ -1100,7 +1100,7 @@ public class XmlNodeConverter : JsonConverter
                         throw JsonSerializationException.Create(reader, "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName.");
                     }
 
-                    var propertyName = reader.GetValue().ToString()!;
+                    var propertyName = (string) reader.GetValue();
                     reader.ReadAndAssert();
 
                     if (reader.TokenType == JsonToken.StartArray)
@@ -1133,7 +1133,7 @@ public class XmlNodeConverter : JsonConverter
                     }
                     continue;
                 case JsonToken.Comment:
-                    currentNode.AppendChild(document.CreateComment((string)reader.GetValue()));
+                    currentNode.AppendChild(document.CreateComment(reader.StringValue));
                     break;
                 case JsonToken.EndObject:
                 case JsonToken.EndArray:

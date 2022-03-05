@@ -1813,7 +1813,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 v.SetLineInfo(lineInfo, settings);
                 return v;
             case JsonToken.Comment:
-                v = JValue.CreateComment(reader.GetValue().ToString());
+                v = JValue.CreateComment( (string) reader.GetValue());
                 v.SetLineInfo(lineInfo, settings);
                 return v;
             case JsonToken.Null:

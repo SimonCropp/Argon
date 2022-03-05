@@ -131,14 +131,14 @@ public class DiscriminatedUnionConverter : JsonConverter
 
         while (reader.TokenType == JsonToken.PropertyName)
         {
-            var propertyName = reader.GetValue().ToString();
+            var propertyName = (string) reader.GetValue();
             if (string.Equals(propertyName, casePropertyName, StringComparison.OrdinalIgnoreCase))
             {
                 reader.ReadAndAssert();
 
                 var union = unionCache.Get(type);
 
-                caseName = reader.GetValue().ToString();
+                caseName = (string) reader.GetValue();
 
                 caseInfo = union.Cases.SingleOrDefault(c => c.Name == caseName);
 

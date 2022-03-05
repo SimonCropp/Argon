@@ -49,7 +49,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             string? id = null;
             if (Serializer.MetadataPropertyHandling != MetadataPropertyHandling.Ignore
                 && reader.TokenType == JsonToken.PropertyName
-                && string.Equals(reader.GetValue().ToString(), JsonTypeReflector.IdPropertyName, StringComparison.Ordinal))
+                && string.Equals( (string) reader.GetValue(), JsonTypeReflector.IdPropertyName, StringComparison.Ordinal))
             {
                 reader.ReadAndAssert();
                 id = reader.Value?.ToString();
@@ -197,7 +197,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (reader.TokenType == JsonToken.PropertyName)
             {
-                var propertyName = (string)reader.GetValue();
+                var propertyName = reader.StringValue;
                 if (!reader.ReadAndMoveToContent())
                 {
                     break;
@@ -250,7 +250,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 case JsonToken.Bytes:
                     return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
                 case JsonToken.String:
-                    var s = (string)reader.GetValue();
+                    var s = reader.StringValue;
 
                     // string that needs to be returned as a byte array should be base 64 decoded
                     if (type == typeof(byte[]))
@@ -435,7 +435,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 // if the content is inside $value then read past it
                 if (Serializer.MetadataPropertyHandling != MetadataPropertyHandling.Ignore
                     && reader.TokenType == JsonToken.PropertyName
-                    && string.Equals(reader.GetValue().ToString(), JsonTypeReflector.ValuePropertyName, StringComparison.Ordinal))
+                    && string.Equals( (string) reader.GetValue(), JsonTypeReflector.ValuePropertyName, StringComparison.Ordinal))
                 {
                     reader.ReadAndAssert();
 
@@ -583,7 +583,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         reader.ReadAndAssert();
                         if (reader.TokenType == JsonToken.PropertyName)
                         {
-                            if ((string)reader.GetValue() == JsonTypeReflector.ValuePropertyName)
+                            if (reader.StringValue == JsonTypeReflector.ValuePropertyName)
                             {
                                 return false;
                             }
@@ -632,7 +632,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                 do
                 {
-                    propertyName = reader.GetValue().ToString();
+                    propertyName =  (string) reader.GetValue();
 
                     if (string.Equals(propertyName, JsonTypeReflector.RefPropertyName, StringComparison.Ordinal))
                     {
@@ -668,7 +668,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     else if (string.Equals(propertyName, JsonTypeReflector.TypePropertyName, StringComparison.Ordinal))
                     {
                         reader.ReadAndAssert();
-                        var qualifiedTypeName = reader.GetValue().ToString()!;
+                        var qualifiedTypeName =  (string) reader.GetValue();
 
                         ResolveTypeName(reader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName);
 
@@ -1656,7 +1656,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var memberName = reader.GetValue().ToString()!;
+                    var memberName =  (string) reader.GetValue();
 
                     try
                     {
@@ -1995,7 +1995,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var memberName = reader.GetValue().ToString()!;
+                    var memberName =  (string) reader.GetValue();
 
                     var creatorPropertyContext = new CreatorPropertyContext(memberName)
                     {
@@ -2141,7 +2141,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 case JsonToken.PropertyName:
                 {
-                    var propertyName = reader.GetValue().ToString()!;
+                    var propertyName =  (string) reader.GetValue();
 
                     if (CheckPropertyName(reader, propertyName))
                     {

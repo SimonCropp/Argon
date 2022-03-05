@@ -164,6 +164,22 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
+    /// Gets the underlying token value cast to a string.
+    /// </summary>
+    public string StringValue
+    {
+        get
+        {
+            if (Value is null)
+            {
+                throw new("Cannot GetValue when underlying value is null");
+            }
+
+            return (string) Value!;
+        }
+    }
+
+    /// <summary>
     /// Gets the text value of the current JSON token.
     /// </summary>
     public virtual object? Value => value;
