@@ -70,7 +70,7 @@ public class KeyValuePairConverter : JsonConverter
 
         while (reader.TokenType == JsonToken.PropertyName)
         {
-            var propertyName = reader.Value!.ToString();
+            var propertyName = (string) reader.GetValue();
             if (string.Equals(propertyName, keyName, StringComparison.OrdinalIgnoreCase))
             {
                 reader.ReadForTypeAndAssert(keyContract, false);

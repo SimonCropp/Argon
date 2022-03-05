@@ -63,7 +63,7 @@ public abstract class NodaConverterBase<T> : JsonConverter
         // Handle empty strings automatically
         if (reader.TokenType == JsonToken.String)
         {
-            var value = (string) reader.Value!;
+            var value = (string) reader.GetValue();
             if (value == "")
             {
                 Preconditions.CheckData(objectType == NullableT,

@@ -49,7 +49,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             string? id = null;
             if (Serializer.MetadataPropertyHandling != MetadataPropertyHandling.Ignore
                 && reader.TokenType == JsonToken.PropertyName
-                && string.Equals(reader.Value!.ToString(), JsonTypeReflector.IdPropertyName, StringComparison.Ordinal))
+                && string.Equals( (string) reader.GetValue(), JsonTypeReflector.IdPropertyName, StringComparison.Ordinal))
             {
                 reader.ReadAndAssert();
                 id = reader.Value?.ToString();
@@ -197,7 +197,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             if (reader.TokenType == JsonToken.PropertyName)
             {
-                var propertyName = (string)reader.Value!;
+                var propertyName = reader.StringValue;
                 if (!reader.ReadAndMoveToContent())
                 {
                     break;
@@ -250,7 +250,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 case JsonToken.Bytes:
                     return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
                 case JsonToken.String:
-                    var s = (string)reader.Value!;
+                    var s = reader.StringValue;
 
                     // string that needs to be returned as a byte array should be base 64 decoded
                     if (type == typeof(byte[]))
@@ -435,7 +435,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 // if the content is inside $value then read past it
                 if (Serializer.MetadataPropertyHandling != MetadataPropertyHandling.Ignore
                     && reader.TokenType == JsonToken.PropertyName
-                    && string.Equals(reader.Value!.ToString(), JsonTypeReflector.ValuePropertyName, StringComparison.Ordinal))
+                    && string.Equals( (string) reader.GetValue(), JsonTypeReflector.ValuePropertyName, StringComparison.Ordinal))
                 {
                     reader.ReadAndAssert();
 
@@ -537,7 +537,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             var current = (JObject)reader.CurrentToken!;
 
-            var refProperty = current.Property(JsonTypeReflector.RefPropertyName, StringComparison.Ordinal);
+            var refProperty = current.PropertyOrNull(JsonTypeReflector.RefPropertyName);
             if (refProperty != null)
             {
                 var refToken = refProperty.Value;
@@ -583,7 +583,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         reader.ReadAndAssert();
                         if (reader.TokenType == JsonToken.PropertyName)
                         {
-                            if ((string)reader.Value! == JsonTypeReflector.ValuePropertyName)
+                            if (reader.StringValue == JsonTypeReflector.ValuePropertyName)
                             {
                                 return false;
                             }
@@ -632,7 +632,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                 do
                 {
-                    propertyName = reader.Value!.ToString();
+                    propertyName =  (string) reader.GetValue();
 
                     if (string.Equals(propertyName, JsonTypeReflector.RefPropertyName, StringComparison.Ordinal))
                     {
@@ -668,7 +668,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     else if (string.Equals(propertyName, JsonTypeReflector.TypePropertyName, StringComparison.Ordinal))
                     {
                         reader.ReadAndAssert();
-                        var qualifiedTypeName = reader.Value!.ToString()!;
+                        var qualifiedTypeName =  (string) reader.GetValue();
 
                         ResolveTypeName(reader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName);
 
@@ -1289,7 +1289,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var keyValue = reader.Value!;
+                    var keyValue = reader.GetValue();
                     if (CheckPropertyName(reader, keyValue.ToString()!))
                     {
                         continue;
@@ -1656,7 +1656,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var memberName = reader.Value!.ToString()!;
+                    var memberName =  (string) reader.GetValue();
 
                     try
                     {
@@ -1995,7 +1995,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             switch (reader.TokenType)
             {
                 case JsonToken.PropertyName:
-                    var memberName = reader.Value!.ToString()!;
+                    var memberName =  (string) reader.GetValue();
 
                     var creatorPropertyContext = new CreatorPropertyContext(memberName)
                     {
@@ -2141,7 +2141,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 case JsonToken.PropertyName:
                 {
-                    var propertyName = reader.Value!.ToString()!;
+                    var propertyName =  (string) reader.GetValue();
 
                     if (CheckPropertyName(reader, propertyName))
                     {
@@ -2376,7 +2376,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         switch (reader.TokenType)
         {
             case JsonToken.String:
-                if (CoerceEmptyStringToNull(property.PropertyType, property.PropertyContract, (string) reader.Value!))
+                if (CoerceEmptyStringToNull(property.PropertyType, property.PropertyContract, (string) reader.GetValue()))
                 {
                     propertyPresence = PropertyPresence.Null;
                 }

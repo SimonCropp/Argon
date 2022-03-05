@@ -35,13 +35,14 @@ public class VersionConverter : JsonConverter
 
         if (reader.TokenType == JsonToken.String)
         {
+            var value = reader.GetValue();
             try
             {
-                return new Version((string)reader.Value!);
+                return new Version((string)value);
             }
             catch (Exception exception)
             {
-                throw JsonSerializationException.Create(reader, $"Error parsing version string: {reader.Value}", exception);
+                throw JsonSerializationException.Create(reader, $"Error parsing version string: {value}", exception);
             }
         }
 

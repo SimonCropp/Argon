@@ -121,7 +121,7 @@ public partial class JObject :
 
         foreach (var contentItem in o)
         {
-            var existingProperty = Property(contentItem.Key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
+            var existingProperty = PropertyOrNull(contentItem.Key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
 
             if (existingProperty == null)
             {
@@ -182,12 +182,21 @@ public partial class JObject :
     }
 
     /// <summary>
-    /// Gets a <see cref="JProperty"/> with the specified name.
+    /// Gets the <see cref="JProperty"/> with the specified name.
+    /// The exact name will be searched for first and if no matching property is found then
+    /// the <see cref="StringComparison"/> will be used to match a property.
     /// </summary>
-    /// <returns>A <see cref="JProperty"/> with the specified name or <c>null</c>.</returns>
-    public JProperty? Property(string name)
+    /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
+    /// <returns>A <see cref="JProperty"/> matched with the specified name.</returns>
+    public JProperty Property(string name, StringComparison comparison = StringComparison.Ordinal)
     {
-        return Property(name, StringComparison.Ordinal);
+        var property = PropertyOrNull(name, comparison);
+        if (property == null)
+        {
+            throw new($"Property `{name}1  not found.");
+        }
+
+        return property;
     }
 
     /// <summary>
@@ -197,7 +206,7 @@ public partial class JObject :
     /// </summary>
     /// <param name="comparison">One of the enumeration values that specifies how the strings will be compared.</param>
     /// <returns>A <see cref="JProperty"/> matched with the specified name or <c>null</c>.</returns>
-    public JProperty? Property(string name, StringComparison comparison)
+    public JProperty? PropertyOrNull(string name, StringComparison comparison = StringComparison.Ordinal)
     {
         if (properties.TryGetValue(name, out var property))
         {
@@ -261,13 +270,13 @@ public partial class JObject :
     {
         get
         {
-            var property = Property(propertyName, StringComparison.Ordinal);
+            var property = PropertyOrNull(propertyName);
 
             return property?.Value;
         }
         set
         {
-            var property = Property(propertyName, StringComparison.Ordinal);
+            var property = PropertyOrNull(propertyName);
             if (property == null)
             {
                 Add(propertyName, value);
@@ -438,7 +447,7 @@ public partial class JObject :
         }
 
         // attempt to get value via dictionary first for performance
-        var property = Property(propertyName, comparison);
+        var property = PropertyOrNull(propertyName, comparison);
 
         return property?.Value;
     }
@@ -486,7 +495,7 @@ public partial class JObject :
     /// <returns><c>true</c> if item was successfully removed; otherwise, <c>false</c>.</returns>
     public bool Remove(string propertyName)
     {
-        var property = Property(propertyName, StringComparison.Ordinal);
+        var property = PropertyOrNull(propertyName);
         if (property == null)
         {
             return false;
@@ -503,7 +512,7 @@ public partial class JObject :
     /// <returns><c>true</c> if a value was successfully retrieved; otherwise, <c>false</c>.</returns>
     public bool TryGetValue(string propertyName, [NotNullWhen(true)]out JToken? value)
     {
-        var property = Property(propertyName, StringComparison.Ordinal);
+        var property = PropertyOrNull(propertyName);
         if (property == null)
         {
             value = null;
@@ -531,7 +540,7 @@ public partial class JObject :
 
     bool ICollection<KeyValuePair<string, JToken?>>.Contains(KeyValuePair<string, JToken?> item)
     {
-        var property = Property(item.Key, StringComparison.Ordinal);
+        var property = PropertyOrNull(item.Key);
         if (property == null)
         {
             return false;

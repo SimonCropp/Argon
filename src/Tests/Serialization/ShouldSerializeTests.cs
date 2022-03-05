@@ -395,7 +395,9 @@ public class ShouldSerializeTests : TestFixtureBase
         var json = @"{'HasName':false,'Name':'Name!'}";
 
         var traceWriter = new MemoryTraceWriter();
-        var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
+        var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(
+            json,
+            new JsonSerializerSettings
         {
             ContractResolver = ShouldDeserializeContractResolver.Instance,
             TraceWriter = traceWriter

@@ -81,7 +81,6 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         var o = (JObject)writer.Token;
         var p = o.Property("theField");
 
-        Assert.NotNull(p);
         Assert.Equal(int.MinValue, (int)p.Value);
 
         var json = o.ToString();

@@ -65,7 +65,7 @@ public class RegexConverter : JsonConverter
 
     static object ReadRegexString(JsonReader reader)
     {
-        var regexText = (string)reader.Value!;
+        var regexText = reader.StringValue;
 
         if (regexText.Length > 0 && regexText[0] == '/')
         {

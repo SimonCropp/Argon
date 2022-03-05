@@ -27,7 +27,7 @@ sealed class NodaIntervalConverter : NodaConverterBase<Interval>
                 break;
             }
 
-            var propertyName = (string)reader.Value!;
+            var propertyName = reader.StringValue;
             // If we haven't got a property value, that's pretty weird. Break out of the loop,
             // and let JSON.NET fail appropriately...
             if (!reader.Read())

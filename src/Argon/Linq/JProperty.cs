@@ -131,15 +131,13 @@ public partial class JProperty : JContainer
         get => content.token!;
         set
         {
-            var newValue = value ?? JValue.CreateNull();
-
             if (content.token == null)
             {
-                InsertItem(0, newValue, false);
+                InsertItem(0, value, false);
             }
             else
             {
-                SetItem(0, newValue);
+                SetItem(0, value);
             }
         }
     }

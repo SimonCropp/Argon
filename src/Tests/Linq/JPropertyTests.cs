@@ -150,7 +150,7 @@ public class JPropertyTests : TestFixtureBase
 
         var obj = JsonConvert.DeserializeObject<JObject>(json);
 
-        var property = obj.Property("prop1");
+        var property = obj.PropertyOrNull("prop1");
         var value = property.Value;
 
         // remove value so it has no parent

@@ -96,7 +96,12 @@ public class IsoDateTimeConverter : DateTimeConverterBase
         {
             if (t == typeof(DateTimeOffset))
             {
-                return reader.Value is DateTimeOffset ? reader.Value : new DateTimeOffset((DateTime)reader.Value!);
+                if (reader.Value is DateTimeOffset dateTimeOffset)
+                {
+                    return dateTimeOffset;
+                }
+
+                return new DateTimeOffset((DateTime) reader.GetValue());
             }
 
             // converter is expected to return a DateTime

@@ -69,7 +69,7 @@ public class DataTableConverter : JsonConverter
         // populate the name from the property name
         if (reader.TokenType == JsonToken.PropertyName)
         {
-            table.TableName = (string)reader.Value!;
+            table.TableName = reader.StringValue;
 
             reader.ReadAndAssert();
 
@@ -103,7 +103,7 @@ public class DataTableConverter : JsonConverter
 
         while (reader.TokenType == JsonToken.PropertyName)
         {
-            var columnName = (string)reader.Value!;
+            var columnName = reader.StringValue;
 
             reader.ReadAndAssert();
 

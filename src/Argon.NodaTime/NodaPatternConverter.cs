@@ -50,7 +50,8 @@ public sealed class NodaPatternConverter<T> : NodaConverterBase<T>
             throw new InvalidNodaDataException(
                 $"Unexpected token parsing {typeof (T).Name}. Expected String, got {reader.TokenType}.");
         }
-        var text = reader.Value!.ToString()!;
+
+        var text = (string) reader.GetValue();
         return pattern.Parse(text).Value;
     }
 
