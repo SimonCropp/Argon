@@ -5,6 +5,7 @@ namespace System.Runtime.CompilerServices
 }
 #endif
 public record TextReaderState(JsonToken TokenType, int LineNumber, int LinePosition, string Path, int Depth, object Value);
+
 public record ReaderState(JsonToken TokenType, string Path, int Depth, object Value);
 
 public static class Extensions
@@ -81,8 +82,9 @@ public static class Extensions
             {
                 b -= 7;
             }
+
             // store nibble (4 bits) in byte array
-            bytes[offset] |= (byte)(b << shift);
+            bytes[offset] |= (byte) (b << shift);
             // toggle the shift variable between 0 and 4
             shift ^= 4;
             // move to next byte
@@ -91,6 +93,7 @@ public static class Extensions
                 offset++;
             }
         }
+
         return bytes;
     }
 }

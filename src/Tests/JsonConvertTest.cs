@@ -12,12 +12,12 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ToStringEnsureEscapedArrayLength()
     {
-        const char nonAsciiChar = (char)257;
+        const char nonAsciiChar = (char) 257;
         const char escapableNonQuoteAsciiChar = '\0';
 
         var value = nonAsciiChar + @"\" + escapableNonQuoteAsciiChar;
 
-        var convertedValue = JsonConvert.ToString((object)value);
+        var convertedValue = JsonConvert.ToString((object) value);
         Assert.Equal($@"""{nonAsciiChar}\\\u0000""", convertedValue);
     }
 
@@ -97,7 +97,7 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            var json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } });
+            var json = JsonConvert.SerializeObject(new {test = new[] {1, 2, 3}});
 
             XUnitAssert.AreEqualNormalized(@"{
   ""test"": [
@@ -130,7 +130,7 @@ public class JsonConvertTest : TestFixtureBase
             reader.Read();
             reader.Read();
 
-            var jsonTextReader = (JsonTextReader)reader;
+            var jsonTextReader = (JsonTextReader) reader;
             Assert.NotNull(jsonTextReader.PropertyNameTable);
 
             var s = serializer.Deserialize<string>(reader);
@@ -244,7 +244,7 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            var json = JsonConvert.SerializeObject(new { test = new[] { 1, 2, 3 } }, new JsonSerializerSettings
+            var json = JsonConvert.SerializeObject(new {test = new[] {1, 2, 3}}, new JsonSerializerSettings
             {
                 Formatting = Formatting.None
             });
@@ -267,7 +267,7 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            var l = new List<int> { 1, 2, 3 };
+            var l = new List<int> {1, 2, 3};
 
             var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault();
@@ -313,12 +313,12 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            var l = new List<int> { 1, 2, 3 };
+            var l = new List<int> {1, 2, 3};
 
             var stringWriter = new StringWriter();
             var serializer = JsonSerializer.CreateDefault(new()
             {
-                Converters = { new IntConverter() }
+                Converters = {new IntConverter()}
             });
             serializer.Serialize(stringWriter, l);
 
@@ -339,7 +339,7 @@ public class JsonConvertTest : TestFixtureBase
 ]", stringWriter.ToString());
 
             stringWriter = new();
-            serializer = JsonSerializer.Create(new() { Formatting = Formatting.Indented });
+            serializer = JsonSerializer.Create(new() {Formatting = Formatting.Indented});
             serializer.Serialize(stringWriter, l);
 
             XUnitAssert.AreEqualNormalized(@"[
@@ -358,7 +358,7 @@ public class JsonConvertTest : TestFixtureBase
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var i = (int)value;
+            var i = (int) value;
             writer.WriteValue(i * 2);
         }
 
@@ -515,28 +515,28 @@ public class JsonConvertTest : TestFixtureBase
         value = 1.1m;
         Assert.Equal("1.1", JsonConvert.ToString(value));
 
-        value = (float)1.1;
+        value = (float) 1.1;
         Assert.Equal("1.1", JsonConvert.ToString(value));
 
-        value = (short)1;
+        value = (short) 1;
         Assert.Equal("1", JsonConvert.ToString(value));
 
-        value = (long)1;
+        value = (long) 1;
         Assert.Equal("1", JsonConvert.ToString(value));
 
-        value = (byte)1;
+        value = (byte) 1;
         Assert.Equal("1", JsonConvert.ToString(value));
 
-        value = (uint)1;
+        value = (uint) 1;
         Assert.Equal("1", JsonConvert.ToString(value));
 
-        value = (ushort)1;
+        value = (ushort) 1;
         Assert.Equal("1", JsonConvert.ToString(value));
 
-        value = (sbyte)1;
+        value = (sbyte) 1;
         Assert.Equal("1", JsonConvert.ToString(value));
 
-        value = (ulong)1;
+        value = (ulong) 1;
         Assert.Equal("1", JsonConvert.ToString(value));
 
         value = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
@@ -789,11 +789,11 @@ public class JsonConvertTest : TestFixtureBase
 
         if (value is DateTime)
         {
-            Console.WriteLine(XmlConvert.ToString((DateTime)(object)value, XmlDateTimeSerializationMode.RoundtripKind));
+            Console.WriteLine(XmlConvert.ToString((DateTime) (object) value, XmlDateTimeSerializationMode.RoundtripKind));
         }
         else
         {
-            Console.WriteLine(XmlConvert.ToString((DateTimeOffset)(object)value));
+            Console.WriteLine(XmlConvert.ToString((DateTimeOffset) (object) value));
         }
 
         var ms = new MemoryStream();
@@ -813,11 +813,11 @@ public class JsonConvertTest : TestFixtureBase
 
         if (value is DateTime)
         {
-            date = JsonConvert.ToString((DateTime)(object)value, timeZoneHandling);
+            date = JsonConvert.ToString((DateTime) (object) value, timeZoneHandling);
         }
         else
         {
-            date = JsonConvert.ToString((DateTimeOffset)(object)value);
+            date = JsonConvert.ToString((DateTimeOffset) (object) value);
         }
 
         if (timeZoneHandling == DateTimeZoneHandling.RoundtripKind)
@@ -863,7 +863,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public static long GetTicks(object value)
     {
-        return value is DateTime time ? time.Ticks : ((DateTimeOffset)value).Ticks;
+        return value is DateTime time ? time.Ticks : ((DateTimeOffset) value).Ticks;
     }
 
     public static string Write(object value, JsonConverter converter)
@@ -881,7 +881,7 @@ public class JsonConvertTest : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(text));
         reader.ReadAsString();
 
-        return (T)converter.ReadJson(reader, typeof(T), null, null);
+        return (T) converter.ReadJson(reader, typeof(T), null, null);
     }
 
     [Fact]
@@ -921,7 +921,7 @@ public class JsonConvertTest : TestFixtureBase
     public void TestJsonDateTimeOffsetRoundtrip()
     {
         var now = DateTimeOffset.Now;
-        var dict = new Dictionary<string, object> { { "foo", now } };
+        var dict = new Dictionary<string, object> {{"foo", now}};
 
         var settings = new JsonSerializerSettings
         {
@@ -971,10 +971,10 @@ public class JsonConvertTest : TestFixtureBase
     {
         // Maximum javascript number length (in characters) is 380
         var o = JObject.Parse(@"{""biginteger"":" + new string('9', 380) + "}");
-        var v = (JValue)o["biginteger"];
+        var v = (JValue) o["biginteger"];
         Assert.Equal(JTokenType.Integer, v.Type);
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
-        Assert.Equal(BigInteger.Parse(new('9', 380)), (BigInteger)v.Value);
+        Assert.Equal(BigInteger.Parse(new('9', 380)), (BigInteger) v.Value);
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse(@"{""biginteger"":" + new string('9', 381) + "}"),
@@ -1025,7 +1025,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ParametersPassedToJsonConverterConstructor()
     {
-        var clobber = new ClobberMyProperties { One = "Red", Two = "Green", Three = "Yellow", Four = "Black" };
+        var clobber = new ClobberMyProperties {One = "Red", Two = "Green", Three = "Yellow", Four = "Black"};
         var json = JsonConvert.SerializeObject(clobber);
 
         Assert.Equal("{\"One\":\"Uno-1-Red\",\"Two\":\"Dos-2-Green\",\"Three\":\"Tres-1337-Yellow\",\"Four\":\"Black\"}", json);
@@ -1081,7 +1081,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void WrongParametersPassedToJsonConvertConstructorShouldThrow()
     {
-        var value = new IncorrectJsonConvertParameters { One = "Boom" };
+        var value = new IncorrectJsonConvertParameters {One = "Boom"};
 
         XUnitAssert.Throws<JsonException>(() => JsonConvert.SerializeObject(value));
     }
@@ -1177,7 +1177,6 @@ public class JsonConvertTest : TestFixtureBase
         {
             return type == typeof(int);
         }
-
     }
 
     public class OverloadWithTypeParameter
@@ -1236,25 +1235,25 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithShortParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverter), (short)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (short) 1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithUShortParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverter), (ushort)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (ushort) 1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithSByteParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverter), (sbyte)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (sbyte) 1)]
         public int Overload { get; set; }
     }
 
     public class OverloadWithByteParameter
     {
-        [JsonConverter(typeof(OverloadsJsonConverter), (byte)1)]
+        [JsonConverter(typeof(OverloadsJsonConverter), (byte) 1)]
         public int Overload { get; set; }
     }
 
@@ -1367,10 +1366,10 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithArrayParameters
     {
-        [JsonConverter(typeof(OverloadsJsonConverter), new[] { 1, 2, 3 })]
+        [JsonConverter(typeof(OverloadsJsonConverter), new[] {1, 2, 3})]
         public int WithParams { get; set; }
 
-        [JsonConverter(typeof(OverloadsJsonConverter), new[] { true, false })]
+        [JsonConverter(typeof(OverloadsJsonConverter), new[] {true, false})]
         public int WithoutParams { get; set; }
     }
 
@@ -1385,7 +1384,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public class OverloadWithBaseType
     {
-        [JsonConverter(typeof(OverloadsJsonConverter), new object[] { new[] { "a", "b", "c" } })]
+        [JsonConverter(typeof(OverloadsJsonConverter), new object[] {new[] {"a", "b", "c"}})]
         public int Overload { get; set; }
     }
 
@@ -1404,8 +1403,8 @@ public class JsonConvertTest : TestFixtureBase
     {
         var measurements = new Measurements
         {
-            Loads = new() { 23283.567554707258, 23224.849899771067, 23062.5, 22846.272519910868, 22594.281246368635 },
-            Positions = new() { 57.724227689317019, 60.440934405753069, 63.444192925248643, 66.813119113482557, 70.4496501404433 },
+            Loads = new() {23283.567554707258, 23224.849899771067, 23062.5, 22846.272519910868, 22594.281246368635},
+            Positions = new() {57.724227689317019, 60.440934405753069, 63.444192925248643, 66.813119113482557, 70.4496501404433},
             Gain = 12345.67895111213
         };
 
@@ -1419,7 +1418,7 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty(ItemConverterType = typeof(RoundingJsonConverter))]
         public List<double> Positions { get; set; }
 
-        [JsonProperty(ItemConverterType = typeof(RoundingJsonConverter), ItemConverterParameters = new object[] { 0, MidpointRounding.ToEven })]
+        [JsonProperty(ItemConverterType = typeof(RoundingJsonConverter), ItemConverterParameters = new object[] {0, MidpointRounding.ToEven})]
         public List<double> Loads { get; set; }
 
         [JsonConverter(typeof(RoundingJsonConverter), 4)]
@@ -1461,7 +1460,7 @@ public class JsonConvertTest : TestFixtureBase
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            writer.WriteValue(Math.Round((double)value, precision, rounding));
+            writer.WriteValue(Math.Round((double) value, precision, rounding));
         }
     }
 
@@ -1523,37 +1522,31 @@ public class JsonConvertTest : TestFixtureBase
 
     public sealed class HasReadOnlyDictionary
     {
-        [JsonProperty("foo")]
-        public IReadOnlyDictionary<string, string> Foo { get; } = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
+        [JsonProperty("foo")] public IReadOnlyDictionary<string, string> Foo { get; } = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>());
 
         [Argon.JsonConstructor]
         public HasReadOnlyDictionary([JsonProperty("bar")] int bar)
         {
-
         }
     }
 
     public sealed class HasReadOnlyEnumerableObject
     {
-        [JsonProperty("foo")]
-        public EnumerableWithConverter Foo { get; } = new();
+        [JsonProperty("foo")] public EnumerableWithConverter Foo { get; } = new();
 
         [Argon.JsonConstructor]
         public HasReadOnlyEnumerableObject([JsonProperty("bar")] int bar)
         {
-
         }
     }
 
     public sealed class HasReadOnlyEnumerableObjectAndDefaultConstructor
     {
-        [JsonProperty("foo")]
-        public EnumerableWithConverter Foo { get; } = new();
+        [JsonProperty("foo")] public EnumerableWithConverter Foo { get; } = new();
 
         [Argon.JsonConstructor]
         public HasReadOnlyEnumerableObjectAndDefaultConstructor()
         {
-
         }
     }
 
@@ -1571,8 +1564,7 @@ public class JsonConvertTest : TestFixtureBase
 
     public sealed class HasEnumerableObject
     {
-        [JsonProperty("foo")]
-        public EnumerableWithConverter Foo { get; set; } = new();
+        [JsonProperty("foo")] public EnumerableWithConverter Foo { get; set; } = new();
 
         [Argon.JsonConstructor]
         public HasEnumerableObject([JsonProperty("bar")] int bar)
@@ -1586,7 +1578,9 @@ public class JsonConvertTest : TestFixtureBase
         public sealed class Converter : JsonConverter
         {
             public override bool CanConvert(Type type)
-                => type == typeof(Foo);
+            {
+                return type == typeof(Foo);
+            }
 
             public override object ReadJson
                 (JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
@@ -1608,7 +1602,10 @@ public class JsonConvertTest : TestFixtureBase
             yield break;
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     [Fact]
@@ -1632,13 +1629,12 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty("exp")]
         int _expiration
         {
-            get => (int)(Expiration - s_unixEpoch).TotalSeconds;
+            get => (int) (Expiration - s_unixEpoch).TotalSeconds;
             set => Expiration = s_unixEpoch.AddSeconds(value);
         }
 
         public bool Active { get; set; }
 
-        [JsonIgnore]
-        public DateTime Expiration { get; set; }
+        [JsonIgnore] public DateTime Expiration { get; set; }
     }
 }

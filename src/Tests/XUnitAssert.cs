@@ -30,6 +30,7 @@ public class XUnitAssert
 
         Assert.True(false, message);
     }
+
     static readonly Regex Regex = new(@"\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);
 
     public static void AreEqualNormalized(string expected, string actual)
@@ -51,8 +52,8 @@ public class XUnitAssert
     public static string Normalize(string s)
     {
         return s
-            .Replace("\r\n","\n")
-            .Replace("\r","\n");
+            .Replace("\r\n", "\n")
+            .Replace("\r", "\n");
     }
 
     public static TException Throws<TException>(Action action, params string[] possibleMessages)
@@ -71,6 +72,7 @@ public class XUnitAssert
             {
                 return exception;
             }
+
             foreach (var possibleMessage in possibleMessages)
             {
                 if (EqualsNormalized(possibleMessage, exception.Message))
@@ -81,7 +83,7 @@ public class XUnitAssert
 
             throw new($@"Unexpected exception message.
 Expected one of:
- * {string.Join(Environment.NewLine +" * ", possibleMessages)}
+ * {string.Join(Environment.NewLine + " * ", possibleMessages)}
 Got: {exception.Message}{Environment.NewLine}{Environment.NewLine}{exception}");
         }
         catch (Exception exception)
@@ -106,6 +108,7 @@ Got: {exception.Message}{Environment.NewLine}{Environment.NewLine}{exception}");
             {
                 return exception;
             }
+
             foreach (var possibleMessage in possibleMessages)
             {
                 if (EqualsNormalized(possibleMessage, exception.Message))
