@@ -11,13 +11,13 @@ public class JValueConvertBenchmarks
     [Benchmark]
     public string JTokenToObjectFast()
     {
-        return (string)StringJValue.ToObject(typeof(string));
+        return (string) StringJValue.ToObject(typeof(string));
     }
 
     [Benchmark]
     public string JTokenToObjectWithSerializer()
     {
-        return (string)StringJValue.ToObject(typeof(string), new());
+        return (string) StringJValue.ToObject(typeof(string), new());
     }
 
     [Benchmark]
@@ -29,6 +29,6 @@ public class JValueConvertBenchmarks
     [Benchmark]
     public string JTokenToObjectCast()
     {
-        return (string)StringJValue;
+        return (string) StringJValue;
     }
 }
