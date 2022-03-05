@@ -75,8 +75,8 @@ public class ParseAsyncTests : TestFixtureBase
 
         reader = new(new StringReader("1.1"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
-        () => reader.ReadAsInt32Async(),
-        "Input string '1.1' is not a valid integer. Path '', line 1, position 3.");
+            () => reader.ReadAsInt32Async(),
+            "Input string '1.1' is not a valid integer. Path '', line 1, position 3.");
 
         reader = new(new StringReader(""));
         Assert.Equal(null, await reader.ReadAsInt32Async());
