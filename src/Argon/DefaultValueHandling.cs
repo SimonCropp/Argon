@@ -7,11 +7,11 @@ using System.ComponentModel;
 namespace Argon;
 
 /// <summary>
-/// Specifies default value handling options for the <see cref="JsonSerializer"/>.
+/// Specifies default value handling options for the <see cref="JsonSerializer" />.
 /// </summary>
 /// <example>
-///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingObject" title="DefaultValueHandling Class" />
-///   <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingExample" title="DefaultValueHandling Ignore Example" />
+/// <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingObject" title="DefaultValueHandling Class" />
+/// <code lang="cs" source="..\src\Tests\Documentation\SerializationTests.cs" region="ReducingSerializedJsonSizeDefaultValueHandlingExample" title="DefaultValueHandling Ignore Example" />
 /// </example>
 [Flags]
 public enum DefaultValueHandling
@@ -27,7 +27,7 @@ public enum DefaultValueHandling
     /// so that it is not written to JSON.
     /// This option will ignore all default values (e.g. <c>null</c> for objects and nullable types; <c>0</c> for integers,
     /// decimals and floating point numbers; and <c>false</c> for booleans). The default value ignored can be changed by
-    /// placing the <see cref="DefaultValueAttribute"/> on the property.
+    /// placing the <see cref="DefaultValueAttribute" /> on the property.
     /// </summary>
     Ignore = 1,
 

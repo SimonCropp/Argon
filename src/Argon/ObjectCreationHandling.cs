@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies how object creation is handled by the <see cref="JsonSerializer"/>.
+/// Specifies how object creation is handled by the <see cref="JsonSerializer" />.
 /// </summary>
 public enum ObjectCreationHandling
 {

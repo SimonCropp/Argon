@@ -11,7 +11,7 @@ enum JsonContainerType
 
 struct JsonPosition
 {
-    static readonly char[] specialCharacters = { '.', ' ', '\'', '/', '"', '[', ']', '(', ')', '\t', '\n', '\r', '\f', '\b', '\\', '\u0085', '\u2028', '\u2029' };
+    static readonly char[] specialCharacters = {'.', ' ', '\'', '/', '"', '[', ']', '(', ')', '\t', '\n', '\r', '\f', '\b', '\\', '\u0085', '\u2028', '\u2029'};
 
     internal JsonContainerType Type;
     internal int Position;
@@ -33,7 +33,7 @@ struct JsonPosition
             case JsonContainerType.Object:
                 return PropertyName!.Length + 5;
             case JsonContainerType.Array:
-                return MathUtils.IntLength((ulong)Position) + 2;
+                return MathUtils.IntLength((ulong) Position) + 2;
             default:
                 throw new ArgumentOutOfRangeException(nameof(Type));
         }
@@ -64,6 +64,7 @@ struct JsonPosition
 
                     sb.Append(propertyName);
                 }
+
                 break;
             case JsonContainerType.Array:
                 sb.Append('[');

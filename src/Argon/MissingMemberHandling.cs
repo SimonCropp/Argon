@@ -5,7 +5,7 @@
 namespace Argon;
 
 /// <summary>
-/// Specifies missing member handling options for the <see cref="JsonSerializer"/>.
+/// Specifies missing member handling options for the <see cref="JsonSerializer" />.
 /// </summary>
 public enum MissingMemberHandling
 {
@@ -15,7 +15,7 @@ public enum MissingMemberHandling
     Ignore = 0,
 
     /// <summary>
-    /// Throw a <see cref="JsonSerializationException"/> when a missing member is encountered during deserialization.
+    /// Throw a <see cref="JsonSerializationException" /> when a missing member is encountered during deserialization.
     /// </summary>
     Error = 1
 }

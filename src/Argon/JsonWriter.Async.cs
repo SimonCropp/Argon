@@ -11,7 +11,7 @@ public abstract partial class JsonWriter
         var oldState = currentState;
 
         // gets new state based on the current state and what is being written
-        var newState = StateArray[(int)tokenBeingWritten][(int)oldState];
+        var newState = StateArray[(int) tokenBeingWritten][(int) oldState];
 
         if (newState == State.Error)
         {
@@ -74,7 +74,7 @@ public abstract partial class JsonWriter
 
     /// <summary>
     /// Asynchronously closes this writer.
-    /// If <see cref="JsonWriter.CloseOutput"/> is set to <c>true</c>, the destination is also closed.
+    /// If <see cref="JsonWriter.CloseOutput" /> is set to <c>true</c>, the destination is also closed.
     /// </summary>
     public virtual Task CloseAsync(CancellationToken cancellation = default)
     {
@@ -471,7 +471,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes the current <see cref="JsonReader"/> token.
+    /// Asynchronously writes the current <see cref="JsonReader" /> token.
     /// </summary>
     public Task WriteTokenAsync(JsonReader reader, CancellationToken cancellation = default)
     {
@@ -479,7 +479,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes the current <see cref="JsonReader"/> token.
+    /// Asynchronously writes the current <see cref="JsonReader" /> token.
     /// </summary>
     /// <param name="writeChildren">A flag indicating whether the current token's children should be written.</param>
     public Task WriteTokenAsync(JsonReader reader, bool writeChildren, CancellationToken cancellation = default)
@@ -488,7 +488,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes the <see cref="JsonToken"/> token and its value.
+    /// Asynchronously writes the <see cref="JsonToken" /> token and its value.
     /// </summary>
     public Task WriteTokenAsync(JsonToken token, CancellationToken cancellation = default)
     {
@@ -496,12 +496,12 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes the <see cref="JsonToken"/> token and its value.
+    /// Asynchronously writes the <see cref="JsonToken" /> token and its value.
     /// </summary>
     /// <param name="value">
     /// The value to write.
-    /// A value is only required for tokens that have an associated value, e.g. the <see cref="String"/> property name for <see cref="JsonToken.PropertyName"/>.
-    /// <c>null</c> can be passed to the method for tokens that don't have a value, e.g. <see cref="JsonToken.StartObject"/>.
+    /// A value is only required for tokens that have an associated value, e.g. the <see cref="String" /> property name for <see cref="JsonToken.PropertyName" />.
+    /// <c>null</c> can be passed to the method for tokens that don't have a value, e.g. <see cref="JsonToken.StartObject" />.
     /// </param>
     public Task WriteTokenAsync(JsonToken token, object? value, CancellationToken cancellation = default)
     {
@@ -524,8 +524,7 @@ public abstract partial class JsonWriter
             case JsonToken.Comment:
                 return WriteCommentAsync(value?.ToString(), cancellation);
             case JsonToken.Integer:
-                return value is BigInteger integer ? WriteValueAsync(integer, cancellation) :
-                        WriteValueAsync(Convert.ToInt64(value, CultureInfo.InvariantCulture), cancellation);
+                return value is BigInteger integer ? WriteValueAsync(integer, cancellation) : WriteValueAsync(Convert.ToInt64(value, CultureInfo.InvariantCulture), cancellation);
             case JsonToken.Float:
                 if (value is decimal dec)
                 {
@@ -570,7 +569,7 @@ public abstract partial class JsonWriter
                     return WriteValueAsync(guid, cancellation);
                 }
 
-                return WriteValueAsync((byte[]?)value, cancellation);
+                return WriteValueAsync((byte[]?) value, cancellation);
             default:
                 throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(token), token, "Unexpected token type.");
         }
@@ -620,7 +619,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="bool"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="bool" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(bool value, CancellationToken cancellation = default)
     {
@@ -634,7 +633,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="bool"/> value.
+    /// Asynchronously writes a <see cref="bool" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(bool? value, CancellationToken cancellation = default)
     {
@@ -648,7 +647,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="byte"/> value.
+    /// Asynchronously writes a <see cref="byte" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(byte value, CancellationToken cancellation = default)
     {
@@ -662,7 +661,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="byte"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="byte" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(byte? value, CancellationToken cancellation = default)
     {
@@ -676,7 +675,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="byte"/>[] value.
+    /// Asynchronously writes a <see cref="byte" />[] value.
     /// </summary>
     public virtual Task WriteValueAsync(byte[]? value, CancellationToken cancellation = default)
     {
@@ -690,7 +689,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="char"/> value.
+    /// Asynchronously writes a <see cref="char" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(char value, CancellationToken cancellation = default)
     {
@@ -704,7 +703,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="char"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="char" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(char? value, CancellationToken cancellation = default)
     {
@@ -718,7 +717,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="DateTime"/> value.
+    /// Asynchronously writes a <see cref="DateTime" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(DateTime value, CancellationToken cancellation = default)
     {
@@ -732,7 +731,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTime"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="DateTime" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(DateTime? value, CancellationToken cancellation = default)
     {
@@ -746,7 +745,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="DateTimeOffset"/> value.
+    /// Asynchronously writes a <see cref="DateTimeOffset" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(DateTimeOffset value, CancellationToken cancellation = default)
     {
@@ -760,7 +759,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(DateTimeOffset? value, CancellationToken cancellation = default)
     {
@@ -774,7 +773,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="decimal"/> value.
+    /// Asynchronously writes a <see cref="decimal" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(decimal value, CancellationToken cancellation = default)
     {
@@ -788,7 +787,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="decimal"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="decimal" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(decimal? value, CancellationToken cancellation = default)
     {
@@ -802,7 +801,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="double"/> value.
+    /// Asynchronously writes a <see cref="double" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(double value, CancellationToken cancellation = default)
     {
@@ -816,7 +815,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="double"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="double" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(double? value, CancellationToken cancellation = default)
     {
@@ -830,7 +829,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="float"/> value.
+    /// Asynchronously writes a <see cref="float" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(float value, CancellationToken cancellation = default)
     {
@@ -844,7 +843,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="float"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="float" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(float? value, CancellationToken cancellation = default)
     {
@@ -858,7 +857,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Guid"/> value.
+    /// Asynchronously writes a <see cref="Guid" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(Guid value, CancellationToken cancellation = default)
     {
@@ -872,7 +871,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="Guid"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="Guid" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(Guid? value, CancellationToken cancellation = default)
     {
@@ -886,7 +885,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="int"/> value.
+    /// Asynchronously writes a <see cref="int" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(int value, CancellationToken cancellation = default)
     {
@@ -900,7 +899,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="int"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="int" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(int? value, CancellationToken cancellation = default)
     {
@@ -914,7 +913,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="long"/> value.
+    /// Asynchronously writes a <see cref="long" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(long value, CancellationToken cancellation = default)
     {
@@ -928,7 +927,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="long"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="long" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(long? value, CancellationToken cancellation = default)
     {
@@ -942,7 +941,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="object"/> value.
+    /// Asynchronously writes a <see cref="object" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(object? value, CancellationToken cancellation = default)
     {
@@ -956,7 +955,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="sbyte"/> value.
+    /// Asynchronously writes a <see cref="sbyte" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(sbyte value, CancellationToken cancellation = default)
     {
@@ -970,7 +969,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="sbyte"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="sbyte" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(sbyte? value, CancellationToken cancellation = default)
     {
@@ -984,7 +983,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="short"/> value.
+    /// Asynchronously writes a <see cref="short" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(short value, CancellationToken cancellation = default)
     {
@@ -998,7 +997,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="short"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="short" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(short? value, CancellationToken cancellation = default)
     {
@@ -1012,7 +1011,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="string"/> value.
+    /// Asynchronously writes a <see cref="string" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(string? value, CancellationToken cancellation = default)
     {
@@ -1026,7 +1025,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="TimeSpan"/> value.
+    /// Asynchronously writes a <see cref="TimeSpan" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(TimeSpan value, CancellationToken cancellation = default)
     {
@@ -1040,7 +1039,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="TimeSpan" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(TimeSpan? value, CancellationToken cancellation = default)
     {
@@ -1054,7 +1053,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="uint"/> value.
+    /// Asynchronously writes a <see cref="uint" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(uint value, CancellationToken cancellation = default)
     {
@@ -1068,7 +1067,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="uint"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="uint" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(uint? value, CancellationToken cancellation = default)
     {
@@ -1082,7 +1081,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="ulong"/> value.
+    /// Asynchronously writes a <see cref="ulong" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(ulong value, CancellationToken cancellation = default)
     {
@@ -1096,7 +1095,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ulong"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="ulong" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(ulong? value, CancellationToken cancellation = default)
     {
@@ -1110,7 +1109,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Uri"/> value.
+    /// Asynchronously writes a <see cref="Uri" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(Uri? value, CancellationToken cancellation = default)
     {
@@ -1124,7 +1123,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="ushort"/> value.
+    /// Asynchronously writes a <see cref="ushort" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(ushort value, CancellationToken cancellation = default)
     {
@@ -1138,7 +1137,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ushort"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="ushort" /> value.
     /// </summary>
     public virtual Task WriteValueAsync(ushort? value, CancellationToken cancellation = default)
     {
@@ -1191,7 +1190,7 @@ public abstract partial class JsonWriter
     }
 
     /// <summary>
-    /// Asynchronously ets the state of the <see cref="JsonWriter"/>.
+    /// Asynchronously ets the state of the <see cref="JsonWriter" />.
     /// </summary>
     protected Task SetWriteStateAsync(JsonToken token, object value, CancellationToken cancellation)
     {
@@ -1243,87 +1242,87 @@ public abstract partial class JsonWriter
             switch (typeCode)
             {
                 case PrimitiveTypeCode.Char:
-                    return writer.WriteValueAsync((char)value, cancellation);
+                    return writer.WriteValueAsync((char) value, cancellation);
                 case PrimitiveTypeCode.CharNullable:
-                    return writer.WriteValueAsync(value == null ? null : (char)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (char) value, cancellation);
                 case PrimitiveTypeCode.Boolean:
-                    return writer.WriteValueAsync((bool)value, cancellation);
+                    return writer.WriteValueAsync((bool) value, cancellation);
                 case PrimitiveTypeCode.BooleanNullable:
-                    return writer.WriteValueAsync(value == null ? null : (bool)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (bool) value, cancellation);
                 case PrimitiveTypeCode.SByte:
-                    return writer.WriteValueAsync((sbyte)value, cancellation);
+                    return writer.WriteValueAsync((sbyte) value, cancellation);
                 case PrimitiveTypeCode.SByteNullable:
-                    return writer.WriteValueAsync(value == null ? null : (sbyte)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (sbyte) value, cancellation);
                 case PrimitiveTypeCode.Int16:
-                    return writer.WriteValueAsync((short)value, cancellation);
+                    return writer.WriteValueAsync((short) value, cancellation);
                 case PrimitiveTypeCode.Int16Nullable:
-                    return writer.WriteValueAsync(value == null ? null : (short)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (short) value, cancellation);
                 case PrimitiveTypeCode.UInt16:
-                    return writer.WriteValueAsync((ushort)value, cancellation);
+                    return writer.WriteValueAsync((ushort) value, cancellation);
                 case PrimitiveTypeCode.UInt16Nullable:
-                    return writer.WriteValueAsync(value == null ? null : (ushort)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (ushort) value, cancellation);
                 case PrimitiveTypeCode.Int32:
-                    return writer.WriteValueAsync((int)value, cancellation);
+                    return writer.WriteValueAsync((int) value, cancellation);
                 case PrimitiveTypeCode.Int32Nullable:
-                    return writer.WriteValueAsync(value == null ? null : (int)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (int) value, cancellation);
                 case PrimitiveTypeCode.Byte:
-                    return writer.WriteValueAsync((byte)value, cancellation);
+                    return writer.WriteValueAsync((byte) value, cancellation);
                 case PrimitiveTypeCode.ByteNullable:
-                    return writer.WriteValueAsync(value == null ? null : (byte)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (byte) value, cancellation);
                 case PrimitiveTypeCode.UInt32:
-                    return writer.WriteValueAsync((uint)value, cancellation);
+                    return writer.WriteValueAsync((uint) value, cancellation);
                 case PrimitiveTypeCode.UInt32Nullable:
-                    return writer.WriteValueAsync(value == null ? null : (uint)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (uint) value, cancellation);
                 case PrimitiveTypeCode.Int64:
-                    return writer.WriteValueAsync((long)value, cancellation);
+                    return writer.WriteValueAsync((long) value, cancellation);
                 case PrimitiveTypeCode.Int64Nullable:
-                    return writer.WriteValueAsync(value == null ? null : (long)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (long) value, cancellation);
                 case PrimitiveTypeCode.UInt64:
-                    return writer.WriteValueAsync((ulong)value, cancellation);
+                    return writer.WriteValueAsync((ulong) value, cancellation);
                 case PrimitiveTypeCode.UInt64Nullable:
-                    return writer.WriteValueAsync(value == null ? null : (ulong)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (ulong) value, cancellation);
                 case PrimitiveTypeCode.Single:
-                    return writer.WriteValueAsync((float)value, cancellation);
+                    return writer.WriteValueAsync((float) value, cancellation);
                 case PrimitiveTypeCode.SingleNullable:
-                    return writer.WriteValueAsync(value == null ? null : (float)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (float) value, cancellation);
                 case PrimitiveTypeCode.Double:
-                    return writer.WriteValueAsync((double)value, cancellation);
+                    return writer.WriteValueAsync((double) value, cancellation);
                 case PrimitiveTypeCode.DoubleNullable:
-                    return writer.WriteValueAsync(value == null ? null : (double)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (double) value, cancellation);
                 case PrimitiveTypeCode.DateTime:
-                    return writer.WriteValueAsync((DateTime)value, cancellation);
+                    return writer.WriteValueAsync((DateTime) value, cancellation);
                 case PrimitiveTypeCode.DateTimeNullable:
-                    return writer.WriteValueAsync(value == null ? null : (DateTime)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (DateTime) value, cancellation);
                 case PrimitiveTypeCode.DateTimeOffset:
-                    return writer.WriteValueAsync((DateTimeOffset)value, cancellation);
+                    return writer.WriteValueAsync((DateTimeOffset) value, cancellation);
                 case PrimitiveTypeCode.DateTimeOffsetNullable:
-                    return writer.WriteValueAsync(value == null ? null : (DateTimeOffset)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (DateTimeOffset) value, cancellation);
                 case PrimitiveTypeCode.Decimal:
-                    return writer.WriteValueAsync((decimal)value, cancellation);
+                    return writer.WriteValueAsync((decimal) value, cancellation);
                 case PrimitiveTypeCode.DecimalNullable:
-                    return writer.WriteValueAsync(value == null ? null : (decimal)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (decimal) value, cancellation);
                 case PrimitiveTypeCode.Guid:
-                    return writer.WriteValueAsync((Guid)value, cancellation);
+                    return writer.WriteValueAsync((Guid) value, cancellation);
                 case PrimitiveTypeCode.GuidNullable:
-                    return writer.WriteValueAsync(value == null ? null : (Guid)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (Guid) value, cancellation);
                 case PrimitiveTypeCode.TimeSpan:
-                    return writer.WriteValueAsync((TimeSpan)value, cancellation);
+                    return writer.WriteValueAsync((TimeSpan) value, cancellation);
                 case PrimitiveTypeCode.TimeSpanNullable:
-                    return writer.WriteValueAsync(value == null ? null : (TimeSpan)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (TimeSpan) value, cancellation);
                 case PrimitiveTypeCode.BigInteger:
 
                     // this will call to WriteValueAsync(object)
-                    return writer.WriteValueAsync((BigInteger)value, cancellation);
+                    return writer.WriteValueAsync((BigInteger) value, cancellation);
                 case PrimitiveTypeCode.BigIntegerNullable:
 
                     // this will call to WriteValueAsync(object)
-                    return writer.WriteValueAsync(value == null ? null : (BigInteger)value, cancellation);
+                    return writer.WriteValueAsync(value == null ? null : (BigInteger) value, cancellation);
                 case PrimitiveTypeCode.Uri:
-                    return writer.WriteValueAsync((Uri)value, cancellation);
+                    return writer.WriteValueAsync((Uri) value, cancellation);
                 case PrimitiveTypeCode.String:
-                    return writer.WriteValueAsync((string)value, cancellation);
+                    return writer.WriteValueAsync((string) value, cancellation);
                 case PrimitiveTypeCode.Bytes:
-                    return writer.WriteValueAsync((byte[])value, cancellation);
+                    return writer.WriteValueAsync((byte[]) value, cancellation);
                 case PrimitiveTypeCode.DBNull:
                     return writer.WriteNullAsync(cancellation);
                 default:

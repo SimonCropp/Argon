@@ -15,7 +15,7 @@ public class JsonWriterException : JsonException
     public string? Path { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonWriterException"/> class
+    /// Initializes a new instance of the <see cref="JsonWriterException" /> class
     /// with a specified error message, JSON path and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <param name="path">The path to the JSON where the error occurred.</param>

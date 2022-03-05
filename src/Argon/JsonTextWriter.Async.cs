@@ -13,8 +13,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously flushes whatever is in the buffer to the destination and also flushes the destination.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task FlushAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -33,8 +35,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the JSON value delimiter.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     protected override Task WriteValueDelimiterAsync(CancellationToken cancellation)
     {
         if (safeAsync)
@@ -54,8 +58,10 @@ public partial class JsonTextWriter
     /// Asynchronously writes the specified end token.
     /// </summary>
     /// <param name="token">The end token to write.</param>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
     {
         if (safeAsync)
@@ -81,10 +87,12 @@ public partial class JsonTextWriter
 
     /// <summary>
     /// Asynchronously closes this writer.
-    /// If <see cref="JsonWriter.CloseOutput"/> is set to <c>true</c>, the destination is also closed.
+    /// If <see cref="JsonWriter.CloseOutput" /> is set to <c>true</c>, the destination is also closed.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task CloseAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -95,7 +103,7 @@ public partial class JsonTextWriter
         return base.CloseAsync(cancellation);
     }
 
-     async Task DoCloseAsync(CancellationToken cancellation)
+    async Task DoCloseAsync(CancellationToken cancellation)
     {
         if (Top == 0) // otherwise will happen in calls to WriteEndAsync
         {
@@ -113,8 +121,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of the current JSON object or array.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteEndAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -128,8 +138,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes indent characters.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     protected override Task WriteIndentAsync(CancellationToken cancellation)
     {
         if (safeAsync)
@@ -188,8 +200,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes an indent space.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     protected override Task WriteIndentSpaceAsync(CancellationToken cancellation)
     {
         if (safeAsync)
@@ -208,8 +222,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes raw JSON without changing the writer's state.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteRawAsync(string? json, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -228,8 +244,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a null value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteNullAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -247,9 +265,9 @@ public partial class JsonTextWriter
 
     Task WriteDigitsAsync(ulong uvalue, bool negative, CancellationToken cancellation)
     {
-        if (uvalue <= 9 & !negative)
+        if ((uvalue <= 9) & !negative)
         {
-            return writer.WriteAsync((char)('0' + uvalue), cancellation);
+            return writer.WriteAsync((char) ('0' + uvalue), cancellation);
         }
 
         var length = WriteNumberToBuffer(uvalue, negative);
@@ -281,7 +299,7 @@ public partial class JsonTextWriter
             value = -value;
         }
 
-        return WriteIntegerValueAsync((ulong)value, negative, cancellation);
+        return WriteIntegerValueAsync((ulong) value, negative, cancellation);
     }
 
     Task WriteIntegerValueAsync(ulong uvalue, CancellationToken cancellation)
@@ -297,8 +315,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -339,8 +359,10 @@ public partial class JsonTextWriter
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
     /// </summary>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -380,8 +402,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the beginning of a JSON array.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteStartArrayAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -413,8 +437,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the beginning of a JSON object.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteStartObjectAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -446,8 +472,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes an undefined value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteUndefinedAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -478,8 +506,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the given white space.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteWhitespaceAsync(string ws, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -497,10 +527,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="bool"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="bool" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(bool value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -517,10 +549,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="bool"/> value.
+    /// Asynchronously writes a <see cref="bool" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(bool? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -542,10 +576,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="byte"/> value.
+    /// Asynchronously writes a <see cref="byte" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(byte value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -557,11 +593,13 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="byte"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="byte" /> value.
     /// </summary>
-    /// <param name="value">The <see cref="Nullable{T}"/> of <see cref="byte"/> value to write.</param>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <param name="value">The <see cref="Nullable{T}" /> of <see cref="byte" /> value to write.</param>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(byte? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -583,10 +621,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="byte"/>[] value.
+    /// Asynchronously writes a <see cref="byte" />[] value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(byte[]? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -607,10 +647,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="char"/> value.
+    /// Asynchronously writes a <see cref="char" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(char value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -627,10 +669,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="char"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="char" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(char? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -652,10 +696,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="DateTime"/> value.
+    /// Asynchronously writes a <see cref="DateTime" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(DateTime value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -686,10 +732,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTime"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="DateTime" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(DateTime? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -711,10 +759,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="DateTimeOffset"/> value.
+    /// Asynchronously writes a <see cref="DateTimeOffset" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(DateTimeOffset value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -744,10 +794,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(DateTimeOffset? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -769,10 +821,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="decimal"/> value.
+    /// Asynchronously writes a <see cref="decimal" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(decimal value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -789,10 +843,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="decimal"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="decimal" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(decimal? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -814,10 +870,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="double"/> value.
+    /// Asynchronously writes a <see cref="double" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(double value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -835,10 +893,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="double"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="double" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(double? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -855,10 +915,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="float"/> value.
+    /// Asynchronously writes a <see cref="float" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(float value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -875,10 +937,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="float"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="float" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(float? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -895,10 +959,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Guid"/> value.
+    /// Asynchronously writes a <see cref="Guid" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(Guid value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -919,10 +985,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="Guid"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="Guid" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(Guid? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -944,10 +1012,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="int"/> value.
+    /// Asynchronously writes a <see cref="int" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(int value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -959,10 +1029,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="int"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="int" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(int? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -984,10 +1056,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="long"/> value.
+    /// Asynchronously writes a <see cref="long" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(long value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -999,10 +1073,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="long"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="long" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(long? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1024,10 +1100,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="object"/> value.
+    /// Asynchronously writes a <see cref="object" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(object? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1036,6 +1114,7 @@ public partial class JsonTextWriter
             {
                 return WriteNullAsync(cancellation);
             }
+
             if (value is BigInteger i)
             {
                 return WriteValueAsync(i, cancellation);
@@ -1048,10 +1127,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="sbyte"/> value.
+    /// Asynchronously writes a <see cref="sbyte" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(sbyte value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1063,10 +1144,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="sbyte"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="sbyte" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(sbyte? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1088,10 +1171,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="short"/> value.
+    /// Asynchronously writes a <see cref="short" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(short value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1103,10 +1188,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="short"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="short" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(short? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1128,10 +1215,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="string"/> value.
+    /// Asynchronously writes a <see cref="string" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(string? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1164,18 +1253,20 @@ public partial class JsonTextWriter
 
         if (value == null)
         {
-           await writer.WriteAsync(JsonConvert.Null, cancellation).ConfigureAwait(false);
-           return;
+            await writer.WriteAsync(JsonConvert.Null, cancellation).ConfigureAwait(false);
+            return;
         }
 
         await WriteEscapedStringAsync(value, true, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="TimeSpan"/> value.
+    /// Asynchronously writes a <see cref="TimeSpan" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(TimeSpan value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1195,10 +1286,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="TimeSpan"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="TimeSpan" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(TimeSpan? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1215,10 +1308,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="uint"/> value.
+    /// Asynchronously writes a <see cref="uint" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(uint value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1230,10 +1325,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="uint"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="uint" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(uint? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1255,10 +1352,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="ulong"/> value.
+    /// Asynchronously writes a <see cref="ulong" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(ulong value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1270,10 +1369,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ulong"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="ulong" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(ulong? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1295,10 +1396,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Uri"/> value.
+    /// Asynchronously writes a <see cref="Uri" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(Uri? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1332,10 +1435,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="ushort"/> value.
+    /// Asynchronously writes a <see cref="ushort" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(ushort value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1347,10 +1452,12 @@ public partial class JsonTextWriter
     }
 
     /// <summary>
-    /// Asynchronously writes a <see cref="Nullable{T}"/> of <see cref="ushort"/> value.
+    /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="ushort" /> value.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteValueAsync(ushort? value, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1374,8 +1481,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteCommentAsync(string? text, CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1397,8 +1506,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of an array.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteEndArrayAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1412,8 +1523,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes the end of a JSON object.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteEndObjectAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1427,8 +1540,10 @@ public partial class JsonTextWriter
     /// <summary>
     /// Asynchronously writes raw JSON where a value is expected and updates the writer's state.
     /// </summary>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task WriteRawValueAsync(string? json, CancellationToken cancellation = default)
     {
         if (safeAsync)

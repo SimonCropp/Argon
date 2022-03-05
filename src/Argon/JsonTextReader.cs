@@ -41,7 +41,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     IArrayPool<char>? arrayPool;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="JsonTextReader"/> class with the specified <see cref="TextReader"/>.
+    /// Initializes a new instance of the <see cref="JsonTextReader" /> class with the specified <see cref="TextReader" />.
     /// </summary>
     public JsonTextReader(TextReader reader)
     {
@@ -342,7 +342,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" />.
     /// </summary>
     /// <returns>
     /// <c>true</c> if the next token was read successfully; <c>false</c> if there are no more tokens to read.
@@ -371,6 +371,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         return true;
                     }
+
                     break;
                 case State.Finished:
                     if (EnsureChars(0, false))
@@ -381,6 +382,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             SetToken(JsonToken.None);
                             return false;
                         }
+
                         if (CharBuffer[CharPos] == '/')
                         {
                             ParseComment(true);
@@ -389,6 +391,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         throw JsonReaderException.Create(this, $"Additional text encountered after finished reading JSON content: {CharBuffer[CharPos]}.");
                     }
+
                     SetToken(JsonToken.None);
                     return false;
                 default:
@@ -398,36 +401,36 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="Nullable{T}"/> of <see cref="Int32"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Int32" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Int32"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Int32" />. This method will return <c>null</c> at the end of an array.</returns>
     public override int? ReadAsInt32()
     {
-        return (int?)ReadNumberValue(ReadType.ReadAsInt32);
+        return (int?) ReadNumberValue(ReadType.ReadAsInt32);
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="Nullable{T}"/> of <see cref="DateTime"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="DateTime" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTime"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="DateTime" />. This method will return <c>null</c> at the end of an array.</returns>
     public override DateTime? ReadAsDateTime()
     {
-        return (DateTime?)ReadStringValue(ReadType.ReadAsDateTime);
+        return (DateTime?) ReadStringValue(ReadType.ReadAsDateTime);
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="String"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="String" />.
     /// </summary>
-    /// <returns>A <see cref="String"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="String" />. This method will return <c>null</c> at the end of an array.</returns>
     public override string? ReadAsString()
     {
-        return (string?)ReadStringValue(ReadType.ReadAsString);
+        return (string?) ReadStringValue(ReadType.ReadAsString);
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="Byte"/>[].
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Byte" />[].
     /// </summary>
-    /// <returns>A <see cref="Byte"/>[] or <c>null</c> if the next JSON token is null. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Byte" />[] or <c>null</c> if the next JSON token is null. This method will return <c>null</c> at the end of an array.</returns>
     public override byte[]? ReadAsBytes()
     {
         EnsureBuffer();
@@ -442,6 +445,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -459,11 +463,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.None, null, false);
                                 return null;
                             }
+
                             break;
                         case '"':
                         case '\'':
                             ParseString(currentChar, ReadType.ReadAsBytes);
-                            var data = (byte[]?)Value;
+                            var data = (byte[]?) Value;
                             if (isWrapped)
                             {
                                 ReaderReadAndAssert();
@@ -471,8 +476,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 {
                                     throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {TokenType}.");
                                 }
+
                                 SetToken(JsonToken.Bytes, data, false);
                             }
+
                             return data;
                         case '{':
                             CharPos++;
@@ -500,6 +507,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.EndArray);
                                 return null;
                             }
+
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
                             ProcessCarriageReturn(false);
@@ -544,6 +552,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -561,6 +570,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.None, null, false);
                                 return null;
                             }
+
                             break;
                         case '"':
                         case '\'':
@@ -590,6 +600,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 CharPos++;
                                 throw CreateUnexpectedCharacterException(currentChar);
                             }
+
                             ParseNumber(ReadType.ReadAsString);
                             return Value;
                         case 't':
@@ -599,11 +610,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 CharPos++;
                                 throw CreateUnexpectedCharacterException(currentChar);
                             }
+
                             var expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
                             if (!MatchValueWithTrailingSeparator(expected))
                             {
                                 throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);
                             }
+
                             SetToken(JsonToken.String, expected);
                             return expected;
                         case 'I':
@@ -626,6 +639,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.EndArray);
                                 return null;
                             }
+
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
                             ProcessCarriageReturn(false);
@@ -671,14 +685,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     return time;
                 }
 
-                return ReadDateTimeString((string?)Value);
+                return ReadDateTimeString((string?) Value);
             case ReadType.ReadAsDateTimeOffset:
                 if (Value is DateTimeOffset offset)
                 {
                     return offset;
                 }
 
-                return ReadDateTimeOffsetString((string?)Value);
+                return ReadDateTimeOffsetString((string?) Value);
             default:
                 throw new ArgumentOutOfRangeException(nameof(readType));
         }
@@ -690,9 +704,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="Nullable{T}"/> of <see cref="Boolean"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Boolean" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Boolean"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Boolean" />. This method will return <c>null</c> at the end of an array.</returns>
     public override bool? ReadAsBoolean()
     {
         EnsureBuffer();
@@ -705,6 +719,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -722,6 +737,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.None, null, false);
                                 return null;
                             }
+
                             break;
                         case '"':
                         case '\'':
@@ -752,6 +768,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             {
                                 b = Convert.ToBoolean(Value, CultureInfo.InvariantCulture);
                             }
+
                             SetToken(JsonToken.Boolean, b, false);
                             return b;
                         case 't':
@@ -763,6 +780,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             {
                                 throw CreateUnexpectedCharacterException(CharBuffer[CharPos]);
                             }
+
                             SetToken(JsonToken.Boolean, isTrue);
                             return isTrue;
                         case '/':
@@ -778,6 +796,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.EndArray);
                                 return null;
                             }
+
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
                             ProcessCarriageReturn(false);
@@ -839,6 +858,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -856,6 +876,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.None, null, false);
                                 return null;
                             }
+
                             break;
                         case '"':
                         case '\'':
@@ -902,6 +923,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 SetToken(JsonToken.EndArray);
                                 return null;
                             }
+
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
                             ProcessCarriageReturn(false);
@@ -950,30 +972,30 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />. This method will return <c>null</c> at the end of an array.</returns>
     public override DateTimeOffset? ReadAsDateTimeOffset()
     {
-        return (DateTimeOffset?)ReadStringValue(ReadType.ReadAsDateTimeOffset);
+        return (DateTimeOffset?) ReadStringValue(ReadType.ReadAsDateTimeOffset);
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="Nullable{T}"/> of <see cref="Decimal"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Decimal" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Decimal"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Decimal" />. This method will return <c>null</c> at the end of an array.</returns>
     public override decimal? ReadAsDecimal()
     {
-        return (decimal?)ReadNumberValue(ReadType.ReadAsDecimal);
+        return (decimal?) ReadNumberValue(ReadType.ReadAsDecimal);
     }
 
     /// <summary>
-    /// Reads the next JSON token from the underlying <see cref="TextReader"/> as a <see cref="Nullable{T}"/> of <see cref="Double"/>.
+    /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Double" />.
     /// </summary>
-    /// <returns>A <see cref="Nullable{T}"/> of <see cref="Double"/>. This method will return <c>null</c> at the end of an array.</returns>
+    /// <returns>A <see cref="Nullable{T}" /> of <see cref="Double" />. This method will return <c>null</c> at the end of an array.</returns>
     public override double? ReadAsDouble()
     {
-        return (double?)ReadNumberValue(ReadType.ReadAsDouble);
+        return (double?) ReadNumberValue(ReadType.ReadAsDouble);
     }
 
     void HandleNull()
@@ -1009,6 +1031,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             {
                 return;
             }
+
             if (CharBuffer[CharPos] == '/')
             {
                 ParseComment(false);
@@ -1073,6 +1096,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             throw JsonReaderException.Create(this, $"Unterminated string. Expected delimiter: {quote}.");
                         }
                     }
+
                     break;
                 case '\\':
                     CharPos = charPos;
@@ -1199,6 +1223,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         FinishReadStringIntoBuffer(charPos - 1, initialPosition, lastWritePosition);
                         return;
                     }
+
                     break;
             }
         }
@@ -1372,6 +1397,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         CharPos++;
                     }
+
                     break;
                 case '}':
                     CharPos++;
@@ -1387,6 +1413,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         return true;
                     }
+
                     break;
                 case ',':
                     CharPos++;
@@ -1422,6 +1449,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         throw JsonReaderException.Create(this, $"After parsing a value an unexpected character was encountered: {currentChar}.");
                     }
+
                     break;
             }
         }
@@ -1449,6 +1477,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         CharPos++;
                     }
+
                     break;
                 case '}':
                     SetToken(JsonToken.EndObject);
@@ -1478,6 +1507,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         return ParseProperty();
                     }
+
                     break;
             }
         }
@@ -1616,6 +1646,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         CharPos++;
                     }
+
                     break;
                 case '"':
                 case '\'':
@@ -1646,6 +1677,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         CharPos++;
                         throw CreateUnexpectedEndException();
                     }
+
                     return true;
                 case 'N':
                     ParseNumberNaN(ReadType.Read);
@@ -1662,6 +1694,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         ParseNumber(ReadType.Read);
                     }
+
                     return true;
                 case '/':
                     ParseComment(true);
@@ -1704,6 +1737,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         CharPos++;
                         break;
                     }
+
                     if (char.IsNumber(currentChar) || currentChar is '-' or '.')
                     {
                         ParseNumber(ReadType.Read);
@@ -1750,6 +1784,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         CharPos++;
                     }
+
                     break;
                 case StringUtils.CarriageReturn:
                     ProcessCarriageReturn(false);
@@ -1766,6 +1801,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         return;
                     }
+
                     break;
             }
         }
@@ -1883,7 +1919,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 if (singleDigit)
                 {
                     // digit char values start at 48
-                    numberValue = (decimal)firstChar - 48;
+                    numberValue = (decimal) firstChar - 48;
                 }
                 else if (nonBase10)
                 {
@@ -1922,7 +1958,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 if (singleDigit)
                 {
                     // digit char values start at 48
-                    numberValue = (double)firstChar - 48;
+                    numberValue = (double) firstChar - 48;
                 }
                 else if (nonBase10)
                 {
@@ -1963,7 +1999,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 if (singleDigit)
                 {
                     // digit char values start at 48
-                    numberValue = (long)firstChar - 48;
+                    numberValue = (long) firstChar - 48;
                     numberType = JsonToken.Integer;
                 }
                 else if (nonBase10)
@@ -2113,6 +2149,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         CharPos++;
                     }
+
                     break;
                 case '*':
                     CharPos++;
@@ -2130,6 +2167,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             }
                         }
                     }
+
                     break;
                 case StringUtils.CarriageReturn:
                     if (singleLineComment)
@@ -2137,6 +2175,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         EndComment(setToken, initialPosition, CharPos);
                         return;
                     }
+
                     ProcessCarriageReturn(true);
                     break;
                 case StringUtils.LineFeed:
@@ -2145,6 +2184,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         EndComment(setToken, initialPosition, CharPos);
                         return;
                     }
+
                     ProcessLineFeed();
                     break;
                 default:
@@ -2241,6 +2281,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     return true;
                 }
+
                 break;
         }
 
@@ -2316,6 +2357,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         SetToken(JsonToken.Float, double.NegativeInfinity);
                         return double.NegativeInfinity;
                     }
+
                     break;
                 case ReadType.ReadAsString:
                     SetToken(JsonToken.String, JsonConvert.NegativeInfinity);
@@ -2332,6 +2374,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         return ParseNumberPositiveInfinity(readType, MatchValueWithTrailingSeparator(JsonConvert.PositiveInfinity));
     }
+
     object ParseNumberPositiveInfinity(ReadType readType, bool matched)
     {
         if (matched)
@@ -2345,6 +2388,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         SetToken(JsonToken.Float, double.PositiveInfinity);
                         return double.PositiveInfinity;
                     }
+
                     break;
                 case ReadType.ReadAsString:
                     SetToken(JsonToken.String, JsonConvert.PositiveInfinity);
@@ -2375,6 +2419,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         SetToken(JsonToken.Float, double.NaN);
                         return double.NaN;
                     }
+
                     break;
                 case ReadType.ReadAsString:
                     SetToken(JsonToken.String, JsonConvert.NaN);
@@ -2388,8 +2433,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     /// <summary>
-    /// Changes the reader's state to <see cref="JsonReader.State.Closed"/>.
-    /// If <see cref="JsonReader.CloseInput"/> is set to <c>true</c>, the underlying <see cref="TextReader"/> is also closed.
+    /// Changes the reader's state to <see cref="JsonReader.State.Closed" />.
+    /// If <see cref="JsonReader.CloseInput" /> is set to <c>true</c>, the underlying <see cref="TextReader" /> is also closed.
     /// </summary>
     public override void Close()
     {
@@ -2413,7 +2458,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// Gets a value indicating whether the class can return line information.
     /// </summary>
     /// <returns>
-    /// 	<c>true</c> if <see cref="JsonTextReader.LineNumber"/> and <see cref="JsonTextReader.LinePosition"/> can be provided; otherwise, <c>false</c>.
+    /// <c>true</c> if <see cref="JsonTextReader.LineNumber" /> and <see cref="JsonTextReader.LinePosition" /> can be provided; otherwise, <c>false</c>.
     /// </returns>
     public bool HasLineInfo()
     {

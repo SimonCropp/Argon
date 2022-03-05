@@ -13,10 +13,14 @@ public partial class JsonTextReader
     /// <summary>
     /// Asynchronously reads the next JSON token from the source.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns <c>true</c> if the next token was read successfully; <c>false</c> if there are no more tokens to read.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns <c>true</c> if the next token was read successfully; <c>false</c> if there are no more tokens to read.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<bool> ReadAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -56,6 +60,7 @@ public partial class JsonTextReader
                     {
                         return DoReadAsync(task, cancellation);
                     }
+
                     break;
                 case State.Finished:
                     return ReadFromFinishedAsync(cancellation);
@@ -72,6 +77,7 @@ public partial class JsonTextReader
         {
             return true;
         }
+
         return await DoReadAsync(cancellation).ConfigureAwait(false);
     }
 
@@ -114,6 +120,7 @@ public partial class JsonTextReader
                     {
                         return true;
                     }
+
                     break;
                 case ',':
                     CharPos++;
@@ -279,6 +286,7 @@ public partial class JsonTextReader
                     {
                         await ParseNumberAsync(ReadType.Read, cancellation).ConfigureAwait(false);
                     }
+
                     return true;
                 case '/':
                     await ParseCommentAsync(true, cancellation).ConfigureAwait(false);
@@ -732,6 +740,7 @@ public partial class JsonTextReader
                     {
                         CharPos++;
                     }
+
                     break;
                 case StringUtils.CarriageReturn:
                     await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
@@ -748,6 +757,7 @@ public partial class JsonTextReader
                     {
                         return;
                     }
+
                     break;
             }
         }
@@ -1046,6 +1056,7 @@ public partial class JsonTextReader
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -1178,6 +1189,7 @@ public partial class JsonTextReader
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -1277,12 +1289,16 @@ public partial class JsonTextReader
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="bool"/>.
+    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="bool" />.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="Nullable{T}"/> of <see cref="bool"/>. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="Nullable{T}" /> of <see cref="bool" />. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<bool?> ReadAsBooleanAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1305,6 +1321,7 @@ public partial class JsonTextReader
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -1353,6 +1370,7 @@ public partial class JsonTextReader
                             {
                                 b = Convert.ToBoolean(Value, CultureInfo.InvariantCulture);
                             }
+
                             SetToken(JsonToken.Boolean, b, false);
                             return b;
                         case 't':
@@ -1413,12 +1431,16 @@ public partial class JsonTextReader
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="byte"/>[].
+    /// Asynchronously reads the next JSON token from the source as a <see cref="byte" />[].
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="byte"/>[]. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="byte" />[]. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<byte[]?> ReadAsBytesAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1443,6 +1465,7 @@ public partial class JsonTextReader
                 {
                     return null;
                 }
+
                 goto case State.Start;
             case State.Start:
             case State.Property:
@@ -1465,7 +1488,7 @@ public partial class JsonTextReader
                         case '"':
                         case '\'':
                             await ParseStringAsync(currentChar, ReadType.ReadAsBytes, cancellation).ConfigureAwait(false);
-                            var data = (byte[]?)Value;
+                            var data = (byte[]?) Value;
                             if (isWrapped)
                             {
                                 await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
@@ -1558,12 +1581,16 @@ public partial class JsonTextReader
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="DateTime"/>.
+    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="DateTime" />.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="Nullable{T}"/> of <see cref="DateTime"/>. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="Nullable{T}" /> of <see cref="DateTime" />. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<DateTime?> ReadAsDateTimeAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1576,16 +1603,20 @@ public partial class JsonTextReader
 
     async Task<DateTime?> DoReadAsDateTimeAsync(CancellationToken cancellation)
     {
-        return (DateTime?)await ReadStringValueAsync(ReadType.ReadAsDateTime, cancellation).ConfigureAwait(false);
+        return (DateTime?) await ReadStringValueAsync(ReadType.ReadAsDateTime, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>.
+    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="Nullable{T}"/> of <see cref="DateTimeOffset"/>. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<DateTimeOffset?> ReadAsDateTimeOffsetAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1598,16 +1629,20 @@ public partial class JsonTextReader
 
     async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(CancellationToken cancellation)
     {
-        return (DateTimeOffset?)await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancellation).ConfigureAwait(false);
+        return (DateTimeOffset?) await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="decimal"/>.
+    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="decimal" />.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="Nullable{T}"/> of <see cref="decimal"/>. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="Nullable{T}" /> of <see cref="decimal" />. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<decimal?> ReadAsDecimalAsync(CancellationToken cancellation = default)
     {
         return safeAsync switch
@@ -1619,16 +1654,20 @@ public partial class JsonTextReader
 
     async Task<decimal?> DoReadAsDecimalAsync(CancellationToken cancellation)
     {
-        return (decimal?)await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancellation).ConfigureAwait(false);
+        return (decimal?) await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="double"/>.
+    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="double" />.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="Nullable{T}"/> of <see cref="double"/>. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="Nullable{T}" /> of <see cref="double" />. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<double?> ReadAsDoubleAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1641,16 +1680,20 @@ public partial class JsonTextReader
 
     async Task<double?> DoReadAsDoubleAsync(CancellationToken cancellation)
     {
-        return (double?)await ReadNumberValueAsync(ReadType.ReadAsDouble, cancellation).ConfigureAwait(false);
+        return (double?) await ReadNumberValueAsync(ReadType.ReadAsDouble, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}"/> of <see cref="int"/>.
+    /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="int" />.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="Nullable{T}"/> of <see cref="int"/>. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="Nullable{T}" /> of <see cref="int" />. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<int?> ReadAsInt32Async(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1663,16 +1706,20 @@ public partial class JsonTextReader
 
     async Task<int?> DoReadAsInt32Async(CancellationToken cancellation)
     {
-        return (int?)await ReadNumberValueAsync(ReadType.ReadAsInt32, cancellation).ConfigureAwait(false);
+        return (int?) await ReadNumberValueAsync(ReadType.ReadAsInt32, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Asynchronously reads the next JSON token from the source as a <see cref="string"/>.
+    /// Asynchronously reads the next JSON token from the source as a <see cref="string" />.
     /// </summary>
-    /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous read. The <see cref="Task{TResult}.Result"/>
-    /// property returns the <see cref="string"/>. This result will be <c>null</c> at the end of an array.</returns>
-    /// <remarks>Derived classes must override this method to get asynchronous behaviour. Otherwise it will
-    /// execute synchronously, returning an already-completed task.</remarks>
+    /// <returns>
+    /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
+    /// property returns the <see cref="string" />. This result will be <c>null</c> at the end of an array.
+    /// </returns>
+    /// <remarks>
+    /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
+    /// execute synchronously, returning an already-completed task.
+    /// </remarks>
     public override Task<string?> ReadAsStringAsync(CancellationToken cancellation = default)
     {
         if (safeAsync)
@@ -1685,6 +1732,6 @@ public partial class JsonTextReader
 
     async Task<string?> DoReadAsStringAsync(CancellationToken cancellation)
     {
-        return (string?)await ReadStringValueAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
+        return (string?) await ReadStringValueAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
     }
 }
