@@ -118,15 +118,12 @@ public class PerformanceTests : TestFixtureBase
         #endregion
     }
 
-    [Fact]
-    public void DeserializeStream()
+    void DeserializeStream(Stream stream)
     {
         #region DeserializeStream
-        var client = new HttpClient();
 
-        using var s = client.GetStreamAsync("http://www.test.com/large.json").Result;
-        using var sr = new StreamReader(s);
-        using var reader = new JsonTextReader(sr);
+        using var streamReader = new StreamReader(stream);
+        using var reader = new JsonTextReader(streamReader);
         var serializer = new JsonSerializer();
 
         // read the json from a stream
