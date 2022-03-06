@@ -769,14 +769,14 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, Culture, out var dt))
+        if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, out var dt))
         {
             dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
             SetToken(JsonToken.Date, dt, false);
             return dt;
         }
 
-        if (DateTime.TryParse(s, Culture, DateTimeStyles.RoundtripKind, out dt))
+        if (DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
             dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
             SetToken(JsonToken.Date, dt, false);
@@ -823,13 +823,13 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (DateTimeUtils.TryParseDateTimeOffset(s, Culture, out var dt))
+        if (DateTimeUtils.TryParseDateTimeOffset(s, out var dt))
         {
             SetToken(JsonToken.Date, dt, false);
             return dt;
         }
 
-        if (DateTimeOffset.TryParse(s, Culture, DateTimeStyles.RoundtripKind, out dt))
+        if (DateTimeOffset.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
             SetToken(JsonToken.Date, dt, false);
             return dt;

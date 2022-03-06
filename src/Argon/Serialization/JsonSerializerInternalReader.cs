@@ -904,7 +904,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     else if (contract.NonNullableUnderlyingType == typeof(DateTime))
                     {
                         // use DateTimeUtils because Convert.ChangeType does not set DateTime.Kind correctly
-                        if (value is string s && DateTimeUtils.TryParseDateTime(s, reader.DateTimeZoneHandling, reader.Culture, out var dt))
+                        if (value is string s && DateTimeUtils.TryParseDateTime(s, reader.DateTimeZoneHandling, out var dt))
                         {
                             return DateTimeUtils.EnsureDateTime(dt, reader.DateTimeZoneHandling);
                         }
@@ -1307,7 +1307,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTime:
                                 case PrimitiveTypeCode.DateTimeNullable:
                                 {
-                                    if (DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, reader.Culture, out var dt))
+                                    if (DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, out var dt))
                                     {
                                         keyValue = dt;
                                     }
@@ -1321,7 +1321,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTimeOffset:
                                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                                 {
-                                    if (DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, reader.Culture, out var dt))
+                                    if (DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, out var dt))
                                     {
                                         keyValue = dt;
                                     }

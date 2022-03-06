@@ -247,7 +247,7 @@ static class DateTimeUtils
         return d;
     }
 
-    internal static bool TryParseDateTime(StringReference s, DateTimeZoneHandling dateTimeZoneHandling, CultureInfo culture, out DateTime dt)
+    internal static bool TryParseDateTime(StringReference s, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
     {
         if (s.Length > 0)
         {
@@ -265,7 +265,7 @@ static class DateTimeUtils
         return false;
     }
 
-    internal static bool TryParseDateTime(string s, DateTimeZoneHandling dateTimeZoneHandling, CultureInfo culture, out DateTime dt)
+    internal static bool TryParseDateTime(string s, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
     {
         if (s.Length > 0)
         {
@@ -283,7 +283,7 @@ static class DateTimeUtils
         return false;
     }
 
-    internal static bool TryParseDateTimeOffset(StringReference s, CultureInfo culture, out DateTimeOffset dt)
+    internal static bool TryParseDateTimeOffset(StringReference s, out DateTimeOffset dt)
     {
         if (s.Length > 0)
         {
@@ -301,7 +301,7 @@ static class DateTimeUtils
         return false;
     }
 
-    internal static bool TryParseDateTimeOffset(string s, CultureInfo culture, out DateTimeOffset dt)
+    internal static bool TryParseDateTimeOffset(string s, out DateTimeOffset dt)
     {
         if (s.Length > 0)
         {
@@ -325,7 +325,7 @@ static class DateTimeUtils
 
     #region Write
 
-    internal static void WriteDateTimeString(TextWriter writer, DateTime value, CultureInfo culture)
+    internal static void WriteDateTimeString(TextWriter writer, DateTime value)
     {
         var chars = new char[64];
         var pos = WriteDateTimeString(chars, 0, value, null, value.Kind);
@@ -413,7 +413,7 @@ static class DateTimeUtils
         return start;
     }
 
-    internal static void WriteDateTimeOffsetString(TextWriter writer, DateTimeOffset value, CultureInfo culture)
+    internal static void WriteDateTimeOffsetString(TextWriter writer, DateTimeOffset value)
     {
         var chars = new char[64];
         var pos = WriteDateTimeString(chars, 0, value.DateTime, value.Offset, DateTimeKind.Local);
