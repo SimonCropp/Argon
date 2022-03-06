@@ -22,5 +22,10 @@ public enum EscapeHandling
     /// <summary>
     /// HTML (&lt;, &gt;, &amp;, &apos;, &quot;) and control characters (e.g. newline) are escaped.
     /// </summary>
-    EscapeHtml = 2
+    EscapeHtml = 2,
+
+    /// <summary>
+    /// Don't escape any characters.
+    /// </summary>
+    None = 3
 }

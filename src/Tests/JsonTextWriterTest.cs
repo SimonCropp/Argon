@@ -162,6 +162,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
         Assert.Equal(@"{name:""value""}", stringBuilder.ToString());
     }
+
     [Fact]
     public void QuoteValueAndStrings()
     {
@@ -181,6 +182,174 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.Flush();
 
         Assert.Equal(@"{""name"":value}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public void EscapeHandlingNone()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.None
+        };
+
+        jsonWriter.WriteStartObject();
+
+        jsonWriter.WritePropertyName("name\"€");
+        jsonWriter.WriteValue("\u5f20\"");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name""€"":""张""""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public void EscapeHandlingDefault()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.Default
+        };
+
+        jsonWriter.WriteStartObject();
+
+        jsonWriter.WritePropertyName("name\"€");
+        jsonWriter.WriteValue("\"€");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name\""€"":""\""€""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public void EscapeHandlingEscapeHtml()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.EscapeHtml
+        };
+
+        jsonWriter.WriteStartObject();
+
+        jsonWriter.WritePropertyName("name\"€");
+        jsonWriter.WriteValue("\"€");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name\u0022€"":""\u0022€""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public void EscapeHandlingEscapeNonAscii()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.EscapeNonAscii
+        };
+
+        jsonWriter.WriteStartObject();
+
+        jsonWriter.WritePropertyName("name\"€");
+        jsonWriter.WriteValue("\"€");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name\""\u20ac"":""\""\u20ac""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public async Task EscapeHandlingNoneAsync()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.None
+        };
+
+        jsonWriter.WriteStartObject();
+
+        await jsonWriter.WritePropertyNameAsync("name\"€");
+        await jsonWriter.WriteValueAsync("\u5f20\"");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name""€"":""张""""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public async Task EscapeHandlingDefaultAsync()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.Default
+        };
+
+        jsonWriter.WriteStartObject();
+
+        await jsonWriter.WritePropertyNameAsync("name\"€");
+        await jsonWriter.WriteValueAsync("\"€");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name\""€"":""\""€""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public async Task EscapeHandlingEscapeHtmlAsync()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.EscapeHtml
+        };
+
+        jsonWriter.WriteStartObject();
+
+        await jsonWriter.WritePropertyNameAsync("name\"€");
+        await jsonWriter.WriteValueAsync("\"€");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name\u0022€"":""\u0022€""}", stringBuilder.ToString());
+    }
+
+    [Fact]
+    public async Task EscapeHandlingEscapeNonAsciiAsync()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.EscapeNonAscii
+        };
+
+        jsonWriter.WriteStartObject();
+
+        await jsonWriter.WritePropertyNameAsync("name\"€");
+        await jsonWriter.WriteValueAsync("\"€");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name\""\u20ac"":""\""\u20ac""}", stringBuilder.ToString());
     }
 
     [Fact]
@@ -1204,6 +1373,42 @@ _____'propertyName': NaN,
 
         Assert.Equal(8, json.Length);
         Assert.Equal(@"""\u5f20""", json);
+
+        var reader = new JsonTextReader(new StringReader(json));
+
+        Assert.Equal(unicode, reader.ReadAsString());
+
+        stringWriter = new();
+        jsonWriter = new(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.Default
+        };
+
+        jsonWriter.WriteValue(unicode);
+
+        json = stringWriter.ToString();
+
+        Assert.Equal(3, json.Length);
+        Assert.Equal("\"\u5f20\"", json);
+    }
+
+    [Fact]
+    public void NoEscapeHandling()
+    {
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.None
+        };
+
+        var unicode = "\u5f20";
+
+        jsonWriter.WriteValue(unicode);
+
+        var json = stringWriter.ToString();
+
+        Assert.Equal(3, json.Length);
+        Assert.Equal(@"""张""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
 

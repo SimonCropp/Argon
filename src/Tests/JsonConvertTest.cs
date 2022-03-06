@@ -621,7 +621,7 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ToEscapeHandling()
     {
-        var v = "<b>hi " + '\u20AC' + "</b>";
+        var v = "<b>hi €</b>";
 
         var json = JsonConvert.ToString(v, '"');
         Assert.Equal(@"""<b>hi " + '\u20AC' + @"</b>""", json);
@@ -631,6 +631,9 @@ public class JsonConvertTest : TestFixtureBase
 
         json = JsonConvert.ToString(v, '"', EscapeHandling.EscapeNonAscii);
         Assert.Equal(@"""<b>hi \u20ac</b>""", json);
+
+        json = JsonConvert.ToString(v, '"', EscapeHandling.None);
+        Assert.Equal(@"""<b>hi €</b>""", json);
     }
 
     [Fact]
