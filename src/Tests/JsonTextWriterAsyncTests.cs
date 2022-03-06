@@ -1361,7 +1361,7 @@ _____'propertyName': NaN,
         {
             var swNew = new StringWriter();
             var jsonWriter = new JsonTextWriter(new StreamWriter(Stream.Null));
-            await JavaScriptUtils.WriteEscapedJavaScriptStringAsync(swNew, c.ToString(), '"', true, JavaScriptUtils.DoubleQuoteCharEscapeFlags, EscapeHandling.Default, jsonWriter, null);
+            await JavaScriptUtils.WriteEscapedJavaScriptStringAsync(swNew, c.ToString(), '"', true, JavaScriptUtils.DoubleQuoteEscapeFlags, EscapeHandling.Default, jsonWriter, null);
 
             var swOld = new StringWriter();
             WriteEscapedJavaScriptStringOld(swOld, c.ToString(), '"', true);

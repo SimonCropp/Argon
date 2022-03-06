@@ -369,7 +369,7 @@ public partial class JsonTextWriter : JsonWriter
 
     void WriteEscapedString(string value, bool quote)
     {
-        EnsureWriteBuffer();
+        EnsureBuffer();
         JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, arrayPool, ref writeBuffer);
     }
 
@@ -553,7 +553,7 @@ public partial class JsonTextWriter : JsonWriter
 
     int WriteValueToBuffer(DateTime value)
     {
-        EnsureWriteBuffer();
+        EnsureBuffer();
         MiscellaneousUtils.Assert(writeBuffer != null);
 
         var pos = 0;
@@ -627,7 +627,7 @@ public partial class JsonTextWriter : JsonWriter
 
     int WriteValueToBuffer(DateTimeOffset value)
     {
-        EnsureWriteBuffer();
+        EnsureBuffer();
         MiscellaneousUtils.Assert(writeBuffer != null);
 
         var pos = 0;
@@ -729,7 +729,7 @@ public partial class JsonTextWriter : JsonWriter
         writer.Write(ws);
     }
 
-    void EnsureWriteBuffer()
+    void EnsureBuffer()
     {
         // maximum buffer sized used when writing iso date
         writeBuffer ??= BufferUtils.RentBuffer(arrayPool, 35);
@@ -769,7 +769,7 @@ public partial class JsonTextWriter : JsonWriter
             return WriteNumberToBuffer((uint) value, negative);
         }
 
-        EnsureWriteBuffer();
+        EnsureBuffer();
         MiscellaneousUtils.Assert(writeBuffer != null);
 
         var totalLength = MathUtils.IntLength(value);
@@ -821,7 +821,7 @@ public partial class JsonTextWriter : JsonWriter
 
     int WriteNumberToBuffer(uint value, bool negative)
     {
-        EnsureWriteBuffer();
+        EnsureBuffer();
         MiscellaneousUtils.Assert(writeBuffer != null);
 
         var totalLength = MathUtils.IntLength(value);

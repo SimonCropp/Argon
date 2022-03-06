@@ -1606,7 +1606,7 @@ public partial class JsonTextWriter
         await WriteRawAsync(json, cancellation).ConfigureAwait(false);
     }
 
-    internal char[] EnsureWriteBuffer(int length, int copyTo)
+    internal char[] EnsureBuffer(int length, int copyTo)
     {
         if (length < 35)
         {

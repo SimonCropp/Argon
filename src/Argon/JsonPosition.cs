@@ -51,7 +51,7 @@ struct JsonPosition
 
                     writer ??= new(sb);
 
-                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteCharEscapeFlags, EscapeHandling.Default, null, ref buffer);
+                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteEscapeFlags, EscapeHandling.Default, null, ref buffer);
 
                     sb.Append(@"']");
                 }
