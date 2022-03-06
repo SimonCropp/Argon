@@ -1267,6 +1267,42 @@ _____'propertyName': NaN,
     }
 
     [Fact]
+    public async Task NoEscapeHandlingAsync()
+    {
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.None
+        };
+
+        var unicode = "\u5f20";
+
+        await jsonWriter.WriteValueAsync(unicode);
+
+        var json = stringWriter.ToString();
+
+        Assert.Equal(3, json.Length);
+        Assert.Equal(@"""张""", json);
+
+        var reader = new JsonTextReader(new StringReader(json));
+
+        Assert.Equal(unicode, reader.ReadAsString());
+
+        stringWriter = new();
+        jsonWriter = new(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.Default
+        };
+
+        await jsonWriter.WriteValueAsync(unicode);
+
+        json = stringWriter.ToString();
+
+        Assert.Equal(3, json.Length);
+        Assert.Equal("\"\u5f20\"", json);
+    }
+
+    [Fact]
     public async Task WriteEndOnPropertyAsync()
     {
         var stringWriter = new StringWriter();

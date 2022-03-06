@@ -7,6 +7,7 @@ static class JavaScriptUtils
     internal static readonly bool[] SingleQuoteEscapeFlags = new bool[128];
     internal static readonly bool[] DoubleQuoteEscapeFlags = new bool[128];
     internal static readonly bool[] HtmlEscapeFlags = new bool[128];
+    internal static readonly bool[] NoEscapeFlags = new bool[128];
 
     const int unicodeTextLength = 6;
 
@@ -41,6 +42,11 @@ static class JavaScriptUtils
 
     public static bool[] GetCharEscapeFlags(EscapeHandling escapeHandling, char quoteChar)
     {
+        if (escapeHandling == EscapeHandling.None)
+        {
+            return NoEscapeFlags;
+        }
+
         if (escapeHandling == EscapeHandling.EscapeHtml)
         {
             return HtmlEscapeFlags;
@@ -95,6 +101,12 @@ static class JavaScriptUtils
 
     static void WriteEscapedJavaScriptNonNullString(TextWriter writer, string s, bool[] escapeFlags, EscapeHandling escapeHandling, IArrayPool<char>? bufferPool, ref char[]? buffer)
     {
+        if (escapeHandling == EscapeHandling.None)
+        {
+            writer.Write(s);
+            return;
+        }
+
         var lastWritePosition = FirstCharToEscape(s, escapeFlags, escapeHandling);
         if (lastWritePosition == -1)
         {
@@ -352,6 +364,11 @@ static class JavaScriptUtils
 
     static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation)
     {
+        if (escapeHandling == EscapeHandling.None)
+        {
+            return writer.WriteAsync(s, cancellation);
+        }
+
         var i = FirstCharToEscape(s, escapeFlags, escapeHandling);
         if (i == -1)
         {
@@ -363,6 +380,12 @@ static class JavaScriptUtils
 
     static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, int lastWritePosition, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation)
     {
+        if (escapeHandling == EscapeHandling.None)
+        {
+            await writer.WriteAsync(s, cancellation).ConfigureAwait(false);
+            return;
+        }
+
         if (buffer == null ||
             buffer.Length < lastWritePosition)
         {

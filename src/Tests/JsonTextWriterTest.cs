@@ -162,6 +162,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
         Assert.Equal(@"{name:""value""}", stringBuilder.ToString());
     }
+
     [Fact]
     public void QuoteValueAndStrings()
     {
@@ -182,6 +183,28 @@ public class JsonTextWriterTest : TestFixtureBase
 
         Assert.Equal(@"{""name"":value}", stringBuilder.ToString());
     }
+
+    [Fact]
+    public void EscapeHandlingNone()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.None
+        };
+
+        jsonWriter.WriteStartObject();
+
+        jsonWriter.WritePropertyName("name");
+        jsonWriter.WriteValue("\u5f20");
+
+        jsonWriter.WriteEndObject();
+        jsonWriter.Flush();
+
+        Assert.Equal(@"{""name"":""€""}", stringBuilder.ToString());
+    }
+
 
     [Fact]
     public void CloseOutput()
@@ -1204,6 +1227,42 @@ _____'propertyName': NaN,
 
         Assert.Equal(8, json.Length);
         Assert.Equal(@"""\u5f20""", json);
+
+        var reader = new JsonTextReader(new StringReader(json));
+
+        Assert.Equal(unicode, reader.ReadAsString());
+
+        stringWriter = new();
+        jsonWriter = new(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.Default
+        };
+
+        jsonWriter.WriteValue(unicode);
+
+        json = stringWriter.ToString();
+
+        Assert.Equal(3, json.Length);
+        Assert.Equal("\"\u5f20\"", json);
+    }
+
+    [Fact]
+    public void NoEscapeHandling()
+    {
+        var stringWriter = new StringWriter();
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            EscapeHandling = EscapeHandling.None
+        };
+
+        var unicode = "\u5f20";
+
+        jsonWriter.WriteValue(unicode);
+
+        var json = stringWriter.ToString();
+
+        Assert.Equal(3, json.Length);
+        Assert.Equal(@"""张""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
