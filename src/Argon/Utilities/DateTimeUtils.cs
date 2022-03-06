@@ -247,7 +247,7 @@ static class DateTimeUtils
         return d;
     }
 
-    internal static bool TryParseDateTime(StringReference s, DateTimeZoneHandling dateTimeZoneHandling, string? dateFormatString, CultureInfo culture, out DateTime dt)
+    internal static bool TryParseDateTime(StringReference s, DateTimeZoneHandling dateTimeZoneHandling, CultureInfo culture, out DateTime dt)
     {
         if (s.Length > 0)
         {
@@ -259,21 +259,13 @@ static class DateTimeUtils
                     return true;
                 }
             }
-
-            if (!StringUtils.IsNullOrEmpty(dateFormatString))
-            {
-                if (TryParseDateTimeExact(s.ToString(), dateTimeZoneHandling, dateFormatString, culture, out dt))
-                {
-                    return true;
-                }
-            }
         }
 
         dt = default;
         return false;
     }
 
-    internal static bool TryParseDateTime(string s, DateTimeZoneHandling dateTimeZoneHandling, string? dateFormatString, CultureInfo culture, out DateTime dt)
+    internal static bool TryParseDateTime(string s, DateTimeZoneHandling dateTimeZoneHandling, CultureInfo culture, out DateTime dt)
     {
         if (s.Length > 0)
         {
@@ -285,21 +277,13 @@ static class DateTimeUtils
                     return true;
                 }
             }
-
-            if (!StringUtils.IsNullOrEmpty(dateFormatString))
-            {
-                if (TryParseDateTimeExact(s, dateTimeZoneHandling, dateFormatString, culture, out dt))
-                {
-                    return true;
-                }
-            }
         }
 
         dt = default;
         return false;
     }
 
-    internal static bool TryParseDateTimeOffset(StringReference s, string? dateFormatString, CultureInfo culture, out DateTimeOffset dt)
+    internal static bool TryParseDateTimeOffset(StringReference s, CultureInfo culture, out DateTimeOffset dt)
     {
         if (s.Length > 0)
         {
@@ -311,21 +295,13 @@ static class DateTimeUtils
                     return true;
                 }
             }
-
-            if (!StringUtils.IsNullOrEmpty(dateFormatString))
-            {
-                if (TryParseDateTimeOffsetExact(s.ToString(), dateFormatString, culture, out dt))
-                {
-                    return true;
-                }
-            }
         }
 
         dt = default;
         return false;
     }
 
-    internal static bool TryParseDateTimeOffset(string s, string? dateFormatString, CultureInfo culture, out DateTimeOffset dt)
+    internal static bool TryParseDateTimeOffset(string s, CultureInfo culture, out DateTimeOffset dt)
     {
         if (s.Length > 0)
         {
@@ -339,39 +315,6 @@ static class DateTimeUtils
                     }
                 }
             }
-
-            if (!StringUtils.IsNullOrEmpty(dateFormatString))
-            {
-                if (TryParseDateTimeOffsetExact(s, dateFormatString, culture, out dt))
-                {
-                    return true;
-                }
-            }
-        }
-
-        dt = default;
-        return false;
-    }
-
-    static bool TryParseDateTimeExact(string text, DateTimeZoneHandling dateTimeZoneHandling, string dateFormatString, CultureInfo culture, out DateTime dt)
-    {
-        if (DateTime.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
-        {
-            temp = EnsureDateTime(temp, dateTimeZoneHandling);
-            dt = temp;
-            return true;
-        }
-
-        dt = default;
-        return false;
-    }
-
-    static bool TryParseDateTimeOffsetExact(string text, string dateFormatString, CultureInfo culture, out DateTimeOffset dt)
-    {
-        if (DateTimeOffset.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
-        {
-            dt = temp;
-            return true;
         }
 
         dt = default;
@@ -382,18 +325,11 @@ static class DateTimeUtils
 
     #region Write
 
-    internal static void WriteDateTimeString(TextWriter writer, DateTime value, string? formatString, CultureInfo culture)
+    internal static void WriteDateTimeString(TextWriter writer, DateTime value, CultureInfo culture)
     {
-        if (StringUtils.IsNullOrEmpty(formatString))
-        {
-            var chars = new char[64];
-            var pos = WriteDateTimeString(chars, 0, value, null, value.Kind);
-            writer.Write(chars, 0, pos);
-        }
-        else
-        {
-            writer.Write(value.ToString(formatString, culture));
-        }
+        var chars = new char[64];
+        var pos = WriteDateTimeString(chars, 0, value, null, value.Kind);
+        writer.Write(chars, 0, pos);
     }
 
     internal static int WriteDateTimeString(char[] chars, int start, DateTime value, TimeSpan? offset, DateTimeKind kind)
@@ -477,19 +413,12 @@ static class DateTimeUtils
         return start;
     }
 
-    internal static void WriteDateTimeOffsetString(TextWriter writer, DateTimeOffset value, string? formatString, CultureInfo culture)
+    internal static void WriteDateTimeOffsetString(TextWriter writer, DateTimeOffset value, CultureInfo culture)
     {
-        if (StringUtils.IsNullOrEmpty(formatString))
-        {
-            var chars = new char[64];
-            var pos = WriteDateTimeString(chars, 0, value.DateTime, value.Offset, DateTimeKind.Local);
+        var chars = new char[64];
+        var pos = WriteDateTimeString(chars, 0, value.DateTime, value.Offset, DateTimeKind.Local);
 
-            writer.Write(chars, 0, pos);
-        }
-        else
-        {
-            writer.Write(value.ToString(formatString, culture));
-        }
+        writer.Write(chars, 0, pos);
     }
 
     #endregion

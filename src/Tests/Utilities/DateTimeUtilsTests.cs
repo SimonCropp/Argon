@@ -19,7 +19,7 @@ public class DateTimeUtilsTests : TestFixtureBase
     static void RoundtripDateIso(DateTime value)
     {
         var stringWriter = new StringWriter();
-        DateTimeUtils.WriteDateTimeString(stringWriter, value, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeString(stringWriter, value, CultureInfo.InvariantCulture);
         var minDateText = stringWriter.ToString();
 
         DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out var parsedDt);

@@ -73,7 +73,7 @@ public static class JsonConvert
 
         using var writer = StringUtils.CreateStringWriter(64);
         writer.Write('"');
-        DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, CultureInfo.InvariantCulture);
         writer.Write('"');
         return writer.ToString();
     }
@@ -85,7 +85,7 @@ public static class JsonConvert
     {
         using var writer = StringUtils.CreateStringWriter(64);
         writer.Write('"');
-        DateTimeUtils.WriteDateTimeOffsetString(writer, value, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeOffsetString(writer, value, CultureInfo.InvariantCulture);
         writer.Write('"');
         return writer.ToString();
     }

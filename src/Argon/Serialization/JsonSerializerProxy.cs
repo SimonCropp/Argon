@@ -150,12 +150,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.EscapeHandling = value;
     }
 
-    public override string DateFormatString
-    {
-        get => serializer.DateFormatString;
-        set => serializer.DateFormatString = value;
-    }
-
     public override CultureInfo Culture
     {
         get => serializer.Culture;

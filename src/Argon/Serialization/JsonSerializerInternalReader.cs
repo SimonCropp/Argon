@@ -366,7 +366,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 var token = JToken.ReadFrom(reader);
                 tokenReader = (JTokenReader) token.CreateReader();
                 tokenReader.Culture = reader.Culture;
-                tokenReader.DateFormatString = reader.DateFormatString;
                 tokenReader.DateParseHandling = reader.DateParseHandling;
                 tokenReader.DateTimeZoneHandling = reader.DateTimeZoneHandling;
                 tokenReader.FloatParseHandling = reader.FloatParseHandling;
@@ -905,7 +904,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     else if (contract.NonNullableUnderlyingType == typeof(DateTime))
                     {
                         // use DateTimeUtils because Convert.ChangeType does not set DateTime.Kind correctly
-                        if (value is string s && DateTimeUtils.TryParseDateTime(s, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt))
+                        if (value is string s && DateTimeUtils.TryParseDateTime(s, reader.DateTimeZoneHandling, reader.Culture, out var dt))
                         {
                             return DateTimeUtils.EnsureDateTime(dt, reader.DateTimeZoneHandling);
                         }
@@ -1308,7 +1307,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTime:
                                 case PrimitiveTypeCode.DateTimeNullable:
                                 {
-                                    if (DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt))
+                                    if (DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, reader.Culture, out var dt))
                                     {
                                         keyValue = dt;
                                     }
@@ -1322,7 +1321,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTimeOffset:
                                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                                 {
-                                    if (DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, reader.DateFormatString, reader.Culture, out var dt))
+                                    if (DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, reader.Culture, out var dt))
                                     {
                                         keyValue = dt;
                                     }

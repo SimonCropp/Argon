@@ -19,7 +19,6 @@ class TraceJsonWriter : JsonWriter
         textWriter = new(stringWriter);
         textWriter.Formatting = Formatting.Indented;
         textWriter.Culture = innerWriter.Culture;
-        textWriter.DateFormatString = innerWriter.DateFormatString;
         textWriter.DateTimeZoneHandling = innerWriter.DateTimeZoneHandling;
         textWriter.FloatFormatHandling = innerWriter.FloatFormatHandling;
     }

@@ -165,7 +165,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                     if (dateParseHandling == DateParseHandling.DateTime)
                     {
-                        if (DateTimeUtils.TryParseDateTime(stringReference, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
+                        if (DateTimeUtils.TryParseDateTime(stringReference, DateTimeZoneHandling, Culture, out var dt))
                         {
                             SetToken(JsonToken.Date, dt, false);
                             return;
@@ -173,7 +173,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        if (DateTimeUtils.TryParseDateTimeOffset(stringReference, DateFormatString, Culture, out var dt))
+                        if (DateTimeUtils.TryParseDateTimeOffset(stringReference, Culture, out var dt))
                         {
                             SetToken(JsonToken.Date, dt, false);
                             return;
