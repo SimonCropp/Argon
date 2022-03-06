@@ -75,29 +75,12 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         return Serializer.ResolveContract(value.GetType());
     }
-
+    
     void SerializePrimitive(JsonWriter writer, object value, JsonPrimitiveContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
-        if (contract.TypeCode == PrimitiveTypeCode.Bytes)
-        {
-            // if type name handling is enabled then wrap the base64 byte string in an object with the type name
-            var includeTypeDetails = ShouldWriteType(TypeNameHandling.Objects, contract, member, containerContract, containerProperty);
-            if (includeTypeDetails)
-            {
-                writer.WriteStartObject();
-                WriteTypeProperty(writer, contract.CreatedType);
-                writer.WritePropertyName(JsonTypeReflector.ValuePropertyName, false);
-
-                JsonWriter.WriteValue(writer, contract.TypeCode, value);
-
-                writer.WriteEndObject();
-                return;
-            }
-        }
-
         JsonWriter.WriteValue(writer, contract.TypeCode, value);
     }
-
+    
     void SerializeValue(JsonWriter writer, object? value, JsonContract? valueContract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
         if (value == null)
@@ -519,11 +502,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             WriteReferenceIdProperty(writer, contract.UnderlyingType, value);
         }
-
-        if (ShouldWriteType(TypeNameHandling.Objects, contract, member, collectionContract, containerProperty))
-        {
-            WriteTypeProperty(writer, contract.UnderlyingType);
-        }
     }
 
     static bool HasCreatorParameter(JsonContainerContract? contract, JsonProperty property)
@@ -549,19 +527,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         writer.WriteValue(reference);
     }
 
-    void WriteTypeProperty(JsonWriter writer, Type type)
-    {
-        var typeName = type.GetTypeName(Serializer.TypeNameAssemblyFormatHandling, Serializer.SerializationBinder);
-
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-        {
-            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"Writing type name '{typeName}' for {type}."), null);
-        }
-
-        writer.WritePropertyName(JsonTypeReflector.TypePropertyName, false);
-        writer.WriteValue(typeName);
-    }
-
     static bool HasFlag(DefaultValueHandling? value, DefaultValueHandling flag)
     {
         if (value == null)
@@ -573,16 +538,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     }
 
     static bool HasFlag(PreserveReferencesHandling? value, PreserveReferencesHandling flag)
-    {
-        if (value == null)
-        {
-            return false;
-        }
-
-        return (value & flag) == flag;
-    }
-
-    static bool HasFlag(TypeNameHandling? value, TypeNameHandling flag)
     {
         if (value == null)
         {
@@ -768,10 +723,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         // don't make readonly fields that aren't creator parameters the referenced value because they can't be deserialized to
         isReference = isReference && (member == null || member.Writable || HasCreatorParameter(containerContract, member));
 
-        var includeTypeDetails = ShouldWriteType(TypeNameHandling.Arrays, contract, member, containerContract, containerProperty);
-        var writeMetadataObject = isReference || includeTypeDetails;
-
-        if (writeMetadataObject)
+        if (isReference)
         {
             writer.WriteStartObject();
 
@@ -780,17 +732,12 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 WriteReferenceIdProperty(writer, contract.UnderlyingType, values);
             }
 
-            if (includeTypeDetails)
-            {
-                WriteTypeProperty(writer, values.GetType());
-            }
-
             writer.WritePropertyName(JsonTypeReflector.ArrayValuesPropertyName, false);
         }
 
         contract.ItemContract ??= Serializer.ResolveContract(contract.CollectionItemType ?? typeof(object));
 
-        return writeMetadataObject;
+        return isReference;
     }
 
     void SerializeDynamic(JsonWriter writer, IDynamicMetaObjectProvider value, JsonDynamicContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
@@ -886,50 +833,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         return !HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Ignore) ||
                (memberValue != null && !MiscellaneousUtils.ValueEquals(memberValue, ReflectionUtils.GetDefaultValue(memberValue.GetType())));
-    }
-
-    bool ShouldWriteType(TypeNameHandling typeNameHandlingFlag, JsonContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
-    {
-        var resolvedTypeNameHandling =
-            member?.TypeNameHandling
-            ?? containerProperty?.ItemTypeNameHandling
-            ?? containerContract?.ItemTypeNameHandling
-            ?? Serializer.TypeNameHandling;
-
-        if (HasFlag(resolvedTypeNameHandling, typeNameHandlingFlag))
-        {
-            return true;
-        }
-
-        // instance type and the property's type's contract default type are different (no need to put the type in JSON because the type will be created by default)
-        if (HasFlag(resolvedTypeNameHandling, TypeNameHandling.Auto))
-        {
-            if (member != null)
-            {
-                if (contract.NonNullableUnderlyingType != member.PropertyContract!.CreatedType)
-                {
-                    return true;
-                }
-            }
-            else if (containerContract != null)
-            {
-                if (containerContract.ItemContract == null || contract.NonNullableUnderlyingType != containerContract.ItemContract.CreatedType)
-                {
-                    return true;
-                }
-            }
-            else if (rootType != null && serializeStack.Count == rootLevel)
-            {
-                var rootContract = Serializer.ResolveContract(rootType);
-
-                if (contract.NonNullableUnderlyingType != rootContract.CreatedType)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     void SerializeDictionary(JsonWriter writer, IDictionary values, JsonDictionaryContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)

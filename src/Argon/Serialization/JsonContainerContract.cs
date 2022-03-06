@@ -48,11 +48,6 @@ public class JsonContainerContract : JsonContract
     public ReferenceLoopHandling? ItemReferenceLoopHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets the collection item type name handling.
-    /// </summary>
-    public TypeNameHandling? ItemTypeNameHandling { get; set; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="JsonContainerContract" /> class.
     /// </summary>
     internal JsonContainerContract(Type underlyingType)
@@ -71,7 +66,6 @@ public class JsonContainerContract : JsonContract
 
             ItemIsReference = jsonContainerAttribute.itemIsReference;
             ItemReferenceLoopHandling = jsonContainerAttribute.itemReferenceLoopHandling;
-            ItemTypeNameHandling = jsonContainerAttribute.itemTypeNameHandling;
         }
     }
 }

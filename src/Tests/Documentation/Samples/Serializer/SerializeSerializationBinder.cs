@@ -48,7 +48,6 @@ public class SerializeSerializationBinder : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(car, Formatting.Indented, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             SerializationBinder = knownTypesBinder
         });
 
@@ -61,7 +60,6 @@ public class SerializeSerializationBinder : TestFixtureBase
 
         var newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             SerializationBinder = knownTypesBinder
         });
 

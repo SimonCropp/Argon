@@ -24,7 +24,6 @@ public class DeserializeMetadataPropertyHandling : TestFixtureBase
 
             var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.All,
                 // $type no longer needs to be first
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });

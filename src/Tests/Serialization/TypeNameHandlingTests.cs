@@ -23,7 +23,6 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             Formatting = Formatting.Indented
         });
 
@@ -108,10 +107,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     ]
   }
 }";
-        var value = JsonConvert.DeserializeObject<HasMultidimensionalByteArray>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var value = JsonConvert.DeserializeObject<HasMultidimensionalByteArray>(json, new JsonSerializerSettings());
 
         Assert.Equal(1, value.Array2D[0, 0]);
         Assert.Equal(2, value.Array2D[0, 1]);
@@ -138,10 +134,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     ""$value"": ""cGFzc3dvcmQ=""
   }
 }";
-        var value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings());
 
         Assert.Equal(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
     }
@@ -160,10 +153,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonReaderException>(() =>
         {
-            JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects
-            });
+            JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings());
         }, "Error reading bytes. Unexpected token: PropertyName. Path 'EncryptedPassword.$value', line 6, position 13.");
     }
 
@@ -178,10 +168,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   },
   ""Pie"": null
 }";
-        var value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var value = JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings());
 
         Assert.NotNull(value.EncryptedPassword);
         Assert.Equal(Convert.FromBase64String("cGFzc3dvcmQ="), value.EncryptedPassword);
@@ -196,7 +183,6 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(tuple, Formatting.Indented, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All
         });
 
         XUnitAssert.AreEqualNormalized($@"{{
@@ -206,10 +192,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Item3"": ""string""
 }}", json);
 
-        var t2 = (ValueTuple<int, int, string>) JsonConvert.DeserializeObject(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        });
+        var t2 = (ValueTuple<int, int, string>) JsonConvert.DeserializeObject(json, new JsonSerializerSettings());
 
         Assert.Equal(1, t2.Item1);
         Assert.Equal(2, t2.Item2);
@@ -247,10 +230,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             })
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Collection"": [
@@ -285,10 +265,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             {"movie", new Movie {Name = "Die Hard"}}
         };
 
-        var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""movie"": {
@@ -311,10 +288,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             new("movie", new Movie {Name = "Die Hard"})
         };
 
-        var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings());
 
         XUnitAssert.AreEqualNormalized(@"[
   {
@@ -355,10 +329,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeRootTypeNameIfDerivedWithAuto()
     {
-        var serializer = new JsonSerializer
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        };
+        var serializer = new JsonSerializer();
         var stringWriter = new StringWriter();
         serializer.Serialize(new JsonTextWriter(stringWriter) {Formatting = Formatting.Indented}, new WagePerson(), typeof(Person));
         var result = stringWriter.ToString();
@@ -381,10 +352,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeRootTypeNameAutoWithJsonConvert()
     {
-        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new()
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""TestObjects.WagePerson, Tests"",
@@ -398,10 +366,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeRootTypeNameAutoWithJsonConvert_Generic()
     {
-        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new()
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), Formatting.Indented, new());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$type"": ""TestObjects.WagePerson, Tests"",
@@ -415,10 +380,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeRootTypeNameAutoWithJsonConvert_Generic2()
     {
-        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), new()
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(new WagePerson(), typeof(object), new());
 
         XUnitAssert.AreEqualNormalized(@"{""$type"":""TestObjects.WagePerson, Tests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
     }
@@ -444,10 +406,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             }
         };
 
-        var json = JsonConvert.SerializeObject(wrapper, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(wrapper, Formatting.Indented, new JsonSerializerSettings());
 
         XUnitAssert.AreEqualNormalized(@"{
   ""Array"": [
@@ -478,10 +437,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var employee = new EmployeeReference();
 
-        var json = JsonConvert.SerializeObject(employee, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var json = JsonConvert.SerializeObject(employee, Formatting.Indented, new JsonSerializerSettings());
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$id"": ""1"",
@@ -503,10 +459,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Manager"": null
 }}";
 
-        var employee = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var employee = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings());
 
         Assert.IsType(typeof(EmployeeReference), employee);
         Assert.Equal("Name!", ((EmployeeReference) employee).Name);
@@ -522,10 +475,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""$type"": ""{cookieRef}""
 }}";
 
-        var cookie = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var cookie = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings());
 
         Assert.IsType(typeof(Cookie), cookie);
     }
@@ -555,7 +505,6 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(values, Formatting.Indented, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
@@ -612,7 +561,6 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var values = (List<object>) JsonConvert.DeserializeObject(json, typeof(List<object>), new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
@@ -649,7 +597,6 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             JsonConvert.DeserializeObject(json, typeof(Person), new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.Objects,
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
             });
         }
@@ -689,10 +636,7 @@ public class TypeNameHandlingTests : TestFixtureBase
   ""Manager"": null
 }";
 
-        var settings = new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        };
+        var settings = new JsonSerializerSettings();
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject(json, null, settings),
             "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.");
@@ -742,7 +686,6 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var message = JsonConvert.DeserializeObject<ICorrelatedMessage>(json, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
@@ -770,7 +713,6 @@ public class TypeNameHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                TypeNameHandling = TypeNameHandling.All,
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
             });
 

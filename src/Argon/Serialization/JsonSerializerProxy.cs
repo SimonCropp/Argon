@@ -78,12 +78,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.PreserveReferencesHandling = value;
     }
 
-    public override TypeNameHandling? TypeNameHandling
-    {
-        get => serializer.TypeNameHandling;
-        set => serializer.TypeNameHandling = value;
-    }
-
     public override MetadataPropertyHandling? MetadataPropertyHandling
     {
         get => serializer.MetadataPropertyHandling;

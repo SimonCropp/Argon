@@ -84,7 +84,6 @@ public abstract class JsonContainerAttribute : Attribute
     internal bool? isReference;
     internal bool? itemIsReference;
     internal ReferenceLoopHandling? itemReferenceLoopHandling;
-    internal TypeNameHandling? itemTypeNameHandling;
     Type? namingStrategyType;
     object[]? namingStrategyParameters;
 
@@ -113,15 +112,6 @@ public abstract class JsonContainerAttribute : Attribute
     {
         get => itemReferenceLoopHandling ?? default;
         set => itemReferenceLoopHandling = value;
-    }
-
-    /// <summary>
-    /// Gets or sets the type name handling used when serializing the collection's items.
-    /// </summary>
-    public TypeNameHandling ItemTypeNameHandling
-    {
-        get => itemTypeNameHandling ?? default;
-        set => itemTypeNameHandling = value;
     }
 
     /// <summary>

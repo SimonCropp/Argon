@@ -45,17 +45,6 @@ public class JsonSerializer
     public virtual IEqualityComparer? EqualityComparer { get; set; }
 
     /// <summary>
-    /// Gets or sets how type name writing and reading is handled by the serializer.
-    /// The default value is <see cref="Argon.TypeNameHandling.None" />.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="JsonSerializer.TypeNameHandling" /> should be used with caution when your application deserializes JSON from an external source.
-    /// Incoming types should be validated with a custom <see cref="JsonSerializer.SerializationBinder" />
-    /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None" />.
-    /// </remarks>
-    public virtual TypeNameHandling? TypeNameHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how a type name assembly is written and resolved by the serializer.
     /// The default value is <see cref="Argon.TypeNameAssemblyFormatHandling.Simple" />.
     /// </summary>
@@ -335,11 +324,6 @@ public class JsonSerializer
         }
 
         // serializer specific
-        if (settings.TypeNameHandling != null)
-        {
-            serializer.TypeNameHandling = settings.TypeNameHandling;
-        }
-
         if (settings.MetadataPropertyHandling != null)
         {
             serializer.MetadataPropertyHandling = settings.MetadataPropertyHandling;

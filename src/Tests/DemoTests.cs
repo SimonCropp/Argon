@@ -303,7 +303,6 @@ public class DemoTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(mike, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
-            TypeNameHandling = TypeNameHandling.Objects,
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         });
         // {
@@ -381,7 +380,6 @@ public class DemoTests : TestFixtureBase
 
         var e = JsonConvert.DeserializeObject<Employee>(json, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         });
         // Name = Mike Manager

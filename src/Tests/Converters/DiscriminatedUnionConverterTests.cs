@@ -266,7 +266,6 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.All,
-            TypeNameHandling = TypeNameHandling.All
         });
 
         Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);

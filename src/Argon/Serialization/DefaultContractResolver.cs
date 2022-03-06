@@ -593,7 +593,6 @@ public class DefaultContractResolver : IContractResolver
             property.DefaultValueHandling ??= matchingMemberProperty.DefaultValueHandling;
             property.ReferenceLoopHandling ??= matchingMemberProperty.ReferenceLoopHandling;
             property.ObjectCreationHandling ??= matchingMemberProperty.ObjectCreationHandling;
-            property.TypeNameHandling ??= matchingMemberProperty.TypeNameHandling;
         }
 
         return property;
@@ -1288,25 +1287,21 @@ public class DefaultContractResolver : IContractResolver
             property.NullValueHandling = propertyAttribute.nullValueHandling;
             property.ReferenceLoopHandling = propertyAttribute.referenceLoopHandling;
             property.ObjectCreationHandling = propertyAttribute.objectCreationHandling;
-            property.TypeNameHandling = propertyAttribute.typeNameHandling;
             property.IsReference = propertyAttribute.isReference;
 
             property.ItemIsReference = propertyAttribute.itemIsReference;
             property.ItemConverter = propertyAttribute.ItemConverterType != null ? JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters) : null;
             property.ItemReferenceLoopHandling = propertyAttribute.itemReferenceLoopHandling;
-            property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
         }
         else
         {
             property.NullValueHandling = null;
             property.ReferenceLoopHandling = null;
             property.ObjectCreationHandling = null;
-            property.TypeNameHandling = null;
             property.IsReference = null;
             property.ItemIsReference = null;
             property.ItemConverter = null;
             property.ItemReferenceLoopHandling = null;
-            property.ItemTypeNameHandling = null;
             if (dataMemberAttribute != null)
             {
                 property.required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;

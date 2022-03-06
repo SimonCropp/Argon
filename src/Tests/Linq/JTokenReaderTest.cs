@@ -2,7 +2,17 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using Newtonsoft.Json;
 using TestObjects;
+using Formatting = Argon.Formatting;
+using IJsonLineInfo = Argon.IJsonLineInfo;
+using JsonConvert = Argon.JsonConvert;
+using JsonReader = Argon.JsonReader;
+using JsonReaderException = Argon.JsonReaderException;
+using JsonSerializer = Argon.JsonSerializer;
+using JsonSerializerSettings = Argon.JsonSerializerSettings;
+using JsonTextReader = Argon.JsonTextReader;
+using JsonToken = Argon.JsonToken;
 
 public class JTokenReaderTest : TestFixtureBase
 {
@@ -402,17 +412,11 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var test = new TestObject("Test", new byte[] {72, 63, 62, 71, 92, 55});
 
-        var json = JsonConvert.SerializeObject(test, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        });
+        var json = JsonConvert.SerializeObject(test, Formatting.Indented, new JsonSerializerSettings());
 
         var o = JObject.Parse(json);
 
-        var serializer = new JsonSerializer
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
+        var serializer = new JsonSerializer();
 
         using var nodeReader = o.CreateReader();
         // Get exception here

@@ -178,11 +178,6 @@ public class JsonProperty
     public ObjectCreationHandling? ObjectCreationHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets or sets the type name handling.
-    /// </summary>
-    public TypeNameHandling? TypeNameHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets a predicate used to determine whether the property should be serialized.
     /// </summary>
     public Predicate<object>? ShouldSerialize { get; set; }
@@ -222,11 +217,6 @@ public class JsonProperty
     /// Gets or sets whether this property's collection items are serialized as a reference.
     /// </summary>
     public bool? ItemIsReference { get; set; }
-
-    /// <summary>
-    /// Gets or sets the type name handling used when serializing the property's collection items.
-    /// </summary>
-    public TypeNameHandling? ItemTypeNameHandling { get; set; }
 
     /// <summary>
     /// Gets or sets the reference loop handling used when serializing the property's collection items.

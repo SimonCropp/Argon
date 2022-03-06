@@ -659,7 +659,6 @@ Argon Error: 0 : Error!
 
         JsonConvert.SerializeObject(l, Formatting.Indented, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             TraceWriter = traceWriter
         });
 
@@ -746,7 +745,6 @@ Argon Error: 0 : Error!
 
         JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             MetadataPropertyHandling = MetadataPropertyHandling.Default,
             TraceWriter = traceWriter
         });

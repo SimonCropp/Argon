@@ -12,7 +12,7 @@ public class Issue1321 : TestFixtureBase
             {
                 JsonConvert.DeserializeObject(
                     @"[""1"",",
-                    new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None, MaxDepth = 1024});
+                    new JsonSerializerSettings {MaxDepth = 1024});
             },
             "Unexpected end when reading token. Path ''.");
     }

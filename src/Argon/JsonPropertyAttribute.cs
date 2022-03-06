@@ -16,13 +16,11 @@ public sealed class JsonPropertyAttribute : Attribute
     internal DefaultValueHandling? defaultValueHandling;
     internal ReferenceLoopHandling? referenceLoopHandling;
     internal ObjectCreationHandling? objectCreationHandling;
-    internal TypeNameHandling? typeNameHandling;
     internal bool? isReference;
     internal int? order;
     internal Required? required;
     internal bool? itemIsReference;
     internal ReferenceLoopHandling? itemReferenceLoopHandling;
-    internal TypeNameHandling? itemTypeNameHandling;
 
     /// <summary>
     /// Gets or sets the <see cref="JsonConverter" /> type used when serializing the property's collection items.
@@ -97,15 +95,6 @@ public sealed class JsonPropertyAttribute : Attribute
     }
 
     /// <summary>
-    /// Gets or sets the type name handling used when serializing this property.
-    /// </summary>
-    public TypeNameHandling TypeNameHandling
-    {
-        get => typeNameHandling ?? default;
-        set => typeNameHandling = value;
-    }
-
-    /// <summary>
     /// Gets or sets whether this property's value is serialized as a reference.
     /// </summary>
     public bool IsReference
@@ -144,15 +133,6 @@ public sealed class JsonPropertyAttribute : Attribute
     {
         get => itemReferenceLoopHandling ?? default;
         set => itemReferenceLoopHandling = value;
-    }
-
-    /// <summary>
-    /// Gets or sets the type name handling used when serializing the property's collection items.
-    /// </summary>
-    public TypeNameHandling ItemTypeNameHandling
-    {
-        get => itemTypeNameHandling ?? default;
-        set => itemTypeNameHandling = value;
     }
 
     /// <summary>

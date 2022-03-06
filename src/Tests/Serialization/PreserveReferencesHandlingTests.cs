@@ -61,7 +61,6 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.All,
-            TypeNameHandling = TypeNameHandling.All,
             Formatting = Formatting.Indented
         };
 
@@ -1020,7 +1019,6 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             PreserveReferencesHandling = PreserveReferencesHandling.Objects

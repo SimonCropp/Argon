@@ -42,10 +42,7 @@ public class SerializeTypeNameHandling : TestFixtureBase
             }
         };
 
-        var jsonTypeNameAll = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        });
+        var jsonTypeNameAll = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings());
 
         Console.WriteLine(jsonTypeNameAll);
         // {
@@ -63,10 +60,7 @@ public class SerializeTypeNameHandling : TestFixtureBase
         //   }
         // }
 
-        var jsonTypeNameAuto = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var jsonTypeNameAuto = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings());
 
         Console.WriteLine(jsonTypeNameAuto);
         // {
@@ -81,10 +75,7 @@ public class SerializeTypeNameHandling : TestFixtureBase
         // }
 
         // for security TypeNameHandling is required when deserializing
-        var newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto, new JsonSerializerSettings());
 
         Console.WriteLine(newStockholder.Businesses[0].GetType().Name);
         // Hotel

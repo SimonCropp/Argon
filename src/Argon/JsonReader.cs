@@ -860,19 +860,6 @@ public abstract partial class JsonReader : IDisposable
     internal void ReadIntoWrappedTypeObject()
     {
         ReaderReadAndAssert();
-        if (Value != null && Value.ToString() == JsonTypeReflector.TypePropertyName)
-        {
-            ReaderReadAndAssert();
-            if (Value != null && Value.ToString()!.StartsWith("System.Byte[]", StringComparison.Ordinal))
-            {
-                ReaderReadAndAssert();
-                if (Value.ToString() == JsonTypeReflector.ValuePropertyName)
-                {
-                    return;
-                }
-            }
-        }
-
         throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {JsonToken.StartObject}.");
     }
 

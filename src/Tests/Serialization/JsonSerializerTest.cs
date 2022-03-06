@@ -897,9 +897,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
         Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializer.TypeNameAssemblyFormatHandling);
-
-        serializer.TypeNameHandling = TypeNameHandling.All;
-        Assert.Equal(TypeNameHandling.All, serializer.TypeNameHandling);
     }
 
     [Fact]
@@ -991,9 +988,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
         Assert.Equal(TypeNameAssemblyFormatHandling.Full, settings.TypeNameAssemblyFormatHandling);
-
-        settings.TypeNameHandling = TypeNameHandling.All;
-        Assert.Equal(TypeNameHandling.All, settings.TypeNameHandling);
     }
 
     [Fact]
@@ -1085,9 +1079,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
         Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
-
-        serializerProxy.TypeNameHandling = TypeNameHandling.All;
-        Assert.Equal(TypeNameHandling.All, serializerProxy.TypeNameHandling);
     }
 
     [Fact]
@@ -4283,7 +4274,6 @@ Path '', line 1, position 1.");
 
         var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
         };
 
@@ -4803,10 +4793,7 @@ Path '', line 1, position 1.");
     {
         var test = new TestObject("Test", new byte[] {72, 63, 62, 71, 92, 55});
 
-        var serializer = new JsonSerializer
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
+        var serializer = new JsonSerializer();
 
         byte[] objectBytes;
         using (var stream = new MemoryStream())

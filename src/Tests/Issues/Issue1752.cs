@@ -7,7 +7,7 @@ public class Issue1752 : TestFixtureBase
     [Fact]
     public void Test_EmptyString()
     {
-        var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+        var settings = new JsonSerializerSettings();
 
         var s1 = JsonConvert.SerializeObject(new TestObject { Obj = new byte[] { } }, settings);
 

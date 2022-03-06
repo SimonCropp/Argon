@@ -71,7 +71,6 @@ public class DynamicTests : TestFixtureBase
 
         string json = JsonConvert.SerializeObject(o, Formatting.Indented, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
@@ -91,7 +90,6 @@ public class DynamicTests : TestFixtureBase
 
         dynamic n = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 

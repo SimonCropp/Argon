@@ -1646,7 +1646,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(values1, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             Formatting = Formatting.Indented
         });
 
@@ -1722,10 +1721,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
   ]
 }}", json);
 
-        var values2 = (IList<Event1[,]>) JsonConvert.DeserializeObject(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        });
+        var values2 = (IList<Event1[,]>) JsonConvert.DeserializeObject(json, new JsonSerializerSettings());
 
         Assert.Equal(2, values2.Count);
         Assert.Equal("EventName!", values2[0][0, 0].EventName);
@@ -2032,10 +2028,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var externalJson = @"{""$type"":""System.Collections.Hashtable, mscorlib"",""testkey"":""""}";
 
-        var settings = new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
+        var settings = new JsonSerializerSettings();
 
         JsonConvert.SerializeObject(new Hashtable {{"testkey", ""}}, settings);
         var deserializeTest2 = JsonConvert.DeserializeObject<Hashtable>(externalJson, settings);

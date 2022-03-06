@@ -65,17 +65,6 @@ public class JsonSerializerSettings
     public PreserveReferencesHandling? PreserveReferencesHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets how type name writing and reading is handled by the serializer.
-    /// The default value is <see cref="Argon.TypeNameHandling.None" />.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="JsonSerializerSettings.TypeNameHandling" /> should be used with caution when your application deserializes JSON from an external source.
-    /// Incoming types should be validated with a custom <see cref="JsonSerializerSettings.SerializationBinder" />
-    /// when deserializing with a value other than <see cref="Argon.TypeNameHandling.None" />.
-    /// </remarks>
-    public TypeNameHandling? TypeNameHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how metadata properties are used during deserialization.
     /// The default value is <see cref="Argon.MetadataPropertyHandling.Default" />.
     /// </summary>

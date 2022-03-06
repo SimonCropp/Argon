@@ -69,7 +69,6 @@ public class Issue1351 : TestFixtureBase
         };
         var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto,
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             Formatting = Formatting.Indented
         };
@@ -114,7 +113,6 @@ public class Issue1351 : TestFixtureBase
         };
         var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto,
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             Formatting = Formatting.Indented,
             ObjectCreationHandling = ObjectCreationHandling.Replace

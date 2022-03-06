@@ -566,34 +566,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 }
             }
 
-            var typeToken = current[JsonTypeReflector.TypePropertyName];
-            if (typeToken != null)
-            {
-                var qualifiedTypeName = (string?) typeToken;
-                var typeTokenReader = typeToken.CreateReader();
-                typeTokenReader.ReadAndAssert();
-                ResolveTypeName(typeTokenReader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName!);
-
-                var valueToken = current[JsonTypeReflector.ValuePropertyName];
-                if (valueToken != null)
-                {
-                    while (true)
-                    {
-                        reader.ReadAndAssert();
-                        if (reader.TokenType == JsonToken.PropertyName)
-                        {
-                            if (reader.StringValue == JsonTypeReflector.ValuePropertyName)
-                            {
-                                return false;
-                            }
-                        }
-
-                        reader.ReadAndAssert();
-                        reader.Skip();
-                    }
-                }
-            }
-
             var idToken = current[JsonTypeReflector.IdPropertyName];
             if (idToken != null)
             {
@@ -666,17 +638,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         metadataProperty = true;
                     }
-                    else if (string.Equals(propertyName, JsonTypeReflector.TypePropertyName, StringComparison.Ordinal))
-                    {
-                        reader.ReadAndAssert();
-                        var qualifiedTypeName = (string) reader.GetValue();
-
-                        ResolveTypeName(reader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName);
-
-                        reader.ReadAndAssert();
-
-                        metadataProperty = true;
-                    }
                     else if (string.Equals(propertyName, JsonTypeReflector.IdPropertyName, StringComparison.Ordinal))
                     {
                         reader.ReadAndAssert();
@@ -703,52 +664,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
 
         return false;
-    }
-
-    void ResolveTypeName(JsonReader reader, ref Type? type, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, string qualifiedTypeName)
-    {
-        var resolvedTypeNameHandling =
-            member?.TypeNameHandling ??
-            containerContract?.ItemTypeNameHandling ??
-            containerMember?.ItemTypeNameHandling ??
-            Serializer.TypeNameHandling ??
-            TypeNameHandling.None;
-
-        if (resolvedTypeNameHandling != TypeNameHandling.None)
-        {
-            var typeNameKey = ReflectionUtils.SplitFullyQualifiedTypeName(qualifiedTypeName);
-
-            var binder = Serializer.SerializationBinder ?? DefaultSerializationBinder.Instance;
-            Type specifiedType;
-            try
-            {
-                specifiedType = binder.BindToType(typeNameKey.Value1, typeNameKey.Value2);
-            }
-            catch (Exception exception)
-            {
-                throw JsonSerializationException.Create(reader, $"Error resolving type specified in JSON '{qualifiedTypeName}'.", exception);
-            }
-
-            if (specifiedType == null)
-            {
-                throw JsonSerializationException.Create(reader, $"Type specified in JSON '{qualifiedTypeName}' was not resolved.");
-            }
-
-            if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-            {
-                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved type '{qualifiedTypeName}' to {specifiedType}."), null);
-            }
-
-            if (type != null &&
-                type != typeof(IDynamicMetaObjectProvider) &&
-                !type.IsAssignableFrom(specifiedType))
-            {
-                throw JsonSerializationException.Create(reader, $"Type specified in JSON '{specifiedType.AssemblyQualifiedName}' is not compatible with '{type.AssemblyQualifiedName}'.");
-            }
-
-            type = specifiedType;
-            contract = GetContract(specifiedType);
-        }
     }
 
     JsonArrayContract EnsureArrayContract(JsonReader reader, Type type, JsonContract contract)
@@ -2300,7 +2215,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 case JsonTypeReflector.IdPropertyName:
                 case JsonTypeReflector.RefPropertyName:
-                case JsonTypeReflector.TypePropertyName:
                 case JsonTypeReflector.ArrayValuesPropertyName:
                     reader.Skip();
                     return true;

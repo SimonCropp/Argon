@@ -39,14 +39,10 @@ public class Issue0198 : TestFixtureBase
 
         var serializedData = JsonConvert.SerializeObject(objects, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             Formatting = Formatting.Indented
         });
 
-        var a = JsonConvert.DeserializeObject<IEnumerable<TestClass1>>(serializedData, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        });
+        var a = JsonConvert.DeserializeObject<IEnumerable<TestClass1>>(serializedData, new JsonSerializerSettings());
 
         var o = a.First();
 
@@ -68,14 +64,10 @@ public class Issue0198 : TestFixtureBase
 
         var serializedData = JsonConvert.SerializeObject(c, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All,
             Formatting = Formatting.Indented
         });
 
-        var a = JsonConvert.DeserializeObject<TestClass3>(serializedData, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        });
+        var a = JsonConvert.DeserializeObject<TestClass3>(serializedData, new JsonSerializerSettings());
 
         Assert.Equal(1, a.Prop1.Count);
     }

@@ -709,10 +709,7 @@ public class ExtensionDataTests : TestFixtureBase
   }
 }";
 
-        var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json, new JsonSerializerSettings());
 
         Assert.Equal("Name!", c2.Name);
 
@@ -737,10 +734,7 @@ public class ExtensionDataTests : TestFixtureBase
   }
 }";
 
-        var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClassWithNonDefaultConstructor>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects
-        });
+        var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClassWithNonDefaultConstructor>(json, new JsonSerializerSettings());
 
         Assert.Equal("Name!", c2.Name);
 
@@ -768,7 +762,6 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Objects,
             Formatting = Formatting.Indented
         });
 
@@ -965,10 +958,7 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void Deserialize_WriteJsonDirectlyToJToken()
     {
-        var jsonSerializer = new JsonSerializer
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        };
+        var jsonSerializer = new JsonSerializer();
         var stringWriter = new StringWriter();
         jsonSerializer.Serialize(stringWriter, new Item());
         var str = stringWriter.GetStringBuilder().ToString();
@@ -1001,10 +991,7 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void DeserializeWithConstructor_WriteJsonDirectlyToJToken()
     {
-        var jsonSerializer = new JsonSerializer
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        };
+        var jsonSerializer = new JsonSerializer();
         var stringWriter = new StringWriter();
         jsonSerializer.Serialize(stringWriter, new ItemWithConstructor(null));
         var str = stringWriter.GetStringBuilder().ToString();

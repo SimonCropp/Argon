@@ -1563,20 +1563,6 @@ public partial class JsonTextReader
 
     async Task ReadIntoWrappedTypeObjectAsync(CancellationToken cancellation)
     {
-        await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
-        if (Value != null && Value.ToString() == JsonTypeReflector.TypePropertyName)
-        {
-            await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
-            if (Value != null && Value.ToString()!.StartsWith("System.Byte[]", StringComparison.Ordinal))
-            {
-                await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
-                if (Value.ToString() == JsonTypeReflector.ValuePropertyName)
-                {
-                    return;
-                }
-            }
-        }
-
         throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {JsonToken.StartObject}.");
     }
 
