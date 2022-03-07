@@ -199,11 +199,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     break;
                 }
 
-                if (CheckPropertyName(reader, propertyName))
-                {
-                    continue;
-                }
-
                 writer.WritePropertyName(propertyName);
                 writer.WriteToken(reader, true, true, false);
                 continue;
@@ -359,30 +354,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             reader.ReadAndAssert();
             id = null;
         }
-        else if (Serializer.MetadataPropertyHandling == MetadataPropertyHandling.ReadAhead)
-        {
-            if (reader is not JTokenReader tokenReader)
-            {
-                var token = JToken.ReadFrom(reader);
-                tokenReader = (JTokenReader) token.CreateReader();
-                tokenReader.Culture = reader.Culture;
-                tokenReader.DateFormatString = reader.DateFormatString;
-                tokenReader.DateParseHandling = reader.DateParseHandling;
-                tokenReader.DateTimeZoneHandling = reader.DateTimeZoneHandling;
-                tokenReader.FloatParseHandling = reader.FloatParseHandling;
-                tokenReader.SupportMultipleContent = reader.SupportMultipleContent;
-
-                // start
-                tokenReader.ReadAndAssert();
-
-                reader = tokenReader;
-            }
-
-            if (ReadMetadataPropertiesToken(tokenReader, ref resolvedObjectType, ref contract, member, containerContract, containerMember, existingValue, out var newValue, out id))
-            {
-                return newValue;
-            }
-        }
         else
         {
             reader.ReadAndAssert();
@@ -524,96 +495,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         message = string.Format(message, resolvedObjectType, GetExpectedDescription(contract));
 
         throw JsonSerializationException.Create(reader, message);
-    }
-
-    bool ReadMetadataPropertiesToken(JTokenReader reader, ref Type? type, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
-    {
-        id = null;
-        newValue = null;
-
-        if (reader.TokenType == JsonToken.StartObject)
-        {
-            var current = (JObject) reader.CurrentToken!;
-
-            var refProperty = current.PropertyOrNull(JsonTypeReflector.RefPropertyName);
-            if (refProperty != null)
-            {
-                var refToken = refProperty.Value;
-                if (refToken.Type != JTokenType.String && refToken.Type != JTokenType.Null)
-                {
-                    throw JsonSerializationException.Create(refToken, refToken.Path, $"JSON reference {JsonTypeReflector.RefPropertyName} property must have a string or null value.", null);
-                }
-
-                var reference = (string?) refProperty;
-
-                if (reference != null)
-                {
-                    var additionalContent = refProperty.Next ?? refProperty.Previous;
-                    if (additionalContent != null)
-                    {
-                        throw JsonSerializationException.Create(additionalContent, additionalContent.Path, $"Additional content found in JSON reference object. A JSON reference object should only have a {JsonTypeReflector.RefPropertyName} property.", null);
-                    }
-
-                    newValue = Serializer.GetReferenceResolver().ResolveReference(this, reference);
-
-                    if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-                    {
-                        TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader, reader.Path, $"Resolved object reference '{reference}' to {newValue.GetType()}."), null);
-                    }
-
-                    reader.Skip();
-                    return true;
-                }
-            }
-
-            var typeToken = current[JsonTypeReflector.TypePropertyName];
-            if (typeToken != null)
-            {
-                var qualifiedTypeName = (string?) typeToken;
-                var typeTokenReader = typeToken.CreateReader();
-                typeTokenReader.ReadAndAssert();
-                ResolveTypeName(typeTokenReader, ref type, ref contract, member, containerContract, containerMember, qualifiedTypeName!);
-
-                var valueToken = current[JsonTypeReflector.ValuePropertyName];
-                if (valueToken != null)
-                {
-                    while (true)
-                    {
-                        reader.ReadAndAssert();
-                        if (reader.TokenType == JsonToken.PropertyName)
-                        {
-                            if (reader.StringValue == JsonTypeReflector.ValuePropertyName)
-                            {
-                                return false;
-                            }
-                        }
-
-                        reader.ReadAndAssert();
-                        reader.Skip();
-                    }
-                }
-            }
-
-            var idToken = current[JsonTypeReflector.IdPropertyName];
-            if (idToken != null)
-            {
-                id = (string?) idToken;
-            }
-
-            var valuesToken = current[JsonTypeReflector.ArrayValuesPropertyName];
-            if (valuesToken != null)
-            {
-                var listReader = valuesToken.CreateReader();
-                listReader.ReadAndAssert();
-                newValue = CreateList(listReader, type, contract, member, existingValue, id);
-
-                reader.Skip();
-                return true;
-            }
-        }
-
-        reader.ReadAndAssert();
-        return false;
     }
 
     bool ReadMetadataProperties(JsonReader reader, ref Type? type, ref JsonContract? contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerMember, object? existingValue, out object? newValue, out string? id)
@@ -1293,11 +1174,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 case JsonToken.PropertyName:
                     var keyValue = reader.GetValue();
-                    if (CheckPropertyName(reader, keyValue.ToString()!))
-                    {
-                        continue;
-                    }
-
                     try
                     {
                         try
@@ -2168,11 +2044,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 {
                     var propertyName = (string) reader.GetValue();
 
-                    if (CheckPropertyName(reader, propertyName))
-                    {
-                        continue;
-                    }
-
                     try
                     {
                         // attempt exact case match first
@@ -2290,24 +2161,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
 
         return shouldDeserialize;
-    }
-
-    bool CheckPropertyName(JsonReader reader, string memberName)
-    {
-        if (Serializer.MetadataPropertyHandling == MetadataPropertyHandling.ReadAhead)
-        {
-            switch (memberName)
-            {
-                case JsonTypeReflector.IdPropertyName:
-                case JsonTypeReflector.RefPropertyName:
-                case JsonTypeReflector.TypePropertyName:
-                case JsonTypeReflector.ArrayValuesPropertyName:
-                    reader.Skip();
-                    return true;
-            }
-        }
-
-        return false;
     }
 
     void SetExtensionData(JsonObjectContract contract, JsonProperty? member, JsonReader reader, string memberName, object o)

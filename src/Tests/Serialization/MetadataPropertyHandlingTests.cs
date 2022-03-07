@@ -15,16 +15,15 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     public void Demo()
     {
         var json = @"{
+                '$type': 'MetadataPropertyHandlingTests+User, Tests',
                 'Name': 'James',
-                'Password': 'Password1',
-                '$type': 'MetadataPropertyHandlingTests+User, Tests'
+                'Password': 'Password1'
             }";
 
         var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
             // no longer needs to be first
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         });
 
         var u = (User) o;
@@ -64,7 +63,6 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.All,
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<string[][]>(json, settings),
@@ -83,7 +81,6 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         {
             Formatting = Formatting.Indented,
             TypeNameHandling = TypeNameHandling.All,
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
         var serializedString = JsonConvert.SerializeObject(inputContext, settings);
 
@@ -124,10 +121,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   }}
 }}", jsonString);
 
-        var actual = JsonConvert.DeserializeObject<Item>(jsonString, new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-        });
+        var actual = JsonConvert.DeserializeObject<Item>(jsonString, new JsonSerializerSettings());
 
         Assert.Equal(new("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), actual.SourceTypeID);
         Assert.Equal(new("951663c4-924e-4c86-a57a-7ed737501dbd"), actual.BrokerID);
@@ -168,7 +162,6 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
 
         Assert.Equal(3, circularList.Count);
@@ -192,7 +185,6 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Objects,
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject(json, null, settings),
@@ -204,9 +196,9 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     {
         var reference = new Dictionary<string, object>
         {
-            {"blah", "blah!"},
+            {"$id", null},
             {"$ref", null},
-            {"$id", null}
+            {"blah", "blah!"}
         };
 
         var child = new Dictionary<string, object>
@@ -222,16 +214,13 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
   ""_id"": 2,
   ""Name"": ""Isabell"",
   ""Father"": {
-    ""blah"": ""blah!"",
+    ""$id"": null,
     ""$ref"": null,
-    ""$id"": null
+    ""blah"": ""blah!""
   }
 }", json);
 
-        var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-        });
+        var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings());
 
         Assert.Equal(3, result.Count);
         Assert.Equal(1, ((JObject) result["Father"]).Count);
@@ -243,23 +232,20 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     {
         var json = @"[
   {
-    ""Name"": ""Mike Manager"",
     ""$id"": ""1"",
+    ""Name"": ""Mike Manager"",
     ""Manager"": null
   },
   {
-    ""Name"": ""Joe User"",
     ""$id"": ""2"",
+    ""Name"": ""Joe User"",
     ""Manager"": {
       ""$ref"": ""1""
     }
   }
 ]";
 
-        var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json, new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-        });
+        var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
 
         Assert.Equal(2, employees.Count);
         Assert.Equal("Mike Manager", employees[0].Name);
@@ -272,13 +258,13 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     {
         var json = @"[
   {
-    ""Name"": ""Mike Manager"",
     ""$id"": ""1"",
+    ""Name"": ""Mike Manager"",
     ""Manager"": null
   },
   {
-    ""Name"": ""Joe User"",
     ""$id"": ""2"",
+    ""Name"": ""Joe User"",
     ""Manager"": {
       ""$ref"": ""1""
     }
@@ -288,10 +274,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var t1 = JToken.Parse(json);
         var t2 = t1.CloneToken();
 
-        var serializer = JsonSerializer.Create(new()
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-        });
+        var serializer = JsonSerializer.Create(new());
         var employees = t1.ToObject<List<EmployeeReference>>(serializer);
 
         Assert.Equal(2, employees.Count);
@@ -310,9 +293,9 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = $@"[
   {{
-    ""Name"": ""Bob"",
     ""$id"": ""1"",
     ""$type"": ""{employeeRef}"",
+    ""Name"": ""Bob"",
     ""Manager"": {{
       ""$id"": ""2"",
       ""$type"": ""{employeeRef}"",
@@ -321,8 +304,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     }}
   }},
   {{
-    ""Name"": null,
     ""$type"": ""{personRef}"",
+    ""Name"": null,
     ""BirthDate"": ""2000-03-30T00:00:00Z"",
     ""LastModified"": ""2000-03-30T00:00:00Z""
   }},
@@ -337,7 +320,6 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             {
                 TypeNameHandling = TypeNameHandling.Objects,
                 TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full,
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
 
         Assert.Equal(4, values.Count);
@@ -385,10 +367,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameHandlingTests.TypeNameProperty>(
             json,
-            new JsonSerializerSettings
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-            });
+            new JsonSerializerSettings());
         Assert.Equal("Name!", deserialized.Name);
         Assert.IsType(typeof(List<int>), deserialized.Value);
 
@@ -492,69 +471,11 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         Assert.Equal(null, o.Parent);
     }
 
-    [Fact]
-    public void ReadAhead_JObject_NoParent()
-    {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
-  ""Payload"": {}
-}",
-            new JsonSerializerSettings
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-            });
-
-        var o = (JObject) actual.Payload;
-        Assert.Equal(null, o.Parent);
-    }
-
     public class ItemWithJTokens
     {
         public JValue Payload1 { get; set; }
         public JObject Payload2 { get; set; }
         public JArray Payload3 { get; set; }
-    }
-
-    [Fact]
-    public void ReadAhead_TypedJValue_NoParent()
-    {
-        var actual = (ItemWithJTokens) JsonConvert.DeserializeObject(@"{
-  ""Payload1"": 1,
-  ""Payload2"": {'prop1':1,'prop2':[2]},
-  ""Payload3"": [1],
-  ""$type"": ""MetadataPropertyHandlingTests+ItemWithJTokens, Tests""
-}",
-            new JsonSerializerSettings
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
-                TypeNameHandling = TypeNameHandling.All
-            });
-
-        Assert.Equal(JTokenType.Integer, actual.Payload1.Type);
-        Assert.Equal(1, (int) actual.Payload1);
-        Assert.Equal(null, actual.Payload1.Parent);
-
-        Assert.Equal(JTokenType.Object, actual.Payload2.Type);
-        Assert.Equal(1, (int) actual.Payload2["prop1"]);
-        Assert.Equal(2, (int) actual.Payload2["prop2"][0]);
-        Assert.Equal(null, actual.Payload2.Parent);
-
-        Assert.Equal(1, (int) actual.Payload3[0]);
-        Assert.Equal(null, actual.Payload3.Parent);
-    }
-
-    [Fact]
-    public void ReadAhead_JArray_NoParent()
-    {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
-  ""Payload"": [1]
-}",
-            new JsonSerializerSettings
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
-            });
-
-        var o = (JArray) actual.Payload;
-        Assert.Equal(null, o.Parent);
     }
 
     public class ItemWithUntypedPayload

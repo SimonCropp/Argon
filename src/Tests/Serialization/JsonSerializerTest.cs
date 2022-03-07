@@ -6677,7 +6677,6 @@ This is just junk, though.";
         var settings = new JsonSerializerSettings
         {
             DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd",
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
             Formatting = Formatting.Indented
         };
 
@@ -6730,7 +6729,6 @@ This is just junk, though.";
         var settings = new JsonSerializerSettings
         {
             DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K",
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
             Formatting = Formatting.Indented
         };
 
