@@ -742,21 +742,6 @@ public abstract partial class JContainer :
 
     #endregion
 
-    static JToken? EnsureValue(object? value)
-    {
-        if (value == null)
-        {
-            return null;
-        }
-
-        if (value is JToken token)
-        {
-            return token;
-        }
-
-        throw new ArgumentException("Argument is not a JToken.");
-    }
-
     /// <summary>
     /// Gets the count of child JSON tokens.
     /// </summary>

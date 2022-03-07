@@ -27,17 +27,6 @@ readonly struct StringReference
 
 static class StringReferenceExtensions
 {
-    public static int IndexOf(this StringReference s, char c, int startIndex, int length)
-    {
-        var index = Array.IndexOf(s.Chars, c, s.StartIndex + startIndex, length);
-        if (index == -1)
-        {
-            return -1;
-        }
-
-        return index - s.StartIndex;
-    }
-
     public static bool StartsWith(this StringReference s, string text)
     {
         if (text.Length > s.Length)

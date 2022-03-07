@@ -160,7 +160,7 @@ public abstract partial class JsonReader : IDisposable
             throw new("Cannot GetValue when underlying value is null");
         }
 
-        return Value!;
+        return Value;
     }
 
     /// <summary>

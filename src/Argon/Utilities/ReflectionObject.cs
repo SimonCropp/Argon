@@ -31,11 +31,6 @@ class ReflectionObject
         return Members[member].MemberType!;
     }
 
-    public static ReflectionObject Create(Type type, params string[] memberNames)
-    {
-        return Create(type, null, memberNames);
-    }
-
     public static ReflectionObject Create(Type type, MethodBase? creator, params string[] memberNames)
     {
         var delegateFactory = JsonTypeReflector.ReflectionDelegateFactory;

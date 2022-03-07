@@ -81,39 +81,6 @@ static class DateTimeUtils
         return value;
     }
 
-    static long ToUniversalTicks(DateTime dateTime)
-    {
-        if (dateTime.Kind == DateTimeKind.Utc)
-        {
-            return dateTime.Ticks;
-        }
-
-        return ToUniversalTicks(dateTime, dateTime.GetUtcOffset());
-    }
-
-    static long ToUniversalTicks(DateTime dateTime, TimeSpan offset)
-    {
-        // special case min and max value
-        // they never have a timezone appended to avoid issues
-        if (dateTime.Kind == DateTimeKind.Utc || dateTime == DateTime.MaxValue || dateTime == DateTime.MinValue)
-        {
-            return dateTime.Ticks;
-        }
-
-        var ticks = dateTime.Ticks - offset.Ticks;
-        if (ticks > 3155378975999999999L)
-        {
-            return 3155378975999999999L;
-        }
-
-        if (ticks < 0L)
-        {
-            return 0L;
-        }
-
-        return ticks;
-    }
-
     #region Parse
 
     internal static bool TryParseDateTimeIso(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)

@@ -208,6 +208,8 @@ static class StringUtils
         return char.IsLowSurrogate(c);
     }
 
+#if !NET5_0_OR_GREATER
+
     public static bool StartsWith(this string source, char value)
     {
         return source.Length > 0 && source[0] == value;
@@ -217,6 +219,8 @@ static class StringUtils
     {
         return source.Length > 0 && source[source.Length - 1] == value;
     }
+
+#endif
 
     public static string Trim(this string s, int start, int length)
     {
