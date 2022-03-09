@@ -210,11 +210,6 @@ public abstract partial class JsonWriter : IDisposable
     public FloatFormatHandling FloatFormatHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> and <see cref="DateTimeOffset" /> values are formatted when writing JSON text.
-    /// </summary>
-    public string? DateFormatString { get; set; }
-
-    /// <summary>
     /// Gets or sets the culture used when writing JSON. Defaults to <see cref="CultureInfo.InvariantCulture" />.
     /// </summary>
     public CultureInfo Culture

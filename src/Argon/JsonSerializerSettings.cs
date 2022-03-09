@@ -19,8 +19,6 @@ public class JsonSerializerSettings
     internal CultureInfo? culture;
     internal int? maxDepth;
     internal bool maxDepthSet;
-    internal string? dateFormatString;
-    internal bool dateFormatStringSet;
     internal StreamingContext? context;
 
     /// <summary>
@@ -131,21 +129,6 @@ public class JsonSerializerSettings
     {
         get => context ?? DefaultContext;
         set => context = value;
-    }
-
-    /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> and <see cref="DateTimeOffset" /> values are formatted when writing JSON text,
-    /// and the expected date format when reading JSON text.
-    /// The default value is <c>"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK"</c>.
-    /// </summary>
-    public string DateFormatString
-    {
-        get => dateFormatString ?? DefaultDateFormatString;
-        set
-        {
-            dateFormatString = value;
-            dateFormatStringSet = true;
-        }
     }
 
     const int DefaultMaxDepth = 64;

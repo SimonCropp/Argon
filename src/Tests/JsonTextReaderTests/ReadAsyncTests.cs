@@ -591,31 +591,6 @@ public class ReadAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ReadAsDateTimeOffsetNewZealandDateAsync()
-    {
-        var json = @"{""Offset"":""30/1/2011""}";
-
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.Culture = new("en-NZ");
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        await reader.ReadAsDateTimeOffsetAsync();
-        Assert.Equal(JsonToken.Date, reader.TokenType);
-        Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-
-        var dt = (DateTimeOffset) reader.Value;
-        Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-    }
-
-    [Fact]
     public async Task ReadAsDecimalIntAsync()
     {
         var json = @"{""Name"":1}";
