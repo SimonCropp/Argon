@@ -22,7 +22,7 @@
     <Using Include="NodaTime.Text" />
     <Using Remove="System.Net.Http" />
     <PackageReference Include="ProjectDefaults" Version="1.0.78" PrivateAssets="all" />
-    <PackageReference Include="NodaTime" Version="3.0.10" />
+    <PackageReference Include="NodaTime" Version="3.1.0" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 
