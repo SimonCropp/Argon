@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;net48;net6.0</TargetFrameworks>
-    <TargetFrameworks Condition="$(Configuration) == 'DebugNet6'">net6.0</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0</TargetFrameworks>
+    <TargetFramework Condition="$(Configuration) == 'DebugNet6'">net6.0</TargetFramework>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-    <TargetFrameworks>net6</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Argon.NodaTime\Argon.NodaTime.csproj" />
@@ -23,7 +23,7 @@
     <PackageReference Include="Xunit" Version="2.4.1" />
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
     <PackageReference Include="Moq" Version="4.17.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.4" PrivateAssets="All" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Autofac" Version="6.3.0" />
