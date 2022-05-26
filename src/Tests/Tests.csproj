@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net48;net6.0</TargetFrameworks>
-    <TargetFramework Condition="$(Configuration) == 'DebugNet6'">net6.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks Condition="$(Configuration) != 'DebugNet6'">net48;net6.0</TargetFrameworks>
     <Nullable>disable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
