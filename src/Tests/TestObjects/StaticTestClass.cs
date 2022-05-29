@@ -16,8 +16,6 @@ public class StaticTestClass
     [JsonProperty]
     public static int z { get; set; }
 
-    static StaticTestClass()
-    {
+    static StaticTestClass() =>
         z = 3;
-    }
 }

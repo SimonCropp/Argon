@@ -30,8 +30,6 @@ public class NameContainerConverter : JsonConverter
         return nameContainer;
     }
 
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(NameContainer);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(NameContainer);
 }

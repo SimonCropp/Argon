@@ -10,10 +10,8 @@ public class ThisGenericTest<T> where T : IKeyValueId
 
     public string MyProperty { get; set; }
 
-    public void Add(T item)
-    {
+    public void Add(T item) =>
         dict1.Add(item.Key, item);
-    }
 
     public T this[string key]
     {
@@ -23,7 +21,7 @@ public class ThisGenericTest<T> where T : IKeyValueId
 
     public T this[int id]
     {
-        get { return dict1.Values.FirstOrDefault(x => x.Id == id); }
+        get => dict1.Values.FirstOrDefault(x => x.Id == id);
         set
         {
             var item = this[id];
@@ -39,10 +37,8 @@ public class ThisGenericTest<T> where T : IKeyValueId
         }
     }
 
-    public string ToJson()
-    {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
+    public string ToJson() =>
+        JsonConvert.SerializeObject(this, Formatting.Indented);
 
     public T[] TheItems
     {

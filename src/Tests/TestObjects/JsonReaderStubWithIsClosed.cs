@@ -8,13 +8,9 @@ public sealed class JsonReaderStubWithIsClosed : JsonReader
 {
     public bool IsClosed { get; private set; }
 
-    public override void Close()
-    {
+    public override void Close() =>
         IsClosed = true;
-    }
 
-    public override bool Read()
-    {
+    public override bool Read() =>
         throw new NotSupportedException();
-    }
 }

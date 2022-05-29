@@ -11,10 +11,8 @@ public class DateTimeUtilsTests : TestFixtureBase
         RoundtripDateIso(DateTime.MaxValue);
     }
 
-    static StringReference CreateStringReference(string s)
-    {
-        return new(s.ToCharArray(), 0, s.Length);
-    }
+    static StringReference CreateStringReference(string s) =>
+        new(s.ToCharArray(), 0, s.Length);
 
     static void RoundtripDateIso(DateTime value)
     {

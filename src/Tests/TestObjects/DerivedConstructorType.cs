@@ -7,10 +7,8 @@ namespace TestObjects;
 public class DerivedConstructorType : BaseConstructorType
 {
     public DerivedConstructorType(string baseProperty, string derivedProperty)
-        : base(baseProperty)
-    {
+        : base(baseProperty) =>
         DerivedProperty = derivedProperty;
-    }
 
     [JsonProperty]
     public string DerivedProperty { get; }

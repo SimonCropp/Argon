@@ -6,12 +6,6 @@ namespace TestObjects;
 
 public class EnumerableArrayPropertyClass
 {
-    public IEnumerable<int> Numbers
-    {
-        get
-        {
-            return new[] { 1, 2, 3 }; //fails
-            //return new List<int>(new[] { 1, 2, 3 }); //works
-        }
-    }
+    public IEnumerable<int> Numbers => new[] { 1, 2, 3 }; //fails
+    //return new List<int>(new[] { 1, 2, 3 }); //works
 }

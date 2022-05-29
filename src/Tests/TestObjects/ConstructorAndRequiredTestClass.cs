@@ -6,10 +6,8 @@ namespace TestObjects;
 
 public sealed class ConstructorAndRequiredTestClass
 {
-    public ConstructorAndRequiredTestClass(string testProperty1)
-    {
+    public ConstructorAndRequiredTestClass(string testProperty1) =>
         TestProperty1 = testProperty1;
-    }
 
     public string TestProperty1 { get; set; }
 

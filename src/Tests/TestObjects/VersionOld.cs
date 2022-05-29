@@ -68,25 +68,20 @@ public sealed class VersionOld : IComparable, IComparable<VersionOld>, IEquatabl
         throw new ArgumentException();
     }
 
-    public int CompareTo(VersionOld value)
-    {
-        return
-            ReferenceEquals(value, this) ? 0 :
-            value is null ? 1 :
-            _Major != value._Major ? _Major > value._Major ? 1 : -1 :
-            _Minor != value._Minor ? _Minor > value._Minor ? 1 : -1 :
-            _Build != value._Build ? _Build > value._Build ? 1 : -1 :
-            _Revision != value._Revision ? _Revision > value._Revision ? 1 : -1 :
-            0;
-    }
+    public int CompareTo(VersionOld value) =>
+        ReferenceEquals(value, this) ? 0 :
+        value is null ? 1 :
+        _Major != value._Major ? _Major > value._Major ? 1 : -1 :
+        _Minor != value._Minor ? _Minor > value._Minor ? 1 : -1 :
+        _Build != value._Build ? _Build > value._Build ? 1 : -1 :
+        _Revision != value._Revision ? _Revision > value._Revision ? 1 : -1 :
+        0;
 
-    public bool Equals(VersionOld obj)
-    {
-        return ReferenceEquals(obj, this) ||
-               (obj is not null &&
-                _Major == obj._Major &&
-                _Minor == obj._Minor &&
-                _Build == obj._Build &&
-                _Revision == obj._Revision);
-    }
+    public bool Equals(VersionOld obj) =>
+        ReferenceEquals(obj, this) ||
+        (obj is not null &&
+         _Major == obj._Major &&
+         _Minor == obj._Minor &&
+         _Build == obj._Build &&
+         _Revision == obj._Revision);
 }

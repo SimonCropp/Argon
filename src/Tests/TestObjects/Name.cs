@@ -10,8 +10,6 @@ public class Name
 
     public List<PhoneNumber> pNumbers = new();
 
-    public Name(string personsName)
-    {
+    public Name(string personsName) =>
         this.personsName = personsName;
-    }
 }

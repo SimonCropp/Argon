@@ -14,15 +14,11 @@ class MyInterfaceConverter : TypeConverter
         new TraceWriter()
     };
 
-    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-    {
-        return destinationType == typeof(string);
-    }
+    public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) =>
+        destinationType == typeof(string);
 
-    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-    {
-        return sourceType == typeof(string);
-    }
+    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) =>
+        sourceType == typeof(string);
 
     public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
@@ -34,8 +30,6 @@ class MyInterfaceConverter : TypeConverter
         return (from w in _writers where w.Name == value.ToString() select w).FirstOrDefault();
     }
 
-    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-    {
-        return ((IMyInterface) value)?.Name;
-    }
+    public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType) =>
+        ((IMyInterface) value)?.Name;
 }

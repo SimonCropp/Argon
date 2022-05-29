@@ -8,8 +8,6 @@ public class ClassWithException
 {
     public IList<Exception> Exceptions { get; set; }
 
-    public ClassWithException()
-    {
+    public ClassWithException() =>
         Exceptions = new List<Exception>();
-    }
 }

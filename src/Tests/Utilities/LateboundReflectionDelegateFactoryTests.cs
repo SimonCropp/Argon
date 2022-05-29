@@ -30,16 +30,12 @@ public class InTestClass
     public string Value { get; }
     public bool B1 { get; }
 
-    public InTestClass(in string value)
-    {
+    public InTestClass(in string value) =>
         Value = value;
-    }
 
     public InTestClass(in string value, in bool b1)
-        : this(in value)
-    {
+        : this(in value) =>
         B1 = b1;
-    }
 }
 
 public class LateboundReflectionDelegateFactoryTests : TestFixtureBase

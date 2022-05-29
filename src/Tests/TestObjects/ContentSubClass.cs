@@ -10,10 +10,8 @@ public class ContentSubClass : ContentBaseClass
     {
     }
 
-    public ContentSubClass(string EasyIn)
-    {
+    public ContentSubClass(string EasyIn) =>
         SomeString = EasyIn;
-    }
 
     public string SomeString { get; set; }
 }
