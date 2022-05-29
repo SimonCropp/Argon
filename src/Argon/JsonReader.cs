@@ -22,11 +22,6 @@ public abstract partial class JsonReader : IDisposable
         Start,
 
         /// <summary>
-        /// The end of the file has been reached successfully.
-        /// </summary>
-        Complete,
-
-        /// <summary>
         /// Reader is at a property.
         /// </summary>
         Property,
@@ -60,11 +55,6 @@ public abstract partial class JsonReader : IDisposable
         /// Reader has just read a value.
         /// </summary>
         PostValue,
-
-        /// <summary>
-        /// An error occurred that prevents the read operation from continuing.
-        /// </summary>
-        Error,
 
         /// <summary>
         /// The end of the file has been reached successfully.
