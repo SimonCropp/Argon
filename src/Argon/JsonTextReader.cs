@@ -217,10 +217,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    int ReadData(bool append)
-    {
-        return ReadData(append, 0);
-    }
+    int ReadData(bool append) =>
+        ReadData(append, 0);
 
     void PrepareBufferForReadData(bool append, int charsRequired)
     {
@@ -306,11 +304,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return charsRead;
     }
 
-    bool EnsureChars(int relativePosition, bool append)
-    {
-        return CharPos + relativePosition < charsUsed ||
-               ReadChars(relativePosition, append);
-    }
+    bool EnsureChars(int relativePosition, bool append) =>
+        CharPos + relativePosition < charsUsed ||
+        ReadChars(relativePosition, append);
 
     bool ReadChars(int relativePosition, bool append)
     {
@@ -404,28 +400,22 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Int32" />.
     /// </summary>
     /// <returns>A <see cref="Nullable{T}" /> of <see cref="Int32" />. This method will return <c>null</c> at the end of an array.</returns>
-    public override int? ReadAsInt32()
-    {
-        return (int?) ReadNumberValue(ReadType.ReadAsInt32);
-    }
+    public override int? ReadAsInt32() =>
+        (int?) ReadNumberValue(ReadType.ReadAsInt32);
 
     /// <summary>
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="DateTime" />.
     /// </summary>
     /// <returns>A <see cref="Nullable{T}" /> of <see cref="DateTime" />. This method will return <c>null</c> at the end of an array.</returns>
-    public override DateTime? ReadAsDateTime()
-    {
-        return (DateTime?) ReadStringValue(ReadType.ReadAsDateTime);
-    }
+    public override DateTime? ReadAsDateTime() =>
+        (DateTime?) ReadStringValue(ReadType.ReadAsDateTime);
 
     /// <summary>
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="String" />.
     /// </summary>
     /// <returns>A <see cref="String" />. This method will return <c>null</c> at the end of an array.</returns>
-    public override string? ReadAsString()
-    {
-        return (string?) ReadStringValue(ReadType.ReadAsString);
-    }
+    public override string? ReadAsString() =>
+        (string?) ReadStringValue(ReadType.ReadAsString);
 
     /// <summary>
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Byte" />[].
@@ -698,10 +688,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    JsonReaderException CreateUnexpectedCharacterException(char c)
-    {
-        return JsonReaderException.Create(this, $"Unexpected character encountered while parsing value: {c}.");
-    }
+    JsonReaderException CreateUnexpectedCharacterException(char c) =>
+        JsonReaderException.Create(this, $"Unexpected character encountered while parsing value: {c}.");
 
     /// <summary>
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Boolean" />.
@@ -975,28 +963,22 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />.
     /// </summary>
     /// <returns>A <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />. This method will return <c>null</c> at the end of an array.</returns>
-    public override DateTimeOffset? ReadAsDateTimeOffset()
-    {
-        return (DateTimeOffset?) ReadStringValue(ReadType.ReadAsDateTimeOffset);
-    }
+    public override DateTimeOffset? ReadAsDateTimeOffset() =>
+        (DateTimeOffset?) ReadStringValue(ReadType.ReadAsDateTimeOffset);
 
     /// <summary>
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Decimal" />.
     /// </summary>
     /// <returns>A <see cref="Nullable{T}" /> of <see cref="Decimal" />. This method will return <c>null</c> at the end of an array.</returns>
-    public override decimal? ReadAsDecimal()
-    {
-        return (decimal?) ReadNumberValue(ReadType.ReadAsDecimal);
-    }
+    public override decimal? ReadAsDecimal() =>
+        (decimal?) ReadNumberValue(ReadType.ReadAsDecimal);
 
     /// <summary>
     /// Reads the next JSON token from the underlying <see cref="TextReader" /> as a <see cref="Nullable{T}" /> of <see cref="Double" />.
     /// </summary>
     /// <returns>A <see cref="Nullable{T}" /> of <see cref="Double" />. This method will return <c>null</c> at the end of an array.</returns>
-    public override double? ReadAsDouble()
-    {
-        return (double?) ReadNumberValue(ReadType.ReadAsDouble);
-    }
+    public override double? ReadAsDouble() =>
+        (double?) ReadNumberValue(ReadType.ReadAsDouble);
 
     void HandleNull()
     {
@@ -1283,10 +1265,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         throw JsonReaderException.Create(this, "Unexpected end while parsing Unicode escape sequence.");
     }
 
-    char ParseUnicode()
-    {
-        return ConvertUnicode(EnsureChars(4, true));
-    }
+    char ParseUnicode() =>
+        ConvertUnicode(EnsureChars(4, true));
 
     void ReadNumberIntoBuffer()
     {
@@ -1567,10 +1547,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         return true;
     }
 
-    static bool ValidIdentifierChar(char value)
-    {
-        return char.IsLetterOrDigit(value) || value is '_' or '$';
-    }
+    static bool ValidIdentifierChar(char value) =>
+        char.IsLetterOrDigit(value) || value is '_' or '$';
 
     void ParseUnquotedProperty()
     {
@@ -2091,10 +2069,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     // the System.Numerics.BigInteger.Parse method is
     // missing, which happens in some versions of Mono
     [MethodImpl(MethodImplOptions.NoInlining)]
-    static object BigIntegerParse(string number, CultureInfo culture)
-    {
-        return BigInteger.Parse(number, culture);
-    }
+    static object BigIntegerParse(string number, CultureInfo culture) =>
+        BigInteger.Parse(number, culture);
 
     void ParseComment(bool setToken)
     {
@@ -2202,10 +2178,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    bool MatchValue(string value)
-    {
-        return MatchValue(EnsureChars(value.Length - 1, true), value);
-    }
+    bool MatchValue(string value) =>
+        MatchValue(EnsureChars(value.Length - 1, true), value);
 
     bool MatchValue(bool enoughChars, string value)
     {
@@ -2339,10 +2313,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
     }
 
-    object ParseNumberNegativeInfinity(ReadType readType)
-    {
-        return ParseNumberNegativeInfinity(readType, MatchValueWithTrailingSeparator(JsonConvert.NegativeInfinity));
-    }
+    object ParseNumberNegativeInfinity(ReadType readType) =>
+        ParseNumberNegativeInfinity(readType, MatchValueWithTrailingSeparator(JsonConvert.NegativeInfinity));
 
     object ParseNumberNegativeInfinity(ReadType readType, bool matched)
     {
@@ -2370,10 +2342,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         throw JsonReaderException.Create(this, "Error parsing -Infinity value.");
     }
 
-    object ParseNumberPositiveInfinity(ReadType readType)
-    {
-        return ParseNumberPositiveInfinity(readType, MatchValueWithTrailingSeparator(JsonConvert.PositiveInfinity));
-    }
+    object ParseNumberPositiveInfinity(ReadType readType) =>
+        ParseNumberPositiveInfinity(readType, MatchValueWithTrailingSeparator(JsonConvert.PositiveInfinity));
 
     object ParseNumberPositiveInfinity(ReadType readType, bool matched)
     {
@@ -2401,10 +2371,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         throw JsonReaderException.Create(this, "Error parsing Infinity value.");
     }
 
-    object ParseNumberNaN(ReadType readType)
-    {
-        return ParseNumberNaN(readType, MatchValueWithTrailingSeparator(JsonConvert.NaN));
-    }
+    object ParseNumberNaN(ReadType readType) =>
+        ParseNumberNaN(readType, MatchValueWithTrailingSeparator(JsonConvert.NaN));
 
     object ParseNumberNaN(ReadType readType, bool matched)
     {
@@ -2460,10 +2428,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// <returns>
     /// <c>true</c> if <see cref="JsonTextReader.LineNumber" /> and <see cref="JsonTextReader.LinePosition" /> can be provided; otherwise, <c>false</c>.
     /// </returns>
-    public bool HasLineInfo()
-    {
-        return true;
-    }
+    public bool HasLineInfo() =>
+        true;
 
     /// <summary>
     /// Gets the current line number.
