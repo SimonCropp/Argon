@@ -17,8 +17,10 @@ public class DefaultSerializationBinder :
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultSerializationBinder" /> class.
     /// </summary>
-    public DefaultSerializationBinder() =>
+    public DefaultSerializationBinder()
+    {
         typeCache = new(GetTypeFromTypeNameKey);
+    }
 
     Type GetTypeFromTypeNameKey(StructMultiKey<string?, string> typeNameKey)
     {
@@ -133,8 +135,10 @@ public class DefaultSerializationBinder :
         return genericTypeDef.MakeGenericType(genericTypeArguments.ToArray());
     }
 
-    Type GetTypeByName(StructMultiKey<string?, string> typeNameKey) =>
-        typeCache.Get(typeNameKey);
+    Type GetTypeByName(StructMultiKey<string?, string> typeNameKey)
+    {
+        return typeCache.Get(typeNameKey);
+    }
 
     /// <summary>
     /// When overridden in a derived class, controls the binding of a serialized object to a type.
@@ -144,8 +148,10 @@ public class DefaultSerializationBinder :
     /// <returns>
     /// The type of the object the formatter creates a new instance of.
     /// </returns>
-    public Type BindToType(string? assemblyName, string typeName) =>
-        GetTypeByName(new(assemblyName, typeName));
+    public Type BindToType(string? assemblyName, string typeName)
+    {
+        return GetTypeByName(new(assemblyName, typeName));
+    }
 
     /// <summary>
     /// When overridden in a derived class, controls the binding of a serialized object to a type.

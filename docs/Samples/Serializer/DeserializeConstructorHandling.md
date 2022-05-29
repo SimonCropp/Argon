@@ -13,11 +13,13 @@ public class Website
     {
     }
 
-    public Website(Website website) =>
+    public Website(Website website)
+    {
         Url = website.Url;
+    }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L7-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L7-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeConstructorHandlingUsage -->
@@ -44,5 +46,5 @@ var website = JsonConvert.DeserializeObject<Website>(json, new JsonSerializerSet
 Console.WriteLine(website.Url);
 // http://www.google.com
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L26-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L28-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

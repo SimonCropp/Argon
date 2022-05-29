@@ -19,8 +19,10 @@ readonly struct StringReference
         Length = length;
     }
 
-    public override string ToString() =>
-        new(Chars, StartIndex, Length);
+    public override string ToString()
+    {
+        return new(Chars, StartIndex, Length);
+    }
 }
 
 static class StringReferenceExtensions

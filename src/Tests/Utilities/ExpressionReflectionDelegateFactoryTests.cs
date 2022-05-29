@@ -93,7 +93,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     }
 
     [Fact]
-    public void DefaultConstructor_Abstract() =>
+    public void DefaultConstructor_Abstract()
+    {
         XUnitAssert.Throws<Exception>(
             () =>
             {
@@ -103,6 +104,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             "Cannot create an abstract class.",
             "Cannot create an abstract class 'System.Type'.",
             "Cannot dynamically create an instance of type 'System.Type'. Reason: Cannot create an abstract class.");
+    }
 
     [Fact]
     public void CreatePropertySetter()
@@ -265,7 +267,8 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     }
 
     [Fact]
-    public void CreateGetWithBadObjectTarget() =>
+    public void CreateGetWithBadObjectTarget()
+    {
         XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
@@ -280,9 +283,11 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             },
             "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
             "Cannot cast from source type to destination type.");
+    }
 
     [Fact]
-    public void CreateSetWithBadObjectTarget() =>
+    public void CreateSetWithBadObjectTarget()
+    {
         XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
@@ -301,9 +306,11 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             },
             "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.",
             "Cannot cast from source type to destination type.");
+    }
 
     [Fact]
-    public void CreateSetWithBadObjectValue() =>
+    public void CreateSetWithBadObjectValue()
+    {
         XUnitAssert.Throws<InvalidCastException>(
             () =>
             {
@@ -315,6 +322,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
             },
             "Unable to cast object of type 'System.Version' to type 'System.String'.",
             "Cannot cast from source type to destination type.");
+    }
 
     [Fact]
     public void CreateStaticMethodCall()
@@ -346,14 +354,18 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
     public struct TestStruct
     {
-        public TestStruct(int i) =>
+        public TestStruct(int i)
+        {
             Value = i;
+        }
 
         public int Value { get; }
     }
 
-    public static TestStruct StructMethod(TestStruct s) =>
-        new(s.Value + s.Value);
+    public static TestStruct StructMethod(TestStruct s)
+    {
+        return new(s.Value + s.Value);
+    }
 
     [Fact]
     public void CreateStructMethodCall()

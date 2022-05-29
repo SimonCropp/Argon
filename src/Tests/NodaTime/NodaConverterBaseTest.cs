@@ -90,20 +90,28 @@ public class NodaConverterBaseTest
 
     class TestConverter : NodaConverterBase<int>
     {
-        protected override int ReadJsonImpl(JsonReader reader, JsonSerializer serializer) =>
-            int.Parse(reader.Value.ToString());
+        protected override int ReadJsonImpl(JsonReader reader, JsonSerializer serializer)
+        {
+            return int.Parse(reader.Value.ToString());
+        }
 
-        protected override void WriteJsonImpl(JsonWriter writer, int value, JsonSerializer serializer) =>
+        protected override void WriteJsonImpl(JsonWriter writer, int value, JsonSerializer serializer)
+        {
             writer.WriteValue(value.ToString());
+        }
     }
 
     class TestStringConverter : NodaConverterBase<string>
     {
-        protected override string ReadJsonImpl(JsonReader reader, JsonSerializer serializer) =>
-            reader.Value.ToString();
+        protected override string ReadJsonImpl(JsonReader reader, JsonSerializer serializer)
+        {
+            return reader.Value.ToString();
+        }
 
-        protected override void WriteJsonImpl(JsonWriter writer, string value, JsonSerializer serializer) =>
+        protected override void WriteJsonImpl(JsonWriter writer, string value, JsonSerializer serializer)
+        {
             writer.WriteValue(value);
+        }
     }
 
     /// <summary>
@@ -111,10 +119,14 @@ public class NodaConverterBaseTest
     /// </summary>
     class TestInheritanceConverter : NodaConverterBase<Stream>
     {
-        protected override Stream ReadJsonImpl(JsonReader reader, JsonSerializer serializer) =>
+        protected override Stream ReadJsonImpl(JsonReader reader, JsonSerializer serializer)
+        {
             throw new NotImplementedException();
+        }
 
-        protected override void WriteJsonImpl(JsonWriter writer, Stream value, JsonSerializer serializer) =>
+        protected override void WriteJsonImpl(JsonWriter writer, Stream value, JsonSerializer serializer)
+        {
             throw new NotImplementedException();
+        }
     }
 }

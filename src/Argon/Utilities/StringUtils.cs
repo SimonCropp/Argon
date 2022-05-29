@@ -9,8 +9,10 @@ static class StringUtils
     public const char LineFeed = '\n';
     public const char Tab = '\t';
 
-    public static bool IsNullOrEmpty([NotNullWhen(false)] string? value) =>
-        string.IsNullOrEmpty(value);
+    public static bool IsNullOrEmpty([NotNullWhen(false)] string? value)
+    {
+        return string.IsNullOrEmpty(value);
+    }
 
     /// <summary>
     /// Determines whether the string is all white space. Empty string will return <c>false</c>.
@@ -107,14 +109,20 @@ static class StringUtils
         return new(chars);
     }
 
-    static char ToLower(char c) =>
-        char.ToLower(c, CultureInfo.InvariantCulture);
+    static char ToLower(char c)
+    {
+        return char.ToLower(c, CultureInfo.InvariantCulture);
+    }
 
-    public static string ToSnakeCase(string s) =>
-        ToSeparatedCase(s, '_');
+    public static string ToSnakeCase(string s)
+    {
+        return ToSeparatedCase(s, '_');
+    }
 
-    public static string ToKebabCase(string s) =>
-        ToSeparatedCase(s, '-');
+    public static string ToKebabCase(string s)
+    {
+        return ToSeparatedCase(s, '-');
+    }
 
     enum SeparatedCaseState
     {
@@ -190,19 +198,27 @@ static class StringUtils
         return stringBuilder.ToString();
     }
 
-    public static bool IsHighSurrogate(char c) =>
-        char.IsHighSurrogate(c);
+    public static bool IsHighSurrogate(char c)
+    {
+        return char.IsHighSurrogate(c);
+    }
 
-    public static bool IsLowSurrogate(char c) =>
-        char.IsLowSurrogate(c);
+    public static bool IsLowSurrogate(char c)
+    {
+        return char.IsLowSurrogate(c);
+    }
 
 #if !NET5_0_OR_GREATER
 
-    public static bool StartsWith(this string source, char value) =>
-        source.Length > 0 && source[0] == value;
+    public static bool StartsWith(this string source, char value)
+    {
+        return source.Length > 0 && source[0] == value;
+    }
 
-    public static bool EndsWith(this string source, char value) =>
-        source.Length > 0 && source[source.Length - 1] == value;
+    public static bool EndsWith(this string source, char value)
+    {
+        return source.Length > 0 && source[source.Length - 1] == value;
+    }
 
 #endif
 

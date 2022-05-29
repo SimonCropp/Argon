@@ -53,8 +53,10 @@ public class SerializeComparisonBenchmarks
     }
 
     [Benchmark]
-    public string DataContractSerializer() =>
-        SerializeDataContract(TestClass);
+    public string DataContractSerializer()
+    {
+        return SerializeDataContract(TestClass);
+    }
 
     static string SerializeDataContract(object value)
     {
@@ -70,8 +72,10 @@ public class SerializeComparisonBenchmarks
     }
 
     [Benchmark]
-    public string DataContractJsonSerializer() =>
-        SerializeDataContractJson(TestClass);
+    public string DataContractJsonSerializer()
+    {
+        return SerializeDataContractJson(TestClass);
+    }
 
     public string SerializeDataContractJson(object value)
     {
@@ -87,12 +91,16 @@ public class SerializeComparisonBenchmarks
     }
 
     [Benchmark]
-    public string JsonNet() =>
-        JsonConvert.SerializeObject(TestClass);
+    public string JsonNet()
+    {
+        return JsonConvert.SerializeObject(TestClass);
+    }
 
     [Benchmark]
-    public string JsonNetLinq() =>
-        SerializeJsonNetLinq(TestClass);
+    public string JsonNetLinq()
+    {
+        return SerializeJsonNetLinq(TestClass);
+    }
 
     #region SerializeJsonNetManual
 
@@ -121,8 +129,10 @@ public class SerializeComparisonBenchmarks
     #endregion
 
     [Benchmark]
-    public string JsonNetManual() =>
-        SerializeJsonNetManual(TestClass);
+    public string JsonNetManual()
+    {
+        return SerializeJsonNetManual(TestClass);
+    }
 
     #region SerializeJsonNetManual
 
@@ -187,12 +197,16 @@ public class SerializeComparisonBenchmarks
     #endregion
 
     [Benchmark]
-    public Task<string> JsonNetManualAsync() =>
-        SerializeJsonNetManualAsync(TestClass, Formatting.None);
+    public Task<string> JsonNetManualAsync()
+    {
+        return SerializeJsonNetManualAsync(TestClass, Formatting.None);
+    }
 
     [Benchmark]
-    public Task<string> JsonNetManualIndentedAsync() =>
-        SerializeJsonNetManualAsync(TestClass, Formatting.Indented);
+    public Task<string> JsonNetManualIndentedAsync()
+    {
+        return SerializeJsonNetManualAsync(TestClass, Formatting.Indented);
+    }
 
     static async Task<string> SerializeJsonNetManualAsync(TestClass c, Formatting formatting)
     {

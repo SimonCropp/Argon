@@ -318,7 +318,8 @@ public class JTokenReaderTest : TestFixtureBase
     }
 
     [Fact]
-    public void ReadBytesFailure() =>
+    public void ReadBytesFailure()
+    {
         XUnitAssert.Throws<JsonReaderException>(() =>
         {
             var o =
@@ -336,6 +337,7 @@ public class JTokenReaderTest : TestFixtureBase
 
             jsonReader.ReadAsBytes();
         }, "Error reading bytes. Unexpected token: Integer. Path 'Test1'.");
+    }
 
     public class HasBytes
     {

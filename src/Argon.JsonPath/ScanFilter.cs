@@ -2,8 +2,10 @@ class ScanFilter : PathFilter
 {
     internal string? Name;
 
-    public ScanFilter(string? name) =>
+    public ScanFilter(string? name)
+    {
         Name = name;
+    }
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {

@@ -8,6 +8,8 @@ public class DefaultNamingStrategy : NamingStrategy
     /// <summary>
     /// Resolves the specified property name.
     /// </summary>
-    protected override string ResolvePropertyName(string name) =>
-        name;
+    protected override string ResolvePropertyName(string name)
+    {
+        return name;
+    }
 }

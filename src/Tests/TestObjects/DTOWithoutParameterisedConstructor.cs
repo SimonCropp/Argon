@@ -6,8 +6,10 @@ namespace TestObjects;
 
 public class DTOWithoutParameterisedConstructor
 {
-    public DTOWithoutParameterisedConstructor() =>
+    public DTOWithoutParameterisedConstructor()
+    {
         B = 2;
+    }
 
     public string A { get; set; }
     public int? B { get; set; }

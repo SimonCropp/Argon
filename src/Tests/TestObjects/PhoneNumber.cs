@@ -8,6 +8,8 @@ public class PhoneNumber
 {
     public string phoneNumber;
 
-    public PhoneNumber(string phoneNumber) =>
+    public PhoneNumber(string phoneNumber)
+    {
         this.phoneNumber = phoneNumber;
+    }
 }

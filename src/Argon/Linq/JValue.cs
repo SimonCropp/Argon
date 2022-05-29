@@ -26,8 +26,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// </summary>
     /// <param name="other">A <see cref="JValue" /> object to copy from.</param>
     public JValue(JValue other)
-        : this(other.Value, other.Type) =>
+        : this(other.Value, other.Type)
+    {
         SetLineInfo(other, null);
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
@@ -482,36 +484,46 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return false;
     }
 
-    internal override JToken CloneToken() =>
-        new JValue(this);
+    internal override JToken CloneToken()
+    {
+        return new JValue(this);
+    }
 
     /// <summary>
     /// Creates a <see cref="JValue" /> comment with the given value.
     /// </summary>
     /// <returns>A <see cref="JValue" /> comment with the given value.</returns>
-    public static JValue CreateComment(string? value) =>
-        new(value, JTokenType.Comment);
+    public static JValue CreateComment(string? value)
+    {
+        return new(value, JTokenType.Comment);
+    }
 
     /// <summary>
     /// Creates a <see cref="JValue" /> string with the given value.
     /// </summary>
     /// <returns>A <see cref="JValue" /> string with the given value.</returns>
-    public static JValue CreateString(string? value) =>
-        new(value, JTokenType.String);
+    public static JValue CreateString(string? value)
+    {
+        return new(value, JTokenType.String);
+    }
 
     /// <summary>
     /// Creates a <see cref="JValue" /> null value.
     /// </summary>
     /// <returns>A <see cref="JValue" /> null value.</returns>
-    public static JValue CreateNull() =>
-        new(null, JTokenType.Null);
+    public static JValue CreateNull()
+    {
+        return new(null, JTokenType.Null);
+    }
 
     /// <summary>
     /// Creates a <see cref="JValue" /> undefined value.
     /// </summary>
     /// <returns>A <see cref="JValue" /> undefined value.</returns>
-    public static JValue CreateUndefined() =>
-        new(null, JTokenType.Undefined);
+    public static JValue CreateUndefined()
+    {
+        return new(null, JTokenType.Undefined);
+    }
 
     static JTokenType GetValueType(JTokenType? current, object? value)
     {
@@ -758,8 +770,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return ((int) valueType).GetHashCode() ^ valueHashCode;
     }
 
-    static bool ValuesEquals(JValue v1, JValue v2) =>
-        v1 == v2 || (v1.valueType == v2.valueType && Compare(v1.valueType, v1.value, v2.value) == 0);
+    static bool ValuesEquals(JValue v1, JValue v2)
+    {
+        return v1 == v2 || (v1.valueType == v2.valueType && Compare(v1.valueType, v1.value, v2.value) == 0);
+    }
 
     /// <summary>
     /// Indicates whether the current object is equal to another object of the same type.
@@ -768,9 +782,11 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <c>true</c> if the current object is equal to the <paramref name="other" /> parameter; otherwise, <c>false</c>.
     /// </returns>
     /// <param name="other">An object to compare with this object.</param>
-    public bool Equals(JValue? other) =>
-        other != null &&
-        ValuesEquals(this, other);
+    public bool Equals(JValue? other)
+    {
+        return other != null &&
+               ValuesEquals(this, other);
+    }
 
     /// <summary>
     /// Determines whether the specified <see cref="Object" /> is equal to the current <see cref="Object" />.
@@ -831,8 +847,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>
     /// A <see cref="String" /> that represents this instance.
     /// </returns>
-    public string ToString(string format) =>
-        ToString(format, CultureInfo.CurrentCulture);
+    public string ToString(string format)
+    {
+        return ToString(format, CultureInfo.CurrentCulture);
+    }
 
     /// <summary>
     /// Returns a <see cref="String" /> that represents this instance.
@@ -840,8 +858,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>
     /// A <see cref="String" /> that represents this instance.
     /// </returns>
-    public string ToString(IFormatProvider? formatProvider) =>
-        ToString(null, formatProvider);
+    public string ToString(IFormatProvider? formatProvider)
+    {
+        return ToString(null, formatProvider);
+    }
 
     /// <summary>
     /// Returns a <see cref="String" /> that represents this instance.
@@ -871,8 +891,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <returns>
     /// The <see cref="DynamicMetaObject" /> to bind this object.
     /// </returns>
-    protected override DynamicMetaObject GetMetaObject(Expression parameter) =>
-        new DynamicProxyMetaObject<JValue>(parameter, this, new JValueDynamicProxy());
+    protected override DynamicMetaObject GetMetaObject(Expression parameter)
+    {
+        return new DynamicProxyMetaObject<JValue>(parameter, this, new JValueDynamicProxy());
+    }
 
     class JValueDynamicProxy : DynamicProxy<JValue>
     {
@@ -1014,48 +1036,78 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
         return TypeCode.Object;
     }
 
-    bool IConvertible.ToBoolean(IFormatProvider? provider) =>
-        (bool) this;
+    bool IConvertible.ToBoolean(IFormatProvider? provider)
+    {
+        return (bool) this;
+    }
 
-    char IConvertible.ToChar(IFormatProvider? provider) =>
-        (char) this;
+    char IConvertible.ToChar(IFormatProvider? provider)
+    {
+        return (char) this;
+    }
 
-    sbyte IConvertible.ToSByte(IFormatProvider? provider) =>
-        (sbyte) this;
+    sbyte IConvertible.ToSByte(IFormatProvider? provider)
+    {
+        return (sbyte) this;
+    }
 
-    byte IConvertible.ToByte(IFormatProvider? provider) =>
-        (byte) this;
+    byte IConvertible.ToByte(IFormatProvider? provider)
+    {
+        return (byte) this;
+    }
 
-    short IConvertible.ToInt16(IFormatProvider? provider) =>
-        (short) this;
+    short IConvertible.ToInt16(IFormatProvider? provider)
+    {
+        return (short) this;
+    }
 
-    ushort IConvertible.ToUInt16(IFormatProvider? provider) =>
-        (ushort) this;
+    ushort IConvertible.ToUInt16(IFormatProvider? provider)
+    {
+        return (ushort) this;
+    }
 
-    int IConvertible.ToInt32(IFormatProvider? provider) =>
-        (int) this;
+    int IConvertible.ToInt32(IFormatProvider? provider)
+    {
+        return (int) this;
+    }
 
-    uint IConvertible.ToUInt32(IFormatProvider? provider) =>
-        (uint) this;
+    uint IConvertible.ToUInt32(IFormatProvider? provider)
+    {
+        return (uint) this;
+    }
 
-    long IConvertible.ToInt64(IFormatProvider? provider) =>
-        (long) this;
+    long IConvertible.ToInt64(IFormatProvider? provider)
+    {
+        return (long) this;
+    }
 
-    ulong IConvertible.ToUInt64(IFormatProvider? provider) =>
-        (ulong) this;
+    ulong IConvertible.ToUInt64(IFormatProvider? provider)
+    {
+        return (ulong) this;
+    }
 
-    float IConvertible.ToSingle(IFormatProvider? provider) =>
-        (float) this;
+    float IConvertible.ToSingle(IFormatProvider? provider)
+    {
+        return (float) this;
+    }
 
-    double IConvertible.ToDouble(IFormatProvider? provider) =>
-        (double) this;
+    double IConvertible.ToDouble(IFormatProvider? provider)
+    {
+        return (double) this;
+    }
 
-    decimal IConvertible.ToDecimal(IFormatProvider? provider) =>
-        (decimal) this;
+    decimal IConvertible.ToDecimal(IFormatProvider? provider)
+    {
+        return (decimal) this;
+    }
 
-    DateTime IConvertible.ToDateTime(IFormatProvider? provider) =>
-        (DateTime) this;
+    DateTime IConvertible.ToDateTime(IFormatProvider? provider)
+    {
+        return (DateTime) this;
+    }
 
-    object IConvertible.ToType(Type conversionType, IFormatProvider? provider) =>
-        ToObject(conversionType)!;
+    object IConvertible.ToType(Type conversionType, IFormatProvider? provider)
+    {
+        return ToObject(conversionType)!;
+    }
 }

@@ -103,8 +103,10 @@ public abstract class NodaConverterBase<T> : JsonConverter
     /// <param name="writer">The writer to write the JSON to.</param>
     /// <param name="value">The value to write.</param>
     /// <param name="serializer">The serializer to use for any embedded serialization.</param>
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
         WriteJsonImpl(writer, (T)value, serializer);
+    }
 
     /// <summary>
     /// Implemented by concrete subclasses, this performs the final write operation for a non-null value of type T

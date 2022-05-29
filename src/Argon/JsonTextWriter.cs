@@ -115,8 +115,10 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Flushes whatever is in the buffer to the underlying <see cref="TextWriter" /> and also flushes the underlying <see cref="TextWriter" />.
     /// </summary>
-    public override void Flush() =>
+    public override void Flush()
+    {
         writer.Flush();
+    }
 
     /// <summary>
     /// Closes this writer.
@@ -224,11 +226,15 @@ public partial class JsonTextWriter : JsonWriter
         writer.Write(':');
     }
 
-    protected override void OnEscapeHandlingChanged() =>
+    protected override void OnEscapeHandlingChanged()
+    {
         UpdateCharEscapeFlags();
+    }
 
-    void UpdateCharEscapeFlags() =>
+    void UpdateCharEscapeFlags()
+    {
         charEscapeFlags = JavaScriptUtils.GetCharEscapeFlags(EscapeHandling, quoteChar);
+    }
 
     /// <summary>
     /// Writes indent characters.
@@ -279,17 +285,23 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the JSON value delimiter.
     /// </summary>
-    protected override void WriteValueDelimiter() =>
+    protected override void WriteValueDelimiter()
+    {
         writer.Write(',');
+    }
 
     /// <summary>
     /// Writes an indent space.
     /// </summary>
-    protected override void WriteIndentSpace() =>
+    protected override void WriteIndentSpace()
+    {
         writer.Write(' ');
+    }
 
-    void WriteValueInternal(string value, JsonToken token) =>
+    void WriteValueInternal(string value, JsonToken token)
+    {
         writer.Write(value);
+    }
 
     #region WriteValue methods
 
@@ -717,9 +729,11 @@ public partial class JsonTextWriter : JsonWriter
         writer.Write(ws);
     }
 
-    void EnsureBuffer() =>
+    void EnsureBuffer()
+    {
         // maximum buffer sized used when writing iso date
         writeBuffer ??= BufferUtils.RentBuffer(arrayPool, 35);
+    }
 
     void WriteIntegerValue(long value)
     {

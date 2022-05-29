@@ -189,8 +189,10 @@ public partial class JsonTextReader
         return false;
     }
 
-    Task<int> ReadDataAsync(bool append, CancellationToken cancellation) =>
-        ReadDataAsync(append, 0, cancellation);
+    Task<int> ReadDataAsync(bool append, CancellationToken cancellation)
+    {
+        return ReadDataAsync(append, 0, cancellation);
+    }
 
     async Task<int> ReadDataAsync(bool append, int charsRequired, CancellationToken cancellation)
     {
@@ -512,11 +514,15 @@ public partial class JsonTextReader
         return ProcessCarriageReturnAsync(task);
     }
 
-    async Task ProcessCarriageReturnAsync(Task<bool> task) =>
+    async Task ProcessCarriageReturnAsync(Task<bool> task)
+    {
         SetNewLine(await task.ConfigureAwait(false));
+    }
 
-    async Task<char> ParseUnicodeAsync(CancellationToken cancellation) =>
-        ConvertUnicode(await EnsureCharsAsync(4, true, cancellation).ConfigureAwait(false));
+    async Task<char> ParseUnicodeAsync(CancellationToken cancellation)
+    {
+        return ConvertUnicode(await EnsureCharsAsync(4, true, cancellation).ConfigureAwait(false));
+    }
 
     Task<bool> EnsureCharsAsync(int relativePosition, bool append, CancellationToken cancellation)
     {
@@ -767,8 +773,10 @@ public partial class JsonTextReader
         ParseReadString(quote, readType);
     }
 
-    async Task<bool> MatchValueAsync(string value, CancellationToken cancellation) =>
-        MatchValue(await EnsureCharsAsync(value.Length - 1, true, cancellation).ConfigureAwait(false), value);
+    async Task<bool> MatchValueAsync(string value, CancellationToken cancellation)
+    {
+        return MatchValue(await EnsureCharsAsync(value.Length - 1, true, cancellation).ConfigureAwait(false), value);
+    }
 
     async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, CancellationToken cancellation)
     {
@@ -800,23 +808,35 @@ public partial class JsonTextReader
         }
     }
 
-    Task ParseTrueAsync(CancellationToken cancellation) =>
-        MatchAndSetAsync(JsonConvert.True, JsonToken.Boolean, true, cancellation);
+    Task ParseTrueAsync(CancellationToken cancellation)
+    {
+        return MatchAndSetAsync(JsonConvert.True, JsonToken.Boolean, true, cancellation);
+    }
 
-    Task ParseFalseAsync(CancellationToken cancellation) =>
-        MatchAndSetAsync(JsonConvert.False, JsonToken.Boolean, false, cancellation);
+    Task ParseFalseAsync(CancellationToken cancellation)
+    {
+        return MatchAndSetAsync(JsonConvert.False, JsonToken.Boolean, false, cancellation);
+    }
 
-    Task ParseNullAsync(CancellationToken cancellation) =>
-        MatchAndSetAsync(JsonConvert.Null, JsonToken.Null, null, cancellation);
+    Task ParseNullAsync(CancellationToken cancellation)
+    {
+        return MatchAndSetAsync(JsonConvert.Null, JsonToken.Null, null, cancellation);
+    }
 
-    async Task<object> ParseNumberNaNAsync(ReadType readType, CancellationToken cancellation) =>
-        ParseNumberNaN(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NaN, cancellation).ConfigureAwait(false));
+    async Task<object> ParseNumberNaNAsync(ReadType readType, CancellationToken cancellation)
+    {
+        return ParseNumberNaN(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NaN, cancellation).ConfigureAwait(false));
+    }
 
-    async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, CancellationToken cancellation) =>
-        ParseNumberPositiveInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.PositiveInfinity, cancellation).ConfigureAwait(false));
+    async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, CancellationToken cancellation)
+    {
+        return ParseNumberPositiveInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.PositiveInfinity, cancellation).ConfigureAwait(false));
+    }
 
-    async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, CancellationToken cancellation) =>
-        ParseNumberNegativeInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NegativeInfinity, cancellation).ConfigureAwait(false));
+    async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, CancellationToken cancellation)
+    {
+        return ParseNumberNegativeInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NegativeInfinity, cancellation).ConfigureAwait(false));
+    }
 
     async Task ParseNumberAsync(ReadType readType, CancellationToken cancellation)
     {
@@ -832,8 +852,10 @@ public partial class JsonTextReader
         ParseReadNumber(readType, firstChar, initialPosition);
     }
 
-    Task ParseUndefinedAsync(CancellationToken cancellation) =>
-        MatchAndSetAsync(JsonConvert.Undefined, JsonToken.Undefined, null, cancellation);
+    Task ParseUndefinedAsync(CancellationToken cancellation)
+    {
+        return MatchAndSetAsync(JsonConvert.Undefined, JsonToken.Undefined, null, cancellation);
+    }
 
     async Task<bool> ParsePropertyAsync(CancellationToken cancellation)
     {
@@ -1579,8 +1601,10 @@ public partial class JsonTextReader
         return base.ReadAsDateTimeAsync(cancellation);
     }
 
-    async Task<DateTime?> DoReadAsDateTimeAsync(CancellationToken cancellation) =>
-        (DateTime?) await ReadStringValueAsync(ReadType.ReadAsDateTime, cancellation).ConfigureAwait(false);
+    async Task<DateTime?> DoReadAsDateTimeAsync(CancellationToken cancellation)
+    {
+        return (DateTime?) await ReadStringValueAsync(ReadType.ReadAsDateTime, cancellation).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />.
@@ -1603,8 +1627,10 @@ public partial class JsonTextReader
         return base.ReadAsDateTimeOffsetAsync(cancellation);
     }
 
-    async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(CancellationToken cancellation) =>
-        (DateTimeOffset?) await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancellation).ConfigureAwait(false);
+    async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(CancellationToken cancellation)
+    {
+        return (DateTimeOffset?) await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancellation).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="decimal" />.
@@ -1617,15 +1643,19 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<decimal?> ReadAsDecimalAsync(CancellationToken cancellation = default) =>
-        safeAsync switch
+    public override Task<decimal?> ReadAsDecimalAsync(CancellationToken cancellation = default)
+    {
+        return safeAsync switch
         {
             true => DoReadAsDecimalAsync(cancellation),
             _ => base.ReadAsDecimalAsync(cancellation)
         };
+    }
 
-    async Task<decimal?> DoReadAsDecimalAsync(CancellationToken cancellation) =>
-        (decimal?) await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancellation).ConfigureAwait(false);
+    async Task<decimal?> DoReadAsDecimalAsync(CancellationToken cancellation)
+    {
+        return (decimal?) await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancellation).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="double" />.
@@ -1648,8 +1678,10 @@ public partial class JsonTextReader
         return base.ReadAsDoubleAsync(cancellation);
     }
 
-    async Task<double?> DoReadAsDoubleAsync(CancellationToken cancellation) =>
-        (double?) await ReadNumberValueAsync(ReadType.ReadAsDouble, cancellation).ConfigureAwait(false);
+    async Task<double?> DoReadAsDoubleAsync(CancellationToken cancellation)
+    {
+        return (double?) await ReadNumberValueAsync(ReadType.ReadAsDouble, cancellation).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="int" />.
@@ -1672,8 +1704,10 @@ public partial class JsonTextReader
         return base.ReadAsInt32Async(cancellation);
     }
 
-    async Task<int?> DoReadAsInt32Async(CancellationToken cancellation) =>
-        (int?) await ReadNumberValueAsync(ReadType.ReadAsInt32, cancellation).ConfigureAwait(false);
+    async Task<int?> DoReadAsInt32Async(CancellationToken cancellation)
+    {
+        return (int?) await ReadNumberValueAsync(ReadType.ReadAsInt32, cancellation).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="string" />.
@@ -1696,6 +1730,8 @@ public partial class JsonTextReader
         return base.ReadAsStringAsync(cancellation);
     }
 
-    async Task<string?> DoReadAsStringAsync(CancellationToken cancellation) =>
-        (string?) await ReadStringValueAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
+    async Task<string?> DoReadAsStringAsync(CancellationToken cancellation)
+    {
+        return (string?) await ReadStringValueAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
+    }
 }

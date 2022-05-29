@@ -2,8 +2,10 @@
 
 public class XUnitAssert
 {
-    public static void AreEqual(double expected, double actual, double r) =>
+    public static void AreEqual(double expected, double actual, double r)
+    {
         Assert.Equal(expected, actual, 5); // hack
+    }
 
     public static void False(object actual)
     {
@@ -47,10 +49,12 @@ public class XUnitAssert
         return string.Equals(s1, s2);
     }
 
-    public static string Normalize(string s) =>
-        s
+    public static string Normalize(string s)
+    {
+        return s
             .Replace("\r\n", "\n")
             .Replace("\r", "\n");
+    }
 
     public static TException Throws<TException>(Action action, params string[] possibleMessages)
         where TException : Exception

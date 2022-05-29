@@ -9,14 +9,18 @@ public abstract partial class JToken
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public virtual Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters) =>
+    public virtual Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
+    {
         throw new NotImplementedException();
+    }
 
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public Task WriteToAsync(JsonWriter writer, params JsonConverter[] converters) =>
-        WriteToAsync(writer, default, converters);
+    public Task WriteToAsync(JsonWriter writer, params JsonConverter[] converters)
+    {
+        return WriteToAsync(writer, default, converters);
+    }
 
     /// <summary>
     /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
@@ -29,8 +33,10 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> ReadFromAsync(JsonReader reader, CancellationToken cancellation = default) =>
-        ReadFromAsync(reader, null, cancellation);
+    public static Task<JToken> ReadFromAsync(JsonReader reader, CancellationToken cancellation = default)
+    {
+        return ReadFromAsync(reader, null, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
@@ -103,8 +109,10 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
-        LoadAsync(reader, null, cancellation);
+    public static Task<JToken> LoadAsync(JsonReader reader, CancellationToken cancellation = default)
+    {
+        return LoadAsync(reader, null, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
@@ -120,6 +128,8 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default) =>
-        ReadFromAsync(reader, settings, cancellation);
+    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
+    {
+        return ReadFromAsync(reader, settings, cancellation);
+    }
 }

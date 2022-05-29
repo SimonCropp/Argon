@@ -15,6 +15,8 @@ public class PrivateSetterDerived : PrivateSetterBase
     }
 
     internal PrivateSetterDerived(string dontWork, string doWork)
-        : base(dontWork) =>
+        : base(dontWork)
+    {
         IDoWork = doWork;
+    }
 }

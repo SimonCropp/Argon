@@ -208,8 +208,10 @@ public class JsonProperty
     /// <returns>
     /// A <see cref="String" /> that represents this instance.
     /// </returns>
-    public override string ToString() =>
-        PropertyName ?? string.Empty;
+    public override string ToString()
+    {
+        return PropertyName ?? string.Empty;
+    }
 
     /// <summary>
     /// Gets or sets the converter used when serializing the property's collection items.

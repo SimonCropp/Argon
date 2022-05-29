@@ -16,24 +16,34 @@ public class Shape
     [DebuggerBrowsable(DebuggerBrowsableState.Never), CompilerGenerated]
     internal static readonly Shape _unique_Empty;
 
-    static Shape() =>
+    static Shape()
+    {
         _unique_Empty = new(3);
+    }
 
     [CompilerGenerated]
-    internal Shape(int _tag) =>
+    internal Shape(int _tag)
+    {
         this._tag = _tag;
+    }
 
     [CompilationMapping(SourceConstructFlags.UnionCase, 1)]
-    public static Shape NewCircle(double _radius) =>
-        new Circle(_radius);
+    public static Shape NewCircle(double _radius)
+    {
+        return new Circle(_radius);
+    }
 
     [CompilationMapping(SourceConstructFlags.UnionCase, 2)]
-    public static Shape NewPrism(double _width, double item2, double _height) =>
-        new Prism(_width, item2, _height);
+    public static Shape NewPrism(double _width, double item2, double _height)
+    {
+        return new Prism(_width, item2, _height);
+    }
 
     [CompilationMapping(SourceConstructFlags.UnionCase, 0)]
-    public static Shape NewRectangle(double _width, double _length) =>
-        new Rectangle(_width, _length);
+    public static Shape NewRectangle(double _width, double _length)
+    {
+        return new Rectangle(_width, _length);
+    }
 
     [CompilerGenerated, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public static Shape Empty
@@ -86,8 +96,10 @@ public class Shape
 
         // Methods
         [CompilerGenerated, DebuggerNonUserCode]
-        internal Circle(double _radius) : base(1) =>
+        internal Circle(double _radius) : base(1)
+        {
             this._radius = _radius;
+        }
 
         // Properties
         [CompilationMapping(SourceConstructFlags.Field, 1, 0), CompilerGenerated, DebuggerNonUserCode]

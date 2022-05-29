@@ -20,8 +20,10 @@ public class JsonWriterException : JsonException
     /// </summary>
     /// <param name="path">The path to the JSON where the error occurred.</param>
     public JsonWriterException(string message, string path)
-        : base(message) =>
+        : base(message)
+    {
         Path = path;
+    }
 
     internal static JsonWriterException Create(JsonWriter writer, string message)
     {

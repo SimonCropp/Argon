@@ -30,8 +30,10 @@ public class ErrorHandlingAttribute : TestFixtureBase
         public string Title { get; set; }
 
         [OnError]
-        internal void OnError(StreamingContext context, ErrorContext errorContext) =>
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
             errorContext.Handled = true;
+        }
     }
 
     #endregion

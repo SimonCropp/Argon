@@ -10,8 +10,10 @@ public class PersonWithPrivateConstructor
     {
     }
 
-    public static PersonWithPrivateConstructor CreatePerson() =>
-        new();
+    public static PersonWithPrivateConstructor CreatePerson()
+    {
+        return new();
+    }
 
     public string Name { get; set; }
 

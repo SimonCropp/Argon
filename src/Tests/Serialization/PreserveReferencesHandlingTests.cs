@@ -18,17 +18,23 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         public ContentB B { get; set; }
 
-        public ContentA() =>
+        public ContentA()
+        {
             B = new();
+        }
     }
 
     public class ListConverter : JsonConverter
     {
-        public override bool CanConvert(Type type) =>
-            true;
+        public override bool CanConvert(Type type)
+        {
+            return true;
+        }
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-            new ContentA {B = serializer.Deserialize<ContentB>(reader)}; // Construct my data back.
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+        {
+            return new ContentA {B = serializer.Deserialize<ContentB>(reader)}; // Construct my data back.
+        }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -477,8 +483,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             return circularReferenceClass;
         }
 
-        public override bool CanConvert(Type type) =>
-            type == typeof(CircularReferenceClass);
+        public override bool CanConvert(Type type)
+        {
+            return type == typeof(CircularReferenceClass);
+        }
     }
 
     [Fact]
@@ -619,8 +627,10 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         public int Value { get; }
 
-        public Condition(int value) =>
+        public Condition(int value)
+        {
             Value = value;
+        }
     }
 
     class ClassWithConditions
@@ -987,11 +997,15 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         #region methods
 
-        public override int GetHashCode() =>
-            SecretType.GetHashCode();
+        public override int GetHashCode()
+        {
+            return SecretType.GetHashCode();
+        }
 
-        public override string ToString() =>
-            $"SecretType: {secretType}, Login: {Login}";
+        public override string ToString()
+        {
+            return $"SecretType: {secretType}, Login: {Login}";
+        }
 
         #endregion
     }

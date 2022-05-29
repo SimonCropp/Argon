@@ -29,8 +29,10 @@ public class Logger
 
 public static class LogManager
 {
-    public static Logger GetLogger(string className) =>
-        new();
+    public static Logger GetLogger(string className)
+    {
+        return new();
+    }
 }
 
 public class TraceWriterTests : TestFixtureBase

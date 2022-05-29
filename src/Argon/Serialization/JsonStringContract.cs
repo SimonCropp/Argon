@@ -13,6 +13,8 @@ public class JsonStringContract : JsonPrimitiveContract
     /// Initializes a new instance of the <see cref="JsonStringContract" /> class.
     /// </summary>
     public JsonStringContract(Type underlyingType)
-        : base(underlyingType) =>
+        : base(underlyingType)
+    {
         ContractType = JsonContractType.String;
+    }
 }

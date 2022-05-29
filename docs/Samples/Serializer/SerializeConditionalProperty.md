@@ -10,12 +10,14 @@ public class Employee
     public string Name { get; set; }
     public Employee Manager { get; set; }
 
-    public bool ShouldSerializeManager() =>
+    public bool ShouldSerializeManager()
+    {
         // don't serialize the Manager property if an employee is their own manager
-        Manager != this;
+        return Manager != this;
+    }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L7-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeConditionalPropertyUsage -->
@@ -51,5 +53,5 @@ Console.WriteLine(json);
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L24-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L26-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

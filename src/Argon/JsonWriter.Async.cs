@@ -437,8 +437,10 @@ public abstract partial class JsonWriter
         return AsyncUtils.CompletedTask;
     }
 
-    internal Task InternalWriteCommentAsync(CancellationToken cancellation) =>
-        AutoCompleteAsync(JsonToken.Comment, cancellation);
+    internal Task InternalWriteCommentAsync(CancellationToken cancellation)
+    {
+        return AutoCompleteAsync(JsonToken.Comment, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously writes raw JSON where a value is expected and updates the writer's state.
@@ -471,21 +473,27 @@ public abstract partial class JsonWriter
     /// <summary>
     /// Asynchronously writes the current <see cref="JsonReader" /> token.
     /// </summary>
-    public Task WriteTokenAsync(JsonReader reader, CancellationToken cancellation = default) =>
-        WriteTokenAsync(reader, true, cancellation);
+    public Task WriteTokenAsync(JsonReader reader, CancellationToken cancellation = default)
+    {
+        return WriteTokenAsync(reader, true, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously writes the current <see cref="JsonReader" /> token.
     /// </summary>
     /// <param name="writeChildren">A flag indicating whether the current token's children should be written.</param>
-    public Task WriteTokenAsync(JsonReader reader, bool writeChildren, CancellationToken cancellation = default) =>
-        WriteTokenAsync(reader, writeChildren, true, true, cancellation);
+    public Task WriteTokenAsync(JsonReader reader, bool writeChildren, CancellationToken cancellation = default)
+    {
+        return WriteTokenAsync(reader, writeChildren, true, true, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously writes the <see cref="JsonToken" /> token and its value.
     /// </summary>
-    public Task WriteTokenAsync(JsonToken token, CancellationToken cancellation = default) =>
-        WriteTokenAsync(token, null, cancellation);
+    public Task WriteTokenAsync(JsonToken token, CancellationToken cancellation = default)
+    {
+        return WriteTokenAsync(token, null, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously writes the <see cref="JsonToken" /> token and its value.

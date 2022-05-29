@@ -16,6 +16,8 @@ public class GameObject
     [JsonProperty]
     public ConcurrentDictionary<string, Component> Components;
 
-    public GameObject() =>
+    public GameObject()
+    {
         Components = new();
+    }
 }

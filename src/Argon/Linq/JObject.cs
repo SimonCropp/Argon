@@ -51,8 +51,10 @@ public partial class JObject :
     /// <summary>
     /// Initializes a new instance of the <see cref="JObject" /> class with the specified content.
     /// </summary>
-    public JObject(object content) =>
+    public JObject(object content)
+    {
         Add(content);
+    }
 
     internal override bool DeepEquals(JToken node)
     {
@@ -160,8 +162,10 @@ public partial class JObject :
         return false;
     }
 
-    internal override JToken CloneToken() =>
-        new JObject(this);
+    internal override JToken CloneToken()
+    {
+        return new JObject(this);
+    }
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken" />.
@@ -172,8 +176,10 @@ public partial class JObject :
     /// Gets an <see cref="IEnumerable{T}" /> of <see cref="JProperty" /> of this object's properties.
     /// </summary>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JProperty" /> of this object's properties.</returns>
-    public IEnumerable<JProperty> Properties() =>
-        properties.Cast<JProperty>();
+    public IEnumerable<JProperty> Properties()
+    {
+        return properties.Cast<JProperty>();
+    }
 
     /// <summary>
     /// Gets the <see cref="JProperty" /> with the specified name.
@@ -227,8 +233,10 @@ public partial class JObject :
     /// Gets a <see cref="JEnumerable{T}" /> of <see cref="JToken" /> of this object's property values.
     /// </summary>
     /// <returns>A <see cref="JEnumerable{T}" /> of <see cref="JToken" /> of this object's property values.</returns>
-    public JEnumerable<JToken> PropertyValues() =>
-        new(Properties().Select(p => p.Value));
+    public JEnumerable<JToken> PropertyValues()
+    {
+        return new(Properties().Select(p => p.Value));
+    }
 
     /// <summary>
     /// Gets the <see cref="JToken" /> with the specified key.
@@ -288,8 +296,10 @@ public partial class JObject :
     /// <exception cref="JsonReaderException">
     /// <paramref name="reader" /> is not valid JSON.
     /// </exception>
-    public new static JObject Load(JsonReader reader) =>
-        Load(reader, null);
+    public new static JObject Load(JsonReader reader)
+    {
+        return Load(reader, null);
+    }
 
     /// <summary>
     /// Loads a <see cref="JObject" /> from a <see cref="JsonReader" />.
@@ -339,8 +349,10 @@ public partial class JObject :
     /// <example>
     /// <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParse" title="Parsing a JSON Object from Text" />
     /// </example>
-    public new static JObject Parse(string json) =>
-        Parse(json, null);
+    public new static JObject Parse(string json)
+    {
+        return Parse(json, null);
+    }
 
     /// <summary>
     /// Load a <see cref="JObject" /> from a string that contains JSON.
@@ -375,8 +387,10 @@ public partial class JObject :
     /// </summary>
     /// <param name="o">The object that will be used to create <see cref="JObject" />.</param>
     /// <returns>A <see cref="JObject" /> with the values of the specified object.</returns>
-    public new static JObject FromObject(object o) =>
-        FromObject(o, JsonSerializer.CreateDefault());
+    public new static JObject FromObject(object o)
+    {
+        return FromObject(o, JsonSerializer.CreateDefault());
+    }
 
     /// <summary>
     /// Creates a <see cref="JObject" /> from an object.
@@ -416,8 +430,10 @@ public partial class JObject :
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <returns>The <see cref="Argon.JToken" /> with the specified property name.</returns>
-    public JToken? GetValue(string? propertyName) =>
-        GetValue(propertyName, StringComparison.Ordinal);
+    public JToken? GetValue(string? propertyName)
+    {
+        return GetValue(propertyName, StringComparison.Ordinal);
+    }
 
     /// <summary>
     /// Gets the <see cref="Argon.JToken" /> with the specified property name.
@@ -460,16 +476,20 @@ public partial class JObject :
     /// Adds the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    public void Add(string propertyName, JToken? value) =>
+    public void Add(string propertyName, JToken? value)
+    {
         Add(new JProperty(propertyName, value));
+    }
 
     /// <summary>
     /// Determines whether the JSON object has the specified property name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <returns><c>true</c> if the JSON object has the specified property name; otherwise, <c>false</c>.</returns>
-    public bool ContainsKey(string propertyName) =>
-        properties.Contains(propertyName);
+    public bool ContainsKey(string propertyName)
+    {
+        return properties.Contains(propertyName);
+    }
 
     ICollection<string> IDictionary<string, JToken?>.Keys => properties.Keys;
 
@@ -514,11 +534,15 @@ public partial class JObject :
 
     #region ICollection<KeyValuePair<string,JToken>> Members
 
-    void ICollection<KeyValuePair<string, JToken?>>.Add(KeyValuePair<string, JToken?> item) =>
+    void ICollection<KeyValuePair<string, JToken?>>.Add(KeyValuePair<string, JToken?> item)
+    {
         Add(new JProperty(item.Key, item.Value));
+    }
 
-    void ICollection<KeyValuePair<string, JToken?>>.Clear() =>
+    void ICollection<KeyValuePair<string, JToken?>>.Clear()
+    {
         RemoveAll();
+    }
 
     bool ICollection<KeyValuePair<string, JToken?>>.Contains(KeyValuePair<string, JToken?> item)
     {
@@ -571,8 +595,10 @@ public partial class JObject :
 
     #endregion
 
-    internal override int GetDeepHashCode() =>
-        ContentsHashCode();
+    internal override int GetDeepHashCode()
+    {
+        return ContentsHashCode();
+    }
 
     /// <summary>
     /// Returns an enumerator that can be used to iterate through the collection.
@@ -595,8 +621,10 @@ public partial class JObject :
     /// <returns>
     /// The <see cref="DynamicMetaObject" /> to bind this object.
     /// </returns>
-    protected override DynamicMetaObject GetMetaObject(Expression parameter) =>
-        new DynamicProxyMetaObject<JObject>(parameter, this, new JObjectDynamicProxy());
+    protected override DynamicMetaObject GetMetaObject(Expression parameter)
+    {
+        return new DynamicProxyMetaObject<JObject>(parameter, this, new JObjectDynamicProxy());
+    }
 
     class JObjectDynamicProxy : DynamicProxy<JObject>
     {
@@ -619,7 +647,9 @@ public partial class JObject :
             return true;
         }
 
-        public override IEnumerable<string> GetDynamicMemberNames(JObject instance) =>
-            instance.Properties().Select(p => p.Name);
+        public override IEnumerable<string> GetDynamicMemberNames(JObject instance)
+        {
+            return instance.Properties().Select(p => p.Name);
+        }
     }
 }

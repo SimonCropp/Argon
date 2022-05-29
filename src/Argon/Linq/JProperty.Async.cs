@@ -46,8 +46,10 @@ public partial class JProperty
     /// A <see cref="Task{TResult}" /> representing the asynchronous creation. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static Task<JProperty> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
-        LoadAsync(reader, null, cancellation);
+    public new static Task<JProperty> LoadAsync(JsonReader reader, CancellationToken cancellation = default)
+    {
+        return LoadAsync(reader, null, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously loads a <see cref="JProperty" /> from a <see cref="JsonReader" />.

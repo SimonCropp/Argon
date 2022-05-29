@@ -7,16 +7,22 @@
 public class Issue1757 : TestFixtureBase
 {
     [Fact]
-    public void Test_Serialize() =>
+    public void Test_Serialize()
+    {
         JsonConvert.SerializeObject(new TestObject());
+    }
 
     [Fact]
-    public void Test_SerializeEncoding() =>
+    public void Test_SerializeEncoding()
+    {
         JsonConvert.SerializeObject(Encoding.UTF8);
+    }
 
     [Fact]
-    public void Test_Deserialize() =>
+    public void Test_Deserialize()
+    {
         JsonConvert.DeserializeObject<TestObject>(@"{'Room':{},'RefLike':{}}");
+    }
 
     public class TestObject
     {
@@ -40,14 +46,19 @@ public class Issue1757 : TestFixtureBase
             get => default;
             set { }
         }
-        static void DoNothing(Span<int> param) =>
+        static void DoNothing(Span<int> param)
+        {
             throw new InvalidOperationException("Should never be called.");
+        }
+        public string PrintMySpan(string str, Span<int> mySpan = default)
+        {
+            return str;
+        }
 
-        public string PrintMySpan(string str, Span<int> mySpan = default) =>
-            str;
-
-        public Span<int> GetSpan(int[] array) =>
-            array.AsSpan();
+        public Span<int> GetSpan(int[] array)
+        {
+            return array.AsSpan();
+        }
     }
 
     public ref struct MyByRefLikeType

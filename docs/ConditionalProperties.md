@@ -15,12 +15,14 @@ public class Employee
     public string Name { get; set; }
     public Employee Manager { get; set; }
 
-    public bool ShouldSerializeManager() =>
+    public bool ShouldSerializeManager()
+    {
         // don't serialize the Manager property if an employee is their own manager
-        Manager != this;
+        return Manager != this;
+    }
 }
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L41-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-employeeshouldserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L41-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-employeeshouldserializeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ShouldSerializeClassTest -->
@@ -54,7 +56,7 @@ var json = JsonConvert.SerializeObject(new[] {joe, mike}, Formatting.Indented);
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L58-L88' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializeclasstest' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConditionalPropertiesTests.cs#L60-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializeclasstest' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

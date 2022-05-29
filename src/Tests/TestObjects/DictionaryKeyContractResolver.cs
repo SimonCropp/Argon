@@ -6,8 +6,10 @@ namespace TestObjects;
 
 public class DictionaryKeyContractResolver : DefaultContractResolver
 {
-    protected override string ResolveDictionaryKey(string dictionaryKey) =>
-        dictionaryKey;
+    protected override string ResolveDictionaryKey(string dictionaryKey)
+    {
+        return dictionaryKey;
+    }
 
     protected override string ResolvePropertyName(string propertyName)
     {

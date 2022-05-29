@@ -6,11 +6,15 @@ public class UnmanagedResourceFakingJsonReader : JsonReader
 {
     public static int DisposalCalls;
 
-    public static void CreateAndDispose() =>
+    public static void CreateAndDispose()
+    {
         ((IDisposable)new UnmanagedResourceFakingJsonReader()).Dispose();
+    }
 
-    public UnmanagedResourceFakingJsonReader() =>
+    public UnmanagedResourceFakingJsonReader()
+    {
         DisposalCalls = 0;
+    }
 
     protected override void Dispose(bool disposing)
     {
@@ -18,27 +22,43 @@ public class UnmanagedResourceFakingJsonReader : JsonReader
         ++DisposalCalls;
     }
 
-    ~UnmanagedResourceFakingJsonReader() =>
+    ~UnmanagedResourceFakingJsonReader()
+    {
         Dispose(false);
+    }
 
-    public override bool Read() =>
+    public override bool Read()
+    {
         throw new NotImplementedException();
+    }
 
-    public override byte[] ReadAsBytes() =>
+    public override byte[] ReadAsBytes()
+    {
         throw new NotImplementedException();
+    }
 
-    public override DateTime? ReadAsDateTime() =>
+    public override DateTime? ReadAsDateTime()
+    {
         throw new NotImplementedException();
+    }
 
-    public override DateTimeOffset? ReadAsDateTimeOffset() =>
+    public override DateTimeOffset? ReadAsDateTimeOffset()
+    {
         throw new NotImplementedException();
+    }
 
-    public override decimal? ReadAsDecimal() =>
+    public override decimal? ReadAsDecimal()
+    {
         throw new NotImplementedException();
+    }
 
-    public override int? ReadAsInt32() =>
+    public override int? ReadAsInt32()
+    {
         throw new NotImplementedException();
+    }
 
-    public override string ReadAsString() =>
+    public override string ReadAsString()
+    {
         throw new NotImplementedException();
+    }
 }

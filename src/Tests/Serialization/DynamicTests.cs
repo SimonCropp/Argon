@@ -105,7 +105,8 @@ public class DynamicTests : TestFixtureBase
     }
 
     [Fact]
-    public void NoPublicDefaultConstructor() =>
+    public void NoPublicDefaultConstructor()
+    {
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
@@ -120,13 +121,16 @@ public class DynamicTests : TestFixtureBase
                 JsonConvert.DeserializeObject<DynamicObject>(json, settings);
             },
             "Unable to find a default constructor to use for type System.Dynamic.DynamicObject. Path 'contributors', line 2, position 17.");
+    }
 
     public class DictionaryDynamicObject : DynamicObject
     {
         public IDictionary<string, object> Values { get; }
 
-        protected DictionaryDynamicObject() =>
+        protected DictionaryDynamicObject()
+        {
             Values = new Dictionary<string, object>();
+        }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
@@ -288,11 +292,15 @@ public class TestDynamicObject : DynamicObject
 
     internal Dictionary<string, object> Members { get; }
 
-    public TestDynamicObject() =>
+    public TestDynamicObject()
+    {
         Members = new();
+    }
 
-    public override IEnumerable<string> GetDynamicMemberNames() =>
-        Members.Keys.Union(new[] {"Int", "ChildObject"});
+    public override IEnumerable<string> GetDynamicMemberNames()
+    {
+        return Members.Keys.Union(new[] {"Int", "ChildObject"});
+    }
 
     public override bool TryConvert(ConvertBinder binder, out object result)
     {
@@ -308,11 +316,15 @@ public class TestDynamicObject : DynamicObject
         return base.TryConvert(binder, out result);
     }
 
-    public override bool TryDeleteMember(DeleteMemberBinder binder) =>
-        Members.Remove(binder.Name);
+    public override bool TryDeleteMember(DeleteMemberBinder binder)
+    {
+        return Members.Remove(binder.Name);
+    }
 
-    public override bool TryGetMember(GetMemberBinder binder, out object result) =>
-        Members.TryGetValue(binder.Name, out result);
+    public override bool TryGetMember(GetMemberBinder binder, out object result)
+    {
+        return Members.TryGetValue(binder.Name, out result);
+    }
 
     public override bool TrySetMember(SetMemberBinder binder, object value)
     {
@@ -322,7 +334,9 @@ public class TestDynamicObject : DynamicObject
 
     public class ErrorSettingDynamicObject : DynamicObject
     {
-        public override bool TrySetMember(SetMemberBinder binder, object value) =>
-            false;
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            return false;
+        }
     }
 }

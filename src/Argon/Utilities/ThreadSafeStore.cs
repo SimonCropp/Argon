@@ -13,6 +13,8 @@ class ThreadSafeStore<TKey, TValue> where TKey : notnull
         concurrentStore = new();
     }
 
-    public TValue Get(TKey key) =>
-        concurrentStore.GetOrAdd(key, creator);
+    public TValue Get(TKey key)
+    {
+        return concurrentStore.GetOrAdd(key, creator);
+    }
 }

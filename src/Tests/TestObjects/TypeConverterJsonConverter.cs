@@ -39,6 +39,8 @@ class TypeConverterJsonConverter : JsonConverter
         return converter.ConvertFromInvariantString(reader.Value.ToString());
     }
 
-    public override bool CanConvert(Type type) =>
-        GetConverter(type) != null;
+    public override bool CanConvert(Type type)
+    {
+        return GetConverter(type) != null;
+    }
 }

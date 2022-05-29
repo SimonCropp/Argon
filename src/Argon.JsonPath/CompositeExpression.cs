@@ -2,8 +2,10 @@
 {
     public List<QueryExpression> Expressions { get; set; }
 
-    public CompositeExpression(QueryOperator @operator) : base(@operator) =>
+    public CompositeExpression(QueryOperator @operator) : base(@operator)
+    {
         Expressions = new();
+    }
 
     public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)
     {

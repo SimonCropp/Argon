@@ -227,6 +227,8 @@ public class DataTableConverter : JsonConverter
     /// <returns>
     /// <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type valueType) =>
-        typeof(DataTable).IsAssignableFrom(valueType);
+    public override bool CanConvert(Type valueType)
+    {
+        return typeof(DataTable).IsAssignableFrom(valueType);
+    }
 }

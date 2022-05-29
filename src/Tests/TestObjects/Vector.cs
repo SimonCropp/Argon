@@ -10,6 +10,8 @@ public struct Vector
     public float Y;
     public float Z;
 
-    public override string ToString() =>
-        $"({X},{Y},{Z})";
+    public override string ToString()
+    {
+        return $"({X},{Y},{Z})";
+    }
 }

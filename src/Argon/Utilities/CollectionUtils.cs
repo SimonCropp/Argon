@@ -17,10 +17,12 @@ static class CollectionUtils
         }
     }
 
-    public static bool IsDictionaryType(Type type) =>
-        typeof(IDictionary).IsAssignableFrom(type) ||
-        type.ImplementsGenericDefinition(typeof(IDictionary<,>)) ||
-        type.ImplementsGenericDefinition(typeof(IReadOnlyDictionary<,>));
+    public static bool IsDictionaryType(Type type)
+    {
+        return typeof(IDictionary).IsAssignableFrom(type) ||
+               type.ImplementsGenericDefinition(typeof(IDictionary<,>)) ||
+               type.ImplementsGenericDefinition(typeof(IReadOnlyDictionary<,>));
+    }
 
     public static ConstructorInfo? ResolveEnumerableCollectionConstructor(Type collectionType, Type collectionItemType)
     {

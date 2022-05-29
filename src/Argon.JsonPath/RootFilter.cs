@@ -6,6 +6,8 @@ class RootFilter : PathFilter
     {
     }
 
-    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings) =>
-        new[] {root};
+    public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
+    {
+        return new[] {root};
+    }
 }

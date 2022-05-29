@@ -36,14 +36,20 @@ public class SerializationEventTestDictionary : Dictionary<decimal, string>
     }
 
     [OnSerialized]
-    internal void OnSerializedMethod(StreamingContext context) =>
+    internal void OnSerializedMethod(StreamingContext context)
+    {
         Member2 = "This value was reset after serialization.";
+    }
 
     [OnDeserializing]
-    internal void OnDeserializingMethod(StreamingContext context) =>
+    internal void OnDeserializingMethod(StreamingContext context)
+    {
         Member3 = "This value was set during deserialization";
+    }
 
     [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context) =>
+    internal void OnDeserializedMethod(StreamingContext context)
+    {
         Member4 = "This value was set after deserialization.";
+    }
 }

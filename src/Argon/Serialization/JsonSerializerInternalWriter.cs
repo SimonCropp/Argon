@@ -56,8 +56,10 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
     }
 
-    JsonSerializerProxy GetInternalSerializer() =>
-        InternalSerializer ??= new(this);
+    JsonSerializerProxy GetInternalSerializer()
+    {
+        return InternalSerializer ??= new(this);
+    }
 
     JsonContract? GetContractSafe(object? value)
     {
@@ -69,8 +71,10 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return GetContract(value);
     }
 
-    JsonContract GetContract(object value) =>
-        Serializer.ResolveContract(value.GetType());
+    JsonContract GetContract(object value)
+    {
+        return Serializer.ResolveContract(value.GetType());
+    }
 
     void SerializePrimitive(JsonWriter writer, object value, JsonPrimitiveContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {

@@ -10,8 +10,10 @@ public class DynamicContractResolver : DefaultContractResolver
 {
     readonly char startingWithChar;
 
-    public DynamicContractResolver(char startingWithChar) =>
+    public DynamicContractResolver(char startingWithChar)
+    {
         this.startingWithChar = startingWithChar;
+    }
 
     protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
     {
@@ -30,8 +32,10 @@ public class EscapedPropertiesContractResolver : DefaultContractResolver
     public string PropertyPrefix { get; set; }
     public string PropertySuffix { get; set; }
 
-    protected override string ResolvePropertyName(string propertyName) =>
-        base.ResolvePropertyName(PropertyPrefix + propertyName + PropertySuffix);
+    protected override string ResolvePropertyName(string propertyName)
+    {
+        return base.ResolvePropertyName(PropertyPrefix + propertyName + PropertySuffix);
+    }
 }
 
 public class Book
@@ -600,8 +604,10 @@ public class ContractResolverTests : TestFixtureBase
         public string Prop1 { get; set; }
         public string Prop2 { get; set; }
 
-        public bool ShouldSerializeProp1() =>
-            false;
+        public bool ShouldSerializeProp1()
+        {
+            return false;
+        }
     }
 
     [Fact]
@@ -649,8 +655,10 @@ public class ContractResolverTests : TestFixtureBase
         public event Func<bool> Prop4Specified;
         public static bool Prop5Specified;
 
-        protected virtual bool OnProp4Specified() =>
-            Prop4Specified?.Invoke() ?? false;
+        protected virtual bool OnProp4Specified()
+        {
+            return Prop4Specified?.Invoke() ?? false;
+        }
     }
 
     [Fact]

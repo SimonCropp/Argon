@@ -13,8 +13,10 @@ readonly struct StructMultiKey<T1, T2> : IEquatable<StructMultiKey<T1, T2>>
         Value2 = v2;
     }
 
-    public override int GetHashCode() =>
-        (Value1?.GetHashCode() ?? 0) ^ (Value2?.GetHashCode() ?? 0);
+    public override int GetHashCode()
+    {
+        return (Value1?.GetHashCode() ?? 0) ^ (Value2?.GetHashCode() ?? 0);
+    }
 
     public override bool Equals(object? obj)
     {
@@ -26,6 +28,8 @@ readonly struct StructMultiKey<T1, T2> : IEquatable<StructMultiKey<T1, T2>>
         return false;
     }
 
-    public bool Equals(StructMultiKey<T1, T2> other) =>
-        Equals(Value1, other.Value1) && Equals(Value2, other.Value2);
+    public bool Equals(StructMultiKey<T1, T2> other)
+    {
+        return Equals(Value1, other.Value1) && Equals(Value2, other.Value2);
+    }
 }

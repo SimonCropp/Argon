@@ -5,10 +5,12 @@
 public class Issue2165
 {
     [Fact]
-    public void Test_Deserializer() =>
+    public void Test_Deserializer()
+    {
         XUnitAssert.Throws<JsonWriterException>(
             () => JsonConvert.DeserializeObject<JObject>("{"),
             "Unexpected end when reading token. Path ''.");
+    }
 
     [Fact]
     public void Test()

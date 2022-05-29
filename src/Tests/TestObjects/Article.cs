@@ -12,6 +12,8 @@ public class Article
     {
     }
 
-    public Article(string name) =>
+    public Article(string name)
+    {
         Name = name;
+    }
 }

@@ -34,6 +34,8 @@ public class DataContractPrivateMembers
 
     public string NotIncluded { get; set; }
 
-    public override string ToString() =>
-        $"_name: {_name}, _age: {Age}, Rank: {Rank}, JsonTitle: {Title}";
+    public override string ToString()
+    {
+        return $"_name: {_name}, _age: {Age}, Rank: {Rank}, JsonTitle: {Title}";
+    }
 }

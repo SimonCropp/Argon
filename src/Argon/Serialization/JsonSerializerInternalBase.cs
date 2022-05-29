@@ -6,12 +6,16 @@ abstract class JsonSerializerInternalBase
 {
     class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
     {
-        bool IEqualityComparer<object>.Equals(object? x, object? y) =>
-            ReferenceEquals(x, y);
+        bool IEqualityComparer<object>.Equals(object? x, object? y)
+        {
+            return ReferenceEquals(x, y);
+        }
 
-        int IEqualityComparer<object>.GetHashCode(object obj) =>
+        int IEqualityComparer<object>.GetHashCode(object obj)
+        {
             // put objects in a bucket based on their reference
-            RuntimeHelpers.GetHashCode(obj);
+            return RuntimeHelpers.GetHashCode(obj);
+        }
     }
 
     ErrorContext? currentErrorContext;
@@ -36,11 +40,13 @@ abstract class JsonSerializerInternalBase
             "A different value already has the Id '{0}'.",
             "A different Id has already been assigned for value '{0}'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.");
 
-    protected NullValueHandling ResolvedNullValueHandling(JsonObjectContract? containerContract, JsonProperty property) =>
-        property.NullValueHandling ??
-        containerContract?.ItemNullValueHandling ??
-        Serializer.NullValueHandling ??
-        default;
+    protected NullValueHandling ResolvedNullValueHandling(JsonObjectContract? containerContract, JsonProperty property)
+    {
+        return property.NullValueHandling ??
+               containerContract?.ItemNullValueHandling ??
+               Serializer.NullValueHandling ??
+               default;
+    }
 
     ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
     {

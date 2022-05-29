@@ -9,16 +9,20 @@ public sealed class Event
     /// <summary>
     /// If no current user is specified, returns Nothing (0 from VB)
     /// </summary>
-    static int GetCurrentUserId() =>
-        0;
+    static int GetCurrentUserId()
+    {
+        return 0;
+    }
 
     /// <summary>
     /// Gets either the application path or the current stack trace.
     /// NOTE: You MUST call this from the top level entry point. Otherwise,
     /// the stack trace will be buried in Logger itself.
     /// </summary>
-    static string GetCurrentSubLocation() =>
-        "";
+    static string GetCurrentSubLocation()
+    {
+        return "";
+    }
 
     public Event(string summary)
     {
@@ -53,8 +57,10 @@ public sealed class Event
         Sublocation ??= GetCurrentSubLocation();
     }
 
-    public override string ToString() =>
-        $"{{ subLocation = {Sublocation}, userId = {UserId}, type = {Type}, summary = {Summary}, details = {Details}, stackTrace = {stackTrace}, tag = {Tag} }}";
+    public override string ToString()
+    {
+        return $"{{ subLocation = {Sublocation}, userId = {UserId}, type = {Type}, summary = {Summary}, details = {Details}, stackTrace = {stackTrace}, tag = {Tag} }}";
+    }
 
     public string Sublocation { get; set; }
 

@@ -21,16 +21,20 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     /// <summary>
     /// Initializes a new instance of the <see cref="JTokenReader" /> class.
     /// </summary>
-    public JTokenReader(JToken token) =>
+    public JTokenReader(JToken token)
+    {
         root = token;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JTokenReader" /> class.
     /// </summary>
     /// <param name="initialPath">The initial path of the token. It is prepended to the returned <see cref="Path" />.</param>
     public JTokenReader(JToken token, string initialPath)
-        : this(token) =>
+        : this(token)
+    {
         this.initialPath = initialPath;
+    }
 
     /// <summary>
     /// Reads the next JSON token from the underlying <see cref="JToken" />.
@@ -207,8 +211,10 @@ public class JTokenReader : JsonReader, IJsonLineInfo
         }
     }
 
-    static string? SafeToString(object? value) =>
-        value?.ToString();
+    static string? SafeToString(object? value)
+    {
+        return value?.ToString();
+    }
 
     bool IJsonLineInfo.HasLineInfo()
     {

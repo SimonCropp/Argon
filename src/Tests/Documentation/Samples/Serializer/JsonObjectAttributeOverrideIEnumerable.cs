@@ -12,14 +12,20 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
         public string Name { get; set; }
         public IList<string> Files { get; set; }
 
-        public Directory() =>
+        public Directory()
+        {
             Files = new List<string>();
+        }
 
-        public IEnumerator<string> GetEnumerator() =>
-            Files.GetEnumerator();
+        public IEnumerator<string> GetEnumerator()
+        {
+            return Files.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     #endregion

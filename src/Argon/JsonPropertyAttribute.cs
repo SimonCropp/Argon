@@ -175,6 +175,8 @@ public sealed class JsonPropertyAttribute : Attribute
     /// Initializes a new instance of the <see cref="JsonPropertyAttribute" /> class with the specified name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    public JsonPropertyAttribute(string propertyName) =>
+    public JsonPropertyAttribute(string propertyName)
+    {
         PropertyName = propertyName;
+    }
 }

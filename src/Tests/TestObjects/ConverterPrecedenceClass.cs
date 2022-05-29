@@ -9,6 +9,8 @@ public class ConverterPrecedenceClass
 {
     public string TestValue { get; set; }
 
-    public ConverterPrecedenceClass(string testValue) =>
+    public ConverterPrecedenceClass(string testValue)
+    {
         TestValue = testValue;
+    }
 }

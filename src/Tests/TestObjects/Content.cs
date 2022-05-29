@@ -13,9 +13,13 @@ public class Content : IEnumerable<Content>
     [JsonProperty]
     public string Text;
 
-    public IEnumerator GetEnumerator() =>
-        Children.GetEnumerator();
+    public IEnumerator GetEnumerator()
+    {
+        return Children.GetEnumerator();
+    }
 
-    IEnumerator<Content> IEnumerable<Content>.GetEnumerator() =>
-        Children.GetEnumerator();
+    IEnumerator<Content> IEnumerable<Content>.GetEnumerator()
+    {
+        return Children.GetEnumerator();
+    }
 }

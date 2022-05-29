@@ -10,8 +10,10 @@ public class CustomJsonConverter : TestFixtureBase
     {
         readonly Type[] _types;
 
-        public KeysJsonConverter(params Type[] types) =>
+        public KeysJsonConverter(params Type[] types)
+        {
             _types = types;
+        }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -32,13 +34,17 @@ public class CustomJsonConverter : TestFixtureBase
             }
         }
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+        {
             throw new NotImplementedException("Unnecessary because CanRead is false. The type will skip the converter.");
+        }
 
         public override bool CanRead => false;
 
-        public override bool CanConvert(Type type) =>
-            _types.Any(t => t == type);
+        public override bool CanConvert(Type type)
+        {
+            return _types.Any(t => t == type);
+        }
     }
 
     public class Employee

@@ -11,8 +11,10 @@ public class DecimalTest : Test<decimal>
     {
     }
 
-    public DecimalTest(decimal val) =>
+    public DecimalTest(decimal val)
+    {
         Value = val;
+    }
 
     [JsonProperty]
     public override decimal Value { get; set; }

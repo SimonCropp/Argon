@@ -6,8 +6,10 @@ namespace TestObjects;
 
 public class WidgetIdJsonConverter : JsonConverter
 {
-    public override bool CanConvert(Type type) =>
-        type == typeof(WidgetId1) || type == typeof(WidgetId1?);
+    public override bool CanConvert(Type type)
+    {
+        return type == typeof(WidgetId1) || type == typeof(WidgetId1?);
+    }
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {

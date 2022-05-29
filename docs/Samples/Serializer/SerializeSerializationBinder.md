@@ -9,8 +9,10 @@ public class KnownTypesBinder : ISerializationBinder
 {
     public IList<Type> KnownTypes { get; set; }
 
-    public Type BindToType(string assemblyName, string typeName) =>
-        KnownTypes.SingleOrDefault(t => t.Name == typeName);
+    public Type BindToType(string assemblyName, string typeName)
+    {
+        return KnownTypes.SingleOrDefault(t => t.Name == typeName);
+    }
 
     public void BindToName(Type serializedType, out string assemblyName, out string typeName)
     {
@@ -25,7 +27,7 @@ public class Car
     public string Model { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L7-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbindertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L7-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbindertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeSerializationBinderUsage -->
@@ -64,5 +66,5 @@ var newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
 Console.WriteLine(newValue.GetType().Name);
 // Car
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L34-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbinderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L36-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbinderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

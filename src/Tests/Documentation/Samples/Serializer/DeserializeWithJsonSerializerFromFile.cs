@@ -32,10 +32,14 @@ public class DeserializeWithJsonSerializerFromFile : TestFixtureBase
 
     public static class File
     {
-        public static string ReadAllText(string s) =>
-            "{}";
+        public static string ReadAllText(string s)
+        {
+            return "{}";
+        }
 
-        public static StreamReader OpenText(string s) =>
-            new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
+        public static StreamReader OpenText(string s)
+        {
+            return new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
+        }
     }
 }

@@ -10,8 +10,10 @@ public class NonPublicConstructorWithJsonConstructor
     public string Constructor { get; }
 
     [Argon.JsonConstructor]
-    NonPublicConstructorWithJsonConstructor() =>
+    NonPublicConstructorWithJsonConstructor()
+    {
         Constructor = "NonPublic";
+    }
 
     public NonPublicConstructorWithJsonConstructor(string value)
     {

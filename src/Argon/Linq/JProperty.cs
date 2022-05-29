@@ -23,17 +23,25 @@ public partial class JProperty : JContainer
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
-        public void Add(JToken item) =>
+        public void Add(JToken item)
+        {
             token = item;
+        }
 
-        public void Clear() =>
+        public void Clear()
+        {
             token = null;
+        }
 
-        public bool Contains(JToken item) =>
-            token == item;
+        public bool Contains(JToken item)
+        {
+            return token == item;
+        }
 
         public void CopyTo(JToken[] array, int arrayIndex)
         {
@@ -58,8 +66,10 @@ public partial class JProperty : JContainer
 
         public bool IsReadOnly => false;
 
-        public int IndexOf(JToken item) =>
-            token == item ? 0 : -1;
+        public int IndexOf(JToken item)
+        {
+            return token == item ? 0 : -1;
+        }
 
         public void Insert(int index, JToken item)
         {
@@ -139,8 +149,10 @@ public partial class JProperty : JContainer
     /// </summary>
     /// <param name="other">A <see cref="JProperty" /> object to copy from.</param>
     public JProperty(JProperty other)
-        : base(other) =>
+        : base(other)
+    {
         Name = other.Name;
+    }
 
     internal override JToken GetItem(int index)
     {
@@ -167,11 +179,15 @@ public partial class JProperty : JContainer
         base.SetItem(0, item);
     }
 
-    internal override bool RemoveItem(JToken? item) =>
+    internal override bool RemoveItem(JToken? item)
+    {
         throw new JsonException($"Cannot add or remove items from {typeof(JProperty)}.");
+    }
 
-    internal override void RemoveItemAt(int index) =>
+    internal override void RemoveItemAt(int index)
+    {
         throw new JsonException($"Cannot add or remove items from {typeof(JProperty)}.");
+    }
 
     internal override int IndexOfItem(JToken? item)
     {
@@ -199,8 +215,10 @@ public partial class JProperty : JContainer
         return base.InsertItem(0, item, false);
     }
 
-    internal override bool ContainsItem(JToken? item) =>
-        Value == item;
+    internal override bool ContainsItem(JToken? item)
+    {
+        return Value == item;
+    }
 
     internal override void MergeItem(object content, JsonMergeSettings? settings)
     {
@@ -212,14 +230,20 @@ public partial class JProperty : JContainer
         }
     }
 
-    internal override void ClearItems() =>
+    internal override void ClearItems()
+    {
         throw new JsonException($"Cannot add or remove items from {typeof(JProperty)}.");
+    }
 
-    internal override bool DeepEquals(JToken node) =>
-        node is JProperty t && Name == t.Name && ContentsEqual(t);
+    internal override bool DeepEquals(JToken node)
+    {
+        return node is JProperty t && Name == t.Name && ContentsEqual(t);
+    }
 
-    internal override JToken CloneToken() =>
-        new JProperty(this);
+    internal override JToken CloneToken()
+    {
+        return new JProperty(this);
+    }
 
     /// <summary>
     /// Gets the node type for this <see cref="JToken" />.
@@ -229,9 +253,11 @@ public partial class JProperty : JContainer
         [DebuggerStepThrough] get => JTokenType.Property;
     }
 
-    internal JProperty(string name) =>
+    internal JProperty(string name)
+    {
         // called from JTokenWriter
         Name = name;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JProperty" /> class.
@@ -271,16 +297,20 @@ public partial class JProperty : JContainer
         }
     }
 
-    internal override int GetDeepHashCode() =>
-        Name.GetHashCode() ^ (Value?.GetDeepHashCode() ?? 0);
+    internal override int GetDeepHashCode()
+    {
+        return Name.GetHashCode() ^ (Value?.GetDeepHashCode() ?? 0);
+    }
 
     /// <summary>
     /// Loads a <see cref="JProperty" /> from a <see cref="JsonReader" />.
     /// </summary>
     /// <param name="reader">A <see cref="JsonReader" /> that will be read for the content of the <see cref="JProperty" />.</param>
     /// <returns>A <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
-    public new static JProperty Load(JsonReader reader) =>
-        Load(reader, null);
+    public new static JProperty Load(JsonReader reader)
+    {
+        return Load(reader, null);
+    }
 
     /// <summary>
     /// Loads a <see cref="JProperty" /> from a <see cref="JsonReader" />.

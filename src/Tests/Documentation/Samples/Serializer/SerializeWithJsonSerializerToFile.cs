@@ -38,8 +38,10 @@ public class SerializeWithJsonSerializerToFile : TestFixtureBase
 
     public static class File
     {
-        public static StreamWriter CreateText(string path) =>
-            new(new MemoryStream());
+        public static StreamWriter CreateText(string path)
+        {
+            return new(new MemoryStream());
+        }
 
         public static void WriteAllText(string s1, string s2)
         {

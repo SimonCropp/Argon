@@ -68,13 +68,15 @@ public class ReadTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadAsInt32WithUndefined() =>
+    public void ReadAsInt32WithUndefined()
+    {
         XUnitAssert.Throws<JsonReaderException>(() =>
             {
                 var reader = new JsonTextReader(new StringReader("undefined"));
                 reader.ReadAsInt32();
             },
             "Unexpected character encountered while parsing value: u. Path '', line 1, position 1.");
+    }
 
     [Fact]
     public void ReadAsBoolean()

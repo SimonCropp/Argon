@@ -136,10 +136,14 @@ public class RegexConverter : JsonConverter
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type type) =>
-        type.Name == nameof(Regex) && IsRegex(type);
+    public override bool CanConvert(Type type)
+    {
+        return type.Name == nameof(Regex) && IsRegex(type);
+    }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    static bool IsRegex(Type type) =>
-        type == typeof(Regex);
+    static bool IsRegex(Type type)
+    {
+        return type == typeof(Regex);
+    }
 }

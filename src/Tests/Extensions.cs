@@ -56,8 +56,10 @@ public static class Extensions
         return new(chars, 0, pos);
     }
 
-    public static string BytesToHex(this byte[] bytes) =>
-        BitConverter.ToString(bytes);
+    public static string BytesToHex(this byte[] bytes)
+    {
+        return BitConverter.ToString(bytes);
+    }
 
     public static byte[] HexToBytes(this string hex)
     {

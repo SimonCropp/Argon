@@ -17,14 +17,20 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     readonly IReadOnlyDictionary<TKey, TValue> readOnlyDictionary;
     object syncRoot;
 
-    public DictionaryWrapper(IDictionary dictionary) =>
+    public DictionaryWrapper(IDictionary dictionary)
+    {
         this.dictionary = dictionary;
+    }
 
-    public DictionaryWrapper(IDictionary<TKey, TValue> dictionary) =>
+    public DictionaryWrapper(IDictionary<TKey, TValue> dictionary)
+    {
         genericDictionary = dictionary;
+    }
 
-    public DictionaryWrapper(IReadOnlyDictionary<TKey, TValue> dictionary) =>
+    public DictionaryWrapper(IReadOnlyDictionary<TKey, TValue> dictionary)
+    {
         readOnlyDictionary = dictionary;
+    }
 
     public void Add(TKey key, TValue value)
     {
@@ -326,8 +332,10 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
         return genericDictionary.GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator() =>
-        GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
     void IDictionary.Add(object key, object value)
     {
@@ -388,8 +396,10 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         readonly IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
 
-        public DictionaryEnumerator(IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e) =>
+        public DictionaryEnumerator(IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
+        {
             this.e = e;
+        }
 
         public DictionaryEntry Entry => (DictionaryEntry) Current;
 
@@ -399,11 +409,15 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
         public object Current => new DictionaryEntry(e.Current.Key, e.Current.Value);
 
-        public bool MoveNext() =>
-            e.MoveNext();
+        public bool MoveNext()
+        {
+            return e.MoveNext();
+        }
 
-        public void Reset() =>
+        public void Reset()
+        {
             e.Reset();
+        }
     }
 
     IDictionaryEnumerator IDictionary.GetEnumerator()

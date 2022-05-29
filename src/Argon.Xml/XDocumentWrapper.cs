@@ -37,32 +37,50 @@ class XDocumentWrapper : XContainerWrapper, IXmlDocument
         }
     }
 
-    public IXmlNode CreateComment(string text) =>
-        new XObjectWrapper(new XComment(text));
+    public IXmlNode CreateComment(string text)
+    {
+        return new XObjectWrapper(new XComment(text));
+    }
 
-    public IXmlNode CreateTextNode(string text) =>
-        new XObjectWrapper(new XText(text));
+    public IXmlNode CreateTextNode(string text)
+    {
+        return new XObjectWrapper(new XText(text));
+    }
 
-    public IXmlNode CreateCDataSection(string data) =>
-        new XObjectWrapper(new XCData(data));
+    public IXmlNode CreateCDataSection(string data)
+    {
+        return new XObjectWrapper(new XCData(data));
+    }
 
-    public IXmlNode CreateWhitespace(string text) =>
-        new XObjectWrapper(new XText(text));
+    public IXmlNode CreateWhitespace(string text)
+    {
+        return new XObjectWrapper(new XText(text));
+    }
 
-    public IXmlNode CreateSignificantWhitespace(string text) =>
-        new XObjectWrapper(new XText(text));
+    public IXmlNode CreateSignificantWhitespace(string text)
+    {
+        return new XObjectWrapper(new XText(text));
+    }
 
-    public IXmlNode CreateXmlDeclaration(string? version, string? encoding, string? standalone) =>
-        new XDeclarationWrapper(new(version, encoding, standalone));
+    public IXmlNode CreateXmlDeclaration(string? version, string? encoding, string? standalone)
+    {
+        return new XDeclarationWrapper(new(version, encoding, standalone));
+    }
 
-    public IXmlNode CreateXmlDocumentType(string name, string? publicId, string? systemId, string? internalSubset) =>
-        new XDocumentTypeWrapper(new(name, publicId, systemId, internalSubset));
+    public IXmlNode CreateXmlDocumentType(string name, string? publicId, string? systemId, string? internalSubset)
+    {
+        return new XDocumentTypeWrapper(new(name, publicId, systemId, internalSubset));
+    }
 
-    public IXmlNode CreateProcessingInstruction(string target, string data) =>
-        new XProcessingInstructionWrapper(new(target, data));
+    public IXmlNode CreateProcessingInstruction(string target, string data)
+    {
+        return new XProcessingInstructionWrapper(new(target, data));
+    }
 
-    public IXmlElement CreateElement(string elementName) =>
-        new XElementWrapper(new(elementName));
+    public IXmlElement CreateElement(string elementName)
+    {
+        return new XElementWrapper(new(elementName));
+    }
 
     public IXmlElement CreateElement(string qualifiedName, string namespaceUri)
     {
@@ -70,8 +88,10 @@ class XDocumentWrapper : XContainerWrapper, IXmlDocument
         return new XElementWrapper(new(XName.Get(localName, namespaceUri)));
     }
 
-    public IXmlNode CreateAttribute(string name, string value) =>
-        new XAttributeWrapper(new(name, value));
+    public IXmlNode CreateAttribute(string name, string value)
+    {
+        return new XAttributeWrapper(new(name, value));
+    }
 
     public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string value)
     {

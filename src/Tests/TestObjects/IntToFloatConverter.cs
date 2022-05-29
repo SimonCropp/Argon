@@ -6,12 +6,18 @@ namespace TestObjects;
 
 public class IntToFloatConverter : JsonConverter
 {
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
         writer.WriteValue(Convert.ToDouble(value));
+    }
 
-    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-        Convert.ToInt32(reader.Value);
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+    {
+        return Convert.ToInt32(reader.Value);
+    }
 
-    public override bool CanConvert(Type type) =>
-        type == typeof(int);
+    public override bool CanConvert(Type type)
+    {
+        return type == typeof(int);
+    }
 }

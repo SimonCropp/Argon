@@ -74,8 +74,10 @@ struct JsonPosition
         }
     }
 
-    internal static bool TypeHasIndex(JsonContainerType type) =>
-        type is JsonContainerType.Array;
+    internal static bool TypeHasIndex(JsonContainerType type)
+    {
+        return type is JsonContainerType.Array;
+    }
 
     internal static string BuildPath(List<JsonPosition> positions, JsonPosition? currentPosition)
     {

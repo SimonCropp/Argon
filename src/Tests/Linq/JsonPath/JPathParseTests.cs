@@ -86,22 +86,28 @@ public class JPathParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void RootWithBadWhitespace() =>
+    public void RootWithBadWhitespace()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("$ .Blah"),
             @"Unexpected character while parsing path:  ");
+    }
 
     [Fact]
-    public void NoFieldNameAfterDot() =>
+    public void NoFieldNameAfterDot()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("$.Blah."),
             @"Unexpected end while parsing path.");
+    }
 
     [Fact]
-    public void RootWithBadWhitespace2() =>
+    public void RootWithBadWhitespace2()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("$. Blah"),
             @"Unexpected character while parsing path:  ");
+    }
 
     [Fact]
     public void WildcardPropertyWithRoot()
@@ -307,16 +313,20 @@ public class JPathParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void SinglePropertyAndFilterWithOpenRegex() =>
+    public void SinglePropertyAndFilterWithOpenRegex()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath(@"Blah[?(@.title =~ /[\"),
             "Path ended with an open regex.");
+    }
 
     [Fact]
-    public void SinglePropertyAndFilterWithUnknownEscape() =>
+    public void SinglePropertyAndFilterWithUnknownEscape()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath(@"Blah[ ?( @.name=='h\i' ) ]"),
             @"Unknown escape character: \i");
+    }
 
     [Fact]
     public void SinglePropertyAndFilterWithFalse()
@@ -492,52 +502,68 @@ public class JPathParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void BadOr1() =>
+    public void BadOr1()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||)]"),
             "Unexpected character while parsing path query: )");
+    }
 
     [Fact]
-    public void BaddOr2() =>
+    public void BaddOr2()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name|)]"),
             "Unexpected character while parsing path query: |");
+    }
 
     [Fact]
-    public void BaddOr3() =>
+    public void BaddOr3()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name|"),
             "Unexpected character while parsing path query: |");
+    }
 
     [Fact]
-    public void BaddOr4() =>
+    public void BaddOr4()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||"),
             "Path ended with open query.");
+    }
 
     [Fact]
-    public void NoAtAfterOr() =>
+    public void NoAtAfterOr()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||s"),
             "Unexpected character while parsing path query: s");
+    }
 
     [Fact]
-    public void NoPathAfterAt() =>
+    public void NoPathAfterAt()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||@"),
             @"Path ended with open query.");
+    }
 
     [Fact]
-    public void NoPathAfterDot() =>
+    public void NoPathAfterDot()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||@."),
             @"Unexpected end while parsing path.");
+    }
 
     [Fact]
-    public void NoPathAfterDot2() =>
+    public void NoPathAfterDot2()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||@.)]"),
             @"Unexpected end while parsing path.");
+    }
 
     [Fact]
     public void FilterWithFloatExp()
@@ -561,16 +587,20 @@ public class JPathParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void BadCharactersInIndexer() =>
+    public void BadCharactersInIndexer()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("Blah[[0]].Two.Three[1].Four"),
             @"Unexpected character while parsing path indexer: [");
+    }
 
     [Fact]
-    public void UnclosedIndexer() =>
+    public void UnclosedIndexer()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("Blah[0"),
             @"Path ended with open indexer.");
+    }
 
     [Fact]
     public void IndexerOnly()
@@ -689,16 +719,20 @@ public class JPathParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void EmptyIndexer() =>
+    public void EmptyIndexer()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[]"),
             "Array index expected.");
+    }
 
     [Fact]
-    public void IndexerCloseInProperty() =>
+    public void IndexerCloseInProperty()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("]"),
             "Unexpected character while parsing path: ]");
+    }
 
     [Fact]
     public void AdjacentIndexers()
@@ -712,10 +746,12 @@ public class JPathParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void MissingDotAfterIndexer() =>
+    public void MissingDotAfterIndexer()
+    {
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[1]Blah"),
             "Unexpected character following indexer: B");
+    }
 
     [Fact]
     public void PropertyFollowingEscapedPropertyName()

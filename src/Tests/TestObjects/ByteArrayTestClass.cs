@@ -8,6 +8,8 @@ public class ByteArrayTestClass
 {
     public byte[] Prop1 { get; set; }
 
-    public ByteArrayTestClass() =>
+    public ByteArrayTestClass()
+    {
         Prop1 = new byte[0];
+    }
 }

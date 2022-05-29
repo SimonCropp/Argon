@@ -159,8 +159,10 @@ public class DependencyInjectionTests : TestFixtureBase
 
     public class LogManager : ILogger
     {
-        public LogManager(DateTime dt) =>
+        public LogManager(DateTime dt)
+        {
             DateTime = dt;
+        }
 
         public DateTime DateTime { get; }
 
@@ -187,8 +189,10 @@ public class DependencyInjectionTests : TestFixtureBase
         public IList<Person> People { get; set; }
         public Person Person { get; set; }
 
-        public HasSettableProperty(ILogger logger) =>
+        public HasSettableProperty(ILogger logger)
+        {
             Logger = logger;
+        }
     }
 
     [DataContract]
@@ -214,8 +218,10 @@ public class DependencyInjectionTests : TestFixtureBase
     {
         readonly IContainer _container;
 
-        public AutofacContractResolver(IContainer container) =>
+        public AutofacContractResolver(IContainer container)
+        {
             _container = container;
+        }
 
         protected override JsonObjectContract CreateObjectContract(Type type)
         {

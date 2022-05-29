@@ -9,8 +9,10 @@ public static class JTokenExtensions
     /// <param name="token">The <see cref="JToken" /> to search.</param>
     /// <param name="path">A <see cref="String" /> that contains a JSONPath expression.</param>
     /// <returns>A <see cref="JToken" />, or <c>null</c>.</returns>
-    public static JToken? SelectToken(this JToken token, string path) =>
-        SelectToken(token, path, settings: null);
+    public static JToken? SelectToken(this JToken token, string path)
+    {
+        return SelectToken(token, path, settings: null);
+    }
 
     /// <summary>
     /// Selects a <see cref="JToken" /> using a JSONPath expression. Selects the token that matches the object path.
@@ -60,8 +62,10 @@ public static class JTokenExtensions
     /// <param name="token">The <see cref="JToken" /> to search.</param>
     /// <param name="path">A <see cref="String" /> that contains a JSONPath expression.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the selected elements.</returns>
-    public static IEnumerable<JToken> SelectTokens(this JToken token, string path) =>
-        SelectTokens(token, path, settings: null);
+    public static IEnumerable<JToken> SelectTokens(this JToken token, string path)
+    {
+        return SelectTokens(token, path, settings: null);
+    }
 
     /// <summary>
     /// Selects a collection of elements using a JSONPath expression.

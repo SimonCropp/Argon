@@ -232,8 +232,10 @@ public class JsonSerializer
     /// </summary>
     public virtual bool? CheckAdditionalContent { get; set; }
 
-    internal bool IsCheckAdditionalContentSet() =>
-        CheckAdditionalContent != null;
+    internal bool IsCheckAdditionalContentSet()
+    {
+        return CheckAdditionalContent != null;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonSerializer" /> class.
@@ -254,8 +256,10 @@ public class JsonSerializer
     /// The <see cref="JsonSerializer" /> will not use default settings
     /// from <see cref="JsonConvert.DefaultSettings" />.
     /// </returns>
-    public static JsonSerializer Create() =>
-        new();
+    public static JsonSerializer Create()
+    {
+        return new();
+    }
 
     /// <summary>
     /// Creates a new <see cref="JsonSerializer" /> instance using the specified <see cref="JsonSerializerSettings" />.
@@ -476,15 +480,19 @@ public class JsonSerializer
     /// </summary>
     /// <param name="reader">The <see cref="TextReader" /> that contains the JSON structure to read values from.</param>
     [DebuggerStepThrough]
-    public void Populate(TextReader reader, object target) =>
+    public void Populate(TextReader reader, object target)
+    {
         Populate(new JsonTextReader(reader), target);
+    }
 
     /// <summary>
     /// Populates the JSON values onto the target object.
     /// </summary>
     [DebuggerStepThrough]
-    public void Populate(JsonReader reader, object target) =>
+    public void Populate(JsonReader reader, object target)
+    {
         PopulateInternal(reader, target);
+    }
 
     internal virtual void PopulateInternal(JsonReader reader, object target)
     {
@@ -517,32 +525,40 @@ public class JsonSerializer
     /// </summary>
     /// <returns>The <see cref="Object" /> being deserialized.</returns>
     [DebuggerStepThrough]
-    public object? Deserialize(JsonReader reader) =>
-        Deserialize(reader, null);
+    public object? Deserialize(JsonReader reader)
+    {
+        return Deserialize(reader, null);
+    }
 
     /// <summary>
     /// Deserializes the JSON structure contained by the specified <see cref="TextReader" />
     /// into an instance of the specified type.
     /// </summary>
     [DebuggerStepThrough]
-    public object? Deserialize(TextReader reader, Type type) =>
-        Deserialize(new JsonTextReader(reader), type);
+    public object? Deserialize(TextReader reader, Type type)
+    {
+        return Deserialize(new JsonTextReader(reader), type);
+    }
 
     /// <summary>
     /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />
     /// into an instance of the specified type.
     /// </summary>
     [DebuggerStepThrough]
-    public T? Deserialize<T>(JsonReader reader) =>
-        (T?) Deserialize(reader, typeof(T));
+    public T? Deserialize<T>(JsonReader reader)
+    {
+        return (T?) Deserialize(reader, typeof(T));
+    }
 
     /// <summary>
     /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />
     /// into an instance of the specified type.
     /// </summary>
     [DebuggerStepThrough]
-    public object? Deserialize(JsonReader reader, Type? type) =>
-        DeserializeInternal(reader, type);
+    public object? Deserialize(JsonReader reader, Type? type)
+    {
+        return DeserializeInternal(reader, type);
+    }
 
     internal virtual object? DeserializeInternal(JsonReader reader, Type? type)
     {
@@ -686,8 +702,10 @@ public class JsonSerializer
     /// Serializes the specified <see cref="Object" /> and writes the JSON structure
     /// using the specified <see cref="TextWriter" />.
     /// </summary>
-    public void Serialize(TextWriter textWriter, object? value) =>
+    public void Serialize(TextWriter textWriter, object? value)
+    {
         Serialize(new JsonTextWriter(textWriter), value);
+    }
 
     /// <summary>
     /// Serializes the specified <see cref="Object" /> and writes the JSON structure
@@ -698,8 +716,10 @@ public class JsonSerializer
     /// This parameter is used when <see cref="JsonSerializer.TypeNameHandling" /> is <see cref="Argon.TypeNameHandling.Auto" /> to write out the type name if the type of the value does not match.
     /// Specifying the type is optional.
     /// </param>
-    public void Serialize(JsonWriter jsonWriter, object? value, Type? type) =>
+    public void Serialize(JsonWriter jsonWriter, object? value, Type? type)
+    {
         SerializeInternal(jsonWriter, value, type);
+    }
 
     /// <summary>
     /// Serializes the specified <see cref="Object" /> and writes the JSON structure
@@ -710,15 +730,19 @@ public class JsonSerializer
     /// This parameter is used when <see cref="TypeNameHandling" /> is Auto to write out the type name if the type of the value does not match.
     /// Specifying the type is optional.
     /// </param>
-    public void Serialize(TextWriter textWriter, object? value, Type type) =>
+    public void Serialize(TextWriter textWriter, object? value, Type type)
+    {
         Serialize(new JsonTextWriter(textWriter), value, type);
+    }
 
     /// <summary>
     /// Serializes the specified <see cref="Object" /> and writes the JSON structure
     /// using the specified <see cref="JsonWriter" />.
     /// </summary>
-    public void Serialize(JsonWriter jsonWriter, object? value) =>
+    public void Serialize(JsonWriter jsonWriter, object? value)
+    {
         SerializeInternal(jsonWriter, value, null);
+    }
 
     static TraceJsonReader CreateTraceJsonReader(JsonReader reader)
     {
@@ -820,11 +844,15 @@ public class JsonSerializer
         }
     }
 
-    internal IReferenceResolver GetReferenceResolver() =>
-        ReferenceResolver ??= new DefaultReferenceResolver();
+    internal IReferenceResolver GetReferenceResolver()
+    {
+        return ReferenceResolver ??= new DefaultReferenceResolver();
+    }
 
-    internal JsonConverter? GetMatchingConverter(Type type) =>
-        GetMatchingConverter(Converters, type);
+    internal JsonConverter? GetMatchingConverter(Type type)
+    {
+        return GetMatchingConverter(Converters, type);
+    }
 
     internal static JsonConverter? GetMatchingConverter(IList<JsonConverter>? converters, Type type)
     {
@@ -844,6 +872,8 @@ public class JsonSerializer
         return null;
     }
 
-    internal void OnError(ErrorEventArgs e) =>
+    internal void OnError(ErrorEventArgs e)
+    {
         Error?.Invoke(this, e);
+    }
 }

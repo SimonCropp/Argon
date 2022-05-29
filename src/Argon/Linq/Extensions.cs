@@ -15,8 +15,10 @@ public static class Extensions
     /// <typeparam name="T">The type of the objects in source, constrained to <see cref="JToken" />.</typeparam>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the ancestors of every token in the source collection.</returns>
-    public static IJEnumerable<JToken> Ancestors<T>(this IEnumerable<T> source) where T : JToken =>
-        source.SelectMany(j => j.Ancestors()).AsJEnumerable();
+    public static IJEnumerable<JToken> Ancestors<T>(this IEnumerable<T> source) where T : JToken
+    {
+        return source.SelectMany(j => j.Ancestors()).AsJEnumerable();
+    }
 
     /// <summary>
     /// Returns a collection of tokens that contains every token in the source collection, and the ancestors of every token in the source collection.
@@ -24,8 +26,10 @@ public static class Extensions
     /// <typeparam name="T">The type of the objects in source, constrained to <see cref="JToken" />.</typeparam>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains every token in the source collection, the ancestors of every token in the source collection.</returns>
-    public static IJEnumerable<JToken> AncestorsAndSelf<T>(this IEnumerable<T> source) where T : JToken =>
-        source.SelectMany(j => j.AncestorsAndSelf()).AsJEnumerable();
+    public static IJEnumerable<JToken> AncestorsAndSelf<T>(this IEnumerable<T> source) where T : JToken
+    {
+        return source.SelectMany(j => j.AncestorsAndSelf()).AsJEnumerable();
+    }
 
     /// <summary>
     /// Returns a collection of tokens that contains the descendants of every token in the source collection.
@@ -33,8 +37,10 @@ public static class Extensions
     /// <typeparam name="T">The type of the objects in source, constrained to <see cref="JContainer" />.</typeparam>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the descendants of every token in the source collection.</returns>
-    public static IJEnumerable<JToken> Descendants<T>(this IEnumerable<T> source) where T : JContainer =>
-        source.SelectMany(j => j.Descendants()).AsJEnumerable();
+    public static IJEnumerable<JToken> Descendants<T>(this IEnumerable<T> source) where T : JContainer
+    {
+        return source.SelectMany(j => j.Descendants()).AsJEnumerable();
+    }
 
     /// <summary>
     /// Returns a collection of tokens that contains every token in the source collection, and the descendants of every token in the source collection.
@@ -42,16 +48,20 @@ public static class Extensions
     /// <typeparam name="T">The type of the objects in source, constrained to <see cref="JContainer" />.</typeparam>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains every token in the source collection, and the descendants of every token in the source collection.</returns>
-    public static IJEnumerable<JToken> DescendantsAndSelf<T>(this IEnumerable<T> source) where T : JContainer =>
-        source.SelectMany(j => j.DescendantsAndSelf()).AsJEnumerable();
+    public static IJEnumerable<JToken> DescendantsAndSelf<T>(this IEnumerable<T> source) where T : JContainer
+    {
+        return source.SelectMany(j => j.DescendantsAndSelf()).AsJEnumerable();
+    }
 
     /// <summary>
     /// Returns a collection of child properties of every object in the source collection.
     /// </summary>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JObject" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JProperty" /> that contains the properties of every object in the source collection.</returns>
-    public static IJEnumerable<JProperty> Properties(this IEnumerable<JObject> source) =>
-        source.SelectMany(d => d.Properties()).AsJEnumerable();
+    public static IJEnumerable<JProperty> Properties(this IEnumerable<JObject> source)
+    {
+        return source.SelectMany(d => d.Properties()).AsJEnumerable();
+    }
 
     /// <summary>
     /// Returns a collection of child values of every object in the source collection with the given key.
@@ -59,16 +69,20 @@ public static class Extensions
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <param name="key">The token key.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the values of every token in the source collection with the given key.</returns>
-    public static IJEnumerable<JToken> Values(this IEnumerable<JToken> source, object? key) =>
-        Values<JToken, JToken>(source, key)!.AsJEnumerable();
+    public static IJEnumerable<JToken> Values(this IEnumerable<JToken> source, object? key)
+    {
+        return Values<JToken, JToken>(source, key)!.AsJEnumerable();
+    }
 
     /// <summary>
     /// Returns a collection of child values of every object in the source collection.
     /// </summary>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the values of every token in the source collection.</returns>
-    public static IJEnumerable<JToken> Values(this IEnumerable<JToken> source) =>
-        source.Values(null);
+    public static IJEnumerable<JToken> Values(this IEnumerable<JToken> source)
+    {
+        return source.Values(null);
+    }
 
     /// <summary>
     /// Returns a collection of converted child values of every object in the source collection with the given key.
@@ -77,8 +91,10 @@ public static class Extensions
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <param name="key">The token key.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> that contains the converted values of every token in the source collection with the given key.</returns>
-    public static IEnumerable<U?> Values<U>(this IEnumerable<JToken> source, object key) =>
-        Values<JToken, U>(source, key);
+    public static IEnumerable<U?> Values<U>(this IEnumerable<JToken> source, object key)
+    {
+        return Values<JToken, U>(source, key);
+    }
 
     /// <summary>
     /// Returns a collection of converted child values of every object in the source collection.
@@ -86,8 +102,10 @@ public static class Extensions
     /// <typeparam name="U">The type to convert the values to.</typeparam>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> that contains the converted values of every token in the source collection.</returns>
-    public static IEnumerable<U?> Values<U>(this IEnumerable<JToken> source) =>
-        Values<JToken, U>(source, null);
+    public static IEnumerable<U?> Values<U>(this IEnumerable<JToken> source)
+    {
+        return Values<JToken, U>(source, null);
+    }
 
     /// <summary>
     /// Converts the value.
@@ -95,8 +113,10 @@ public static class Extensions
     /// <typeparam name="U">The type to convert the value to.</typeparam>
     /// <param name="value">A <see cref="JToken" /> cast as a <see cref="IEnumerable{T}" /> of <see cref="JToken" />.</param>
     /// <returns>A converted value.</returns>
-    public static U? Value<U>(this IEnumerable<JToken> value) =>
-        value.Value<JToken, U>();
+    public static U? Value<U>(this IEnumerable<JToken> value)
+    {
+        return value.Value<JToken, U>();
+    }
 
     /// <summary>
     /// Converts the value.
@@ -156,8 +176,10 @@ public static class Extensions
     /// <typeparam name="T">The source collection type.</typeparam>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the values of every token in the source collection.</returns>
-    public static IJEnumerable<JToken> Children<T>(this IEnumerable<T> source) where T : JToken =>
-        Children<T, JToken>(source)!.AsJEnumerable();
+    public static IJEnumerable<JToken> Children<T>(this IEnumerable<T> source) where T : JToken
+    {
+        return Children<T, JToken>(source)!.AsJEnumerable();
+    }
 
     /// <summary>
     /// Returns a collection of converted child tokens of every array in the source collection.
@@ -166,8 +188,10 @@ public static class Extensions
     /// <typeparam name="U">The type to convert the values to.</typeparam>
     /// <typeparam name="T">The source collection type.</typeparam>
     /// <returns>An <see cref="IEnumerable{T}" /> that contains the converted values of every token in the source collection.</returns>
-    public static IEnumerable<U?> Children<T, U>(this IEnumerable<T> source) where T : JToken =>
-        source.SelectMany(c => c.Children()).Convert<JToken, U>();
+    public static IEnumerable<U?> Children<T, U>(this IEnumerable<T> source) where T : JToken
+    {
+        return source.SelectMany(c => c.Children()).Convert<JToken, U>();
+    }
 
     internal static IEnumerable<U?> Convert<T, U>(this IEnumerable<T> source) where T : JToken
     {
@@ -228,8 +252,10 @@ public static class Extensions
     /// </summary>
     /// <param name="source">An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the source collection.</param>
     /// <returns>The input typed as <see cref="IJEnumerable{T}" />.</returns>
-    public static IJEnumerable<JToken> AsJEnumerable(this IEnumerable<JToken> source) =>
-        source.AsJEnumerable<JToken>();
+    public static IJEnumerable<JToken> AsJEnumerable(this IEnumerable<JToken> source)
+    {
+        return source.AsJEnumerable<JToken>();
+    }
 
     /// <summary>
     /// Returns the input typed as <see cref="IJEnumerable{T}" />.

@@ -8,9 +8,13 @@ class TraceWriter : IMyInterface
 {
     public string Name => "Trace Writer";
 
-    public override string ToString() =>
-        Name;
+    public override string ToString()
+    {
+        return Name;
+    }
 
-    public string PrintTest() =>
-        "TraceWriter";
+    public string PrintTest()
+    {
+        return "TraceWriter";
+    }
 }

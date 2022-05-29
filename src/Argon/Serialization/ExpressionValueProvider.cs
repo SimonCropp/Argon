@@ -17,8 +17,10 @@ public class ExpressionValueProvider : IValueProvider
     /// Initializes a new instance of the <see cref="ExpressionValueProvider" /> class.
     /// </summary>
     /// <param name="member">The member info.</param>
-    public ExpressionValueProvider(MemberInfo member) =>
+    public ExpressionValueProvider(MemberInfo member)
+    {
         this.member = member;
+    }
 
     /// <summary>
     /// Sets the value.

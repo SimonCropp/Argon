@@ -59,8 +59,10 @@ public class Issue1576 : TestFixtureBase
     {
         public override bool CanWrite => false;
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
             throw new NotSupportedException();
+        }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
@@ -86,8 +88,10 @@ public class Issue1576 : TestFixtureBase
             return list;
         }
 
-        public override bool CanConvert(Type type) =>
-            typeof(ICollection).IsAssignableFrom(type);
+        public override bool CanConvert(Type type)
+        {
+            return typeof(ICollection).IsAssignableFrom(type);
+        }
     }
 
 }

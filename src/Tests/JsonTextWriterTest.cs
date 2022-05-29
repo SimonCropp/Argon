@@ -478,7 +478,8 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void WriteValueObjectWithUnsupportedValue() =>
+    public void WriteValueObjectWithUnsupportedValue()
+    {
         XUnitAssert.Throws<JsonWriterException>(
             () =>
             {
@@ -489,6 +490,7 @@ public class JsonTextWriterTest : TestFixtureBase
                 jsonWriter.WriteEndArray();
             },
             @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
+    }
 
     [Fact]
     public void StringEscaping()
@@ -1098,7 +1100,8 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void BadWriteEndArray() =>
+    public void BadWriteEndArray()
+    {
         XUnitAssert.Throws<JsonWriterException>(
             () =>
             {
@@ -1114,9 +1117,11 @@ public class JsonTextWriterTest : TestFixtureBase
                 jsonWriter.WriteEndArray();
             },
             "No token to close. Path ''.");
+    }
 
     [Fact]
-    public void InvalidQuoteChar() =>
+    public void InvalidQuoteChar()
+    {
         XUnitAssert.Throws<ArgumentException>(
             () =>
             {
@@ -1127,6 +1132,7 @@ public class JsonTextWriterTest : TestFixtureBase
                 jsonWriter.QuoteChar = '*';
             },
             @"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
+    }
 
     [Fact]
     public void Indentation()
@@ -1683,11 +1689,15 @@ public class CustomJsonTextWriter : JsonTextWriter
 {
     protected readonly TextWriter writer;
 
-    public CustomJsonTextWriter(TextWriter textWriter) : base(textWriter) =>
+    public CustomJsonTextWriter(TextWriter textWriter) : base(textWriter)
+    {
         writer = textWriter;
+    }
 
-    public override void WritePropertyName(string name) =>
+    public override void WritePropertyName(string name)
+    {
         WritePropertyName(name, true);
+    }
 
     public override void WritePropertyName(string name, bool escape)
     {
@@ -1722,8 +1732,10 @@ public class CustomJsonTextWriter : JsonTextWriter
         writer.Write("{{{");
     }
 
-    public override void WriteEndObject() =>
+    public override void WriteEndObject()
+    {
         SetWriteState(JsonToken.EndObject, null);
+    }
 
     protected override void WriteEnd(JsonToken token)
     {
@@ -1742,11 +1754,15 @@ public class UnmanagedResourceFakingJsonWriter : JsonWriter
 {
     public static int DisposalCalls;
 
-    public static void CreateAndDispose() =>
+    public static void CreateAndDispose()
+    {
         ((IDisposable) new UnmanagedResourceFakingJsonWriter()).Dispose();
+    }
 
-    public UnmanagedResourceFakingJsonWriter() =>
+    public UnmanagedResourceFakingJsonWriter()
+    {
         DisposalCalls = 0;
+    }
 
     protected override void Dispose(bool disposing)
     {
@@ -1754,9 +1770,13 @@ public class UnmanagedResourceFakingJsonWriter : JsonWriter
         ++DisposalCalls;
     }
 
-    ~UnmanagedResourceFakingJsonWriter() =>
+    ~UnmanagedResourceFakingJsonWriter()
+    {
         Dispose(false);
+    }
 
-    public override void Flush() =>
+    public override void Flush()
+    {
         throw new NotImplementedException();
+    }
 }

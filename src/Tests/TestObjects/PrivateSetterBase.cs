@@ -14,6 +14,8 @@ public class PrivateSetterBase
     {
     }
 
-    internal PrivateSetterBase(string dontWork) =>
+    internal PrivateSetterBase(string dontWork)
+    {
         IDontWork = dontWork;
+    }
 }

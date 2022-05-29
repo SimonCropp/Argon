@@ -105,8 +105,10 @@ class NoThrowGetBinderMember : GetMemberBinder
     readonly GetMemberBinder innerBinder;
 
     public NoThrowGetBinderMember(GetMemberBinder innerBinder)
-        : base(innerBinder.Name, innerBinder.IgnoreCase) =>
+        : base(innerBinder.Name, innerBinder.IgnoreCase)
+    {
         this.innerBinder = innerBinder;
+    }
 
     public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
     {
@@ -125,8 +127,10 @@ class NoThrowSetBinderMember : SetMemberBinder
     readonly SetMemberBinder innerBinder;
 
     public NoThrowSetBinderMember(SetMemberBinder innerBinder)
-        : base(innerBinder.Name, innerBinder.IgnoreCase) =>
+        : base(innerBinder.Name, innerBinder.IgnoreCase)
+    {
         this.innerBinder = innerBinder;
+    }
 
     public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject? errorSuggestion)
     {

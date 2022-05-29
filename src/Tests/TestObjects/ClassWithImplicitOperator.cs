@@ -8,6 +8,8 @@ public class ClassWithImplicitOperator
 {
     public string Value { get; set; }
 
-    public static implicit operator ClassWithImplicitOperator(string value) =>
-        new() { Value = value };
+    public static implicit operator ClassWithImplicitOperator(string value)
+    {
+        return new() { Value = value };
+    }
 }

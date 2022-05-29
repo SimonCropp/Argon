@@ -70,11 +70,15 @@ class JPropertyKeyedCollection : Collection<JToken>
         return dictionary.TryGetValue(key, out _);
     }
 
-    void EnsureDictionary() =>
+    void EnsureDictionary()
+    {
         dictionary ??= new(Comparer);
+    }
 
-    static string GetKeyForItem(JToken item) =>
-        ((JProperty) item).Name;
+    static string GetKeyForItem(JToken item)
+    {
+        return ((JProperty) item).Name;
+    }
 
     protected override void InsertItem(int index, JToken item)
     {
@@ -99,8 +103,10 @@ class JPropertyKeyedCollection : Collection<JToken>
         base.RemoveItem(index);
     }
 
-    void RemoveKey(string key) =>
+    void RemoveKey(string key)
+    {
         dictionary?.Remove(key);
+    }
 
     protected override void SetItem(int index, JToken item)
     {
@@ -169,8 +175,10 @@ class JPropertyKeyedCollection : Collection<JToken>
         }
     }
 
-    public int IndexOfReference(JToken t) =>
-        ((List<JToken>) Items).IndexOfReference(t);
+    public int IndexOfReference(JToken t)
+    {
+        return ((List<JToken>) Items).IndexOfReference(t);
+    }
 
     public bool Compare(JPropertyKeyedCollection other)
     {

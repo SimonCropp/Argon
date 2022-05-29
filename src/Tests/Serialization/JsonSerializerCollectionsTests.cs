@@ -26,8 +26,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         public IEnumerable<string> B { get; } = new SortedSet<string>();
         public IEnumerable<string> C { get; } = new List<string>().AsReadOnly();
 
-        public ConstructorCollectionContainer(int a) =>
+        public ConstructorCollectionContainer(int a)
+        {
             A = a;
+        }
     }
 
     [Fact]
@@ -140,21 +142,31 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         readonly List<int> _bars;
 
-        public TestCollectionPrivateParameterized() =>
+        public TestCollectionPrivateParameterized()
+        {
             _bars = new();
+        }
 
         [Argon.JsonConstructor]
-        TestCollectionPrivateParameterized(IEnumerable<int> bars) =>
+        TestCollectionPrivateParameterized(IEnumerable<int> bars)
+        {
             _bars = new(bars);
+        }
 
-        public void Add(int bar) =>
+        public void Add(int bar)
+        {
             _bars.Add(bar);
+        }
 
-        public IEnumerator<int> GetEnumerator() =>
-            _bars.GetEnumerator();
+        public IEnumerator<int> GetEnumerator()
+        {
+            return _bars.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     [Fact]
@@ -184,8 +196,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
         }
 
-        public static TestCollectionPrivate Create() =>
-            new();
+        public static TestCollectionPrivate Create()
+        {
+            return new();
+        }
     }
 
     [Fact]
@@ -215,10 +229,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void CollectionJsonConstructorMultipleParameters() =>
+    public void CollectionJsonConstructorMultipleParameters()
+    {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestCollectionMultipleParameters(null, null)),
             "Constructor for 'JsonSerializerCollectionsTests+TestCollectionMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
+    }
 
     public class TestCollectionBadIEnumerableParameter : List<int>
     {
@@ -229,10 +245,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void CollectionJsonConstructorBadIEnumerableParameter() =>
+    public void CollectionJsonConstructorBadIEnumerableParameter()
+    {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestCollectionBadIEnumerableParameter(null)),
             "Constructor for 'JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
+    }
 
     public class TestCollectionNonGeneric : ArrayList
     {
@@ -293,8 +311,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
         }
 
-        public static TestDictionaryPrivate Create() =>
-            new();
+        public static TestDictionaryPrivate Create()
+        {
+            return new();
+        }
     }
 
     [Fact]
@@ -322,10 +342,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void DictionaryJsonConstructorMultipleParameters() =>
+    public void DictionaryJsonConstructorMultipleParameters()
+    {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestDictionaryMultipleParameters(null, null)),
             "Constructor for 'JsonSerializerCollectionsTests+TestDictionaryMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
+    }
 
     public class TestDictionaryBadIEnumerableParameter : Dictionary<string, int>
     {
@@ -336,10 +358,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void DictionaryJsonConstructorBadIEnumerableParameter() =>
+    public void DictionaryJsonConstructorBadIEnumerableParameter()
+    {
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new TestDictionaryBadIEnumerableParameter(null)),
             "Constructor for 'JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
+    }
 
     public class TestDictionaryNonGeneric : Hashtable
     {
@@ -368,10 +392,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeNameValueCollection() =>
+    public void DeserializeNameValueCollection()
+    {
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<NameValueCollectionTestClass>("{Collection:[]}"),
             "Cannot create and populate list type System.Collections.Specialized.NameValueCollection. Path 'Collection', line 1, position 13.");
+    }
 
     public class SomeObject
     {
@@ -381,7 +407,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public class CustomConcurrentDictionary : ConcurrentDictionary<string, List<SomeObject>>
     {
         [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context) =>
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
             ((IDictionary) this).Add("key2", new List<SomeObject>
             {
                 new()
@@ -389,6 +416,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                     Text1 = "value2"
                 }
             });
+        }
     }
 
     [Fact]
@@ -526,14 +554,20 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         readonly IList<T> _values;
 
-        public EnumerableClass(IEnumerable<T> values) =>
+        public EnumerableClass(IEnumerable<T> values)
+        {
             _values = new List<T>(values);
+        }
 
-        public IEnumerator<T> GetEnumerator() =>
-            _values.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _values.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     [Fact]
@@ -557,14 +591,20 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         readonly IList<T> values;
 
-        public EnumerableClassFailure() =>
+        public EnumerableClassFailure()
+        {
             values = new List<T>();
+        }
 
-        public IEnumerator<T> GetEnumerator() =>
-            values.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return values.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     [Fact]
@@ -611,8 +651,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         }
 
         public PrivateDefaultCtorWithIEnumerableCtorList(IEnumerable<T> values)
-            : base(values) =>
+            : base(values)
+        {
             Add(default);
+        }
     }
 
     [Fact]
@@ -710,16 +752,22 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         readonly IDictionary<TKey, TValue> dictionary;
 
-        public CustomReadOnlyDictionary(IDictionary<TKey, TValue> dictionary) =>
+        public CustomReadOnlyDictionary(IDictionary<TKey, TValue> dictionary)
+        {
             this.dictionary = dictionary;
+        }
 
-        public bool ContainsKey(TKey key) =>
-            dictionary.ContainsKey(key);
+        public bool ContainsKey(TKey key)
+        {
+            return dictionary.ContainsKey(key);
+        }
 
         public IEnumerable<TKey> Keys => dictionary.Keys;
 
-        public bool TryGetValue(TKey key, out TValue value) =>
-            dictionary.TryGetValue(key, out value);
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            return dictionary.TryGetValue(key, out value);
+        }
 
         public IEnumerable<TValue> Values => dictionary.Values;
 
@@ -727,11 +775,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public int Count => dictionary.Count;
 
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() =>
-            dictionary.GetEnumerator();
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return dictionary.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            dictionary.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return dictionary.GetEnumerator();
+        }
     }
 
     [Fact]
@@ -756,16 +808,22 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         readonly IList<T> _values;
 
-        public CustomReadOnlyCollection(IList<T> values) =>
+        public CustomReadOnlyCollection(IList<T> values)
+        {
             _values = values;
+        }
 
         public int Count => _values.Count;
 
-        public IEnumerator<T> GetEnumerator() =>
-            _values.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _values.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            _values.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _values.GetEnumerator();
+        }
     }
 
     [Fact]
@@ -806,8 +864,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         public List<string> GenericList { get; set; }
 
-        public GenericListTestClass() =>
+        public GenericListTestClass()
+        {
             GenericList = new();
+        }
     }
 
     [Fact]
@@ -2084,11 +2144,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         List<string> storage;
 
         [Argon.JsonConstructor]
-        MyClass() =>
+        MyClass()
+        {
             storage = new();
+        }
 
-        public MyClass(IEnumerable<string> source) =>
+        public MyClass(IEnumerable<string> source)
+        {
             storage = new(source);
+        }
 
         //Below is generated by VS to implement IList<string>
         public string this[int index]
@@ -2102,35 +2166,55 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public bool IsReadOnly => ((IList<string>) storage).IsReadOnly;
 
-        public void Add(string item) =>
+        public void Add(string item)
+        {
             ((IList<string>) storage).Add(item);
+        }
 
-        public void Clear() =>
+        public void Clear()
+        {
             ((IList<string>) storage).Clear();
+        }
 
-        public bool Contains(string item) =>
-            ((IList<string>) storage).Contains(item);
+        public bool Contains(string item)
+        {
+            return ((IList<string>) storage).Contains(item);
+        }
 
-        public void CopyTo(string[] array, int arrayIndex) =>
+        public void CopyTo(string[] array, int arrayIndex)
+        {
             ((IList<string>) storage).CopyTo(array, arrayIndex);
+        }
 
-        public IEnumerator<string> GetEnumerator() =>
-            ((IList<string>) storage).GetEnumerator();
+        public IEnumerator<string> GetEnumerator()
+        {
+            return ((IList<string>) storage).GetEnumerator();
+        }
 
-        public int IndexOf(string item) =>
-            ((IList<string>) storage).IndexOf(item);
+        public int IndexOf(string item)
+        {
+            return ((IList<string>) storage).IndexOf(item);
+        }
 
-        public void Insert(int index, string item) =>
+        public void Insert(int index, string item)
+        {
             ((IList<string>) storage).Insert(index, item);
+        }
 
-        public bool Remove(string item) =>
-            ((IList<string>) storage).Remove(item);
+        public bool Remove(string item)
+        {
+            return ((IList<string>) storage).Remove(item);
+        }
 
-        public void RemoveAt(int index) =>
+        public void RemoveAt(int index)
+        {
             ((IList<string>) storage).RemoveAt(index);
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            ((IList<string>) storage).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IList<string>) storage).GetEnumerator();
+        }
     }
 
 
@@ -2378,41 +2462,63 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         readonly IList<T> _values;
 
-        public ReadOnlyCollectionWithArrayArgument(T[] args) =>
+        public ReadOnlyCollectionWithArrayArgument(T[] args)
+        {
             _values = args ?? (IList<T>) new List<T>();
+        }
 
-        public IEnumerator<T> GetEnumerator() =>
-            _values.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _values.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            _values.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _values.GetEnumerator();
+        }
 
-        public void Add(T item) =>
+        public void Add(T item)
+        {
             throw new NotImplementedException();
+        }
 
-        public void Clear() =>
+        public void Clear()
+        {
             throw new NotImplementedException();
+        }
 
-        public bool Contains(T item) =>
+        public bool Contains(T item)
+        {
             throw new NotImplementedException();
+        }
 
-        public void CopyTo(T[] array, int arrayIndex) =>
+        public void CopyTo(T[] array, int arrayIndex)
+        {
             throw new NotImplementedException();
+        }
 
-        public bool Remove(T item) =>
+        public bool Remove(T item)
+        {
             throw new NotImplementedException();
+        }
 
         public int Count { get; }
         public bool IsReadOnly { get; }
 
-        public int IndexOf(T item) =>
+        public int IndexOf(T item)
+        {
             throw new NotImplementedException();
+        }
 
-        public void Insert(int index, T item) =>
+        public void Insert(int index, T item)
+        {
             throw new NotImplementedException();
+        }
 
-        public void RemoveAt(int index) =>
+        public void RemoveAt(int index)
+        {
             throw new NotImplementedException();
+        }
 
         public T this[int index]
         {
@@ -2425,16 +2531,22 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         readonly List<int> list;
 
-        public ReadOnlyIntegerList(List<int> l) =>
+        public ReadOnlyIntegerList(List<int> l)
+        {
             list = l;
+        }
 
         public int Count => list.Count;
 
-        public IEnumerator<int> GetEnumerator() =>
-            list.GetEnumerator();
+        public IEnumerator<int> GetEnumerator()
+        {
+            return list.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     public class Array2D
@@ -2475,8 +2587,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         public IList<T> Items { get; set; }
 
-        public GenericClass() =>
+        public GenericClass()
+        {
             Items = new List<T>();
+        }
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -2489,8 +2603,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     public class NonGenericClass : GenericClass<GenericItem<string>, string>
@@ -2499,8 +2615,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class StringListAppenderConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
             writer.WriteValue(value);
+        }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
@@ -2520,14 +2638,18 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             return newStrings;
         }
 
-        public override bool CanConvert(Type type) =>
-            type == typeof(List<string>);
+        public override bool CanConvert(Type type)
+        {
+            return type == typeof(List<string>);
+        }
     }
 
     public class StringAppenderConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
             writer.WriteValue(value);
+        }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
@@ -2537,7 +2659,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             return newString;
         }
 
-        public override bool CanConvert(Type type) =>
-            type == typeof(string);
+        public override bool CanConvert(Type type)
+        {
+            return type == typeof(string);
+        }
     }
 }

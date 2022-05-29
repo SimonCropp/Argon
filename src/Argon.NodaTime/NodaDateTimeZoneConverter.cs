@@ -10,8 +10,10 @@ sealed class NodaDateTimeZoneConverter : NodaConverterBase<DateTimeZone>
     readonly IDateTimeZoneProvider provider;
 
     /// <param name="provider">Provides the <see cref="DateTimeZone"/> that corresponds to each time zone ID in the JSON string.</param>
-    public NodaDateTimeZoneConverter(IDateTimeZoneProvider provider) =>
+    public NodaDateTimeZoneConverter(IDateTimeZoneProvider provider)
+    {
         this.provider = provider;
+    }
 
     /// <summary>
     /// Reads the time zone ID (which must be a string) from the reader, and converts it to a time zone.
@@ -36,6 +38,8 @@ sealed class NodaDateTimeZoneConverter : NodaConverterBase<DateTimeZone>
     /// <param name="writer">The writer to write JSON data to</param>
     /// <param name="value">The value to serializer</param>
     /// <param name="serializer">The serializer to use for nested serialization</param>
-    protected override void WriteJsonImpl(JsonWriter writer, DateTimeZone value, JsonSerializer serializer) =>
+    protected override void WriteJsonImpl(JsonWriter writer, DateTimeZone value, JsonSerializer serializer)
+    {
         writer.WriteValue(value.Id);
+    }
 }

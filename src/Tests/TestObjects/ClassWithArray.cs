@@ -9,8 +9,10 @@ public class ClassWithArray
     readonly IList<long> bar;
     string foo;
 
-    public ClassWithArray() =>
+    public ClassWithArray()
+    {
         bar = new List<long> { int.MaxValue };
+    }
 
     [JsonProperty("foo")]
     public string Foo

@@ -38,13 +38,19 @@ public class Issue1620 : TestFixtureBase
 
     public class FooConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
             writer.WriteValue("foo");
+        }
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-            new Foo();
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+        {
+            return new Foo();
+        }
 
-        public override bool CanConvert(Type type) =>
-            typeof(IFoo).IsAssignableFrom(type);
+        public override bool CanConvert(Type type)
+        {
+            return typeof(IFoo).IsAssignableFrom(type);
+        }
     }
 }

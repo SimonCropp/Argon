@@ -11,9 +11,11 @@ public class SerializeConditionalProperty : TestFixtureBase
         public string Name { get; set; }
         public Employee Manager { get; set; }
 
-        public bool ShouldSerializeManager() =>
+        public bool ShouldSerializeManager()
+        {
             // don't serialize the Manager property if an employee is their own manager
-            Manager != this;
+            return Manager != this;
+        }
     }
 
     #endregion

@@ -49,8 +49,10 @@ public partial class JObject
     /// A <see cref="Task{TResult}" /> that represents the asynchronous load. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JObject" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static Task<JObject> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
-        LoadAsync(reader, null, cancellation);
+    public new static Task<JObject> LoadAsync(JsonReader reader, CancellationToken cancellation = default)
+    {
+        return LoadAsync(reader, null, cancellation);
+    }
 
     /// <summary>
     /// Asynchronously loads a <see cref="JObject" /> from a <see cref="JsonReader" />.

@@ -348,8 +348,10 @@ public class DataTableConverterTests : TestFixtureBase
             return d;
         }
 
-        public override bool CanConvert(Type type) =>
-            type == typeof(DataTable);
+        public override bool CanConvert(Type type)
+        {
+            return type == typeof(DataTable);
+        }
     }
 
     [Fact]
@@ -598,8 +600,10 @@ public class DataTableConverterTests : TestFixtureBase
 
     internal class SqlDateTimeConverter : JsonConverter
     {
-        public override bool CanConvert(Type type) =>
-            typeof(SqlDateTime).IsAssignableFrom(type);
+        public override bool CanConvert(Type type)
+        {
+            return typeof(SqlDateTime).IsAssignableFrom(type);
+        }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
@@ -663,7 +667,9 @@ public class DataTableConverterTests : TestFixtureBase
             }
         }
 
-        static void OnError(object sender, ErrorEventArgs e) =>
+        static void OnError(object sender, ErrorEventArgs e)
+        {
             e.ErrorContext.Handled = true;
+        }
     }
 }

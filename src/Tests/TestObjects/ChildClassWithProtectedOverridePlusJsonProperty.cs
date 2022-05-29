@@ -9,6 +9,8 @@ public class ChildClassWithProtectedOverridePlusJsonProperty : BaseClassWithProt
     [JsonProperty]
     protected override string MyProperty { get; set; }
 
-    public string GetPropertyValue() =>
-        MyProperty;
+    public string GetPropertyValue()
+    {
+        return MyProperty;
+    }
 }

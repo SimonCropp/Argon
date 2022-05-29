@@ -40,6 +40,8 @@ public partial class JRaw : JValue
         return new(stringWriter.ToString());
     }
 
-    internal override JToken CloneToken() =>
-        new JRaw(this);
+    internal override JToken CloneToken()
+    {
+        return new JRaw(this);
+    }
 }

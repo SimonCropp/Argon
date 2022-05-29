@@ -13,6 +13,8 @@ public class JsonLinqContract : JsonContract
     /// Initializes a new instance of the <see cref="JsonLinqContract" /> class.
     /// </summary>
     public JsonLinqContract(Type underlyingType)
-        : base(underlyingType) =>
+        : base(underlyingType)
+    {
         ContractType = JsonContractType.Linq;
+    }
 }

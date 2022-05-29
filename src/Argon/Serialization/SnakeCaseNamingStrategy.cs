@@ -39,8 +39,10 @@ public class SnakeCaseNamingStrategy : NamingStrategy
     /// A flag indicating whether extension data names should be processed.
     /// </param>
     public SnakeCaseNamingStrategy(bool processDictionaryKeys, bool overrideSpecifiedNames, bool processExtensionDataNames)
-        : this(processDictionaryKeys, overrideSpecifiedNames) =>
+        : this(processDictionaryKeys, overrideSpecifiedNames)
+    {
         ProcessExtensionDataNames = processExtensionDataNames;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SnakeCaseNamingStrategy" /> class.
@@ -52,6 +54,8 @@ public class SnakeCaseNamingStrategy : NamingStrategy
     /// <summary>
     /// Resolves the specified property name.
     /// </summary>
-    protected override string ResolvePropertyName(string name) =>
-        StringUtils.ToSnakeCase(name);
+    protected override string ResolvePropertyName(string name)
+    {
+        return StringUtils.ToSnakeCase(name);
+    }
 }

@@ -893,8 +893,10 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class CustomSerializationBinder : ISerializationBinder
     {
-        public Type BindToType(string assemblyName, string typeName) =>
-            typeof(Person);
+        public Type BindToType(string assemblyName, string typeName)
+        {
+            return typeof(Person);
+        }
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
@@ -976,8 +978,10 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         public string TypeFormat { get; }
 
-        public TypeNameSerializationBinder(string typeFormat) =>
+        public TypeNameSerializationBinder(string typeFormat)
+        {
             TypeFormat = typeFormat;
+        }
 
         public Type BindToType(string assemblyName, string typeName)
         {
@@ -1063,8 +1067,10 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         public string TypeFormat { get; }
 
-        public NewTypeNameSerializationBinder(string typeFormat) =>
+        public NewTypeNameSerializationBinder(string typeFormat)
+        {
             TypeFormat = typeFormat;
+        }
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
@@ -1294,11 +1300,15 @@ public class TypeNameHandlingTests : TestFixtureBase
             count = this.next.count + 1;
         }
 
-        public CustomEnumerable() =>
+        public CustomEnumerable()
+        {
             count = 0;
+        }
 
-        public CustomEnumerable<T> AddFirst(T newVal) =>
-            new(newVal, this);
+        public CustomEnumerable<T> AddFirst(T newVal)
+        {
+            return new(newVal, this);
+        }
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -1321,8 +1331,10 @@ public class TypeNameHandlingTests : TestFixtureBase
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     public class Car
@@ -1407,8 +1419,10 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     class MetroBinder : ISerializationBinder
     {
-        public Type BindToType(string assemblyName, string typeName) =>
-            null;
+        public Type BindToType(string assemblyName, string typeName)
+        {
+            return null;
+        }
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
@@ -1877,8 +1891,10 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         readonly IDictionary<string, object> _values = new Dictionary<string, object>();
 
-        public override IEnumerable<string> GetDynamicMemberNames() =>
-            _values.Keys;
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _values.Keys;
+        }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
@@ -2102,8 +2118,10 @@ public class TypeNameHandlingTests : TestFixtureBase
             typeName = $"{Annotate}{serializedType.Name}{Annotate}";
         }
 
-        public Type BindToType(string assemblyName, string typeName) =>
-            null;
+        public Type BindToType(string assemblyName, string typeName)
+        {
+            return null;
+        }
     }
 
 
@@ -2112,22 +2130,28 @@ public class TypeNameHandlingTests : TestFixtureBase
         public string Value { get; }
 
         [Argon.JsonConstructor]
-        public Message2(string value) =>
+        public Message2(string value)
+        {
             Value = value;
+        }
     }
 
     public class ObjectWithOptionalMessage
     {
         public Message2? Message { get; }
 
-        public ObjectWithOptionalMessage(Message2? message) =>
+        public ObjectWithOptionalMessage(Message2? message)
+        {
             Message = message;
+        }
     }
 
     public class DataType
     {
-        public DataType() =>
+        public DataType()
+        {
             Rows = new();
+        }
 
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto, TypeNameHandling = TypeNameHandling.Auto)]
         public Dictionary<string, IEnumerable<IMyInterfaceType>> Rows { get; }
@@ -2267,8 +2291,10 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         [DataMember] public ApplicationItemKeys ItemIdentifier { get; set; }
 
-        public GroupingInfo() =>
+        public GroupingInfo()
+        {
             ItemIdentifier = new();
+        }
     }
 
     [DataContract]

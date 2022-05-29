@@ -598,7 +598,9 @@ public class DataSetConverterTests : TestFixtureBase
 
     public class LowercaseContractResolver : DefaultContractResolver
     {
-        protected override string ResolvePropertyName(string propertyName) =>
-            propertyName.ToLower();
+        protected override string ResolvePropertyName(string propertyName)
+        {
+            return propertyName.ToLower();
+        }
     }
 }

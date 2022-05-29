@@ -37,8 +37,10 @@ static class ReflectionUtils
         return default;
     }
 
-    public static bool IsVirtual(this PropertyInfo property) =>
-        property.Method() is {IsVirtual: true};
+    public static bool IsVirtual(this PropertyInfo property)
+    {
+        return property.Method() is {IsVirtual: true};
+    }
 
     static MethodInfo? Method(this PropertyInfo property)
     {
@@ -57,14 +59,20 @@ static class ReflectionUtils
         return null;
     }
 
-    static MethodInfo? GetBaseDefinition(this PropertyInfo property) =>
-        property.Method()?.GetBaseDefinition();
+    static MethodInfo? GetBaseDefinition(this PropertyInfo property)
+    {
+        return property.Method()?.GetBaseDefinition();
+    }
 
-    public static bool IsPublic(PropertyInfo property) =>
-        property.Method() is {IsPublic: true};
+    public static bool IsPublic(PropertyInfo property)
+    {
+        return property.Method() is {IsPublic: true};
+    }
 
-    public static Type? GetObjectType(object? v) =>
-        v?.GetType();
+    public static Type? GetObjectType(object? v)
+    {
+        return v?.GetType();
+    }
 
     public static string GetTypeName(this Type type, TypeNameAssemblyFormatHandling? assemblyFormat, ISerializationBinder? binder)
     {
@@ -155,8 +163,10 @@ static class ReflectionUtils
         return GetDefaultConstructor(type, nonPublic) != null;
     }
 
-    public static ConstructorInfo GetDefaultConstructor(this Type type) =>
-        GetDefaultConstructor(type, false);
+    public static ConstructorInfo GetDefaultConstructor(this Type type)
+    {
+        return GetDefaultConstructor(type, false);
+    }
 
     public static ConstructorInfo GetDefaultConstructor(this Type type, bool nonPublic)
     {
@@ -169,13 +179,17 @@ static class ReflectionUtils
         return type.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any())!;
     }
 
-    public static bool IsNullable(this Type type) =>
-        !type.IsValueType ||
-        IsNullableType(type);
+    public static bool IsNullable(this Type type)
+    {
+        return !type.IsValueType ||
+               IsNullableType(type);
+    }
 
-    public static bool IsNullableType(this Type type) =>
-        type.IsGenericType &&
-        type.GetGenericTypeDefinition() == typeof(Nullable<>);
+    public static bool IsNullableType(this Type type)
+    {
+        return type.IsGenericType &&
+               type.GetGenericTypeDefinition() == typeof(Nullable<>);
+    }
 
     public static Type EnsureNotNullableType(this Type type)
     {
@@ -209,8 +223,10 @@ static class ReflectionUtils
         return t == genericInterfaceDefinition;
     }
 
-    public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition) =>
-        ImplementsGenericDefinition(type, genericInterfaceDefinition, out _);
+    public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition)
+    {
+        return ImplementsGenericDefinition(type, genericInterfaceDefinition, out _);
+    }
 
     public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition, [NotNullWhen(true)] out Type? implementingType)
     {
@@ -332,8 +348,9 @@ static class ReflectionUtils
     /// Gets the member's underlying type.
     /// </summary>
     /// <returns>The underlying type of the member.</returns>
-    public static Type GetMemberUnderlyingType(this MemberInfo member) =>
-        member.MemberType switch
+    public static Type GetMemberUnderlyingType(this MemberInfo member)
+    {
+        return member.MemberType switch
         {
             MemberTypes.Field => ((FieldInfo) member).FieldType,
             MemberTypes.Property => ((PropertyInfo) member).PropertyType,
@@ -341,6 +358,7 @@ static class ReflectionUtils
             MemberTypes.Method => ((MethodInfo) member).ReturnType,
             _ => throw new ArgumentException("MemberInfo must be of type FieldInfo, PropertyInfo, EventInfo or MethodInfo", nameof(member))
         };
+    }
 
     public static bool IsByRefLikeType(this Type type)
     {
@@ -361,8 +379,10 @@ static class ReflectionUtils
     /// <returns>
     /// <c>true</c> if the property is an indexed property; otherwise, <c>false</c>.
     /// </returns>
-    public static bool IsIndexedProperty(this PropertyInfo property) =>
-        property.GetIndexParameters().Length > 0;
+    public static bool IsIndexedProperty(this PropertyInfo property)
+    {
+        return property.GetIndexParameters().Length > 0;
+    }
 
     /// <summary>
     /// Gets the member's value on the object.
@@ -730,10 +750,12 @@ static class ReflectionUtils
         return properties;
     }
 
-    static BindingFlags RemoveFlag(this BindingFlags source, BindingFlags flag) =>
-        (source & flag) == flag
+    static BindingFlags RemoveFlag(this BindingFlags source, BindingFlags flag)
+    {
+        return (source & flag) == flag
             ? source ^ flag
             : source;
+    }
 
     static void GetChildPrivateProperties(List<PropertyInfo> initialProperties, Type targetType, BindingFlags bindingFlags)
     {
@@ -799,14 +821,16 @@ static class ReflectionUtils
         }
     }
 
-    public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method) =>
-        currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+    public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method)
+    {
+        return currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
             .Any(info =>
                 info.Name == method &&
                 // check that the method overrides the original on DynamicObjectProxy
                 info.DeclaringType != methodDeclaringType
                 && info.GetBaseDefinition().DeclaringType == methodDeclaringType
             );
+    }
 
     public static object? GetDefaultValue(Type type)
     {

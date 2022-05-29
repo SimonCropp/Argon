@@ -14,8 +14,10 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
     {
         readonly IContainer container;
 
-        public AutofacContractResolver(IContainer container) =>
+        public AutofacContractResolver(IContainer container)
+        {
             this.container = container;
+        }
 
         protected override JsonObjectContract CreateObjectContract(Type type)
         {
@@ -129,8 +131,10 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
     public class LogManager : ILogger
     {
-        public LogManager(DateTime dt) =>
+        public LogManager(DateTime dt)
+        {
             DateTime = dt;
+        }
 
         public DateTime DateTime { get; }
 

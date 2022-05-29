@@ -46,19 +46,23 @@ struct DateTimeParser
                ParseTimeAndZoneAndWhitespace(Lzyyyy_MM_ddT + startIndex);
     }
 
-    bool ParseDate(int start) =>
-        Parse4Digit(start, out Year) &&
-        1 <= Year &&
-        ParseChar(start + Lzyyyy, '-') &&
-        Parse2Digit(start + Lzyyyy_, out Month) &&
-        Month is >= 1 and <= 12 &&
-        ParseChar(start + Lzyyyy_MM, '-') &&
-        Parse2Digit(start + Lzyyyy_MM_, out Day) &&
-        1 <= Day &&
-        Day <= DateTime.DaysInMonth(Year, Month);
+    bool ParseDate(int start)
+    {
+        return Parse4Digit(start, out Year) &&
+               1 <= Year &&
+               ParseChar(start + Lzyyyy, '-') &&
+               Parse2Digit(start + Lzyyyy_, out Month) &&
+               Month is >= 1 and <= 12 &&
+               ParseChar(start + Lzyyyy_MM, '-') &&
+               Parse2Digit(start + Lzyyyy_MM_, out Day) &&
+               1 <= Day &&
+               Day <= DateTime.DaysInMonth(Year, Month);
+    }
 
-    bool ParseTimeAndZoneAndWhitespace(int start) =>
-        ParseTime(ref start) && ParseZone(start);
+    bool ParseTimeAndZoneAndWhitespace(int start)
+    {
+        return ParseTime(ref start) && ParseZone(start);
+    }
 
     bool ParseTime(ref int start)
     {
@@ -208,6 +212,8 @@ struct DateTimeParser
         return false;
     }
 
-    bool ParseChar(int start, char ch) =>
-        start < end && text[start] == ch;
+    bool ParseChar(int start, char ch)
+    {
+        return start < end && text[start] == ch;
+    }
 }

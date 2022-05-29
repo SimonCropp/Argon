@@ -2,8 +2,10 @@ class QueryScanFilter : PathFilter
 {
     internal QueryExpression Expression;
 
-    public QueryScanFilter(QueryExpression expression) =>
+    public QueryScanFilter(QueryExpression expression)
+    {
         Expression = expression;
+    }
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {

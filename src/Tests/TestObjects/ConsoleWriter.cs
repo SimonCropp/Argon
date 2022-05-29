@@ -11,9 +11,13 @@ class ConsoleWriter : IMyInterface
 {
     public string Name => "Console Writer";
 
-    public string PrintTest() =>
-        "ConsoleWriter";
+    public string PrintTest()
+    {
+        return "ConsoleWriter";
+    }
 
-    public override string ToString() =>
-        Name;
+    public override string ToString()
+    {
+        return Name;
+    }
 }

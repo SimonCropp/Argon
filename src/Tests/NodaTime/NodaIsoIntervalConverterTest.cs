@@ -54,8 +54,10 @@ public class NodaIsoIntervalConverterTest
 
     [Theory]
     [InlineData("\"2012-01-02T03:04:05Z2013-06-07T08:09:10Z\"")]
-    public void InvalidJson(string json) =>
+    public void InvalidJson(string json)
+    {
         AssertInvalidJson<Interval>(json, settings);
+    }
 
     [Fact]
     public void Serialize_InObject()

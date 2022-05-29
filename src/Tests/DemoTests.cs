@@ -103,8 +103,10 @@ public class DemoTests : TestFixtureBase
             };
         }
 
-        public override bool CanConvert(Type type) =>
-            type == typeof(HtmlColor);
+        public override bool CanConvert(Type type)
+        {
+            return type == typeof(HtmlColor);
+        }
     }
 
     [Fact]
@@ -649,11 +651,15 @@ public class JsonArrayPool : IArrayPool<char>
 {
     public static readonly JsonArrayPool Instance = new();
 
-    public char[] Rent(int minimumLength) =>
+    public char[] Rent(int minimumLength)
+    {
         // use System.Buffers shared pool
-        ArrayPool<char>.Shared.Rent(minimumLength);
+        return ArrayPool<char>.Shared.Rent(minimumLength);
+    }
 
-    public void Return(char[] array) =>
+    public void Return(char[] array)
+    {
         // use System.Buffers shared pool
         ArrayPool<char>.Shared.Return(array);
+    }
 }

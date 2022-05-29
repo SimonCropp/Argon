@@ -8,8 +8,10 @@ public class PublicParameterizedConstructorRequiringConverterTestClass
 {
     readonly NameContainer _nameContainer;
 
-    public PublicParameterizedConstructorRequiringConverterTestClass(NameContainer nameParameter) =>
+    public PublicParameterizedConstructorRequiringConverterTestClass(NameContainer nameParameter)
+    {
         _nameContainer = nameParameter;
+    }
 
     public NameContainer Name => _nameContainer;
 }

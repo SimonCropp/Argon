@@ -12,13 +12,17 @@ public class PrivateMembersClass
         _internalString = internalString;
     }
 
-    public PrivateMembersClass() =>
+    public PrivateMembersClass()
+    {
         i = default(int);
+    }
 
     string _privateString;
     readonly int i;
     internal string _internalString;
 
-    public int UseValue() =>
-        i;
+    public int UseValue()
+    {
+        return i;
+    }
 }

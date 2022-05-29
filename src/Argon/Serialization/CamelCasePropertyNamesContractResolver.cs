@@ -16,12 +16,14 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
     /// <summary>
     /// Initializes a new instance of the <see cref="CamelCasePropertyNamesContractResolver" /> class.
     /// </summary>
-    public CamelCasePropertyNamesContractResolver() =>
+    public CamelCasePropertyNamesContractResolver()
+    {
         NamingStrategy = new CamelCaseNamingStrategy
         {
             ProcessDictionaryKeys = true,
             OverrideSpecifiedNames = true
         };
+    }
 
     /// <summary>
     /// Resolves the contract for a given type.
@@ -60,6 +62,8 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
         return contract;
     }
 
-    internal override DefaultJsonNameTable GetNameTable() =>
-        NameTable;
+    internal override DefaultJsonNameTable GetNameTable()
+    {
+        return NameTable;
+    }
 }

@@ -31,12 +31,16 @@ public class Currency
     internal static readonly Currency _unique_USD = new(3);
 
     [CompilerGenerated, DebuggerNonUserCode]
-    internal Currency(int _tag) =>
+    internal Currency(int _tag)
+    {
         this._tag = _tag;
+    }
 
     [CompilerGenerated, DebuggerNonUserCode]
-    internal object __DebugDisplay() =>
-        ExtraTopLevelOperators.PrintFormatToString(new PrintfFormat<FSharpFunc<Currency, string>, Unit, string, string, string>("%+0.8A")).Invoke(this);
+    internal object __DebugDisplay()
+    {
+        return ExtraTopLevelOperators.PrintFormatToString(new PrintfFormat<FSharpFunc<Currency, string>, Unit, string, string, string>("%+0.8A")).Invoke(this);
+    }
 
     [CompilerGenerated, DebuggerNonUserCode, DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public static Currency AUD

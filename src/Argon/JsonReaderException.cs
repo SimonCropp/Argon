@@ -49,11 +49,15 @@ public class JsonReaderException : JsonException
         LinePosition = linePosition;
     }
 
-    internal static JsonReaderException Create(JsonReader reader, string message) =>
-        Create(reader, message, null);
+    internal static JsonReaderException Create(JsonReader reader, string message)
+    {
+        return Create(reader, message, null);
+    }
 
-    internal static JsonReaderException Create(JsonReader reader, string message, Exception? exception) =>
-        Create(reader as IJsonLineInfo, reader.Path, message, exception);
+    internal static JsonReaderException Create(JsonReader reader, string message, Exception? exception)
+    {
+        return Create(reader as IJsonLineInfo, reader.Path, message, exception);
+    }
 
     internal static JsonReaderException Create(IJsonLineInfo? lineInfo, string path, string message, Exception? exception)
     {

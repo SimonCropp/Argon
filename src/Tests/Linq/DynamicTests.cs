@@ -164,13 +164,15 @@ public class LinqDynamicTests : TestFixtureBase
     }
 
     [Fact]
-    public void JObjectPropertyNameWithNonToken() =>
+    public void JObjectPropertyNameWithNonToken()
+    {
         XUnitAssert.Throws<ArgumentException>(() =>
         {
             dynamic d = new JObject();
 
             d.First = new[] {"One", "II", "3"};
         }, "Could not determine JSON object type for type System.String[].");
+    }
 
     [Fact]
     public void JObjectMethods()
@@ -739,8 +741,10 @@ public class LinqDynamicTests : TestFixtureBase
         AssertValueConverted<BigInteger?>(null);
     }
 
-    static void AssertValueConverted<T>(object value) =>
+    static void AssertValueConverted<T>(object value)
+    {
         AssertValueConverted<T>(value, value);
+    }
 
     static void AssertValueConverted<T>(object value, object expected)
     {
@@ -894,8 +898,10 @@ public class LinqDynamicTests : TestFixtureBase
     {
         readonly IDictionary<string, object> _values = new Dictionary<string, object>();
 
-        public override IEnumerable<string> GetDynamicMemberNames() =>
-            _values.Keys;
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _values.Keys;
+        }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {

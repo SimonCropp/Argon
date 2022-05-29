@@ -120,20 +120,28 @@ public class SerializationTests : TestFixtureBase
         }
 
         [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context) =>
+        internal void OnSerializingMethod(StreamingContext context)
+        {
             Member2 = "This value went into the data file during serialization.";
+        }
 
         [OnSerialized]
-        internal void OnSerializedMethod(StreamingContext context) =>
+        internal void OnSerializedMethod(StreamingContext context)
+        {
             Member2 = "This value was reset after serialization.";
+        }
 
         [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context) =>
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
             Member3 = "This value was set during deserialization";
+        }
 
         [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context) =>
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
             Member4 = "This value was set after deserialization.";
+        }
     }
 
     #endregion
@@ -272,8 +280,10 @@ public class SerializationTests : TestFixtureBase
         public string Title { get; set; }
 
         [OnError]
-        internal void OnError(StreamingContext context, ErrorContext errorContext) =>
+        internal void OnError(StreamingContext context, ErrorContext errorContext)
+        {
             errorContext.Handled = true;
+        }
     }
 
     #endregion
@@ -441,8 +451,10 @@ public class SerializationTests : TestFixtureBase
 
     public class PersonConverter : CustomCreationConverter<IPerson>
     {
-        public override IPerson Create(Type type) =>
-            new Employee();
+        public override IPerson Create(Type type)
+        {
+            return new Employee();
+        }
     }
 
     #endregion
@@ -867,8 +879,10 @@ public class SerializationTests : TestFixtureBase
     {
         readonly char _startingWithChar;
 
-        public DynamicContractResolver(char startingWithChar) =>
+        public DynamicContractResolver(char startingWithChar)
+        {
             _startingWithChar = startingWithChar;
+        }
 
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {

@@ -38,12 +38,16 @@ public class JTokenBenchmarks
     }
 
     [Benchmark]
-    public JObject JObjectParse() =>
-        JObject.Parse(JsonTextSample);
+    public JObject JObjectParse()
+    {
+        return JObject.Parse(JsonTextSample);
+    }
 
     [Benchmark]
-    public JArray JArrayNestedParse() =>
-        JArray.Parse(NestedJsonText);
+    public JArray JArrayNestedParse()
+    {
+        return JArray.Parse(NestedJsonText);
+    }
 
     [Benchmark]
     public JArray JArrayNestedBuild()

@@ -429,8 +429,10 @@ class JPath
         return true;
     }
 
-    JsonException CreateUnexpectedCharacterException() =>
-        new($"Unexpected character while parsing path query: {expression[currentIndex]}");
+    JsonException CreateUnexpectedCharacterException()
+    {
+        return new($"Unexpected character while parsing path query: {expression[currentIndex]}");
+    }
 
     object ParseSide()
     {
@@ -839,8 +841,10 @@ class JPath
         }
     }
 
-    internal IEnumerable<JToken> Evaluate(JToken root, JToken t, JsonSelectSettings settings) =>
-        Evaluate(Filters, root, t, settings);
+    internal IEnumerable<JToken> Evaluate(JToken root, JToken t, JsonSelectSettings settings)
+    {
+        return Evaluate(Filters, root, t, settings);
+    }
 
     internal static IEnumerable<JToken> Evaluate(List<PathFilter> filters, JToken root, JToken t, JsonSelectSettings settings)
     {

@@ -6,12 +6,18 @@ namespace TestObjects;
 
 public class ItemConverterTestConverter : JsonConverter
 {
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
         writer.WriteValue("X");
+    }
 
-    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-        "X";
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+    {
+        return "X";
+    }
 
-    public override bool CanConvert(Type type) =>
-        true;
+    public override bool CanConvert(Type type)
+    {
+        return true;
+    }
 }

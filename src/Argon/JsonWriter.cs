@@ -72,8 +72,10 @@ public abstract partial class JsonWriter : IDisposable
         return allStates.ToArray();
     }
 
-    static JsonWriter() =>
+    static JsonWriter()
+    {
         StateArray = BuildStateArray();
+    }
 
     List<JsonPosition> stack = new();
     JsonPosition currentPosition;
@@ -269,8 +271,10 @@ public abstract partial class JsonWriter : IDisposable
         return oldPosition.Type;
     }
 
-    JsonContainerType Peek() =>
-        currentPosition.Type;
+    JsonContainerType Peek()
+    {
+        return currentPosition.Type;
+    }
 
     /// <summary>
     /// Flushes whatever is in the buffer to the destination and also flushes the destination.
@@ -293,58 +297,76 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes the beginning of a JSON object.
     /// </summary>
-    public virtual void WriteStartObject() =>
+    public virtual void WriteStartObject()
+    {
         InternalWriteStart(JsonToken.StartObject, JsonContainerType.Object);
+    }
 
     /// <summary>
     /// Writes the end of a JSON object.
     /// </summary>
-    public virtual void WriteEndObject() =>
+    public virtual void WriteEndObject()
+    {
         InternalWriteEnd(JsonContainerType.Object);
+    }
 
     /// <summary>
     /// Writes the beginning of a JSON array.
     /// </summary>
-    public virtual void WriteStartArray() =>
+    public virtual void WriteStartArray()
+    {
         InternalWriteStart(JsonToken.StartArray, JsonContainerType.Array);
+    }
 
     /// <summary>
     /// Writes the end of an array.
     /// </summary>
-    public virtual void WriteEndArray() =>
+    public virtual void WriteEndArray()
+    {
         InternalWriteEnd(JsonContainerType.Array);
+    }
 
     /// <summary>
     /// Writes the property name of a name/value pair of a JSON object.
     /// </summary>
-    public virtual void WritePropertyName(string name) =>
+    public virtual void WritePropertyName(string name)
+    {
         InternalWritePropertyName(name);
+    }
 
     /// <summary>
     /// Writes the property name of a name/value pair of a JSON object.
     /// </summary>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-    public virtual void WritePropertyName(string name, bool escape) =>
+    public virtual void WritePropertyName(string name, bool escape)
+    {
         WritePropertyName(name);
+    }
 
     /// <summary>
     /// Writes the end of the current JSON object or array.
     /// </summary>
-    public virtual void WriteEnd() =>
+    public virtual void WriteEnd()
+    {
         WriteEnd(Peek());
+    }
 
     /// <summary>
     /// Writes the current <see cref="JsonReader" /> token and its children.
     /// </summary>
-    public void WriteToken(JsonReader reader) =>
+    public void WriteToken(JsonReader reader)
+    {
         WriteToken(reader, true);
+    }
 
     /// <summary>
     /// Writes the current <see cref="JsonReader" /> token.
     /// </summary>
     /// <param name="writeChildren">A flag indicating whether the current token's children should be written.</param>
-    public void WriteToken(JsonReader reader, bool writeChildren) =>
+    public void WriteToken(JsonReader reader, bool writeChildren)
+    {
         WriteToken(reader, writeChildren, true, true);
+    }
 
     /// <summary>
     /// Writes the <see cref="JsonToken" /> token and its value.
@@ -456,8 +478,10 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes the <see cref="JsonToken" /> token.
     /// </summary>
-    public void WriteToken(JsonToken token) =>
+    public void WriteToken(JsonToken token)
+    {
         WriteToken(token, null);
+    }
 
     internal virtual void WriteToken(JsonReader reader, bool writeChildren, bool writeDateConstructorAsDate, bool writeComments)
     {
@@ -691,20 +715,26 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a null value.
     /// </summary>
-    public virtual void WriteNull() =>
+    public virtual void WriteNull()
+    {
         InternalWriteValue(JsonToken.Null);
+    }
 
     /// <summary>
     /// Writes an undefined value.
     /// </summary>
-    public virtual void WriteUndefined() =>
+    public virtual void WriteUndefined()
+    {
         InternalWriteValue(JsonToken.Undefined);
+    }
 
     /// <summary>
     /// Writes raw JSON without changing the writer's state.
     /// </summary>
-    public virtual void WriteRaw(string? json) =>
+    public virtual void WriteRaw(string? json)
+    {
         InternalWriteRaw();
+    }
 
     /// <summary>
     /// Writes raw JSON where a value is expected and updates the writer's state.
@@ -720,110 +750,146 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a <see cref="String" /> value.
     /// </summary>
-    public virtual void WriteValue(string? value) =>
+    public virtual void WriteValue(string? value)
+    {
         InternalWriteValue(JsonToken.String);
+    }
 
     /// <summary>
     /// Writes a <see cref="Int32" /> value.
     /// </summary>
-    public virtual void WriteValue(int value) =>
+    public virtual void WriteValue(int value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="UInt32" /> value.
     /// </summary>
-    public virtual void WriteValue(uint value) =>
+    public virtual void WriteValue(uint value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="Int64" /> value.
     /// </summary>
-    public virtual void WriteValue(long value) =>
+    public virtual void WriteValue(long value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="UInt64" /> value.
     /// </summary>
-    public virtual void WriteValue(ulong value) =>
+    public virtual void WriteValue(ulong value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="Single" /> value.
     /// </summary>
-    public virtual void WriteValue(float value) =>
+    public virtual void WriteValue(float value)
+    {
         InternalWriteValue(JsonToken.Float);
+    }
 
     /// <summary>
     /// Writes a <see cref="Double" /> value.
     /// </summary>
-    public virtual void WriteValue(double value) =>
+    public virtual void WriteValue(double value)
+    {
         InternalWriteValue(JsonToken.Float);
+    }
 
     /// <summary>
     /// Writes a <see cref="Boolean" /> value.
     /// </summary>
-    public virtual void WriteValue(bool value) =>
+    public virtual void WriteValue(bool value)
+    {
         InternalWriteValue(JsonToken.Boolean);
+    }
 
     /// <summary>
     /// Writes a <see cref="Int16" /> value.
     /// </summary>
-    public virtual void WriteValue(short value) =>
+    public virtual void WriteValue(short value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="UInt16" /> value.
     /// </summary>
-    public virtual void WriteValue(ushort value) =>
+    public virtual void WriteValue(ushort value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="Char" /> value.
     /// </summary>
-    public virtual void WriteValue(char value) =>
+    public virtual void WriteValue(char value)
+    {
         InternalWriteValue(JsonToken.String);
+    }
 
     /// <summary>
     /// Writes a <see cref="Byte" /> value.
     /// </summary>
-    public virtual void WriteValue(byte value) =>
+    public virtual void WriteValue(byte value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="SByte" /> value.
     /// </summary>
-    public virtual void WriteValue(sbyte value) =>
+    public virtual void WriteValue(sbyte value)
+    {
         InternalWriteValue(JsonToken.Integer);
+    }
 
     /// <summary>
     /// Writes a <see cref="Decimal" /> value.
     /// </summary>
-    public virtual void WriteValue(decimal value) =>
+    public virtual void WriteValue(decimal value)
+    {
         InternalWriteValue(JsonToken.Float);
+    }
 
     /// <summary>
     /// Writes a <see cref="DateTime" /> value.
     /// </summary>
-    public virtual void WriteValue(DateTime value) =>
+    public virtual void WriteValue(DateTime value)
+    {
         InternalWriteValue(JsonToken.Date);
+    }
 
     /// <summary>
     /// Writes a <see cref="DateTimeOffset" /> value.
     /// </summary>
-    public virtual void WriteValue(DateTimeOffset value) =>
+    public virtual void WriteValue(DateTimeOffset value)
+    {
         InternalWriteValue(JsonToken.Date);
+    }
 
     /// <summary>
     /// Writes a <see cref="Guid" /> value.
     /// </summary>
-    public virtual void WriteValue(Guid value) =>
+    public virtual void WriteValue(Guid value)
+    {
         InternalWriteValue(JsonToken.String);
+    }
 
     /// <summary>
     /// Writes a <see cref="TimeSpan" /> value.
     /// </summary>
-    public virtual void WriteValue(TimeSpan value) =>
+    public virtual void WriteValue(TimeSpan value)
+    {
         InternalWriteValue(JsonToken.String);
+    }
 
     /// <summary>
     /// Writes a <see cref="Nullable{T}" /> of <see cref="Int32" /> value.
@@ -1138,14 +1204,18 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
-    public virtual void WriteComment(string? text) =>
+    public virtual void WriteComment(string? text)
+    {
         InternalWriteComment();
+    }
 
     /// <summary>
     /// Writes the given white space.
     /// </summary>
-    public virtual void WriteWhitespace(string ws) =>
+    public virtual void WriteWhitespace(string ws)
+    {
         InternalWriteWhitespace(ws);
+    }
 
     void IDisposable.Dispose()
     {
@@ -1363,8 +1433,10 @@ public abstract partial class JsonWriter : IDisposable
         value = convertible.ToType(resolvedType, CultureInfo.InvariantCulture);
     }
 
-    static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value) =>
-        JsonWriterException.Create(writer, $"Unsupported type: {value.GetType()}. Use the JsonSerializer class to get the object's JSON representation.");
+    static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value)
+    {
+        return JsonWriterException.Create(writer, $"Unsupported type: {value.GetType()}. Use the JsonSerializer class to get the object's JSON representation.");
+    }
 
     /// <summary>
     /// Sets the state of the <see cref="JsonWriter" />.
@@ -1414,8 +1486,10 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    void InternalWriteEnd(JsonContainerType container) =>
+    void InternalWriteEnd(JsonContainerType container)
+    {
         AutoCompleteClose(container);
+    }
 
     internal void InternalWritePropertyName(string name)
     {
@@ -1448,6 +1522,8 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
-    internal void InternalWriteComment() =>
+    internal void InternalWriteComment()
+    {
         AutoComplete(JsonToken.Comment);
+    }
 }

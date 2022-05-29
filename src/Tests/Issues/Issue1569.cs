@@ -25,32 +25,50 @@ public class Issue1569 : TestFixtureBase
     {
         readonly Stream innerStream;
 
-        public AsyncOnlyStream(Stream innerStream) =>
+        public AsyncOnlyStream(Stream innerStream)
+        {
             this.innerStream = innerStream;
+        }
 
-        public override void Flush() =>
+        public override void Flush()
+        {
             throw new NotSupportedException();
+        }
 
-        public override Task FlushAsync(CancellationToken cancellation) =>
-            innerStream.FlushAsync(cancellation);
+        public override Task FlushAsync(CancellationToken cancellation)
+        {
+            return innerStream.FlushAsync(cancellation);
+        }
 
-        public override long Seek(long offset, SeekOrigin origin) =>
-            innerStream.Seek(offset, origin);
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            return innerStream.Seek(offset, origin);
+        }
 
-        public override void SetLength(long value) =>
+        public override void SetLength(long value)
+        {
             innerStream.SetLength(value);
+        }
 
-        public override int Read(byte[] buffer, int offset, int count) =>
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException();
+        }
 
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellation) =>
-            innerStream.ReadAsync(buffer, offset, count, cancellation);
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellation)
+        {
+            return innerStream.ReadAsync(buffer, offset, count, cancellation);
+        }
 
-        public override void Write(byte[] buffer, int offset, int count) =>
+        public override void Write(byte[] buffer, int offset, int count)
+        {
             throw new NotSupportedException();
+        }
 
-        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellation) =>
-            innerStream.WriteAsync(buffer, offset, count, cancellation);
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellation)
+        {
+            return innerStream.WriteAsync(buffer, offset, count, cancellation);
+        }
 
         public override bool CanRead => innerStream.CanRead;
         public override bool CanSeek => innerStream.CanSeek;

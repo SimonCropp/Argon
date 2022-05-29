@@ -32,8 +32,10 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     /// </summary>
     /// <param name="item">The element from which to extract the key.</param>
     /// <returns>The key for the specified element.</returns>
-    protected override string GetKeyForItem(JsonProperty item) =>
-        item.PropertyName!;
+    protected override string GetKeyForItem(JsonProperty item)
+    {
+        return item.PropertyName!;
+    }
 
     /// <summary>
     /// Adds a <see cref="JsonProperty" /> object.

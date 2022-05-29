@@ -19,8 +19,10 @@ public class Issue1307 : TestFixtureBase
     {
         static readonly JsonLoadSettings _jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
 
-        public override bool CanConvert(Type type) =>
-            typeof(MyClass2).Equals(type);
+        public override bool CanConvert(Type type)
+        {
+            return typeof(MyClass2).Equals(type);
+        }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
@@ -51,8 +53,10 @@ public class Issue1307 : TestFixtureBase
 
         public override bool CanWrite => false;
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
             throw new NotSupportedException();
+        }
 
         #endregion
 

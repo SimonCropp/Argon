@@ -63,8 +63,10 @@ static class ILGeneratorExtensions
         }
     }
 
-    public static void Return(this ILGenerator generator) =>
+    public static void Return(this ILGenerator generator)
+    {
         generator.Emit(OpCodes.Ret);
+    }
 }
 
 #endif

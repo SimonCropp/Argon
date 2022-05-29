@@ -16,8 +16,9 @@ public class CreateJsonDeclaratively : TestFixtureBase
 
     #endregion
 
-    static List<Post> GetPosts() =>
-        new()
+    static List<Post> GetPosts()
+    {
+        return new()
         {
             new()
             {
@@ -30,6 +31,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
                 Link = "Link!"
             }
         };
+    }
 
     [Fact]
     public void Example()

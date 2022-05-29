@@ -38,6 +38,8 @@ public class ListOfIds<T> : JsonConverter where T : Bar, new()
         return list;
     }
 
-    public override bool CanConvert(Type type) =>
-        typeof(IList<T>).IsAssignableFrom(type);
+    public override bool CanConvert(Type type)
+    {
+        return typeof(IList<T>).IsAssignableFrom(type);
+    }
 }

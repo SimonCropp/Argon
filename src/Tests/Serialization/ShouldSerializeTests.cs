@@ -14,8 +14,10 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         public A A { get; set; }
 
-        public virtual bool ShouldSerializeA() =>
-            false;
+        public virtual bool ShouldSerializeA()
+        {
+            return false;
+        }
     }
 
     [Fact]
@@ -415,16 +417,20 @@ public class ShouldSerializeTests : TestFixtureBase
         public string Name { get; set; }
         public Employee Manager { get; set; }
 
-        public bool ShouldSerializeManager() =>
-            Manager != this;
+        public bool ShouldSerializeManager()
+        {
+            return Manager != this;
+        }
     }
 
     public class NewEmployee : Employee
     {
         public int Age { get; set; }
 
-        public bool ShouldSerializeName() =>
-            false;
+        public bool ShouldSerializeName()
+        {
+            return false;
+        }
     }
 
 
@@ -440,8 +446,10 @@ public class ShouldSerializeTests : TestFixtureBase
             // dummy. should never be used because it doesn't return bool
         }
 
-        public bool ShouldSerializeName() =>
-            shouldSerializeName;
+        public bool ShouldSerializeName()
+        {
+            return shouldSerializeName;
+        }
     }
 
     public class SpecifiedTestClass
@@ -473,11 +481,15 @@ public class ShouldSerializeTests : TestFixtureBase
 
         public string name { get; set; }
 
-        public virtual bool ShouldSerializemyBar() =>
-            myBar != null;
+        public virtual bool ShouldSerializemyBar()
+        {
+            return myBar != null;
+        }
 
-        public virtual bool ShouldSerializename() =>
-            name != null;
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
     }
 
     public class Bar2
@@ -494,8 +506,10 @@ public class ShouldSerializeTests : TestFixtureBase
             return myBaz != null;
         }
 
-        public virtual bool ShouldSerializename() =>
-            name != null;
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
     }
 
     public class Baz1
@@ -504,19 +518,25 @@ public class ShouldSerializeTests : TestFixtureBase
 
         public string name { get; set; }
 
-        public virtual bool ShouldSerializename() =>
-            name != null;
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
 
-        public virtual bool ShouldSerializemyFrob() =>
-            myFrob != null;
+        public virtual bool ShouldSerializemyFrob()
+        {
+            return myFrob != null;
+        }
     }
 
     public class Frob1
     {
         public string name { get; set; }
 
-        public virtual bool ShouldSerializename() =>
-            name != null;
+        public virtual bool ShouldSerializename()
+        {
+            return name != null;
+        }
     }
 
     public class ShouldDeserializeContractResolver : DefaultContractResolver
@@ -545,7 +565,9 @@ public class ShouldSerializeTests : TestFixtureBase
         public bool HasName { get; set; }
         public string Name { get; set; }
 
-        public bool ShouldDeserializeName() =>
-            HasName;
+        public bool ShouldDeserializeName()
+        {
+            return HasName;
+        }
     }
 }

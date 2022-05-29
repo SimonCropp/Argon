@@ -20,8 +20,10 @@ public static class JsonXmlConvert
     /// </summary>
     /// <param name="node">The node to serialize.</param>
     /// <returns>A JSON string of the <see cref="XmlNode" />.</returns>
-    public static string SerializeXmlNode(XmlNode? node) =>
-        SerializeXmlNode(node, Formatting.None);
+    public static string SerializeXmlNode(XmlNode? node)
+    {
+        return SerializeXmlNode(node, Formatting.None);
+    }
 
     /// <summary>
     /// Serializes the <see cref="XmlNode" /> to a JSON string using formatting.
@@ -53,8 +55,10 @@ public static class JsonXmlConvert
     /// </summary>
     /// <param name="value">The JSON string.</param>
     /// <returns>The deserialized <see cref="XmlNode" />.</returns>
-    public static XmlDocument? DeserializeXmlNode(string value) =>
-        DeserializeXmlNode(value, null);
+    public static XmlDocument? DeserializeXmlNode(string value)
+    {
+        return DeserializeXmlNode(value, null);
+    }
 
     /// <summary>
     /// Deserializes the <see cref="XmlNode" /> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName" />.
@@ -62,8 +66,10 @@ public static class JsonXmlConvert
     /// <param name="value">The JSON string.</param>
     /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
     /// <returns>The deserialized <see cref="XmlNode" />.</returns>
-    public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName) =>
-        DeserializeXmlNode(value, deserializeRootElementName, false);
+    public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName)
+    {
+        return DeserializeXmlNode(value, deserializeRootElementName, false);
+    }
 
     /// <summary>
     /// Deserializes the <see cref="XmlNode" /> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName" />
@@ -76,8 +82,10 @@ public static class JsonXmlConvert
     /// This attribute helps preserve arrays when converting the written XML back to JSON.
     /// </param>
     /// <returns>The deserialized <see cref="XmlNode" />.</returns>
-    public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName, bool writeArrayAttribute) =>
-        DeserializeXmlNode(value, deserializeRootElementName, writeArrayAttribute, false);
+    public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName, bool writeArrayAttribute)
+    {
+        return DeserializeXmlNode(value, deserializeRootElementName, writeArrayAttribute, false);
+    }
 
     /// <summary>
     /// Deserializes the <see cref="XmlNode" /> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName" />,
@@ -113,16 +121,20 @@ public static class JsonXmlConvert
     /// </summary>
     /// <param name="node">The node to convert to JSON.</param>
     /// <returns>A JSON string of the <see cref="XNode" />.</returns>
-    public static string SerializeXNode(XObject? node) =>
-        SerializeXNode(node, Formatting.None);
+    public static string SerializeXNode(XObject? node)
+    {
+        return SerializeXNode(node, Formatting.None);
+    }
 
     /// <summary>
     /// Serializes the <see cref="XNode" /> to a JSON string using formatting.
     /// </summary>
     /// <param name="node">The node to convert to JSON.</param>
     /// <returns>A JSON string of the <see cref="XNode" />.</returns>
-    public static string SerializeXNode(XObject? node, Formatting formatting) =>
-        SerializeXNode(node, formatting, false);
+    public static string SerializeXNode(XObject? node, Formatting formatting)
+    {
+        return SerializeXNode(node, formatting, false);
+    }
 
     /// <summary>
     /// Serializes the <see cref="XNode" /> to a JSON string using formatting and omits the root object if <paramref name="omitRootObject" /> is <c>true</c>.
@@ -142,8 +154,10 @@ public static class JsonXmlConvert
     /// </summary>
     /// <param name="value">The JSON string.</param>
     /// <returns>The deserialized <see cref="XNode" />.</returns>
-    public static XDocument? DeserializeXNode(string value) =>
-        DeserializeXNode(value, null);
+    public static XDocument? DeserializeXNode(string value)
+    {
+        return DeserializeXNode(value, null);
+    }
 
     /// <summary>
     /// Deserializes the <see cref="XNode" /> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName" />.
@@ -151,8 +165,10 @@ public static class JsonXmlConvert
     /// <param name="value">The JSON string.</param>
     /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
     /// <returns>The deserialized <see cref="XNode" />.</returns>
-    public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName) =>
-        DeserializeXNode(value, deserializeRootElementName, false);
+    public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName)
+    {
+        return DeserializeXNode(value, deserializeRootElementName, false);
+    }
 
     /// <summary>
     /// Deserializes the <see cref="XNode" /> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName" />
@@ -165,8 +181,10 @@ public static class JsonXmlConvert
     /// This attribute helps preserve arrays when converting the written XML back to JSON.
     /// </param>
     /// <returns>The deserialized <see cref="XNode" />.</returns>
-    public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName, bool writeArrayAttribute) =>
-        DeserializeXNode(value, deserializeRootElementName, writeArrayAttribute, false);
+    public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName, bool writeArrayAttribute)
+    {
+        return DeserializeXNode(value, deserializeRootElementName, writeArrayAttribute, false);
+    }
 
     /// <summary>
     /// Deserializes the <see cref="XNode" /> from a JSON string nested in a root element specified by <paramref name="deserializeRootElementName" />,

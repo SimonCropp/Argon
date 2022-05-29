@@ -18,8 +18,10 @@ public class DeserializeBenchmarks
     }
 
     [Benchmark]
-    public IList<RootObject> DeserializeLargeJsonText() =>
-        JsonConvert.DeserializeObject<IList<RootObject>>(LargeJsonText);
+    public IList<RootObject> DeserializeLargeJsonText()
+    {
+        return JsonConvert.DeserializeObject<IList<RootObject>>(LargeJsonText);
+    }
 
     [Benchmark]
     public IList<RootObject> DeserializeLargeJsonFile()
@@ -31,10 +33,14 @@ public class DeserializeBenchmarks
     }
 
     [Benchmark]
-    public IList<double> DeserializeDoubleList() =>
-        JsonConvert.DeserializeObject<IList<double>>(FloatArrayJson);
+    public IList<double> DeserializeDoubleList()
+    {
+        return JsonConvert.DeserializeObject<IList<double>>(FloatArrayJson);
+    }
 
     [Benchmark]
-    public IList<decimal> DeserializeDecimalList() =>
-        JsonConvert.DeserializeObject<IList<decimal>>(FloatArrayJson);
+    public IList<decimal> DeserializeDecimalList()
+    {
+        return JsonConvert.DeserializeObject<IList<decimal>>(FloatArrayJson);
+    }
 }

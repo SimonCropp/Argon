@@ -5,8 +5,10 @@ class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
     readonly XDocumentType documentType;
 
     public XDocumentTypeWrapper(XDocumentType documentType)
-        : base(documentType) =>
+        : base(documentType)
+    {
         this.documentType = documentType;
+    }
 
     public string Name => documentType.Name;
 

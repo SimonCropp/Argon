@@ -21,6 +21,8 @@ public class Product
         return base.Equals(obj);
     }
 
-    public override int GetHashCode() =>
-        (Name ?? string.Empty).GetHashCode();
+    public override int GetHashCode()
+    {
+        return (Name ?? string.Empty).GetHashCode();
+    }
 }

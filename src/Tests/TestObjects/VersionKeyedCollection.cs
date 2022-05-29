@@ -10,11 +10,15 @@ public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerab
 {
     public List<string> Messages { get; set; }
 
-    public VersionKeyedCollection() =>
+    public VersionKeyedCollection()
+    {
         Messages = new();
+    }
 
-    protected override string GetKeyForItem(Person item) =>
-        item.Name;
+    protected override string GetKeyForItem(Person item)
+    {
+        return item.Name;
+    }
 
     [OnError]
     internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
@@ -36,6 +40,8 @@ public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerab
         }
     }
 
-    IEnumerator IEnumerable.GetEnumerator() =>
-        ((IEnumerable<Person>)this).GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return ((IEnumerable<Person>)this).GetEnumerator();
+    }
 }

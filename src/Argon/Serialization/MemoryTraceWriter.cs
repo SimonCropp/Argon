@@ -58,8 +58,10 @@ public class MemoryTraceWriter : ITraceWriter
     /// Returns an enumeration of the most recent trace messages.
     /// </summary>
     /// <returns>An enumeration of the most recent trace messages.</returns>
-    public IEnumerable<string> GetTraceMessages() =>
-        traceMessages;
+    public IEnumerable<string> GetTraceMessages()
+    {
+        return traceMessages;
+    }
 
     /// <summary>
     /// Returns a <see cref="String" /> of the most recent trace messages.

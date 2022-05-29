@@ -8,8 +8,10 @@ public class JsonTextReaderBenchmarks
 {
     static readonly string FloatArrayJson;
 
-    static JsonTextReaderBenchmarks() =>
+    static JsonTextReaderBenchmarks()
+    {
         FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(i => i * 1.1m)).ToString(Formatting.None);
+    }
 
     [Benchmark]
     public void ReadLargeJson()

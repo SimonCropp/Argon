@@ -10,12 +10,18 @@ public class ErroringJsonConverter : JsonConverter
     {
     }
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
         throw new NotImplementedException();
+    }
 
-    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+    {
         throw new NotImplementedException();
+    }
 
-    public override bool CanConvert(Type type) =>
+    public override bool CanConvert(Type type)
+    {
         throw new NotImplementedException();
+    }
 }

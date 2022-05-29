@@ -34,15 +34,19 @@ public class RefAndRefReadonlyTestClass
     int refField;
     readonly int refReadonlyField;
 
-    public RefAndRefReadonlyTestClass(int refReadonlyField) =>
+    public RefAndRefReadonlyTestClass(int refReadonlyField)
+    {
         this.refReadonlyField = refReadonlyField;
+    }
 
     public ref int RefField => ref refField;
 
     public ref readonly int RefReadonlyField => ref refReadonlyField;
 
-    public void SetRefField(int value) =>
+    public void SetRefField(int value)
+    {
         refField = value;
+    }
 }
 
 public class RefAndRefReadonlyIgnoredTestClass
@@ -50,8 +54,10 @@ public class RefAndRefReadonlyIgnoredTestClass
     int _refField;
     readonly int _refReadonlyField;
 
-    public RefAndRefReadonlyIgnoredTestClass(int refReadonlyField) =>
+    public RefAndRefReadonlyIgnoredTestClass(int refReadonlyField)
+    {
         _refReadonlyField = refReadonlyField;
+    }
 
     [JsonIgnore]
     public ref int RefField => ref _refField;
@@ -59,6 +65,8 @@ public class RefAndRefReadonlyIgnoredTestClass
     [JsonIgnore]
     public ref readonly int RefReadonlyField => ref _refReadonlyField;
 
-    public void SetRefField(int value) =>
+    public void SetRefField(int value)
+    {
         _refField = value;
+    }
 }

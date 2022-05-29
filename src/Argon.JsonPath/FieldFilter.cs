@@ -2,8 +2,10 @@ class FieldFilter : PathFilter
 {
     internal string? Name;
 
-    public FieldFilter(string? name) =>
+    public FieldFilter(string? name)
+    {
         Name = name;
+    }
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {

@@ -13,8 +13,10 @@ class Base64Encoder
     byte[]? leftOverBytes;
     int leftOverBytesCount;
 
-    public Base64Encoder(TextWriter writer) =>
+    public Base64Encoder(TextWriter writer)
+    {
         this.writer = writer;
+    }
 
     static void ValidateEncode(byte[] buffer, int index, int count)
     {
@@ -111,8 +113,10 @@ class Base64Encoder
         }
     }
 
-    void WriteChars(char[] chars, int index, int count) =>
+    void WriteChars(char[] chars, int index, int count)
+    {
         writer.Write(chars, index, count);
+    }
 
     public async Task EncodeAsync(byte[] buffer, int index, int count, CancellationToken cancellation)
     {
@@ -146,8 +150,10 @@ class Base64Encoder
         }
     }
 
-    Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellation) =>
-        writer.WriteAsync(chars, index, count, cancellation);
+    Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellation)
+    {
+        return writer.WriteAsync(chars, index, count, cancellation);
+    }
 
     public Task FlushAsync(CancellationToken cancellation)
     {

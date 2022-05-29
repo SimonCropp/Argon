@@ -10,16 +10,18 @@ public class UserViewModel
     public string Name { get; set; }
     public IList<string> Offices { get; }
 
-    public UserViewModel() =>
+    public UserViewModel()
+    {
         Offices = new List<string>
         {
             "Auckland",
             "Wellington",
             "Christchurch"
         };
+    }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L7-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L7-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeObjectCreationHandlingUsage -->
@@ -61,5 +63,5 @@ foreach (var office in model2.Offices)
 // Wellington
 // Christchurch
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L28-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L30-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

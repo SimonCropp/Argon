@@ -9,6 +9,8 @@ public class CircularConstructor1
     public CircularConstructor2 C2 { get; internal set; }
     public string StringProperty { get; set; }
 
-    public CircularConstructor1(CircularConstructor2 c2) =>
+    public CircularConstructor1(CircularConstructor2 c2)
+    {
         C2 = c2;
+    }
 }

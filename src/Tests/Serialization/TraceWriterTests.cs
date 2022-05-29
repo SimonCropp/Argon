@@ -878,8 +878,10 @@ Argon Error: 0 : Error!
             // dummy. should never be used because it doesn't return bool
         }
 
-        public bool ShouldSerializeName() =>
-            _shouldSerializeName;
+        public bool ShouldSerializeName()
+        {
+            return _shouldSerializeName;
+        }
     }
 
     [Fact]
@@ -1139,8 +1141,10 @@ Argon Error: 0 : Error!
         public TraceLevel Level { get; set; }
         public Exception Exception { get; set; }
 
-        public override string ToString() =>
-            $"{Level} - {Message}";
+        public override string ToString()
+        {
+            return $"{Level} - {Message}";
+        }
     }
 
     public class InMemoryTraceWriter : ITraceWriter
@@ -1154,7 +1158,8 @@ Argon Error: 0 : Error!
             TraceRecords = new List<TraceRecord>();
         }
 
-        public void Trace(TraceLevel level, string message, Exception exception) =>
+        public void Trace(TraceLevel level, string message, Exception exception)
+        {
             TraceRecords.Add(
                 new()
                 {
@@ -1162,6 +1167,7 @@ Argon Error: 0 : Error!
                     Message = message,
                     Exception = exception
                 });
+        }
 
         public override string ToString()
         {

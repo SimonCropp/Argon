@@ -121,13 +121,17 @@ public class CustomerDataSet : System.Data.DataSet
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    protected override bool ShouldSerializeTables() =>
-        false;
+    protected override bool ShouldSerializeTables()
+    {
+        return false;
+    }
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    protected override bool ShouldSerializeRelations() =>
-        false;
+    protected override bool ShouldSerializeRelations()
+    {
+        return false;
+    }
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -170,8 +174,10 @@ public class CustomerDataSet : System.Data.DataSet
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    internal void InitVars() =>
+    internal void InitVars()
+    {
         InitVars(true);
+    }
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -201,8 +207,10 @@ public class CustomerDataSet : System.Data.DataSet
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    bool ShouldSerializeCustomers() =>
-        false;
+    bool ShouldSerializeCustomers()
+    {
+        return false;
+    }
 
     [DebuggerNonUserCodeAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -318,8 +326,10 @@ public class CustomerDataSet : System.Data.DataSet
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         protected CustomersDataTable(SerializationInfo info, StreamingContext context) :
-            base(info, context) =>
+            base(info, context)
+        {
             InitVars();
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -348,8 +358,10 @@ public class CustomerDataSet : System.Data.DataSet
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public void AddCustomersRow(CustomersRow row) =>
+        public void AddCustomersRow(CustomersRow row)
+        {
             Rows.Add(row);
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -367,8 +379,10 @@ public class CustomerDataSet : System.Data.DataSet
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public virtual IEnumerator GetEnumerator() =>
-            Rows.GetEnumerator();
+        public virtual IEnumerator GetEnumerator()
+        {
+            return Rows.GetEnumerator();
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -381,13 +395,17 @@ public class CustomerDataSet : System.Data.DataSet
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected override System.Data.DataTable CreateInstance() =>
-            new CustomersDataTable();
+        protected override System.Data.DataTable CreateInstance()
+        {
+            return new CustomersDataTable();
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal void InitVars() =>
+        internal void InitVars()
+        {
             columnCustomerID = Columns["CustomerID"];
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -399,18 +417,24 @@ public class CustomerDataSet : System.Data.DataSet
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public CustomersRow NewCustomersRow() =>
-            (CustomersRow)NewRow();
+        public CustomersRow NewCustomersRow()
+        {
+            return (CustomersRow)NewRow();
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) =>
-            new CustomersRow(builder);
+        protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder)
+        {
+            return new CustomersRow(builder);
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected override Type GetRowType() =>
-            typeof(CustomersRow);
+        protected override Type GetRowType()
+        {
+            return typeof(CustomersRow);
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -458,8 +482,10 @@ public class CustomerDataSet : System.Data.DataSet
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public void RemoveCustomersRow(CustomersRow row) =>
+        public void RemoveCustomersRow(CustomersRow row)
+        {
             Rows.Remove(row);
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -552,8 +578,10 @@ public class CustomerDataSet : System.Data.DataSet
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal CustomersRow(System.Data.DataRowBuilder rb) :
-            base(rb) =>
+            base(rb)
+        {
             tableCustomers = (CustomersDataTable)Table;
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -575,13 +603,17 @@ public class CustomerDataSet : System.Data.DataSet
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public bool IsCustomerIDNull() =>
-            IsNull(tableCustomers.CustomerIDColumn);
+        public bool IsCustomerIDNull()
+        {
+            return IsNull(tableCustomers.CustomerIDColumn);
+        }
 
         [DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public void SetCustomerIDNull() =>
+        public void SetCustomerIDNull()
+        {
             this[tableCustomers.CustomerIDColumn] = Convert.DBNull;
+        }
     }
 
     /// <summary>

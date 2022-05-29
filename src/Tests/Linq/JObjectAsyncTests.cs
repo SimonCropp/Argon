@@ -104,7 +104,8 @@ public class JObjectAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task LoadFromNestedObjectIncompleteAsync() =>
+    public async Task LoadFromNestedObjectIncompleteAsync()
+    {
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             async () =>
             {
@@ -125,4 +126,5 @@ public class JObjectAsyncTests : TestFixtureBase
                 await JToken.ReadFromAsync(reader);
             },
             "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
+    }
 }

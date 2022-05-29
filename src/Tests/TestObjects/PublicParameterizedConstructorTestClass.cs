@@ -8,8 +8,10 @@ public class PublicParameterizedConstructorTestClass
 {
     readonly string _name;
 
-    public PublicParameterizedConstructorTestClass(string name) =>
+    public PublicParameterizedConstructorTestClass(string name)
+    {
         _name = name;
+    }
 
     public string Name => _name;
 }

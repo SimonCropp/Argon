@@ -17,10 +17,14 @@ public class MetroColorConverter : JsonConverter
         writer.WriteValue($":::{fixedColor.ToKnownColor().ToString().ToUpper()}:::");
     }
 
-    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-        Enum.Parse(typeof(Color), reader.Value.ToString());
+    public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
+    {
+        return Enum.Parse(typeof(Color), reader.Value.ToString());
+    }
 
-    public override bool CanConvert(Type type) =>
-        type == typeof(Color);
+    public override bool CanConvert(Type type)
+    {
+        return type == typeof(Color);
+    }
 }
 #endif

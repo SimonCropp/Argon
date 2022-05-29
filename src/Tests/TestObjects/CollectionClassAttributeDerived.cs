@@ -9,28 +9,42 @@ public class CollectionClassAttributeDerived : ClassAttributeBase, ICollection<o
     [JsonProperty]
     public string CollectionDerivedClassValue { get; set; }
 
-    public void Add(object item) =>
+    public void Add(object item)
+    {
         throw new NotImplementedException();
+    }
 
-    public void Clear() =>
+    public void Clear()
+    {
         throw new NotImplementedException();
+    }
 
-    public bool Contains(object item) =>
+    public bool Contains(object item)
+    {
         throw new NotImplementedException();
+    }
 
-    public void CopyTo(object[] array, int arrayIndex) =>
+    public void CopyTo(object[] array, int arrayIndex)
+    {
         throw new NotImplementedException();
+    }
 
     public int Count => throw new NotImplementedException();
 
     public bool IsReadOnly => throw new NotImplementedException();
 
-    public bool Remove(object item) =>
+    public bool Remove(object item)
+    {
         throw new NotImplementedException();
+    }
 
-    public IEnumerator<object> GetEnumerator() =>
+    public IEnumerator<object> GetEnumerator()
+    {
         throw new NotImplementedException();
+    }
 
-    IEnumerator IEnumerable.GetEnumerator() =>
+    IEnumerator IEnumerable.GetEnumerator()
+    {
         throw new NotImplementedException();
+    }
 }

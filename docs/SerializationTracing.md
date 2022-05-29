@@ -23,7 +23,7 @@ JsonConvert.SerializeObject(
     staff,
     new JsonSerializerSettings {TraceWriter = traceWriter});
 ```
-<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L91-L106' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L93-L108' title='Snippet source file'>snippet source</a> | <a href='#snippet-memorytracewriterexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Results in:
@@ -96,7 +96,7 @@ public class NLogTraceWriter : ITraceWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L38-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/TraceWriterTests.cs#L40-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-customtracewriterexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -28,8 +28,10 @@ public class DeserializeExtensionData : TestFixtureBase
             UserName = samAccountName.Split('\\')[1];
         }
 
-        public DirectoryAccount() =>
+        public DirectoryAccount()
+        {
             _additionalData = new Dictionary<string, JToken>();
+        }
     }
 
     #endregion

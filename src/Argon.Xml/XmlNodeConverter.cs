@@ -1239,10 +1239,14 @@ public class XmlNodeConverter : JsonConverter
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    static bool IsXObject(Type valueType) =>
-        typeof(XObject).IsAssignableFrom(valueType);
+    static bool IsXObject(Type valueType)
+    {
+        return typeof(XObject).IsAssignableFrom(valueType);
+    }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    static bool IsXmlNode(Type valueType) =>
-        typeof(XmlNode).IsAssignableFrom(valueType);
+    static bool IsXmlNode(Type valueType)
+    {
+        return typeof(XmlNode).IsAssignableFrom(valueType);
+    }
 }
