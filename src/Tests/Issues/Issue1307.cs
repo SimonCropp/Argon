@@ -15,16 +15,16 @@ public class Issue1307 : TestFixtureBase
         public int[] Dummy { get; set; }
     }
 
-    internal class MyJsonConverter : JsonConverter
+    class MyJsonConverter : JsonConverter
     {
-        static readonly JsonLoadSettings _jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
+        static readonly JsonLoadSettings jsonLoadSettings = new() { CommentHandling = CommentHandling.Ignore };
 
         public override bool CanConvert(Type type) =>
             typeof(MyClass2).Equals(type);
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
-            var token = JToken.Load(reader, _jsonLoadSettings);
+            var token = JToken.Load(reader, jsonLoadSettings);
 
             if (token.Type == JTokenType.Object)
             {
@@ -55,7 +55,6 @@ public class Issue1307 : TestFixtureBase
             throw new NotSupportedException();
 
         #endregion
-
     }
 
     [Fact]

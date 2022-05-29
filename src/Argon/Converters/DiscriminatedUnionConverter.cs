@@ -10,7 +10,7 @@ namespace Argon;
 public class DiscriminatedUnionConverter : JsonConverter
 {
     #region UnionDefinition
-    internal class Union
+    class Union
     {
         public readonly FSharpFunction TagReader;
         public readonly List<UnionCase> Cases;
@@ -22,7 +22,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         }
     }
 
-    internal class UnionCase
+    class UnionCase
     {
         public readonly int Tag;
         public readonly string Name;

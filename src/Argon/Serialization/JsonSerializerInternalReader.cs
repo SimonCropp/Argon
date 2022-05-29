@@ -1747,7 +1747,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return newObject;
     }
 
-    internal class CreatorPropertyContext
+    class CreatorPropertyContext
     {
         public readonly string Name;
         public JsonProperty? Property;

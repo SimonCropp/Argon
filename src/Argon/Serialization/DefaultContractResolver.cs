@@ -406,7 +406,7 @@ public class DefaultContractResolver : IContractResolver
 
     // leave as class instead of struct
     // will be always return as an interface and boxed
-    internal class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue> : IEnumerable<KeyValuePair<object, object>>
+    class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue> : IEnumerable<KeyValuePair<object, object>>
     {
         readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
 
