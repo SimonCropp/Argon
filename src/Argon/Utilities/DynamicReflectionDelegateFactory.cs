@@ -20,14 +20,14 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return new(name, returnType, parameterTypes, owner, true);
     }
 
-    public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
+    public override ObjectConstructor CreateParameterizedConstructor(MethodBase method)
     {
         var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] {typeof(object[])}, method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 0);
 
-        return (ObjectConstructor<object>) dynamicMethod.CreateDelegate(typeof(ObjectConstructor<object>));
+        return (ObjectConstructor) dynamicMethod.CreateDelegate(typeof(ObjectConstructor));
     }
 
     public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)

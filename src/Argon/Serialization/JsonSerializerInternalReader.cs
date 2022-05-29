@@ -1760,7 +1760,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             Name = name;
     }
 
-    object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor<object> creator, string? id)
+    object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor creator, string? id)
     {
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
         var trackPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Populate);

@@ -41,7 +41,7 @@ abstract class ReflectionDelegateFactory
     }
 
     public abstract MethodCall<T, object?> CreateMethodCall<T>(MethodBase method);
-    public abstract ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method);
+    public abstract ObjectConstructor CreateParameterizedConstructor(MethodBase method);
     public abstract Func<T> CreateDefaultConstructor<T>(Type type);
     public abstract Func<T, object?> CreateGet<T>(PropertyInfo property);
     public abstract Func<T, object?> CreateGet<T>(FieldInfo field);

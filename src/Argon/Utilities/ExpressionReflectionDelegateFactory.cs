@@ -10,7 +10,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
     internal static ReflectionDelegateFactory Instance => instance;
 
-    public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
+    public override ObjectConstructor CreateParameterizedConstructor(MethodBase method)
     {
         var type = typeof(object);
 
@@ -18,9 +18,9 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         var callExpression = BuildMethodCall(method, type, null, argsParameterExpression);
 
-        var lambdaExpression = Expression.Lambda(typeof(ObjectConstructor<object>), callExpression, argsParameterExpression);
+        var lambdaExpression = Expression.Lambda(typeof(ObjectConstructor), callExpression, argsParameterExpression);
 
-        var compiled = (ObjectConstructor<object>) lambdaExpression.Compile();
+        var compiled = (ObjectConstructor) lambdaExpression.Compile();
         return compiled;
     }
 

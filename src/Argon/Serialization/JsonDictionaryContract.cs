@@ -31,7 +31,7 @@ public class JsonDictionaryContract : JsonContainerContract
     readonly Type? genericCollectionDefinitionType;
 
     Type? genericWrapperType;
-    ObjectConstructor<object>? genericWrapperCreator;
+    ObjectConstructor? genericWrapperCreator;
 
     Func<object>? genericTemporaryDictionaryCreator;
 
@@ -39,9 +39,9 @@ public class JsonDictionaryContract : JsonContainerContract
 
     readonly ConstructorInfo? parameterizedConstructor;
 
-    ObjectConstructor<object>? parameterizedCreator;
+    ObjectConstructor? parameterizedCreator;
 
-    internal ObjectConstructor<object>? ParameterizedCreator
+    internal ObjectConstructor? ParameterizedCreator
     {
         get
         {
@@ -57,7 +57,7 @@ public class JsonDictionaryContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator" />.
     /// </summary>
-    public ObjectConstructor<object>? OverrideCreator { get; set; }
+    public ObjectConstructor? OverrideCreator { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the creator has a parameter with the dictionary values.

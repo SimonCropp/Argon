@@ -8,7 +8,7 @@ class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
 
     internal static ReflectionDelegateFactory Instance => instance;
 
-    public override ObjectConstructor<object> CreateParameterizedConstructor(MethodBase method)
+    public override ObjectConstructor CreateParameterizedConstructor(MethodBase method)
     {
         if (method is ConstructorInfo c)
         {

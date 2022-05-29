@@ -11,10 +11,10 @@ class ReflectionMember
 
 class ReflectionObject
 {
-    public ObjectConstructor<object>? Creator { get; }
+    public ObjectConstructor? Creator { get; }
     public IDictionary<string, ReflectionMember> Members { get; }
 
-    ReflectionObject(ObjectConstructor<object>? creator)
+    ReflectionObject(ObjectConstructor? creator)
     {
         Members = new Dictionary<string, ReflectionMember>();
         Creator = creator;
@@ -33,7 +33,7 @@ class ReflectionObject
     {
         var delegateFactory = JsonTypeReflector.ReflectionDelegateFactory;
 
-        ObjectConstructor<object>? creatorConstructor = null;
+        ObjectConstructor? creatorConstructor = null;
         if (creator != null)
         {
             creatorConstructor = delegateFactory.CreateParameterizedConstructor(creator);

@@ -24,7 +24,7 @@ public class JsonArrayContract : JsonContainerContract
     readonly Type? genericCollectionDefinitionType;
 
     Type? genericWrapperType;
-    ObjectConstructor<object>? genericWrapperCreator;
+    ObjectConstructor? genericWrapperCreator;
     Func<object>? genericTemporaryCollectionCreator;
 
     internal bool IsArray { get; }
@@ -33,10 +33,10 @@ public class JsonArrayContract : JsonContainerContract
 
     readonly ConstructorInfo? parameterizedConstructor;
 
-    ObjectConstructor<object>? parameterizedCreator;
-    ObjectConstructor<object>? overrideCreator;
+    ObjectConstructor? parameterizedCreator;
+    ObjectConstructor? overrideCreator;
 
-    internal ObjectConstructor<object>? ParameterizedCreator
+    internal ObjectConstructor? ParameterizedCreator
     {
         get
         {
@@ -52,7 +52,7 @@ public class JsonArrayContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator" />.
     /// </summary>
-    public ObjectConstructor<object>? OverrideCreator
+    public ObjectConstructor? OverrideCreator
     {
         get => overrideCreator;
         set

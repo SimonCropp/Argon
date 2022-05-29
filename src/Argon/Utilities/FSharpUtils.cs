@@ -126,29 +126,29 @@ class FSharpUtils
         return createFunction;
     }
 
-    public ObjectConstructor<object> CreateSeq(Type type)
+    public ObjectConstructor CreateSeq(Type type)
     {
         var seqType = ofSeq.MakeGenericMethod(type);
 
         return JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(seqType);
     }
 
-    public ObjectConstructor<object> CreateMap(Type keyType, Type valueType)
+    public ObjectConstructor CreateMap(Type keyType, Type valueType)
     {
         var creatorDefinition = typeof(FSharpUtils).GetMethod("BuildMapCreator")!;
 
         var creatorGeneric = creatorDefinition.MakeGenericMethod(keyType, valueType);
 
-        return (ObjectConstructor<object>) creatorGeneric.Invoke(this, null)!;
+        return (ObjectConstructor) creatorGeneric.Invoke(this, null)!;
     }
 
-    public ObjectConstructor<object> BuildMapCreator<TKey, TValue>()
+    public ObjectConstructor BuildMapCreator<TKey, TValue>()
     {
         var genericMapType = mapType.MakeGenericType(typeof(TKey), typeof(TValue));
         var ctor = genericMapType.GetConstructor(new[] {typeof(IEnumerable<Tuple<TKey, TValue>>)})!;
         var ctorDelegate = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(ctor);
 
-        ObjectConstructor<object> creator = args =>
+        return args =>
         {
             // convert dictionary KeyValuePairs to Tuples
             var values = (IEnumerable<KeyValuePair<TKey, TValue>>) args[0]!;
@@ -156,7 +156,5 @@ class FSharpUtils
 
             return ctorDelegate(tupleValues);
         };
-
-        return creator;
     }
 }

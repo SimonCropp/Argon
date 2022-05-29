@@ -43,9 +43,9 @@ public class JsonObjectContract : JsonContainerContract
     /// Gets or sets the function used to create the object. When set this function will override <see cref="JsonContract.DefaultCreator" />.
     /// This function is called with a collection of arguments which are defined by the <see cref="JsonObjectContract.CreatorParameters" /> collection.
     /// </summary>
-    public ObjectConstructor<object>? OverrideCreator { get; set; }
+    public ObjectConstructor? OverrideCreator { get; set; }
 
-    internal ObjectConstructor<object>? ParameterizedCreator { get; set; }
+    internal ObjectConstructor? ParameterizedCreator { get; set; }
 
     /// <summary>
     /// Gets or sets the extension data setter.
