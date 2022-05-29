@@ -5,10 +5,8 @@ class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
     readonly XmlDeclaration declaration;
 
     public XmlDeclarationWrapper(XmlDeclaration declaration)
-        : base(declaration)
-    {
+        : base(declaration) =>
         this.declaration = declaration;
-    }
 
     public string Version => declaration.Version;
 

@@ -5,10 +5,8 @@ class XmlDocumentTypeWrapper : XmlNodeWrapper, IXmlDocumentType
     readonly XmlDocumentType documentType;
 
     public XmlDocumentTypeWrapper(XmlDocumentType documentType)
-        : base(documentType)
-    {
+        : base(documentType) =>
         this.documentType = documentType;
-    }
 
     public string Name => documentType.Name;
 

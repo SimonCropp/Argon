@@ -5,10 +5,8 @@ class XmlElementWrapper : XmlNodeWrapper, IXmlElement
     readonly XmlElement element;
 
     public XmlElementWrapper(XmlElement element)
-        : base(element)
-    {
+        : base(element) =>
         this.element = element;
-    }
 
     public void SetAttributeNode(IXmlNode attribute)
     {
@@ -17,10 +15,8 @@ class XmlElementWrapper : XmlNodeWrapper, IXmlElement
         element.SetAttributeNode((XmlAttribute) xmlAttributeWrapper.WrappedNode);
     }
 
-    public string GetPrefixOfNamespace(string namespaceUri)
-    {
-        return element.GetPrefixOfNamespace(namespaceUri);
-    }
+    public string GetPrefixOfNamespace(string namespaceUri) =>
+        element.GetPrefixOfNamespace(namespaceUri);
 
     public bool IsEmpty => element.IsEmpty;
 }

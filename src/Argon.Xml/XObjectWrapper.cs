@@ -5,10 +5,8 @@ class XObjectWrapper : IXmlNode
 {
     readonly XObject? xmlObject;
 
-    public XObjectWrapper(XObject? xmlObject)
-    {
+    public XObjectWrapper(XObject? xmlObject) =>
         this.xmlObject = xmlObject;
-    }
 
     public object? WrappedNode => xmlObject;
 
@@ -28,10 +26,8 @@ class XObjectWrapper : IXmlNode
         set => throw new InvalidOperationException();
     }
 
-    public virtual IXmlNode AppendChild(IXmlNode newChild)
-    {
+    public virtual IXmlNode AppendChild(IXmlNode newChild) =>
         throw new InvalidOperationException();
-    }
 
     public virtual string? NamespaceUri => null;
 }

@@ -6,10 +6,8 @@ class XmlNodeWrapper : IXmlNode
     List<IXmlNode>? childNodes;
     List<IXmlNode>? attributes;
 
-    public XmlNodeWrapper(XmlNode node)
-    {
+    public XmlNodeWrapper(XmlNode node) =>
         this.node = node;
-    }
 
     public object WrappedNode => node;
 
