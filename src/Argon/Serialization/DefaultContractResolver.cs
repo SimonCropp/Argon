@@ -1012,14 +1012,14 @@ public class DefaultContractResolver : IContractResolver
         return CreateObjectContract(type);
     }
 
-    internal static bool IsJsonPrimitiveType(Type type)
+    static bool IsJsonPrimitiveType(Type type)
     {
         var typeCode = ConvertUtils.GetTypeCode(type);
 
         return typeCode != PrimitiveTypeCode.Empty && typeCode != PrimitiveTypeCode.Object;
     }
 
-    internal static bool IsIConvertible(Type t)
+    static bool IsIConvertible(Type t)
     {
         if (typeof(IConvertible).IsAssignableFrom(t)
             || (t.IsNullableType() && typeof(IConvertible).IsAssignableFrom(Nullable.GetUnderlyingType(t))))
@@ -1030,7 +1030,7 @@ public class DefaultContractResolver : IContractResolver
         return false;
     }
 
-    internal static bool CanConvertToString(Type type)
+    static bool CanConvertToString(Type type)
     {
         if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out _))
         {
@@ -1089,7 +1089,7 @@ public class DefaultContractResolver : IContractResolver
         return true;
     }
 
-    internal static string GetClrTypeFullName(Type type)
+    static string GetClrTypeFullName(Type type)
     {
         if (type.IsGenericTypeDefinition || !type.ContainsGenericParameters)
         {
