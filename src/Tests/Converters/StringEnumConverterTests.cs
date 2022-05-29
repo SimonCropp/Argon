@@ -173,14 +173,12 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void Deserialize_NotAllowIntegerValuesFromAttribute()
-    {
+    public void Deserialize_NotAllowIntegerValuesFromAttribute() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
                 var e = JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(@"""9""");
             });
-    }
 
     [Fact]
     public void CannotPassNullArgumentToConverter()
@@ -202,8 +200,7 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void NamedEnumDuplicateTest()
-    {
+    public void NamedEnumDuplicateTest() =>
         XUnitAssert.Throws<Exception>(
             () =>
             {
@@ -215,7 +212,6 @@ public class StringEnumConverterTests : TestFixtureBase
                 JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
             },
             "Enum name 'Third' already exists on enum 'NamedEnumDuplicate'.");
-    }
 
     [Fact]
     public void SerializeNameEnumTest()
@@ -626,12 +622,10 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DuplicateNameEnumTest()
-    {
+    public void DuplicateNameEnumTest() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DuplicateNameEnum>("'foo_bar'", new StringEnumConverter()),
             @"Error converting value ""foo_bar"" to type 'DuplicateNameEnum'. Path '', line 1, position 9.");
-    }
 
     // Define other methods and classes here
     [Flags]

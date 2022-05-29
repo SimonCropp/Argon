@@ -10,10 +10,8 @@ public class XmlJsonWriter : JsonWriter
     readonly XmlWriter writer;
     string propertyName;
 
-    public XmlJsonWriter(XmlWriter writer)
-    {
+    public XmlJsonWriter(XmlWriter writer) =>
         this.writer = writer;
-    }
 
     public override void WriteComment(string text)
     {
@@ -233,10 +231,8 @@ public class XmlJsonWriter : JsonWriter
         writer.WriteEndElement();
     }
 
-    public override void Flush()
-    {
+    public override void Flush() =>
         writer.Flush();
-    }
 
     protected override void WriteIndent()
     {
@@ -257,7 +253,7 @@ public class XmlJsonWriter : JsonWriter
     }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L9-L263' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L9-L259' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwritertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonWriterUsage -->
@@ -297,5 +293,5 @@ Console.WriteLine(stringWriter.ToString());
 //  </Roles>
 //</Root>
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L270-L306' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/CustomJsonWriter.cs#L266-L302' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonwriterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

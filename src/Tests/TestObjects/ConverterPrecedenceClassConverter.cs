@@ -31,8 +31,6 @@ public abstract class ConverterPrecedenceClassConverter : JsonConverter
         return new ConverterPrecedenceClass(testValue);
     }
 
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(ConverterPrecedenceClass);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(ConverterPrecedenceClass);
 }

@@ -96,8 +96,6 @@ public abstract class JsonConverter<T> : JsonConverter
     /// <returns>
     /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public sealed override bool CanConvert(Type type)
-    {
-        return typeof(T).IsAssignableFrom(type);
-    }
+    public sealed override bool CanConvert(Type type) =>
+        typeof(T).IsAssignableFrom(type);
 }

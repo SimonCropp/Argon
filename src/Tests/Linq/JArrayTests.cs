@@ -422,8 +422,7 @@ Parameter name: index",
     }
 
     [Fact]
-    public void SetValueWithInvalidIndex()
-    {
+    public void SetValueWithInvalidIndex() =>
         XUnitAssert.Throws<ArgumentException>(
             () =>
             {
@@ -433,7 +432,6 @@ Parameter name: index",
                 };
             },
             @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
-    }
 
     [Fact]
     public void SetValue()
@@ -463,12 +461,10 @@ Parameter name: index",
     }
 
     [Fact]
-    public void ParseIncomplete()
-    {
+    public void ParseIncomplete() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JArray.Parse("[1"),
             "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
-    }
 
     [Fact]
     public void InsertAddEnd()

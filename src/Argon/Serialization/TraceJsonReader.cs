@@ -20,10 +20,8 @@ class TraceJsonReader : JsonReader, IJsonLineInfo
         textWriter.Formatting = Formatting.Indented;
     }
 
-    public string GetDeserializedJsonMessage()
-    {
-        return stringWriter.ToString();
-    }
+    public string GetDeserializedJsonMessage() =>
+        stringWriter.ToString();
 
     public override bool Read()
     {
@@ -88,10 +86,8 @@ class TraceJsonReader : JsonReader, IJsonLineInfo
         return value;
     }
 
-    public void WriteCurrentToken()
-    {
+    public void WriteCurrentToken() =>
         textWriter.WriteToken(innerReader, false, false, true);
-    }
 
     public override int Depth => innerReader.Depth;
 
@@ -109,15 +105,11 @@ class TraceJsonReader : JsonReader, IJsonLineInfo
 
     public override Type? ValueType => innerReader.ValueType;
 
-    public override void Close()
-    {
+    public override void Close() =>
         innerReader.Close();
-    }
 
-    bool IJsonLineInfo.HasLineInfo()
-    {
-        return innerReader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
-    }
+    bool IJsonLineInfo.HasLineInfo() =>
+        innerReader is IJsonLineInfo lineInfo && lineInfo.HasLineInfo();
 
     int IJsonLineInfo.LineNumber => innerReader is IJsonLineInfo lineInfo ? lineInfo.LineNumber : 0;
 

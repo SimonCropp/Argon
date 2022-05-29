@@ -13,10 +13,8 @@ class FSharpFunction
         this.invoker = invoker;
     }
 
-    public object Invoke(params object[] args)
-    {
-        return invoker(instance, args);
-    }
+    public object Invoke(params object[] args) =>
+        invoker(instance, args);
 }
 
 class FSharpUtils

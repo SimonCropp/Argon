@@ -14,45 +14,29 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         {
         }
 
-        public override Task FlushAsync()
-        {
-            return DoDelay(base.FlushAsync());
-        }
+        public override Task FlushAsync() =>
+            DoDelay(base.FlushAsync());
 
-        public override Task WriteAsync(char value)
-        {
-            return DoDelay(base.WriteAsync(value));
-        }
+        public override Task WriteAsync(char value) =>
+            DoDelay(base.WriteAsync(value));
 
-        public override Task WriteAsync(char[] buffer, int index, int count)
-        {
-            return DoDelay(base.WriteAsync(buffer, index, count));
-        }
+        public override Task WriteAsync(char[] buffer, int index, int count) =>
+            DoDelay(base.WriteAsync(buffer, index, count));
 
-        public override Task WriteAsync(string value)
-        {
-            return DoDelay(base.WriteAsync(value));
-        }
+        public override Task WriteAsync(string value) =>
+            DoDelay(base.WriteAsync(value));
 
-        public override Task WriteLineAsync()
-        {
-            return DoDelay(base.WriteLineAsync());
-        }
+        public override Task WriteLineAsync() =>
+            DoDelay(base.WriteLineAsync());
 
-        public override Task WriteLineAsync(char value)
-        {
-            return DoDelay(base.WriteLineAsync(value));
-        }
+        public override Task WriteLineAsync(char value) =>
+            DoDelay(base.WriteLineAsync(value));
 
-        public override Task WriteLineAsync(char[] buffer, int index, int count)
-        {
-            return DoDelay(base.WriteLineAsync(buffer, index, count));
-        }
+        public override Task WriteLineAsync(char[] buffer, int index, int count) =>
+            DoDelay(base.WriteLineAsync(buffer, index, count));
 
-        public override Task WriteLineAsync(string value)
-        {
-            return DoDelay(base.WriteLineAsync(value));
-        }
+        public override Task WriteLineAsync(string value) =>
+            DoDelay(base.WriteLineAsync(value));
 
         static async Task DoDelay(Task t)
         {
@@ -1895,10 +1879,8 @@ ExpiryDate:'2014-06-04T00:00:00Z',
 
         char[] singleCharBuffer = new char[1];
 
-        public ThrowingWriter(params char[] throwChars)
-        {
+        public ThrowingWriter(params char[] throwChars) =>
             ThrowChars = throwChars;
-        }
 
         public char[] ThrowChars { get; set; }
 
@@ -1923,15 +1905,11 @@ ExpiryDate:'2014-06-04T00:00:00Z',
             return Task.Delay(0);
         }
 
-        public override Task WriteAsync(string value)
-        {
-            return WriteAsync(value.ToCharArray(), 0, value.Length);
-        }
+        public override Task WriteAsync(string value) =>
+            WriteAsync(value.ToCharArray(), 0, value.Length);
 
-        public override void Write(char value)
-        {
+        public override void Write(char value) =>
             throw new NotImplementedException();
-        }
     }
 }
 
@@ -1941,10 +1919,8 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
     {
     }
 
-    public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default)
-    {
-        return WritePropertyNameAsync(name, true, cancellation);
-    }
+    public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default) =>
+        WritePropertyNameAsync(name, true, cancellation);
 
     public override async Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
     {
@@ -1979,10 +1955,8 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
         await writer.WriteAsync("{{{");
     }
 
-    public override Task WriteEndObjectAsync(CancellationToken cancellation = default)
-    {
-        return SetWriteStateAsync(JsonToken.EndObject, null, cancellation);
-    }
+    public override Task WriteEndObjectAsync(CancellationToken cancellation = default) =>
+        SetWriteStateAsync(JsonToken.EndObject, null, cancellation);
 
     protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
     {

@@ -8,8 +8,6 @@ public class PersonPropertyClass
 {
     public Person Person { get; set; }
 
-    public PersonPropertyClass()
-    {
+    public PersonPropertyClass() =>
         Person = new WagePerson();
-    }
 }

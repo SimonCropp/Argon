@@ -21,10 +21,8 @@ public class DeserializeCustomCreationConverter : TestFixtureBase
 
     public class PersonConverter : CustomCreationConverter<Person>
     {
-        public override Person Create(Type type)
-        {
-            return new Employee();
-        }
+        public override Person Create(Type type) =>
+            new Employee();
     }
 
     #endregion

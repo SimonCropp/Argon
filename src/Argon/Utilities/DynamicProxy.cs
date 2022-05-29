@@ -6,10 +6,8 @@ using System.Dynamic;
 
 class DynamicProxy<T>
 {
-    public virtual IEnumerable<string> GetDynamicMemberNames(T instance)
-    {
-        return Array.Empty<string>();
-    }
+    public virtual IEnumerable<string> GetDynamicMemberNames(T instance) =>
+        Array.Empty<string>();
 
     public virtual bool TryBinaryOperation(T instance, BinaryOperationBinder binder, object arg, out object? result)
     {
@@ -29,15 +27,11 @@ class DynamicProxy<T>
         return false;
     }
 
-    public virtual bool TryDeleteIndex(T instance, DeleteIndexBinder binder, object[] indexes)
-    {
-        return false;
-    }
+    public virtual bool TryDeleteIndex(T instance, DeleteIndexBinder binder, object[] indexes) =>
+        false;
 
-    public virtual bool TryDeleteMember(T instance, DeleteMemberBinder binder)
-    {
-        return false;
-    }
+    public virtual bool TryDeleteMember(T instance, DeleteMemberBinder binder) =>
+        false;
 
     public virtual bool TryGetIndex(T instance, GetIndexBinder binder, object[] indexes, out object? result)
     {
@@ -63,15 +57,11 @@ class DynamicProxy<T>
         return false;
     }
 
-    public virtual bool TrySetIndex(T instance, SetIndexBinder binder, object[] indexes, object value)
-    {
-        return false;
-    }
+    public virtual bool TrySetIndex(T instance, SetIndexBinder binder, object[] indexes, object value) =>
+        false;
 
-    public virtual bool TrySetMember(T instance, SetMemberBinder binder, object value)
-    {
-        return false;
-    }
+    public virtual bool TrySetMember(T instance, SetMemberBinder binder, object value) =>
+        false;
 
     public virtual bool TryUnaryOperation(T instance, UnaryOperationBinder binder, out object? result)
     {

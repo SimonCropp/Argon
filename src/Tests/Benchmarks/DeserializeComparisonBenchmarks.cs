@@ -16,10 +16,8 @@ public class DeserializeComparisonBenchmarks
     static readonly byte[] BinaryFormatterData = BenchmarkConstants.BinaryFormatterHex.HexToBytes();
 
     [Benchmark]
-    public TestClass DataContractSerializer()
-    {
-        return DeserializeDataContract<TestClass>(BenchmarkConstants.XmlText);
-    }
+    public TestClass DataContractSerializer() =>
+        DeserializeDataContract<TestClass>(BenchmarkConstants.XmlText);
 
     static T DeserializeDataContract<T>(string xml)
     {
@@ -39,10 +37,8 @@ public class DeserializeComparisonBenchmarks
 
 #if (!NET5_0_OR_GREATER)
     [Benchmark]
-    public TestClass BinaryFormatter()
-    {
-        return DeserializeBinaryFormatter<TestClass>(BinaryFormatterData);
-    }
+    public TestClass BinaryFormatter() =>
+        DeserializeBinaryFormatter<TestClass>(BinaryFormatterData);
 
     static T DeserializeBinaryFormatter<T>(byte[] bytes)
     {
@@ -51,10 +47,8 @@ public class DeserializeComparisonBenchmarks
     }
 
     [Benchmark]
-    public TestClass JavaScriptSerializer()
-    {
-        return DeserializeWebExtensions<TestClass>(BenchmarkConstants.JsonText);
-    }
+    public TestClass JavaScriptSerializer() =>
+        DeserializeWebExtensions<TestClass>(BenchmarkConstants.JsonText);
 
     public T DeserializeWebExtensions<T>(string json)
     {
@@ -65,28 +59,20 @@ public class DeserializeComparisonBenchmarks
 #endif
 
     [Benchmark]
-    public TestClass DataContractJsonSerializer()
-    {
-        return DeserializeDataContractJson<TestClass>(BenchmarkConstants.JsonText);
-    }
+    public TestClass DataContractJsonSerializer() =>
+        DeserializeDataContractJson<TestClass>(BenchmarkConstants.JsonText);
 
     [Benchmark]
-    public TestClass JsonNet()
-    {
-        return JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonText);
-    }
+    public TestClass JsonNet() =>
+        JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonText);
 
     [Benchmark]
-    public TestClass JsonNetIso()
-    {
-        return JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonIsoText);
-    }
+    public TestClass JsonNetIso() =>
+        JsonConvert.DeserializeObject<TestClass>(BenchmarkConstants.JsonIsoText);
 
     [Benchmark]
-    public TestClass JsonNetManual()
-    {
-        return DeserializeJsonNetManual(BenchmarkConstants.JsonText);
-    }
+    public TestClass JsonNetManual() =>
+        DeserializeJsonNetManual(BenchmarkConstants.JsonText);
 
     #region DeserializeJsonNetManual
 
@@ -185,16 +171,12 @@ public class DeserializeComparisonBenchmarks
     #endregion
 
     [Benchmark]
-    public Task<TestClass> JsonNetManualAsync()
-    {
-        return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonText);
-    }
+    public Task<TestClass> JsonNetManualAsync() =>
+        DeserializeJsonNetManualAsync(BenchmarkConstants.JsonText);
 
     [Benchmark]
-    public Task<TestClass> JsonNetManualIndentedAsync()
-    {
-        return DeserializeJsonNetManualAsync(BenchmarkConstants.JsonIndentedText);
-    }
+    public Task<TestClass> JsonNetManualIndentedAsync() =>
+        DeserializeJsonNetManualAsync(BenchmarkConstants.JsonIndentedText);
 
     static async Task<TestClass> DeserializeJsonNetManualAsync(string json)
     {

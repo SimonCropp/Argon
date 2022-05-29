@@ -29,10 +29,8 @@ public partial class JArray
     /// If this is <c>null</c>, default load settings will be used.
     /// </param>
     /// <returns>A <see cref="Task{TResult}" /> representing the asynchronous load. The <see cref="Task{TResult}.Result" /> property contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
-    public new static Task<JArray> LoadAsync(JsonReader reader, CancellationToken cancellation = default)
-    {
-        return LoadAsync(reader, null, cancellation);
-    }
+    public new static Task<JArray> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
+        LoadAsync(reader, null, cancellation);
 
     /// <summary>
     /// Asynchronously loads a <see cref="JArray" /> from a <see cref="JsonReader" />.

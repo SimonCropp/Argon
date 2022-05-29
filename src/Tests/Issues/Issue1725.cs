@@ -48,40 +48,32 @@ public class Issue1725 : TestFixtureBase
 
     public class InPerson
     {
-        public InPerson(in string name)
-        {
+        public InPerson(in string name) =>
             Name = name;
-        }
 
         public string Name { get; }
     }
 
     public class RefPerson
     {
-        public RefPerson(ref string name)
-        {
+        public RefPerson(ref string name) =>
             Name = name;
-        }
 
         public string Name { get; }
     }
 
     public class InNullablePerson
     {
-        public InNullablePerson(in int? age)
-        {
+        public InNullablePerson(in int? age) =>
             Age = age;
-        }
 
         public int? Age { get; }
     }
 
     public class RefNullablePerson
     {
-        public RefNullablePerson(ref int? age)
-        {
+        public RefNullablePerson(ref int? age) =>
             Age = age;
-        }
 
         public int? Age { get; }
     }

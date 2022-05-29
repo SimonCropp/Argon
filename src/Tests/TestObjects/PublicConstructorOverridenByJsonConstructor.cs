@@ -9,10 +9,8 @@ public class PublicConstructorOverridenByJsonConstructor
     public string Value { get; }
     public string Constructor { get; }
 
-    public PublicConstructorOverridenByJsonConstructor()
-    {
+    public PublicConstructorOverridenByJsonConstructor() =>
         Constructor = "NonPublic";
-    }
 
     [Argon.JsonConstructor]
     public PublicConstructorOverridenByJsonConstructor(string value)

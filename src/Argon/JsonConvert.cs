@@ -59,10 +59,8 @@ public static class JsonConvert
     /// <summary>
     /// Converts the <see cref="DateTime" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(DateTime value)
-    {
-        return ToString(value, DateTimeZoneHandling.RoundtripKind);
-    }
+    public static string ToString(DateTime value) =>
+        ToString(value, DateTimeZoneHandling.RoundtripKind);
 
     /// <summary>
     /// Converts the <see cref="DateTime" /> to its JSON string representation using the <see cref="DateTimeZoneHandling" /> specified.
@@ -93,92 +91,68 @@ public static class JsonConvert
     /// <summary>
     /// Converts the <see cref="Boolean" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(bool value)
-    {
-        return value ? True : False;
-    }
+    public static string ToString(bool value) =>
+        value ? True : False;
 
     /// <summary>
     /// Converts the <see cref="Char" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(char value)
-    {
-        return ToString(char.ToString(value));
-    }
+    public static string ToString(char value) =>
+        ToString(char.ToString(value));
 
     /// <summary>
     /// Converts the <see cref="Enum" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(Enum value)
-    {
-        return value.ToString("D");
-    }
+    public static string ToString(Enum value) =>
+        value.ToString("D");
 
     /// <summary>
     /// Converts the <see cref="Int32" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(int value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(int value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Int16" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(short value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(short value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="UInt16" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(ushort value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(ushort value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="UInt32" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(uint value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(uint value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Int64" />  to its JSON string representation.
     /// </summary>
-    public static string ToString(long value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(long value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
-    static string ToStringInternal(BigInteger value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    static string ToStringInternal(BigInteger value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="UInt64" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(ulong value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(ulong value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Single" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(float value)
-    {
-        return EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
-    }
+    public static string ToString(float value) =>
+        EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
 
-    internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
-    {
-        return EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture)), floatFormatHandling, quoteChar, nullable);
-    }
+    internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable) =>
+        EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture)), floatFormatHandling, quoteChar, nullable);
 
     static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
@@ -205,10 +179,8 @@ public static class JsonConvert
     /// Converts the <see cref="Double" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="Double" />.</returns>
-    public static string ToString(double value)
-    {
-        return EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
-    }
+    public static string ToString(double value) =>
+        EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
 
     internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
@@ -244,28 +216,22 @@ public static class JsonConvert
     /// Converts the <see cref="Byte" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="Byte" />.</returns>
-    public static string ToString(byte value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(byte value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="SByte" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="SByte" />.</returns>
-    public static string ToString(sbyte value)
-    {
-        return value.ToString(null, CultureInfo.InvariantCulture);
-    }
+    public static string ToString(sbyte value) =>
+        value.ToString(null, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Decimal" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="Decimal" />.</returns>
-    public static string ToString(decimal value)
-    {
-        return EnsureDecimalPlace(value.ToString(null, CultureInfo.InvariantCulture));
-    }
+    public static string ToString(decimal value) =>
+        EnsureDecimalPlace(value.ToString(null, CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts the <see cref="Guid" /> to its JSON string representation.
@@ -281,10 +247,8 @@ public static class JsonConvert
     /// Converts the <see cref="TimeSpan" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="TimeSpan" />.</returns>
-    public static string ToString(TimeSpan value)
-    {
-        return ToString(value.ToString(), '"');
-    }
+    public static string ToString(TimeSpan value) =>
+        ToString(value.ToString(), '"');
 
     /// <summary>
     /// Converts the <see cref="Uri" /> to its JSON string representation.
@@ -300,29 +264,23 @@ public static class JsonConvert
         return ToString(value, '"');
     }
 
-    internal static string ToString(Uri value, char quoteChar)
-    {
-        return ToString(value.OriginalString, quoteChar);
-    }
+    internal static string ToString(Uri value, char quoteChar) =>
+        ToString(value.OriginalString, quoteChar);
 
     /// <summary>
     /// Converts the <see cref="String" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
-    public static string ToString(string? value)
-    {
-        return ToString(value, '"');
-    }
+    public static string ToString(string? value) =>
+        ToString(value, '"');
 
     /// <summary>
     /// Converts the <see cref="String" /> to its JSON string representation.
     /// </summary>
     /// <param name="delimiter">The string delimiter character.</param>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
-    public static string ToString(string? value, char delimiter)
-    {
-        return ToString(value, delimiter, EscapeHandling.Default);
-    }
+    public static string ToString(string? value, char delimiter) =>
+        ToString(value, delimiter, EscapeHandling.Default);
 
     /// <summary>
     /// Converts the <see cref="String" /> to its JSON string representation.
@@ -407,19 +365,15 @@ public static class JsonConvert
     /// Serializes the specified object to a JSON string.
     /// </summary>
     [DebuggerStepThrough]
-    public static string SerializeObject(object? value)
-    {
-        return SerializeObject(value, null, (JsonSerializerSettings?) null);
-    }
+    public static string SerializeObject(object? value) =>
+        SerializeObject(value, null, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Serializes the specified object to a JSON string using formatting.
     /// </summary>
     [DebuggerStepThrough]
-    public static string SerializeObject(object? value, Formatting formatting)
-    {
-        return SerializeObject(value, formatting, (JsonSerializerSettings?) null);
-    }
+    public static string SerializeObject(object? value, Formatting formatting) =>
+        SerializeObject(value, formatting, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Serializes the specified object to a JSON string using a collection of <see cref="JsonConverter" />.
@@ -459,10 +413,8 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static string SerializeObject(object? value, JsonSerializerSettings? settings)
-    {
-        return SerializeObject(value, null, settings);
-    }
+    public static string SerializeObject(object? value, JsonSerializerSettings? settings) =>
+        SerializeObject(value, null, settings);
 
     /// <summary>
     /// Serializes the specified object to a JSON string using a type, formatting and <see cref="JsonSerializerSettings" />.
@@ -492,10 +444,8 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static string SerializeObject(object? value, Formatting formatting, JsonSerializerSettings? settings)
-    {
-        return SerializeObject(value, null, formatting, settings);
-    }
+    public static string SerializeObject(object? value, Formatting formatting, JsonSerializerSettings? settings) =>
+        SerializeObject(value, null, formatting, settings);
 
     /// <summary>
     /// Serializes the specified object to a JSON string using a type, formatting and <see cref="JsonSerializerSettings" />.
@@ -541,10 +491,8 @@ public static class JsonConvert
     /// Deserializes the JSON to a .NET object.
     /// </summary>
     [DebuggerStepThrough]
-    public static object? DeserializeObject(string value)
-    {
-        return DeserializeObject(value, null, (JsonSerializerSettings?) null);
-    }
+    public static object? DeserializeObject(string value) =>
+        DeserializeObject(value, null, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Deserializes the JSON to a .NET object using <see cref="JsonSerializerSettings" />.
@@ -554,28 +502,22 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static object? DeserializeObject(string value, JsonSerializerSettings settings)
-    {
-        return DeserializeObject(value, null, settings);
-    }
+    public static object? DeserializeObject(string value, JsonSerializerSettings settings) =>
+        DeserializeObject(value, null, settings);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type.
     /// </summary>
     [DebuggerStepThrough]
-    public static object? DeserializeObject(string value, Type type)
-    {
-        return DeserializeObject(value, type, (JsonSerializerSettings?) null);
-    }
+    public static object? DeserializeObject(string value, Type type) =>
+        DeserializeObject(value, type, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type.
     /// </summary>
     [DebuggerStepThrough]
-    public static T? DeserializeObject<T>(string value)
-    {
-        return DeserializeObject<T>(value, (JsonSerializerSettings?) null);
-    }
+    public static T? DeserializeObject<T>(string value) =>
+        DeserializeObject<T>(value, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Deserializes the JSON to the given anonymous type.
@@ -586,10 +528,8 @@ public static class JsonConvert
     /// as a parameter.
     /// </typeparam>
     [DebuggerStepThrough]
-    public static T? DeserializeAnonymousType<T>(string value, T anonymousTypeObject)
-    {
-        return DeserializeObject<T>(value);
-    }
+    public static T? DeserializeAnonymousType<T>(string value, T anonymousTypeObject) =>
+        DeserializeObject<T>(value);
 
     /// <summary>
     /// Deserializes the JSON to the given anonymous type using <see cref="JsonSerializerSettings" />.
@@ -604,19 +544,15 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static T? DeserializeAnonymousType<T>(string value, T anonymousTypeObject, JsonSerializerSettings settings)
-    {
-        return DeserializeObject<T>(value, settings);
-    }
+    public static T? DeserializeAnonymousType<T>(string value, T anonymousTypeObject, JsonSerializerSettings settings) =>
+        DeserializeObject<T>(value, settings);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type using a collection of <see cref="JsonConverter" />.
     /// </summary>
     [DebuggerStepThrough]
-    public static T? DeserializeObject<T>(string value, params JsonConverter[] converters)
-    {
-        return (T?) DeserializeObject(value, typeof(T), converters);
-    }
+    public static T? DeserializeObject<T>(string value, params JsonConverter[] converters) =>
+        (T?) DeserializeObject(value, typeof(T), converters);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type using <see cref="JsonSerializerSettings" />.
@@ -626,10 +562,8 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static T? DeserializeObject<T>(string value, JsonSerializerSettings? settings)
-    {
-        return (T?) DeserializeObject(value, typeof(T), settings);
-    }
+    public static T? DeserializeObject<T>(string value, JsonSerializerSettings? settings) =>
+        (T?) DeserializeObject(value, typeof(T), settings);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type using a collection of <see cref="JsonConverter" />.
@@ -675,10 +609,8 @@ public static class JsonConvert
     /// Populates the object with values from the JSON string.
     /// </summary>
     [DebuggerStepThrough]
-    public static void PopulateObject(string value, object target)
-    {
+    public static void PopulateObject(string value, object target) =>
         PopulateObject(value, target, null);
-    }
 
     /// <summary>
     /// Populates the object with values from the JSON string using <see cref="JsonSerializerSettings" />.

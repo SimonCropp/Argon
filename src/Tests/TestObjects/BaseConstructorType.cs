@@ -9,8 +9,6 @@ public class BaseConstructorType
     [JsonProperty]
     public string BaseProperty { get; }
 
-    public BaseConstructorType(string baseProperty)
-    {
+    public BaseConstructorType(string baseProperty) =>
         BaseProperty = baseProperty;
-    }
 }

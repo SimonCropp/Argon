@@ -55,8 +55,6 @@ public class VersionConverter : JsonConverter
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(Version);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(Version);
 }

@@ -8,10 +8,8 @@ public class PublicParameterizedConstructorRequiringConverterWithParameterAttrib
 {
     readonly NameContainer _nameContainer;
 
-    public PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass([JsonConverter(typeof(NameContainerConverter))] NameContainer nameParameter)
-    {
+    public PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass([JsonConverter(typeof(NameContainerConverter))] NameContainer nameParameter) =>
         _nameContainer = nameParameter;
-    }
 
     public NameContainer Name => _nameContainer;
 }

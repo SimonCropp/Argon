@@ -13,8 +13,6 @@ public class SetOnlyPropertyClass2
         set => _value = value;
     }
 
-    public object GetValue()
-    {
-        return _value;
-    }
+    public object GetValue() =>
+        _value;
 }

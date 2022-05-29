@@ -27,8 +27,6 @@ public class DirectoryAccount
         UserName = samAccountName.Split('\\')[1];
     }
 
-    public DirectoryAccount()
-    {
+    public DirectoryAccount() =>
         additionalData = new Dictionary<string, JToken>();
-    }
 }

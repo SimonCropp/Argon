@@ -317,10 +317,8 @@ public abstract partial class JsonReader : IDisposable
         return oldPosition.Type;
     }
 
-    JsonContainerType Peek()
-    {
-        return currentPosition.Type;
-    }
+    JsonContainerType Peek() =>
+        currentPosition.Type;
 
     /// <summary>
     /// Reads the next JSON token from the source.
@@ -852,10 +850,8 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    internal JsonReaderException CreateUnexpectedEndException()
-    {
-        return JsonReaderException.Create(this, "Unexpected end when reading JSON.");
-    }
+    internal JsonReaderException CreateUnexpectedEndException() =>
+        JsonReaderException.Create(this, "Unexpected end when reading JSON.");
 
     internal void ReadIntoWrappedTypeObject()
     {
@@ -899,18 +895,14 @@ public abstract partial class JsonReader : IDisposable
     /// <summary>
     /// Sets the current token.
     /// </summary>
-    protected void SetToken(JsonToken newToken)
-    {
+    protected void SetToken(JsonToken newToken) =>
         SetToken(newToken, null, true);
-    }
 
     /// <summary>
     /// Sets the current token and value.
     /// </summary>
-    protected void SetToken(JsonToken newToken, object? value)
-    {
+    protected void SetToken(JsonToken newToken, object? value) =>
         SetToken(newToken, value, true);
-    }
 
     /// <summary>
     /// Sets the current token and value.
@@ -1023,10 +1015,8 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    void SetFinished()
-    {
+    void SetFinished() =>
         currentState = SupportMultipleContent ? State.Start : State.Finished;
-    }
 
     JsonContainerType GetTypeForCloseToken(JsonToken token)
     {
@@ -1136,10 +1126,8 @@ public abstract partial class JsonReader : IDisposable
         return TokenType != JsonToken.None;
     }
 
-    internal bool ReadAndMoveToContent()
-    {
-        return Read() && MoveToContent();
-    }
+    internal bool ReadAndMoveToContent() =>
+        Read() && MoveToContent();
 
     internal bool MoveToContent()
     {

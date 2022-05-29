@@ -6,10 +6,8 @@ class XDeclarationWrapper : XObjectWrapper, IXmlDeclaration
     internal XDeclaration Declaration { get; }
 
     public XDeclarationWrapper(XDeclaration declaration)
-        : base(null)
-    {
+        : base(null) =>
         Declaration = declaration;
-    }
 
     public override XmlNodeType NodeType => XmlNodeType.XmlDeclaration;
 

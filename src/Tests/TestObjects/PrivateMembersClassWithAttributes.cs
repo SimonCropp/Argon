@@ -13,10 +13,8 @@ public class PrivateMembersClassWithAttributes
         _internalString = internalString;
     }
 
-    public PrivateMembersClassWithAttributes()
-    {
+    public PrivateMembersClassWithAttributes() =>
         _readonlyString = "default!";
-    }
 
     [JsonProperty]
     string _privateString;
@@ -27,8 +25,6 @@ public class PrivateMembersClassWithAttributes
     [JsonProperty]
     internal string _internalString;
 
-    public string UseValue()
-    {
-        return _readonlyString;
-    }
+    public string UseValue() =>
+        _readonlyString;
 }

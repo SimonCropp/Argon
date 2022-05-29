@@ -9,8 +9,6 @@ public class FooConstructor
     [JsonProperty(PropertyName = "something_else")]
     public readonly string Bar;
 
-    public FooConstructor(string bar)
-    {
+    public FooConstructor(string bar) =>
         Bar = bar;
-    }
 }

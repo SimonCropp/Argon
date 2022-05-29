@@ -996,26 +996,22 @@ public class JTokenTests : TestFixtureBase
     }
 
     [Fact]
-    public void AddPropertyToArray()
-    {
+    public void AddPropertyToArray() =>
         XUnitAssert.Throws<ArgumentException>(
             () =>
             {
                 var a = new JArray {new JProperty("PropertyName")};
             },
             "Can not add Argon.JProperty to Argon.JArray.");
-    }
 
     [Fact]
-    public void AddValueToObject()
-    {
+    public void AddValueToObject() =>
         XUnitAssert.Throws<ArgumentException>(
             () =>
             {
                 var o = new JObject {5};
             },
             "Can not add Argon.JValue to Argon.JObject.");
-    }
 
     [Fact]
     public void Replace()
@@ -1226,8 +1222,7 @@ public class JTokenTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseAdditionalContent()
-    {
+    public void ParseAdditionalContent() =>
         XUnitAssert.Throws<JsonReaderException>(
             () =>
             {
@@ -1240,7 +1235,6 @@ public class JTokenTests : TestFixtureBase
                 JToken.Parse(json);
             },
             "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
-    }
 
     [Fact]
     public void Path()

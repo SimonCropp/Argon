@@ -6,8 +6,6 @@ static class CachedAttributeGetter<T> where T : Attribute
 {
     static readonly ThreadSafeStore<ICustomAttributeProvider, T?> TypeAttributeCache = new(JsonTypeReflector.GetAttribute<T>);
 
-    public static T? GetAttribute(ICustomAttributeProvider provider)
-    {
-        return TypeAttributeCache.Get(provider);
-    }
+    public static T? GetAttribute(ICustomAttributeProvider provider) =>
+        TypeAttributeCache.Get(provider);
 }

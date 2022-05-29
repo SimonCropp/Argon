@@ -34,10 +34,8 @@ public abstract class DelegatingConverterBase : JsonConverter
     /// Constructs a converter delegating to <paramref name="original"/>.
     /// </summary>
     /// <param name="original">The converter to delegate to. Must not be null.</param>
-    protected DelegatingConverterBase(JsonConverter original)
-    {
+    protected DelegatingConverterBase(JsonConverter original) =>
         this.original = original;
-    }
 
     /// <inheritdoc />
     public override void WriteJson(

@@ -23,14 +23,10 @@ public class ReadJson : TestFixtureBase
 
     public static class File
     {
-        public static StreamReader OpenText(string path)
-        {
-            return new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
-        }
+        public static StreamReader OpenText(string path) =>
+            new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
 
-        public static string ReadAllText(string path)
-        {
-            return "{}";
-        }
+        public static string ReadAllText(string path) =>
+            "{}";
     }
 }

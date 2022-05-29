@@ -25,10 +25,8 @@ public class JsonConverterAttributeClass : TestFixtureBase
             return user;
         }
 
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(User);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(User);
     }
 
     [JsonConverter(typeof(UserConverter))]

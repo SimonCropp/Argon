@@ -89,10 +89,8 @@ public static class DynamicConcrete
     /// Get an empty instance of a dynamic proxy for type T.
     /// All public fields are writable and all properties have both getters and setters.
     /// </summary>
-    public static T GetInstanceFor<T>()
-    {
-        return (T) GetInstanceFor(typeof(T));
-    }
+    public static T GetInstanceFor<T>() =>
+        (T) GetInstanceFor(typeof(T));
 
     static readonly ModuleBuilder ModuleBuilder;
     static readonly AssemblyBuilder DynamicAssembly;
@@ -106,15 +104,12 @@ public static class DynamicConcrete
         lock (DynamicAssembly)
         {
             var constructedType = DynamicAssembly.GetType(ProxyName(targetType)) ?? GetConstructedType(targetType);
-            var instance = Activator.CreateInstance(constructedType);
-            return instance;
+            return Activator.CreateInstance(constructedType);
         }
     }
 
-    static string ProxyName(Type targetType)
-    {
-        return $"{targetType.Name}Proxy";
-    }
+    static string ProxyName(Type targetType) =>
+        $"{targetType.Name}Proxy";
 
     static DynamicConcrete()
     {

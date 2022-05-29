@@ -14,8 +14,6 @@ public abstract class SimpleResponse
     {
     }
 
-    protected SimpleResponse(string message)
-    {
+    protected SimpleResponse(string message) =>
         Message = message;
-    }
 }

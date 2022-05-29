@@ -197,20 +197,16 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void JValueIConvertable()
-    {
+    public void JValueIConvertable() =>
         Assert.True(new JValue(0) is IConvertible);
-    }
 
     [Fact]
-    public void Last()
-    {
+    public void Last() =>
         XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             var last = v.Last;
         }, "Cannot access child value on Argon.JValue.");
-    }
 
     [Fact]
     public void Children()
@@ -221,44 +217,36 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void First()
-    {
+    public void First() =>
         XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             var first = v.First;
         }, "Cannot access child value on Argon.JValue.");
-    }
 
     [Fact]
-    public void Item()
-    {
+    public void Item() =>
         XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             var first = v[0];
         }, "Cannot access child value on Argon.JValue.");
-    }
 
     [Fact]
-    public void Values()
-    {
+    public void Values() =>
         XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             v.Values<int>();
         }, "Cannot access child value on Argon.JValue.");
-    }
 
     [Fact]
-    public void RemoveParentNull()
-    {
+    public void RemoveParentNull() =>
         XUnitAssert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             v.Remove();
         }, "The parent is missing.");
-    }
 
     [Fact]
     public void Root()
@@ -291,14 +279,11 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void HasValues()
-    {
+    public void HasValues() =>
         Assert.False(new JValue(5L).HasValues);
-    }
 
     [Fact]
-    public void SetValue()
-    {
+    public void SetValue() =>
         XUnitAssert.Throws<InvalidOperationException>(
             () =>
             {
@@ -306,11 +291,9 @@ public class JValueTests : TestFixtureBase
                 t[0] = new JValue(3);
             },
             "Cannot set child value on Argon.JValue.");
-    }
 
     [Fact]
-    public void CastNullValueToNonNullable()
-    {
+    public void CastNullValueToNonNullable() =>
         XUnitAssert.Throws<ArgumentException>(
             () =>
             {
@@ -318,7 +301,6 @@ public class JValueTests : TestFixtureBase
                 var i = (int) v;
             },
             "Can not convert Null to Int32.");
-    }
 
     [Fact]
     public void ConvertValueToCompatibleType()
@@ -448,118 +430,80 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void ConvertsToBoolean()
-    {
+    public void ConvertsToBoolean() =>
         XUnitAssert.True(Convert.ToBoolean(new JValue(true)));
-    }
 
     [Fact]
-    public void ConvertsToBoolean_String()
-    {
+    public void ConvertsToBoolean_String() =>
         XUnitAssert.True(Convert.ToBoolean(new JValue("true")));
-    }
 
     [Fact]
-    public void ConvertsToInt32()
-    {
+    public void ConvertsToInt32() =>
         Assert.Equal(int.MaxValue, Convert.ToInt32(new JValue(int.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToInt32_BigInteger()
-    {
+    public void ConvertsToInt32_BigInteger() =>
         Assert.Equal(123, Convert.ToInt32(new JValue(BigInteger.Parse("123"))));
-    }
 
     [Fact]
-    public void ConvertsToChar()
-    {
+    public void ConvertsToChar() =>
         Assert.Equal('c', Convert.ToChar(new JValue('c')));
-    }
 
     [Fact]
-    public void ConvertsToSByte()
-    {
+    public void ConvertsToSByte() =>
         Assert.Equal(sbyte.MaxValue, Convert.ToSByte(new JValue(sbyte.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToByte()
-    {
+    public void ConvertsToByte() =>
         Assert.Equal(byte.MaxValue, Convert.ToByte(new JValue(byte.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToInt16()
-    {
+    public void ConvertsToInt16() =>
         Assert.Equal(short.MaxValue, Convert.ToInt16(new JValue(short.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToUInt16()
-    {
+    public void ConvertsToUInt16() =>
         Assert.Equal(ushort.MaxValue, Convert.ToUInt16(new JValue(ushort.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToUInt32()
-    {
+    public void ConvertsToUInt32() =>
         Assert.Equal(uint.MaxValue, Convert.ToUInt32(new JValue(uint.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToInt64()
-    {
+    public void ConvertsToInt64() =>
         Assert.Equal(long.MaxValue, Convert.ToInt64(new JValue(long.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToUInt64()
-    {
+    public void ConvertsToUInt64() =>
         Assert.Equal(ulong.MaxValue, Convert.ToUInt64(new JValue(ulong.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToSingle()
-    {
+    public void ConvertsToSingle() =>
         Assert.Equal(float.MaxValue, Convert.ToSingle(new JValue(float.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToDouble()
-    {
+    public void ConvertsToDouble() =>
         Assert.Equal(double.MaxValue, Convert.ToDouble(new JValue(double.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToDecimal()
-    {
+    public void ConvertsToDecimal() =>
         Assert.Equal(decimal.MaxValue, Convert.ToDecimal(new JValue(decimal.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToDecimal_Int64()
-    {
+    public void ConvertsToDecimal_Int64() =>
         Assert.Equal(123, Convert.ToDecimal(new JValue(123)));
-    }
 
     [Fact]
-    public void ConvertsToString_Decimal()
-    {
+    public void ConvertsToString_Decimal() =>
         Assert.Equal("79228162514264337593543950335", Convert.ToString(new JValue(decimal.MaxValue)));
-    }
 
     [Fact]
-    public void ConvertsToString_Uri()
-    {
+    public void ConvertsToString_Uri() =>
         Assert.Equal("http://www.google.com/", Convert.ToString(new JValue(new Uri("http://www.google.com"))));
-    }
 
     [Fact]
-    public void ConvertsToString_Null()
-    {
+    public void ConvertsToString_Null() =>
         Assert.Equal(string.Empty, Convert.ToString(JValue.CreateNull()));
-    }
 
     [Fact]
     public void ConvertsToString_Guid()
@@ -570,16 +514,12 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void ConvertsToType()
-    {
+    public void ConvertsToType() =>
         Assert.Equal(int.MaxValue, Convert.ChangeType(new JValue(int.MaxValue), typeof(int), CultureInfo.InvariantCulture));
-    }
 
     [Fact]
-    public void ConvertsToDateTime()
-    {
+    public void ConvertsToDateTime() =>
         Assert.Equal(new(2013, 02, 01, 01, 02, 03, 04), Convert.ToDateTime(new JValue(new DateTime(2013, 02, 01, 01, 02, 03, 04))));
-    }
 
     [Fact]
     public void ConvertsToDateTime_DateTimeOffset()
@@ -697,20 +637,14 @@ public class JValueTests : TestFixtureBase
 
     public class ReadOnlyStringConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
             throw new NotSupportedException();
-        }
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-        {
-            return $"{reader.Value}!";
-        }
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
+            $"{reader.Value}!";
 
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(string);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(string);
 
         public override bool CanWrite => false;
     }
