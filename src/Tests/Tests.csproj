@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <TargetFrameworks Condition="$(Configuration) != 'DebugNet6'">net48;net6.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net48</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);net6.0</TargetFrameworks>
+    <TargetFrameworks Condition="$(Configuration) == 'DebugNet6'">net6.0</TargetFrameworks>
     <Nullable>disable</Nullable>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Argon.NodaTime\Argon.NodaTime.csproj" />
