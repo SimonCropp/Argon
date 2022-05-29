@@ -825,10 +825,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         public class SomethingConverter : JsonConverter
         {
-            public override bool CanConvert(Type type)
-            {
-                return true;
-            }
+            public override bool CanConvert(Type type) =>
+                true;
 
             public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
             {
@@ -867,10 +865,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         public RootSomethingElse RootSomethingElse { get; set; }
 
-        public Something()
-        {
+        public Something() =>
             RootSomethingElse = new();
-        }
     }
 
     /// <summary>
@@ -881,20 +877,14 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         public class SomethingElseConverter : JsonConverter
         {
-            public override bool CanConvert(Type type)
-            {
-                return true;
-            }
+            public override bool CanConvert(Type type) =>
+                true;
 
-            public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-            {
+            public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
                 throw new NotImplementedException();
-            }
 
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
                 throw new NotImplementedException();
-            }
         }
     }
 
@@ -1130,9 +1120,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public class TolerantDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
         [OnError]
-        public void OnDeserializationError(StreamingContext streamingContext, ErrorContext errorContext)
-        {
+        public void OnDeserializationError(StreamingContext streamingContext, ErrorContext errorContext) =>
             errorContext.Handled = true;
-        }
     }
 }

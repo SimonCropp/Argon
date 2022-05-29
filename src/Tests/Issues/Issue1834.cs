@@ -28,10 +28,8 @@ public class Issue1834 : TestFixtureBase
         public IDictionary<string, JToken> ExtensionData;
 
         [Argon.JsonConstructor]
-        ItemWithJsonConstructor(string foo)
-        {
+        ItemWithJsonConstructor(string foo) =>
             Foo = foo;
-        }
 
         [JsonProperty(PropertyName = "foo", Required = Required.Always)]
         public string Foo { get; set; }
@@ -43,10 +41,8 @@ public class Issue1834 : TestFixtureBase
         public IDictionary<string, JToken> ExtensionData;
 
         [Argon.JsonConstructor]
-        ItemWithJsonConstructorAndDefaultValue(string foo)
-        {
+        ItemWithJsonConstructorAndDefaultValue(string foo) =>
             Foo = foo;
-        }
 
         [JsonProperty("foo")]
         public string Foo { get; set; }

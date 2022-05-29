@@ -10,10 +10,8 @@ public class CustomContractResolver : TestFixtureBase
     {
         readonly char startingWithChar;
 
-        public DynamicContractResolver(char startingWithChar)
-        {
+        public DynamicContractResolver(char startingWithChar) =>
             this.startingWithChar = startingWithChar;
-        }
 
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {

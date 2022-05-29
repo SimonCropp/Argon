@@ -120,10 +120,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
     {
         public IDictionary<string, object> Values { get; }
 
-        public DictionaryDynamicObject()
-        {
+        public DictionaryDynamicObject() =>
             Values = new Dictionary<string, object>();
-        }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
@@ -131,15 +129,11 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             return true;
         }
 
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            return Values.TryGetValue(binder.Name, out result);
-        }
+        public override bool TryGetMember(GetMemberBinder binder, out object result) =>
+            Values.TryGetValue(binder.Name, out result);
 
-        public override IEnumerable<string> GetDynamicMemberNames()
-        {
-            return Values.Keys;
-        }
+        public override IEnumerable<string> GetDynamicMemberNames() =>
+            Values.Keys;
     }
 
     [Fact]
@@ -211,16 +205,12 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
     public class ReferenceEqualsEqualityComparer : IEqualityComparer
     {
-        bool IEqualityComparer.Equals(object x, object y)
-        {
-            return ReferenceEquals(x, y);
-        }
+        bool IEqualityComparer.Equals(object x, object y) =>
+            ReferenceEquals(x, y);
 
-        int IEqualityComparer.GetHashCode(object obj)
-        {
+        int IEqualityComparer.GetHashCode(object obj) =>
             // put objects in a bucket based on their reference
-            return RuntimeHelpers.GetHashCode(obj);
-        }
+            RuntimeHelpers.GetHashCode(obj);
     }
 
     public class AccountWithEquals
@@ -271,10 +261,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             }
         }
 
-        public void SetData(IList<PropertyItemReferenceLoopHandling> data)
-        {
+        public void SetData(IList<PropertyItemReferenceLoopHandling> data) =>
             _data = data;
-        }
     }
 
     [JsonArray(ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore)]

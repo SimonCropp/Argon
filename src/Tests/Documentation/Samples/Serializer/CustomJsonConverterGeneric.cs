@@ -8,10 +8,8 @@ public class CustomJsonConverterGeneric : TestFixtureBase
 
     public class VersionConverter : JsonConverter<Version>
     {
-        public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer) =>
             writer.WriteValue(value.ToString());
-        }
 
         public override Version ReadJson(JsonReader reader, Type type, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
         {

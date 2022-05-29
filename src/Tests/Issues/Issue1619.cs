@@ -25,10 +25,8 @@ public class Issue1619 : TestFixtureBase
 
     public class DirectoryInfoJsonConverter : JsonConverter
     {
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(DirectoryInfo);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(DirectoryInfo);
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {

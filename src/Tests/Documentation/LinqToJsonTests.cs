@@ -61,10 +61,8 @@ public class LinqToJsonTests : TestFixtureBase
         public IList<string> Categories { get; set; }
     }
 
-    static List<Post> GetPosts()
-    {
-        return new();
-    }
+    static List<Post> GetPosts() =>
+        new();
 
     [Fact]
     public void LinqToJsonCreateDeclaratively()
@@ -192,10 +190,8 @@ public class LinqToJsonTests : TestFixtureBase
 
     public static class File
     {
-        public static StreamReader OpenText(string path)
-        {
-            return new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
-        }
+        public static StreamReader OpenText(string path) =>
+            new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
     }
 
     [Fact]

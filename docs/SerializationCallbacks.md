@@ -43,31 +43,23 @@ public class SerializationEventTestObject
     }
 
     [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context)
-    {
+    internal void OnSerializingMethod(StreamingContext context) =>
         Member2 = "This value went into the data file during serialization.";
-    }
 
     [OnSerialized]
-    internal void OnSerializedMethod(StreamingContext context)
-    {
+    internal void OnSerializedMethod(StreamingContext context) =>
         Member2 = "This value was reset after serialization.";
-    }
 
     [OnDeserializing]
-    internal void OnDeserializingMethod(StreamingContext context)
-    {
+    internal void OnDeserializingMethod(StreamingContext context) =>
         Member3 = "This value was set during deserialization";
-    }
 
     [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context)
-    {
+    internal void OnDeserializedMethod(StreamingContext context) =>
         Member4 = "This value was set after deserialization.";
-    }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L95-L147' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L95-L139' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The example object being serialized and deserialized by Json.NET:</para>
@@ -113,5 +105,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L152-L192' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L144-L184' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

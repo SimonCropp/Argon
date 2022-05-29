@@ -110,10 +110,8 @@ public partial class JTokenWriter : JsonWriter
     /// <summary>
     /// Writes the end.
     /// </summary>
-    protected override void WriteEnd(JsonToken token)
-    {
+    protected override void WriteEnd(JsonToken token) =>
         RemoveParent();
-    }
 
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
@@ -131,10 +129,8 @@ public partial class JTokenWriter : JsonWriter
         base.WritePropertyName(name);
     }
 
-    void AddValue(object? value, JsonToken token)
-    {
+    void AddValue(object? value, JsonToken token) =>
         AddValue(new(value), token);
-    }
 
     internal void AddValue(JValue? value, JsonToken token)
     {

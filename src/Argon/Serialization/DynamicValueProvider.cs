@@ -19,10 +19,8 @@ public class DynamicValueProvider : IValueProvider
     /// Initializes a new instance of the <see cref="DynamicValueProvider" /> class.
     /// </summary>
     /// <param name="member">The member info.</param>
-    public DynamicValueProvider(MemberInfo member)
-    {
+    public DynamicValueProvider(MemberInfo member) =>
         this.member = member;
-    }
 
     /// <summary>
     /// Sets the value.

@@ -20,10 +20,8 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// <summary>
     /// Initializes a new instance of the <see cref="JEnumerable{T}" /> struct.
     /// </summary>
-    public JEnumerable(IEnumerable<T> enumerable)
-    {
+    public JEnumerable(IEnumerable<T> enumerable) =>
         this.enumerable = enumerable;
-    }
 
     /// <summary>
     /// Returns an enumerator that can be used to iterate through the collection.
@@ -31,15 +29,11 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// <returns>
     /// A <see cref="IEnumerator{T}" /> that can be used to iterate through the collection.
     /// </returns>
-    public IEnumerator<T> GetEnumerator()
-    {
-        return (enumerable ?? Empty).GetEnumerator();
-    }
+    public IEnumerator<T> GetEnumerator() =>
+        (enumerable ?? Empty).GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() =>
+        GetEnumerator();
 
     /// <summary>
     /// Gets the <see cref="IJEnumerable{T}" /> of <see cref="JToken" /> with the specified key.
@@ -64,10 +58,8 @@ public readonly struct JEnumerable<T> : IJEnumerable<T>, IEquatable<JEnumerable<
     /// <returns>
     /// <c>true</c> if the specified <see cref="JEnumerable{T}" /> is equal to this instance; otherwise, <c>false</c>.
     /// </returns>
-    public bool Equals(JEnumerable<T> other)
-    {
-        return Equals(enumerable, other.enumerable);
-    }
+    public bool Equals(JEnumerable<T> other) =>
+        Equals(enumerable, other.enumerable);
 
     /// <summary>
     /// Determines whether the specified <see cref="Object" /> is equal to this instance.

@@ -173,15 +173,11 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         internal Dictionary<string, object> Members { get; }
 
-        public TestDynamicObject()
-        {
+        public TestDynamicObject() =>
             Members = new();
-        }
 
-        public override IEnumerable<string> GetDynamicMemberNames()
-        {
-            return Members.Keys.Union(new[] {"Int", "ChildObject"});
-        }
+        public override IEnumerable<string> GetDynamicMemberNames() =>
+            Members.Keys.Union(new[] {"Int", "ChildObject"});
 
         public override bool TryConvert(ConvertBinder binder, out object result)
         {
@@ -197,15 +193,11 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             return base.TryConvert(binder, out result);
         }
 
-        public override bool TryDeleteMember(DeleteMemberBinder binder)
-        {
-            return Members.Remove(binder.Name);
-        }
+        public override bool TryDeleteMember(DeleteMemberBinder binder) =>
+            Members.Remove(binder.Name);
 
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            return Members.TryGetValue(binder.Name, out result);
-        }
+        public override bool TryGetMember(GetMemberBinder binder, out object result) =>
+            Members.TryGetValue(binder.Name, out result);
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {

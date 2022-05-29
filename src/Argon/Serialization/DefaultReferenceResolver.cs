@@ -43,13 +43,9 @@ class DefaultReferenceResolver : IReferenceResolver
         return reference;
     }
 
-    public void AddReference(object context, string reference, object value)
-    {
+    public void AddReference(object context, string reference, object value) =>
         GetMappings(context).Set(reference, value);
-    }
 
-    public bool IsReferenced(object context, object value)
-    {
-        return GetMappings(context).TryGetBySecond(value, out _);
-    }
+    public bool IsReferenced(object context, object value) =>
+        GetMappings(context).TryGetBySecond(value, out _);
 }

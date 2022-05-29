@@ -24,10 +24,8 @@ class TraceJsonWriter : JsonWriter
         textWriter.FloatFormatHandling = innerWriter.FloatFormatHandling;
     }
 
-    public string GetSerializedJsonMessage()
-    {
-        return stringWriter.ToString();
-    }
+    public string GetSerializedJsonMessage() =>
+        stringWriter.ToString();
 
     public override void WriteValue(decimal value)
     {

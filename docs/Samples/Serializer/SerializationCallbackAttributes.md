@@ -31,31 +31,23 @@ public class SerializationEventTestObject
     }
 
     [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context)
-    {
+    internal void OnSerializingMethod(StreamingContext context) =>
         Member2 = "This value went into the data file during serialization.";
-    }
 
     [OnSerialized]
-    internal void OnSerializedMethod(StreamingContext context)
-    {
+    internal void OnSerializedMethod(StreamingContext context) =>
         Member2 = "This value was reset after serialization.";
-    }
 
     [OnDeserializing]
-    internal void OnDeserializingMethod(StreamingContext context)
-    {
+    internal void OnDeserializingMethod(StreamingContext context) =>
         Member3 = "This value was set during deserialization";
-    }
 
     [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context)
-    {
+    internal void OnDeserializedMethod(StreamingContext context) =>
         Member4 = "This value was set after deserialization.";
-    }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializationCallbackAttributesUsage -->
@@ -99,5 +91,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L64-L104' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L56-L96' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

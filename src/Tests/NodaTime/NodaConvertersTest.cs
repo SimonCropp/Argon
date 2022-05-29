@@ -160,10 +160,8 @@ public class NodaConvertersTest
     }
 
     [Fact]
-    public void Duration_WholeSeconds()
-    {
+    public void Duration_WholeSeconds() =>
         AssertConversions(Duration.FromHours(48), "\"48:00:00\"", NodaConverters.DurationConverter);
-    }
 
     [Fact]
     public void Duration_FractionalSeconds()

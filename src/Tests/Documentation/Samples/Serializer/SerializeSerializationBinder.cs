@@ -10,10 +10,8 @@ public class SerializeSerializationBinder : TestFixtureBase
     {
         public IList<Type> KnownTypes { get; set; }
 
-        public Type BindToType(string assemblyName, string typeName)
-        {
-            return KnownTypes.SingleOrDefault(t => t.Name == typeName);
-        }
+        public Type BindToType(string assemblyName, string typeName) =>
+            KnownTypes.SingleOrDefault(t => t.Name == typeName);
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {

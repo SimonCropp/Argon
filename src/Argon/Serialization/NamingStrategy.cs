@@ -97,10 +97,8 @@ public abstract class NamingStrategy
     /// <summary>
     /// Object equality implementation
     /// </summary>
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as NamingStrategy);
-    }
+    public override bool Equals(object? obj) =>
+        Equals(obj as NamingStrategy);
 
     /// <summary>
     /// Compare to another NamingStrategy

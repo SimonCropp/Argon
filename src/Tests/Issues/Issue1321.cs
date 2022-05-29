@@ -5,8 +5,7 @@
 public class Issue1321 : TestFixtureBase
 {
     [Fact]
-    public void Test()
-    {
+    public void Test() =>
         XUnitAssert.Throws<JsonWriterException>(
             () =>
             {
@@ -15,7 +14,6 @@ public class Issue1321 : TestFixtureBase
                     new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None, MaxDepth = 1024});
             },
             "Unexpected end when reading token. Path ''.");
-    }
 
     [Fact]
     public void Test2()

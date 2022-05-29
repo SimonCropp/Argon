@@ -10,27 +10,19 @@ public class ExtensionDataTests : TestFixtureBase
     {
         readonly IDictionary<string, object> inner = new Dictionary<string, object>();
 
-        public void Add(string key, object value)
-        {
+        public void Add(string key, object value) =>
             inner.Add(key, value);
-        }
 
-        public bool ContainsKey(string key)
-        {
-            return inner.ContainsKey(key);
-        }
+        public bool ContainsKey(string key) =>
+            inner.ContainsKey(key);
 
         public ICollection<string> Keys => inner.Keys;
 
-        public bool Remove(string key)
-        {
-            return inner.Remove(key);
-        }
+        public bool Remove(string key) =>
+            inner.Remove(key);
 
-        public bool TryGetValue(string key, out object value)
-        {
-            return inner.TryGetValue(key, out value);
-        }
+        public bool TryGetValue(string key, out object value) =>
+            inner.TryGetValue(key, out value);
 
         public ICollection<object> Values => inner.Values;
 
@@ -40,52 +32,36 @@ public class ExtensionDataTests : TestFixtureBase
             set => inner[key] = value;
         }
 
-        public void Add(KeyValuePair<string, object> item)
-        {
+        public void Add(KeyValuePair<string, object> item) =>
             inner.Add(item);
-        }
 
-        public void Clear()
-        {
+        public void Clear() =>
             inner.Clear();
-        }
 
-        public bool Contains(KeyValuePair<string, object> item)
-        {
-            return inner.Contains(item);
-        }
+        public bool Contains(KeyValuePair<string, object> item) =>
+            inner.Contains(item);
 
-        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
-        {
+        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex) =>
             inner.CopyTo(array, arrayIndex);
-        }
 
         public int Count => inner.Count;
 
         public bool IsReadOnly => inner.IsReadOnly;
 
-        public bool Remove(KeyValuePair<string, object> item)
-        {
-            return inner.Remove(item);
-        }
+        public bool Remove(KeyValuePair<string, object> item) =>
+            inner.Remove(item);
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-        {
-            return inner.GetEnumerator();
-        }
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator() =>
+            inner.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return inner.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() =>
+            inner.GetEnumerator();
     }
 
     public class Example
     {
-        public Example()
-        {
+        public Example() =>
             Data = new CustomDictionary();
-        }
 
         [JsonExtensionData] public IDictionary<string, object> Data { get; }
     }
@@ -119,10 +95,8 @@ public class ExtensionDataTests : TestFixtureBase
 
     public class ExtensionDataDeserializeWithNonDefaultConstructor
     {
-        public ExtensionDataDeserializeWithNonDefaultConstructor(string name)
-        {
+        public ExtensionDataDeserializeWithNonDefaultConstructor(string name) =>
             Name = name;
-        }
 
         [JsonExtensionData] public IDictionary<string, JToken> _extensionData;
 
@@ -248,10 +222,8 @@ public class ExtensionDataTests : TestFixtureBase
 
         [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData { get; set; }
 
-        public ExtensionDataTestClass()
-        {
+        public ExtensionDataTestClass() =>
             Ints = new List<int> {0};
-        }
     }
 
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true, true})]
@@ -538,10 +510,8 @@ public class ExtensionDataTests : TestFixtureBase
     {
         public string Name { get; set; }
 
-        public PublicExtensionDataAttributeTestClassWithNonDefaultConstructor(string name)
-        {
+        public PublicExtensionDataAttributeTestClassWithNonDefaultConstructor(string name) =>
             Name = name;
-        }
 
         [JsonExtensionData] public IDictionary<object, object> ExtensionData;
     }
@@ -879,10 +849,8 @@ public class ExtensionDataTests : TestFixtureBase
         {
         }
 
-        public DocNoSetter(JObject content)
-        {
+        public DocNoSetter(JObject content) =>
             Content = content;
-        }
 
         [JsonProperty("_name")] public string Name { get; set; }
 
@@ -941,12 +909,10 @@ public class ExtensionDataTests : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeExtensionData_NoGetter()
-    {
+    public void SerializeExtensionData_NoGetter() =>
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new DocNoGetter()),
             "Invalid extension data attribute on 'ExtensionDataTests+DocNoGetter'. Member 'Content' must have a getter.");
-    }
 
     public class Item
     {

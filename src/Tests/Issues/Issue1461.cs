@@ -41,10 +41,8 @@ public class Issue1461 : TestFixtureBase
     {
         public TraceLevel LevelFilter => TraceLevel.Verbose;
 
-        public void Trace(TraceLevel level, string message, Exception exception)
-        {
+        public void Trace(TraceLevel level, string message, Exception exception) =>
             Console.WriteLine(message);
-        }
     }
 
     class IdJsonConverter : JsonConverter
@@ -79,9 +77,12 @@ public class Issue1461 : TestFixtureBase
     {
         internal object Value { get; set; }
 
-        public Id(string id) { Value = id; }
-        public Id(long id) { Value = id; }
-        public Id(Guid id) { Value = id; }
+        public Id(string id) =>
+            Value = id;
+        public Id(long id) =>
+            Value = id;
+        public Id(Guid id) =>
+            Value = id;
 
         public static implicit operator Id(string id) => new(id);
         public static implicit operator Id(long id) => new(id);
@@ -91,10 +92,8 @@ public class Issue1461 : TestFixtureBase
         public static implicit operator long(Id id) => (long)id.Value;
         public static implicit operator Guid(Id id) => (Guid)id.Value;
 
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
+        public override string ToString() =>
+            Value.ToString();
 
         public bool Equals(Id other)
         {
@@ -134,14 +133,10 @@ public class Issue1461 : TestFixtureBase
             }
         }
 
-        public static bool operator ==(Id left, Id right)
-        {
-            return Equals(left, right);
-        }
+        public static bool operator ==(Id left, Id right) =>
+            Equals(left, right);
 
-        public static bool operator !=(Id left, Id right)
-        {
-            return !Equals(left, right);
-        }
+        public static bool operator !=(Id left, Id right) =>
+            !Equals(left, right);
     }
 }

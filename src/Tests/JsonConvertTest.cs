@@ -56,8 +56,7 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void PopulateObjectWithNoContent()
-    {
+    public void PopulateObjectWithNoContent() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
@@ -67,7 +66,6 @@ public class JsonConvertTest : TestFixtureBase
                 JsonConvert.PopulateObject(json, o);
             },
             "No JSON content found. Path '', line 0, position 0.");
-    }
 
     [Fact]
     public void PopulateObjectWithOnlyComment()
@@ -120,10 +118,8 @@ public class JsonConvertTest : TestFixtureBase
 
     public class NameTableTestClassConverter : JsonConverter
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
             throw new NotImplementedException();
-        }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
@@ -145,10 +141,8 @@ public class JsonConvertTest : TestFixtureBase
             return o;
         }
 
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(NameTableTestClass);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(NameTableTestClass);
     }
 
     [Fact]
@@ -169,10 +163,8 @@ public class JsonConvertTest : TestFixtureBase
 
     public class CustonNameTable : JsonNameTable
     {
-        public override string Get(char[] key, int start, int length)
-        {
-            return "_" + new string(key, start, length);
-        }
+        public override string Get(char[] key, int start, int length) =>
+            "_" + new string(key, start, length);
     }
 
     [Fact]
@@ -362,15 +354,11 @@ public class JsonConvertTest : TestFixtureBase
             writer.WriteValue(i * 2);
         }
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-        {
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
             throw new NotImplementedException();
-        }
 
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(int);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(int);
     }
     [Fact]
     public void DeserializeObject_Integer()
@@ -452,12 +440,10 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void ToStringInvalid()
-    {
+    public void ToStringInvalid() =>
         XUnitAssert.Throws<ArgumentException>(
             () => JsonConvert.ToString(new Version(1, 0)),
             "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
-    }
 
     [Fact]
     public void GuidToString()
@@ -535,8 +521,7 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void TestInvalidStrings()
-    {
+    public void TestInvalidStrings() =>
         XUnitAssert.Throws<JsonReaderException>(
             () =>
             {
@@ -550,7 +535,6 @@ public class JsonConvertTest : TestFixtureBase
                 JsonConvert.DeserializeObject<string>(serialized);
             },
             "Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.");
-    }
 
     [Fact]
     public void DeserializeValueObjects()
@@ -835,10 +819,8 @@ public class JsonConvertTest : TestFixtureBase
         }
     }
 
-    public static long GetTicks(object value)
-    {
-        return value is DateTime time ? time.Ticks : ((DateTimeOffset) value).Ticks;
-    }
+    public static long GetTicks(object value) =>
+        value is DateTime time ? time.Ticks : ((DateTimeOffset) value).Ticks;
 
     public static string Write(object value, JsonConverter converter)
     {
@@ -1036,20 +1018,14 @@ public class JsonConvertTest : TestFixtureBase
         {
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
             writer.WriteValue($"{ClobberValueString}-{ClobberValueInt}-{value}");
-        }
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-        {
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
             throw new NotImplementedException();
-        }
 
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(string);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(string);
     }
 
     [Fact]
@@ -1076,81 +1052,53 @@ public class JsonConvertTest : TestFixtureBase
 
         // constructor with Type argument
 
-        public OverloadsJsonConverter(Type typeParam)
-        {
+        public OverloadsJsonConverter(Type typeParam) =>
             type = "Type";
-        }
 
-        public OverloadsJsonConverter(object objectParam)
-        {
+        public OverloadsJsonConverter(object objectParam) =>
             type = $"object({objectParam.GetType().FullName})";
-        }
 
         // primitive type conversions
 
-        public OverloadsJsonConverter(byte byteParam)
-        {
+        public OverloadsJsonConverter(byte byteParam) =>
             type = "byte";
-        }
 
-        public OverloadsJsonConverter(short shortParam)
-        {
+        public OverloadsJsonConverter(short shortParam) =>
             type = "short";
-        }
 
-        public OverloadsJsonConverter(int intParam)
-        {
+        public OverloadsJsonConverter(int intParam) =>
             type = "int";
-        }
 
-        public OverloadsJsonConverter(long longParam)
-        {
+        public OverloadsJsonConverter(long longParam) =>
             type = "long";
-        }
 
-        public OverloadsJsonConverter(double doubleParam)
-        {
+        public OverloadsJsonConverter(double doubleParam) =>
             type = "double";
-        }
 
         // params argument
 
-        public OverloadsJsonConverter(params int[] intParams)
-        {
+        public OverloadsJsonConverter(params int[] intParams) =>
             type = "int[]";
-        }
 
-        public OverloadsJsonConverter(bool[] intParams)
-        {
+        public OverloadsJsonConverter(bool[] intParams) =>
             type = "bool[]";
-        }
 
         // closest type resolution
 
-        public OverloadsJsonConverter(IEnumerable<string> iEnumerableParam)
-        {
+        public OverloadsJsonConverter(IEnumerable<string> iEnumerableParam) =>
             type = "IEnumerable<string>";
-        }
 
-        public OverloadsJsonConverter(IList<string> iListParam)
-        {
+        public OverloadsJsonConverter(IList<string> iListParam) =>
             type = "IList<string>";
-        }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
             writer.WriteValue(type);
-        }
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-        {
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
             throw new NotImplementedException();
-        }
 
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(int);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(int);
     }
 
     public class OverloadWithTypeParameter
@@ -1422,20 +1370,14 @@ public class JsonConvertTest : TestFixtureBase
 
         public override bool CanRead => false;
 
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(double);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(double);
 
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
-        {
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
             throw new NotImplementedException();
-        }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
             writer.WriteValue(Math.Round((double) value, precision, rounding));
-        }
     }
 
     [Fact]
@@ -1551,10 +1493,8 @@ public class JsonConvertTest : TestFixtureBase
     {
         public sealed class Converter : JsonConverter
         {
-            public override bool CanConvert(Type type)
-            {
-                return type == typeof(Foo);
-            }
+            public override bool CanConvert(Type type) =>
+                type == typeof(Foo);
 
             public override object ReadJson
                 (JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
@@ -1576,10 +1516,8 @@ public class JsonConvertTest : TestFixtureBase
             yield break;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() =>
+            GetEnumerator();
     }
 
     [Fact]

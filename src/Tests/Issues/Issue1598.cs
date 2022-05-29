@@ -65,14 +65,10 @@ public class Issue1598 : TestFixtureBase
         [DataMember]
         public List<Activity> List { get; set; }
 
-        public IEnumerator<Activity> GetEnumerator()
-        {
-            return List.GetEnumerator();
-        }
+        public IEnumerator<Activity> GetEnumerator() =>
+            List.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() =>
+            GetEnumerator();
     }
 }

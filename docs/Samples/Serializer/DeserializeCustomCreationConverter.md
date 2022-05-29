@@ -21,13 +21,11 @@ public class Employee : Person
 
 public class PersonConverter : CustomCreationConverter<Person>
 {
-    public override Person Create(Type type)
-    {
-        return new Employee();
-    }
+    public override Person Create(Type type) =>
+        new Employee();
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L7-L30' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconvertertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L7-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconvertertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeCustomCreationConverterUsage -->
@@ -51,5 +49,5 @@ var employee = (Employee) person;
 Console.WriteLine(employee.JobTitle);
 // Carpenter
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L35-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L33-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

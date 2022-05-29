@@ -17,10 +17,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
         [DefaultValue(DefaultText)] [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public readonly string Text;
 
-        public DefaultValueWithConstructorAndRename(string text = DefaultText)
-        {
+        public DefaultValueWithConstructorAndRename(string text = DefaultText) =>
             Text = text;
-        }
     }
 
     [Fact]
@@ -37,10 +35,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
         [DefaultValue(DefaultText)] [JsonProperty(PropertyName = "myText", DefaultValueHandling = DefaultValueHandling.Populate)]
         public readonly string Text;
 
-        public DefaultValueWithConstructor([JsonProperty(PropertyName = "myText")] string text = DefaultText)
-        {
+        public DefaultValueWithConstructor([JsonProperty(PropertyName = "myText")] string text = DefaultText) =>
             Text = text;
-        }
     }
 
     [Fact]
@@ -409,15 +405,11 @@ public class DefaultValueHandlingTests : TestFixtureBase
             }
         }
 
-        public FieldExportFormat(string format)
-        {
+        public FieldExportFormat(string format) =>
             Format = format;
-        }
 
-        public FieldExportFormat(ExportFormat exportFormat)
-        {
+        public FieldExportFormat(ExportFormat exportFormat) =>
             ExportFormat = exportFormat;
-        }
 
         [Argon.JsonConstructor]
         FieldExportFormat(string format, ExportFormat? exportFormat)

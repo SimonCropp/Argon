@@ -19,10 +19,8 @@ static class JsonTypeReflector
 
     static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
 
-    public static T? GetCachedAttribute<T>(ICustomAttributeProvider provider) where T : Attribute
-    {
-        return CachedAttributeGetter<T>.GetAttribute(provider);
-    }
+    public static T? GetCachedAttribute<T>(ICustomAttributeProvider provider) where T : Attribute =>
+        CachedAttributeGetter<T>.GetAttribute(provider);
 
     public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
     {

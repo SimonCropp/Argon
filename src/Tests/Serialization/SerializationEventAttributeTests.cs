@@ -205,10 +205,8 @@ public class SerializationEventAttributeTests : TestFixtureBase
         public string TestMember { get; set; }
 
         [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context)
-        {
+        internal void OnSerializingMethod(StreamingContext context) =>
             TestMember = "Set!";
-        }
     }
 
     public class SerializationEventContextSubClassTestObject : SerializationEventBaseTestObject
@@ -231,10 +229,8 @@ public class SerializationEventAttributeTests : TestFixtureBase
         public string TestMember { get; set; }
 
         [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context)
-        {
+        internal void OnSerializingMethod(StreamingContext context) =>
             TestMember = $"{context.State} {context.Context}";
-        }
     }
 
     [Fact]
@@ -384,93 +380,65 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
     {
         protected IList<string> Events { get; }
 
-        public SerializationEventOrderTestObject()
-        {
+        public SerializationEventOrderTestObject() =>
             Events = new List<string>();
-        }
 
-        public IList<string> GetEvents()
-        {
-            return Events;
-        }
+        public IList<string> GetEvents() =>
+            Events;
 
         [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context)
-        {
+        internal void OnSerializingMethod(StreamingContext context) =>
             Events.Add("OnSerializing");
-        }
 
         [OnSerialized]
-        internal void OnSerializedMethod(StreamingContext context)
-        {
+        internal void OnSerializedMethod(StreamingContext context) =>
             Events.Add("OnSerialized");
-        }
 
         [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context)
-        {
+        internal void OnDeserializingMethod(StreamingContext context) =>
             Events.Add("OnDeserializing");
-        }
 
         [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context)
-        {
+        internal void OnDeserializedMethod(StreamingContext context) =>
             Events.Add("OnDeserialized");
-        }
     }
 
     public class DerivedSerializationEventOrderTestObject : SerializationEventOrderTestObject
     {
         [OnSerializing]
-        internal new void OnSerializingMethod(StreamingContext context)
-        {
+        internal new void OnSerializingMethod(StreamingContext context) =>
             Events.Add("OnSerializing_Derived");
-        }
 
         [OnSerialized]
-        internal new void OnSerializedMethod(StreamingContext context)
-        {
+        internal new void OnSerializedMethod(StreamingContext context) =>
             Events.Add("OnSerialized_Derived");
-        }
 
         [OnDeserializing]
-        internal new void OnDeserializingMethod(StreamingContext context)
-        {
+        internal new void OnDeserializingMethod(StreamingContext context) =>
             Events.Add("OnDeserializing_Derived");
-        }
 
         [OnDeserialized]
-        internal new void OnDeserializedMethod(StreamingContext context)
-        {
+        internal new void OnDeserializedMethod(StreamingContext context) =>
             Events.Add("OnDeserialized_Derived");
-        }
     }
 
     public class DerivedDerivedSerializationEventOrderTestObject : DerivedSerializationEventOrderTestObject
     {
         [OnSerializing]
-        internal new void OnSerializingMethod(StreamingContext context)
-        {
+        internal new void OnSerializingMethod(StreamingContext context) =>
             Events.Add("OnSerializing_Derived_Derived");
-        }
 
         [OnSerialized]
-        internal new void OnSerializedMethod(StreamingContext context)
-        {
+        internal new void OnSerializedMethod(StreamingContext context) =>
             Events.Add("OnSerialized_Derived_Derived");
-        }
 
         [OnDeserializing]
-        internal new void OnDeserializingMethod(StreamingContext context)
-        {
+        internal new void OnDeserializingMethod(StreamingContext context) =>
             Events.Add("OnDeserializing_Derived_Derived");
-        }
 
         [OnDeserialized]
-        internal new void OnDeserializedMethod(StreamingContext context)
-        {
+        internal new void OnDeserializedMethod(StreamingContext context) =>
             Events.Add("OnDeserialized_Derived_Derived");
-        }
     }
 
     public class ExportPostData
@@ -491,15 +459,11 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
         bool _onDeserializedCalled;
 
-        public bool GetOnDeserializedCalled()
-        {
-            return _onDeserializedCalled;
-        }
+        public bool GetOnDeserializedCalled() =>
+            _onDeserializedCalled;
 
         [OnDeserialized]
-        internal void Deserialized()
-        {
+        internal void Deserialized() =>
             _onDeserializedCalled = true;
-        }
     }
 }

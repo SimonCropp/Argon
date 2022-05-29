@@ -15,28 +15,22 @@ public class ReflectionAttributeProvider : IAttributeProvider
     /// Initializes a new instance of the <see cref="ReflectionAttributeProvider" /> class.
     /// </summary>
     /// <param name="attributeProvider">The instance to get attributes for. This parameter should be a <see cref="System.Type" />, <see cref="MemberInfo" />, <see cref="ParameterInfo" /> or <see cref="Assembly" />.</param>
-    public ReflectionAttributeProvider(ICustomAttributeProvider attributeProvider)
-    {
+    public ReflectionAttributeProvider(ICustomAttributeProvider attributeProvider) =>
         this.attributeProvider = attributeProvider;
-    }
 
     /// <summary>
     /// Returns a collection of all of the attributes, or an empty collection if there are no attributes.
     /// </summary>
     /// <param name="inherit">When <c>true</c>, look up the hierarchy chain for the inherited custom attribute.</param>
     /// <returns>A collection of <see cref="Attribute" />s, or an empty collection.</returns>
-    public IList<Attribute> GetAttributes(bool inherit)
-    {
-        return ReflectionUtils.GetAttributes(attributeProvider, null, inherit);
-    }
+    public IList<Attribute> GetAttributes(bool inherit) =>
+        ReflectionUtils.GetAttributes(attributeProvider, null, inherit);
 
     /// <summary>
     /// Returns a collection of attributes, identified by type, or an empty collection if there are no attributes.
     /// </summary>
     /// <param name="inherit">When <c>true</c>, look up the hierarchy chain for the inherited custom attribute.</param>
     /// <returns>A collection of <see cref="Attribute" />s, or an empty collection.</returns>
-    public IList<Attribute> GetAttributes(Type attributeType, bool inherit)
-    {
-        return ReflectionUtils.GetAttributes(attributeProvider, attributeType, inherit);
-    }
+    public IList<Attribute> GetAttributes(Type attributeType, bool inherit) =>
+        ReflectionUtils.GetAttributes(attributeProvider, attributeType, inherit);
 }

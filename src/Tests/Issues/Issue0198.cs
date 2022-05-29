@@ -105,10 +105,8 @@ public class Issue0198 : TestFixtureBase
 
     class TestClass3
     {
-        public TestClass3()
-        {
+        public TestClass3() =>
             Prop1 = new ModelStateDictionary<string>();
-        }
 
         public IDictionary<string, string> Prop1 { get; set; }
     }

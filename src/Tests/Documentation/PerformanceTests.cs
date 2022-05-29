@@ -9,10 +9,8 @@ namespace Argon.Tests.Documentation;
 [JsonConverter(typeof(PersonConverter))]
 public class Person
 {
-    public Person()
-    {
+    public Person() =>
         Likes = new List<string>();
-    }
 
     public string Name { get; set; }
     public IList<string> Likes { get; }
@@ -38,10 +36,8 @@ public class PersonConverter : JsonConverter
         return p;
     }
 
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(Person);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(Person);
 }
 
 public class PerformanceTests : TestFixtureBase
@@ -97,15 +93,11 @@ public class PerformanceTests : TestFixtureBase
 
     public class HttpClient
     {
-        public Task<Stream> GetStreamAsync(string url)
-        {
-            return Task.FromResult<Stream>(new MemoryStream());
-        }
+        public Task<Stream> GetStreamAsync(string url) =>
+            Task.FromResult<Stream>(new MemoryStream());
 
-        public Task<string> GetStringAsync(string url)
-        {
-            return Task.FromResult("{}");
-        }
+        public Task<string> GetStringAsync(string url) =>
+            Task.FromResult("{}");
     }
 
     [Fact]

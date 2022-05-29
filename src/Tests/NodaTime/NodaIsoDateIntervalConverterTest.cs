@@ -28,10 +28,8 @@ public class NodaIsoDateIntervalConverterTest
 
     [Theory]
     [InlineData("\"2012-01-022013-06-07\"")]
-    public void InvalidJson(string json)
-    {
+    public void InvalidJson(string json) =>
         AssertInvalidJson<DateInterval>(json, settings);
-    }
 
     [Fact]
     public void Serialize_InObject()

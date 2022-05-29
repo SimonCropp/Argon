@@ -17,10 +17,8 @@ public class JTokenEqualityComparer : IEqualityComparer<JToken>
     /// <returns>
     /// <c>true</c> if the specified objects are equal; otherwise, <c>false</c>.
     /// </returns>
-    public bool Equals(JToken? x, JToken? y)
-    {
-        return JToken.DeepEquals(x, y);
-    }
+    public bool Equals(JToken? x, JToken? y) =>
+        JToken.DeepEquals(x, y);
 
     /// <summary>
     /// Returns a hash code for the specified object.

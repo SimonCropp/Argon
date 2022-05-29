@@ -57,20 +57,16 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultContractResolver" /> class.
     /// </summary>
-    public DefaultContractResolver()
-    {
+    public DefaultContractResolver() =>
         contractCache = new(CreateContract);
-    }
 
     /// <summary>
     /// Resolves the contract for a given type.
     /// </summary>
     /// <param name="type">The type to resolve a contract for.</param>
     /// <returns>The contract for a given type.</returns>
-    public virtual JsonContract ResolveContract(Type type)
-    {
-        return contractCache.Get(type);
-    }
+    public virtual JsonContract ResolveContract(Type type) =>
+        contractCache.Get(type);
 
     static bool FilterMembers(MemberInfo member)
     {
@@ -257,10 +253,8 @@ public class DefaultContractResolver : IContractResolver
         return contract;
     }
 
-    static void ThrowUnableToSerializeError(object o, StreamingContext context)
-    {
+    static void ThrowUnableToSerializeError(object o, StreamingContext context) =>
         throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
-    }
 
     static MemberInfo GetExtensionDataMemberForType(Type type)
     {
@@ -416,10 +410,8 @@ public class DefaultContractResolver : IContractResolver
     {
         readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
 
-        public EnumerableDictionaryWrapper(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
-        {
+        public EnumerableDictionaryWrapper(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e) =>
             this.e = e;
-        }
 
         public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
         {
@@ -429,10 +421,8 @@ public class DefaultContractResolver : IContractResolver
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() =>
+            GetEnumerator();
     }
 
     static ConstructorInfo? GetAttributeConstructor(Type type)
@@ -603,15 +593,11 @@ public class DefaultContractResolver : IContractResolver
     /// Resolves the default <see cref="JsonConverter" /> for the contract.
     /// </summary>
     /// <returns>The contract's default <see cref="JsonConverter" />.</returns>
-    protected virtual JsonConverter? ResolveContractConverter(Type type)
-    {
-        return JsonTypeReflector.GetJsonConverter(type);
-    }
+    protected virtual JsonConverter? ResolveContractConverter(Type type) =>
+        JsonTypeReflector.GetJsonConverter(type);
 
-    static Func<object> GetDefaultCreator(Type createdType)
-    {
-        return JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
-    }
+    static Func<object> GetDefaultCreator(Type createdType) =>
+        JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
 
     void InitializeContract(JsonContract contract)
     {
@@ -1151,10 +1137,8 @@ public class DefaultContractResolver : IContractResolver
         return properties.OrderBy(p => p.Order ?? -1).ToList();
     }
 
-    internal virtual DefaultJsonNameTable GetNameTable()
-    {
-        return nameTable;
-    }
+    internal virtual DefaultJsonNameTable GetNameTable() =>
+        nameTable;
 
     /// <summary>
     /// Creates the <see cref="IValueProvider" /> used by the serializer to get and set values from a member.
@@ -1452,10 +1436,8 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <returns>Name of the property.</returns>
-    public string GetResolvedPropertyName(string propertyName)
-    {
+    public string GetResolvedPropertyName(string propertyName) =>
         // this is a new method rather than changing the visibility of ResolvePropertyName to avoid
         // a breaking change for anyone who has overidden the method
-        return ResolvePropertyName(propertyName);
-    }
+        ResolvePropertyName(propertyName);
 }

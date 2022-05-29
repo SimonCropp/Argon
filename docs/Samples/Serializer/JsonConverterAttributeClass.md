@@ -24,10 +24,8 @@ public class UserConverter : JsonConverter
         return user;
     }
 
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(User);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(User);
 }
 
 [JsonConverter(typeof(UserConverter))]
@@ -36,7 +34,7 @@ public class User
     public string UserName { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L7-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclasstypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L7-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclasstypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConverterAttributeClassUsage -->
@@ -52,5 +50,5 @@ var json = JsonConvert.SerializeObject(user, Formatting.Indented);
 Console.WriteLine(json);
 // "domain\\username"
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L45-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclassusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L43-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclassusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

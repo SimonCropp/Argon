@@ -157,36 +157,28 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeBoolean_Null()
-    {
+    public void DeserializeBoolean_Null() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<IList<bool>>(@"[null]"),
             "Error converting value {null} to type 'System.Boolean'. Path '[0]', line 1, position 5.");
-    }
 
     [Fact]
-    public void DeserializeBoolean_DateTime()
-    {
+    public void DeserializeBoolean_DateTime() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<IList<bool>>(@"['2000-12-20T10:55:55Z']"),
             "Could not convert string to boolean: 2000-12-20T10:55:55Z. Path '[0]', line 1, position 23.");
-    }
 
     [Fact]
-    public void DeserializeBoolean_BadString()
-    {
+    public void DeserializeBoolean_BadString() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<IList<bool>>(@"['pie']"),
             @"Could not convert string to boolean: pie. Path '[0]', line 1, position 6.");
-    }
 
     [Fact]
-    public void DeserializeBoolean_EmptyString()
-    {
+    public void DeserializeBoolean_EmptyString() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<IList<bool>>(@"['']"),
             @"Error converting value {null} to type 'System.Boolean'. Path '[0]', line 1, position 3.");
-    }
 
     [Fact]
     public void DeserializeBooleans()
@@ -278,20 +270,16 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void CoercedEmptyStringWithRequired()
-    {
+    public void CoercedEmptyStringWithRequired() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Binding>("{requiredProperty:''}"),
             "Required property 'RequiredProperty' expects a value but got null. Path '', line 1, position 21.");
-    }
 
     [Fact]
-    public void CoercedEmptyStringWithRequired_DisallowNull()
-    {
+    public void CoercedEmptyStringWithRequired_DisallowNull() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Binding_DisallowNull>("{requiredProperty:''}"),
             "Required property 'RequiredProperty' expects a non-null value. Path '', line 1, position 21.");
-    }
 
     [Fact]
     public void DisallowNull_NoValue()
@@ -301,12 +289,10 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void CoercedEmptyStringWithRequiredConstructor()
-    {
+    public void CoercedEmptyStringWithRequiredConstructor() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<FooRequired>("{Bars:''}"),
             "Required property 'Bars' expects a value but got null. Path '', line 1, position 9.");
-    }
 
     [Fact]
     public void NoErrorWhenValueDoesNotMatchIgnoredProperty()
@@ -317,12 +303,10 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void Serialize_Required_DisallowedNull()
-    {
+    public void Serialize_Required_DisallowedNull() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(new Binding_DisallowNull()),
             "Cannot write a null value for property 'RequiredProperty'. Property requires a non-null value. Path ''.");
-    }
 
     [Fact]
     public void Serialize_Required_DisallowedNull_NullValueHandlingIgnore()
@@ -335,12 +319,10 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void Serialize_ItemRequired_DisallowedNull()
-    {
+    public void Serialize_ItemRequired_DisallowedNull() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(new DictionaryWithNoNull()),
             "Cannot write a null value for property 'Name'. Property requires a non-null value. Path ''.");
-    }
 
     [Fact]
     public void DictionaryKeyContractResolverTest()
@@ -561,10 +543,8 @@ public class JsonSerializerTest : TestFixtureBase
     public struct ImmutableStructWithConstructorAttribute
     {
         [JsonConstructor]
-        public ImmutableStructWithConstructorAttribute(string value)
-        {
+        public ImmutableStructWithConstructorAttribute(string value) =>
             Value = value;
-        }
 
         public string Value { get; }
     }
@@ -1681,12 +1661,10 @@ keyword such as type of business.""
     }
 
     [Fact]
-    public void BadJsonPropertyClassSerialize()
-    {
+    public void BadJsonPropertyClassSerialize() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(new BadJsonPropertyClass()),
             @"A member with the name 'pie' already exists on 'TestObjects.BadJsonPropertyClass'. Use the JsonPropertyAttribute to specify another name.");
-    }
 
     [Fact]
     public void InvalidBackslash()
@@ -2498,16 +2476,14 @@ keyword such as type of business.""
             @"Could not create an instance of type TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
     }
 
-    Person GetPerson()
-    {
-        return new()
+    Person GetPerson() =>
+        new()
         {
             Name = "Mike Manager",
             BirthDate = new(1983, 8, 3, 0, 0, 0, DateTimeKind.Utc),
             Department = "IT",
             LastModified = new(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc)
         };
-    }
 
     [Fact]
     public void WriteJsonDates()
@@ -3104,10 +3080,8 @@ Path '', line 1, position 1.");
     {
         readonly IDictionary<string, object> values = new Dictionary<string, object>();
 
-        public override IEnumerable<string> GetDynamicMemberNames()
-        {
-            return values.Keys;
-        }
+        public override IEnumerable<string> GetDynamicMemberNames() =>
+            values.Keys;
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
@@ -4400,12 +4374,10 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
-    public void DeserializeNullDateTimeValueTest()
-    {
+    public void DeserializeNullDateTimeValueTest() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject("null", typeof(DateTime)),
             "Error converting value {null} to type 'System.DateTime'. Path '', line 1, position 4.");
-    }
 
     [Fact]
     public void DeserializeNullNullableDateTimeValueTest()
@@ -6120,20 +6092,16 @@ This is just junk, though.";
     }
 
     [Fact]
-    public void NoConstructorReadOnlyCollectionTest()
-    {
+    public void NoConstructorReadOnlyCollectionTest() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<NoConstructorReadOnlyCollection<int>>("[1]"),
             "Cannot deserialize readonly or fixed size list: TestObjects.NoConstructorReadOnlyCollection`1[System.Int32]. Path '', line 1, position 1.");
-    }
 
     [Fact]
-    public void NoConstructorReadOnlyDictionaryTest()
-    {
+    public void NoConstructorReadOnlyDictionaryTest() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<NoConstructorReadOnlyDictionary<int, int>>("{'1':1}"),
             "Cannot deserialize readonly or fixed size dictionary: TestObjects.NoConstructorReadOnlyDictionary`2[System.Int32,System.Int32]. Path '1', line 1, position 5.");
-    }
 
     [Fact]
     public void ReadTooLargeInteger()
@@ -6827,20 +6795,16 @@ This is just junk, though.";
     }
 
     [Fact]
-    public void ErrorCreatingJsonConverter()
-    {
+    public void ErrorCreatingJsonConverter() =>
         XUnitAssert.Throws<JsonException>(
             () => JsonConvert.SerializeObject(new ErroringTestClass()),
             "Error creating 'TestObjects.ErroringJsonConverter'.");
-    }
 
     [Fact]
-    public void DeserializeInvalidOctalRootError()
-    {
+    public void DeserializeInvalidOctalRootError() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<string>("020474068"),
             "Input string '020474068' is not a valid number. Path '', line 1, position 9.");
-    }
 
     [Fact]
     public void DeserializedDerivedWithPrivate()
@@ -6974,44 +6938,34 @@ This is just junk, though.";
     }
 
     [Fact]
-    public void StringEmptyValue()
-    {
+    public void StringEmptyValue() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<EmptyJsonValueTestClass>("{ A: , B: 1, C: 123, D: 1.23, E: 3.45, F: null }"),
             "Unexpected character encountered while parsing value: ,. Path 'A', line 1, position 6.");
-    }
 
     [Fact]
-    public void NullableIntEmptyValue()
-    {
+    public void NullableIntEmptyValue() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<EmptyJsonValueTestClass>("{ A: \"\", B: , C: 123, D: 1.23, E: 3.45, F: null }"),
             "Unexpected character encountered while parsing value: ,. Path 'B', line 1, position 13.");
-    }
 
     [Fact]
-    public void NullableLongEmptyValue()
-    {
+    public void NullableLongEmptyValue() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<EmptyJsonValueTestClass>("{ A: \"\", B: 1, C: , D: 1.23, E: 3.45, F: null }"),
             "An undefined token is not a valid System.Nullable`1[System.Int64]. Path 'C', line 1, position 18.");
-    }
 
     [Fact]
-    public void NullableDecimalEmptyValue()
-    {
+    public void NullableDecimalEmptyValue() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<EmptyJsonValueTestClass>("{ A: \"\", B: 1, C: 123, D: , E: 3.45, F: null }"),
             "Unexpected character encountered while parsing value: ,. Path 'D', line 1, position 27.");
-    }
 
     [Fact]
-    public void NullableDoubleEmptyValue()
-    {
+    public void NullableDoubleEmptyValue() =>
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<EmptyJsonValueTestClass>("{ A: \"\", B: 1, C: 123, D: 1.23, E: , F: null }"),
             "Unexpected character encountered while parsing value: ,. Path 'E', line 1, position 36.");
-    }
 
     [Fact]
     public void SetMaxDepth_DepthExceeded()

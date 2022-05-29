@@ -1520,10 +1520,8 @@ third line", jsonTextReader.Value);
 
     class MinimalOverridesDerivedJsonReader : JsonReader
     {
-        public override bool Read()
-        {
-            return true;
-        }
+        public override bool Read() =>
+            true;
     }
 
     [Fact]

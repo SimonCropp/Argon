@@ -51,30 +51,22 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Initializes a new instance of the <see cref="JArray" /> class with the specified content.
     /// </summary>
-    public JArray(object content)
-    {
+    public JArray(object content) =>
         Add(content);
-    }
 
-    internal override bool DeepEquals(JToken node)
-    {
-        return node is JArray t && ContentsEqual(t);
-    }
+    internal override bool DeepEquals(JToken node) =>
+        node is JArray t && ContentsEqual(t);
 
-    internal override JToken CloneToken()
-    {
-        return new JArray(this);
-    }
+    internal override JToken CloneToken() =>
+        new JArray(this);
 
     /// <summary>
     /// Loads an <see cref="JArray" /> from a <see cref="JsonReader" />.
     /// </summary>
     /// <param name="reader">A <see cref="JsonReader" /> that will be read for the content of the <see cref="JArray" />.</param>
     /// <returns>A <see cref="JArray" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
-    public new static JArray Load(JsonReader reader)
-    {
-        return Load(reader, null);
-    }
+    public new static JArray Load(JsonReader reader) =>
+        Load(reader, null);
 
     /// <summary>
     /// Loads an <see cref="JArray" /> from a <see cref="JsonReader" />.
@@ -118,10 +110,8 @@ public partial class JArray : JContainer, IList<JToken>
     /// <example>
     /// <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
     /// </example>
-    public new static JArray Parse(string json)
-    {
-        return Parse(json, null);
-    }
+    public new static JArray Parse(string json) =>
+        Parse(json, null);
 
     /// <summary>
     /// Load a <see cref="JArray" /> from a string that contains JSON.
@@ -153,10 +143,8 @@ public partial class JArray : JContainer, IList<JToken>
     /// </summary>
     /// <param name="o">The object that will be used to create <see cref="JArray" />.</param>
     /// <returns>A <see cref="JArray" /> with the values of the specified object.</returns>
-    public new static JArray FromObject(object o)
-    {
-        return FromObject(o, JsonSerializer.CreateDefault());
-    }
+    public new static JArray FromObject(object o) =>
+        FromObject(o, JsonSerializer.CreateDefault());
 
     /// <summary>
     /// Creates a <see cref="JArray" /> from an object.
@@ -257,10 +245,8 @@ public partial class JArray : JContainer, IList<JToken>
     /// <returns>
     /// The index of <paramref name="item" /> if found in the list; otherwise, -1.
     /// </returns>
-    public int IndexOf(JToken item)
-    {
-        return IndexOfItem(item);
-    }
+    public int IndexOf(JToken item) =>
+        IndexOfItem(item);
 
     /// <summary>
     /// Inserts an item to the <see cref="JArray" /> at the specified index.
@@ -270,10 +256,8 @@ public partial class JArray : JContainer, IList<JToken>
     /// <exception cref="ArgumentOutOfRangeException">
     /// <paramref name="index" /> is not a valid index in the <see cref="JArray" />.
     /// </exception>
-    public void Insert(int index, JToken item)
-    {
+    public void Insert(int index, JToken item) =>
         InsertItem(index, item, false);
-    }
 
     /// <summary>
     /// Removes the <see cref="JArray" /> item at the specified index.
@@ -282,10 +266,8 @@ public partial class JArray : JContainer, IList<JToken>
     /// <exception cref="ArgumentOutOfRangeException">
     /// <paramref name="index" /> is not a valid index in the <see cref="JArray" />.
     /// </exception>
-    public void RemoveAt(int index)
-    {
+    public void RemoveAt(int index) =>
         RemoveItemAt(index);
-    }
 
     /// <summary>
     /// Returns an enumerator that iterates through the collection.
@@ -293,10 +275,8 @@ public partial class JArray : JContainer, IList<JToken>
     /// <returns>
     /// A <see cref="IEnumerator{T}" /> of <see cref="JToken" /> that can be used to iterate through the collection.
     /// </returns>
-    public IEnumerator<JToken> GetEnumerator()
-    {
-        return Children().GetEnumerator();
-    }
+    public IEnumerator<JToken> GetEnumerator() =>
+        Children().GetEnumerator();
 
     #endregion
 
@@ -306,18 +286,14 @@ public partial class JArray : JContainer, IList<JToken>
     /// Adds an item to the <see cref="JArray" />.
     /// </summary>
     /// <param name="item">The object to add to the <see cref="JArray" />.</param>
-    public void Add(JToken item)
-    {
+    public void Add(JToken item) =>
         Add((object) item);
-    }
 
     /// <summary>
     /// Removes all items from the <see cref="JArray" />.
     /// </summary>
-    public void Clear()
-    {
+    public void Clear() =>
         ClearItems();
-    }
 
     /// <summary>
     /// Determines whether the <see cref="JArray" /> contains a specific value.
@@ -326,18 +302,14 @@ public partial class JArray : JContainer, IList<JToken>
     /// <returns>
     /// <c>true</c> if <paramref name="item" /> is found in the <see cref="JArray" />; otherwise, <c>false</c>.
     /// </returns>
-    public bool Contains(JToken item)
-    {
-        return ContainsItem(item);
-    }
+    public bool Contains(JToken item) =>
+        ContainsItem(item);
 
     /// <summary>
     /// Copies the elements of the <see cref="JArray" /> to an array, starting at a particular array index.
     /// </summary>
-    public void CopyTo(JToken[] array, int arrayIndex)
-    {
+    public void CopyTo(JToken[] array, int arrayIndex) =>
         CopyItemsTo(array, arrayIndex);
-    }
 
     /// <summary>
     /// Gets a value indicating whether the <see cref="JArray" /> is read-only.
@@ -352,15 +324,11 @@ public partial class JArray : JContainer, IList<JToken>
     /// <returns>
     /// <c>true</c> if <paramref name="item" /> was successfully removed from the <see cref="JArray" />; otherwise, <c>false</c>. This method also returns <c>false</c> if <paramref name="item" /> is not found in the original <see cref="JArray" />.
     /// </returns>
-    public bool Remove(JToken item)
-    {
-        return RemoveItem(item);
-    }
+    public bool Remove(JToken item) =>
+        RemoveItem(item);
 
     #endregion
 
-    internal override int GetDeepHashCode()
-    {
-        return ContentsHashCode();
-    }
+    internal override int GetDeepHashCode() =>
+        ContentsHashCode();
 }

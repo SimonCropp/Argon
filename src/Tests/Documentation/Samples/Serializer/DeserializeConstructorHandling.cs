@@ -14,10 +14,8 @@ public class DeserializeConstructorHandling : TestFixtureBase
         {
         }
 
-        public Website(Website website)
-        {
+        public Website(Website website) =>
             Url = website.Url;
-        }
     }
 
     #endregion

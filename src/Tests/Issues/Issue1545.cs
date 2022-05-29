@@ -81,15 +81,11 @@ public class LineInfoConverter : JsonConverter
 {
     public override bool CanWrite => false;
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
         throw new NotImplementedException("Converter is not writable. Method should not be invoked");
-    }
 
-    public override bool CanConvert(Type type)
-    {
-        return typeof(JsonLineInfo).IsAssignableFrom(type);
-    }
+    public override bool CanConvert(Type type) =>
+        typeof(JsonLineInfo).IsAssignableFrom(type);
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
