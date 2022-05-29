@@ -183,7 +183,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public IEnumerable<JToken> AncestorsAndSelf() =>
         GetAncestors(true);
 
-    internal IEnumerable<JToken> GetAncestors(bool self)
+    IEnumerable<JToken> GetAncestors(bool self)
     {
         for (var current = self ? this : Parent; current != null; current = current.Parent)
         {
@@ -373,14 +373,6 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     static void ValidateToken<T>(JToken value, [NotNull] JValue? v, JTokenType[] jTokenTypes)
     {
         if (v == null || !ValidateToken(v, jTokenTypes))
-        {
-            throw new ArgumentException($"Can not convert {GetType(value)} to {typeof(T).Name}.");
-        }
-    }
-
-    static void ValidateTokenNullable<T>(JToken value, [NotNull] JValue? v, JTokenType[] jTokenTypes)
-    {
-        if (v == null || !ValidateTokenNullable(v, jTokenTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to {typeof(T).Name}.");
         }

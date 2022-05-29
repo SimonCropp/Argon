@@ -86,13 +86,13 @@ public class StringEnumConverter : JsonConverter
             return;
         }
 
-        if (!AllowIntegerValues)
+        if (AllowIntegerValues)
         {
-            throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
+            writer.WriteValue(value);
+            return;
         }
 
-        // enum value has no name so write number
-        writer.WriteValue(value);
+        throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
     }
 
     /// <summary>

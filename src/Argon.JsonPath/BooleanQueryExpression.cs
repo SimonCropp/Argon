@@ -161,7 +161,7 @@ class BooleanQueryExpression : QueryExpression
         return Regex.IsMatch((string) input.GetValue(), patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
     }
 
-    internal static bool EqualsWithStringCoercion(JValue value, JValue queryValue)
+    static bool EqualsWithStringCoercion(JValue value, JValue queryValue)
     {
         if (value.Equals(queryValue))
         {
@@ -170,8 +170,8 @@ class BooleanQueryExpression : QueryExpression
 
         // Handle comparing an integer with a float
         // e.g. Comparing 1 and 1.0
-        if ((value.Type == JTokenType.Integer && queryValue.Type == JTokenType.Float)
-            || (value.Type == JTokenType.Float && queryValue.Type == JTokenType.Integer))
+        if ((value.Type == JTokenType.Integer && queryValue.Type == JTokenType.Float) ||
+            (value.Type == JTokenType.Float && queryValue.Type == JTokenType.Integer))
         {
             return JValue.Compare(value.Type, value.Value, queryValue.Value) == 0;
         }

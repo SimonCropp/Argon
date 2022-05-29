@@ -13,8 +13,6 @@ using System.Web.Script.Serialization;
 
 public class DeserializeComparisonBenchmarks
 {
-    static readonly byte[] BinaryFormatterData = BenchmarkConstants.BinaryFormatterHex.HexToBytes();
-
     [Benchmark]
     public TestClass DataContractSerializer() =>
         DeserializeDataContract<TestClass>(BenchmarkConstants.XmlText);
@@ -36,6 +34,9 @@ public class DeserializeComparisonBenchmarks
     }
 
 #if (!NET5_0_OR_GREATER)
+
+    static readonly byte[] BinaryFormatterData = BenchmarkConstants.BinaryFormatterHex.HexToBytes();
+
     [Benchmark]
     public TestClass BinaryFormatter() =>
         DeserializeBinaryFormatter<TestClass>(BinaryFormatterData);

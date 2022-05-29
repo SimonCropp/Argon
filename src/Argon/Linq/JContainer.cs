@@ -145,7 +145,7 @@ public abstract partial class JContainer :
     internal bool IsMultiContent([NotNullWhen(true)] object? content) =>
         content is IEnumerable and not string and not JToken and not byte[];
 
-    internal JToken EnsureParentToken(JToken? item, bool skipParentCheck)
+    JToken EnsureParentToken(JToken? item, bool skipParentCheck)
     {
         if (item == null)
         {
@@ -523,7 +523,7 @@ public abstract partial class JContainer :
         }
     }
 
-    internal void ReadContentFrom(JsonReader r, JsonLoadSettings? settings)
+    void ReadContentFrom(JsonReader r, JsonLoadSettings? settings)
     {
         var lineInfo = r as IJsonLineInfo;
 

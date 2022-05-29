@@ -283,7 +283,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     static bool CoerceEmptyStringToNull(Type? type, JsonContract? contract, string s) =>
         StringUtils.IsNullOrEmpty(s) && type != null && type != typeof(string) && type != typeof(object) && contract is {IsNullable: true};
 
-    internal string GetExpectedDescription(JsonContract contract)
+    static string GetExpectedDescription(JsonContract contract)
     {
         switch (contract.ContractType)
         {
@@ -747,7 +747,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    JsonArrayContract EnsureArrayContract(JsonReader reader, Type type, JsonContract contract)
+    static JsonArrayContract EnsureArrayContract(JsonReader reader, Type type, JsonContract contract)
     {
         if (contract is not JsonArrayContract arrayContract)
         {

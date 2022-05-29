@@ -26,7 +26,7 @@ struct JsonPosition
         PropertyName = null;
     }
 
-    internal int CalculateLength()
+    int CalculateLength()
     {
         switch (Type)
         {
@@ -39,7 +39,7 @@ struct JsonPosition
         }
     }
 
-    internal void WriteTo(StringBuilder sb, ref StringWriter? writer, ref char[]? buffer)
+    void WriteTo(StringBuilder sb, ref StringWriter? writer, ref char[]? buffer)
     {
         switch (Type)
         {
@@ -74,7 +74,7 @@ struct JsonPosition
         }
     }
 
-    internal static bool TypeHasIndex(JsonContainerType type) =>
+    static bool TypeHasIndex(JsonContainerType type) =>
         type is JsonContainerType.Array;
 
     internal static string BuildPath(List<JsonPosition> positions, JsonPosition? currentPosition)
