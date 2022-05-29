@@ -16,18 +16,14 @@ public class DefaultJsonNameTable : JsonNameTable
     Entry[] entries;
     int mask = 31;
 
-    static DefaultJsonNameTable()
-    {
+    static DefaultJsonNameTable() =>
         hashCodeRandomizer = Environment.TickCount;
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultJsonNameTable" /> class.
     /// </summary>
-    public DefaultJsonNameTable()
-    {
+    public DefaultJsonNameTable() =>
         entries = new Entry[mask + 1];
-    }
 
     /// <summary>
     /// Gets a string containing the same characters as the specified range of characters in the given array.

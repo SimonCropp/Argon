@@ -59,10 +59,8 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonObjectAttribute" /> class with the specified member serialization.
     /// </summary>
-    public JsonObjectAttribute(MemberSerialization memberSerialization)
-    {
+    public JsonObjectAttribute(MemberSerialization memberSerialization) =>
         MemberSerialization = memberSerialization;
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonObjectAttribute" /> class with the specified container Id.
