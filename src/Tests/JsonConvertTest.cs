@@ -1387,6 +1387,7 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal("{\"Data\":null}", json);
     }
 
+    // ReSharper disable once UnusedTypeParameter
     public class GenericBaseClass<O, T>
     {
         public virtual T Data { get; set; }

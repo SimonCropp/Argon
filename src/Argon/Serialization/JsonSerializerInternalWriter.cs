@@ -2,6 +2,8 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+// ReSharper disable NullableWarningSuppressionIsUsed
+// ReSharper disable RedundantSuppressNullableWarningExpression
 using System.Dynamic;
 
 class JsonSerializerInternalWriter : JsonSerializerInternalBase

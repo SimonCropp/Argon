@@ -3,6 +3,8 @@
 // as found in the license.md file.
 
 using System.Text.RegularExpressions;
+// ReSharper disable NullableWarningSuppressionIsUsed
+// ReSharper disable RedundantSuppressNullableWarningExpression
 
 static class MiscellaneousUtils
 {

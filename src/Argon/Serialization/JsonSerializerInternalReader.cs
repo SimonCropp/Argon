@@ -3,6 +3,8 @@
 // as found in the license.md file.
 
 using System.Dynamic;
+// ReSharper disable NullableWarningSuppressionIsUsed
+// ReSharper disable RedundantSuppressNullableWarningExpression
 
 class JsonSerializerInternalReader : JsonSerializerInternalBase
 {
