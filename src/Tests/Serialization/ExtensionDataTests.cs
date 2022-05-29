@@ -451,7 +451,7 @@ public class ExtensionDataTests : TestFixtureBase
     {
         public int NotForJson { get; set; }
 
-        [JsonPropertyAttribute(Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int ForJson { get; set; }
 
         [JsonExtensionData(ReadData = true, WriteData = true)]

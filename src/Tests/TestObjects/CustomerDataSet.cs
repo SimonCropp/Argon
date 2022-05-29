@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 // ReSharper disable RedundantNameQualifier
+// ReSharper disable RedundantAttributeSuffix
 namespace TestObjects;
 
 /// <summary>

@@ -1,7 +1,7 @@
 ﻿#if !NET5_0_OR_GREATER
 namespace System.Runtime.CompilerServices
 {
-    internal static class IsExternalInit {}
+    static class IsExternalInit {}
 }
 #endif
 public record TextReaderState(JsonToken TokenType, int LineNumber, int LinePosition, string Path, int Depth, object Value);
