@@ -6,10 +6,8 @@ namespace TestObjects;
 
 public class MailAddressReadConverter : JsonConverter
 {
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(System.Net.Mail.MailAddress);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(System.Net.Mail.MailAddress);
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
@@ -31,8 +29,6 @@ public class MailAddressReadConverter : JsonConverter
         return new System.Net.Mail.MailAddress(address);
     }
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
         throw new NotImplementedException();
-    }
 }

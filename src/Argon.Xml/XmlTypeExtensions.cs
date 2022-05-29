@@ -35,8 +35,6 @@ static class XmlTypeExtensions
         return false;
     }
 
-    public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces)
-    {
-        return type.AssignableToTypeName(fullTypeName, searchInterfaces, out _);
-    }
+    public static bool AssignableToTypeName(this Type type, string fullTypeName, bool searchInterfaces) =>
+        type.AssignableToTypeName(fullTypeName, searchInterfaces, out _);
 }

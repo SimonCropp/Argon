@@ -86,10 +86,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return GetContract(type);
     }
 
-    JsonContract GetContract(Type type)
-    {
-        return Serializer.ResolveContract(type);
-    }
+    JsonContract GetContract(Type type) =>
+        Serializer.ResolveContract(type);
 
     public object? Deserialize(JsonReader reader, Type? type, bool? checkAdditionalContent)
     {
@@ -144,10 +142,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    JsonSerializerProxy GetInternalSerializer()
-    {
-        return InternalSerializer ??= new(this);
-    }
+    JsonSerializerProxy GetInternalSerializer() =>
+        InternalSerializer ??= new(this);
 
     static JToken? CreateJToken(JsonReader reader, JsonContract? contract)
     {
@@ -282,10 +278,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, "Unexpected end when deserializing object.");
     }
 
-    static bool CoerceEmptyStringToNull(Type? type, JsonContract? contract, string s)
-    {
-        return StringUtils.IsNullOrEmpty(s) && type != null && type != typeof(string) && type != typeof(object) && contract is {IsNullable: true};
-    }
+    static bool CoerceEmptyStringToNull(Type? type, JsonContract? contract, string s) =>
+        StringUtils.IsNullOrEmpty(s) && type != null && type != typeof(string) && type != typeof(object) && contract is {IsNullable: true};
 
     internal string GetExpectedDescription(JsonContract contract)
     {
@@ -853,13 +847,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return value;
     }
 
-    static bool HasNoDefinedType(JsonContract? contract)
-    {
-        return contract == null ||
-               contract.UnderlyingType == typeof(object) ||
-               contract.ContractType == JsonContractType.Linq ||
-               contract.UnderlyingType == typeof(IDynamicMetaObjectProvider);
-    }
+    static bool HasNoDefinedType(JsonContract? contract) =>
+        contract == null ||
+        contract.UnderlyingType == typeof(object) ||
+        contract.ContractType == JsonContractType.Linq ||
+        contract.UnderlyingType == typeof(IDynamicMetaObjectProvider);
 
     static object? EnsureType(JsonReader reader, object? value, CultureInfo culture, JsonContract? contract, Type? targetType)
     {
@@ -1762,10 +1754,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         public object? Value;
         public bool Used;
 
-        public CreatorPropertyContext(string name)
-        {
+        public CreatorPropertyContext(string name) =>
             Name = name;
-        }
     }
 
     object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor<object> creator, string? id)

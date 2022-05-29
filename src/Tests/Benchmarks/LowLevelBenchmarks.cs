@@ -26,27 +26,19 @@ public class LowLevelBenchmarks
     }
 
     [Benchmark]
-    public void DictionaryGet()
-    {
+    public void DictionaryGet() =>
         NormalDictionary.TryGetValue("1", out _);
-    }
 
     [Benchmark]
-    public void ConcurrentDictionaryGet()
-    {
+    public void ConcurrentDictionaryGet() =>
         ConcurrentDictionary.TryGetValue("1", out _);
-    }
 
     [Benchmark]
-    public void ConcurrentDictionaryGetOrCreate()
-    {
+    public void ConcurrentDictionaryGetOrCreate() =>
         ConcurrentDictionary.GetOrAdd("1", Dummy);
-    }
 
-    static object Dummy(string arg)
-    {
+    static object Dummy(string arg) =>
         throw new("Should never get here.");
-    }
 
     [Benchmark]
     public void DecimalTryParseString()
@@ -56,10 +48,8 @@ public class LowLevelBenchmarks
     }
 
     [Benchmark]
-    public void GetMemberWithMemberTypeAndBindingFlags()
-    {
+    public void GetMemberWithMemberTypeAndBindingFlags() =>
         typeof(LowLevelBenchmarks).GetMember("AName", MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-    }
 
     [Benchmark]
     public void GetPropertyGetField()

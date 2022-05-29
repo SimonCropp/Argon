@@ -8,8 +8,6 @@ public class SuperKlass
 {
     public string SuperProp { get; set; }
 
-    public SuperKlass()
-    {
+    public SuperKlass() =>
         SuperProp = "default superprop";
-    }
 }

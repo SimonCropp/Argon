@@ -6,8 +6,6 @@ namespace TestObjects;
 
 public class PersonConverter : CustomCreationConverter<IPerson>
 {
-    public override IPerson Create(Type type)
-    {
-        return new Employee();
-    }
+    public override IPerson Create(Type type) =>
+        new Employee();
 }

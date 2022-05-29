@@ -22,10 +22,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         }
     }
 
-    public CollectionWrapper(ICollection<T> list)
-    {
+    public CollectionWrapper(ICollection<T> list) =>
         genericCollection = list;
-    }
 
     public virtual void Add(T item)
     {
@@ -116,15 +114,11 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         return contains;
     }
 
-    public virtual IEnumerator<T> GetEnumerator()
-    {
-        return (genericCollection ?? list.Cast<T>()).GetEnumerator();
-    }
+    public virtual IEnumerator<T> GetEnumerator() =>
+        (genericCollection ?? list.Cast<T>()).GetEnumerator();
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return ((IEnumerable) genericCollection! ?? list!).GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() =>
+        ((IEnumerable) genericCollection! ?? list!).GetEnumerator();
 
     int IList.Add(object value)
     {
@@ -134,11 +128,9 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         return Count - 1;
     }
 
-    bool IList.Contains(object value)
-    {
-        return IsCompatibleObject(value) &&
-               Contains((T) value);
-    }
+    bool IList.Contains(object value) =>
+        IsCompatibleObject(value) &&
+        Contains((T) value);
 
     int IList.IndexOf(object value)
     {
@@ -221,10 +213,8 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         }
     }
 
-    void ICollection.CopyTo(Array array, int arrayIndex)
-    {
+    void ICollection.CopyTo(Array array, int arrayIndex) =>
         CopyTo((T[]) array, arrayIndex);
-    }
 
     bool ICollection.IsSynchronized => false;
 
@@ -249,11 +239,9 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
         }
     }
 
-    static bool IsCompatibleObject(object value)
-    {
-        return value is T ||
-               (value == null && (!typeof(T).IsValueType || typeof(T).IsNullableType()));
-    }
+    static bool IsCompatibleObject(object value) =>
+        value is T ||
+        (value == null && (!typeof(T).IsValueType || typeof(T).IsNullableType()));
 
     public object UnderlyingCollection => (object) genericCollection! ?? list!;
 }

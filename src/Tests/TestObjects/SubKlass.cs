@@ -8,8 +8,6 @@ public class SubKlass : SuperKlass
 {
     public string SubProp { get; set; }
 
-    public SubKlass(string subprop)
-    {
+    public SubKlass(string subprop) =>
         SubProp = subprop;
-    }
 }

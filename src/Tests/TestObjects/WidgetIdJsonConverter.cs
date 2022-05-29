@@ -6,14 +6,13 @@ namespace TestObjects;
 
 public class WidgetIdJsonConverter : JsonConverter
 {
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(WidgetId1) || type == typeof(WidgetId1?);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(WidgetId1) ||
+        type == typeof(WidgetId1?);
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        var id = (WidgetId1)value;
+        var id = (WidgetId1) value;
         writer.WriteValue(id.Value.ToString());
     }
 
@@ -23,6 +22,10 @@ public class WidgetIdJsonConverter : JsonConverter
         {
             return null;
         }
-        return new WidgetId1 { Value = int.Parse(reader.Value.ToString()) };
+
+        return new WidgetId1
+        {
+            Value = int.Parse(reader.Value.ToString())
+        };
     }
 }

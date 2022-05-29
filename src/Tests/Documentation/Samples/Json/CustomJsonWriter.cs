@@ -13,10 +13,8 @@ public class XmlJsonWriter : JsonWriter
     readonly XmlWriter writer;
     string propertyName;
 
-    public XmlJsonWriter(XmlWriter writer)
-    {
+    public XmlJsonWriter(XmlWriter writer) =>
         this.writer = writer;
-    }
 
     public override void WriteComment(string text)
     {
@@ -236,10 +234,8 @@ public class XmlJsonWriter : JsonWriter
         writer.WriteEndElement();
     }
 
-    public override void Flush()
-    {
+    public override void Flush() =>
         writer.Flush();
-    }
 
     protected override void WriteIndent()
     {

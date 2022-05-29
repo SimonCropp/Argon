@@ -9,13 +9,9 @@ public class PrivateConstructorWithPublicParameterizedConstructorTestClass
     public string Name { get; set; }
     public int Age { get; set; }
 
-    PrivateConstructorWithPublicParameterizedConstructorTestClass()
-    {
+    PrivateConstructorWithPublicParameterizedConstructorTestClass() =>
         Age = 1;
-    }
 
-    public PrivateConstructorWithPublicParameterizedConstructorTestClass(string dummy)
-    {
+    public PrivateConstructorWithPublicParameterizedConstructorTestClass(string dummy) =>
         throw new("Should never get here.");
-    }
 }

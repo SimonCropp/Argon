@@ -30,8 +30,6 @@ public class MetroStringConverter : JsonConverter
 #endif
     }
 
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(string);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(string);
 }

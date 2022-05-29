@@ -6,10 +6,8 @@ namespace TestObjects;
 
 public class PublicParameterizedConstructorWithPropertyNameConflictWithAttribute
 {
-    public PublicParameterizedConstructorWithPropertyNameConflictWithAttribute([JsonProperty("name")] string nameParameter)
-    {
+    public PublicParameterizedConstructorWithPropertyNameConflictWithAttribute([JsonProperty("name")] string nameParameter) =>
         Name = Convert.ToInt32(nameParameter);
-    }
 
     public int Name { get; }
 }

@@ -120,8 +120,6 @@ public class JsonObjectContract : JsonContainerContract
         Properties = new(UnderlyingType);
     }
 
-    internal object GetUninitializedObject()
-    {
-        return FormatterServices.GetUninitializedObject(NonNullableUnderlyingType);
-    }
+    internal object GetUninitializedObject() =>
+        FormatterServices.GetUninitializedObject(NonNullableUnderlyingType);
 }

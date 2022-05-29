@@ -56,10 +56,8 @@ public class Issue2504 : TestFixtureBase
 
     class TestConverter : JsonConverter
     {
-        public override bool CanConvert(Type type)
-        {
-            return type == typeof(TestObject);
-        }
+        public override bool CanConvert(Type type) =>
+            type == typeof(TestObject);
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
         {
@@ -73,9 +71,7 @@ public class Issue2504 : TestFixtureBase
             };
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
             throw new NotImplementedException();
-        }
     }
 }

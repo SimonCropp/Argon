@@ -6,10 +6,8 @@ namespace TestObjects;
 
 public class RequiredPropertyConstructorTestClass
 {
-    public RequiredPropertyConstructorTestClass(string name)
-    {
+    public RequiredPropertyConstructorTestClass(string name) =>
         Name = name;
-    }
 
     [JsonRequired]
     internal string Name { get; set; }

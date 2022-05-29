@@ -91,8 +91,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     }
 
     [Fact]
-    public void CreateSetWithBadObjectTarget()
-    {
+    public void CreateSetWithBadObjectTarget() =>
         XUnitAssert.Throws<InvalidCastException>(() =>
         {
             var p = new Person();
@@ -108,11 +107,9 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
             Assert.Equal(p.Name, "Hi");
         }, "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
-    }
 
     [Fact]
-    public void CreateSetWithBadTarget()
-    {
+    public void CreateSetWithBadTarget() =>
         XUnitAssert.Throws<InvalidCastException>(() =>
         {
             object structTest = new StructTest();
@@ -125,11 +122,9 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
             setter(new TimeSpan(), "Hi");
         }, "Specified cast is not valid.");
-    }
 
     [Fact]
-    public void CreateSetWithBadObjectValue()
-    {
+    public void CreateSetWithBadObjectValue() =>
         XUnitAssert.Throws<InvalidCastException>(() =>
         {
             var m = new Movie();
@@ -138,7 +133,6 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
             setter(m, new Version("1.1.1.1"));
         }, "Unable to cast object of type 'System.Version' to type 'System.String'.");
-    }
 
     [Fact]
     public void CreateStaticMethodCall()
@@ -190,18 +184,14 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
     public struct TestStruct
     {
-        public TestStruct(int i)
-        {
+        public TestStruct(int i) =>
             Value = i;
-        }
 
         public int Value { get; }
     }
 
-    public static TestStruct StructMethod(TestStruct s)
-    {
-        return new(s.Value + s.Value);
-    }
+    public static TestStruct StructMethod(TestStruct s) =>
+        new(s.Value + s.Value);
 
     [Fact]
     public void CreateStructMethodCall()

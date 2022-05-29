@@ -8,13 +8,9 @@ public class DictionaryKey
 {
     public string Value { get; set; }
 
-    public override string ToString()
-    {
-        return Value;
-    }
+    public override string ToString() =>
+        Value;
 
-    public static implicit operator DictionaryKey(string value)
-    {
-        return new() { Value = value };
-    }
+    public static implicit operator DictionaryKey(string value) =>
+        new() { Value = value };
 }

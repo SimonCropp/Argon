@@ -37,10 +37,8 @@
     }
 
     [Fact]
-    public void DeserializeUnexpectedEnd()
-    {
+    public void DeserializeUnexpectedEnd() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<KeyValuePair<string, int>>(@"{""Key"": ""123"","),
             "Unexpected end when reading JSON. Path 'Key', line 1, position 14.");
-    }
 }

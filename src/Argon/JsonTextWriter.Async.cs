@@ -27,10 +27,8 @@ public partial class JsonTextWriter
         return base.FlushAsync(cancellation);
     }
 
-    Task DoFlushAsync(CancellationToken cancellation)
-    {
-        return cancellation.CancelIfRequestedAsync() ?? writer.FlushAsync();
-    }
+    Task DoFlushAsync(CancellationToken cancellation) =>
+        cancellation.CancelIfRequestedAsync() ?? writer.FlushAsync();
 
     /// <summary>
     /// Asynchronously writes the JSON value delimiter.
@@ -49,10 +47,8 @@ public partial class JsonTextWriter
         return base.WriteValueDelimiterAsync(cancellation);
     }
 
-    Task DoWriteValueDelimiterAsync(CancellationToken cancellation)
-    {
-        return writer.WriteAsync(',', cancellation);
-    }
+    Task DoWriteValueDelimiterAsync(CancellationToken cancellation) =>
+        writer.WriteAsync(',', cancellation);
 
     /// <summary>
     /// Asynchronously writes the specified end token.
@@ -214,10 +210,8 @@ public partial class JsonTextWriter
         return base.WriteIndentSpaceAsync(cancellation);
     }
 
-    Task DoWriteIndentSpaceAsync(CancellationToken cancellation)
-    {
-        return writer.WriteAsync(' ', cancellation);
-    }
+    Task DoWriteIndentSpaceAsync(CancellationToken cancellation) =>
+        writer.WriteAsync(' ', cancellation);
 
     /// <summary>
     /// Asynchronously writes raw JSON without changing the writer's state.
@@ -236,10 +230,8 @@ public partial class JsonTextWriter
         return base.WriteRawAsync(json, cancellation);
     }
 
-    Task DoWriteRawAsync(string? json, CancellationToken cancellation)
-    {
-        return writer.WriteAsync(json, cancellation);
-    }
+    Task DoWriteRawAsync(string? json, CancellationToken cancellation) =>
+        writer.WriteAsync(json, cancellation);
 
     /// <summary>
     /// Asynchronously writes a null value.
@@ -258,10 +250,8 @@ public partial class JsonTextWriter
         return base.WriteNullAsync(cancellation);
     }
 
-    Task DoWriteNullAsync(CancellationToken cancellation)
-    {
-        return WriteValueInternalAsync(JsonToken.Null, JsonConvert.Null, cancellation);
-    }
+    Task DoWriteNullAsync(CancellationToken cancellation) =>
+        WriteValueInternalAsync(JsonToken.Null, JsonConvert.Null, cancellation);
 
     Task WriteDigitsAsync(ulong uvalue, bool negative, CancellationToken cancellation)
     {
@@ -302,15 +292,11 @@ public partial class JsonTextWriter
         return WriteIntegerValueAsync((ulong) value, negative, cancellation);
     }
 
-    Task WriteIntegerValueAsync(ulong uvalue, CancellationToken cancellation)
-    {
-        return WriteIntegerValueAsync(uvalue, false, cancellation);
-    }
+    Task WriteIntegerValueAsync(ulong uvalue, CancellationToken cancellation) =>
+        WriteIntegerValueAsync(uvalue, false, cancellation);
 
-    Task WriteEscapedStringAsync(string value, bool quote, CancellationToken cancellation)
-    {
-        return JavaScriptUtils.WriteEscapedJavaScriptStringAsync(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, this, writeBuffer!, cancellation);
-    }
+    Task WriteEscapedStringAsync(string value, bool quote, CancellationToken cancellation) =>
+        JavaScriptUtils.WriteEscapedJavaScriptStringAsync(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, this, writeBuffer!, cancellation);
 
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
@@ -543,10 +529,8 @@ public partial class JsonTextWriter
         return base.WriteValueAsync(value, cancellation);
     }
 
-    Task DoWriteValueAsync(bool value, CancellationToken cancellation)
-    {
-        return WriteValueInternalAsync(JsonToken.Boolean, JsonConvert.ToString(value), cancellation);
-    }
+    Task DoWriteValueAsync(bool value, CancellationToken cancellation) =>
+        WriteValueInternalAsync(JsonToken.Boolean, JsonConvert.ToString(value), cancellation);
 
     /// <summary>
     /// Asynchronously writes a <see cref="bool" /> value.
@@ -669,10 +653,8 @@ public partial class JsonTextWriter
         return base.WriteValueAsync(value, cancellation);
     }
 
-    Task DoWriteValueAsync(char value, CancellationToken cancellation)
-    {
-        return WriteValueInternalAsync(JsonToken.String, JsonConvert.ToString(value), cancellation);
-    }
+    Task DoWriteValueAsync(char value, CancellationToken cancellation) =>
+        WriteValueInternalAsync(JsonToken.String, JsonConvert.ToString(value), cancellation);
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="char" /> value.
@@ -857,10 +839,8 @@ public partial class JsonTextWriter
         return base.WriteValueAsync(value, cancellation);
     }
 
-    Task DoWriteValueAsync(decimal value, CancellationToken cancellation)
-    {
-        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value), cancellation);
-    }
+    Task DoWriteValueAsync(decimal value, CancellationToken cancellation) =>
+        WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value), cancellation);
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="decimal" /> value.
@@ -951,10 +931,8 @@ public partial class JsonTextWriter
         return base.WriteValueAsync(value, cancellation);
     }
 
-    Task WriteValueAsync(float value, bool nullable, CancellationToken cancellation)
-    {
-        return WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellation);
-    }
+    Task WriteValueAsync(float value, bool nullable, CancellationToken cancellation) =>
+        WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellation);
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="float" /> value.
@@ -1116,15 +1094,11 @@ public partial class JsonTextWriter
         return base.WriteValueAsync(value, cancellation);
     }
 
-    Task DoWriteValueAsync(long? value, CancellationToken cancellation)
-    {
-        return value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
-    }
+    Task DoWriteValueAsync(long? value, CancellationToken cancellation) =>
+        value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
 
-    internal Task WriteValueAsync(BigInteger value, CancellationToken cancellation)
-    {
-        return WriteValueInternalAsync(JsonToken.Integer, value.ToString(CultureInfo.InvariantCulture), cancellation);
-    }
+    internal Task WriteValueAsync(BigInteger value, CancellationToken cancellation) =>
+        WriteValueInternalAsync(JsonToken.Integer, value.ToString(CultureInfo.InvariantCulture), cancellation);
 
     /// <summary>
     /// Asynchronously writes a <see cref="object" /> value.
@@ -1336,10 +1310,8 @@ public partial class JsonTextWriter
         return base.WriteValueAsync(value, cancellation);
     }
 
-    Task DoWriteValueAsync(TimeSpan? value, CancellationToken cancellation)
-    {
-        return value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
-    }
+    Task DoWriteValueAsync(TimeSpan? value, CancellationToken cancellation) =>
+        value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
 
     /// <summary>
     /// Asynchronously writes a <see cref="uint" /> value.

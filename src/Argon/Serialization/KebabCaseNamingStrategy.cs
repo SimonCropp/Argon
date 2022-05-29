@@ -39,10 +39,8 @@ public class KebabCaseNamingStrategy : NamingStrategy
     /// A flag indicating whether extension data names should be processed.
     /// </param>
     public KebabCaseNamingStrategy(bool processDictionaryKeys, bool overrideSpecifiedNames, bool processExtensionDataNames)
-        : this(processDictionaryKeys, overrideSpecifiedNames)
-    {
+        : this(processDictionaryKeys, overrideSpecifiedNames) =>
         ProcessExtensionDataNames = processExtensionDataNames;
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy" /> class.
@@ -54,8 +52,6 @@ public class KebabCaseNamingStrategy : NamingStrategy
     /// <summary>
     /// Resolves the specified property name.
     /// </summary>
-    protected override string ResolvePropertyName(string name)
-    {
-        return StringUtils.ToKebabCase(name);
-    }
+    protected override string ResolvePropertyName(string name) =>
+        StringUtils.ToKebabCase(name);
 }

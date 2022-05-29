@@ -19,8 +19,6 @@ public class ListSourceTest : IListSource
     [JsonIgnore]
     public bool ContainsListCollection => false;
 
-    public IList GetList()
-    {
-        return new List<string>();
-    }
+    public IList GetList() =>
+        new List<string>();
 }

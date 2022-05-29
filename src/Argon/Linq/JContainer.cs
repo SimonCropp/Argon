@@ -95,10 +95,8 @@ public abstract partial class JContainer :
     /// <returns>
     /// An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> containing the child tokens of this <see cref="JToken" />, in document order.
     /// </returns>
-    public override JEnumerable<JToken> Children()
-    {
-        return new(ChildrenTokens);
-    }
+    public override JEnumerable<JToken> Children() =>
+        new(ChildrenTokens);
 
     /// <summary>
     /// Returns a collection of the child values of this token, in document order.
@@ -107,28 +105,22 @@ public abstract partial class JContainer :
     /// <returns>
     /// A <see cref="IEnumerable{T}" /> containing the child values of this <see cref="JToken" />, in document order.
     /// </returns>
-    public override IEnumerable<T?> Values<T>() where T : default
-    {
-        return ChildrenTokens.Convert<JToken, T>();
-    }
+    public override IEnumerable<T?> Values<T>() where T : default =>
+        ChildrenTokens.Convert<JToken, T>();
 
     /// <summary>
     /// Returns a collection of the descendant tokens for this token in document order.
     /// </summary>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> containing the descendant tokens of the <see cref="JToken" />.</returns>
-    public IEnumerable<JToken> Descendants()
-    {
-        return GetDescendants(false);
-    }
+    public IEnumerable<JToken> Descendants() =>
+        GetDescendants(false);
 
     /// <summary>
     /// Returns a collection of the tokens that contain this token, and all descendant tokens of this token, in document order.
     /// </summary>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> containing this token, and all the descendant tokens of the <see cref="JToken" />.</returns>
-    public IEnumerable<JToken> DescendantsAndSelf()
-    {
-        return GetDescendants(true);
-    }
+    public IEnumerable<JToken> DescendantsAndSelf() =>
+        GetDescendants(true);
 
     IEnumerable<JToken> GetDescendants(bool self)
     {
@@ -150,10 +142,8 @@ public abstract partial class JContainer :
         }
     }
 
-    internal bool IsMultiContent([NotNullWhen(true)] object? content)
-    {
-        return content is IEnumerable and not string and not JToken and not byte[];
-    }
+    internal bool IsMultiContent([NotNullWhen(true)] object? content) =>
+        content is IEnumerable and not string and not JToken and not byte[];
 
     internal JToken EnsureParentToken(JToken? item, bool skipParentCheck)
     {
@@ -267,10 +257,8 @@ public abstract partial class JContainer :
         return false;
     }
 
-    internal virtual JToken GetItem(int index)
-    {
-        return ChildrenTokens[index];
-    }
+    internal virtual JToken GetItem(int index) =>
+        ChildrenTokens[index];
 
     internal virtual void SetItem(int index, JToken? item)
     {
@@ -346,10 +334,8 @@ public abstract partial class JContainer :
         SetItem(index, replacement);
     }
 
-    internal virtual bool ContainsItem(JToken? item)
-    {
-        return IndexOfItem(item) != -1;
-    }
+    internal virtual bool ContainsItem(JToken? item) =>
+        IndexOfItem(item) != -1;
 
     internal virtual void CopyItemsTo(Array array, int arrayIndex)
     {
@@ -404,29 +390,21 @@ public abstract partial class JContainer :
     /// Adds the specified content as children of this <see cref="JToken" />.
     /// </summary>
     /// <param name="content">The content to be added.</param>
-    public virtual void Add(object? content)
-    {
+    public virtual void Add(object? content) =>
         TryAddInternal(ChildrenTokens.Count, content, false);
-    }
 
-    internal bool TryAdd(object? content)
-    {
-        return TryAddInternal(ChildrenTokens.Count, content, false);
-    }
+    internal bool TryAdd(object? content) =>
+        TryAddInternal(ChildrenTokens.Count, content, false);
 
-    internal void AddAndSkipParentCheck(JToken token)
-    {
+    internal void AddAndSkipParentCheck(JToken token) =>
         TryAddInternal(ChildrenTokens.Count, token, true);
-    }
 
     /// <summary>
     /// Adds the specified content as the first children of this <see cref="JToken" />.
     /// </summary>
     /// <param name="content">The content to be added.</param>
-    public void AddFirst(object? content)
-    {
+    public void AddFirst(object? content) =>
         TryAddInternal(0, content, false);
-    }
 
     internal bool TryAddInternal(int index, object? content, bool skipParentCheck)
     {
@@ -463,10 +441,8 @@ public abstract partial class JContainer :
     /// Creates a <see cref="JsonWriter" /> that can be used to add tokens to the <see cref="JToken" />.
     /// </summary>
     /// <returns>A <see cref="JsonWriter" /> that is ready to have content written to it.</returns>
-    public JsonWriter CreateWriter()
-    {
-        return new JTokenWriter(this);
-    }
+    public JsonWriter CreateWriter() =>
+        new JTokenWriter(this);
 
     /// <summary>
     /// Replaces the child nodes of this token with the specified content.
@@ -480,10 +456,8 @@ public abstract partial class JContainer :
     /// <summary>
     /// Removes the child nodes from this token.
     /// </summary>
-    public void RemoveAll()
-    {
+    public void RemoveAll() =>
         ClearItems();
-    }
 
     internal abstract void MergeItem(object content, JsonMergeSettings? settings);
 
@@ -688,20 +662,14 @@ public abstract partial class JContainer :
 
     #region IList<JToken> Members
 
-    int IList<JToken>.IndexOf(JToken item)
-    {
-        return IndexOfItem(item);
-    }
+    int IList<JToken>.IndexOf(JToken item) =>
+        IndexOfItem(item);
 
-    void IList<JToken>.Insert(int index, JToken item)
-    {
+    void IList<JToken>.Insert(int index, JToken item) =>
         InsertItem(index, item, false);
-    }
 
-    void IList<JToken>.RemoveAt(int index)
-    {
+    void IList<JToken>.RemoveAt(int index) =>
         RemoveItemAt(index);
-    }
 
     JToken IList<JToken>.this[int index]
     {
@@ -713,32 +681,22 @@ public abstract partial class JContainer :
 
     #region ICollection<JToken> Members
 
-    void ICollection<JToken>.Add(JToken item)
-    {
+    void ICollection<JToken>.Add(JToken item) =>
         Add(item);
-    }
 
-    void ICollection<JToken>.Clear()
-    {
+    void ICollection<JToken>.Clear() =>
         ClearItems();
-    }
 
-    bool ICollection<JToken>.Contains(JToken item)
-    {
-        return ContainsItem(item);
-    }
+    bool ICollection<JToken>.Contains(JToken item) =>
+        ContainsItem(item);
 
-    void ICollection<JToken>.CopyTo(JToken[] array, int arrayIndex)
-    {
+    void ICollection<JToken>.CopyTo(JToken[] array, int arrayIndex) =>
         CopyItemsTo(array, arrayIndex);
-    }
 
     bool ICollection<JToken>.IsReadOnly => false;
 
-    bool ICollection<JToken>.Remove(JToken item)
-    {
-        return RemoveItem(item);
-    }
+    bool ICollection<JToken>.Remove(JToken item) =>
+        RemoveItem(item);
 
     #endregion
 

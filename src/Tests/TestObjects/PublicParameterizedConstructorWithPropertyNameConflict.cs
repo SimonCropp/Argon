@@ -6,10 +6,8 @@ namespace TestObjects;
 
 public class PublicParameterizedConstructorWithPropertyNameConflict
 {
-    public PublicParameterizedConstructorWithPropertyNameConflict(string name)
-    {
+    public PublicParameterizedConstructorWithPropertyNameConflict(string name) =>
         Name = Convert.ToInt32(name);
-    }
 
     public int Name { get; }
 }

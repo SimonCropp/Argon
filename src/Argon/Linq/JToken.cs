@@ -80,10 +80,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="t1">The first <see cref="JToken" /> to compare.</param>
     /// <param name="t2">The second <see cref="JToken" /> to compare.</param>
     /// <returns><c>true</c> if the tokens are equal; otherwise <c>false</c>.</returns>
-    public static bool DeepEquals(JToken? t1, JToken? t2)
-    {
-        return t1 == t2 || (t1 != null && t2 != null && t1.DeepEquals(t2));
-    }
+    public static bool DeepEquals(JToken? t1, JToken? t2) =>
+        t1 == t2 || (t1 != null && t2 != null && t1.DeepEquals(t2));
 
     /// <summary>
     /// Gets the next sibling token of this node.
@@ -175,19 +173,15 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Returns a collection of the ancestor tokens of this token.
     /// </summary>
     /// <returns>A collection of the ancestor tokens of this token.</returns>
-    public IEnumerable<JToken> Ancestors()
-    {
-        return GetAncestors(false);
-    }
+    public IEnumerable<JToken> Ancestors() =>
+        GetAncestors(false);
 
     /// <summary>
     /// Returns a collection of tokens that contain this token, and the ancestors of this token.
     /// </summary>
     /// <returns>A collection of tokens that contain this token, and the ancestors of this token.</returns>
-    public IEnumerable<JToken> AncestorsAndSelf()
-    {
-        return GetAncestors(true);
-    }
+    public IEnumerable<JToken> AncestorsAndSelf() =>
+        GetAncestors(true);
 
     internal IEnumerable<JToken> GetAncestors(bool self)
     {
@@ -268,30 +262,24 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Returns a collection of the child tokens of this token, in document order.
     /// </summary>
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> containing the child tokens of this <see cref="JToken" />, in document order.</returns>
-    public virtual JEnumerable<JToken> Children()
-    {
-        return JEnumerable<JToken>.Empty;
-    }
+    public virtual JEnumerable<JToken> Children() =>
+        JEnumerable<JToken>.Empty;
 
     /// <summary>
     /// Returns a collection of the child tokens of this token, in document order, filtered by the specified type.
     /// </summary>
     /// <typeparam name="T">The type to filter the child tokens on.</typeparam>
     /// <returns>A <see cref="JEnumerable{T}" /> containing the child tokens of this <see cref="JToken" />, in document order.</returns>
-    public JEnumerable<T> Children<T>() where T : JToken
-    {
-        return new(Children().OfType<T>());
-    }
+    public JEnumerable<T> Children<T>() where T : JToken =>
+        new(Children().OfType<T>());
 
     /// <summary>
     /// Returns a collection of the child values of this token, in document order.
     /// </summary>
     /// <typeparam name="T">The type to convert the values to.</typeparam>
     /// <returns>A <see cref="IEnumerable{T}" /> containing the child values of this <see cref="JToken" />, in document order.</returns>
-    public virtual IEnumerable<T?> Values<T>()
-    {
+    public virtual IEnumerable<T?> Values<T>() =>
         throw new InvalidOperationException($"Cannot access child value on {GetType()}.");
-    }
 
     /// <summary>
     /// Removes this token from its parent.
@@ -334,10 +322,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>
     /// The indented JSON for this token.
     /// </returns>
-    public override string ToString()
-    {
-        return ToString(Formatting.Indented);
-    }
+    public override string ToString() =>
+        ToString(Formatting.Indented);
 
     /// <summary>
     /// Returns the JSON for this token using the given formatting and converters.
@@ -377,16 +363,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         return token.Type.ToString();
     }
 
-    static bool ValidateTokenNullable(JToken o, JTokenType[] validTypes)
-    {
-        return Array.IndexOf(validTypes, o.Type) != -1 ||
-               o.Type is JTokenType.Null or JTokenType.Undefined;
-    }
+    static bool ValidateTokenNullable(JToken o, JTokenType[] validTypes) =>
+        Array.IndexOf(validTypes, o.Type) != -1 ||
+        o.Type is JTokenType.Null or JTokenType.Undefined;
 
-    static bool ValidateToken(JToken o, JTokenType[] validTypes)
-    {
-        return Array.IndexOf(validTypes, o.Type) != -1;
-    }
+    static bool ValidateToken(JToken o, JTokenType[] validTypes) =>
+        Array.IndexOf(validTypes, o.Type) != -1;
 
     static void ValidateToken<T>(JToken value, [NotNull] JValue? v, JTokenType[] jTokenTypes)
     {
@@ -1268,294 +1250,220 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Performs an implicit conversion from <see cref="Boolean" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(bool value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(bool value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="DateTimeOffset" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(DateTimeOffset value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(DateTimeOffset value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Byte" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(byte value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(byte value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Byte" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(byte? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(byte? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="SByte" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(sbyte value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(sbyte value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="SByte" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(sbyte? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(sbyte? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Boolean" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(bool? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(bool? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Int64" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(long value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(long value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="DateTime" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(DateTime? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(DateTime? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(DateTimeOffset? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(DateTimeOffset? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Decimal" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(decimal? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(decimal? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Double" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(double? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(double? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Int16" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(short value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(short value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt16" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(ushort value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(ushort value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Int32" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(int value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(int value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Int32" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(int? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(int? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="DateTime" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(DateTime value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(DateTime value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Int64" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(long? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(long? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Single" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(float? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(float? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Decimal" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(decimal value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(decimal value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Int16" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(short? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(short? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="UInt16" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(ushort? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(ushort? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="UInt32" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(uint? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(uint? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="UInt64" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(ulong? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(ulong? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Double" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(double value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(double value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Single" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(float value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(float value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="String" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(string? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(string? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt32" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(uint value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(uint value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="UInt64" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(ulong value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(ulong value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Byte" />[] to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(byte[] value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(byte[] value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Uri" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(Uri? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(Uri? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="TimeSpan" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(TimeSpan value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(TimeSpan value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="TimeSpan" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(TimeSpan? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(TimeSpan? value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Guid" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(Guid value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(Guid value) =>
+        new JValue(value);
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="Nullable{T}" /> of <see cref="Guid" /> to <see cref="JToken" />.
     /// </summary>
-    public static implicit operator JToken(Guid? value)
-    {
-        return new JValue(value);
-    }
+    public static implicit operator JToken(Guid? value) =>
+        new JValue(value);
 
     #endregion
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return ((IEnumerable<JToken>) this).GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() =>
+        ((IEnumerable<JToken>) this).GetEnumerator();
 
-    IEnumerator<JToken> IEnumerable<JToken>.GetEnumerator()
-    {
-        return Children().GetEnumerator();
-    }
+    IEnumerator<JToken> IEnumerable<JToken>.GetEnumerator() =>
+        Children().GetEnumerator();
 
     internal abstract int GetDeepHashCode();
 
@@ -1565,10 +1473,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Creates a <see cref="JsonReader" /> for this token.
     /// </summary>
     /// <returns>A <see cref="JsonReader" /> that can be used to read this token and its descendants.</returns>
-    public JsonReader CreateReader()
-    {
-        return new JTokenReader(this);
-    }
+    public JsonReader CreateReader() =>
+        new JTokenReader(this);
 
     internal static JToken FromObjectInternal(object o, JsonSerializer jsonSerializer)
     {
@@ -1580,10 +1486,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <summary>
     /// Creates a <see cref="JToken" /> from an object.
     /// </summary>
-    public static JToken FromObject(object o)
-    {
-        return FromObjectInternal(o, JsonSerializer.CreateDefault());
-    }
+    public static JToken FromObject(object o) =>
+        FromObjectInternal(o, JsonSerializer.CreateDefault());
 
     /// <summary>
     /// Creates a <see cref="JToken" /> from an object using the specified <see cref="JsonSerializer" />.
@@ -1591,20 +1495,16 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <param name="o">The object that will be used to create <see cref="JToken" />.</param>
     /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used when reading the object.</param>
     /// <returns>A <see cref="JToken" /> with the value of the specified object.</returns>
-    public static JToken FromObject(object o, JsonSerializer jsonSerializer)
-    {
-        return FromObjectInternal(o, jsonSerializer);
-    }
+    public static JToken FromObject(object o, JsonSerializer jsonSerializer) =>
+        FromObjectInternal(o, jsonSerializer);
 
     /// <summary>
     /// Creates an instance of the specified .NET type from the <see cref="JToken" />.
     /// </summary>
     /// <typeparam name="T">The object type that the token will be deserialized to.</typeparam>
     /// <returns>The new object created from the JSON value.</returns>
-    public T? ToObject<T>()
-    {
-        return (T?) ToObject(typeof(T));
-    }
+    public T? ToObject<T>() =>
+        (T?) ToObject(typeof(T));
 
     /// <summary>
     /// Creates an instance of the specified .NET type from the <see cref="JToken" />.
@@ -1730,10 +1630,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <typeparam name="T">The object type that the token will be deserialized to.</typeparam>
     /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used when creating the object.</param>
     /// <returns>The new object created from the JSON value.</returns>
-    public T? ToObject<T>(JsonSerializer jsonSerializer)
-    {
-        return (T?) ToObject(typeof(T), jsonSerializer);
-    }
+    public T? ToObject<T>(JsonSerializer jsonSerializer) =>
+        (T?) ToObject(typeof(T), jsonSerializer);
 
     /// <summary>
     /// Creates an instance of the specified .NET type from the <see cref="JToken" /> using the specified <see cref="JsonSerializer" />.
@@ -1763,10 +1661,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static JToken ReadFrom(JsonReader reader)
-    {
-        return ReadFrom(reader, null);
-    }
+    public static JToken ReadFrom(JsonReader reader) =>
+        ReadFrom(reader, null);
 
     /// <summary>
     /// Creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
@@ -1845,10 +1741,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// </summary>
     /// <param name="json">A <see cref="String" /> that contains JSON.</param>
     /// <returns>A <see cref="JToken" /> populated from the string that contains JSON.</returns>
-    public static JToken Parse(string json)
-    {
-        return Parse(json, null);
-    }
+    public static JToken Parse(string json) =>
+        Parse(json, null);
 
     /// <summary>
     /// Load a <see cref="JToken" /> from a string that contains JSON.
@@ -1885,10 +1779,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static JToken Load(JsonReader reader, JsonLoadSettings? settings)
-    {
-        return ReadFrom(reader, settings);
-    }
+    public static JToken Load(JsonReader reader, JsonLoadSettings? settings) =>
+        ReadFrom(reader, settings);
 
     /// <summary>
     /// Creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
@@ -1899,10 +1791,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static JToken Load(JsonReader reader)
-    {
-        return Load(reader, null);
-    }
+    public static JToken Load(JsonReader reader) =>
+        Load(reader, null);
 
     internal void SetLineInfo(IJsonLineInfo? lineInfo, JsonLoadSettings? settings)
     {
@@ -1920,10 +1810,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         linePosition = lineInfo.LinePosition;
     }
 
-    bool IJsonLineInfo.HasLineInfo()
-    {
-        return lineNumber != null;
-    }
+    bool IJsonLineInfo.HasLineInfo() =>
+        lineNumber != null;
 
     public int LineNumber => lineNumber.GetValueOrDefault();
     public int LinePosition => linePosition.GetValueOrDefault();
@@ -1935,10 +1823,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>
     /// The <see cref="DynamicMetaObject" /> to bind this object.
     /// </returns>
-    protected virtual DynamicMetaObject GetMetaObject(Expression parameter)
-    {
-        return new DynamicProxyMetaObject<JToken>(parameter, this, new());
-    }
+    protected virtual DynamicMetaObject GetMetaObject(Expression parameter) =>
+        new DynamicProxyMetaObject<JToken>(parameter, this, new());
 
     /// <summary>
     /// Returns the <see cref="DynamicMetaObject" /> responsible for binding operations performed on this object.
@@ -1947,22 +1833,16 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>
     /// The <see cref="DynamicMetaObject" /> to bind this object.
     /// </returns>
-    DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression parameter)
-    {
-        return GetMetaObject(parameter);
-    }
+    DynamicMetaObject IDynamicMetaObjectProvider.GetMetaObject(Expression parameter) =>
+        GetMetaObject(parameter);
 
-    object ICloneable.Clone()
-    {
-        return DeepClone();
-    }
+    object ICloneable.Clone() =>
+        DeepClone();
 
     /// <summary>
     /// Creates a new instance of the <see cref="JToken" />. All child tokens are recursively cloned.
     /// </summary>
     /// <returns>A new instance of the <see cref="JToken" />.</returns>
-    public JToken DeepClone()
-    {
-        return CloneToken();
-    }
+    public JToken DeepClone() =>
+        CloneToken();
 }

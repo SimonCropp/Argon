@@ -6,10 +6,8 @@ namespace TestObjects;
 
 public class AttachmentReadConverter : JsonConverter
 {
-    public override bool CanConvert(Type type)
-    {
-        return type == typeof(System.Net.Mail.Attachment);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(System.Net.Mail.Attachment);
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
@@ -24,10 +22,8 @@ public class AttachmentReadConverter : JsonConverter
         return attachment;
     }
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
         throw new NotImplementedException();
-    }
 
     class AttachmentInfo
     {

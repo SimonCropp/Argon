@@ -75,10 +75,8 @@ static class ConvertUtils
         new(typeof(string), PrimitiveTypeCode.String)
     };
 
-    public static PrimitiveTypeCode GetTypeCode(Type type)
-    {
-        return GetTypeCode(type, out _);
-    }
+    public static PrimitiveTypeCode GetTypeCode(Type type) =>
+        GetTypeCode(type, out _);
 
     public static PrimitiveTypeCode GetTypeCode(Type type, out bool isEnum)
     {
@@ -116,15 +114,11 @@ static class ConvertUtils
         return typeInformation;
     }
 
-    public static bool IsConvertible(this Type type)
-    {
-        return typeof(IConvertible).IsAssignableFrom(type);
-    }
+    public static bool IsConvertible(this Type type) =>
+        typeof(IConvertible).IsAssignableFrom(type);
 
-    public static TimeSpan ParseTimeSpan(string input)
-    {
-        return TimeSpan.Parse(input, CultureInfo.InvariantCulture);
-    }
+    public static TimeSpan ParseTimeSpan(string input) =>
+        TimeSpan.Parse(input, CultureInfo.InvariantCulture);
 
     static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> castConverters =
         new(CreateCastConverter);
@@ -951,11 +945,9 @@ static class ConvertUtils
         return ParseResult.Success;
     }
 
-    public static bool TryConvertGuid(string s, out Guid g)
-    {
+    public static bool TryConvertGuid(string s, out Guid g) =>
         // GUID has to have format 00000000-0000-0000-0000-000000000000
-        return Guid.TryParseExact(s, "D", out g);
-    }
+        Guid.TryParseExact(s, "D", out g);
 
     public static bool TryHexTextToInt(char[] text, int start, int end, out int value)
     {

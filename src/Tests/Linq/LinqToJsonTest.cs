@@ -762,9 +762,8 @@ keyword such as type of business.""
         public IList<string> Categories { get; set; }
     }
 
-    static List<Post> GetPosts()
-    {
-        return new()
+    static List<Post> GetPosts() =>
+        new()
         {
             new()
             {
@@ -781,7 +780,6 @@ keyword such as type of business.""
                 Categories = new List<string> {"Json.NET", "CodePlex"}
             }
         };
-    }
 
     [Fact]
     public void FromObjectExample()
@@ -976,24 +974,20 @@ keyword such as type of business.""
     }
 
     [Fact]
-    public void JObjectIntIndex()
-    {
+    public void JObjectIntIndex() =>
         XUnitAssert.Throws<ArgumentException>(() =>
         {
             var o = new JObject();
             Assert.Equal(null, o[0]);
         }, "Accessed JObject values with invalid key value: 0. Object property name expected.");
-    }
 
     [Fact]
-    public void JArrayStringIndex()
-    {
+    public void JArrayStringIndex() =>
         XUnitAssert.Throws<ArgumentException>(() =>
         {
             var a = new JArray();
             Assert.Equal(null, a["purple"]);
         }, @"Accessed JArray values with invalid key value: ""purple"". Int32 array index expected.");
-    }
 
     [Fact]
     public void ToStringJsonConverter()

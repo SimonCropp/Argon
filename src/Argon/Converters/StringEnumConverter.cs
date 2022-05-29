@@ -40,10 +40,8 @@ public class StringEnumConverter : JsonConverter
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
     /// </summary>
     /// <param name="namingStrategyType">The <see cref="System.Type"/> of the <see cref="Argon.NamingStrategy"/> used to write enum text.</param>
-    public StringEnumConverter(Type namingStrategyType)
-    {
+    public StringEnumConverter(Type namingStrategyType) =>
         NamingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(namingStrategyType, null);
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.
@@ -55,10 +53,8 @@ public class StringEnumConverter : JsonConverter
     /// When non-<c>null</c>, there must be a constructor defined in the <see cref="Argon.NamingStrategy"/> that exactly matches the number,
     /// order, and type of these parameters.
     /// </param>
-    public StringEnumConverter(Type namingStrategyType, object[] namingStrategyParameters)
-    {
+    public StringEnumConverter(Type namingStrategyType, object[] namingStrategyParameters) =>
         NamingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(namingStrategyType, namingStrategyParameters);
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StringEnumConverter"/> class.

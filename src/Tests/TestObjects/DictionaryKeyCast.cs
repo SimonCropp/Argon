@@ -15,10 +15,8 @@ class DictionaryKeyCast
         _number = number;
     }
 
-    public override string ToString()
-    {
-        return $"{_name} {_number}";
-    }
+    public override string ToString() =>
+        $"{_name} {_number}";
 
     public static implicit operator DictionaryKeyCast(string dictionaryKey)
     {

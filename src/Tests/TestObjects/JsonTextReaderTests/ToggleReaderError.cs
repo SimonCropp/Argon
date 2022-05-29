@@ -8,10 +8,8 @@ public class ToggleReaderError : TextReader
 
     public bool Error { get; set; }
 
-    public ToggleReaderError(TextReader inner)
-    {
+    public ToggleReaderError(TextReader inner) =>
         _inner = inner;
-    }
 
     public override int Read(char[] buffer, int index, int count)
     {

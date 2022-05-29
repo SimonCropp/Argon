@@ -11,15 +11,13 @@ public class DeserializeObjectCreationHandling : TestFixtureBase
         public string Name { get; set; }
         public IList<string> Offices { get; }
 
-        public UserViewModel()
-        {
+        public UserViewModel() =>
             Offices = new List<string>
             {
                 "Auckland",
                 "Wellington",
                 "Christchurch"
             };
-        }
     }
 
     #endregion
