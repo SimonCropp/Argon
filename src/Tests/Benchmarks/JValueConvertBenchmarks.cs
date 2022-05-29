@@ -9,26 +9,18 @@ public class JValueConvertBenchmarks
     static readonly JValue StringJValue = new("String!");
 
     [Benchmark]
-    public string JTokenToObjectFast()
-    {
-        return (string) StringJValue.ToObject(typeof(string));
-    }
+    public string JTokenToObjectFast() =>
+        (string) StringJValue.ToObject(typeof(string));
 
     [Benchmark]
-    public string JTokenToObjectWithSerializer()
-    {
-        return (string) StringJValue.ToObject(typeof(string), new());
-    }
+    public string JTokenToObjectWithSerializer() =>
+        (string) StringJValue.ToObject(typeof(string), new());
 
     [Benchmark]
-    public string JTokenToObjectConvert()
-    {
-        return StringJValue.Value<string>();
-    }
+    public string JTokenToObjectConvert() =>
+        StringJValue.Value<string>();
 
     [Benchmark]
-    public string JTokenToObjectCast()
-    {
-        return (string) StringJValue;
-    }
+    public string JTokenToObjectCast() =>
+        (string) StringJValue;
 }
