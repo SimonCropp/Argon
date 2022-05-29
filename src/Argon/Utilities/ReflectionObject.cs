@@ -26,10 +26,8 @@ class ReflectionObject
         return getter(target);
     }
 
-    public Type GetType(string member)
-    {
-        return Members[member].MemberType!;
-    }
+    public Type GetType(string member) =>
+        Members[member].MemberType!;
 
     public static ReflectionObject Create(Type type, MethodBase? creator, params string[] memberNames)
     {

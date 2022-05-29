@@ -8,20 +8,14 @@ static class AsyncUtils
     public static readonly Task<bool> False = Task.FromResult(false);
     public static readonly Task<bool> True = Task.FromResult(true);
 
-    internal static Task<bool> ToAsync(this bool value)
-    {
-        return value ? True : False;
-    }
+    internal static Task<bool> ToAsync(this bool value) =>
+        value ? True : False;
 
-    public static Task? CancelIfRequestedAsync(this CancellationToken cancellation)
-    {
-        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : null;
-    }
+    public static Task? CancelIfRequestedAsync(this CancellationToken cancellation) =>
+        cancellation.IsCancellationRequested ? FromCanceled(cancellation) : null;
 
-    public static Task<T>? CancelIfRequestedAsync<T>(this CancellationToken cancellation)
-    {
-        return cancellation.IsCancellationRequested ? FromCanceled<T>(cancellation) : null;
-    }
+    public static Task<T>? CancelIfRequestedAsync<T>(this CancellationToken cancellation) =>
+        cancellation.IsCancellationRequested ? FromCanceled<T>(cancellation) : null;
 
     // From 4.6 on we could use Task.FromCanceled(), but we need an equivalent for
     // previous frameworks.

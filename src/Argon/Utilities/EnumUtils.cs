@@ -80,10 +80,8 @@ static class EnumUtils
     // Used by Newtonsoft.Json.Schema
     static CamelCaseNamingStrategy camelCaseNamingStrategy = new();
 
-    public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)] out string? name)
-    {
-        return TryToString(enumType, value, camelCase ? camelCaseNamingStrategy : null, out name);
-    }
+    public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)] out string? name) =>
+        TryToString(enumType, value, camelCase ? camelCaseNamingStrategy : null, out name);
 
     public static bool TryToString(Type enumType, object value, NamingStrategy? namingStrategy, [NotNullWhen(true)] out string? name)
     {
@@ -170,10 +168,8 @@ static class EnumUtils
         return returnString;
     }
 
-    public static EnumInfo GetEnumValuesAndNames(Type enumType)
-    {
-        return ValuesAndNamesPerEnum.Get(new(enumType, null));
-    }
+    public static EnumInfo GetEnumValuesAndNames(Type enumType) =>
+        ValuesAndNamesPerEnum.Get(new(enumType, null));
 
     static ulong ToUInt64(object value)
     {
@@ -327,11 +323,9 @@ static class EnumUtils
         return Enum.ToObject(enumType, result);
     }
 
-    static int? MatchName(string value, string[] enumNames, string[] resolvedNames, int valueIndex, int valueSubstringLength, StringComparison comparison)
-    {
-        return FindIndexByName(resolvedNames, value, valueIndex, valueSubstringLength, comparison) ??
-               FindIndexByName(enumNames, value, valueIndex, valueSubstringLength, comparison);
-    }
+    static int? MatchName(string value, string[] enumNames, string[] resolvedNames, int valueIndex, int valueSubstringLength, StringComparison comparison) =>
+        FindIndexByName(resolvedNames, value, valueIndex, valueSubstringLength, comparison) ??
+        FindIndexByName(enumNames, value, valueIndex, valueSubstringLength, comparison);
 
     static int? FindIndexByName(string[] enumNames, string value, int valueIndex, int valueSubstringLength, StringComparison comparison)
     {

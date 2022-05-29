@@ -69,16 +69,12 @@ struct StringBuffer
         InternalBuffer = newBuffer;
     }
 
-    public override string ToString()
-    {
-        return ToString(0, Position);
-    }
+    public override string ToString() =>
+        ToString(0, Position);
 
-    public string ToString(int start, int length)
-    {
+    public string ToString(int start, int length) =>
         // TODO: validation
-        return new(InternalBuffer!, start, length);
-    }
+        new(InternalBuffer!, start, length);
 
     public char[]? InternalBuffer { get; private set; }
 }

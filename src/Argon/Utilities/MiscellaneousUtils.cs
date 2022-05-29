@@ -7,10 +7,8 @@ using System.Text.RegularExpressions;
 static class MiscellaneousUtils
 {
     [Conditional("DEBUG")]
-    public static void Assert([DoesNotReturnIf(false)] bool condition, string? message = null)
-    {
+    public static void Assert([DoesNotReturnIf(false)] bool condition, string? message = null) =>
         Debug.Assert(condition, message);
-    }
 
     public static bool ValueEquals(object? objA, object? objB)
     {

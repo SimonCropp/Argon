@@ -15,10 +15,8 @@ static class BufferUtils
         return buffer;
     }
 
-    public static void ReturnBuffer(IArrayPool<char>? bufferPool, char[]? buffer)
-    {
+    public static void ReturnBuffer(IArrayPool<char>? bufferPool, char[]? buffer) =>
         bufferPool?.Return(buffer);
-    }
 
     public static char[] EnsureBufferSize(IArrayPool<char>? bufferPool, int size, char[]? buffer)
     {

@@ -10,15 +10,11 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     readonly DynamicProxy<T> proxy;
 
     internal DynamicProxyMetaObject(Expression expression, T value, DynamicProxy<T> proxy)
-        : base(expression, BindingRestrictions.Empty, value!)
-    {
+        : base(expression, BindingRestrictions.Empty, value!) =>
         this.proxy = proxy;
-    }
 
-    bool IsOverridden(string method)
-    {
-        return ReflectionUtils.IsMethodOverridden(proxy.GetType(), typeof(DynamicProxy<T>), method);
-    }
+    bool IsOverridden(string method) =>
+        ReflectionUtils.IsMethodOverridden(proxy.GetType(), typeof(DynamicProxy<T>), method);
 
     public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
     {
@@ -130,12 +126,10 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         return base.BindBinaryOperation(binder, arg);
     }
 
-    public override DynamicMetaObject BindUnaryOperation(UnaryOperationBinder binder)
-    {
-        return IsOverridden(nameof(DynamicProxy<T>.TryUnaryOperation))
+    public override DynamicMetaObject BindUnaryOperation(UnaryOperationBinder binder) =>
+        IsOverridden(nameof(DynamicProxy<T>.TryUnaryOperation))
             ? CallMethodWithResult(nameof(DynamicProxy<T>.TryUnaryOperation), binder, NoArgs, e => binder.FallbackUnaryOperation(this, e))
             : base.BindUnaryOperation(binder);
-    }
 
     public override DynamicMetaObject BindGetIndex(GetIndexBinder binder, DynamicMetaObject[] indexes)
     {
@@ -171,19 +165,15 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     static Expression[] NoArgs => Array.Empty<Expression>();
 
-    static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args)
-    {
-        return args.Select(arg =>
+    static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args) =>
+        args.Select(arg =>
         {
             var exp = arg.Expression;
             return exp.Type.IsValueType ? Expression.Convert(exp, typeof(object)) : exp;
         });
-    }
 
-    static Expression[] GetArgArray(DynamicMetaObject[] args)
-    {
-        return new[] {Expression.NewArrayInit(typeof(object), GetArgs(args))};
-    }
+    static Expression[] GetArgArray(DynamicMetaObject[] args) =>
+        new[] {Expression.NewArrayInit(typeof(object), GetArgs(args))};
 
     static Expression[] GetArgArray(DynamicMetaObject[] args, DynamicMetaObject value)
     {
@@ -377,10 +367,8 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         return BindingRestrictions.GetTypeRestriction(Expression, LimitType);
     }
 
-    public override IEnumerable<string> GetDynamicMemberNames()
-    {
-        return proxy.GetDynamicMemberNames((T) Value!);
-    }
+    public override IEnumerable<string> GetDynamicMemberNames() =>
+        proxy.GetDynamicMemberNames((T) Value!);
 
     // It is okay to throw NotSupported from this binder. This object
     // is only used by DynamicObject.GetMember--it is not expected to
@@ -393,9 +381,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         {
         }
 
-        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
-        {
+        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion) =>
             throw new NotSupportedException();
-        }
     }
 }

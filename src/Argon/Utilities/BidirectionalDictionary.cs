@@ -54,13 +54,9 @@ class BidirectionalDictionary<TFirst, TSecond> where TFirst : notnull where TSec
         secondToFirst.Add(second, first);
     }
 
-    public bool TryGetByFirst(TFirst first, [NotNullWhen(true)] out TSecond? second)
-    {
-        return firstToSecond.TryGetValue(first, out second);
-    }
+    public bool TryGetByFirst(TFirst first, [NotNullWhen(true)] out TSecond? second) =>
+        firstToSecond.TryGetValue(first, out second);
 
-    public bool TryGetBySecond(TSecond second, [NotNullWhen(true)] out TFirst? first)
-    {
-        return secondToFirst.TryGetValue(second, out first);
-    }
+    public bool TryGetBySecond(TSecond second, [NotNullWhen(true)] out TFirst? first) =>
+        secondToFirst.TryGetValue(second, out first);
 }
