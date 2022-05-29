@@ -5281,7 +5281,7 @@ Path '', line 1, position 1.");
         var product = new Product
         {
             Name = "Apple",
-            ExpiryDate = new DateTime(2012, 4, 1),
+            ExpiryDate = new(2012, 4, 1),
             Price = 3.99M,
             Sizes = new[] {"Small", "Medium", "Large"}
         };
@@ -6336,8 +6336,8 @@ This is just junk, though.";
 
         var d = JsonConvert.DeserializeObject<Dictionary<Size, Size>>(json);
 
-        Assert.Equal(new Size(1, 2), d.Keys.First());
-        Assert.Equal(new Size(3, 4), d.Values.First());
+        Assert.Equal(new(1, 2), d.Keys.First());
+        Assert.Equal(new(3, 4), d.Values.First());
     }
 #endif
 
