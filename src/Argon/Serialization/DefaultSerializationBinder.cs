@@ -40,7 +40,8 @@ public class DefaultSerializationBinder :
                 foreach (var a in loadedAssemblies)
                 {
                     // check for both full name or partial name match
-                    if (a.FullName == assemblyName || a.GetName().Name == assemblyName)
+                    if (a.FullName == assemblyName ||
+                        a.GetName().Name == assemblyName)
                     {
                         assembly = a;
                         break;
