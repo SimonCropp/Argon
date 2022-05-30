@@ -61,7 +61,7 @@ public class DateOnlyTests : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeList()
+    public Task SerializeList()
     {
         var d = new List<DateOnly>
         {
@@ -69,25 +69,20 @@ public class DateOnlyTests : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        Assert.Equal(@"[
-  ""2000-12-29""
-]", json);
+        return VerifyJson(json);
     }
 
     [Fact]
-    public void SerializeList_Nullable()
+    public Task SerializeList_Nullable()
     {
-        IList<DateOnly?> d = new List<DateOnly?>
+        var d = new List<DateOnly?>
         {
             new DateOnly(2000, 12, 29),
             null
         };
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        Assert.Equal(@"[
-  ""2000-12-29"",
-  null
-]", json);
+        return VerifyJson(json);
     }
 
     [Fact]

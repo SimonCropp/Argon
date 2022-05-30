@@ -103,8 +103,3 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
 <!-- endSnippet -->
 
 This example sets up [conditional serialization for a property](ConditionalProperties) using an IContractResolver. This is useful to conditionally serialize a property but don't want to add additional methods to the type.
-
-
-## Related Topics
-
- * [ContractResolvers](/docs/ContractResolver.md)

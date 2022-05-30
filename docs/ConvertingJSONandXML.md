@@ -164,9 +164,3 @@ var doc = JsonXmlConvert.DeserializeXmlNode(json);
 ```
 <sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L59-L95' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
-
-
-## Related Topics
-
- * `Argon.XmlNodeConverter`
- * `Argon.JsonConvert`

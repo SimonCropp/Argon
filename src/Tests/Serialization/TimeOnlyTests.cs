@@ -90,7 +90,7 @@ public class TimeOnlyTests : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeList()
+    public Task SerializeList()
     {
         var list = new List<TimeOnly>
         {
@@ -98,13 +98,11 @@ public class TimeOnlyTests : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
 
-        Assert.Equal(@"[
-  ""23:59:59""
-]", json);
+        return VerifyJson(json);
     }
 
     [Fact]
-    public void SerializeList_Nullable()
+    public Task SerializeList_Nullable()
     {
         var list = new List<TimeOnly?>
         {
@@ -113,10 +111,7 @@ public class TimeOnlyTests : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
 
-        Assert.Equal(@"[
-  ""23:59:59"",
-  null
-]", json);
+        return VerifyJson(json);
     }
 
     [Fact]
