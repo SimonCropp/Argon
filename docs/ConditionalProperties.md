@@ -94,5 +94,5 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
 ## Related Topics
 
  * `Argon.JsonSerializer`
- * `Argon.IContractResolver`
+ * [Argon.IContractResolver](/docs/ContractResolver.md)
  * `Argon.JsonProperty.ShouldSerialize`

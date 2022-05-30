@@ -107,6 +107,4 @@ This example sets up [conditional serialization for a property](ConditionalPrope
 
 ## Related Topics
 
- * `Argon.IContractResolver`
- * `Argon.DefaultContractResolver`
- * `Argon.CamelCasePropertyNamesContractResolver`
+ * [ContractResolvers](/docs/ContractResolver.md)
