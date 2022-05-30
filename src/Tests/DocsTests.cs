@@ -14,7 +14,11 @@ public class DocsTests
 
         var builder = new StringBuilder();
         var level = 0;
-        AddDirectory(ref level, builder, docsDirectory, docsDirectory);
+        AddFiles(builder, docsDirectory, docsDirectory, docsDirectory);
+        foreach (var nestedDirectory in Directory.EnumerateDirectories(docsDirectory))
+        {
+            AddDirectory(ref level, builder, nestedDirectory, docsDirectory);
+        }
 
         File.WriteAllText(includeFile, builder.ToString());
     }
