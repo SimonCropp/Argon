@@ -423,7 +423,7 @@ Parameter name: index",
 
     [Fact]
     public void SetValueWithInvalidIndex() =>
-        XUnitAssert.Throws<ArgumentException>(
+        XUnitAssert.Throws<Exception>(
             () =>
             {
                 var a = new JArray

@@ -94,12 +94,12 @@ public partial class JArray : JContainer, IList<JToken>
             throw JsonReaderException.Create(reader, $"Error reading JArray from JsonReader. Current JsonReader item is not an array: {reader.TokenType}");
         }
 
-        var a = new JArray();
-        a.SetLineInfo(reader as IJsonLineInfo, settings);
+        var array = new JArray();
+        array.SetLineInfo(reader as IJsonLineInfo, settings);
 
-        a.ReadTokenFrom(reader, settings);
+        array.ReadTokenFrom(reader, settings);
 
-        return a;
+        return array;
     }
 
     /// <summary>
@@ -128,14 +128,14 @@ public partial class JArray : JContainer, IList<JToken>
     public new static JArray Parse(string json, JsonLoadSettings? settings)
     {
         using var reader = new JsonTextReader(new StringReader(json));
-        var a = Load(reader, settings);
+        var array = Load(reader, settings);
 
         while (reader.Read())
         {
             // Any content encountered here other than a comment will throw in the reader.
         }
 
-        return a;
+        return array;
     }
 
     /// <summary>
@@ -156,12 +156,13 @@ public partial class JArray : JContainer, IList<JToken>
     {
         var token = FromObjectInternal(o, jsonSerializer);
 
-        if (token.Type != JTokenType.Array)
+        if (token is JArray array)
         {
-            throw new ArgumentException($"Object serialized to {token.Type}. JArray instance expected.");
+            return array;
         }
 
-        return (JArray) token;
+        throw new($"Object serialized to {token.Type}. JArray instance expected.");
+
     }
 
     /// <summary>
@@ -186,18 +187,19 @@ public partial class JArray : JContainer, IList<JToken>
     {
         get
         {
-            if (key is not int i)
+            if (key is int i)
             {
-                throw new ArgumentException($"Accessed JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
+                return GetItem(i);
             }
 
-            return GetItem(i);
+            throw new($"Accessed JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
+
         }
         set
         {
             if (key is not int i)
             {
-                throw new ArgumentException($"Set JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
+                throw new($"Set JArray values with invalid key value: {MiscellaneousUtils.ToString(key)}. Int32 array index expected.");
             }
 
             SetItem(i, value);

@@ -966,19 +966,23 @@ keyword such as type of business.""
 
     [Fact]
     public void JObjectIntIndex() =>
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
         {
             var o = new JObject();
             Assert.Equal(null, o[0]);
-        }, "Accessed JObject values with invalid key value: 0. Object property name expected.");
+        }, 
+            "Accessed JObject values with invalid key value: 0. Object property name expected.");
 
     [Fact]
     public void JArrayStringIndex() =>
-        XUnitAssert.Throws<ArgumentException>(() =>
+        XUnitAssert.Throws<Exception>(
+            () =>
         {
             var a = new JArray();
             Assert.Equal(null, a["purple"]);
-        }, @"Accessed JArray values with invalid key value: ""purple"". Int32 array index expected.");
+        },
+            @"Accessed JArray values with invalid key value: ""purple"". Int32 array index expected.");
 
     [Fact]
     public void ToStringJsonConverter()
