@@ -1,6 +1,6 @@
 # Querying JSON with SelectToken
 
-This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken(System.String)`.
+This sample loads JSON and then queries values from it using `Argon.JToken.SelectToken(System.String)`.
 
 <!-- snippet: QueryJsonSelectToken -->
 <a id='snippet-queryjsonselecttoken'></a>

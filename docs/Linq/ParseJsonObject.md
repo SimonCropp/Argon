@@ -1,6 +1,6 @@
 # Parsing JSON Object using JObject.Parse
 
-This sample parses a JSON object using `Argon.Linq.JObject.Parse(System.String)`.
+This sample parses a JSON object using `Argon.JObject.Parse(System.String)`.
 
 <!-- snippet: ParseJsonObject -->
 <a id='snippet-parsejsonobject'></a>

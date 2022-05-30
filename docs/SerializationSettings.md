@@ -160,13 +160,13 @@ DefaultValueHandling can also be customized on individual properties with JsonPr
 
 `Argon.TypeNameHandling` should be used with caution when your application deserializes JSON from an external source.
 
-Incoming types should be validated with a custom `Argon.Serialization.ISerializationBinder` when deserializing with a value other than `TypeNameHandling.None`.
+Incoming types should be validated with a custom `Argon.ISerializationBinder` when deserializing with a value other than `TypeNameHandling.None`.
 
 `Argon.TypeNameHandling` controls whether Json.NET includes .NET type names during serialization with a `$type` property and reads .NET type names from that property to determine what type to create during deserialization.
 
 Metadata properties like `$type` must be located at the beginning of a JSON object to be successfully detected during deserialization. If you can't control the order of properties in your JSON object then `Argon.MetadataPropertyHandling` can be used to remove this restriction.
 
-The value of the `$type` property can be customized and validated by creating your own `Argon.Serialization.ISerializationBinder`.
+The value of the `$type` property can be customized and validated by creating your own `Argon.ISerializationBinder`.
 
 <table>
   <tableHeader>
@@ -225,9 +225,9 @@ TypeNameHandling can be used as an argument when calling the serializer, it can 
 
 ## SerializationBinder
 
-The `Argon.Serialization.ISerializationBinder` is used to resolve .NET types to type names during serialization and type names to .NET types during deserialization.
+The `Argon.ISerializationBinder` is used to resolve .NET types to type names during serialization and type names to .NET types during deserialization.
 
-If TypeNameHandling is enabled then it is strongly recommended that a custom `Argon.Serialization.ISerializationBinder` is used to validate incoming type names for security reasons.
+If TypeNameHandling is enabled then it is strongly recommended that a custom `Argon.ISerializationBinder` is used to validate incoming type names for security reasons.
 
 
 ## MetadataPropertyHandling
@@ -299,19 +299,19 @@ To create your own custom converter inherit from the JsonConverter class. Read m
  * DatesInJSON
  * ConvertingJSONandXML
  * CustomCreationConverter
- * `Argon.Converters.StringEnumConverter`
+ * `Argon.StringEnumConverter`
 
 
 ## ContractResolver
 
-Internally for every .NET type the JsonSerializer will create a contract of how the type should be serialized and deserialized, based on type metadata and attributes applied to the class. Specifying a custom `Argon.Serialization.IContractResolver` allows the creation of contracts to be customized.
+Internally for every .NET type the JsonSerializer will create a contract of how the type should be serialized and deserialized, based on type metadata and attributes applied to the class. Specifying a custom `Argon.IContractResolver` allows the creation of contracts to be customized.
 
 See also: [ContractResolver]
 
 
 ## TraceWriter
 
-The Json.NET serializer supports logging and debugging using the `Argon.Serialization.ITraceWriter` interface. By assigning a trace writer you can debug what happens inside the Json.NET serializer when serializing and deserializing JSON.
+The Json.NET serializer supports logging and debugging using the `Argon.ITraceWriter` interface. By assigning a trace writer you can debug what happens inside the Json.NET serializer when serializing and deserializing JSON.
 
 Read more about TraceWriters here: [SerializationTracing]
 

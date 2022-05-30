@@ -1,6 +1,6 @@
 # Camel case property names
 
-This sample uses a `Argon.Serialization.CamelCaseNamingStrategy` specified using a contract resolver to camel case serialized property names.
+This sample uses a `Argon.CamelCaseNamingStrategy` specified using a contract resolver to camel case serialized property names.
 
 <!-- snippet: NamingStrategyCamelCaseTypes -->
 <a id='snippet-namingstrategycamelcasetypes'></a>

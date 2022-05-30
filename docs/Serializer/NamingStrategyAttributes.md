@@ -1,6 +1,6 @@
 # JsonObjectAttribute NamingStrategy setting
 
-This sample uses `Argon.Serialization.NamingStrategy` types specified on attributes to control serialized property names.
+This sample uses `Argon.NamingStrategy` types specified on attributes to control serialized property names.
 
 <!-- snippet: NamingStrategyAttributesTypes -->
 <a id='snippet-namingstrategyattributestypes'></a>

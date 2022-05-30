@@ -1,6 +1,6 @@
 # Querying JSON with SelectToken
 
-`Argon.Linq.JToken.SelectToken` provides a method to query LINQ to JSON using a single string path to a desired `Argon.Linq.JToken`. SelectToken makes dynamic queries easy because the entire query is defined in a string.
+`Argon.JToken.SelectToken` provides a method to query LINQ to JSON using a single string path to a desired `Argon.JToken`. SelectToken makes dynamic queries easy because the entire query is defined in a string.
 
 
 ## SelectToken
@@ -141,4 +141,4 @@ var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0
 
  * LINQtoJSON
 
-      `Argon.Linq.JToken.SelectToken`
+      `Argon.JToken.SelectToken`

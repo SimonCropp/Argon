@@ -1,6 +1,6 @@
 # Convert JSON to a Type
 
-This sample converts LINQ to JSON objects to .NET types using `Argon.Linq.JToken.ToObject(System.Type)`.
+This sample converts LINQ to JSON objects to .NET types using `Argon.JToken.ToObject(System.Type)`.
 
 <!-- snippet: ToObjectType -->
 <a id='snippet-toobjecttype'></a>

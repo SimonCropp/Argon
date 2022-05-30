@@ -1,6 +1,6 @@
 # Querying JSON with complex JSON Path
 
-This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken`. An error is thrown when part of the JSON path is not found.
+This sample loads JSON and then queries values from it using `Argon.JToken.SelectToken`. An error is thrown when part of the JSON path is not found.
 
 <!-- snippet: ErrorWhenNoMatchQuery -->
 <a id='snippet-errorwhennomatchquery'></a>

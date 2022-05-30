@@ -1,6 +1,6 @@
 # Create JSON using Collection Initializers
 
-This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances using the C# collection initializer syntax.
+This sample creates `Argon.JObject` and `Argon.JArray` instances using the C# collection initializer syntax.
 
 <!-- snippet: CreateJsonCollectionInitializer -->
 <a id='snippet-createjsoncollectioninitializer'></a>

@@ -2,7 +2,7 @@
 
 ## Reuse Contract Resolver
 
-The `Argon.Serialization.IContractResolver` resolves .NET types to contracts that are used during serialization inside JsonSerializer. Creating a contract involves inspecting a type with slow reflection, so contracts are typically cached by implementations of IContractResolver like `Argon.Serialization.DefaultContractResolver`.
+The `Argon.IContractResolver` resolves .NET types to contracts that are used during serialization inside JsonSerializer. Creating a contract involves inspecting a type with slow reflection, so contracts are typically cached by implementations of IContractResolver like `Argon.DefaultContractResolver`.
 
 To avoid the overhead of recreating contracts every time a JsonSerializer is used create the contract resolver once and reuse it. Note that if not using a contract resolver then a shared internal instance is automatically used when serializing and deserializing.
 
@@ -95,7 +95,7 @@ public class Person
 <sup><a href='/src/Tests/Documentation/PerformanceTests.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by creating a `Argon.Serialization.IContractResolver`.
+If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by creating a `Argon.IContractResolver`.
 
 //TODO
 ```cs

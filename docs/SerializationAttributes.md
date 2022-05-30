@@ -49,7 +49,7 @@ The MemberSerialization flag on this attribute specifies whether member serializ
 
 Placing the the `System.Runtime.Serialization.DataContractAttribute` on a type is another way to default member serialization to opt-in.
 
-The NamingStrategy setting on this attributes can be set to a `Argon.Serialization.NamingStrategy` type that specifies how property names are serialized.
+The NamingStrategy setting on this attributes can be set to a `Argon.NamingStrategy` type that specifies how property names are serialized.
 
 Json.NET serializes .NET classes that implement IEnumerable as a JSON array populated with the IEnumerable values. Placing the `Argon.JsonObjectAttribute` overrides this behavior and forces the serializer to serialize the class's fields and properties.
 
@@ -69,7 +69,7 @@ JsonPropertyAttribute has a number of uses:
  * JsonPropertyAttribute indicates that a property should be serialized when member serialization is set to opt-in.
  * It includes non-public properties in serialization and deserialization.
  * It can be used to customize type name, reference, null, and default value handling for the property value.
- * It can be used to customize the `Argon.Serialization.NamingStrategy` of the serialized property name.
+ * It can be used to customize the `Argon.NamingStrategy` of the serialized property name.
  * It can be used to customize the property's collection items JsonConverter, type name handling, and reference handling.
 
 The DataMemberAttribute can be used as a substitute for JsonPropertyAttribute.

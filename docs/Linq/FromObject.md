@@ -1,6 +1,6 @@
 # Create JSON from an Object
 
-This sample converts .NET values to LINQ to JSON using `Argon.Linq.JToken.FromObject(System.Object)`.
+This sample converts .NET values to LINQ to JSON using `Argon.JToken.FromObject(System.Object)`.
 
 <!-- snippet: FromObjectTypes -->
 <a id='snippet-fromobjecttypes'></a>

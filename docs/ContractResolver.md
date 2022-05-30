@@ -1,20 +1,20 @@
 # Serialization using ContractResolver
 
-The `Argon.Serialization.IContractResolver` interface provides a way to customize how the JsonSerializer serializes and deserializes .NET objects to JSON without placing attributes on classes.
+The `Argon.IContractResolver` interface provides a way to customize how the JsonSerializer serializes and deserializes .NET objects to JSON without placing attributes on classes.
 
 Anything that can be set on an object, collection, property, etc, using attributes or methods to control serialization can also be set using an IContractResolver.
 
-For performance create a contract resolver once and reuse instances when possible. Resolving contracts is slow and implementations of `Argon.Serialization.IContractResolver` typically cache contracts.
+For performance create a contract resolver once and reuse instances when possible. Resolving contracts is slow and implementations of `Argon.IContractResolver` typically cache contracts.
 
 
 ## DefaultContractResolver
 
-The `Argon.Serialization.DefaultContractResolver` is the default resolver used by the serializer. It provides many avenues of extensibility in the form of virtual methods that can be overridden.
+The `Argon.DefaultContractResolver` is the default resolver used by the serializer. It provides many avenues of extensibility in the form of virtual methods that can be overridden.
 
 
 ## CamelCasePropertyNamesContractResolver
 
-`Argon.Serialization.CamelCasePropertyNamesContractResolver` inherits from DefaultContractResolver and overrides the JSON property name to be written in [camelcase](http://en.wikipedia.org/wiki/CamelCase).
+`Argon.CamelCasePropertyNamesContractResolver` inherits from DefaultContractResolver and overrides the JSON property name to be written in [camelcase](http://en.wikipedia.org/wiki/CamelCase).
 
 <!-- snippet: ContractResolver -->
 <a id='snippet-contractresolver'></a>
@@ -107,6 +107,6 @@ This example sets up [conditional serialization for a property](ConditionalPrope
 
 ## Related Topics
 
- * `Argon.Serialization.IContractResolver`
- * `Argon.Serialization.DefaultContractResolver`
- * `Argon.Serialization.CamelCasePropertyNamesContractResolver`
+ * `Argon.IContractResolver`
+ * `Argon.DefaultContractResolver`
+ * `Argon.CamelCasePropertyNamesContractResolver`

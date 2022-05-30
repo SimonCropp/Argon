@@ -1,6 +1,6 @@
 # Create JObject and JArray programatically
 
-This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances one at a time programatically.
+This sample creates `Argon.JObject` and `Argon.JArray` instances one at a time programatically.
 
 <!-- snippet: CreateJsonManually -->
 <a id='snippet-createjsonmanually'></a>

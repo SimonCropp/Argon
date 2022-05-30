@@ -1,6 +1,6 @@
 # Create JSON declaratively with LINQ
 
-This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances declaratively  using LINQ.
+This sample creates `Argon.JObject` and `Argon.JArray` instances declaratively  using LINQ.
 
 <!-- snippet: CreateJsonDeclarativelyTypes -->
 <a id='snippet-createjsondeclarativelytypes'></a>

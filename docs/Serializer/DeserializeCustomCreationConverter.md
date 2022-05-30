@@ -1,6 +1,6 @@
 # Deserialize with CustomCreationConverter
 
-This sample creates a class that inherits from `Argon.Converters.CustomCreationConverter`
+This sample creates a class that inherits from `Argon.CustomCreationConverter`
  that instantiates Employee instances for the Person type.
 
 <!-- snippet: DeserializeCustomCreationConverterTypes -->

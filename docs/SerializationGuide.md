@@ -71,7 +71,7 @@ the serializer encounters a JSON property with an array of values and the type o
     <entry>
     <para>Enum</para>
     </entry>
-    <entry><para>Integer (can be the enum value name with `Argon.Converters.StringEnumConverter`)</para></entry>
+    <entry><para>Integer (can be the enum value name with `Argon.StringEnumConverter`)</para></entry>
   </row>
   <row>
     <entry>

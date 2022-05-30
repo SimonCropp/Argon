@@ -184,7 +184,7 @@ DefaultValueHandling can also be customized on individual properties using the `
 
 ## IContractResolver
 
-For more flexibility, the `Argon.Serialization.IContractResolver` provides an interface to customize almost every aspect of how a .NET object gets serialized to JSON, including changing serialization behavior at runtime.
+For more flexibility, the `Argon.IContractResolver` provides an interface to customize almost every aspect of how a .NET object gets serialized to JSON, including changing serialization behavior at runtime.
 
 <!-- snippet: ReducingSerializedJsonSizeContractResolverObject -->
 <a id='snippet-reducingserializedjsonsizecontractresolverobject'></a>

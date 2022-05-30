@@ -1,6 +1,6 @@
 # Read JSON from a file using JObject
 
-This sample reads JSON from a file into a `Argon.Linq.JObject`.
+This sample reads JSON from a file into a `Argon.JObject`.
 
 <!-- snippet: ReadJson -->
 <a id='snippet-readjson'></a>

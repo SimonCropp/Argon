@@ -1,6 +1,6 @@
 # Creates JTokenWriter JToken
 
-This sample creates a `Argon.Linq.JTokenWriter` from a `Argon.Linq.JToken`.
+This sample creates a `Argon.JTokenWriter` from a `Argon.JToken`.
 
 <!-- snippet: CreateWriter -->
 <a id='snippet-createwriter'></a>

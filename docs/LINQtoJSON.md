@@ -1,6 +1,6 @@
 # LINQ to JSON
 
-LINQ to JSON is an API for working with JSON objects. It has been designed with LINQ in mind to enable quick querying and creation of JSON objects. LINQ to JSON sits under the `Argon.Linq` namespace.
+LINQ to JSON is an API for working with JSON objects. It has been designed with LINQ in mind to enable quick querying and creation of JSON objects.
 
 <!-- snippet: LinqToJsonBasic -->
 <a id='snippet-linqtojsonbasic'></a>
@@ -37,6 +37,6 @@ var allDrives = o["Drives"].Select(t => (string) t).ToList();
 
 ## Related Topics
 
- * `Argon.Linq.JObject`
- * `Argon.Linq.JArray`
- * `Argon.Linq.JValue`
+ * `Argon.JObject`
+ * `Argon.JArray`
+ * `Argon.JValue`

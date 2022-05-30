@@ -1,6 +1,6 @@
 # Querying JSON with JSON Path and escaped properties
 
-This sample loads JSON with properties that need to be escaped when queried with `Argon.Linq.JToken.SelectToken(System.String)`.
+This sample loads JSON with properties that need to be escaped when queried with `Argon.JToken.SelectToken(System.String)`.
 
 <!-- snippet: QueryJsonSelectTokenEscaped -->
 <a id='snippet-queryjsonselecttokenescaped'></a>

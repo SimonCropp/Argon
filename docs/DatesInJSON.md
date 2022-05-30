@@ -12,5 +12,5 @@ The default format used by Json.NET is the [ISO 8601 standard](http://en.wikiped
 
  * `Argon.DateFormatHandling`
  * `Argon.DateTimeZoneHandling`
- * `Argon.Converters.JavaScriptDateTimeConverter`
- * `Argon.Converters.IsoDateTimeConverter`
+ * `Argon.JavaScriptDateTimeConverter`
+ * `Argon.IsoDateTimeConverter`

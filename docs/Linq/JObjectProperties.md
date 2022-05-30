@@ -1,6 +1,6 @@
 # Using JObject.Properties
 
-This sample gets an object's `Argon.Linq.JProperty` collection using `Argon.Linq.JObject.Properties`.
+This sample gets an object's `Argon.JProperty` collection using `Argon.JObject.Properties`.
 
 <!-- snippet: JObjectProperties -->
 <a id='snippet-jobjectproperties'></a>

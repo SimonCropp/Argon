@@ -1,6 +1,6 @@
 # Configure NamingStrategy property name serialization
 
-This sample configures a `Argon.Serialization.CamelCaseNamingStrategy` to not camel case properties that already have a name specified with an attribute.
+This sample configures a `Argon.CamelCaseNamingStrategy` to not camel case properties that already have a name specified with an attribute.
 
 <!-- snippet: NamingStrategySkipSpecifiedNamesTypes -->
 <a id='snippet-namingstrategyskipspecifiednamestypes'></a>

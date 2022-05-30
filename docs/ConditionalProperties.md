@@ -60,7 +60,7 @@ var json = JsonConvert.SerializeObject(new[] {joe, mike}, Formatting.Indented);
 
 ## IContractResolver
 
-ShouldSerialize can also be set using an `Argon.Serialization.IContractResolver`. Conditionally serializing a property using an IContractResolver is useful avoid placing a ShouldSerialize method on a class or are unable to.
+ShouldSerialize can also be set using an `Argon.IContractResolver`. Conditionally serializing a property using an IContractResolver is useful avoid placing a ShouldSerialize method on a class or are unable to.
 
 <!-- snippet: ShouldSerializeContractResolver -->
 <a id='snippet-shouldserializecontractresolver'></a>
@@ -94,5 +94,5 @@ public class ShouldSerializeContractResolver : DefaultContractResolver
 ## Related Topics
 
  * `Argon.JsonSerializer`
- * `Argon.Serialization.IContractResolver`
- * `Argon.Serialization.JsonProperty.ShouldSerialize`
+ * `Argon.IContractResolver`
+ * `Argon.JsonProperty.ShouldSerialize`

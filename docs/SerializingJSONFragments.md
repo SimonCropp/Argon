@@ -102,7 +102,5 @@ foreach (var result in results)
 
  * `Argon.JsonReader`
  * `Argon.JsonWriter`
- * `Argon.Linq.JTokenReader`
- * `Argon.Linq.JTokenWriter`
- * `Argon.Bson.BsonReader`
- * `Argon.Bson.BsonWriter`
+ * `Argon.JTokenReader`
+ * `Argon.JTokenWriter`

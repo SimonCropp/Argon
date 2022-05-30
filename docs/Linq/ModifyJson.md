@@ -1,6 +1,6 @@
 # Modifying JSON
 
-This sample loads JSON, modifies `Argon.Linq.JObject` and `Argon.Linq.JArray` instances and then writes the JSON back out again.
+This sample loads JSON, modifies `Argon.JObject` and `Argon.JArray` instances and then writes the JSON back out again.
 
 <!-- snippet: ModifyJson -->
 <a id='snippet-modifyjson'></a>

@@ -1,6 +1,6 @@
 # Parse JSON using JToken.Parse
 
-This sample parses JSON using `Argon.Linq.JToken.Parse(System.String)`.
+This sample parses JSON using `Argon.JToken.Parse(System.String)`.
 
 <!-- snippet: ParseJsonAny -->
 <a id='snippet-parsejsonany'></a>

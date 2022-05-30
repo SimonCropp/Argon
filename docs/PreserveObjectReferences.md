@@ -111,7 +111,7 @@ public class EmployeeReference
 
 ## IReferenceResolver
 
-To customize how references are generated and resolved the `Argon.Serialization.IReferenceResolver` interface is available to inherit from and use with the JsonSerializer.
+To customize how references are generated and resolved the `Argon.IReferenceResolver` interface is available to inherit from and use with the JsonSerializer.
 
 
 ## Related Topics

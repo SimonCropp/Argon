@@ -1,6 +1,6 @@
 # CustomCreationConverter
 
-The `Argon.Converters.CustomCreationConverter<T>` is a JsonConverter that provides a way to customize how an object is created during JSON deserialization. Once the object has been created it will then have values populated onto it by the serializer.
+The `Argon.CustomCreationConverter<T>` is a JsonConverter that provides a way to customize how an object is created during JSON deserialization. Once the object has been created it will then have values populated onto it by the serializer.
 
 <!-- snippet: CustomCreationConverterObject -->
 <a id='snippet-customcreationconverterobject'></a>
@@ -72,4 +72,4 @@ Console.WriteLine(employee.JobTitle);
 
 ## Related Topics
 
- * `Argon.Converters.CustomCreationConverter<T>`
+ * `Argon.CustomCreationConverter<T>`

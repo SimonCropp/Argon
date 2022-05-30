@@ -1,6 +1,6 @@
 # Comparing JSON with JToken.DeepEquals
 
-This sample compares `Argon.Linq.JToken` instances using `Argon.Linq.JToken.DeepEquals(Argon.Linq.JToken,Argon.Linq.JToken)`, comparing the token and all child tokens.
+This sample compares `Argon.JToken` instances using `Argon.JToken.DeepEquals(Argon.Linq.JToken,Argon.Linq.JToken)`, comparing the token and all child tokens.
 
 <!-- snippet: DeepEquals -->
 <a id='snippet-deepequals'></a>

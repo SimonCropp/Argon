@@ -5,7 +5,7 @@ LINQ to JSON has methods available for parsing JSON from a string or loading JSO
 
 ## Parsing JSON text
 
-JSON values can be read from a string using `Argon.Linq.JToken.Parse(System.String)`.
+JSON values can be read from a string using `Argon.JToken.Parse(System.String)`.
 
 <!-- snippet: LinqToJsonCreateParse -->
 <a id='snippet-linqtojsoncreateparse'></a>
@@ -40,7 +40,7 @@ var a = JArray.Parse(json);
 
 ## Loading JSON from a file
 
-JSON can also be loaded directly from a file using `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`.
+JSON can also be loaded directly from a file using `Argon.JToken.ReadFrom(Argon.JsonReader)`.
 
 <!-- snippet: LinqToJsonReadObject -->
 <a id='snippet-linqtojsonreadobject'></a>
@@ -56,5 +56,5 @@ var o = (JObject) JToken.ReadFrom(new JsonTextReader(reader));
 ## Related Topics
 
  * LINQtoJSON
- * `Argon.Linq.JToken.Parse(System.String)`
- * `Argon.Linq.JToken.ReadFrom(Argon.JsonReader)`
+ * `Argon.JToken.Parse(System.String)`
+ * `Argon.JToken.ReadFrom(Argon.JsonReader)`

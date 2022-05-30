@@ -1,6 +1,6 @@
 # Custom IContractResolver
 
-This sample creates a custom `Argon.Serialization.IContractResolver` that only serializes a type's properties that begin with a specified character.
+This sample creates a custom `Argon.IContractResolver` that only serializes a type's properties that begin with a specified character.
 
 <!-- snippet: CustomContractResolverUsage -->
 <a id='snippet-customcontractresolverusage'></a>

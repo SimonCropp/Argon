@@ -1,6 +1,6 @@
 # Create JTokenReader from JToken
 
-This sample creates a `Argon.Linq.JTokenReader` from a `Argon.Linq.JToken`.
+This sample creates a `Argon.JTokenReader` from a `Argon.JToken`.
 
 <!-- snippet: CreateReader -->
 <a id='snippet-createreader'></a>

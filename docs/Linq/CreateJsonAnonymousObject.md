@@ -1,6 +1,6 @@
 # Create JSON from an Anonymous Type
 
-This sample creates a `Argon.Linq.JObject` from an anonymous type.
+This sample creates a `Argon.JObject` from an anonymous type.
 
 <!-- snippet: CreateJsonAnonymousObjectTypes -->
 <a id='snippet-createjsonanonymousobjecttypes'></a>

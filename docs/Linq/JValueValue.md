@@ -1,6 +1,6 @@
 # Using JValue.Value
 
-This sample gets `Argon.Linq.JValue` internal values using `Argon.Linq.JValue.Value`.
+This sample gets `Argon.JValue` internal values using `Argon.JValue.Value`.
 
 <!-- snippet: JValueValue -->
 <a id='snippet-jvaluevalue'></a>

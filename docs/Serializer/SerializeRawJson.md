@@ -1,6 +1,6 @@
 # Serialize Raw JSON value
 
-This sample uses `Argon.Linq.JRaw` properties to serialize JSON with raw content.
+This sample uses `Argon.JRaw` properties to serialize JSON with raw content.
 
 <!-- snippet: SerializeRawJsonTypes -->
 <a id='snippet-serializerawjsontypes'></a>

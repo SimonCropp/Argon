@@ -1,6 +1,6 @@
 # Parse JSON using JArray.Parse
 
-This sample parses a JSON array using `Argon.Linq.JArray.Parse(System.String)`.
+This sample parses a JSON array using `Argon.JArray.Parse(System.String)`.
 
 <!-- snippet: ParseJsonArray -->
 <a id='snippet-parsejsonarray'></a>

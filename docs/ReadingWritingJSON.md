@@ -95,7 +95,7 @@ while (reader.Read())
 
 ## JTokenReader and JTokenWriter</title>
 
-`Argon.Linq.JTokenReader` and `Argon.Linq.JTokenWriter` read and write LINQ to JSON objects. They are located in the `Argon.Linq` namespace. These objects support the use LINQ to JSON objects with objects that read and write JSON, such as the JsonSerializer. For example to deserialize from a LINQ to JSON object into a regular .NET object and vice versa.
+`Argon.JTokenReader` and `Argon.JTokenWriter` read and write LINQ to JSON objects. These objects support the use LINQ to JSON objects with objects that read and write JSON, such as the JsonSerializer. For example to deserialize from a LINQ to JSON object into a regular .NET object and vice versa.
 
 <!-- snippet: ReadingAndWritingJsonLinq -->
 <a id='snippet-readingandwritingjsonlinq'></a>
@@ -119,7 +119,5 @@ Console.WriteLine(p.Name);
 
  * `Argon.JsonReader`
  * `Argon.JsonWriter`
- * `Argon.Linq.JTokenReader`
- * `Argon.Linq.JTokenWriter`
- * `Argon.Bson.BsonReader`
- * `Argon.Bson.BsonWriter`
+ * `Argon.JTokenReader`
+ * `Argon.JTokenWriter`

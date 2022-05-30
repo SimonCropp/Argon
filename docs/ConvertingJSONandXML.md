@@ -1,6 +1,6 @@
 # Converting between JSON and XML
 
-Json.NET supports converting JSON to XML and vice versa using the `Argon.Converters.XmlNodeConverter`.
+Json.NET supports converting JSON to XML and vice versa using the `Argon.XmlNodeConverter`.
 
 Elements, attributes, text, comments, character data, processing instructions, namespaces, and the XML declaration are all preserved when converting between the two. The only caveat is that it is possible to lose the order of differently named nodes at the same level when they are grouped together into an array.
 
@@ -168,5 +168,5 @@ var doc = JsonXmlConvert.DeserializeXmlNode(json);
 
 ## Related Topics
 
- * `Argon.Converters.XmlNodeConverter`
+ * `Argon.XmlNodeConverter`
  * `Argon.JsonConvert`

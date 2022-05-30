@@ -1,6 +1,6 @@
 # Custom ITraceWriter
 
-This sample creates a custom `Argon.Serialization.ITraceWriter` that writes to [NLog](http://nlog-project.org/)
+This sample creates a custom `Argon.ITraceWriter` that writes to [NLog](http://nlog-project.org/)
 
 <!-- snippet: CustomTraceWriterTypes -->
 <a id='snippet-customtracewritertypes'></a>

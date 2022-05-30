@@ -1,6 +1,6 @@
 # Convert JSON to a Type
 
-This sample converts LINQ to JSON objects to .NET types using `Argon.Linq.JToken.ToObject<T>`.
+This sample converts LINQ to JSON objects to .NET types using `Argon.JToken.ToObject<T>`.
 
 <!-- snippet: ToObjectComplex -->
 <a id='snippet-toobjectcomplex'></a>

@@ -1,6 +1,6 @@
 # LINQ to JSON with JToken.ToObject
 
-This sample converts LINQ to JSON objects to .NET types using `Argon.Linq.JToken.ToObject<T>`.
+This sample converts LINQ to JSON objects to .NET types using `Argon.JToken.ToObject<T>`.
 
 <!-- snippet: ToObjectGeneric -->
 <a id='snippet-toobjectgeneric'></a>

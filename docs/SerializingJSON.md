@@ -43,7 +43,7 @@ SerializeObject and DeserializeObject both have overloads that take a `Argon.Jso
 For more control over how an object is serialized, the `Argon.JsonSerializer` can be used directly.
 
 The JsonSerializer is able to read and write JSON text directly to a stream via `Argon.JsonTextReader`
-and `Argon.JsonTextWriter`. Other kinds of JsonWriters can also be used, such as `Argon.Linq.JTokenReader`/`Argon.Linq.JTokenWriter`, to convert your object to and from LINQ to JSON objects, or `Argon.Bson.BsonReader`/`Argon.Bson.BsonWriter`, to convert to and from BSON.
+and `Argon.JsonTextWriter`. Other kinds of JsonWriters can also be used, such as `Argon.JTokenReader`/`Argon.JTokenWriter`, to convert your object to and from LINQ to JSON objects.
 
 <!-- snippet: JsonSerializerToStream -->
 <a id='snippet-jsonserializertostream'></a>

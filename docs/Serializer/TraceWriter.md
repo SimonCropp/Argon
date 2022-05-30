@@ -1,6 +1,6 @@
 # TraceWriter setting
 
-This sample uses an `Argon.Serialization.ITraceWriter` to log debug information from serialization.
+This sample uses an `Argon.ITraceWriter` to log debug information from serialization.
 
 <!-- snippet: TraceWriterTypes -->
 <a id='snippet-tracewritertypes'></a>

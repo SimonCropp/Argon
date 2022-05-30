@@ -1,6 +1,6 @@
 # Custom IContractResolver
 
-This sample uses a custom `Argon.Serialization.IContractResolver` to modify how objects are serialized.
+This sample uses a custom `Argon.IContractResolver` to modify how objects are serialized.
 
 <!-- snippet: SerializeContractResolverTypes -->
 <a id='snippet-serializecontractresolvertypes'></a>

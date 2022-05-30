@@ -1,6 +1,6 @@
 # Create JSON with JTokenWriter
 
-This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances using a `Argon.Linq.JTokenWriter`.
+This sample creates `Argon.JObject` and `Argon.JArray` instances using a `Argon.JTokenWriter`.
 
 <!-- snippet: CreateJsonJTokenWriter -->
 <a id='snippet-createjsonjtokenwriter'></a>

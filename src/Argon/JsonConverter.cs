@@ -88,7 +88,7 @@ public abstract class JsonConverter<T> : JsonConverter
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    public abstract T? ReadJson(JsonReader reader, Type type, T? existing, bool hasExisting, JsonSerializer serializer);
+    public abstract T? ReadJson(JsonReader reader, Type type, T? existingValue, bool hasExisting, JsonSerializer serializer);
 
     /// <summary>
     /// Determines whether this instance can convert the specified object type.

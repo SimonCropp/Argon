@@ -1,6 +1,6 @@
 # Cloning JSON with JToken.DeepClone
 
-This sample recursively clones a `Argon.Linq.JToken`  and all its children using `Argon.Linq.JToken.DeepClone`.
+This sample recursively clones a `Argon.JToken`  and all its children using `Argon.JToken.DeepClone`.
 
 <!-- snippet: Clone -->
 <a id='snippet-clone'></a>

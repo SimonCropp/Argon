@@ -2,7 +2,7 @@
 
 Error handling lets you catch an error and choose whether to handle it and continue with serialization or let the error bubble up and be thrown in your application.
 
-Error handling is defined through two methods: the `Argon.JsonSerializer.Error` event on JsonSerializer and the `Argon.Serialization.OnErrorAttribute`.
+Error handling is defined through two methods: the `Argon.JsonSerializer.Error` event on JsonSerializer and the `Argon.OnErrorAttribute`.
 
 
 ## Error Event
@@ -69,11 +69,11 @@ serializer.Error += delegate(object _, ErrorEventArgs args)
 <sup><a href='/src/Tests/Documentation/SerializationTests.cs#L232-L246' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingwithparent' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-If you aren't immediately handling an error and only want to perform an action against it once, then you can check to see whether the `Argon.Serialization.ErrorEventArgs`'s CurrentObject is equal to the OriginalObject. OriginalObject is the object that threw the error and CurrentObject is the object that the event is being raised against. They will only equal the first time the event is raised against the OriginalObject.
+If you aren't immediately handling an error and only want to perform an action against it once, then you can check to see whether the `Argon.ErrorEventArgs`'s CurrentObject is equal to the OriginalObject. OriginalObject is the object that threw the error and CurrentObject is the object that the event is being raised against. They will only equal the first time the event is raised against the OriginalObject.
 
 ## OnErrorAttribute
 
-The `Argon.Serialization.OnErrorAttribute` works much like the other [NET serialization attributes](SerializationAttributes). To use it you simply place the attribute on a method that takes the correct parameters: a StreamingContext and an ErrorContext. The name of the method doesn't matter.
+The `Argon.OnErrorAttribute` works much like the other [NET serialization attributes](SerializationAttributes). To use it you simply place the attribute on a method that takes the correct parameters: a StreamingContext and an ErrorContext. The name of the method doesn't matter.
 
 <!-- snippet: SerializationErrorHandlingAttributeObject -->
 <a id='snippet-serializationerrorhandlingattributeobject'></a>
@@ -139,4 +139,4 @@ Console.WriteLine(json);
 
  * SerializationAttributes
  * `Argon.JsonSerializer.Error`
- * `Argon.Serialization.OnErrorAttribute`
+ * `Argon.OnErrorAttribute`

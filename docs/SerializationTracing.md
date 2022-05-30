@@ -1,6 +1,6 @@
 # Debugging with Serialization Tracing
 
-The Json.NET serializer supports logging and debugging using the `Argon.Serialization.ITraceWriter` interface. By assigning a trace writer you can capture serialization messages and errors and debug what happens inside the Json.NET serializer when serializing and deserializing JSON.
+The Json.NET serializer supports logging and debugging using the `Argon.ITraceWriter` interface. By assigning a trace writer you can capture serialization messages and errors and debug what happens inside the Json.NET serializer when serializing and deserializing JSON.
 
 
 ## ITraceWriter
@@ -47,7 +47,7 @@ Verbose Serialized JSON:
 <sup><a href='/src/Tests/Documentation/TraceWriterTests.MemoryTraceWriterTest.verified.txt#L1-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-TraceWriterTests.MemoryTraceWriterTest.verified.txt' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-Json.NET has two implementations of ITraceWriter: `Argon.Serialization.MemoryTraceWriter`, which keeps messages in memory for simple debugging, like the example above, and `Argon.Serialization.DiagnosticsTraceWriter`, which writes messages to any System.Diagnostics.TraceListeners your application is using.
+Json.NET has two implementations of ITraceWriter: `Argon.MemoryTraceWriter`, which keeps messages in memory for simple debugging, like the example above, and `Argon.DiagnosticsTraceWriter`, which writes messages to any System.Diagnostics.TraceListeners your application is using.
 
 
 ## Custom ITraceWriter
@@ -103,6 +103,6 @@ public class NLogTraceWriter : ITraceWriter
 ## Related Topics
 
  * `Argon.JsonSerializer`
- * `Argon.Serialization.ITraceWriter`
- * `Argon.Serialization.MemoryTraceWriter`
- * `Argon.Serialization.DiagnosticsTraceWriter`
+ * `Argon.ITraceWriter`
+ * `Argon.MemoryTraceWriter`
+ * `Argon.DiagnosticsTraceWriter`

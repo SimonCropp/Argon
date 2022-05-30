@@ -1,6 +1,6 @@
 # Create JSON with dynamic
 
-This sample creates `Argon.Linq.JObject` and `Argon.Linq.JArray` instances using the C# dynamic functionality.
+This sample creates `Argon.JObject` and `Argon.JArray` instances using the C# dynamic functionality.
 
 <!-- snippet: CreateJsonDynamic -->
 <a id='snippet-createjsondynamic'></a>

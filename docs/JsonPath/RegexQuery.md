@@ -1,6 +1,6 @@
 # Load and query JSON with JToken.SelectToken
 
-This sample loads JSON and then queries values from it using `Argon.Linq.JToken.SelectToken(System.String)` with a regex JSON Path.
+This sample loads JSON and then queries values from it using `Argon.JToken.SelectToken(System.String)` with a regex JSON Path.
 
 <!-- snippet: RegexQuery -->
 <a id='snippet-regexquery'></a>

@@ -1,6 +1,6 @@
 # Querying JSON with complex JSON Path
 
-This sample loads JSON and then queries values from it using `Argon.Linq.JToken.Item(System.Object)` indexer and then casts the returned tokens to .NET values.
+This sample loads JSON and then queries values from it using `Argon.JToken.Item(System.Object)` indexer and then casts the returned tokens to .NET values.
 
 <!-- snippet: QueryJson -->
 <a id='snippet-queryjson'></a>

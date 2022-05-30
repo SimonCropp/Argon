@@ -1,6 +1,6 @@
 # Configure CamelCaseNamingStrategy
 
-This sample configures a `Argon.Serialization.CamelCaseNamingStrategy` to not camel case dictionary keys.
+This sample configures a `Argon.CamelCaseNamingStrategy` to not camel case dictionary keys.
 
 <!-- snippet: NamingStrategySkipDictionaryKeysTypes -->
 <a id='snippet-namingstrategyskipdictionarykeystypes'></a>

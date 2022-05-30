@@ -1,6 +1,6 @@
 # Casting JValue
 
-This sample casts `Argon.Linq.JValue` instances to .NET values.
+This sample casts `Argon.JValue` instances to .NET values.
 
 <!-- snippet: JValueCast -->
 <a id='snippet-jvaluecast'></a>

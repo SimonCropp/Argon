@@ -92,7 +92,7 @@ Console.WriteLine(rss.ToString());
 
 ## Creating JSON from an object
 
-The last option is to create a JSON object from a non-JSON type using the `Argon.Linq.JObject.FromObject` method. Internally, FromObject will use the JsonSerializer to serialize the object to LINQ to JSON objects instead of text.
+The last option is to create a JSON object from a non-JSON type using the `Argon.JObject.FromObject` method. Internally, FromObject will use the JsonSerializer to serialize the object to LINQ to JSON objects instead of text.
 
 The example below shows creating a JSON object from an anonymous object, but any .NET type can be used with FromObject to create JSON.
 
@@ -126,4 +126,4 @@ var o = JObject.FromObject(new
 ## Related Topics
 
  * LINQtoJSON
- * `Argon.Linq.JObject.FromObject`
+ * `Argon.JObject.FromObject`

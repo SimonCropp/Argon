@@ -1,6 +1,6 @@
 # ErrorHandlingAttribute
 
-This sample uses `Argon.Serialization.OnErrorAttribute` to ignore the exception thrown setting the Roles property.
+This sample uses `Argon.OnErrorAttribute` to ignore the exception thrown setting the Roles property.
 
 
 <!-- snippet: ErrorHandlingAttributeTypes -->

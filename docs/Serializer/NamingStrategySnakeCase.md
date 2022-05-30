@@ -1,6 +1,6 @@
 # Snake case property names
 
-This sample uses a `Argon.Serialization.SnakeCaseNamingStrategy` specified using a contract resolver to snake case serialized property names.
+This sample uses a `Argon.SnakeCaseNamingStrategy` specified using a contract resolver to snake case serialized property names.
 
 <!-- snippet: NamingStrategySnakeCaseTypes -->
 <a id='snippet-namingstrategysnakecasetypes'></a>

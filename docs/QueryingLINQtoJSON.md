@@ -1,11 +1,11 @@
 # Querying JSON with LINQ
 
-LINQ to JSON provides methods for getting data from its objects. The index methods on JObject/JArray supports quickly get data by its property name on an object or index in a collection, while `Argon.Linq.JToken.Children` allows the retrieval of ranges of data as `IEnumerable<JToken>` to then query using LINQ.
+LINQ to JSON provides methods for getting data from its objects. The index methods on JObject/JArray supports quickly get data by its property name on an object or index in a collection, while `Argon.JToken.Children` allows the retrieval of ranges of data as `IEnumerable<JToken>` to then query using LINQ.
 
 
 ## Getting values by Property Name or Collection Index
 
-The simplest way to get a value from LINQ to JSON is to use the `Argon.Linq.JToken.Item(System.Object)` index on JObject/JArray and then cast the returned `Argon.Linq.JValue` to the type required.
+The simplest way to get a value from LINQ to JSON is to use the `Argon.JToken.Item(System.Object)` index on JObject/JArray and then cast the returned `Argon.JValue` to the type required.
 
 <!-- snippet: LinqToJsonSimpleQuerying -->
 <a id='snippet-linqtojsonsimplequerying'></a>
@@ -59,9 +59,9 @@ var categoriesText = categories.Select(c => (string) c).ToList();
 
 ## Querying with LINQ
 
-JObject/JArray can also be queried using LINQ. `Argon.Linq.JToken.Children` returns the children values of a JObject/JArray as an `IEnumerable<JToken>` that can then be queried with the standard Where/OrderBy/Select LINQ operators.
+JObject/JArray can also be queried using LINQ. `Argon.JToken.Children` returns the children values of a JObject/JArray as an `IEnumerable<JToken>` that can then be queried with the standard Where/OrderBy/Select LINQ operators.
         
-`Argon.Linq.JToken.Children` returns all the children of a token. If it is a JObject it will return a collection of properties to work with, and if it is a JArray a collection of the array's values will be returned.
+`Argon.JToken.Children` returns all the children of a token. If it is a JObject it will return a collection of properties to work with, and if it is a JArray a collection of the array's values will be returned.
 
 <!-- snippet: LinqToJsonQuerying -->
 <a id='snippet-linqtojsonquerying'></a>
@@ -161,5 +161,5 @@ Console.WriteLine(shortie.Error.ErrorMessage);
 ## Related Topics
 
  * LINQtoJSON
- * `Argon.Linq.JToken.Item(System.Object)`
- * `Argon.Linq.JToken.Children`
+ * `Argon.JToken.Item(System.Object)`
+ * `Argon.JToken.Children`
