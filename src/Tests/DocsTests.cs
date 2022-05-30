@@ -36,7 +36,7 @@ public class DocsTests
 
         var directoryIndent = new string(' ', level * 2);
         var url = GetUrl(docsDirectory, directory);
-        builder.AppendLine($"{directoryIndent} * [{Path.GetFileName(directory)}]({url})");
+        builder.AppendLine($"{directoryIndent}* [{Path.GetFileName(directory)}]({url})");
         foreach (var nestedDirectory in Directory.EnumerateDirectories(directory))
         {
             AddDirectory(ref level, builder, nestedDirectory, docsDirectory);
