@@ -14,8 +14,7 @@ public class DocsTests
 
         var builder = new StringBuilder();
         var level = 0;
-        AddFiles(builder, docsDirectory, docsDirectory, "");
-        AddDirectory(ref level, builder, samplesDirectory, docsDirectory);
+        AddDirectory(ref level, builder, docsDirectory, docsDirectory);
 
         File.WriteAllText(includeFile, builder.ToString());
     }
@@ -24,7 +23,7 @@ public class DocsTests
     {
         level++;
 
-        var directoryIndent = new string(' ', level);
+        var directoryIndent = new string(' ', level*2);
         var url = GetUrl(docsDirectory, directory);
         builder.AppendLine($"{directoryIndent} * [{Path.GetFileName(directory)}]({url})");
         foreach (var nestedDirectory in Directory.EnumerateDirectories(directory))
