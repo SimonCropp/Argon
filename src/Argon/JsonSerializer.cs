@@ -830,10 +830,8 @@ public class JsonSerializer
     {
         if (converters != null)
         {
-            for (var i = 0; i < converters.Count; i++)
+            foreach (var converter in converters)
             {
-                var converter = converters[i];
-
                 if (converter.CanConvert(type))
                 {
                     return converter;

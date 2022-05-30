@@ -59,13 +59,11 @@ static class EnumUtils
         var enumNameValues = GetEnumValuesAndNames(enumType);
         var selectedFlagsValues = new List<T>();
 
-        for (var i = 0; i < enumNameValues.Values.Length; i++)
+        foreach (var enumValue in enumNameValues.Values)
         {
-            var v = enumNameValues.Values[i];
-
-            if ((num & v) == v && v != 0)
+            if ((num & enumValue) == enumValue && enumValue != 0)
             {
-                selectedFlagsValues.Add((T) Convert.ChangeType(v, underlyingType, CultureInfo.CurrentCulture));
+                selectedFlagsValues.Add((T) Convert.ChangeType(enumValue, underlyingType, CultureInfo.CurrentCulture));
             }
         }
 

@@ -80,9 +80,9 @@ public class DefaultJsonNameTable : JsonNameTable
         }
 
         var hashCode = length + hashCodeRandomizer;
-        for (var i = 0; i < key.Length; i++)
+        foreach (var ch in key)
         {
-            hashCode += (hashCode << 7) ^ key[i];
+            hashCode += (hashCode << 7) ^ ch;
         }
 
         hashCode -= hashCode >> 17;

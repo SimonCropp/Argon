@@ -107,14 +107,13 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
     /// <returns>A matching property if found.</returns>
     public JsonProperty? GetClosestMatchProperty(string propertyName)
     {
-        if (TryGetProperty(propertyName, out var property))
+        if (TryGetProperty(propertyName, out var propertyByName))
         {
-            return property;
+            return propertyByName;
         }
 
-        for (var i = 0; i < list.Count; i++)
+        foreach (var property in list)
         {
-            property = list[i];
             if (string.Equals(propertyName, property.PropertyName, StringComparison.OrdinalIgnoreCase))
             {
                 return property;

@@ -302,9 +302,9 @@ public class XmlNodeConverter : JsonConverter
 
             writer.WriteStartArray();
 
-            for (var i = 0; i < groupedNodes.Count; i++)
+            foreach (var node in groupedNodes)
             {
-                SerializeNode(writer, groupedNodes[i], manager, false);
+                SerializeNode(writer, node, manager, false);
             }
 
             writer.WriteEndArray();
@@ -401,9 +401,9 @@ public class XmlNodeConverter : JsonConverter
                     {
                         writer.WriteStartObject();
 
-                        for (var i = 0; i < node.Attributes.Count; i++)
+                        foreach (var attribute in node.Attributes)
                         {
-                            SerializeNode(writer, node.Attributes[i], manager, true);
+                            SerializeNode(writer, attribute, manager, true);
                         }
 
                         SerializeGroupedNodes(writer, node, manager, true);

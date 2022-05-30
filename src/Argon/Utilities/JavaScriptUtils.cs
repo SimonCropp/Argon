@@ -67,10 +67,9 @@ static class JavaScriptUtils
             return false;
         }
 
-        for (var i = 0; i < s.Length; i++)
+        foreach (var ch in s)
         {
-            var c = s[i];
-            if (c >= escapeFlags.Length || escapeFlags[c])
+            if (ch >= escapeFlags.Length || escapeFlags[ch])
             {
                 return true;
             }

@@ -105,7 +105,10 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void FromObject_ULongMaxValue()
     {
-        var instance = new TestClass_ULong {Value = ulong.MaxValue};
+        var instance = new TestClass_ULong
+        {
+            Value = ulong.MaxValue
+        };
         var output = JObject.FromObject(instance);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -121,7 +124,10 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void FromObject_ByteMaxValue()
     {
-        var instance = new TestClass_Byte {Value = byte.MaxValue};
+        var instance = new TestClass_Byte
+        {
+            Value = byte.MaxValue
+        };
         var output = JObject.FromObject(instance);
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -334,10 +340,11 @@ undefined
         var o = new JObject
         {
             {
-                "person",
-                new JObject
+                "person", new JObject
                 {
-                    {"$id", 1}
+                    {
+                        "$id", 1
+                    }
                 }
             }
         };
@@ -491,7 +498,19 @@ undefined
         var a = JArray.Parse(json);
         var list = a.Values<int>().ToList();
 
-        var expected = new List<int> {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        var expected = new List<int>
+        {
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+        };
 
         Assert.Equal(expected, list);
     }
@@ -587,7 +606,13 @@ keyword such as type of business.""
 
         var resultUrls = o["results"].Children().Values<string>("url").ToList();
 
-        var expectedUrls = new List<string> {"http://www.google.com/", "http://news.google.com/", "http://groups.google.com/", "http://maps.google.com/"};
+        var expectedUrls = new List<string>
+        {
+            "http://www.google.com/",
+            "http://news.google.com/",
+            "http://groups.google.com/",
+            "http://maps.google.com/"
+        };
 
         Assert.Equal(expectedUrls, resultUrls);
 
@@ -761,14 +786,22 @@ keyword such as type of business.""
                 Title = "LINQ to JSON beta",
                 Description = "Announcing LINQ to JSON",
                 Link = "http://james.newtonking.com/projects/json-net.aspx",
-                Categories = new List<string> {"Json.NET", "LINQ"}
+                Categories = new List<string>
+                {
+                    "Json.NET",
+                    "LINQ"
+                }
             },
             new()
             {
                 Title = "Json.NET 1.3 + New license + Now on CodePlex",
                 Description = "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
                 Link = "http://james.newtonking.com/projects/json-net.aspx",
-                Categories = new List<string> {"Json.NET", "CodePlex"}
+                Categories = new List<string>
+                {
+                    "Json.NET",
+                    "CodePlex"
+                }
             }
         };
 
@@ -778,7 +811,10 @@ keyword such as type of business.""
         var p = new Post
         {
             Title = "How to use FromObject",
-            Categories = new[] {"LINQ to JSON"}
+            Categories = new[]
+            {
+                "LINQ to JSON"
+            }
         };
 
         // serialize Post to JSON then parse JSON – SLOW!
@@ -908,7 +944,11 @@ keyword such as type of business.""
             group c by c
             into g
             orderby g.Count() descending
-            select new {Category = g.Key, Count = g.Count()};
+            select new
+            {
+                Category = g.Key,
+                Count = g.Count()
+            };
 
         Assert.Equal("Json.NET", categories.ElementAt(0).Category);
         Assert.Equal(2, categories.ElementAt(0).Count);
@@ -961,27 +1001,31 @@ keyword such as type of business.""
 
         Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", (string) o["channel"]["item"][0]["title"]);
 
-        Assert.Equal(new[] {"Json.NET 1.3 + New license + Now on CodePlex", "LINQ to JSON beta"}, o["channel"]["item"].Children().Values<string>("title").ToArray());
+        Assert.Equal(new[]
+        {
+            "Json.NET 1.3 + New license + Now on CodePlex",
+            "LINQ to JSON beta"
+        }, o["channel"]["item"].Children().Values<string>("title").ToArray());
     }
 
     [Fact]
     public void JObjectIntIndex() =>
         XUnitAssert.Throws<ArgumentException>(
             () =>
-        {
-            var o = new JObject();
-            Assert.Equal(null, o[0]);
-        }, 
+            {
+                var o = new JObject();
+                Assert.Equal(null, o[0]);
+            },
             "Accessed JObject values with invalid key value: 0. Object property name expected.");
 
     [Fact]
     public void JArrayStringIndex() =>
         XUnitAssert.Throws<Exception>(
             () =>
-        {
-            var a = new JArray();
-            Assert.Equal(null, a["purple"]);
-        },
+            {
+                var a = new JArray();
+                Assert.Equal(null, a["purple"]);
+            },
             @"Accessed JArray values with invalid key value: ""purple"". Int32 array index expected.");
 
     [Fact]
@@ -1091,7 +1135,14 @@ keyword such as type of business.""
         Assert.Equal("James Newton-King", (string) o["channel"]["title"]);
         Assert.Equal(2, o["channel"]["item"].Children().Count());
 
-        var a = JArray.FromObject(new List<int> {0, 1, 2, 3, 4});
+        var a = JArray.FromObject(new List<int>
+        {
+            0,
+            1,
+            2,
+            3,
+            4
+        });
         Assert.IsType(typeof(JArray), a);
         Assert.Equal(5, a.Count());
     }
@@ -1105,12 +1156,17 @@ keyword such as type of business.""
         {
             channel = new Dictionary<string, object>
             {
-                {"title", "James Newton-King"},
-                {"link", "http://james.newtonking.com"},
-                {"description", "James Newton-King's blog."},
                 {
-                    "item",
-                    from p in posts
+                    "title", "James Newton-King"
+                },
+                {
+                    "link", "http://james.newtonking.com"
+                },
+                {
+                    "description", "James Newton-King's blog."
+                },
+                {
+                    "item", from p in posts
                     orderby p.Title
                     select new
                     {
@@ -1156,7 +1212,14 @@ keyword such as type of business.""
         Assert.Equal("James Newton-King", (string) o["channel"]["title"]);
         Assert.Equal(2, o["channel"]["item"].Children().Count());
 
-        var a = JArray.FromObject(new List<int> {0, 1, 2, 3, 4});
+        var a = JArray.FromObject(new List<int>
+        {
+            0,
+            1,
+            2,
+            3,
+            4
+        });
         Assert.IsType(typeof(JArray), a);
         Assert.Equal(5, a.Count());
     }
@@ -1185,8 +1248,16 @@ keyword such as type of business.""
     {
         IEnumerable<JObject> o = new[]
         {
-            JObject.FromObject(new {First = 1, Second = 2}),
-            JObject.FromObject(new {First = 1, Second = 2})
+            JObject.FromObject(new
+            {
+                First = 1,
+                Second = 2
+            }),
+            JObject.FromObject(new
+            {
+                First = 1,
+                Second = 2
+            })
         };
 
         IJEnumerable<JToken> values = o.Properties();
@@ -1361,7 +1432,8 @@ keyword such as type of business.""
     [JsonConverter(typeof(StringEnumConverter))]
     public enum FooBar
     {
-        [EnumMember(Value = "SOME_VALUE")] SomeValue,
+        [EnumMember(Value = "SOME_VALUE")]
+        SomeValue,
 
         [EnumMember(Value = "SOME_OTHER_VALUE")]
         SomeOtherValue
@@ -1383,7 +1455,8 @@ keyword such as type of business.""
 
     public enum FooBarNoEnum
     {
-        [EnumMember(Value = "SOME_VALUE")] SomeValue,
+        [EnumMember(Value = "SOME_VALUE")]
+        SomeValue,
 
         [EnumMember(Value = "SOME_OTHER_VALUE")]
         SomeOtherValue

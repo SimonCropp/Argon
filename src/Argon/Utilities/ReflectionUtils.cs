@@ -98,9 +98,8 @@ static class ReflectionUtils
         var writingAssemblyName = false;
         var skippingAssemblyDetails = false;
         var followBrackets = false;
-        for (var i = 0; i < fullyQualifiedTypeName.Length; i++)
+        foreach (var current in fullyQualifiedTypeName)
         {
-            var current = fullyQualifiedTypeName[i];
             switch (current)
             {
                 case '[':

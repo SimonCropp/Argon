@@ -65,9 +65,9 @@ static class CollectionUtils
 
     public static bool Contains<T>(this List<T> list, T value, IEqualityComparer comparer)
     {
-        for (var i = 0; i < list.Count; i++)
+        foreach (var item in list)
         {
-            if (comparer.Equals(value, list[i]))
+            if (comparer.Equals(value, item))
             {
                 return true;
             }

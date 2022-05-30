@@ -202,20 +202,19 @@ public partial class JObject :
     /// <returns>A <see cref="JProperty" /> matched with the specified name or <c>null</c>.</returns>
     public JProperty? PropertyOrNull(string name, StringComparison comparison = StringComparison.Ordinal)
     {
-        if (properties.TryGetValue(name, out var property))
+        if (properties.TryGetValue(name, out var propertyByName))
         {
-            return (JProperty) property;
+            return (JProperty) propertyByName;
         }
 
         // test above already uses this comparison so no need to repeat
         if (comparison != StringComparison.Ordinal)
         {
-            for (var i = 0; i < properties.Count; i++)
+            foreach (JProperty property in properties)
             {
-                var p = (JProperty) properties[i];
-                if (string.Equals(p.Name, name, comparison))
+                if (string.Equals(property.Name, name, comparison))
                 {
-                    return p;
+                    return property;
                 }
             }
         }
@@ -403,9 +402,9 @@ public partial class JObject :
     {
         writer.WriteStartObject();
 
-        for (var i = 0; i < properties.Count; i++)
+        foreach (var property in properties)
         {
-            properties[i].WriteTo(writer, converters);
+            property.WriteTo(writer, converters);
         }
 
         writer.WriteEndObject();

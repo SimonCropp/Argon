@@ -718,9 +718,9 @@ class JPath
     bool Match(string s)
     {
         var currentPosition = currentIndex;
-        for (var i = 0; i < s.Length; i++)
+        foreach (var ch in s)
         {
-            if (currentPosition < expression.Length && expression[currentPosition] == s[i])
+            if (currentPosition < expression.Length && expression[currentPosition] == ch)
             {
                 currentPosition++;
             }

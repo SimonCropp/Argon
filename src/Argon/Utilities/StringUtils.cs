@@ -26,9 +26,9 @@ static class StringUtils
             return false;
         }
 
-        for (var i = 0; i < s.Length; i++)
+        foreach (var ch in s)
         {
-            if (!char.IsWhiteSpace(s[i]))
+            if (!char.IsWhiteSpace(ch))
             {
                 return false;
             }

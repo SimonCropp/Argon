@@ -172,9 +172,9 @@ public partial class JArray : JContainer, IList<JToken>
     {
         writer.WriteStartArray();
 
-        for (var i = 0; i < values.Count; i++)
+        foreach (var value in values)
         {
-            values[i].WriteTo(writer, converters);
+            value.WriteTo(writer, converters);
         }
 
         writer.WriteEndArray();

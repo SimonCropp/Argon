@@ -120,9 +120,9 @@ static class MiscellaneousUtils
     {
         var options = RegexOptions.None;
 
-        for (var i = 0; i < optionsText.Length; i++)
+        foreach (var ch in optionsText)
         {
-            switch (optionsText[i])
+            switch (ch)
             {
                 case 'i':
                     options |= RegexOptions.IgnoreCase;

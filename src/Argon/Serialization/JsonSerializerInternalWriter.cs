@@ -404,9 +404,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         var initialDepth = writer.Top;
 
-        for (var index = 0; index < contract.Properties.Count; index++)
+        foreach (var property in contract.Properties)
         {
-            var property = contract.Properties[index];
             try
             {
                 if (!CalculatePropertyValues(writer, value, contract, member, property, out var memberContract, out var memberValue))
@@ -812,10 +811,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         var initialDepth = writer.Top;
 
-        for (var index = 0; index < contract.Properties.Count; index++)
+        foreach (var property in contract.Properties)
         {
-            var property = contract.Properties[index];
-
             // only write non-dynamic properties that have an explicit attribute
             if (property.HasMemberAttribute)
             {
