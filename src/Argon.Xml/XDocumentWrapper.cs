@@ -56,7 +56,7 @@ class XDocumentWrapper : XContainerWrapper, IXmlDocument
         new XDeclarationWrapper(new(version, encoding, standalone));
 
     public IXmlNode CreateXmlDocumentType(string name, string? publicId, string? systemId, string? internalSubset) =>
-        new XDocumentTypeWrapper(new(name, publicId, systemId, internalSubset));
+        new XDocumentTypeWrapper(new(name, publicId, systemId, internalSubset!));
 
     public IXmlNode CreateProcessingInstruction(string target, string data) =>
         new XProcessingInstructionWrapper(new(target, data));

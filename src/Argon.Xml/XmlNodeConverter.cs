@@ -569,7 +569,7 @@ public class XmlNodeConverter : JsonConverter
             var d = new XmlDocument
             {
                 // prevent http request when resolving any DTD references
-                XmlResolver = null
+                XmlResolver = null!
             };
 
             document = new XmlDocumentWrapper(d);
