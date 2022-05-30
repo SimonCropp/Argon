@@ -108,15 +108,7 @@ public abstract partial class JContainer
                     break;
                 case JsonToken.PropertyName:
                     var property = ReadProperty(reader, settings, lineInfo, parent);
-                    if (property != null)
-                    {
-                        parent = property;
-                    }
-                    else
-                    {
-                        await reader.SkipAsync().ConfigureAwait(false);
-                    }
-
+                    parent = property;
                     break;
                 default:
                     throw new InvalidOperationException($"The JsonReader should not be on a token of type {reader.TokenType}.");

@@ -608,15 +608,7 @@ public abstract partial class JContainer :
                     break;
                 case JsonToken.PropertyName:
                     var property = ReadProperty(r, settings, lineInfo, parent);
-                    if (property != null)
-                    {
-                        parent = property;
-                    }
-                    else
-                    {
-                        r.Skip();
-                    }
-
+                    parent = property;
                     break;
                 default:
                     throw new InvalidOperationException($"The JsonReader should not be on a token of type {r.TokenType}.");
@@ -624,14 +616,14 @@ public abstract partial class JContainer :
         } while (r.Read());
     }
 
-    static JProperty? ReadProperty(JsonReader r, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
+    static JProperty ReadProperty(JsonReader reader, JsonLoadSettings? settings, IJsonLineInfo? lineInfo, JContainer parent)
     {
         var parentObject = (JObject) parent;
-        var propertyName = (string) r.GetValue();
+        var propertyName = (string) reader.GetValue();
         var existingPropertyWithName = parentObject.PropertyOrNull(propertyName);
         if (existingPropertyWithName != null)
         {
-            throw JsonReaderException.Create(r, $"Property with the name '{propertyName}' already exists in the current JSON object.");
+            throw JsonReaderException.Create(reader, $"Property with the name '{propertyName}' already exists in the current JSON object.");
         }
 
         var property = new JProperty(propertyName);
