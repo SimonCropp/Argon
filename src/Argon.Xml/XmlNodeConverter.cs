@@ -44,8 +44,6 @@ public class XmlNodeConverter : JsonConverter
     /// </summary>
     public bool EncodeSpecialCharacters { get; set; }
 
-    #region Writing
-
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
@@ -523,10 +521,6 @@ public class XmlNodeConverter : JsonConverter
 
         return true;
     }
-
-    #endregion
-
-    #region Reading
 
     /// <summary>
     /// Reads the JSON representation of the object.
@@ -1213,8 +1207,6 @@ public class XmlNodeConverter : JsonConverter
 
         return false;
     }
-
-    #endregion
 
     /// <summary>
     /// Determines whether this instance can convert the specified value type.

@@ -10,7 +10,12 @@ public class VersionConverter : JsonConverter<Version>
     public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer) =>
         writer.WriteValue(value.ToString());
 
-    public override Version ReadJson(JsonReader reader, Type type, Version existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override Version ReadJson(
+        JsonReader reader,
+        Type type,
+        Version existing,
+        bool hasExisting,
+        JsonSerializer serializer)
     {
         var s = (string) reader.Value;
 
@@ -24,7 +29,7 @@ public class NuGetPackage
     public Version Version { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L7-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenerictypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L7-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenerictypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonConverterGenericUsage -->
@@ -49,5 +54,5 @@ var p2 = JsonConvert.DeserializeObject<NuGetPackage>(json, new VersionConverter(
 Console.WriteLine(p2.Version.ToString());
 // 10.0.4
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L33-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenericusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L38-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenericusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

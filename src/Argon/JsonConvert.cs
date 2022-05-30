@@ -425,7 +425,8 @@ public static class JsonConvert
     /// </param>
     /// <param name="type">
     /// The type of the value being serialized.
-    /// This parameter is used when <see cref="JsonSerializer.TypeNameHandling" /> is <see cref="TypeNameHandling.Auto" /> to write out the type name if the type of the value does not match.
+    /// This parameter is used when <see cref="JsonSerializer.TypeNameHandling" /> is <see cref="TypeNameHandling.Auto" />
+    /// to write out the type name if the type of the value does not match.
     /// Specifying the type is optional.
     /// </param>
     [DebuggerStepThrough]
@@ -456,7 +457,8 @@ public static class JsonConvert
     /// </param>
     /// <param name="type">
     /// The type of the value being serialized.
-    /// This parameter is used when <see cref="JsonSerializer.TypeNameHandling" /> is <see cref="TypeNameHandling.Auto" /> to write out the type name if the type of the value does not match.
+    /// This parameter is used when <see cref="JsonSerializer.TypeNameHandling" /> is <see cref="TypeNameHandling.Auto" />
+    /// to write out the type name if the type of the value does not match.
     /// Specifying the type is optional.
     /// </param>
     [DebuggerStepThrough]
@@ -635,7 +637,9 @@ public static class JsonConvert
         {
             if (jsonReader.TokenType != JsonToken.Comment)
             {
-                throw JsonSerializationException.Create(jsonReader, "Additional text found in JSON string after finishing deserializing object.");
+                throw JsonSerializationException.Create(
+                    jsonReader,
+                    "Additional text found in JSON string after finishing deserializing object.");
             }
         }
     }

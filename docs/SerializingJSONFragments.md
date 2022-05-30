@@ -14,7 +14,7 @@ public class SearchResult
     public string Url { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L941-L950' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L935-L944' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializingPartialJsonFragmentsExample -->
@@ -94,7 +94,7 @@ foreach (var result in results)
 // Content = Self: Zoolander. Socialite <b>Paris Hilton</b>...
 // Url = http://www.imdb.com/name/nm0385296/
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L955-L1031' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L949-L1025' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -9,8 +9,8 @@ public class GenericJsonConverterTests : TestFixtureBase
         public override void WriteJson(JsonWriter writer, string value, JsonSerializer serializer) =>
             writer.WriteValue(value);
 
-        public override string ReadJson(JsonReader reader, Type type, string existingValue, bool hasExistingValue, JsonSerializer serializer) =>
-            (string) reader.Value + existingValue;
+        public override string ReadJson(JsonReader reader, Type type, string existing, bool hasExisting, JsonSerializer serializer) =>
+            (string) reader.Value + existing;
     }
 
     [Fact]

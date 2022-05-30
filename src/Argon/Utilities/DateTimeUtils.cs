@@ -79,9 +79,7 @@ static class DateTimeUtils
         return value;
     }
 
-    #region Parse
-
-    internal static bool TryParseDateTimeIso(StringReference text, DateTimeZoneHandling dateTimeZoneHandling, out DateTime dt)
+    internal static bool TryParseDateTimeIso(StringReference text, DateTimeZoneHandling handling, out DateTime dt)
     {
         var dateTimeParser = new DateTimeParser();
         if (!dateTimeParser.Parse(text.Chars, text.StartIndex, text.Length))
@@ -144,7 +142,7 @@ static class DateTimeUtils
             }
         }
 
-        dt = EnsureDateTime(d, dateTimeZoneHandling);
+        dt = EnsureDateTime(d, handling);
         return true;
     }
 
@@ -188,21 +186,21 @@ static class DateTimeUtils
         return true;
     }
 
-    static DateTime CreateDateTime(DateTimeParser dateTimeParser)
+    static DateTime CreateDateTime(DateTimeParser parser)
     {
         bool is24Hour;
-        if (dateTimeParser.Hour == 24)
+        if (parser.Hour == 24)
         {
             is24Hour = true;
-            dateTimeParser.Hour = 0;
+            parser.Hour = 0;
         }
         else
         {
             is24Hour = false;
         }
 
-        var d = new DateTime(dateTimeParser.Year, dateTimeParser.Month, dateTimeParser.Day, dateTimeParser.Hour, dateTimeParser.Minute, dateTimeParser.Second);
-        d = d.AddTicks(dateTimeParser.Fraction);
+        var d = new DateTime(parser.Year, parser.Month, parser.Day, parser.Hour, parser.Minute, parser.Second);
+        d = d.AddTicks(parser.Fraction);
 
         if (is24Hour)
         {
@@ -212,22 +210,22 @@ static class DateTimeUtils
         return d;
     }
 
-    internal static bool TryParseDateTime(StringReference s, DateTimeZoneHandling dateTimeZoneHandling, string? dateFormatString, CultureInfo culture, out DateTime dt)
+    internal static bool TryParseDateTime(StringReference s, DateTimeZoneHandling handling, string? formatString, CultureInfo culture, out DateTime dt)
     {
         if (s.Length > 0)
         {
             var i = s.StartIndex;
             if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
             {
-                if (TryParseDateTimeIso(s, dateTimeZoneHandling, out dt))
+                if (TryParseDateTimeIso(s, handling, out dt))
                 {
                     return true;
                 }
             }
 
-            if (!StringUtils.IsNullOrEmpty(dateFormatString))
+            if (!StringUtils.IsNullOrEmpty(formatString))
             {
-                if (TryParseDateTimeExact(s.ToString(), dateTimeZoneHandling, dateFormatString, culture, out dt))
+                if (TryParseDateTimeExact(s.ToString(), handling, formatString, culture, out dt))
                 {
                     return true;
                 }
@@ -238,7 +236,7 @@ static class DateTimeUtils
         return false;
     }
 
-    internal static bool TryParseDateTime(string s, DateTimeZoneHandling dateTimeZoneHandling, string? dateFormatString, CultureInfo culture, out DateTime dt)
+    internal static bool TryParseDateTime(string s, DateTimeZoneHandling handling, string? formatString, CultureInfo culture, out DateTime dt)
     {
         if (s.Length > 0)
         {
@@ -246,14 +244,14 @@ static class DateTimeUtils
             {
                 if (DateTime.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
-                    dt = EnsureDateTime(dt, dateTimeZoneHandling);
+                    dt = EnsureDateTime(dt, handling);
                     return true;
                 }
             }
 
-            if (!StringUtils.IsNullOrEmpty(dateFormatString))
+            if (!StringUtils.IsNullOrEmpty(formatString))
             {
-                if (TryParseDateTimeExact(s, dateTimeZoneHandling, dateFormatString, culture, out dt))
+                if (TryParseDateTimeExact(s, handling, formatString, culture, out dt))
                 {
                     return true;
                 }
@@ -342,8 +340,6 @@ static class DateTimeUtils
         dt = default;
         return false;
     }
-
-    #endregion
 
     #region Write
 

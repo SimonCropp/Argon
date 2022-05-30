@@ -196,16 +196,10 @@ public class DynamicContractResolver : DefaultContractResolver
     public DynamicContractResolver(char startingWithChar) =>
         _startingWithChar = startingWithChar;
 
-    protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-    {
-        var properties = base.CreateProperties(type, memberSerialization);
-
+    protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization serialization) =>
         // only serializer properties that start with the specified character
-        properties =
-            properties.Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
-
-        return properties;
-    }
+        base.CreateProperties(type, serialization)
+            .Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
 }
 
 public class Book
@@ -217,7 +211,7 @@ public class Book
     public string AuthorCountry { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L864-L894' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L864-L888' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReducingSerializedJsonSizeContractResolverExample -->
@@ -249,7 +243,7 @@ var startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
 //   "BookPrice": 16.19
 // }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L899-L927' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L893-L921' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

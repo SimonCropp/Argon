@@ -870,16 +870,10 @@ public class SerializationTests : TestFixtureBase
         public DynamicContractResolver(char startingWithChar) =>
             _startingWithChar = startingWithChar;
 
-        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
-        {
-            var properties = base.CreateProperties(type, memberSerialization);
-
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization serialization) =>
             // only serializer properties that start with the specified character
-            properties =
-                properties.Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
-
-            return properties;
-        }
+            base.CreateProperties(type, serialization)
+                .Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
     }
 
     public class Book
