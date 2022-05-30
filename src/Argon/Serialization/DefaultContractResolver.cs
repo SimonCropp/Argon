@@ -1097,7 +1097,8 @@ public class DefaultContractResolver : IContractResolver
 
     static string GetClrTypeFullName(Type type)
     {
-        if (type.IsGenericTypeDefinition || !type.ContainsGenericParameters)
+        if (type.IsGenericTypeDefinition ||
+            !type.ContainsGenericParameters)
         {
             return type.FullName!;
         }
@@ -1128,16 +1129,13 @@ public class DefaultContractResolver : IContractResolver
         {
             var property = CreateProperty(member, memberSerialization);
 
-            if (property != null)
+            // nametable is not thread-safe for multiple writers
+            lock (nameTable)
             {
-                // nametable is not thread-safe for multiple writers
-                lock (nameTable)
-                {
-                    property.PropertyName = nameTable.Add(property.PropertyName!);
-                }
-
-                properties.AddProperty(property);
+                property.PropertyName = nameTable.Add(property.PropertyName!);
             }
+
+            properties.AddProperty(property);
         }
 
         return properties.OrderBy(p => p.Order ?? -1).ToList();
