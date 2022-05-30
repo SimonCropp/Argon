@@ -565,9 +565,6 @@ keyword such as type of business.""
                 title : ""Gartner Symposium/ITxpo"",
                 content1 : ""Meet brilliant Gartner IT analysts"",
                 content2 : ""20-23 May 2007- Barcelona, Spain"",
-                url : ..., 
-                impressionUrl : ..., 
-                unescapedUrl : ..., 
                 visibleUrl : ""www.gartner.com""
             }
         ]
@@ -595,7 +592,7 @@ keyword such as type of business.""
         Assert.Equal(expectedUrls, resultUrls);
 
         var descendants = o.Descendants().ToList();
-        Assert.Equal(89, descendants.Count);
+        Assert.Equal(83, descendants.Count);
     }
 
     [Fact]
