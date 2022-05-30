@@ -376,6 +376,18 @@ static class ConvertUtils
                 value = Type.GetType(s, true);
                 return ConvertResult.Success;
             }
+#if NET6_0_OR_GREATER
+            if (targetType == typeof(DateOnly))
+            {
+                value = DateOnly.ParseExact(s, "yyyy'-'MM'-'dd", CultureInfo.InvariantCulture);
+                return ConvertResult.Success;
+            }
+            if (targetType == typeof(TimeOnly))
+            {
+                value = TimeOnly.ParseExact(s, "HH':'mm':'ss.FFFFFFF", CultureInfo.InvariantCulture);
+                return ConvertResult.Success;
+            }
+#endif
         }
 
         if (targetType == typeof(BigInteger))

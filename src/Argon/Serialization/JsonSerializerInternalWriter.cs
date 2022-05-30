@@ -324,6 +324,18 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     static bool TryConvertToString(object value, Type type, [NotNullWhen(true)] out string? s)
     {
+#if NET6_0_OR_GREATER
+        if (value is DateOnly dateOnly)
+        {
+            s = dateOnly.ToString("yyyy'-'MM'-'dd", CultureInfo.InvariantCulture);
+            return true;
+        }
+        if (value is TimeOnly timeOnly)
+        {
+            s = timeOnly.ToString("HH':'mm':'ss.FFFFFFF", CultureInfo.InvariantCulture);
+            return true;
+        }
+#endif
         if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out var converter))
         {
             s = converter.ConvertToInvariantString(value)!;

@@ -1036,7 +1036,13 @@ public class DefaultContractResolver : IContractResolver
         {
             return true;
         }
-
+#if NET6_0_OR_GREATER
+        if (type == typeof(DateOnly) ||
+            type == typeof(TimeOnly))
+        {
+            return true;
+        }
+#endif
         return type == typeof(Type) ||
                type.IsSubclassOf(typeof(Type));
     }
