@@ -81,6 +81,7 @@ var json = jObject.ToString();
 <sup><a href='/src/Tests/Documentation/Snippets.cs#L10-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
+include: index
 
 ## Icon
 
