@@ -1143,7 +1143,7 @@ Parameter name: arrayIndex",
         Name: 'Name2'
       }";
 
-        return Throws(() => JObject.Parse(json)).IgnoreStackTrack();
+        return Throws(() => JObject.Parse(json)).IgnoreStackTrace();
     }
 
     [Fact]
@@ -1154,7 +1154,7 @@ Parameter name: arrayIndex",
         Name: 'Name2'
       }";
 
-        return Throws(() => JObject.Parse(json, new())).IgnoreStackTrack();
+        return Throws(() => JObject.Parse(json, new())).IgnoreStackTrace();
     }
 
     [Fact]
