@@ -339,10 +339,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
 ""Large""
 ]content";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[2];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 2);
 
         await reader.ReadAsync();
         Assert.Equal(1, reader.LineNumber);

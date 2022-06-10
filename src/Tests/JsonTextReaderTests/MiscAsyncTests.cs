@@ -234,10 +234,7 @@ public class MiscAsyncTests : TestFixtureBase
   }
 ]";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[129];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 129);
 
         for (var i = 0; i < 15; i++)
         {
@@ -266,10 +263,7 @@ public class MiscAsyncTests : TestFixtureBase
 }
 ";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[129];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 129);
 
         for (var i = 0; i < 14; i++)
         {
@@ -279,73 +273,6 @@ public class MiscAsyncTests : TestFixtureBase
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
         Assert.Equal("type", reader.Value);
-    }
-
-    [Fact]
-    public async Task BufferTestAsync()
-    {
-        var json = $@"{{
-              ""CPU"": ""Intel"",
-              ""Description"": ""Amazing!\nBuy now!"",
-              ""Drives"": [
-                ""DVD read/writer"",
-                ""500 gigabyte hard drive"",
-                ""Amazing Drive{new string('!', 9000)}""
-              ]
-            }}";
-
-        var arrayPool = new FakeArrayPool();
-
-        for (var i = 0; i < 1000; i++)
-        {
-            using (var reader = new JsonTextReader(new StringReader(json)))
-            {
-                reader.ArrayPool = arrayPool;
-
-                while (await reader.ReadAsync())
-                {
-                }
-            }
-
-            if ((i + 1) % 100 == 0)
-            {
-                Console.WriteLine($"Allocated buffers: {arrayPool.FreeArrays.Count}");
-            }
-        }
-
-        Assert.Equal(0, arrayPool.UsedArrays.Count);
-        Assert.Equal(6, arrayPool.FreeArrays.Count);
-    }
-
-    [Fact]
-    public async Task BufferTest_WithErrorAsync()
-    {
-        var json = @"{
-              ""CPU"": ""Intel?\nYes"",
-              ""Description"": ""Amazin";
-
-        var arrayPool = new FakeArrayPool();
-
-        try
-        {
-            // dispose will free used buffers
-            using (var reader = new JsonTextReader(new StringReader(json)))
-            {
-                reader.ArrayPool = arrayPool;
-
-                while (await reader.ReadAsync())
-                {
-                }
-            }
-
-            XUnitAssert.Fail();
-        }
-        catch
-        {
-        }
-
-        Assert.Equal(0, arrayPool.UsedArrays.Count);
-        Assert.Equal(2, arrayPool.FreeArrays.Count);
     }
 
     [Fact]
@@ -439,10 +366,7 @@ public class MiscAsyncTests : TestFixtureBase
     {
         var json = @"[""\u003c"",""\u5f20""]";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[2];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 2);
 
         await reader.ReadAsync();
         Assert.Equal(JsonToken.StartArray, reader.TokenType);

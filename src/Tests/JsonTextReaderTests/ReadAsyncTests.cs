@@ -99,10 +99,7 @@ public class ReadAsyncTests : TestFixtureBase
   null
 ]";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[10];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 10);
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal("", reader.Path);
@@ -211,10 +208,7 @@ public class ReadAsyncTests : TestFixtureBase
     {
         var json = @"{""Message"":""Hi,I\u0092ve send you smth""}";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[5];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 5);
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -297,12 +291,12 @@ public class ReadAsyncTests : TestFixtureBase
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.String, reader.TokenType);
-        Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+        Assert.Equal(largeBufferLength, reader.CharBufferLength);
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.String, reader.TokenType);
         // buffer has been shifted before reading the second string
-        Assert.Equal(largeBufferLength, reader.CharBuffer.Length);
+        Assert.Equal(largeBufferLength, reader.CharBufferLength);
 
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
@@ -713,10 +707,7 @@ public class ReadAsyncTests : TestFixtureBase
   }
 ]";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[5];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 5);
 
         for (var i = 0; i < 13; i++)
         {
@@ -741,10 +732,7 @@ public class ReadAsyncTests : TestFixtureBase
         /*comment*/ ] /*comment*/
       } /*comment*/";
 
-        var reader = new JsonTextReader(new StringReader(json));
-#if !RELEASE
-        reader.CharBuffer = new char[5];
-#endif
+        var reader = new JsonTextReader(new StringReader(json), 5);
 
         for (var i = 0; i < 26; i++)
         {
@@ -1204,10 +1192,7 @@ third line", jsonTextReader.Value);
 
         var sr = new StringReader(input);
 
-        using var jsonReader = new JsonTextReader(sr);
-#if !RELEASE
-        jsonReader.CharBuffer = new char[5];
-#endif
+        using var jsonReader = new JsonTextReader(sr, 5);
 
         Assert.Equal(jsonReader.TokenType, JsonToken.None);
         Assert.Equal(0, jsonReader.LineNumber);

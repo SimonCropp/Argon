@@ -17,27 +17,9 @@ public partial class JsonTextWriter : JsonWriter
     char quoteChar = '"';
     bool[]? charEscapeFlags;
     char[]? writeBuffer;
-    IArrayPool<char>? arrayPool;
     char[]? indentChars;
 
     Base64Encoder Base64Encoder => base64Encoder ??= new(writer);
-
-    /// <summary>
-    /// Gets or sets the writer's character array pool.
-    /// </summary>
-    public IArrayPool<char>? ArrayPool
-    {
-        get => arrayPool;
-        set
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            arrayPool = value;
-        }
-    }
 
     /// <summary>
     /// Gets or sets how many <see cref="JsonTextWriter.IndentChar" />s to write for each level in the hierarchy when <see cref="JsonWriter.Formatting" /> is set to <see cref="Formatting.Indented" />.
@@ -134,7 +116,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         if (writeBuffer != null)
         {
-            BufferUtils.ReturnBuffer(arrayPool, writeBuffer);
+            BufferUtils.ReturnBuffer(writeBuffer);
             writeBuffer = null;
         }
 
@@ -358,7 +340,7 @@ public partial class JsonTextWriter : JsonWriter
     void WriteEscapedString(string value, bool quote)
     {
         EnsureBuffer();
-        JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, arrayPool, ref writeBuffer);
+        JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, ref writeBuffer);
     }
 
     /// <summary>
@@ -719,7 +701,7 @@ public partial class JsonTextWriter : JsonWriter
 
     void EnsureBuffer() =>
         // maximum buffer sized used when writing iso date
-        writeBuffer ??= BufferUtils.RentBuffer(arrayPool, 35);
+        writeBuffer ??= BufferUtils.RentBuffer(35);
 
     void WriteIntegerValue(long value)
     {
