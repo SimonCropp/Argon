@@ -29,7 +29,7 @@ struct StringBuffer
             EnsureSize(bufferPool, 1);
         }
 
-        // set value and increment poisition
+        // set value and increment position
         InternalBuffer![Position++] = value;
     }
 
