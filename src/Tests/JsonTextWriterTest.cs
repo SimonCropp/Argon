@@ -8,85 +8,6 @@ namespace Argon.Tests;
 
 public class JsonTextWriterTest : TestFixtureBase
 {
-    [Fact]
-    public void BufferTest()
-    {
-        var arrayPool = new FakeArrayPool();
-
-        var longString = new string('A', 2000);
-        var longEscapedString = $"Hello!{new string('!', 50)}{new string('\n', 1000)}Good bye!";
-        var longerEscapedString = $"Hello!{new string('!', 2000)}{new string('\n', 1000)}Good bye!";
-
-        for (var i = 0; i < 1000; i++)
-        {
-            var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-
-            using (var jsonWriter = new JsonTextWriter(stringWriter))
-            {
-                jsonWriter.ArrayPool = arrayPool;
-
-                jsonWriter.WriteStartObject();
-
-                jsonWriter.WritePropertyName("Prop1");
-                jsonWriter.WriteValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc));
-
-                jsonWriter.WritePropertyName("Prop2");
-                jsonWriter.WriteValue(longString);
-
-                jsonWriter.WritePropertyName("Prop3");
-                jsonWriter.WriteValue(longEscapedString);
-
-                jsonWriter.WritePropertyName("Prop4");
-                jsonWriter.WriteValue(longerEscapedString);
-
-                jsonWriter.WriteEndObject();
-            }
-
-            if ((i + 1) % 100 == 0)
-            {
-                Console.WriteLine($"Allocated buffers: {arrayPool.FreeArrays.Count}");
-            }
-        }
-
-        Assert.Equal(0, arrayPool.UsedArrays.Count);
-        Assert.Equal(3, arrayPool.FreeArrays.Count);
-    }
-
-    [Fact]
-    public void BufferTest_WithError()
-    {
-        var arrayPool = new FakeArrayPool();
-
-        var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-
-        try
-        {
-            // dispose will free used buffers
-            using (var writer = new JsonTextWriter(stringWriter))
-            {
-                writer.ArrayPool = arrayPool;
-
-                writer.WriteStartObject();
-
-                writer.WritePropertyName("Prop1");
-                writer.WriteValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc));
-
-                writer.WritePropertyName("Prop2");
-                writer.WriteValue("This is an escaped \n string!");
-
-                writer.WriteValue("Error!");
-            }
-
-            XUnitAssert.Fail();
-        }
-        catch
-        {
-        }
-
-        Assert.Equal(0, arrayPool.UsedArrays.Count);
-        Assert.Equal(1, arrayPool.FreeArrays.Count);
-    }
-
 #if !RELEASE
     [Fact]
     public void BufferErroringWithInvalidSize()
@@ -96,13 +17,9 @@ public class JsonTextWriterTest : TestFixtureBase
             {"BodyHtml", $"<h3>Title!</h3>{Environment.NewLine}{new string(' ', 100)}<p>Content!</p>"}
         };
 
-        var arrayPool = new JsonArrayPool();
-
         var stringWriter = new StringWriter();
         using (var jsonWriter = new JsonTextWriter(stringWriter))
         {
-            jsonWriter.ArrayPool = arrayPool;
-
             o.WriteTo(jsonWriter);
         }
 
@@ -119,7 +36,10 @@ public class JsonTextWriterTest : TestFixtureBase
     {
         var ms = new MemoryStream();
 
-        using (var streamWriter = new StreamWriter(ms, new UTF8Encoding(false)) {NewLine = "\n"})
+        using (var streamWriter = new StreamWriter(ms, new UTF8Encoding(false))
+               {
+                   NewLine = "\n"
+               })
         using (var jsonWriter = new JsonTextWriter(streamWriter)
                {
                    CloseOutput = true,

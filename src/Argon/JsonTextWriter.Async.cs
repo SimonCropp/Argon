@@ -1588,7 +1588,7 @@ public partial class JsonTextWriter
         var buffer = writeBuffer;
         if (buffer == null)
         {
-            return writeBuffer = BufferUtils.RentBuffer(arrayPool, length);
+            return writeBuffer = BufferUtils.RentBuffer(length);
         }
 
         if (buffer.Length >= length)
@@ -1596,13 +1596,13 @@ public partial class JsonTextWriter
             return buffer;
         }
 
-        var newBuffer = BufferUtils.RentBuffer(arrayPool, length);
+        var newBuffer = BufferUtils.RentBuffer(length);
         if (copyTo != 0)
         {
             Array.Copy(buffer, newBuffer, copyTo);
         }
 
-        BufferUtils.ReturnBuffer(arrayPool, buffer);
+        BufferUtils.ReturnBuffer(buffer);
         writeBuffer = newBuffer;
         return newBuffer;
     }
