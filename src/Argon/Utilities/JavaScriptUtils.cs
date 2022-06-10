@@ -78,7 +78,7 @@ static class JavaScriptUtils
         return false;
     }
 
-    public static void WriteEscapedJavaScriptString(TextWriter writer, string? s, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, IArrayPool<char>? bufferPool, ref char[]? buffer)
+    public static void WriteEscapedJavaScriptString(TextWriter writer, string? s, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
     {
         // leading delimiter
         if (appendDelimiters)
@@ -88,7 +88,7 @@ static class JavaScriptUtils
 
         if (!StringUtils.IsNullOrEmpty(s))
         {
-            WriteEscapedJavaScriptNonNullString(writer, s, escapeFlags, escapeHandling, bufferPool, ref buffer);
+            WriteEscapedJavaScriptNonNullString(writer, s, escapeFlags, escapeHandling, ref buffer);
         }
 
         // trailing delimiter
@@ -98,7 +98,7 @@ static class JavaScriptUtils
         }
     }
 
-    static void WriteEscapedJavaScriptNonNullString(TextWriter writer, string s, bool[] escapeFlags, EscapeHandling escapeHandling, IArrayPool<char>? bufferPool, ref char[]? buffer)
+    static void WriteEscapedJavaScriptNonNullString(TextWriter writer, string s, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
     {
         if (escapeHandling == EscapeHandling.None)
         {
@@ -117,7 +117,7 @@ static class JavaScriptUtils
         {
             if (buffer == null || buffer.Length < lastWritePosition)
             {
-                buffer = BufferUtils.EnsureBufferSize(bufferPool, lastWritePosition, buffer);
+                buffer = BufferUtils.EnsureBufferSize(lastWritePosition, buffer);
             }
 
             // write unchanged chars at start of text.
@@ -187,7 +187,7 @@ static class JavaScriptUtils
 
                     if (buffer == null || buffer.Length < unicodeTextLength)
                     {
-                        buffer = BufferUtils.EnsureBufferSize(bufferPool, unicodeTextLength, buffer);
+                        buffer = BufferUtils.EnsureBufferSize(unicodeTextLength, buffer);
                     }
 
                     StringUtils.ToCharAsUnicode(c, buffer);
@@ -212,7 +212,7 @@ static class JavaScriptUtils
 
                 if (buffer == null || buffer.Length < length)
                 {
-                    var newBuffer = BufferUtils.RentBuffer(bufferPool, length);
+                    var newBuffer = BufferUtils.RentBuffer(length);
 
                     // the unicode text is already in the buffer
                     // copy it over when creating new buffer
@@ -223,7 +223,7 @@ static class JavaScriptUtils
                         Array.Copy(buffer, newBuffer, unicodeTextLength);
                     }
 
-                    BufferUtils.ReturnBuffer(bufferPool, buffer);
+                    BufferUtils.ReturnBuffer(buffer);
 
                     buffer = newBuffer;
                 }
@@ -251,7 +251,7 @@ static class JavaScriptUtils
         {
             if (buffer == null || buffer.Length < length)
             {
-                buffer = BufferUtils.EnsureBufferSize(bufferPool, length, buffer);
+                buffer = BufferUtils.EnsureBufferSize(length, buffer);
             }
 
             s.CopyTo(lastWritePosition, buffer, 0, length);
@@ -267,7 +267,7 @@ static class JavaScriptUtils
 
         using var w = StringUtils.CreateStringWriter(value?.Length ?? 16);
         char[]? buffer = null;
-        WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, escapeFlags, escapeHandling, null, ref buffer);
+        WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, escapeFlags, escapeHandling, ref buffer);
         return w.ToString();
     }
 

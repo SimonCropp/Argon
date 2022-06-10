@@ -2,34 +2,28 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using System.Buffers;
+
 static class BufferUtils
 {
-    public static char[] RentBuffer(IArrayPool<char>? bufferPool, int minSize)
+    public static char[] RentBuffer(int minSize) =>
+        ArrayPool<char>.Shared.Rent(minSize);
+
+    public static void ReturnBuffer(char[]? buffer)
     {
-        if (bufferPool == null)
-        {
-            return new char[minSize];
-        }
-
-        var buffer = bufferPool.Rent(minSize);
-        return buffer;
-    }
-
-    public static void ReturnBuffer(IArrayPool<char>? bufferPool, char[]? buffer) =>
-        bufferPool?.Return(buffer);
-
-    public static char[] EnsureBufferSize(IArrayPool<char>? bufferPool, int size, char[]? buffer)
-    {
-        if (bufferPool == null)
-        {
-            return new char[size];
-        }
-
         if (buffer != null)
         {
-            bufferPool.Return(buffer);
+            ArrayPool<char>.Shared.Return(buffer);
+        }
+    }
+
+    public static char[] EnsureBufferSize(int size, char[]? buffer)
+    {
+        if (buffer != null)
+        {
+            ArrayPool<char>.Shared.Return(buffer);
         }
 
-        return bufferPool.Rent(size);
+        return ArrayPool<char>.Shared.Rent(size);
     }
 }

@@ -41,7 +41,6 @@
   </ItemGroup>
   
   <ItemGroup Condition="$(TargetFramework)=='net461' OR $(TargetFramework)=='net48'">
-    <PackageReference Include="System.Buffers" Version="4.5.1" />
     <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web" />

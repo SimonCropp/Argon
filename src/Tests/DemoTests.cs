@@ -536,22 +536,6 @@ public class DemoTests : TestFixtureBase
     }
 
     [Fact]
-    public void ArrayPooling()
-    {
-        IList<int> value;
-
-        var serializer = new JsonSerializer();
-        using (var reader = new JsonTextReader(new StringReader(@"[1,2,3,4]")))
-        {
-            reader.ArrayPool = JsonArrayPool.Instance;
-
-            value = serializer.Deserialize<IList<int>>(reader);
-        }
-
-        Assert.Equal(4, value.Count);
-    }
-
-    [Fact]
     public void SerializeDataTable()
     {
         var dt = new DataTable();
@@ -643,17 +627,4 @@ public class DemoTests : TestFixtureBase
             await largeJson.WriteToAsync(new JsonTextWriter(textWriter));
         }
     }
-}
-
-public class JsonArrayPool : IArrayPool<char>
-{
-    public static readonly JsonArrayPool Instance = new();
-
-    public char[] Rent(int minimumLength) =>
-        // use System.Buffers shared pool
-        ArrayPool<char>.Shared.Rent(minimumLength);
-
-    public void Return(char[] array) =>
-        // use System.Buffers shared pool
-        ArrayPool<char>.Shared.Return(array);
 }
