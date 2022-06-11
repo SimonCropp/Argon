@@ -178,7 +178,7 @@ public class DefaultContractResolver : IContractResolver
 
         Func<string, string>? extensionDataNameResolver = null;
 
-        var attribute = JsonTypeReflector.GetCachedAttribute<JsonObjectAttribute>(contract.NonNullableUnderlyingType);
+        var attribute = AttributeCache<JsonObjectAttribute>.GetAttribute(contract.NonNullableUnderlyingType);
         if (attribute != null)
         {
             contract.ItemRequired = attribute.itemRequired;
@@ -597,7 +597,7 @@ public class DefaultContractResolver : IContractResolver
 
     void InitializeContract(JsonContract contract)
     {
-        var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(contract.NonNullableUnderlyingType);
+        var containerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(contract.NonNullableUnderlyingType);
         if (containerAttribute == null)
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(contract.NonNullableUnderlyingType);
@@ -957,7 +957,7 @@ public class DefaultContractResolver : IContractResolver
         }
 
         t = t.EnsureNotNullableType();
-        var containerAttribute = JsonTypeReflector.GetCachedAttribute<JsonContainerAttribute>(t);
+        var containerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(t);
 
         if (containerAttribute is JsonObjectAttribute)
         {

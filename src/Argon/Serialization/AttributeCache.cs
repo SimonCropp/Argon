@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-static class CachedAttributeGetter<T> where T : Attribute
+static class AttributeCache<T> where T : Attribute
 {
     static readonly ThreadSafeStore<ICustomAttributeProvider, T?> TypeAttributeCache = new(JsonTypeReflector.GetAttribute<T>);
 

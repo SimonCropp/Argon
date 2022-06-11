@@ -19,9 +19,6 @@ static class JsonTypeReflector
 
     static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
 
-    public static T? GetCachedAttribute<T>(ICustomAttributeProvider provider) where T : Attribute =>
-        CachedAttributeGetter<T>.GetAttribute(provider);
-
     public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
     {
         typeConverter = TypeDescriptor.GetConverter(type);
@@ -50,7 +47,7 @@ static class JsonTypeReflector
 
         while (currentType != null)
         {
-            var result = CachedAttributeGetter<DataContractAttribute>.GetAttribute(currentType);
+            var result = AttributeCache<DataContractAttribute>.GetAttribute(currentType);
             if (result != null)
             {
                 return result;
@@ -69,12 +66,12 @@ static class JsonTypeReflector
         // can't override a field
         if (member.MemberType == MemberTypes.Field)
         {
-            return CachedAttributeGetter<DataMemberAttribute>.GetAttribute(member);
+            return AttributeCache<DataMemberAttribute>.GetAttribute(member);
         }
 
         // search property and then search base properties if nothing is returned and the property is virtual
         var property = (PropertyInfo) member;
-        var result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(property);
+        var result = AttributeCache<DataMemberAttribute>.GetAttribute(property);
         if (result == null)
         {
             if (property.IsVirtual())
@@ -86,7 +83,7 @@ static class JsonTypeReflector
                     var baseProperty = (PropertyInfo?) ReflectionUtils.GetMemberInfoFromType(currentType, property);
                     if (baseProperty != null && baseProperty.IsVirtual())
                     {
-                        result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
+                        result = AttributeCache<DataMemberAttribute>.GetAttribute(baseProperty);
                     }
 
                     currentType = currentType.BaseType;
@@ -99,7 +96,7 @@ static class JsonTypeReflector
 
     public static MemberSerialization GetObjectMemberSerialization(Type type)
     {
-        var objectAttribute = GetCachedAttribute<JsonObjectAttribute>(type);
+        var objectAttribute = AttributeCache<JsonObjectAttribute>.GetAttribute(type);
         if (objectAttribute != null)
         {
             return objectAttribute.MemberSerialization;
@@ -117,7 +114,7 @@ static class JsonTypeReflector
 
     public static JsonConverter? GetJsonConverter(ICustomAttributeProvider attributeProvider)
     {
-        var converterAttribute = GetCachedAttribute<JsonConverterAttribute>(attributeProvider);
+        var converterAttribute = AttributeCache<JsonConverterAttribute>.GetAttribute(attributeProvider);
 
         if (converterAttribute != null)
         {
