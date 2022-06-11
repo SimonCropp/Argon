@@ -8,10 +8,10 @@ static class ReflectionUtils
     {
         for (var currentType = type; currentType != null; currentType = currentType.BaseType)
         {
-            IEnumerable<Type> interfaces = currentType.GetInterfaces();
+            var interfaces = currentType.GetInterfaces();
             foreach (var i in interfaces)
             {
-                if (i == interfaceType || (i != null && i.ImplementInterface(interfaceType)))
+                if (i == interfaceType || i.ImplementInterface(interfaceType))
                 {
                     return true;
                 }
@@ -60,7 +60,7 @@ static class ReflectionUtils
     static MethodInfo? GetBaseDefinition(this PropertyInfo property) =>
         property.Method()?.GetBaseDefinition();
 
-    public static bool IsPublic(PropertyInfo property) =>
+    static bool IsPublic(this PropertyInfo property) =>
         property.Method() is {IsPublic: true};
 
     public static Type? GetObjectType(object? v) =>
@@ -265,8 +265,13 @@ static class ReflectionUtils
                 return true;
             }
 
-            type = type.BaseType!;
-        } while (type != null);
+            var baseType = type.BaseType;
+            if (baseType == null)
+            {
+                break;
+            }
+            type = baseType;
+        } while (true);
 
         return false;
     }
@@ -368,13 +373,13 @@ static class ReflectionUtils
     /// </summary>
     /// <param name="target">The target object.</param>
     /// <returns>The member's value on the object.</returns>
-    public static object GetMemberValue(this MemberInfo member, object target)
+    public static object? GetMemberValue(this MemberInfo member, object target)
     {
         if (member is PropertyInfo property)
         {
             try
             {
-                return property.GetValue(target, null)!;
+                return property.GetValue(target, null);
             }
             catch (TargetParameterCountException e)
             {
@@ -384,28 +389,10 @@ static class ReflectionUtils
 
         if (member is FieldInfo field)
         {
-            return field.GetValue(target)!;
+            return field.GetValue(target);
         }
 
         throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
-    }
-
-    /// <summary>
-    /// Sets the member's value on the target object.
-    /// </summary>
-    public static void SetMemberValue(this MemberInfo member, object target, object? value)
-    {
-        switch (member.MemberType)
-        {
-            case MemberTypes.Field:
-                ((FieldInfo) member).SetValue(target, value);
-                break;
-            case MemberTypes.Property:
-                ((PropertyInfo) member).SetValue(target, value, null);
-                break;
-            default:
-                throw new ArgumentException($"MemberInfo '{member.Name}' must be of type FieldInfo or PropertyInfo", nameof(member));
-        }
     }
 
     /// <summary>
@@ -765,7 +752,7 @@ static class ReflectionUtils
                     continue;
                 }
 
-                if (IsPublic(property))
+                if (property.IsPublic())
                 {
                     var publicIndex = initialProperties.FindIndex(p => p.Name == property.Name
                                                                        && p.DeclaringType == property.DeclaringType);
@@ -789,7 +776,7 @@ static class ReflectionUtils
 
                 var childProperty = initialProperties[nonPublicIndex];
                 // don't replace public child with private base
-                if (!IsPublic(childProperty))
+                if (!childProperty.IsPublic())
                 {
                     // replace nonpublic properties for a child, but gotten from
                     // the parent with the one from the child
@@ -805,8 +792,8 @@ static class ReflectionUtils
             .Any(info =>
                 info.Name == method &&
                 // check that the method overrides the original on DynamicObjectProxy
-                info.DeclaringType != methodDeclaringType
-                && info.GetBaseDefinition().DeclaringType == methodDeclaringType
+                info.DeclaringType != methodDeclaringType &&
+                info.GetBaseDefinition().DeclaringType == methodDeclaringType
             );
 
     public static object? GetDefaultValue(Type type)
