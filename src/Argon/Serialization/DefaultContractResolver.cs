@@ -347,7 +347,7 @@ public class DefaultContractResolver : IContractResolver
 
             var setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
 
-            ExtensionDataSetter extensionDataSetter = (o, key, value) =>
+            contract.ExtensionDataSetter = (o, key, value) =>
             {
                 var dictionary = getExtensionDataDictionary(o);
                 if (dictionary == null)
@@ -363,8 +363,6 @@ public class DefaultContractResolver : IContractResolver
 
                 setExtensionDataDictionaryValue(dictionary, key, value);
             };
-
-            contract.ExtensionDataSetter = extensionDataSetter;
         }
 
         if (extensionDataAttribute.WriteData)
@@ -373,7 +371,7 @@ public class DefaultContractResolver : IContractResolver
             var constructors = enumerableWrapper.GetConstructors().First();
             var createEnumerableWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
 
-            ExtensionDataGetter extensionDataGetter = o =>
+            contract.ExtensionDataGetter = o =>
             {
                 var dictionary = getExtensionDataDictionary(o);
                 if (dictionary == null)
@@ -383,8 +381,6 @@ public class DefaultContractResolver : IContractResolver
 
                 return (IEnumerable<KeyValuePair<object, object>>) createEnumerableWrapper(dictionary);
             };
-
-            contract.ExtensionDataGetter = extensionDataGetter;
         }
 
         contract.ExtensionDataValueType = valueType;
