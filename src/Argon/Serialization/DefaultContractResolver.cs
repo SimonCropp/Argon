@@ -138,10 +138,6 @@ public class DefaultContractResolver : IContractResolver
                         {
                             serializableMembers.Add(member);
                         }
-                        else if (memberSerialization == MemberSerialization.Fields && member.MemberType == MemberTypes.Field)
-                        {
-                            serializableMembers.Add(member);
-                        }
                     }
                 }
             }
