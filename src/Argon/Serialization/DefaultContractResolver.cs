@@ -1263,24 +1263,7 @@ public class DefaultContractResolver : IContractResolver
         property.UnderlyingName = name;
 
         var hasMemberAttribute = false;
-        if (propertyAttribute != null)
-        {
-            property.required = propertyAttribute.required;
-            property.Order = propertyAttribute.order;
-            property.DefaultValueHandling = propertyAttribute.defaultValueHandling;
-            hasMemberAttribute = true;
-            property.NullValueHandling = propertyAttribute.nullValueHandling;
-            property.ReferenceLoopHandling = propertyAttribute.referenceLoopHandling;
-            property.ObjectCreationHandling = propertyAttribute.objectCreationHandling;
-            property.TypeNameHandling = propertyAttribute.typeNameHandling;
-            property.IsReference = propertyAttribute.isReference;
-
-            property.ItemIsReference = propertyAttribute.itemIsReference;
-            property.ItemConverter = propertyAttribute.ItemConverterType != null ? JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters) : null;
-            property.ItemReferenceLoopHandling = propertyAttribute.itemReferenceLoopHandling;
-            property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
-        }
-        else
+        if (propertyAttribute == null)
         {
             property.NullValueHandling = null;
             property.ReferenceLoopHandling = null;
@@ -1298,6 +1281,23 @@ public class DefaultContractResolver : IContractResolver
                 property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? DefaultValueHandling.Ignore : null;
                 hasMemberAttribute = true;
             }
+        }
+        else
+        {
+            property.required = propertyAttribute.required;
+            property.Order = propertyAttribute.order;
+            property.DefaultValueHandling = propertyAttribute.defaultValueHandling;
+            hasMemberAttribute = true;
+            property.NullValueHandling = propertyAttribute.nullValueHandling;
+            property.ReferenceLoopHandling = propertyAttribute.referenceLoopHandling;
+            property.ObjectCreationHandling = propertyAttribute.objectCreationHandling;
+            property.TypeNameHandling = propertyAttribute.typeNameHandling;
+            property.IsReference = propertyAttribute.isReference;
+
+            property.ItemIsReference = propertyAttribute.itemIsReference;
+            property.ItemConverter = propertyAttribute.ItemConverterType != null ? JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters) : null;
+            property.ItemReferenceLoopHandling = propertyAttribute.itemReferenceLoopHandling;
+            property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
         }
 
         if (requiredAttribute != null)
