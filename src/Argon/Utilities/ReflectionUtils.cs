@@ -348,13 +348,13 @@ static class ReflectionUtils
 
     public static bool IsByRefLikeType(this Type type)
     {
+#if NET5_0_OR_GREATER
+        return type.IsByRefLike;
+#else
         if (!type.IsValueType)
         {
             return false;
         }
-#if NET5_0_OR_GREATER
-        return type.IsByRefLike;
-#else
         var attributes = type.GetCustomAttributesData();
         return attributes.Any(t => string.Equals(t.AttributeType.FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal));
 #endif
