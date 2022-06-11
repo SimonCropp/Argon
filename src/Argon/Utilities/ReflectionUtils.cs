@@ -371,33 +371,6 @@ static class ReflectionUtils
         property.GetIndexParameters().Length > 0;
 
     /// <summary>
-    /// Gets the member's value on the object.
-    /// </summary>
-    /// <param name="target">The target object.</param>
-    /// <returns>The member's value on the object.</returns>
-    public static object? GetMemberValue(this MemberInfo member, object target)
-    {
-        if (member is PropertyInfo property)
-        {
-            try
-            {
-                return property.GetValue(target, null);
-            }
-            catch (TargetParameterCountException e)
-            {
-                throw new ArgumentException($"MemberInfo '{member.Name}' has index parameters", e);
-            }
-        }
-
-        if (member is FieldInfo field)
-        {
-            return field.GetValue(target);
-        }
-
-        throw new ArgumentException($"MemberInfo '{member.Name}' is not of type FieldInfo or PropertyInfo", nameof(member));
-    }
-
-    /// <summary>
     /// Determines whether the specified MemberInfo can be read.
     /// </summary>
     /// <param name="member">The MemberInfo to determine whether can be read.</param>
