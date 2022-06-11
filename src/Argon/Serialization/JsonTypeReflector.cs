@@ -272,8 +272,12 @@ static class JsonTypeReflector
             return GetAttribute<T>(member);
         }
 
-        var attributes = provider.GetCustomAttributes(typeof(T), true);
-        return (T?) attributes.FirstOrDefault();
+        if (provider is ParameterInfo parameter)
+        {
+            return parameter.GetCustomAttribute<T>();
+        }
+
+        throw new($"Bad provider: {provider.GetType().FullName}");
     }
 
     public static ReflectionDelegateFactory ReflectionDelegateFactory
