@@ -672,31 +672,33 @@ static class ReflectionUtils
 
     public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingFlags)
     {
-        var fields = new List<MemberInfo>(targetType.GetFields(bindingFlags));
+        var fields = new List<FieldInfo>(targetType.GetFields(bindingFlags));
         // Type.GetFields doesn't return inherited private fields
         // manually find private fields from base class
         GetChildPrivateFields(fields, targetType, bindingFlags);
 
-        return fields.Cast<FieldInfo>();
+        return fields;
     }
 
-    static void GetChildPrivateFields(List<MemberInfo> initialFields, Type targetType, BindingFlags bindingFlags)
+    static void GetChildPrivateFields(List<FieldInfo> initialFields, Type targetType, BindingFlags bindingFlags)
     {
         // fix weirdness with private FieldInfos only being returned for the current Type
         // find base type fields and add them to result
-        if ((bindingFlags & BindingFlags.NonPublic) != 0)
+        if ((bindingFlags & BindingFlags.NonPublic) == 0)
         {
-            // modify flags to not search for public fields
-            var nonPublicBindingAttr = bindingFlags.RemoveFlag(BindingFlags.Public);
+            return;
+        }
 
-            while ((targetType = targetType.BaseType!) != null)
-            {
-                // filter out protected fields
-                var childPrivateFields =
-                    targetType.GetFields(nonPublicBindingAttr).Where(f => f.IsPrivate);
+        // modify flags to not search for public fields
+        var nonPublicBindingAttr = bindingFlags.RemoveFlag(BindingFlags.Public);
 
-                initialFields.AddRange(childPrivateFields);
-            }
+        while ((targetType = targetType.BaseType!) != null)
+        {
+            // filter out protected fields
+            var childPrivateFields =
+                targetType.GetFields(nonPublicBindingAttr).Where(f => f.IsPrivate);
+
+            initialFields.AddRange(childPrivateFields);
         }
     }
 
