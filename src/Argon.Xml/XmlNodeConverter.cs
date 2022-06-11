@@ -841,7 +841,7 @@ public class XmlNodeConverter : JsonConverter
             case DateTimeKind.Utc:
                 return XmlDateTimeSerializationMode.Utc;
             default:
-                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
+                throw MiscellaneousUtils.CreateOutOfRangeException(nameof(kind), kind, "Unexpected DateTimeKind value.");
         }
     }
 

@@ -85,13 +85,13 @@ public partial class JValue
             case JTokenType.Bytes:
                 return writer.WriteValueAsync((byte[]?) value, cancellation);
             case JTokenType.Guid:
-                return writer.WriteValueAsync(value != null ? (Guid?) value : null, cancellation);
+                return writer.WriteValueAsync((Guid?) value, cancellation);
             case JTokenType.TimeSpan:
-                return writer.WriteValueAsync(value != null ? (TimeSpan?) value : null, cancellation);
+                return writer.WriteValueAsync((TimeSpan?) value, cancellation);
             case JTokenType.Uri:
                 return writer.WriteValueAsync((Uri?) value, cancellation);
         }
 
-        throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(Type), valueType, "Unexpected token type.");
+        throw MiscellaneousUtils.CreateOutOfRangeException(nameof(Type), valueType, "Unexpected token type.");
     }
 }

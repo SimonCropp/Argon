@@ -107,7 +107,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
             case JTokenType.Property:
                 return null;
             default:
-                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(c.Type), c.Type, "Unexpected JContainer type.");
+                throw MiscellaneousUtils.CreateOutOfRangeException(nameof(c.Type), c.Type, "Unexpected JContainer type.");
         }
     }
 
@@ -203,7 +203,7 @@ public class JTokenReader : JsonReader, IJsonLineInfo
                 SetToken(JsonToken.String, SafeToString(((JValue) token).Value));
                 break;
             default:
-                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(token.Type), token.Type, "Unexpected JTokenType.");
+                throw MiscellaneousUtils.CreateOutOfRangeException(nameof(token.Type), token.Type, "Unexpected JTokenType.");
         }
     }
 
