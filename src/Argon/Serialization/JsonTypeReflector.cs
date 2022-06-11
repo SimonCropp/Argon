@@ -83,7 +83,7 @@ static class JsonTypeReflector
 
                 while (result == null && currentType != null)
                 {
-                    var baseProperty = (PropertyInfo) ReflectionUtils.GetMemberInfoFromType(currentType, property);
+                    var baseProperty = (PropertyInfo?) ReflectionUtils.GetMemberInfoFromType(currentType, property);
                     if (baseProperty != null && baseProperty.IsVirtual())
                     {
                         result = CachedAttributeGetter<DataMemberAttribute>.GetAttribute(baseProperty);
@@ -272,7 +272,8 @@ static class JsonTypeReflector
             return GetAttribute<T>(member);
         }
 
-        return ReflectionUtils.GetAttribute<T>(provider, true);
+        var attributes = provider.GetCustomAttributes(typeof(T), true);
+        return (T?) attributes.FirstOrDefault();
     }
 
     public static ReflectionDelegateFactory ReflectionDelegateFactory

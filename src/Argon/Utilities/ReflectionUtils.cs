@@ -561,25 +561,6 @@ static class ReflectionUtils
         return memberUnderlyingType.IsGenericParameter;
     }
 
-    public static T? GetAttribute<T>(ICustomAttributeProvider provider, bool inherit) where T : Attribute
-    {
-        var attributes = GetAttributes<T>(provider, inherit);
-
-        return attributes?.FirstOrDefault();
-    }
-
-    static T[] GetAttributes<T>(ICustomAttributeProvider provider, bool inherit) where T : Attribute
-    {
-        var a = GetAttributes(provider, typeof(T), inherit);
-
-        if (a is T[] attributes)
-        {
-            return attributes;
-        }
-
-        return a.Cast<T>().ToArray();
-    }
-
     public static Attribute[] GetAttributes(ICustomAttributeProvider provider, Type? attributeType, bool inherit)
     {
         if (attributeType == null)
@@ -640,7 +621,7 @@ static class ReflectionUtils
         return null;
     }
 
-    public static MemberInfo GetMemberInfoFromType(Type targetType, MemberInfo member)
+    public static MemberInfo? GetMemberInfoFromType(Type targetType, MemberInfo member)
     {
         const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
@@ -651,9 +632,9 @@ static class ReflectionUtils
 
                 var types = property.GetIndexParameters().Select(p => p.ParameterType).ToArray();
 
-                return targetType.GetProperty(property.Name, bindingFlags, null, property.PropertyType, types, null)!;
+                return targetType.GetProperty(property.Name, bindingFlags, null, property.PropertyType, types, null);
             default:
-                return targetType.GetMember(member.Name, member.MemberType, bindingFlags).SingleOrDefault()!;
+                return targetType.GetMember(member.Name, member.MemberType, bindingFlags).SingleOrDefault();
         }
     }
 
@@ -710,7 +691,7 @@ static class ReflectionUtils
             var member = properties[i];
             if (member.DeclaringType != targetType)
             {
-                var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType!, member);
+                var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType!, member)!;
                 properties[i] = declaredMember;
             }
         }
