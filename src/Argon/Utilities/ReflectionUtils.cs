@@ -352,10 +352,12 @@ static class ReflectionUtils
         {
             return false;
         }
-
-        // IsByRefLike flag on type is not available in netstandard2.0
+#if NET5_0_OR_GREATER
+        return type.IsByRefLike;
+#else
         var attributes = type.GetCustomAttributesData();
         return attributes.Any(t => string.Equals(t.AttributeType.FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal));
+#endif
     }
 
     /// <summary>
