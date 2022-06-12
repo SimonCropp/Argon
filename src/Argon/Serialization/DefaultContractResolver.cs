@@ -252,7 +252,7 @@ public class DefaultContractResolver : IContractResolver
     static void ThrowUnableToSerializeError(object o, StreamingContext context) =>
         throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
 
-    static MemberInfo GetExtensionDataMemberForType(Type type)
+    static MemberInfo? GetExtensionDataMemberForType(Type type)
     {
         var members = GetClassHierarchyForType(type).SelectMany(baseType =>
         {
@@ -298,7 +298,7 @@ public class DefaultContractResolver : IContractResolver
             throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType!)}'. Member '{m.Name}' type must implement IDictionary<string, JToken>.");
         });
 
-        return extensionDataMember!;
+        return extensionDataMember;
     }
 
     static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
@@ -458,7 +458,7 @@ public class DefaultContractResolver : IContractResolver
             {
                 foreach (var parameterInfo in parameters)
                 {
-                    var memberProperty = MatchProperty(memberProperties, parameterInfo.Name!, parameterInfo.ParameterType);
+                    var memberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
                     if (memberProperty == null || memberProperty.Writable)
                     {
                         return null;
@@ -509,18 +509,14 @@ public class DefaultContractResolver : IContractResolver
             if (matchingMemberProperty != null || parameterInfo.Name != null)
             {
                 var property = CreatePropertyFromConstructorParameter(matchingMemberProperty, parameterInfo);
-
-                if (property != null)
-                {
-                    parameterCollection.AddProperty(property);
-                }
+                parameterCollection.AddProperty(property);
             }
         }
 
         return parameterCollection;
     }
 
-    static JsonProperty? MatchProperty(JsonPropertyCollection properties, string name, Type type)
+    static JsonProperty? MatchProperty(JsonPropertyCollection properties, string? name, Type type)
     {
         // it is possible to generate a member with a null name using Reflection.Emit
         // protect against an ArgumentNullException from GetClosestMatchProperty by testing for null here
