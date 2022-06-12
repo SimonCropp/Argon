@@ -12,7 +12,7 @@ public partial class JObject
     public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
     {
         var t = writer.WriteStartObjectAsync(cancellation);
-        if (!t.IsCompletedSucessfully())
+        if (!t.IsCompletedSuccessfully())
         {
             return AwaitProperties(t, 0, writer, cancellation, converters);
         }
@@ -20,7 +20,7 @@ public partial class JObject
         for (var i = 0; i < properties.Count; i++)
         {
             t = properties[i].WriteToAsync(writer, cancellation, converters);
-            if (!t.IsCompletedSucessfully())
+            if (!t.IsCompletedSuccessfully())
             {
                 return AwaitProperties(t, i + 1, writer, cancellation, converters);
             }

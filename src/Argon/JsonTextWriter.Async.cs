@@ -179,7 +179,7 @@ public partial class JsonTextWriter
     Task WriteValueInternalAsync(JsonToken token, string value, CancellationToken cancellation)
     {
         var task = InternalWriteValueAsync(token, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return writer.WriteAsync(value, cancellation);
         }
@@ -267,7 +267,7 @@ public partial class JsonTextWriter
     Task WriteIntegerValueAsync(ulong uvalue, bool negative, CancellationToken cancellation)
     {
         var task = InternalWriteValueAsync(JsonToken.Integer, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return WriteDigitsAsync(uvalue, negative, cancellation);
         }
@@ -318,13 +318,13 @@ public partial class JsonTextWriter
     Task DoWritePropertyNameAsync(string name, CancellationToken cancellation)
     {
         var task = InternalWritePropertyNameAsync(name, cancellation);
-        if (!task.IsCompletedSucessfully())
+        if (!task.IsCompletedSuccessfully())
         {
             return DoWritePropertyNameAsync(task, name, cancellation);
         }
 
         task = WriteEscapedStringAsync(name, QuoteName, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return writer.WriteAsync(':', cancellation);
         }
@@ -405,7 +405,7 @@ public partial class JsonTextWriter
     Task DoWriteStartArrayAsync(CancellationToken cancellation)
     {
         var task = InternalWriteStartAsync(JsonToken.StartArray, JsonContainerType.Array, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return writer.WriteAsync('[', cancellation);
         }
@@ -440,7 +440,7 @@ public partial class JsonTextWriter
     Task DoWriteStartObjectAsync(CancellationToken cancellation)
     {
         var task = InternalWriteStartAsync(JsonToken.StartObject, JsonContainerType.Object, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return writer.WriteAsync('{', cancellation);
         }
@@ -475,7 +475,7 @@ public partial class JsonTextWriter
     Task DoWriteUndefinedAsync(CancellationToken cancellation)
     {
         var task = InternalWriteValueAsync(JsonToken.Undefined, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return writer.WriteAsync(JsonConvert.Undefined, cancellation);
         }
@@ -1235,7 +1235,7 @@ public partial class JsonTextWriter
     Task DoWriteValueAsync(string? value, CancellationToken cancellation)
     {
         var task = InternalWriteValueAsync(JsonToken.String, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             if (value == null)
             {
@@ -1426,7 +1426,7 @@ public partial class JsonTextWriter
     Task WriteValueNotNullAsync(Uri value, CancellationToken cancellation)
     {
         var task = InternalWriteValueAsync(JsonToken.String, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return WriteEscapedStringAsync(value.OriginalString, QuoteValue, cancellation);
         }
@@ -1564,7 +1564,7 @@ public partial class JsonTextWriter
     {
         UpdateScopeWithFinishedValue();
         var task = AutoCompleteAsync(JsonToken.Undefined, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return WriteRawAsync(json, cancellation);
         }

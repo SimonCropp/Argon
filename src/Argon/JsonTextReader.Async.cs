@@ -49,7 +49,7 @@ public partial class JsonTextReader
                     return ParseObjectAsync(cancellation);
                 case State.PostValue:
                     var task = ParsePostValueAsync(false, cancellation);
-                    if (task.IsCompletedSucessfully())
+                    if (task.IsCompletedSuccessfully())
                     {
                         if (task.Result)
                         {
@@ -493,7 +493,7 @@ public partial class JsonTextReader
         CharPos++;
 
         var task = EnsureCharsAsync(1, append, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             SetNewLine(task.Result);
             return Task.CompletedTask;

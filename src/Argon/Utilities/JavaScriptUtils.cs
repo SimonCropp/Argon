@@ -326,7 +326,7 @@ static class JavaScriptUtils
     static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation)
     {
         var task = writer.WriteAsync(delimiter, cancellation);
-        if (!task.IsCompletedSucessfully())
+        if (!task.IsCompletedSuccessfully())
         {
             return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, s, delimiter, escapeFlags, escapeHandling, client, buffer, cancellation);
         }
@@ -334,7 +334,7 @@ static class JavaScriptUtils
         if (!StringUtils.IsNullOrEmpty(s))
         {
             task = WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, escapeFlags, escapeHandling, client, buffer, cancellation);
-            if (task.IsCompletedSucessfully())
+            if (task.IsCompletedSuccessfully())
             {
                 return writer.WriteAsync(delimiter, cancellation);
             }

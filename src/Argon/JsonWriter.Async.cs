@@ -222,7 +222,7 @@ public abstract partial class JsonWriter
             if (currentState == State.Property)
             {
                 t = WriteNullAsync(cancellation);
-                if (!t.IsCompletedSucessfully())
+                if (!t.IsCompletedSuccessfully())
                 {
                     return AwaitProperty(t, levelsToComplete, token, cancellation);
                 }
@@ -233,7 +233,7 @@ public abstract partial class JsonWriter
                 if (currentState != State.ObjectStart && currentState != State.ArrayStart)
                 {
                     t = WriteIndentAsync(cancellation);
-                    if (!t.IsCompletedSucessfully())
+                    if (!t.IsCompletedSuccessfully())
                     {
                         return AwaitIndent(t, levelsToComplete, token, cancellation);
                     }
@@ -241,7 +241,7 @@ public abstract partial class JsonWriter
             }
 
             t = WriteEndAsync(token, cancellation);
-            if (!t.IsCompletedSucessfully())
+            if (!t.IsCompletedSuccessfully())
             {
                 return AwaitEnd(t, levelsToComplete, cancellation);
             }

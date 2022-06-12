@@ -49,6 +49,6 @@ static class AsyncUtils
     public static Task<int> ReadAsync(this TextReader reader, char[] buffer, int index, int count, CancellationToken cancellation) =>
         cancellation.IsCancellationRequested ? FromCanceled<int>(cancellation) : reader.ReadAsync(buffer, index, count);
 
-    public static bool IsCompletedSucessfully(this Task task) =>
+    public static bool IsCompletedSuccessfully(this Task task) =>
         task.Status == TaskStatus.RanToCompletion;
 }

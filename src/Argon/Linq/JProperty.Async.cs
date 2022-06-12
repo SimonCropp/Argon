@@ -12,7 +12,7 @@ public partial class JProperty
     public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
     {
         var task = writer.WritePropertyNameAsync(Name, cancellation);
-        if (task.IsCompletedSucessfully())
+        if (task.IsCompletedSuccessfully())
         {
             return WriteValueAsync(writer, cancellation, converters);
         }
