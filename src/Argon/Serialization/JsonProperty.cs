@@ -17,8 +17,11 @@ public class JsonProperty
     string? propertyName;
     internal bool skipPropertyNameEscape;
 
-    public JsonProperty(Type propertyType) =>
+    public JsonProperty(Type propertyType, Type declaringType)
+    {
         PropertyType = propertyType;
+        DeclaringType = declaringType;
+    }
 
     // use to cache contract during deserialization
     internal JsonContract? PropertyContract { get; set; }
@@ -39,7 +42,7 @@ public class JsonProperty
     /// <summary>
     /// Gets or sets the type that declared this property.
     /// </summary>
-    public Type? DeclaringType { get; set; }
+    public Type DeclaringType { get; }
 
     /// <summary>
     /// Gets or sets the order of serialization of a member.
