@@ -328,7 +328,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 return contract.Converter;
             }
 
-            if (Serializer.GetMatchingConverter(contract.UnderlyingType) is JsonConverter matchingConverter)
+            if (Serializer.GetMatchingConverter(contract.UnderlyingType) is { } matchingConverter)
             {
                 // passed in converters
                 return matchingConverter;
@@ -410,7 +410,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 }
                 else
                 {
-                    targetObject = CreateNewObject(reader, objectContract, member, containerMember, id, out createdFromNonDefaultCreator);
+                    targetObject = CreateNewObject(reader, objectContract, member, id, out createdFromNonDefaultCreator);
                 }
 
                 // don't populate if read from non-default creator because the object has already been read
@@ -1394,7 +1394,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return underlyingDictionary;
     }
 
-    object PopulateMultidimensionalArray(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
+    void PopulateMultidimensionalArray(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty? containerProperty, string? id)
     {
         var rank = contract.UnderlyingType.GetArrayRank();
 
@@ -1521,7 +1521,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
 
         OnDeserialized(reader, contract, list);
-        return list;
     }
 
     void ThrowUnexpectedEndException(JsonReader reader, JsonContract contract, object? currentObject, string message)
@@ -2092,7 +2091,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return propertyValues;
     }
 
-    public object CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty? containerMember, JsonProperty? containerProperty, string? id, out bool createdFromNonDefaultCreator)
+    public object CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty? containerMember, string? id, out bool createdFromNonDefaultCreator)
     {
         object? newObject = null;
 
@@ -2334,55 +2333,57 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     void EndProcessProperty(object newObject, JsonReader reader, JsonObjectContract contract, int initialDepth, JsonProperty property, PropertyPresence presence, bool setDefaultValue)
     {
-        if (presence is PropertyPresence.None or PropertyPresence.Null)
+        if (presence is not (PropertyPresence.None or PropertyPresence.Null))
         {
-            try
+            return;
+        }
+
+        try
+        {
+            var resolvedRequired = property.Ignored ? Required.Default : property.required ?? contract.ItemRequired ?? Required.Default;
+
+            switch (presence)
             {
-                var resolvedRequired = property.Ignored ? Required.Default : property.required ?? contract.ItemRequired ?? Required.Default;
+                case PropertyPresence.None:
+                    if (resolvedRequired is Required.AllowNull or Required.Always)
+                    {
+                        throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' not found in JSON.");
+                    }
 
-                switch (presence)
-                {
-                    case PropertyPresence.None:
-                        if (resolvedRequired is Required.AllowNull or Required.Always)
+                    if (setDefaultValue && !property.Ignored)
+                    {
+                        property.PropertyContract ??= GetContractSafe(property.PropertyType);
+
+                        if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling), DefaultValueHandling.Populate) && property.Writable)
                         {
-                            throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' not found in JSON.");
+                            property.ValueProvider!.SetValue(newObject, EnsureType(reader, property.GetResolvedDefaultValue(), CultureInfo.InvariantCulture, property.PropertyContract!, property.PropertyType));
                         }
+                    }
 
-                        if (setDefaultValue && !property.Ignored)
-                        {
-                            property.PropertyContract ??= GetContractSafe(property.PropertyType);
+                    break;
+                case PropertyPresence.Null:
+                    if (resolvedRequired == Required.Always)
+                    {
+                        throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' expects a value but got null.");
+                    }
 
-                            if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling), DefaultValueHandling.Populate) && property.Writable)
-                            {
-                                property.ValueProvider!.SetValue(newObject, EnsureType(reader, property.GetResolvedDefaultValue(), CultureInfo.InvariantCulture, property.PropertyContract!, property.PropertyType));
-                            }
-                        }
+                    if (resolvedRequired == Required.DisallowNull)
+                    {
+                        throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' expects a non-null value.");
+                    }
 
-                        break;
-                    case PropertyPresence.Null:
-                        if (resolvedRequired == Required.Always)
-                        {
-                            throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' expects a value but got null.");
-                        }
-
-                        if (resolvedRequired == Required.DisallowNull)
-                        {
-                            throw JsonSerializationException.Create(reader, $"Required property '{property.PropertyName}' expects a non-null value.");
-                        }
-
-                        break;
-                }
+                    break;
             }
-            catch (Exception exception)
+        }
+        catch (Exception exception)
+        {
+            if (IsErrorHandled(newObject, contract, property.PropertyName, reader as IJsonLineInfo, reader.Path, exception))
             {
-                if (IsErrorHandled(newObject, contract, property.PropertyName, reader as IJsonLineInfo, reader.Path, exception))
-                {
-                    HandleError(reader, true, initialDepth);
-                }
-                else
-                {
-                    throw;
-                }
+                HandleError(reader, true, initialDepth);
+            }
+            else
+            {
+                throw;
             }
         }
     }
@@ -2424,16 +2425,18 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         ClearErrorContext();
 
-        if (readPastError)
+        if (!readPastError)
         {
-            reader.Skip();
+            return;
+        }
 
-            while (reader.Depth > initialDepth)
+        reader.Skip();
+
+        while (reader.Depth > initialDepth)
+        {
+            if (!reader.Read())
             {
-                if (!reader.Read())
-                {
-                    break;
-                }
+                break;
             }
         }
     }

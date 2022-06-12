@@ -186,8 +186,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
-        MiscellaneousUtils.Assert(valueContract != null);
-
         if (valueContract.ContractType is JsonContractType.Primitive or JsonContractType.String)
         {
             return false;
@@ -235,7 +233,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         MiscellaneousUtils.Assert(contract != null);
 
-        if (contract.ContractType is JsonContractType.Primitive or JsonContractType.String)
+        if (contract.ContractType is
+            JsonContractType.Primitive or
+            JsonContractType.String)
         {
             return true;
         }
@@ -261,38 +261,40 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             ? serializeStack.Contains(value, Serializer.EqualityComparer)
             : serializeStack.Contains(value);
 
-        if (exists)
+        if (!exists)
         {
-            var message = "Self referencing loop detected";
-            if (property != null)
-            {
-                message += $" for property '{property.PropertyName}'";
-            }
-
-            message += $" with type '{value.GetType()}'.";
-
-            switch (referenceLoopHandling.GetValueOrDefault(Serializer.ReferenceLoopHandling))
-            {
-                case ReferenceLoopHandling.Error:
-                    throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);
-                case ReferenceLoopHandling.Ignore:
-                    if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-                    {
-                        TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"{message}. Skipping serializing self referenced value."), null);
-                    }
-
-                    return false;
-                case ReferenceLoopHandling.Serialize:
-                    if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-                    {
-                        TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"{message}. Serializing self referenced value."), null);
-                    }
-
-                    return true;
-            }
+            return true;
         }
 
-        return true;
+        var message = "Self referencing loop detected";
+        if (property != null)
+        {
+            message += $" for property '{property.PropertyName}'";
+        }
+
+        message += $" with type '{value.GetType()}'.";
+
+        switch (referenceLoopHandling.GetValueOrDefault(Serializer.ReferenceLoopHandling))
+        {
+            case ReferenceLoopHandling.Error:
+                throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);
+            case ReferenceLoopHandling.Ignore:
+                if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
+                {
+                    TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"{message}. Skipping serializing self referenced value."), null);
+                }
+
+                return false;
+            case ReferenceLoopHandling.Serialize:
+                if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
+                {
+                    TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, writer.Path, $"{message}. Serializing self referenced value."), null);
+                }
+
+                return true;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     void WriteReference(JsonWriter writer, object value)
