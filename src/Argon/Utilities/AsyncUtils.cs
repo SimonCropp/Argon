@@ -48,17 +48,11 @@ static class AsyncUtils
         return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
     }
 
-    public static Task WriteAsync(this TextWriter writer, string? value, CancellationToken cancellation)
-    {
-        MiscellaneousUtils.Assert(writer != null);
-        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
-    }
+    public static Task WriteAsync(this TextWriter writer, string? value, CancellationToken cancellation) =>
+        cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
 
-    public static Task WriteAsync(this TextWriter writer, char[] value, int start, int count, CancellationToken cancellation)
-    {
-        MiscellaneousUtils.Assert(writer != null);
-        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value, start, count);
-    }
+    public static Task WriteAsync(this TextWriter writer, char[] value, int start, int count, CancellationToken cancellation) =>
+        cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value, start, count);
 
     public static Task<int> ReadAsync(this TextReader reader, char[] buffer, int index, int count, CancellationToken cancellation)
     {

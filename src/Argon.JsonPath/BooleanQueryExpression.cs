@@ -225,9 +225,6 @@ class BooleanQueryExpression : QueryExpression
 
     internal static bool EqualsWithStrictMatch(JValue value, JValue queryValue)
     {
-        MiscellaneousUtils.Assert(value != null);
-        MiscellaneousUtils.Assert(queryValue != null);
-
         // Handle comparing an integer with a float
         // e.g. Comparing 1 and 1.0
         if ((value.Type == JTokenType.Integer && queryValue.Type == JTokenType.Float)
