@@ -37,11 +37,8 @@ static class AsyncUtils
 #pragma warning restore CS8603 // Possible null reference return.
     }
 
-    public static Task WriteAsync(this TextWriter writer, char value, CancellationToken cancellation)
-    {
-        MiscellaneousUtils.Assert(writer != null);
-        return cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
-    }
+    public static Task WriteAsync(this TextWriter writer, char value, CancellationToken cancellation) =>
+        cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
 
     public static Task WriteAsync(this TextWriter writer, string? value, CancellationToken cancellation) =>
         cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value);
@@ -49,19 +46,9 @@ static class AsyncUtils
     public static Task WriteAsync(this TextWriter writer, char[] value, int start, int count, CancellationToken cancellation) =>
         cancellation.IsCancellationRequested ? FromCanceled(cancellation) : writer.WriteAsync(value, start, count);
 
-    public static Task<int> ReadAsync(this TextReader reader, char[] buffer, int index, int count, CancellationToken cancellation)
-    {
-        MiscellaneousUtils.Assert(reader != null);
-        return cancellation.IsCancellationRequested ? FromCanceled<int>(cancellation) : reader.ReadAsync(buffer, index, count);
-    }
+    public static Task<int> ReadAsync(this TextReader reader, char[] buffer, int index, int count, CancellationToken cancellation) =>
+        cancellation.IsCancellationRequested ? FromCanceled<int>(cancellation) : reader.ReadAsync(buffer, index, count);
 
-    public static bool IsCompletedSucessfully(this Task task)
-    {
-        // IsCompletedSucessfully is the faster method, but only currently exposed on .NET Core 2.0
-#if NETCOREAPP2_0
-            return task.IsCompletedSucessfully;
-#else
-        return task.Status == TaskStatus.RanToCompletion;
-#endif
-    }
+    public static bool IsCompletedSucessfully(this Task task) =>
+        task.Status == TaskStatus.RanToCompletion;
 }
