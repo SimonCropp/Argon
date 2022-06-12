@@ -18,7 +18,7 @@ public partial class JValue
             {
                 // TODO: Call WriteJsonAsync when it exists.
                 matchingConverter.WriteJson(writer, value, JsonSerializer.CreateDefault());
-                return AsyncUtils.CompletedTask;
+                return Task.CompletedTask;
             }
         }
 

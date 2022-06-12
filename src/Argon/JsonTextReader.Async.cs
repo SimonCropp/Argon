@@ -496,7 +496,7 @@ public partial class JsonTextReader
         if (task.IsCompletedSucessfully())
         {
             SetNewLine(task.Result);
-            return AsyncUtils.CompletedTask;
+            return Task.CompletedTask;
         }
 
         return ProcessCarriageReturnAsync(task);

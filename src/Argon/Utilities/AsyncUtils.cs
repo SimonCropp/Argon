@@ -37,11 +37,6 @@ static class AsyncUtils
 #pragma warning restore CS8603 // Possible null reference return.
     }
 
-    // Task.Delay(0) is optimised as a cached task within the framework, and indeed
-    // the same cached task that Task.CompletedTask returns as of 4.6, but we'll add
-    // our own cached field for previous frameworks.
-    internal static readonly Task CompletedTask = Task.Delay(0);
-
     public static Task WriteAsync(this TextWriter writer, char value, CancellationToken cancellation)
     {
         MiscellaneousUtils.Assert(writer != null);

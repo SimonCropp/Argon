@@ -163,6 +163,6 @@ class Base64Encoder
             return WriteCharsAsync(charsLine, 0, count, cancellation);
         }
 
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 }

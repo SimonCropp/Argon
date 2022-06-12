@@ -317,7 +317,7 @@ static class JavaScriptUtils
 
         if (StringUtils.IsNullOrEmpty(s))
         {
-            return cancellation.CancelIfRequestedAsync() ?? AsyncUtils.CompletedTask;
+            return cancellation.CancelIfRequestedAsync() ?? Task.CompletedTask;
         }
 
         return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, escapeFlags, escapeHandling, client, buffer, cancellation);

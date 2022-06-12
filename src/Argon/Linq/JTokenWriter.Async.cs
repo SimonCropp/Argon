@@ -15,7 +15,7 @@ public partial class JTokenWriter
         if (reader is JTokenReader)
         {
             WriteToken(reader, writeChildren, writeDateConstructorAsDate, writeComments);
-            return AsyncUtils.CompletedTask;
+            return Task.CompletedTask;
         }
 
         return WriteTokenSyncReadingAsync(reader, cancellation);

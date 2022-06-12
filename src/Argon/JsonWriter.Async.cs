@@ -65,7 +65,7 @@ public abstract partial class JsonWriter
             }
         }
 
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     async Task AutoCompleteAsync(CancellationToken cancellation)
@@ -86,7 +86,7 @@ public abstract partial class JsonWriter
         }
 
         Close();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -100,7 +100,7 @@ public abstract partial class JsonWriter
         }
 
         Flush();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public abstract partial class JsonWriter
         }
 
         WriteEnd(token);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -128,7 +128,7 @@ public abstract partial class JsonWriter
         }
 
         WriteIndent();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -142,7 +142,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValueDelimiter();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -156,7 +156,7 @@ public abstract partial class JsonWriter
         }
 
         WriteIndentSpace();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -170,7 +170,7 @@ public abstract partial class JsonWriter
         }
 
         WriteRaw(json);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -184,7 +184,7 @@ public abstract partial class JsonWriter
         }
 
         WriteEnd();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     internal Task WriteEndInternalAsync(CancellationToken cancellation)
@@ -249,7 +249,7 @@ public abstract partial class JsonWriter
             UpdateCurrentState();
         }
 
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
 
         // Local functions, params renamed (capitalized) so as not to capture and allocate when calling async
         async Task AwaitProperty(Task task, int LevelsToComplete, JsonToken token, CancellationToken cancellation)
@@ -333,7 +333,7 @@ public abstract partial class JsonWriter
         }
 
         WriteEndArray();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -347,7 +347,7 @@ public abstract partial class JsonWriter
         }
 
         WriteEndObject();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -361,7 +361,7 @@ public abstract partial class JsonWriter
         }
 
         WriteNull();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -375,7 +375,7 @@ public abstract partial class JsonWriter
         }
 
         WritePropertyName(name);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -390,7 +390,7 @@ public abstract partial class JsonWriter
         }
 
         WritePropertyName(name, escape);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     internal Task InternalWritePropertyNameAsync(string name, CancellationToken cancellation)
@@ -415,7 +415,7 @@ public abstract partial class JsonWriter
         }
 
         WriteStartArray();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     internal async Task InternalWriteStartAsync(JsonToken token, JsonContainerType container, CancellationToken cancellation)
@@ -436,7 +436,7 @@ public abstract partial class JsonWriter
         }
 
         WriteComment(text);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     internal Task InternalWriteCommentAsync(CancellationToken cancellation) =>
@@ -453,7 +453,7 @@ public abstract partial class JsonWriter
         }
 
         WriteRawValue(json);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -467,7 +467,7 @@ public abstract partial class JsonWriter
         }
 
         WriteStartObject();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -508,7 +508,7 @@ public abstract partial class JsonWriter
         {
             case JsonToken.None:
                 // read to next
-                return AsyncUtils.CompletedTask;
+                return Task.CompletedTask;
             case JsonToken.StartObject:
                 return WriteStartObjectAsync(cancellation);
             case JsonToken.StartArray:
@@ -623,7 +623,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -637,7 +637,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -651,7 +651,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -665,7 +665,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -679,7 +679,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -693,7 +693,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -707,7 +707,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -721,7 +721,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -735,7 +735,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -749,7 +749,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -763,7 +763,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -777,7 +777,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -791,7 +791,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -805,7 +805,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -819,7 +819,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -833,7 +833,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -847,7 +847,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -861,7 +861,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -875,7 +875,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -889,7 +889,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -903,7 +903,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -917,7 +917,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -931,7 +931,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -945,7 +945,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -959,7 +959,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -973,7 +973,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -987,7 +987,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1001,7 +1001,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1015,7 +1015,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1029,7 +1029,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1043,7 +1043,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1057,7 +1057,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1071,7 +1071,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1085,7 +1085,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1099,7 +1099,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1113,7 +1113,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1127,7 +1127,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1141,7 +1141,7 @@ public abstract partial class JsonWriter
         }
 
         WriteValue(value);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1155,7 +1155,7 @@ public abstract partial class JsonWriter
         }
 
         WriteUndefined();
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1169,7 +1169,7 @@ public abstract partial class JsonWriter
         }
 
         WriteWhitespace(ws);
-        return AsyncUtils.CompletedTask;
+        return Task.CompletedTask;
     }
 
     internal Task InternalWriteValueAsync(JsonToken token, CancellationToken cancellation)
@@ -1209,7 +1209,7 @@ public abstract partial class JsonWriter
             case JsonToken.Comment:
                 return InternalWriteCommentAsync(cancellation);
             case JsonToken.Raw:
-                return AsyncUtils.CompletedTask;
+                return Task.CompletedTask;
             case JsonToken.Integer:
             case JsonToken.Float:
             case JsonToken.String:
