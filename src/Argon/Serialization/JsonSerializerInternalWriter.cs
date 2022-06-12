@@ -186,6 +186,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return false;
         }
 
+        MiscellaneousUtils.Assert(valueContract != null);
         if (valueContract.ContractType is JsonContractType.Primitive or JsonContractType.String)
         {
             return false;
