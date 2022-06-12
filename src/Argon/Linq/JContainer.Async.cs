@@ -31,14 +31,14 @@ public abstract partial class JContainer
 
         do
         {
-            if (parent is JProperty {Value: { }})
+            if (parent is JProperty {Value: { }} parentProperty)
             {
-                if (parent == this)
+                if (parentProperty == this)
                 {
                     return;
                 }
 
-                parent = parent.Parent;
+                parent = parentProperty.Parent;
             }
 
             MiscellaneousUtils.Assert(parent != null);
