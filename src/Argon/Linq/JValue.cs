@@ -322,7 +322,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 return ts1.CompareTo(timeSpan);
             default:
-                throw MiscellaneousUtils.CreateOutOfRangeException(nameof(valueType), valueType, $"Unexpected value type: {valueType}");
+                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(valueType), valueType, $"Unexpected value type: {valueType}");
         }
     }
 
@@ -739,22 +739,22 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 writer.WriteValue((byte[]?) value);
                 return;
             case JTokenType.Guid:
-                writer.WriteValue((Guid?) value);
+                writer.WriteValue(value != null ? (Guid?) value : null);
                 return;
             case JTokenType.TimeSpan:
-                writer.WriteValue((TimeSpan?) value);
+                writer.WriteValue(value != null ? (TimeSpan?) value : null);
                 return;
             case JTokenType.Uri:
                 writer.WriteValue((Uri?) value);
                 return;
         }
 
-        throw MiscellaneousUtils.CreateOutOfRangeException(nameof(Type), valueType, "Unexpected token type.");
+        throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(Type), valueType, "Unexpected token type.");
     }
 
     internal override int GetDeepHashCode()
     {
-        var valueHashCode = value?.GetHashCode() ?? 0;
+        var valueHashCode = value != null ? value.GetHashCode() : 0;
 
         // GetHashCode on an enum boxes so cast to int
         return ((int) valueType).GetHashCode() ^ valueHashCode;

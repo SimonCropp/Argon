@@ -44,7 +44,7 @@ static class MiscellaneousUtils
         return objA.Equals(objB);
     }
 
-    public static ArgumentOutOfRangeException CreateOutOfRangeException(string paramName, object actualValue, string message)
+    public static ArgumentOutOfRangeException CreateArgumentOutOfRangeException(string paramName, object actualValue, string message)
     {
         var newMessage = $@"{message}{Environment.NewLine}Actual value was {actualValue}.";
 

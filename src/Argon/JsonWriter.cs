@@ -449,7 +449,7 @@ public abstract partial class JsonWriter : IDisposable
 
                 break;
             default:
-                throw MiscellaneousUtils.CreateOutOfRangeException(nameof(token), token, "Unexpected token type.");
+                throw MiscellaneousUtils.CreateArgumentOutOfRangeException(nameof(token), token, "Unexpected token type.");
         }
     }
 
@@ -1177,7 +1177,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.CharNullable:
-                    writer.WriteValue((char?) value);
+                    writer.WriteValue(value == null ? null : (char) value);
                     return;
 
                 case PrimitiveTypeCode.Boolean:
@@ -1185,7 +1185,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.BooleanNullable:
-                    writer.WriteValue((bool?) value);
+                    writer.WriteValue(value == null ? null : (bool) value);
                     return;
 
                 case PrimitiveTypeCode.SByte:
@@ -1193,7 +1193,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.SByteNullable:
-                    writer.WriteValue((sbyte?) value);
+                    writer.WriteValue(value == null ? null : (sbyte) value);
                     return;
 
                 case PrimitiveTypeCode.Int16:
@@ -1201,7 +1201,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.Int16Nullable:
-                    writer.WriteValue((short?) value);
+                    writer.WriteValue(value == null ? null : (short) value);
                     return;
 
                 case PrimitiveTypeCode.UInt16:
@@ -1209,7 +1209,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.UInt16Nullable:
-                    writer.WriteValue((ushort?) value);
+                    writer.WriteValue(value == null ? null : (ushort) value);
                     return;
 
                 case PrimitiveTypeCode.Int32:
@@ -1217,7 +1217,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.Int32Nullable:
-                    writer.WriteValue((int?) value);
+                    writer.WriteValue(value == null ? null : (int) value);
                     return;
 
                 case PrimitiveTypeCode.Byte:
@@ -1225,7 +1225,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.ByteNullable:
-                    writer.WriteValue((byte?) value);
+                    writer.WriteValue(value == null ? null : (byte) value);
                     return;
 
                 case PrimitiveTypeCode.UInt32:
@@ -1233,7 +1233,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.UInt32Nullable:
-                    writer.WriteValue((uint?) value);
+                    writer.WriteValue(value == null ? null : (uint) value);
                     return;
 
                 case PrimitiveTypeCode.Int64:
@@ -1241,7 +1241,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.Int64Nullable:
-                    writer.WriteValue((long?) value);
+                    writer.WriteValue(value == null ? null : (long) value);
                     return;
 
                 case PrimitiveTypeCode.UInt64:
@@ -1249,7 +1249,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.UInt64Nullable:
-                    writer.WriteValue((ulong?) value);
+                    writer.WriteValue(value == null ? null : (ulong) value);
                     return;
 
                 case PrimitiveTypeCode.Single:
@@ -1257,7 +1257,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.SingleNullable:
-                    writer.WriteValue((float?) value);
+                    writer.WriteValue(value == null ? null : (float) value);
                     return;
 
                 case PrimitiveTypeCode.Double:
@@ -1265,7 +1265,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.DoubleNullable:
-                    writer.WriteValue((double?) value);
+                    writer.WriteValue(value == null ? null : (double) value);
                     return;
 
                 case PrimitiveTypeCode.DateTime:
@@ -1273,7 +1273,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.DateTimeNullable:
-                    writer.WriteValue((DateTime?) value);
+                    writer.WriteValue(value == null ? null : (DateTime) value);
                     return;
 
                 case PrimitiveTypeCode.DateTimeOffset:
@@ -1281,14 +1281,14 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.DateTimeOffsetNullable:
-                    writer.WriteValue((DateTimeOffset?) value);
+                    writer.WriteValue(value == null ? null : (DateTimeOffset) value);
                     return;
                 case PrimitiveTypeCode.Decimal:
                     writer.WriteValue((decimal) value);
                     return;
 
                 case PrimitiveTypeCode.DecimalNullable:
-                    writer.WriteValue((decimal?) value);
+                    writer.WriteValue(value == null ? null : (decimal) value);
                     return;
 
                 case PrimitiveTypeCode.Guid:
@@ -1296,7 +1296,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.GuidNullable:
-                    writer.WriteValue((Guid?) value);
+                    writer.WriteValue(value == null ? null : (Guid) value);
                     return;
 
                 case PrimitiveTypeCode.TimeSpan:
@@ -1304,7 +1304,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.TimeSpanNullable:
-                    writer.WriteValue((TimeSpan?) value);
+                    writer.WriteValue(value == null ? null : (TimeSpan) value);
                     return;
 
                 case PrimitiveTypeCode.BigInteger:
@@ -1314,7 +1314,7 @@ public abstract partial class JsonWriter : IDisposable
 
                 case PrimitiveTypeCode.BigIntegerNullable:
                     // this will call to WriteValue(object)
-                    writer.WriteValue((BigInteger?) value);
+                    writer.WriteValue(value == null ? null : (BigInteger) value);
                     return;
                 case PrimitiveTypeCode.Uri:
                     writer.WriteValue((Uri) value);
