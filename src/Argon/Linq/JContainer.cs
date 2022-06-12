@@ -143,7 +143,11 @@ public abstract partial class JContainer :
     }
 
     internal bool IsMultiContent([NotNullWhen(true)] object? content) =>
-        content is IEnumerable and not string and not JToken and not byte[];
+        content is
+            IEnumerable and
+            not string and
+            not JToken and
+            not byte[];
 
     JToken EnsureParentToken(JToken? item, bool skipParentCheck)
     {
@@ -464,13 +468,8 @@ public abstract partial class JContainer :
     /// <summary>
     /// Merge the specified content into this <see cref="JToken" />.
     /// </summary>
-    public void Merge(object? content)
+    public void Merge(object content)
     {
-        if (content == null)
-        {
-            return;
-        }
-
         ValidateContent(content);
         MergeItem(content, null);
     }
@@ -478,13 +477,8 @@ public abstract partial class JContainer :
     /// <summary>
     /// Merge the specified content into this <see cref="JToken" /> using <see cref="JsonMergeSettings" />.
     /// </summary>
-    public void Merge(object? content, JsonMergeSettings? settings)
+    public void Merge(object content, JsonMergeSettings? settings)
     {
-        if (content == null)
-        {
-            return;
-        }
-
         ValidateContent(content);
         MergeItem(content, settings);
     }
