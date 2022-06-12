@@ -1014,7 +1014,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         var tokenType = reader.TokenType;
 
-        property.PropertyContract ??= GetContractSafe(property.PropertyType);
+        property.PropertyContract ??= GetContract(property.PropertyType);
 
         var objectCreationHandling =
             property.ObjectCreationHandling.GetValueOrDefault(Serializer.ObjectCreationHandling);
