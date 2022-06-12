@@ -67,30 +67,25 @@ public class ContractResolverTests : TestFixtureBase
     [Fact]
     public void JsonPropertyDefaultValue()
     {
-        var p = new JsonProperty();
+        var p1 = new JsonProperty(typeof(object));
 
-        Assert.Equal(null, p.GetResolvedDefaultValue());
-        Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(null, p1.GetResolvedDefaultValue());
+        Assert.Equal(null, p1.DefaultValue);
 
-        p.PropertyType = typeof(int);
+        var p2 = new JsonProperty(typeof(int));
 
-        Assert.Equal(0, p.GetResolvedDefaultValue());
-        Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(0, p2.GetResolvedDefaultValue());
+        Assert.Equal(null, p2.DefaultValue);
 
-        p.PropertyType = typeof(DateTime);
+        var p3= new JsonProperty(typeof(DateTime));
 
-        Assert.Equal(new DateTime(), p.GetResolvedDefaultValue());
-        Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(new DateTime(), p3.GetResolvedDefaultValue());
+        Assert.Equal(null, p3.DefaultValue);
 
-        p.PropertyType = null;
+        var p4 = new JsonProperty(typeof(CompareOptions));
 
-        Assert.Equal(null, p.GetResolvedDefaultValue());
-        Assert.Equal(null, p.DefaultValue);
-
-        p.PropertyType = typeof(CompareOptions);
-
-        Assert.Equal(CompareOptions.None, (CompareOptions) p.GetResolvedDefaultValue());
-        Assert.Equal(null, p.DefaultValue);
+        Assert.Equal(CompareOptions.None, (CompareOptions) p4.GetResolvedDefaultValue());
+        Assert.Equal(null, p4.DefaultValue);
     }
 
     [Fact]
@@ -318,61 +313,61 @@ public class ContractResolverTests : TestFixtureBase
     [Fact]
     public void CalculatingPropertyNameEscapedSkipping()
     {
-        var p = new JsonProperty {PropertyName = "abc"};
+        var p = new JsonProperty(typeof(Object)) {PropertyName = "abc"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "123"};
+        p = new(typeof(Object)) {PropertyName = "123"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "._-"};
+        p = new(typeof(Object)) {PropertyName = "._-"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "!@#"};
+        p = new(typeof(Object)) {PropertyName = "!@#"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "$%^"};
+        p = new(typeof(Object)) {PropertyName = "$%^"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "?*("};
+        p = new(typeof(Object)) {PropertyName = "?*("};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = ")_+"};
+        p = new(typeof(Object)) {PropertyName = ")_+"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "=:,"};
+        p = new(typeof(Object)) {PropertyName = "=:,"};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = null};
+        p = new(typeof(Object)) {PropertyName = null};
         Assert.True(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "&"};
+        p = new(typeof(Object)) {PropertyName = "&"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "<"};
+        p = new(typeof(Object)) {PropertyName = "<"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = ">"};
+        p = new(typeof(Object)) {PropertyName = ">"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "'"};
+        p = new(typeof(Object)) {PropertyName = "'"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = @""""};
+        p = new(typeof(Object)) {PropertyName = @""""};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = Environment.NewLine};
+        p = new(typeof(Object)) {PropertyName = Environment.NewLine};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "\0"};
+        p = new(typeof(Object)) {PropertyName = "\0"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "\n"};
+        p = new(typeof(Object)) {PropertyName = "\n"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "\v"};
+        p = new(typeof(Object)) {PropertyName = "\v"};
         Assert.False(p.skipPropertyNameEscape);
 
-        p = new() {PropertyName = "\u00B9"};
+        p = new(typeof(Object)) {PropertyName = "\u00B9"};
         Assert.False(p.skipPropertyNameEscape);
     }
 

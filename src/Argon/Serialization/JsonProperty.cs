@@ -16,7 +16,9 @@ public class JsonProperty
     bool hasGeneratedDefaultValue;
     string? propertyName;
     internal bool skipPropertyNameEscape;
-    Type? propertyType;
+
+    public JsonProperty(Type propertyType) =>
+        PropertyType = propertyType;
 
     // use to cache contract during deserialization
     internal JsonContract? PropertyContract { get; set; }
@@ -62,18 +64,7 @@ public class JsonProperty
     /// <summary>
     /// Gets or sets the type of the property.
     /// </summary>
-    public Type? PropertyType
-    {
-        get => propertyType;
-        set
-        {
-            if (propertyType != value)
-            {
-                propertyType = value;
-                hasGeneratedDefaultValue = false;
-            }
-        }
-    }
+    public Type PropertyType { get; }
 
     /// <summary>
     /// Gets or sets the <see cref="JsonConverter" /> for the property.
@@ -124,14 +115,9 @@ public class JsonProperty
 
     internal object? GetResolvedDefaultValue()
     {
-        if (propertyType == null)
-        {
-            return null;
-        }
-
         if (!hasExplicitDefaultValue && !hasGeneratedDefaultValue)
         {
-            defaultValue = ReflectionUtils.GetDefaultValue(propertyType);
+            defaultValue = ReflectionUtils.GetDefaultValue(PropertyType);
             hasGeneratedDefaultValue = true;
         }
 
