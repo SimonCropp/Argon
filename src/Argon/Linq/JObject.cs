@@ -121,44 +121,36 @@ public partial class JObject :
         {
             var existingProperty = PropertyOrNull(contentItem.Key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
 
+            var itemValue = contentItem.Value;
             if (existingProperty == null)
             {
-                Add(contentItem.Key, contentItem.Value);
+                Add(contentItem.Key, itemValue);
                 continue;
             }
 
-            if (contentItem.Value != null)
+            if (itemValue == null)
             {
-                if (existingProperty.Value is JContainer existingContainer &&
-                    existingContainer.Type == contentItem.Value.Type)
+                continue;
+            }
+
+            if (existingProperty.Value is JContainer existingContainer &&
+                existingContainer.Type == itemValue.Type)
+            {
+                existingContainer.Merge(itemValue, settings);
+            }
+            else
+            {
+                if (!IsNull(itemValue) || settings?.MergeNullValueHandling == MergeNullValueHandling.Merge)
                 {
-                    existingContainer.Merge(contentItem.Value, settings);
-                }
-                else
-                {
-                    if (!IsNull(contentItem.Value) || settings?.MergeNullValueHandling == MergeNullValueHandling.Merge)
-                    {
-                        existingProperty.Value = contentItem.Value;
-                    }
+                    existingProperty.Value = itemValue;
                 }
             }
         }
     }
 
-    static bool IsNull(JToken token)
-    {
-        if (token.Type == JTokenType.Null)
-        {
-            return true;
-        }
-
-        if (token is JValue {Value: null})
-        {
-            return true;
-        }
-
-        return false;
-    }
+    static bool IsNull(JToken token) =>
+        token.Type == JTokenType.Null ||
+        token is JValue {Value: null};
 
     internal override JToken CloneToken() =>
         new JObject(this);
@@ -187,7 +179,7 @@ public partial class JObject :
         var property = PropertyOrNull(name, comparison);
         if (property == null)
         {
-            throw new($"Property `{name}1  not found.");
+            throw new($"Property `{name}` not found.");
         }
 
         return property;
