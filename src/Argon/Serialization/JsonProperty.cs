@@ -60,11 +60,6 @@ public class JsonProperty
     public IValueProvider? ValueProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="IAttributeProvider" /> for this property.
-    /// </summary>
-    public IAttributeProvider? AttributeProvider { get; set; }
-
-    /// <summary>
     /// Gets or sets the type of the property.
     /// </summary>
     public Type PropertyType { get; }
