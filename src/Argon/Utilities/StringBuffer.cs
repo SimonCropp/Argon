@@ -11,7 +11,7 @@ struct StringBuffer
 
     public bool IsEmpty => InternalBuffer == null;
 
-    public StringBuffer(int initalSize) : this(BufferUtils.RentBuffer(initalSize))
+    public StringBuffer(int initialSize) : this(BufferUtils.RentBuffer(initialSize))
     {
     }
 

@@ -6,8 +6,8 @@ using System.Buffers;
 
 static class BufferUtils
 {
-    public static char[] RentBuffer(int minSize) =>
-        ArrayPool<char>.Shared.Rent(minSize);
+    public static char[] RentBuffer(int size) =>
+        ArrayPool<char>.Shared.Rent(size);
 
     public static void ReturnBuffer(char[]? buffer)
     {
