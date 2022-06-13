@@ -6,19 +6,12 @@ static class ReflectionUtils
 {
     public static bool ImplementInterface(this Type type, Type interfaceType)
     {
-        for (var currentType = type; currentType != null; currentType = currentType.BaseType)
+        if (type == interfaceType)
         {
-            var interfaces = currentType.GetInterfaces();
-            foreach (var i in interfaces)
-            {
-                if (i == interfaceType || i.ImplementInterface(interfaceType))
-                {
-                    return true;
-                }
-            }
+            return false;
         }
 
-        return false;
+        return interfaceType.IsAssignableFrom(type);
     }
 
     public static T GetValueOrDefault<T>(this T? target, T? fallback)
