@@ -209,7 +209,7 @@ static class JsonTypeReflector
         };
     }
 
-    static T? GetAttribute<T>(Type type) where T : Attribute
+    public static T? GetAttribute<T>(this Type type) where T : Attribute
     {
         var attribute = type.GetCustomAttribute<T>(true);
         if (attribute != null)

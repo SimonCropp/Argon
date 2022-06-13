@@ -195,10 +195,8 @@ public abstract class JsonContract
         }
     }
 
-    static StreamingContext ContextToUse(StreamingContext? context)
-    {
-        return context ?? JsonSerializerSettings.DefaultContext;
-    }
+    static StreamingContext ContextToUse(StreamingContext? context) =>
+        context ?? JsonSerializerSettings.DefaultContext;
 
     internal static SerializationCallback CreateSerializationCallback(MethodInfo callbackMethodInfo) =>
         (o, context) => callbackMethodInfo.Invoke(o, new object[] {context});

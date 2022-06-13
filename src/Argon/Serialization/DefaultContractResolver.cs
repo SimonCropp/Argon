@@ -794,7 +794,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonDictionaryContract(type);
         InitializeContract(contract);
 
-        var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(type);
+        var containerAttribute = type.GetAttribute<JsonContainerAttribute>();
         if (containerAttribute?.NamingStrategyType == null)
         {
             contract.DictionaryKeyResolver = ResolveDictionaryKey;
@@ -903,7 +903,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonDynamicContract(type);
         InitializeContract(contract);
 
-        var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(type);
+        var containerAttribute = type.GetAttribute<JsonContainerAttribute>();
         if (containerAttribute?.NamingStrategyType != null)
         {
             var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
@@ -1220,7 +1220,7 @@ public class DefaultContractResolver : IContractResolver
             hasSpecifiedName = false;
         }
 
-        var containerAttribute = JsonTypeReflector.GetAttribute<JsonContainerAttribute>(declaringType);
+        var containerAttribute = declaringType.GetAttribute<JsonContainerAttribute>();
 
         NamingStrategy? namingStrategy;
         if (propertyAttribute?.NamingStrategyType != null)
