@@ -11,7 +11,7 @@ public class EncodingReadConverter : JsonConverter
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
-        var encodingName = serializer.Deserialize<string>(reader);
+        var encodingName = serializer.TryDeserialize<string>(reader);
         if (encodingName == null)
         {
             return null;

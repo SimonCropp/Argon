@@ -4315,7 +4315,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DeserializeNullNullableDateTimeValueTest()
     {
-        var dateTime = JsonConvert.DeserializeObject("null", typeof(DateTime?));
+        var dateTime = JsonConvert.TryDeserializeObject("null", typeof(DateTime?));
 
         Assert.Null(dateTime);
     }
@@ -6811,7 +6811,7 @@ This is just junk, though.";
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
             {
-                JsonConvert.DeserializeObject<MailMessage>(
+                JsonConvert.TryDeserializeObject<MailMessage>(
                     JsonMessage,
                     new MailAddressReadConverter(),
                     new AttachmentReadConverter(),

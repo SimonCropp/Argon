@@ -36,13 +36,13 @@ sealed class NodaDateIntervalConverter : NodaConverterBase<DateInterval>
             var startPropertyName = serializer.ResolvePropertyName(nameof(Interval.Start));
             if (string.Equals(propertyName, startPropertyName, StringComparison.OrdinalIgnoreCase))
             {
-                startLocalDate = serializer.Deserialize<LocalDate>(reader);
+                startLocalDate = serializer.TryDeserialize<LocalDate>(reader);
             }
 
             var endPropertyName = serializer.ResolvePropertyName(nameof(Interval.End));
             if (string.Equals(propertyName, endPropertyName, StringComparison.OrdinalIgnoreCase))
             {
-                endLocalDate = serializer.Deserialize<LocalDate>(reader);
+                endLocalDate = serializer.TryDeserialize<LocalDate>(reader);
             }
         }
 

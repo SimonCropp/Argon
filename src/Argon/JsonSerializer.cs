@@ -517,34 +517,77 @@ public class JsonSerializer
     /// </summary>
     /// <returns>The <see cref="Object" /> being deserialized.</returns>
     [DebuggerStepThrough]
-    public object? Deserialize(JsonReader reader) =>
+    public object Deserialize(JsonReader reader) =>
         Deserialize(reader, null);
+
+    /// <summary>
+    /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />.
+    /// </summary>
+    /// <returns>The <see cref="Object" /> being deserialized.</returns>
+    [DebuggerStepThrough]
+    public object? TryDeserialize(JsonReader reader) =>
+        TryDeserialize(reader, null);
 
     /// <summary>
     /// Deserializes the JSON structure contained by the specified <see cref="TextReader" />
     /// into an instance of the specified type.
     /// </summary>
     [DebuggerStepThrough]
-    public object? Deserialize(TextReader reader, Type type) =>
+    public object Deserialize(TextReader reader, Type type) =>
         Deserialize(new JsonTextReader(reader), type);
 
     /// <summary>
-    /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />
+    /// Deserializes the JSON structure contained by the specified <see cref="TextReader" />
     /// into an instance of the specified type.
     /// </summary>
     [DebuggerStepThrough]
-    public T? Deserialize<T>(JsonReader reader) =>
-        (T?) Deserialize(reader, typeof(T));
+    public object? TryDeserialize(TextReader reader, Type type) =>
+        TryDeserialize(new JsonTextReader(reader), type);
 
     /// <summary>
     /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />
     /// into an instance of the specified type.
     /// </summary>
     [DebuggerStepThrough]
-    public object? Deserialize(JsonReader reader, Type? type) =>
+    public T Deserialize<T>(JsonReader reader) =>
+        (T) Deserialize(reader, typeof(T));
+
+    /// <summary>
+    /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />
+    /// into an instance of the specified type.
+    /// </summary>
+    [DebuggerStepThrough]
+    public T? TryDeserialize<T>(JsonReader reader) =>
+        (T?) TryDeserialize(reader, typeof(T));
+
+    /// <summary>
+    /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />
+    /// into an instance of the specified type.
+    /// </summary>
+    [DebuggerStepThrough]
+    public object Deserialize(JsonReader reader, Type? type) =>
         DeserializeInternal(reader, type);
 
-    internal virtual object? DeserializeInternal(JsonReader reader, Type? type)
+    /// <summary>
+    /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />
+    /// into an instance of the specified type.
+    /// </summary>
+    [DebuggerStepThrough]
+    public object? TryDeserialize(JsonReader reader, Type? type) =>
+        TryDeserializeInternal(reader, type);
+
+    internal virtual object DeserializeInternal(JsonReader reader, Type? type)
+    {
+        var result = TryDeserializeInternal(reader, type);
+        if (result == null)
+        {
+            throw new("The value resulted in null.");
+        }
+
+        return result;
+    }
+
+    internal virtual object? TryDeserializeInternal(JsonReader reader, Type? type)
     {
         SetupReader(
             reader,

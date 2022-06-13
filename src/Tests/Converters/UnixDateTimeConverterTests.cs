@@ -129,7 +129,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeNullToNullable()
     {
-        var result = JsonConvert.DeserializeObject<DateTime?>("null", new UnixDateTimeConverter());
+        var result = JsonConvert.TryDeserializeObject<DateTime?>("null", new UnixDateTimeConverter());
 
         Assert.Null(result);
     }

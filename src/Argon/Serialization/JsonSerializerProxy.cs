@@ -196,11 +196,11 @@ class JsonSerializerProxy : JsonSerializer
         serializer = serializerWriter.Serializer;
     }
 
-    internal override object? DeserializeInternal(JsonReader reader, Type? type)
+    internal override object? TryDeserializeInternal(JsonReader reader, Type? type)
     {
         if (serializerReader == null)
         {
-            return serializer.Deserialize(reader, type);
+            return serializer.TryDeserialize(reader, type);
         }
 
         return serializerReader.Deserialize(reader, type, false);

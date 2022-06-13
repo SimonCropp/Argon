@@ -75,13 +75,13 @@ public class KeyValuePairConverter : JsonConverter
             {
                 reader.ReadForTypeAndAssert(keyContract, false);
 
-                key = serializer.Deserialize(reader, keyContract.UnderlyingType);
+                key = serializer.TryDeserialize(reader, keyContract.UnderlyingType);
             }
             else if (string.Equals(propertyName, valueName, StringComparison.OrdinalIgnoreCase))
             {
                 reader.ReadForTypeAndAssert(valueContract, false);
 
-                value = serializer.Deserialize(reader, valueContract.UnderlyingType);
+                value = serializer.TryDeserialize(reader, valueContract.UnderlyingType);
             }
             else
             {

@@ -493,8 +493,15 @@ public static class JsonConvert
     /// Deserializes the JSON to a .NET object.
     /// </summary>
     [DebuggerStepThrough]
-    public static object? DeserializeObject(string value) =>
+    public static object DeserializeObject(string value) =>
         DeserializeObject(value, null, (JsonSerializerSettings?) null);
+
+    /// <summary>
+    /// Deserializes the JSON to a .NET object.
+    /// </summary>
+    [DebuggerStepThrough]
+    public static object? TryDeserializeObject(string value) =>
+        TryDeserializeObject(value, null, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Deserializes the JSON to a .NET object using <see cref="JsonSerializerSettings" />.
@@ -504,22 +511,47 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static object? DeserializeObject(string value, JsonSerializerSettings settings) =>
+    public static object DeserializeObject(string value, JsonSerializerSettings settings) =>
         DeserializeObject(value, null, settings);
+
+    /// <summary>
+    /// Deserializes the JSON to a .NET object using <see cref="JsonSerializerSettings" />.
+    /// </summary>
+    /// <param name="settings">
+    /// The <see cref="JsonSerializerSettings" /> used to deserialize the object.
+    /// If this is <c>null</c>, default serialization settings will be used.
+    /// </param>
+    [DebuggerStepThrough]
+    public static object? TryDeserializeObject(string value, JsonSerializerSettings settings) =>
+        TryDeserializeObject(value, null, settings);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type.
     /// </summary>
     [DebuggerStepThrough]
-    public static object? DeserializeObject(string value, Type type) =>
+    public static object DeserializeObject(string value, Type type) =>
         DeserializeObject(value, type, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type.
     /// </summary>
     [DebuggerStepThrough]
-    public static T? DeserializeObject<T>(string value) =>
+    public static object? TryDeserializeObject(string value, Type type) =>
+        TryDeserializeObject(value, type, (JsonSerializerSettings?) null);
+
+    /// <summary>
+    /// Deserializes the JSON to the specified .NET type.
+    /// </summary>
+    [DebuggerStepThrough]
+    public static T DeserializeObject<T>(string value) =>
         DeserializeObject<T>(value, (JsonSerializerSettings?) null);
+
+    /// <summary>
+    /// Deserializes the JSON to the specified .NET type.
+    /// </summary>
+    [DebuggerStepThrough]
+    public static T? TryDeserializeObject<T>(string value) =>
+        TryDeserializeObject<T>(value, (JsonSerializerSettings?) null);
 
     /// <summary>
     /// Deserializes the JSON to the given anonymous type.
@@ -530,8 +562,20 @@ public static class JsonConvert
     /// as a parameter.
     /// </typeparam>
     [DebuggerStepThrough]
-    public static T? DeserializeAnonymousType<T>(string value, T anonymousTypeObject) =>
+    public static T DeserializeAnonymousType<T>(string value, T anonymousTypeObject) =>
         DeserializeObject<T>(value);
+
+    /// <summary>
+    /// Deserializes the JSON to the given anonymous type.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The anonymous type to deserialize to. This can't be specified
+    /// traditionally and must be inferred from the anonymous type passed
+    /// as a parameter.
+    /// </typeparam>
+    [DebuggerStepThrough]
+    public static T? TryDeserializeAnonymousType<T>(string value, T anonymousTypeObject) =>
+        TryDeserializeObject<T>(value);
 
     /// <summary>
     /// Deserializes the JSON to the given anonymous type using <see cref="JsonSerializerSettings" />.
@@ -546,15 +590,38 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static T? DeserializeAnonymousType<T>(string value, T anonymousTypeObject, JsonSerializerSettings settings) =>
+    public static T DeserializeAnonymousType<T>(string value, T anonymousTypeObject, JsonSerializerSettings settings) =>
         DeserializeObject<T>(value, settings);
+
+    /// <summary>
+    /// Deserializes the JSON to the given anonymous type using <see cref="JsonSerializerSettings" />.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The anonymous type to deserialize to. This can't be specified
+    /// traditionally and must be inferred from the anonymous type passed
+    /// as a parameter.
+    /// </typeparam>
+    /// <param name="settings">
+    /// The <see cref="JsonSerializerSettings" /> used to deserialize the object.
+    /// If this is <c>null</c>, default serialization settings will be used.
+    /// </param>
+    [DebuggerStepThrough]
+    public static T? TryDeserializeAnonymousType<T>(string value, T anonymousTypeObject, JsonSerializerSettings settings) =>
+        TryDeserializeObject<T>(value, settings);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type using a collection of <see cref="JsonConverter" />.
     /// </summary>
     [DebuggerStepThrough]
-    public static T? DeserializeObject<T>(string value, params JsonConverter[] converters) =>
-        (T?) DeserializeObject(value, typeof(T), converters);
+    public static T DeserializeObject<T>(string value, params JsonConverter[] converters) =>
+        (T) DeserializeObject(value, typeof(T), converters);
+
+    /// <summary>
+    /// Deserializes the JSON to the specified .NET type using a collection of <see cref="JsonConverter" />.
+    /// </summary>
+    [DebuggerStepThrough]
+    public static T? TryDeserializeObject<T>(string value, params JsonConverter[] converters) =>
+        (T?) TryDeserializeObject(value, typeof(T), converters);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type using <see cref="JsonSerializerSettings" />.
@@ -564,22 +631,50 @@ public static class JsonConvert
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
     [DebuggerStepThrough]
-    public static T? DeserializeObject<T>(string value, JsonSerializerSettings? settings) =>
-        (T?) DeserializeObject(value, typeof(T), settings);
+    public static T DeserializeObject<T>(string value, JsonSerializerSettings? settings) =>
+        (T) DeserializeObject(value, typeof(T), settings);
+
+    /// <summary>
+    /// Deserializes the JSON to the specified .NET type using <see cref="JsonSerializerSettings" />.
+    /// </summary>
+    /// <param name="settings">
+    /// The <see cref="JsonSerializerSettings" /> used to deserialize the object.
+    /// If this is <c>null</c>, default serialization settings will be used.
+    /// </param>
+    [DebuggerStepThrough]
+    public static T? TryDeserializeObject<T>(string value, JsonSerializerSettings? settings) =>
+        (T?) TryDeserializeObject(value, typeof(T), settings);
 
     /// <summary>
     /// Deserializes the JSON to the specified .NET type using a collection of <see cref="JsonConverter" />.
     /// </summary>
     [DebuggerStepThrough]
-    public static object? DeserializeObject(string value, Type type, params JsonConverter[] converters)
+    public static object DeserializeObject(string value, Type type, params JsonConverter[] converters)
     {
-        JsonSerializerSettings? settings = null;
-        if (converters is {Length: > 0})
-        {
-            settings = new() {Converters = converters};
-        }
+        var settings = GetSettingsForConverter(converters);
 
         return DeserializeObject(value, type, settings);
+    }
+
+    /// <summary>
+    /// Deserializes the JSON to the specified .NET type using a collection of <see cref="JsonConverter" />.
+    /// </summary>
+    [DebuggerStepThrough]
+    public static object? TryDeserializeObject(string value, Type type, params JsonConverter[] converters)
+    {
+        var settings = GetSettingsForConverter(converters);
+
+        return TryDeserializeObject(value, type, settings);
+    }
+
+    static JsonSerializerSettings? GetSettingsForConverter(JsonConverter[] converters)
+    {
+        if (converters is {Length: > 0})
+        {
+            return new() {Converters = converters};
+        }
+
+        return null;
     }
 
     /// <summary>
@@ -589,7 +684,25 @@ public static class JsonConvert
     /// The <see cref="JsonSerializerSettings" /> used to deserialize the object.
     /// If this is <c>null</c>, default serialization settings will be used.
     /// </param>
-    public static object? DeserializeObject(string value, Type? type, JsonSerializerSettings? settings)
+    public static object DeserializeObject(string value, Type? type, JsonSerializerSettings? settings)
+    {
+        var result = TryDeserializeObject(value, type, settings);
+        if (result==null)
+        {
+            throw new($"The value resulted in null. Value: {value}");
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Deserializes the JSON to the specified .NET type using <see cref="JsonSerializerSettings" />.
+    /// </summary>
+    /// <param name="settings">
+    /// The <see cref="JsonSerializerSettings" /> used to deserialize the object.
+    /// If this is <c>null</c>, default serialization settings will be used.
+    /// </param>
+    public static object? TryDeserializeObject(string value, Type? type, JsonSerializerSettings? settings)
     {
         var jsonSerializer = JsonSerializer.CreateDefault(settings);
 
@@ -600,7 +713,7 @@ public static class JsonConvert
         }
 
         using var reader = new JsonTextReader(new StringReader(value));
-        return jsonSerializer.Deserialize(reader, type);
+        return jsonSerializer.TryDeserialize(reader, type);
     }
 
     #endregion

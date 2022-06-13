@@ -108,7 +108,7 @@ public class RegexConverter : JsonConverter
                     }
                     else if (string.Equals(propertyName, optionsName, StringComparison.OrdinalIgnoreCase))
                     {
-                        options = serializer.Deserialize<RegexOptions>(reader);
+                        options = serializer.TryDeserialize<RegexOptions>(reader);
                     }
                     else
                     {

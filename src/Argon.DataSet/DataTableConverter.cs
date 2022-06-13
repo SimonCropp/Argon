@@ -170,7 +170,7 @@ public class DataTableConverter : JsonConverter
             return DBNull.Value;
         }
 
-        return serializer.Deserialize(reader, column.DataType) ?? DBNull.Value;
+        return serializer.TryDeserialize(reader, column.DataType) ?? DBNull.Value;
     }
 
     static DataColumn GetColumn(JsonReader reader, DataTable table, string name)

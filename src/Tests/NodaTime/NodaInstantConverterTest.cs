@@ -62,7 +62,7 @@ public class NodaInstantConverterTest
     public void Deserialize_ToNullableType_NullValue()
     {
         var json = "null";
-        var instant = JsonConvert.DeserializeObject<Instant?>(json, settings);
+        var instant = JsonConvert.TryDeserializeObject<Instant?>(json, settings);
         Assert.Null(instant);
     }
 

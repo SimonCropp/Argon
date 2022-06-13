@@ -120,7 +120,7 @@ public class DateOnlyTests : TestFixtureBase
     [Fact]
     public void DeserializeNullable_Null()
     {
-        var d = JsonConvert.DeserializeObject<DateOnly?>(@"null");
+        var d = JsonConvert.TryDeserializeObject<DateOnly?>(@"null");
 
         Assert.Equal(null, d);
     }

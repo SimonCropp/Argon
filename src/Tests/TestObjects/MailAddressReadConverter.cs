@@ -11,7 +11,7 @@ public class MailAddressReadConverter : JsonConverter
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
-        var messageJObject = serializer.Deserialize<JObject>(reader);
+        var messageJObject = serializer.TryDeserialize<JObject>(reader);
         if (messageJObject == null)
         {
             return null;

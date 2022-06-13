@@ -105,7 +105,7 @@ public static class JsonXmlConvert
             EncodeSpecialCharacters = encodeSpecialCharacters
         };
 
-        return (XmlDocument?) JsonConvert.DeserializeObject(value, typeof(XmlDocument), converter);
+        return (XmlDocument?) JsonConvert.TryDeserializeObject(value, typeof(XmlDocument), converter);
     }
 
     /// <summary>
@@ -194,6 +194,6 @@ public static class JsonXmlConvert
             EncodeSpecialCharacters = encodeSpecialCharacters
         };
 
-        return (XDocument?) JsonConvert.DeserializeObject(value, typeof(XDocument), converter);
+        return (XDocument?) JsonConvert.TryDeserializeObject(value, typeof(XDocument), converter);
     }
 }

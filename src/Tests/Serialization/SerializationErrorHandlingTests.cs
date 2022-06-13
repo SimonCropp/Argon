@@ -32,7 +32,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<Exception>();
 
-        var a2 = (JObject) JsonConvert.DeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
+        var a2 = (JObject) JsonConvert.TryDeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             Error = (_, e) =>
@@ -542,7 +542,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             e.ErrorContext.Handled = true;
         };
 
-        var result = serializer.Deserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
+        var result = serializer.TryDeserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
 
         Assert.Null(result);
         Assert.Equal(3, errors.Count);
@@ -788,7 +788,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             args.ErrorContext.Handled = true;
         };
-        var obj = s.Deserialize<ErrorPerson2>(jReader);
+        var obj = s.TryDeserialize<ErrorPerson2>(jReader);
 
         Assert.Null(obj);
     }
@@ -928,7 +928,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeRootConverter()
     {
-        var result = JsonConvert.DeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
+        var result = JsonConvert.TryDeserializeObject<SomethingElse>("{}", new JsonSerializerSettings
         {
             Error = (_, e) =>
             {

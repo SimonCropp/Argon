@@ -1641,7 +1641,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             proxy.serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
         }
 
-        return jsonSerializer.Deserialize(jsonReader, type);
+        return jsonSerializer.TryDeserialize(jsonReader, type);
     }
 
     /// <summary>

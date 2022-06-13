@@ -28,7 +28,7 @@ public class NodaConverterBaseTest
     {
         var converter = new TestConverter();
 
-        Assert.Null(JsonConvert.DeserializeObject<int?>("null", converter));
+        Assert.Null(JsonConvert.TryDeserializeObject<int?>("null", converter));
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class NodaConverterBaseTest
     {
         var converter = new TestStringConverter();
 
-        Assert.Null(JsonConvert.DeserializeObject<string>("null", converter));
+        Assert.Null(JsonConvert.TryDeserializeObject<string>("null", converter));
     }
 
     [Fact]

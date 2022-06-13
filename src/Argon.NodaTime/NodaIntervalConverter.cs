@@ -38,13 +38,13 @@ sealed class NodaIntervalConverter : NodaConverterBase<Interval>
             var startPropertyName = serializer.ResolvePropertyName(nameof(Interval.Start));
             if (string.Equals(propertyName, startPropertyName, StringComparison.OrdinalIgnoreCase))
             {
-                startInstant = serializer.Deserialize<Instant>(reader);
+                startInstant = serializer.TryDeserialize<Instant>(reader);
             }
 
             var endPropertyName = serializer.ResolvePropertyName(nameof(Interval.End));
             if (string.Equals(propertyName, endPropertyName, StringComparison.OrdinalIgnoreCase))
             {
-                endInstant = serializer.Deserialize<Instant>(reader);
+                endInstant = serializer.TryDeserialize<Instant>(reader);
             }
         }
 

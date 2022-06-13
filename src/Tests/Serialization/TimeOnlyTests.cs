@@ -149,7 +149,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void DeserializeNullable_Null()
     {
-        var t = JsonConvert.DeserializeObject<TimeOnly?>(@"null");
+        var t = JsonConvert.TryDeserializeObject<TimeOnly?>(@"null");
 
         Assert.Equal(null, t);
     }

@@ -62,7 +62,7 @@ public class NodaAnnualDateConverterTest
     public void Deserialize_ToNullableType_NullValue()
     {
         var json = "null";
-        var annualDate = JsonConvert.DeserializeObject<AnnualDate?>(json, settings);
+        var annualDate = JsonConvert.TryDeserializeObject<AnnualDate?>(json, settings);
         Assert.Null(annualDate);
     }
 }
