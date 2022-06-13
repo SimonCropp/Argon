@@ -543,10 +543,7 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>A created <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.</returns>
     protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameterInfo)
     {
-        var property = new JsonProperty(parameterInfo.ParameterType, parameterInfo.Member.DeclaringType!)
-        {
-            AttributeProvider = new ReflectionAttributeProvider(parameterInfo)
-        };
+        var property = new JsonProperty(parameterInfo.ParameterType, parameterInfo.Member.DeclaringType!);
 
         SetPropertySettingsFromAttributes(property, parameterInfo, parameterInfo.Name!, parameterInfo.Member.DeclaringType!, MemberSerialization.OptOut, out _);
 
@@ -1156,8 +1153,7 @@ public class DefaultContractResolver : IContractResolver
     {
         var property = new JsonProperty(member.GetMemberUnderlyingType(), member.DeclaringType!)
         {
-            ValueProvider = CreateMemberValueProvider(member),
-            AttributeProvider = new ReflectionAttributeProvider(member)
+            ValueProvider = CreateMemberValueProvider(member)
         };
 
         SetPropertySettingsFromAttributes(property, member, member.Name, member.DeclaringType!, memberSerialization, out var allowNonPublicAccess);

@@ -536,16 +536,6 @@ static class ReflectionUtils
         return memberUnderlyingType.IsGenericParameter;
     }
 
-    public static Attribute[] GetAttributes(ICustomAttributeProvider provider, Type? attributeType, bool inherit)
-    {
-        if (attributeType == null)
-        {
-            return provider.GetCustomAttributes(inherit).Cast<Attribute>().ToArray();
-        }
-
-        return provider.GetCustomAttributes(attributeType, inherit).Cast<Attribute>().ToArray();
-    }
-
     public static StructMultiKey<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)
     {
         var assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullyQualifiedTypeName);

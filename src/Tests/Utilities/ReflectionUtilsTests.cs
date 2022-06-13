@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 #if !NET5_0_OR_GREATER
+
 public class ReflectionUtilsTests : TestFixtureBase
 {
     [Fact]
@@ -21,5 +22,4 @@ public class ReflectionUtilsTests : TestFixtureBase
         Assert.Equal("System.Collections.Generic.IDictionary`2, mscorlib", typeName);
     }
 }
-
 #endif

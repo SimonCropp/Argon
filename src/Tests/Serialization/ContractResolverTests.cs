@@ -100,17 +100,6 @@ public class ContractResolverTests : TestFixtureBase
     }
 
     [Fact]
-    public void PropertyAttributeProvider()
-    {
-        var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(Invoice));
-
-        var property = contract.Properties["FollowUpDays"];
-        Assert.Equal(1, property.AttributeProvider.GetAttributes(false).Count);
-        Assert.Equal(typeof(DefaultValueAttribute), property.AttributeProvider.GetAttributes(false)[0].GetType());
-    }
-
-    [Fact]
     public void AbstractTestClass()
     {
         var resolver = new DefaultContractResolver();
