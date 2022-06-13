@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <LangVersion>10.0</LangVersion>
-    <Version>0.1.0-beta.9</Version>
+    <Version>0.1.0-beta.10</Version>
     <Copyright>Copyright © James Newton-King 2008, Copyright © Simon Cropp 2022</Copyright>
     <PackageTags>Json</PackageTags>
     <Description>Json serialization library. Hard fork of Json.net.</Description>
