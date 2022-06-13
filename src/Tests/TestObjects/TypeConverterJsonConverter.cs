@@ -8,11 +8,14 @@ namespace TestObjects;
 
 class TypeConverterJsonConverter : JsonConverter
 {
+    static Attribute[] GetAttributes(ICustomAttributeProvider provider, Type attributeType, bool inherit) =>
+        provider.GetCustomAttributes(attributeType, inherit).Cast<Attribute>().ToArray();
+
     static TypeConverter GetConverter(Type type)
     {
-        var converters = ReflectionUtils.GetAttributes(type, typeof(TypeConverterAttribute), true).Union(
+        var converters = GetAttributes(type, typeof(TypeConverterAttribute), true).Union(
             from t in type.GetInterfaces()
-            from c in ReflectionUtils.GetAttributes(t, typeof(TypeConverterAttribute), true)
+            from c in GetAttributes(t, typeof(TypeConverterAttribute), true)
             select c).Distinct();
 
         return
