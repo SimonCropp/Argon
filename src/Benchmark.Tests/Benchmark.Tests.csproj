@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <!-- Disabled because SourceLink isn't referenced to calculate paths -->
     <DeterministicSourcePaths>false</DeterministicSourcePaths>
-    <Configurations>Debug;Release;DebugNet6</Configurations>
+    <Configurations>Debug;Release;DebugNet7</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />

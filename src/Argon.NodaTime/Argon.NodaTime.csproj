@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>Provides serialization support between Noda Time and Json.NET.</Description>
-    <TargetFrameworks>net461;netstandard2.0;net5.0;net6.0</TargetFrameworks>
-    <TargetFrameworks Condition="$(Configuration) == 'DebugNet6'">net6.0</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0;net5.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks Condition="$(Configuration) == 'DebugNet7'">net7.0</TargetFrameworks>
     <PackageTags>nodatime;json;Argon</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
