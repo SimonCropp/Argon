@@ -956,10 +956,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         {
             property.ValueProvider!.SetValue(target, value);
 
-            if (property.SetIsSpecified != null)
-            {
-                property.SetIsSpecified(target, true);
-            }
+            property.SetIsSpecified?.Invoke(target, true);
 
             return true;
         }
