@@ -868,6 +868,7 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.EscapeHandling = EscapeHandling.EscapeNonAscii;
         Assert.Equal(EscapeHandling.EscapeNonAscii, serializer.EscapeHandling);
 
+        serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
         Assert.Equal(TypeNameAssemblyFormatHandling.Simple, serializer.TypeNameAssemblyFormatHandling);
 
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
