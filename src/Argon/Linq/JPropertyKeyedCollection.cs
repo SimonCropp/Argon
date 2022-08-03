@@ -28,17 +28,19 @@ class JPropertyKeyedCollection : Collection<JToken>
         }
 
         var keyForItem = GetKeyForItem(item);
-        if (!comparer.Equals(keyForItem, newKey))
+        if (comparer.Equals(keyForItem, newKey))
         {
-            if (newKey != null)
-            {
-                AddKey(newKey, item);
-            }
+            return;
+        }
 
-            if (keyForItem != null)
-            {
-                RemoveKey(keyForItem);
-            }
+        if (newKey != null)
+        {
+            AddKey(newKey, item);
+        }
+
+        if (keyForItem != null)
+        {
+            RemoveKey(keyForItem);
         }
     }
 
@@ -51,12 +53,12 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     public bool Contains(string key)
     {
-        if (dictionary != null)
+        if (dictionary == null)
         {
-            return dictionary.ContainsKey(key);
+            return false;
         }
 
-        return false;
+        return dictionary.ContainsKey(key);
     }
 
     bool ContainsItem(JToken item)
@@ -84,12 +86,12 @@ class JPropertyKeyedCollection : Collection<JToken>
 
     public bool Remove(string key)
     {
-        if (dictionary != null)
+        if (dictionary == null)
         {
-            return dictionary.TryGetValue(key, out var value) && Remove(value);
+            return false;
         }
 
-        return false;
+        return dictionary.TryGetValue(key, out var value) && Remove(value);
     }
 
     protected override void RemoveItem(int index)
