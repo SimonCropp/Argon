@@ -110,11 +110,6 @@ public class JsonSerializerSettings
     public Func<IReferenceResolver?>? ReferenceResolverProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="ITraceWriter" /> used by the serializer when writing trace messages.
-    /// </summary>
-    public ITraceWriter? TraceWriter { get; set; }
-
-    /// <summary>
     /// Gets or sets the <see cref="ISerializationBinder" /> used by the serializer when resolving type names.
     /// </summary>
     public ISerializationBinder? SerializationBinder { get; set; }

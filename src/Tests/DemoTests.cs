@@ -145,33 +145,6 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializationBasics()
     {
-        var roles = new List<string>
-        {
-            "User",
-            "Admin"
-        };
-
-        var traceWriter = new MemoryTraceWriter();
-
-        var j = JsonConvert.SerializeObject(roles, new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented,
-            TraceWriter = traceWriter
-        });
-
-        var trace = traceWriter.ToString();
-        // Started serializing System.Collections.Generic.List`1[System.String].
-        // Finished serializing System.Collections.Generic.List`1[System.String].
-        // Verbose Serialized JSON:
-        // [
-        //   "User",
-        //   "Admin"
-        // ]
-    }
-
-    [Fact]
-    public void SerializationBasics2()
-    {
         var s = new Session
         {
             Name = "Serialize All The Things",

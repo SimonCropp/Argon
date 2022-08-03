@@ -22,12 +22,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.ReferenceResolver = value;
     }
 
-    public override ITraceWriter? TraceWriter
-    {
-        get => serializer.TraceWriter;
-        set => serializer.TraceWriter = value;
-    }
-
     public override IEqualityComparer? EqualityComparer
     {
         get => serializer.EqualityComparer;

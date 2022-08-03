@@ -37,14 +37,6 @@ public class Issue1461 : TestFixtureBase
         public Id Id { get; set; }
     }
 
-    class TraceWriter : ITraceWriter
-    {
-        public TraceLevel LevelFilter => TraceLevel.Verbose;
-
-        public void Trace(TraceLevel level, string message, Exception exception) =>
-            Console.WriteLine(message);
-    }
-
     class IdJsonConverter : JsonConverter
     {
         public override bool CanConvert(Type type) => typeof(Id) == type;

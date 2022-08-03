@@ -18,14 +18,10 @@ abstract class JsonSerializerInternalBase
     BidirectionalDictionary<string, object>? mappings;
 
     internal readonly JsonSerializer Serializer;
-    internal readonly ITraceWriter? TraceWriter;
     protected JsonSerializerProxy? InternalSerializer;
 
-    protected JsonSerializerInternalBase(JsonSerializer serializer)
-    {
+    protected JsonSerializerInternalBase(JsonSerializer serializer) =>
         Serializer = serializer;
-        TraceWriter = serializer.TraceWriter;
-    }
 
     internal BidirectionalDictionary<string, object> DefaultReferenceMappings =>
         // override equality comparer for object key dictionary
@@ -67,29 +63,6 @@ abstract class JsonSerializerInternalBase
     protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception exception)
     {
         var errorContext = GetErrorContext(currentObject, keyValue, path, exception);
-
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Error} && !errorContext.Traced)
-        {
-            // only write error once
-            errorContext.Traced = true;
-
-            // kind of a hack but meh. might clean this up later
-            var message = GetType() == typeof(JsonSerializerInternalWriter) ? "Error serializing" : "Error deserializing";
-            if (contract != null)
-            {
-                message += $" {contract.UnderlyingType}";
-            }
-
-            message += $". {exception.Message}";
-
-            // add line information to non-json.net exception message
-            if (exception is not JsonException)
-            {
-                message = JsonPosition.FormatMessage(lineInfo, path, message);
-            }
-
-            TraceWriter.Trace(TraceLevel.Error, message, exception);
-        }
 
         // attribute method is non-static so don't invoke if no object
         if (contract != null && currentObject != null)

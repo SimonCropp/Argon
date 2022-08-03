@@ -868,11 +868,6 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.EscapeHandling = EscapeHandling.EscapeNonAscii;
         Assert.Equal(EscapeHandling.EscapeNonAscii, serializer.EscapeHandling);
 
-        var traceWriter = new MemoryTraceWriter();
-        serializer.TraceWriter = traceWriter;
-        Assert.Equal(traceWriter, serializer.TraceWriter);
-
-        serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
         Assert.Equal(TypeNameAssemblyFormatHandling.Simple, serializer.TypeNameAssemblyFormatHandling);
 
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
@@ -961,10 +956,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         settings.EscapeHandling = EscapeHandling.EscapeNonAscii;
         Assert.Equal(EscapeHandling.EscapeNonAscii, settings.EscapeHandling);
-
-        var traceWriter = new MemoryTraceWriter();
-        settings.TraceWriter = traceWriter;
-        Assert.Equal(traceWriter, settings.TraceWriter);
 
         settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
         Assert.Equal(TypeNameAssemblyFormatHandling.Simple, settings.TypeNameAssemblyFormatHandling);
