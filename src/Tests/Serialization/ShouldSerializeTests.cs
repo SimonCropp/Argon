@@ -90,8 +90,6 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         //Code copied from JsonConvert.SerializeObject(), with addition of trace writing
         var jsonSerializer = JsonSerializer.CreateDefault();
-        var traceWriter = new MemoryTraceWriter();
-        jsonSerializer.TraceWriter = traceWriter;
 
         var stringBuilder = new StringBuilder(256);
         var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
@@ -374,18 +372,14 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         var json = @"{'HasName':true,'Name':'Name!'}";
 
-        var traceWriter = new MemoryTraceWriter();
         var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
         {
             ContractResolver = ShouldDeserializeContractResolver.Instance,
-            TraceWriter = traceWriter
         });
 
         Assert.Equal(null, c.ExtensionData);
         XUnitAssert.True(c.HasName);
         Assert.Equal("Name!", c.Name);
-
-        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on ShouldSerializeTests+ShouldDeserializeTestClass: True. Path 'Name'.")));
     }
 
     [Fact]
@@ -393,21 +387,17 @@ public class ShouldSerializeTests : TestFixtureBase
     {
         var json = @"{'HasName':false,'Name':'Name!'}";
 
-        var traceWriter = new MemoryTraceWriter();
         var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(
             json,
             new JsonSerializerSettings
             {
                 ContractResolver = ShouldDeserializeContractResolver.Instance,
-                TraceWriter = traceWriter
             });
 
         Assert.Equal(1, c.ExtensionData.Count);
         Assert.Equal("Name!", (string) c.ExtensionData["Name"]);
         XUnitAssert.False(c.HasName);
         Assert.Equal(null, c.Name);
-
-        Assert.True(traceWriter.GetTraceMessages().Any(m => m.EndsWith("Verbose ShouldDeserialize result for property 'Name' on ShouldSerializeTests+ShouldDeserializeTestClass: False. Path 'Name'.")));
     }
 
     public class Employee
@@ -426,7 +416,6 @@ public class ShouldSerializeTests : TestFixtureBase
         public bool ShouldSerializeName() =>
             false;
     }
-
 
     public class ShouldSerializeTestClass
     {

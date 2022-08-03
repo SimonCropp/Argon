@@ -10,7 +10,6 @@ public class Issue1461 : TestFixtureBase
         var settings = new JsonSerializerSettings
         {
             Converters = new JsonConverter[] { new IdJsonConverter() },
-            TraceWriter = new TraceWriter(),
         };
 
         var test = new TestObject { Id = "test" };
