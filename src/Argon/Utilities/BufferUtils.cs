@@ -2,8 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.Buffers;
-
 static class BufferUtils
 {
     public static char[] RentBuffer(int size) =>

@@ -8,6 +8,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
+    <Using Include="System.Buffers" />
+    <Using Include="System.Collections.ObjectModel" />
+    <Using Include="System.ComponentModel" />
+    <Using Include="System.Dynamic" />
+    <Using Include="System.Linq.Expressions" />
+    <Using Include="System.Reflection.Emit" />
+    <Using Include="System.Text.RegularExpressions" />
     <PackageReference Include="ProjectDefaults" Version="1.0.78" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
     <PackageReference Include="IndexRange" Version="1.0.2" PrivateAssets="all" />

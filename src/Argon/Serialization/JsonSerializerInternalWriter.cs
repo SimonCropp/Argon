@@ -4,7 +4,6 @@
 
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
-using System.Dynamic;
 
 class JsonSerializerInternalWriter : JsonSerializerInternalBase
 {

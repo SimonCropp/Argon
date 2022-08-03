@@ -3,7 +3,7 @@
 // as found in the license.md file.
 
 #if !NETSTANDARD2_0
-using System.Reflection.Emit;
+
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
 class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
