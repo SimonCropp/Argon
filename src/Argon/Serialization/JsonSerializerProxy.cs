@@ -213,13 +213,13 @@ class JsonSerializerProxy : JsonSerializer
 
     internal override void SerializeInternal(JsonWriter jsonWriter, object? value, Type? rootType)
     {
-        if (serializerWriter != null)
+        if (serializerWriter == null)
         {
-            serializerWriter.Serialize(jsonWriter, value, rootType);
+            serializer.Serialize(jsonWriter, value);
         }
         else
         {
-            serializer.Serialize(jsonWriter, value);
+            serializerWriter.Serialize(jsonWriter, value, rootType);
         }
     }
 }
