@@ -868,10 +868,6 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.EscapeHandling = EscapeHandling.EscapeNonAscii;
         Assert.Equal(EscapeHandling.EscapeNonAscii, serializer.EscapeHandling);
 
-        var traceWriter = new MemoryTraceWriter();
-        serializer.TraceWriter = traceWriter;
-        Assert.Equal(traceWriter, serializer.TraceWriter);
-
         serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
         Assert.Equal(TypeNameAssemblyFormatHandling.Simple, serializer.TypeNameAssemblyFormatHandling);
 
@@ -962,10 +958,6 @@ public class JsonSerializerTest : TestFixtureBase
         settings.EscapeHandling = EscapeHandling.EscapeNonAscii;
         Assert.Equal(EscapeHandling.EscapeNonAscii, settings.EscapeHandling);
 
-        var traceWriter = new MemoryTraceWriter();
-        settings.TraceWriter = traceWriter;
-        Assert.Equal(traceWriter, settings.TraceWriter);
-
         settings.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
         Assert.Equal(TypeNameAssemblyFormatHandling.Simple, settings.TypeNameAssemblyFormatHandling);
 
@@ -1055,10 +1047,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         serializerProxy.EscapeHandling = EscapeHandling.EscapeNonAscii;
         Assert.Equal(EscapeHandling.EscapeNonAscii, serializerProxy.EscapeHandling);
-
-        var traceWriter = new MemoryTraceWriter();
-        serializerProxy.TraceWriter = traceWriter;
-        Assert.Equal(traceWriter, serializerProxy.TraceWriter);
 
         serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
         Assert.Equal(TypeNameAssemblyFormatHandling.Simple, serializerProxy.TypeNameAssemblyFormatHandling);
@@ -4969,8 +4957,6 @@ Path '', line 1, position 1.");
         var serializer = JsonSerializer.Create();
         serializer.Serialize(writer, ng);
         Assert.Equal(1, writer.NullableGuidCount);
-        var traceWriter = new MemoryTraceWriter();
-        serializer.TraceWriter = traceWriter;
         serializer.Serialize(writer, ng);
         Assert.Equal(2, writer.NullableGuidCount);
     }

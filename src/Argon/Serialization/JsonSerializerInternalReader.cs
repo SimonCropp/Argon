@@ -552,11 +552,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                     newValue = Serializer.GetReferenceResolver().ResolveReference(this, reference);
 
-                    if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-                    {
-                        TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader, reader.Path, $"Resolved object reference '{reference}' to {newValue.GetType()}."), null);
-                    }
-
                     reader.Skip();
                     return true;
                 }
@@ -652,11 +647,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                             newValue = Serializer.GetReferenceResolver().ResolveReference(this, reference);
 
-                            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-                            {
-                                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved object reference '{reference}' to {newValue.GetType()}."), null);
-                            }
-
                             return true;
                         }
 
@@ -728,11 +718,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             if (specifiedType == null)
             {
                 throw JsonSerializationException.Create(reader, $"Type specified in JSON '{qualifiedTypeName}' was not resolved.");
-            }
-
-            if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-            {
-                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Resolved type '{qualifiedTypeName}' to {specifiedType}."), null);
             }
 
             if (type != null &&
@@ -973,11 +958,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
             if (property.SetIsSpecified != null)
             {
-                if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-                {
-                    TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"IsSpecified for property '{property.PropertyName}' on {property.DeclaringType} set to true."), null);
-                }
-
                 property.SetIsSpecified(target, true);
             }
 
@@ -1037,11 +1017,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!property.Writable && !useExistingValue)
         {
-            if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-            {
-                TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Unable to deserialize value to non-writable property '{property.PropertyName}' on {property.DeclaringType}."), null);
-            }
-
             return true;
         }
 
@@ -1084,11 +1059,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         try
         {
-            if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-            {
-                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Read object reference Id '{id}' for {value.GetType()}."), null);
-            }
-
             Serializer.GetReferenceResolver().AddReference(this, id, value);
         }
         catch (Exception exception)
@@ -1240,25 +1210,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
-    void OnDeserializing(JsonReader reader, JsonContract contract, object value)
-    {
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-        {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Started deserializing {contract.UnderlyingType}"), null);
-        }
-
+    void OnDeserializing(JsonContract contract, object value) =>
         contract.InvokeOnDeserializing(value, Serializer.Context);
-    }
 
-    void OnDeserialized(JsonReader reader, JsonContract contract, object value)
-    {
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-        {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Finished deserializing {contract.UnderlyingType}"), null);
-        }
-
+    void OnDeserialized(JsonContract contract, object value) =>
         contract.InvokeOnDeserialized(value, Serializer.Context);
-    }
 
     object PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty? containerProperty, string? id)
     {
@@ -1269,7 +1225,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, underlyingDictionary);
         }
 
-        OnDeserializing(reader, contract, underlyingDictionary);
+        OnDeserializing(contract, underlyingDictionary);
 
         var initialDepth = reader.Depth;
 
@@ -1390,7 +1346,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, underlyingDictionary, "Unexpected end when deserializing object.");
         }
 
-        OnDeserialized(reader, contract, underlyingDictionary);
+        OnDeserialized(contract, underlyingDictionary);
         return underlyingDictionary;
     }
 
@@ -1403,7 +1359,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, list);
         }
 
-        OnDeserializing(reader, contract, list);
+        OnDeserializing(contract, list);
 
         var collectionItemContract = GetContractSafe(contract.CollectionItemType);
         var collectionItemConverter = GetConverter(collectionItemContract, null, contract, containerProperty);
@@ -1520,7 +1476,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, list, "Unexpected end when deserializing array.");
         }
 
-        OnDeserialized(reader, contract, list);
+        OnDeserialized(contract, list);
     }
 
     void ThrowUnexpectedEndException(JsonReader reader, JsonContract contract, object? currentObject, string message)
@@ -1559,7 +1515,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return underlyingList;
         }
 
-        OnDeserializing(reader, contract, underlyingList);
+        OnDeserializing(contract, underlyingList);
 
         var initialDepth = reader.Depth;
 
@@ -1633,7 +1589,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, underlyingList, "Unexpected end when deserializing array.");
         }
 
-        OnDeserialized(reader, contract, underlyingList);
+        OnDeserialized(contract, underlyingList);
         return underlyingList;
 #pragma warning restore CS8600, CS8602, CS8603, CS8604
     }
@@ -1662,7 +1618,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, newObject);
         }
 
-        OnDeserializing(reader, contract, newObject);
+        OnDeserializing(contract, newObject);
 
         var initialDepth = reader.Depth;
 
@@ -1741,7 +1697,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, newObject, "Unexpected end when deserializing object.");
         }
 
-        OnDeserialized(reader, contract, newObject);
+        OnDeserialized(contract, newObject);
 
         return newObject;
     }
@@ -1764,15 +1720,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
         var trackPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Populate);
 
-        var type = contract.UnderlyingType;
-
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-        {
-            var parameters = string.Join(", ", contract.CreatorParameters.Select(p => p.PropertyName));
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Deserializing {contract.UnderlyingType} using creator with parameters: {parameters}."), null);
-        }
-
-        var propertyContexts = ResolvePropertyAndCreatorValues(contract, containerProperty, reader, type);
+        var propertyContexts = ResolvePropertyAndCreatorValues(contract, containerProperty, reader, contract.UnderlyingType);
         if (trackPresence)
         {
             foreach (var property in contract.Properties)
@@ -1863,7 +1811,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, createdObject);
         }
 
-        OnDeserializing(reader, contract, createdObject);
+        OnDeserializing(contract, createdObject);
 
         // go through unused values and set the newly created object's properties
         foreach (var context in propertyContexts)
@@ -1980,26 +1928,12 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
         }
 
-        OnDeserialized(reader, contract, createdObject);
+        OnDeserialized(contract, createdObject);
         return createdObject;
     }
 
-    object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type type, object? existingValue)
-    {
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-        {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Started deserializing {type} with converter {converter.GetType()}."), null);
-        }
-
-        var value = converter.ReadJson(reader, type, existingValue, GetInternalSerializer());
-
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Info})
-        {
-            TraceWriter.Trace(TraceLevel.Info, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Finished deserializing {type} with converter {converter.GetType()}."), null);
-        }
-
-        return value;
-    }
+    object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type type, object? existingValue) =>
+        converter.ReadJson(reader, type, existingValue, GetInternalSerializer());
 
     List<CreatorPropertyContext> ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty? containerProperty, JsonReader reader, Type type)
     {
@@ -2050,11 +1984,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         if (!reader.Read())
                         {
                             throw JsonSerializationException.Create(reader, $"Unexpected end when setting {memberName}'s value.");
-                        }
-
-                        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-                        {
-                            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Could not find member '{memberName}' on {contract.UnderlyingType}."), null);
                         }
 
                         if ((contract.MissingMemberHandling ?? Serializer.MissingMemberHandling) == MissingMemberHandling.Error)
@@ -2136,7 +2065,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     object PopulateObject(object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty? member, string? id)
     {
-        OnDeserializing(reader, contract, newObject);
+        OnDeserializing(contract, newObject);
 
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
         var propertiesPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Populate)
@@ -2172,11 +2101,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         if (property == null)
                         {
-                            if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-                            {
-                                TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(reader as IJsonLineInfo, reader.Path, $"Could not find member '{propertyName}' on {contract.UnderlyingType}"), null);
-                            }
-
                             if ((contract.MissingMemberHandling ?? Serializer.MissingMemberHandling) == MissingMemberHandling.Error)
                             {
                                 throw JsonSerializationException.Create(reader, $"Could not find member '{propertyName}' on object of type '{contract.UnderlyingType.Name}'");
@@ -2191,7 +2115,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             continue;
                         }
 
-                        if (property.Ignored || !ShouldDeserialize(reader, property, newObject))
+                        if (property.Ignored || !ShouldDeserialize(property, newObject))
                         {
                             if (!reader.Read())
                             {
@@ -2262,25 +2186,18 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
         }
 
-        OnDeserialized(reader, contract, newObject);
+        OnDeserialized(contract, newObject);
         return newObject;
     }
 
-    bool ShouldDeserialize(JsonReader reader, JsonProperty property, object target)
+    static bool ShouldDeserialize(JsonProperty property, object target)
     {
         if (property.ShouldDeserialize == null)
         {
             return true;
         }
 
-        var shouldDeserialize = property.ShouldDeserialize(target);
-
-        if (TraceWriter is {LevelFilter: >= TraceLevel.Verbose})
-        {
-            TraceWriter.Trace(TraceLevel.Verbose, JsonPosition.FormatMessage(null, reader.Path, $"ShouldDeserialize result for property '{property.PropertyName}' on {property.DeclaringType}: {shouldDeserialize}"), null);
-        }
-
-        return shouldDeserialize;
+        return property.ShouldDeserialize(target);
     }
 
     bool CheckPropertyName(JsonReader reader, string memberName)

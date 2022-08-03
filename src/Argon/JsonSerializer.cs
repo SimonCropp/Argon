@@ -35,11 +35,6 @@ public class JsonSerializer
     public virtual ISerializationBinder? SerializationBinder { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="ITraceWriter" /> used by the serializer when writing trace messages.
-    /// </summary>
-    public virtual ITraceWriter? TraceWriter { get; set; }
-
-    /// <summary>
     /// Gets or sets the equality comparer used by the serializer when comparing references.
     /// </summary>
     public virtual IEqualityComparer? EqualityComparer { get; set; }
@@ -406,11 +401,6 @@ public class JsonSerializer
             serializer.ReferenceResolver = settings.ReferenceResolverProvider();
         }
 
-        if (settings.TraceWriter != null)
-        {
-            serializer.TraceWriter = settings.TraceWriter;
-        }
-
         if (settings.EqualityComparer != null)
         {
             serializer.EqualityComparer = settings.EqualityComparer;
@@ -497,17 +487,8 @@ public class JsonSerializer
             out var previousMaxDepth,
             out var previousDateFormatString);
 
-        var traceJsonReader = TraceWriter is {LevelFilter: >= TraceLevel.Verbose}
-            ? CreateTraceJsonReader(reader)
-            : null;
-
         var serializerReader = new JsonSerializerInternalReader(this);
-        serializerReader.Populate(traceJsonReader ?? reader, target);
-
-        if (traceJsonReader != null)
-        {
-            TraceWriter!.Trace(TraceLevel.Verbose, traceJsonReader.GetDeserializedJsonMessage(), null);
-        }
+        serializerReader.Populate(reader, target);
 
         ResetReader(reader, previousCulture, previousDateTimeZoneHandling, previousDateParseHandling, previousFloatParseHandling, previousMaxDepth, previousDateFormatString);
     }
@@ -598,17 +579,8 @@ public class JsonSerializer
             out var previousMaxDepth,
             out var previousDateFormatString);
 
-        var traceJsonReader = TraceWriter is {LevelFilter: >= TraceLevel.Verbose}
-            ? CreateTraceJsonReader(reader)
-            : null;
-
         var serializerReader = new JsonSerializerInternalReader(this);
-        var value = serializerReader.Deserialize(traceJsonReader ?? reader, type, CheckAdditionalContent);
-
-        if (traceJsonReader != null)
-        {
-            TraceWriter!.Trace(TraceLevel.Verbose, traceJsonReader.GetDeserializedJsonMessage(), null);
-        }
+        var value = serializerReader.Deserialize(reader, type, CheckAdditionalContent);
 
         ResetReader(reader, previousCulture, previousDateTimeZoneHandling, previousDateParseHandling, previousFloatParseHandling, previousMaxDepth, previousDateFormatString);
 
@@ -763,17 +735,6 @@ public class JsonSerializer
     public void Serialize(JsonWriter jsonWriter, object? value) =>
         SerializeInternal(jsonWriter, value, null);
 
-    static TraceJsonReader CreateTraceJsonReader(JsonReader reader)
-    {
-        var traceReader = new TraceJsonReader(reader);
-        if (reader.TokenType != JsonToken.None)
-        {
-            traceReader.WriteCurrentToken();
-        }
-
-        return traceReader;
-    }
-
     internal virtual void SerializeInternal(JsonWriter jsonWriter, object? value, Type? type)
     {
         // set serialization options onto writer
@@ -819,17 +780,8 @@ public class JsonSerializer
             jsonWriter.DateFormatString = dateFormatString;
         }
 
-        var traceJsonWriter = TraceWriter is {LevelFilter: >= TraceLevel.Verbose}
-            ? new TraceJsonWriter(jsonWriter)
-            : null;
-
         var serializerWriter = new JsonSerializerInternalWriter(this);
-        serializerWriter.Serialize(traceJsonWriter ?? jsonWriter, value, type);
-
-        if (traceJsonWriter != null)
-        {
-            TraceWriter!.Trace(TraceLevel.Verbose, traceJsonWriter.GetSerializedJsonMessage(), null);
-        }
+        serializerWriter.Serialize(jsonWriter, value, type);
 
         // reset writer back to previous options
         if (previousFormatting != null)

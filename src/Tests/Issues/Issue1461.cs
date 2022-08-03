@@ -10,7 +10,6 @@ public class Issue1461 : TestFixtureBase
         var settings = new JsonSerializerSettings
         {
             Converters = new JsonConverter[] { new IdJsonConverter() },
-            TraceWriter = new TraceWriter(),
         };
 
         var test = new TestObject { Id = "test" };
@@ -35,14 +34,6 @@ public class Issue1461 : TestFixtureBase
     class TestObject
     {
         public Id Id { get; set; }
-    }
-
-    class TraceWriter : ITraceWriter
-    {
-        public TraceLevel LevelFilter => TraceLevel.Verbose;
-
-        public void Trace(TraceLevel level, string message, Exception exception) =>
-            Console.WriteLine(message);
     }
 
     class IdJsonConverter : JsonConverter

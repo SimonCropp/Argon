@@ -17,8 +17,6 @@ public class ErrorContext
         Path = path;
     }
 
-    internal bool Traced { get; set; }
-
     /// <summary>
     /// Gets the error.
     /// </summary>
