@@ -948,21 +948,21 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             value = CreateValueInternal(reader, property.PropertyType, propertyContract, property, containerContract, containerProperty, useExistingValue ? currentValue : null);
         }
 
+        // the value wasn't set be JSON was populated onto the existing value
+        if ((useExistingValue && value == currentValue) ||
+            !ShouldSetPropertyValue(property, containerContract as JsonObjectContract, value))
+        {
+            return useExistingValue;
+        }
+
         // always set the value if useExistingValue is false,
         // otherwise also set it if CreateValue returns a new value compared to the currentValue
         // this could happen because of a JsonConverter against the type
-        if ((!useExistingValue || value != currentValue)
-            && ShouldSetPropertyValue(property, containerContract as JsonObjectContract, value))
-        {
-            property.ValueProvider!.SetValue(target, value);
+        property.ValueProvider!.SetValue(target, value);
 
-            property.SetIsSpecified?.Invoke(target, true);
+        property.SetIsSpecified?.Invoke(target, true);
 
-            return true;
-        }
-
-        // the value wasn't set be JSON was populated onto the existing value
-        return useExistingValue;
+        return true;
     }
 
     bool CalculatePropertyDetails(
