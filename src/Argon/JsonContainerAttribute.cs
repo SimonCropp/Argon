@@ -11,21 +11,6 @@ namespace Argon;
 public abstract class JsonContainerAttribute : Attribute
 {
     /// <summary>
-    /// Gets or sets the id.
-    /// </summary>
-    public string? Id { get; set; }
-
-    /// <summary>
-    /// Gets or sets the title.
-    /// </summary>
-    public string? Title { get; set; }
-
-    /// <summary>
-    /// Gets or sets the description.
-    /// </summary>
-    public string? Description { get; set; }
-
-    /// <summary>
     /// Gets or sets the collection's items converter.
     /// </summary>
     public Type? ItemConverterType { get; set; }
@@ -130,10 +115,4 @@ public abstract class JsonContainerAttribute : Attribute
     protected JsonContainerAttribute()
     {
     }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonContainerAttribute" /> class with the specified container Id.
-    /// </summary>
-    protected JsonContainerAttribute(string id) =>
-        Id = id;
 }

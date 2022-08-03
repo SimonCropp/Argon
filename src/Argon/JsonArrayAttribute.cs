@@ -28,12 +28,4 @@ public sealed class JsonArrayAttribute : JsonContainerAttribute
     /// <param name="allowNullItems">A flag indicating whether the array can contain null items.</param>
     public JsonArrayAttribute(bool allowNullItems) =>
         AllowNullItems = allowNullItems;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonArrayAttribute" /> class with the specified container Id.
-    /// </summary>
-    public JsonArrayAttribute(string id)
-        : base(id)
-    {
-    }
 }

@@ -16,12 +16,4 @@ public sealed class JsonDictionaryAttribute : JsonContainerAttribute
     public JsonDictionaryAttribute()
     {
     }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonDictionaryAttribute" /> class with the specified container Id.
-    /// </summary>
-    public JsonDictionaryAttribute(string id)
-        : base(id)
-    {
-    }
 }

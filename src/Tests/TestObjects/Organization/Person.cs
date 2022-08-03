@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-[JsonObject(Id = "Person", Title = "Title!", Description = "JsonObjectAttribute description!", MemberSerialization = MemberSerialization.OptIn)]
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 #if !NET5_0_OR_GREATER
 [System.ComponentModel.Description("DescriptionAttribute description!")]
 #endif
