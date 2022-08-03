@@ -132,6 +132,40 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 // caller will convert result
                 break;
             default:
+                if (DateParseHandling != DateParseHandling.None)
+                {
+                    DateParseHandling dateParseHandling;
+                    if (readType == ReadType.ReadAsDateTime)
+                    {
+                        dateParseHandling = DateParseHandling.DateTime;
+                    }
+                    else if (readType == ReadType.ReadAsDateTimeOffset)
+                    {
+                        dateParseHandling = DateParseHandling.DateTimeOffset;
+                    }
+                    else
+                    {
+                        dateParseHandling = DateParseHandling;
+                    }
+
+                    if (dateParseHandling == DateParseHandling.DateTime)
+                    {
+                        if (DateTimeUtils.TryParseDateTime(stringReference, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
+                        {
+                            SetToken(JsonToken.Date, dt, false);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (DateTimeUtils.TryParseDateTimeOffset(stringReference, DateFormatString, Culture, out var dt))
+                        {
+                            SetToken(JsonToken.Date, dt, false);
+                            return;
+                        }
+                    }
+                }
+
                 SetToken(JsonToken.String, stringReference.ToString(), false);
                 quoteChar = quote;
                 break;
@@ -172,42 +206,21 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     void PrepareBufferForReadData(bool append, int charsRequired)
     {
         // char buffer is full
-        if (charsUsed + charsRequired < charBuffer.Length - 1)
+        if (charsUsed + charsRequired >= charBuffer.Length - 1)
         {
-            return;
-        }
-
-        if (append)
-        {
-            var doubledArrayLength = charBuffer.Length * 2;
-
-            // copy to new array either double the size of the current or big enough to fit required content
-            var newArrayLength = Math.Max(
-                doubledArrayLength < 0 ? int.MaxValue : doubledArrayLength, // handle overflow
-                charsUsed + charsRequired + 1);
-
-            // increase the size of the buffer
-            var dst = BufferUtils.RentBuffer(newArrayLength);
-
-            BlockCopyChars(charBuffer, 0, dst, 0, charBuffer.Length);
-
-            BufferUtils.ReturnBuffer(charBuffer);
-
-            charBuffer = dst;
-        }
-        else
-        {
-            var remainingCharCount = charsUsed - CharPos;
-
-            if (remainingCharCount + charsRequired + 1 >= charBuffer.Length)
+            if (append)
             {
-                // the remaining count plus the required is bigger than the current buffer size
-                var dst = BufferUtils.RentBuffer(remainingCharCount + charsRequired + 1);
+                var doubledArrayLength = charBuffer.Length * 2;
 
-                if (remainingCharCount > 0)
-                {
-                    BlockCopyChars(charBuffer, CharPos, dst, 0, remainingCharCount);
-                }
+                // copy to new array either double the size of the current or big enough to fit required content
+                var newArrayLength = Math.Max(
+                    doubledArrayLength < 0 ? int.MaxValue : doubledArrayLength, // handle overflow
+                    charsUsed + charsRequired + 1);
+
+                // increase the size of the buffer
+                var dst = BufferUtils.RentBuffer(newArrayLength);
+
+                BlockCopyChars(charBuffer, 0, dst, 0, charBuffer.Length);
 
                 BufferUtils.ReturnBuffer(charBuffer);
 
@@ -215,16 +228,35 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             }
             else
             {
-                // copy any remaining data to the beginning of the buffer if needed and reset positions
-                if (remainingCharCount > 0)
-                {
-                    BlockCopyChars(charBuffer, CharPos, charBuffer, 0, remainingCharCount);
-                }
-            }
+                var remainingCharCount = charsUsed - CharPos;
 
-            lineStartPos -= CharPos;
-            CharPos = 0;
-            charsUsed = remainingCharCount;
+                if (remainingCharCount + charsRequired + 1 >= charBuffer.Length)
+                {
+                    // the remaining count plus the required is bigger than the current buffer size
+                    var dst = BufferUtils.RentBuffer(remainingCharCount + charsRequired + 1);
+
+                    if (remainingCharCount > 0)
+                    {
+                        BlockCopyChars(charBuffer, CharPos, dst, 0, remainingCharCount);
+                    }
+
+                    BufferUtils.ReturnBuffer(charBuffer);
+
+                    charBuffer = dst;
+                }
+                else
+                {
+                    // copy any remaining data to the beginning of the buffer if needed and reset positions
+                    if (remainingCharCount > 0)
+                    {
+                        BlockCopyChars(charBuffer, CharPos, charBuffer, 0, remainingCharCount);
+                    }
+                }
+
+                lineStartPos -= CharPos;
+                CharPos = 0;
+                charsUsed = remainingCharCount;
+            }
         }
     }
 
