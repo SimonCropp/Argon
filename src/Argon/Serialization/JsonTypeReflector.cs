@@ -17,7 +17,7 @@ static class JsonTypeReflector
 
     public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
 
-    static readonly ThreadSafeStore<Type, Func<object[]?, object>> CreatorCache = new(GetCreator);
+    static readonly ThreadSafeStore<Type, Func<object[]?, object>> creatorCache = new(GetCreator);
 
     public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
     {
@@ -118,7 +118,7 @@ static class JsonTypeReflector
 
         if (converterAttribute != null)
         {
-            var creator = CreatorCache.Get(converterAttribute.ConverterType);
+            var creator = creatorCache.Get(converterAttribute.ConverterType);
             if (creator != null)
             {
                 return (JsonConverter) creator(converterAttribute.ConverterParameters);
@@ -138,13 +138,13 @@ static class JsonTypeReflector
     /// </param>
     public static JsonConverter CreateJsonConverterInstance(Type converterType, object[]? args)
     {
-        var converterCreator = CreatorCache.Get(converterType);
+        var converterCreator = creatorCache.Get(converterType);
         return (JsonConverter) converterCreator(args);
     }
 
     public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
     {
-        var converterCreator = CreatorCache.Get(namingStrategyType);
+        var converterCreator = creatorCache.Get(namingStrategyType);
         return (NamingStrategy) converterCreator(args);
     }
 

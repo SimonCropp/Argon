@@ -15,14 +15,14 @@ public class DefaultContractResolver : IContractResolver
     // Json.NET Schema requires a property
     internal static IContractResolver Instance { get; } = new DefaultContractResolver();
 
-    static readonly string[] BlacklistedTypeNames =
+    static readonly string[] blacklistedTypeNames =
     {
         "System.IO.DriveInfo",
         "System.IO.FileInfo",
         "System.IO.DirectoryInfo"
     };
 
-    static readonly JsonConverter[] BuiltInConverters =
+    static readonly JsonConverter[] builtInConverters =
     {
         new ExpandoObjectConverter(),
         new DiscriminatedUnionConverter(),
@@ -241,7 +241,7 @@ public class DefaultContractResolver : IContractResolver
 
         // serializing DirectoryInfo without ISerializable will stackoverflow
         // https://github.com/JamesNK/Newtonsoft.Json/issues/1541
-        if (Array.IndexOf(BlacklistedTypeNames, type.FullName) != -1)
+        if (Array.IndexOf(blacklistedTypeNames, type.FullName) != -1)
         {
             contract.OnSerializingCallbacks.Add(ThrowUnableToSerializeError);
         }
@@ -603,7 +603,7 @@ public class DefaultContractResolver : IContractResolver
         contract.Converter = ResolveContractConverter(contract.NonNullableUnderlyingType);
 
         // then see whether object is compatible with any of the built in converters
-        contract.InternalConverter = JsonSerializer.GetMatchingConverter(BuiltInConverters, contract.NonNullableUnderlyingType);
+        contract.InternalConverter = JsonSerializer.GetMatchingConverter(builtInConverters, contract.NonNullableUnderlyingType);
 
         var createdType = contract.CreatedType;
         if (contract.IsInstantiable

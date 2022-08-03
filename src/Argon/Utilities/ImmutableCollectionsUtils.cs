@@ -46,7 +46,7 @@ static class ImmutableCollectionsUtils
     const string ImmutableHashSetTypeName = "System.Collections.Immutable.ImmutableHashSet";
     const string ImmutableHashSetGenericTypeName = "System.Collections.Immutable.ImmutableHashSet`1";
 
-    static readonly IList<ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions = new List<ImmutableCollectionTypeInfo>
+    static List<ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions = new()
     {
         new(ImmutableListGenericInterfaceTypeName, ImmutableListGenericTypeName, ImmutableListTypeName),
         new(ImmutableListGenericTypeName, ImmutableListGenericTypeName, ImmutableListTypeName),
@@ -68,7 +68,7 @@ static class ImmutableCollectionsUtils
     const string ImmutableSortedDictionaryTypeName = "System.Collections.Immutable.ImmutableSortedDictionary";
     const string ImmutableSortedDictionaryGenericTypeName = "System.Collections.Immutable.ImmutableSortedDictionary`2";
 
-    static readonly IList<ImmutableCollectionTypeInfo> DictionaryContractImmutableCollectionDefinitions = new List<ImmutableCollectionTypeInfo>
+    static List<ImmutableCollectionTypeInfo> dictionaryContractImmutableCollectionDefinitions = new()
     {
         new(ImmutableDictionaryGenericInterfaceTypeName, ImmutableDictionaryGenericTypeName, ImmutableDictionaryTypeName),
         new(ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryTypeName),
@@ -114,7 +114,7 @@ static class ImmutableCollectionsUtils
             var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
             var name = underlyingTypeDefinition.FullName;
 
-            var definition = DictionaryContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
+            var definition = dictionaryContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
             if (definition != null)
             {
                 var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
@@ -122,19 +122,21 @@ static class ImmutableCollectionsUtils
 
                 if (createdTypeDefinition != null && builderTypeDefinition != null)
                 {
-                    var mb = builderTypeDefinition.GetMethods().FirstOrDefault(m =>
-                    {
-                        var parameters = m.GetParameters();
+                    var method = builderTypeDefinition
+                        .GetMethods()
+                        .FirstOrDefault(m =>
+                        {
+                            var parameters = m.GetParameters();
 
-                        return m.Name == "CreateRange" &&
-                               parameters.Length == 1 &&
-                               parameters[0].ParameterType.IsGenericType &&
-                               parameters[0].ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
-                    });
-                    if (mb != null)
+                            return m.Name == "CreateRange" &&
+                                   parameters.Length == 1 &&
+                                   parameters[0].ParameterType.IsGenericType &&
+                                   parameters[0].ParameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+                        });
+                    if (method != null)
                     {
                         createdType = createdTypeDefinition.MakeGenericType(keyItemType, valueItemType);
-                        var method = mb.MakeGenericMethod(keyItemType, valueItemType);
+                        method = method.MakeGenericMethod(keyItemType, valueItemType);
                         parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(method);
                         return true;
                     }

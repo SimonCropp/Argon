@@ -9,7 +9,7 @@ namespace Argon;
 /// </summary>
 public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
 {
-    static readonly object TypeContractCacheLock = new();
+    static readonly object typeContractCacheLock = new();
     static readonly DefaultJsonNameTable NameTable = new();
     static Dictionary<StructMultiKey<Type, Type>, JsonContract>? contractCache;
 
@@ -38,7 +38,7 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
             contract = CreateContract(type);
 
             // avoid the possibility of modifying the cache dictionary while another thread is accessing it
-            lock (TypeContractCacheLock)
+            lock (typeContractCacheLock)
             {
                 cache = contractCache;
                 Dictionary<StructMultiKey<Type, Type>, JsonContract> updatedCache;

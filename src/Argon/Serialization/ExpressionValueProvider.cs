@@ -10,7 +10,7 @@ namespace Argon;
 public class ExpressionValueProvider : IValueProvider
 {
     readonly MemberInfo member;
-    Func<object, object?>? _getter;
+    Func<object, object?>? getter;
     Action<object, object?>? setter;
 
     /// <summary>
@@ -64,9 +64,9 @@ public class ExpressionValueProvider : IValueProvider
     {
         try
         {
-            _getter ??= ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(member);
+            getter ??= ExpressionReflectionDelegateFactory.Instance.CreateGet<object>(member);
 
-            return _getter(target);
+            return getter(target);
         }
         catch (Exception exception)
         {

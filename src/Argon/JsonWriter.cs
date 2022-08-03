@@ -22,7 +22,7 @@ public abstract partial class JsonWriter : IDisposable
     }
 
     // array that gives a new state based on the current state an the token being written
-    static readonly State[][] StateArray;
+    static readonly State[][] stateArray;
 
     internal static readonly State[][] StateArrayTemplate =
     {
@@ -73,7 +73,7 @@ public abstract partial class JsonWriter : IDisposable
     }
 
     static JsonWriter() =>
-        StateArray = BuildStateArray();
+        stateArray = BuildStateArray();
 
     List<JsonPosition> stack = new();
     JsonPosition currentPosition;
@@ -655,7 +655,7 @@ public abstract partial class JsonWriter : IDisposable
     void AutoComplete(JsonToken tokenBeingWritten)
     {
         // gets new state based on the current state and what is being written
-        var newState = StateArray[(int) tokenBeingWritten][(int) currentState];
+        var newState = stateArray[(int) tokenBeingWritten][(int) currentState];
 
         if (newState == State.Error)
         {

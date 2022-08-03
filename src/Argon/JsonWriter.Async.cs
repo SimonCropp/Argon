@@ -13,7 +13,7 @@ public abstract partial class JsonWriter
         var oldState = currentState;
 
         // gets new state based on the current state and what is being written
-        var newState = StateArray[(int) tokenBeingWritten][(int) oldState];
+        var newState = stateArray[(int) tokenBeingWritten][(int) oldState];
 
         if (newState == State.Error)
         {
@@ -250,13 +250,63 @@ public abstract partial class JsonWriter
         }
 
         return Task.CompletedTask;
+    }
 
-        // Local functions, params renamed (capitalized) so as not to capture and allocate when calling async
-        async Task AwaitProperty(Task task, int LevelsToComplete, JsonToken token, CancellationToken cancellation)
+    async Task AwaitIndent(Task task, int levelsToComplete, JsonToken token, CancellationToken cancellation)
+    {
+        await task.ConfigureAwait(false);
+
+        //  Finish current loop
+
+        await WriteEndAsync(token, cancellation).ConfigureAwait(false);
+
+        UpdateCurrentState();
+
+        await AwaitRemaining(levelsToComplete, cancellation).ConfigureAwait(false);
+    }
+
+    async Task AwaitProperty(Task task, int levelsToComplete, JsonToken token, CancellationToken cancellation)
+    {
+        await task.ConfigureAwait(false);
+
+        //  Finish current loop
+        if (Formatting == Formatting.Indented)
         {
-            await task.ConfigureAwait(false);
+            if (currentState != State.ObjectStart && currentState != State.ArrayStart)
+            {
+                await WriteIndentAsync(cancellation).ConfigureAwait(false);
+            }
+        }
 
-            //  Finish current loop
+        await WriteEndAsync(token, cancellation).ConfigureAwait(false);
+
+        UpdateCurrentState();
+
+        await AwaitRemaining(levelsToComplete, cancellation).ConfigureAwait(false);
+    }
+
+    async Task AwaitEnd(Task task, int levelsToComplete, CancellationToken cancellation)
+    {
+        await task.ConfigureAwait(false);
+
+        //  Finish current loop
+
+        UpdateCurrentState();
+
+        await AwaitRemaining(levelsToComplete, cancellation).ConfigureAwait(false);
+    }
+
+    async Task AwaitRemaining(int levelsToComplete, CancellationToken cancellation)
+    {
+        while (levelsToComplete-- > 0)
+        {
+            var token = GetCloseTokenForType(Pop());
+
+            if (currentState == State.Property)
+            {
+                await WriteNullAsync(cancellation).ConfigureAwait(false);
+            }
+
             if (Formatting == Formatting.Indented)
             {
                 if (currentState != State.ObjectStart && currentState != State.ArrayStart)
@@ -268,57 +318,6 @@ public abstract partial class JsonWriter
             await WriteEndAsync(token, cancellation).ConfigureAwait(false);
 
             UpdateCurrentState();
-
-            await AwaitRemaining(LevelsToComplete, cancellation).ConfigureAwait(false);
-        }
-
-        async Task AwaitIndent(Task task, int LevelsToComplete, JsonToken token, CancellationToken cancellation)
-        {
-            await task.ConfigureAwait(false);
-
-            //  Finish current loop
-
-            await WriteEndAsync(token, cancellation).ConfigureAwait(false);
-
-            UpdateCurrentState();
-
-            await AwaitRemaining(LevelsToComplete, cancellation).ConfigureAwait(false);
-        }
-
-        async Task AwaitEnd(Task task, int LevelsToComplete, CancellationToken cancellation)
-        {
-            await task.ConfigureAwait(false);
-
-            //  Finish current loop
-
-            UpdateCurrentState();
-
-            await AwaitRemaining(LevelsToComplete, cancellation).ConfigureAwait(false);
-        }
-
-        async Task AwaitRemaining(int LevelsToComplete, CancellationToken cancellation)
-        {
-            while (LevelsToComplete-- > 0)
-            {
-                var token = GetCloseTokenForType(Pop());
-
-                if (currentState == State.Property)
-                {
-                    await WriteNullAsync(cancellation).ConfigureAwait(false);
-                }
-
-                if (Formatting == Formatting.Indented)
-                {
-                    if (currentState != State.ObjectStart && currentState != State.ArrayStart)
-                    {
-                        await WriteIndentAsync(cancellation).ConfigureAwait(false);
-                    }
-                }
-
-                await WriteEndAsync(token, cancellation).ConfigureAwait(false);
-
-                UpdateCurrentState();
-            }
         }
     }
 

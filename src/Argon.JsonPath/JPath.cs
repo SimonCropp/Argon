@@ -4,7 +4,7 @@
 
 class JPath
 {
-    static readonly char[] FloatCharacters = {'.', 'E', 'e'};
+    static readonly char[] floatCharacters = {'.', 'E', 'e'};
 
     readonly string expression;
     public List<PathFilter> Filters { get; }
@@ -560,7 +560,7 @@ class JPath
                 {
                     var numberText = stringBuilder.ToString();
 
-                    if (numberText.IndexOfAny(FloatCharacters) == -1)
+                    if (numberText.IndexOfAny(floatCharacters) == -1)
                     {
                         var result = long.TryParse(numberText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var l);
                         value = l;

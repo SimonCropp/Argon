@@ -9,7 +9,7 @@ namespace Argon;
 /// </summary>
 public class IsoDateTimeConverter : DateTimeConverterBase
 {
-    const string DefaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
+    const string defaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
     string? dateTimeFormat;
     CultureInfo? culture;
@@ -52,7 +52,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
                 dateTime = dateTime.ToUniversalTime();
             }
 
-            text = dateTime.ToString(dateTimeFormat ?? DefaultDateTimeFormat, Culture);
+            text = dateTime.ToString(dateTimeFormat ?? defaultDateTimeFormat, Culture);
         }
         else if (value is DateTimeOffset dateTimeOffset)
         {
@@ -62,7 +62,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
                 dateTimeOffset = dateTimeOffset.ToUniversalTime();
             }
 
-            text = dateTimeOffset.ToString(dateTimeFormat ?? DefaultDateTimeFormat, Culture);
+            text = dateTimeOffset.ToString(dateTimeFormat ?? defaultDateTimeFormat, Culture);
         }
         else
         {

@@ -22,13 +22,13 @@ public class JsonPrimitiveContract : JsonContract
         TypeCode = ConvertUtils.GetTypeCode(underlyingType);
         IsReadOnlyOrFixedSize = true;
 
-        if (ReadTypeMap.TryGetValue(NonNullableUnderlyingType, out var readType))
+        if (readTypeMap.TryGetValue(NonNullableUnderlyingType, out var readType))
         {
             InternalReadType = readType;
         }
     }
 
-    static readonly Dictionary<Type, ReadType> ReadTypeMap = new()
+    static readonly Dictionary<Type, ReadType> readTypeMap = new()
     {
         [typeof(byte[])] = ReadType.ReadAsBytes,
         [typeof(byte)] = ReadType.ReadAsInt32,

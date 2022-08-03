@@ -29,16 +29,17 @@ public partial class JObject
         return writer.WriteEndObjectAsync(cancellation);
 
         // Local functions, params renamed (capitalized) so as not to capture and allocate when calling async
-        async Task AwaitProperties(Task task, int i, JsonWriter Writer, CancellationToken CancellationToken, JsonConverter[] Converters)
-        {
-            await task.ConfigureAwait(false);
-            for (; i < properties.Count; i++)
-            {
-                await properties[i].WriteToAsync(Writer, CancellationToken, Converters).ConfigureAwait(false);
-            }
+    }
 
-            await Writer.WriteEndObjectAsync(CancellationToken).ConfigureAwait(false);
+    async Task AwaitProperties(Task task, int i, JsonWriter writer, CancellationToken cancellation, JsonConverter[] converters)
+    {
+        await task.ConfigureAwait(false);
+        for (; i < properties.Count; i++)
+        {
+            await properties[i].WriteToAsync(writer, cancellation, converters).ConfigureAwait(false);
         }
+
+        await writer.WriteEndObjectAsync(cancellation).ConfigureAwait(false);
     }
 
     /// <summary>

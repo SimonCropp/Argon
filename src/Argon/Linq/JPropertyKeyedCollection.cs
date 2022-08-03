@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 class JPropertyKeyedCollection : Collection<JToken>
 {
-    static readonly IEqualityComparer<string> Comparer = StringComparer.Ordinal;
+    static readonly IEqualityComparer<string> comparer = StringComparer.Ordinal;
 
     Dictionary<string, JToken>? dictionary;
 
@@ -28,7 +28,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         }
 
         var keyForItem = GetKeyForItem(item);
-        if (!Comparer.Equals(keyForItem, newKey))
+        if (!comparer.Equals(keyForItem, newKey))
         {
             if (newKey != null)
             {
@@ -71,7 +71,7 @@ class JPropertyKeyedCollection : Collection<JToken>
     }
 
     void EnsureDictionary() =>
-        dictionary ??= new(Comparer);
+        dictionary ??= new(comparer);
 
     static string GetKeyForItem(JToken item) =>
         ((JProperty) item).Name;
@@ -107,7 +107,7 @@ class JPropertyKeyedCollection : Collection<JToken>
         var keyForItem = GetKeyForItem(item);
         var keyAtIndex = GetKeyForItem(Items[index]);
 
-        if (Comparer.Equals(keyAtIndex, keyForItem))
+        if (comparer.Equals(keyAtIndex, keyForItem))
         {
             if (dictionary != null)
             {
