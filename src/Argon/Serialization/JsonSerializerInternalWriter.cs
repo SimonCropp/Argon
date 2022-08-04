@@ -977,11 +977,11 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case PrimitiveTypeCode.DateTime:
                 case PrimitiveTypeCode.DateTimeNullable:
                 {
-                    var dt = DateTimeUtils.EnsureDateTime((DateTime) name, writer.DateTimeZoneHandling);
+                    var dt = (DateTime) name;
 
                     escape = false;
                     var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-                    DateTimeUtils.WriteDateTimeString(stringWriter, dt, writer.DateFormatString, writer.Culture);
+                    DateTimeUtils.WriteDateTimeString(stringWriter, dt);
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.DateTimeOffset:
@@ -989,7 +989,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 {
                     escape = false;
                     var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) name, writer.DateFormatString, writer.Culture);
+                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) name);
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.Double:

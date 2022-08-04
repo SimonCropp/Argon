@@ -625,74 +625,47 @@ public class JsonConvertTest : TestFixtureBase
     {
         var result = TestDateTime("DateTime Max", DateTime.MaxValue);
         Assert.Equal("9999-12-31T23:59:59.9999999", result.IsoDateRoundtrip);
-        Assert.Equal("9999-12-31T23:59:59.9999999" + DateTime.MaxValue.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("9999-12-31T23:59:59.9999999", result.IsoDateUnspecified);
-        Assert.Equal("9999-12-31T23:59:59.9999999Z", result.IsoDateUtc);
 
         var year2000local = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Local);
         var localToUtcDate = year2000local.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local", year2000local);
         Assert.Equal("2000-01-01T01:01:01" + year2000local.GetOffset(), result.IsoDateRoundtrip);
-        Assert.Equal("2000-01-01T01:01:01" + year2000local.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
-        Assert.Equal(localToUtcDate, result.IsoDateUtc);
 
         var millisecondsLocal = new DateTime(2000, 1, 1, 1, 1, 1, 999, DateTimeKind.Local);
         localToUtcDate = millisecondsLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local with milliseconds", millisecondsLocal);
         Assert.Equal("2000-01-01T01:01:01.999" + millisecondsLocal.GetOffset(), result.IsoDateRoundtrip);
-        Assert.Equal("2000-01-01T01:01:01.999" + millisecondsLocal.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("2000-01-01T01:01:01.999", result.IsoDateUnspecified);
-        Assert.Equal(localToUtcDate, result.IsoDateUtc);
 
         var ticksLocal = new DateTime(636556897826822481, DateTimeKind.Local);
         localToUtcDate = ticksLocal.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK");
 
         result = TestDateTime("DateTime Local with ticks", ticksLocal);
         Assert.Equal("2018-03-03T16:03:02.6822481" + ticksLocal.GetOffset(), result.IsoDateRoundtrip);
-        Assert.Equal("2018-03-03T16:03:02.6822481" + ticksLocal.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("2018-03-03T16:03:02.6822481", result.IsoDateUnspecified);
-        Assert.Equal(localToUtcDate, result.IsoDateUtc);
 
         var year2000Unspecified = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified);
 
         result = TestDateTime("DateTime Unspecified", year2000Unspecified);
         Assert.Equal("2000-01-01T01:01:01", result.IsoDateRoundtrip);
-        Assert.Equal("2000-01-01T01:01:01" + year2000Unspecified.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
-        Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateUtc);
 
         var year2000Utc = new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc);
         var utcTolocalDate = year2000Utc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss");
 
         result = TestDateTime("DateTime Utc", year2000Utc);
         Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateRoundtrip);
-        Assert.Equal(utcTolocalDate + year2000Utc.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("2000-01-01T01:01:01", result.IsoDateUnspecified);
-        Assert.Equal("2000-01-01T01:01:01Z", result.IsoDateUtc);
 
         var unixEpoc = new DateTime(621355968000000000, DateTimeKind.Utc);
         utcTolocalDate = unixEpoc.ToLocalTime().ToString("yyyy-MM-ddTHH:mm:ss");
 
         result = TestDateTime("DateTime Unix Epoc", unixEpoc);
         Assert.Equal("1970-01-01T00:00:00Z", result.IsoDateRoundtrip);
-        Assert.Equal(utcTolocalDate + unixEpoc.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("1970-01-01T00:00:00", result.IsoDateUnspecified);
-        Assert.Equal("1970-01-01T00:00:00Z", result.IsoDateUtc);
 
         result = TestDateTime("DateTime Min", DateTime.MinValue);
         Assert.Equal("0001-01-01T00:00:00", result.IsoDateRoundtrip);
-        Assert.Equal("0001-01-01T00:00:00" + DateTime.MinValue.GetOffset(), result.IsoDateLocal);
-        Assert.Equal("0001-01-01T00:00:00", result.IsoDateUnspecified);
-        Assert.Equal("0001-01-01T00:00:00Z", result.IsoDateUtc);
 
         result = TestDateTime("DateTime Default", default(DateTime));
         Assert.Equal("0001-01-01T00:00:00", result.IsoDateRoundtrip);
-        Assert.Equal("0001-01-01T00:00:00" + default(DateTime).GetOffset(), result.IsoDateLocal);
-        Assert.Equal("0001-01-01T00:00:00", result.IsoDateUnspecified);
-        Assert.Equal("0001-01-01T00:00:00Z", result.IsoDateUtc);
 
         result = TestDateTime("DateTimeOffset TimeSpan Zero", new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
         Assert.Equal("2000-01-01T01:01:01+00:00", result.IsoDateRoundtrip);
@@ -722,9 +695,6 @@ public class JsonConvertTest : TestFixtureBase
     public class DateTimeResult
     {
         public string IsoDateRoundtrip { get; set; }
-        public string IsoDateLocal { get; set; }
-        public string IsoDateUnspecified { get; set; }
-        public string IsoDateUtc { get; set; }
     }
 
     static DateTimeResult TestDateTime<T>(string name, T value)
@@ -733,15 +703,8 @@ public class JsonConvertTest : TestFixtureBase
 
         var result = new DateTimeResult
         {
-            IsoDateRoundtrip = TestDateTimeFormat(value, DateTimeZoneHandling.RoundtripKind)
+            IsoDateRoundtrip = TestDateTimeFormat(value)
         };
-
-        if (value is DateTime)
-        {
-            result.IsoDateLocal = TestDateTimeFormat(value, DateTimeZoneHandling.Local);
-            result.IsoDateUnspecified = TestDateTimeFormat(value, DateTimeZoneHandling.Unspecified);
-            result.IsoDateUtc = TestDateTimeFormat(value, DateTimeZoneHandling.Utc);
-        }
 
         TestDateTimeFormat(value, new IsoDateTimeConverter());
 
@@ -765,31 +728,28 @@ public class JsonConvertTest : TestFixtureBase
         return result;
     }
 
-    static string TestDateTimeFormat<T>(T value, DateTimeZoneHandling timeZoneHandling)
+    static string TestDateTimeFormat<T>(T value)
     {
-        string date = null;
+        string date;
 
         if (value is DateTime)
         {
-            date = JsonConvert.ToString((DateTime) (object) value, timeZoneHandling);
+            date = JsonConvert.ToString((DateTime) (object) value);
         }
         else
         {
             date = JsonConvert.ToString((DateTimeOffset) (object) value);
         }
 
-        if (timeZoneHandling == DateTimeZoneHandling.RoundtripKind)
+        var parsed = JsonConvert.DeserializeObject<T>(date);
+        if (!value.Equals(parsed))
         {
-            var parsed = JsonConvert.DeserializeObject<T>(date);
-            if (!value.Equals(parsed))
-            {
-                var valueTicks = GetTicks(value);
-                var parsedTicks = GetTicks(parsed);
+            var valueTicks = GetTicks(value);
+            var parsedTicks = GetTicks(parsed);
 
-                valueTicks = valueTicks / 10000 * 10000;
+            valueTicks = valueTicks / 10000 * 10000;
 
-                Assert.Equal(valueTicks, parsedTicks);
-            }
+            Assert.Equal(valueTicks, parsedTicks);
         }
 
         return date.Trim('"');
@@ -841,19 +801,6 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeObjectDateTimeZoneHandling()
-    {
-        var json = JsonConvert.SerializeObject(
-            new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified),
-            new JsonSerializerSettings
-            {
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            });
-
-        Assert.Equal(@"""2000-01-01T01:01:01Z""", json);
-    }
-
-    [Fact]
     public void DeserializeObject()
     {
         var json = @"{
@@ -871,27 +818,6 @@ public class JsonConvertTest : TestFixtureBase
         // Bad Boys
 
         Assert.Equal("Bad Boys", m.Name);
-    }
-
-    [Fact]
-    public void TestJsonDateTimeOffsetRoundtrip()
-    {
-        var now = DateTimeOffset.Now;
-        var dict = new Dictionary<string, object> {{"foo", now}};
-
-        var settings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.DateTimeOffset,
-            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
-        };
-        var json = JsonConvert.SerializeObject(dict, settings);
-
-        var newDict = new Dictionary<string, object>();
-        JsonConvert.PopulateObject(json, newDict, settings);
-
-        var date = newDict["foo"];
-
-        Assert.Equal(date, now);
     }
 
     [Fact]
@@ -935,17 +861,6 @@ public class JsonConvertTest : TestFixtureBase
         XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse(@"{""biginteger"":" + new string('9', 381) + "}"),
             $"JSON integer {new string('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
-    }
-
-    [Fact]
-    public void ParseIsoDate()
-    {
-        var sr = new StringReader(@"""2014-02-14T14:25:02-13:00""");
-
-        JsonReader jsonReader = new JsonTextReader(sr);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(typeof(DateTime), jsonReader.ValueType);
     }
 
 #if false

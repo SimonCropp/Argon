@@ -562,56 +562,6 @@ public class ReadTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadAsDateTimeOffsetUnitedStatesDate()
-    {
-        var json = @"{""Offset"":""1/30/2011""}";
-
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.Culture = new("en-US");
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        reader.ReadAsDateTimeOffset();
-        Assert.Equal(JsonToken.Date, reader.TokenType);
-        Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-
-        var dt = (DateTimeOffset) reader.Value;
-        Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-    }
-
-    [Fact]
-    public void ReadAsDateTimeOffsetNewZealandDate()
-    {
-        var json = @"{""Offset"":""30/1/2011""}";
-
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.Culture = new("en-NZ");
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        reader.ReadAsDateTimeOffset();
-        Assert.Equal(JsonToken.Date, reader.TokenType);
-        Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-
-        var dt = (DateTimeOffset) reader.Value;
-        Assert.Equal(new(2011, 1, 30, 0, 0, 0, DateTimeKind.Unspecified), dt.DateTime);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-    }
-
-    [Fact]
     public void ReadAsDecimalInt()
     {
         var json = @"{""Name"":1}";
@@ -671,29 +621,6 @@ public class ReadTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadAsDecimalFrench()
-    {
-        var json = @"{""decimal"":""9,99""}";
-
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.Culture = new("fr-FR");
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        var d = reader.ReadAsDecimal();
-        Assert.Equal(JsonToken.Float, reader.TokenType);
-        Assert.Equal(typeof(decimal), reader.ValueType);
-        Assert.Equal(9.99m, d);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-    }
-
-    [Fact]
     public void ReadBufferOnControlChar()
     {
         var json = @"[
@@ -717,7 +644,7 @@ public class ReadTests : TestFixtureBase
         }
 
         Assert.True(reader.Read());
-        Assert.Equal(new DateTime(2000, 1, 1), reader.Value);
+        Assert.Equal("2000-01-01T00:00:00", reader.Value);
     }
 
     [Fact]

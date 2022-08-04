@@ -31,10 +31,7 @@ public class SerializeDateTimeZoneHandling : TestFixtureBase
             Duration = TimeSpan.FromHours(5.5)
         };
 
-        var jsonWithRoundtripTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
-        });
+        var jsonWithRoundtripTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings());
 
         Console.WriteLine(jsonWithRoundtripTimeZone);
         // {
@@ -42,48 +39,6 @@ public class SerializeDateTimeZoneHandling : TestFixtureBase
         //   "DepartureDate": "2013-01-21T00:00:00",
         //   "DepartureDateUtc": "2013-01-21T00:00:00Z",
         //   "DepartureDateLocal": "2013-01-21T00:00:00+01:00",
-        //   "Duration": "05:30:00"
-        // }
-
-        var jsonWithLocalTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Local
-        });
-
-        Console.WriteLine(jsonWithLocalTimeZone);
-        // {
-        //   "Destination": "Dubai",
-        //   "DepartureDate": "2013-01-21T00:00:00+01:00",
-        //   "DepartureDateUtc": "2013-01-21T01:00:00+01:00",
-        //   "DepartureDateLocal": "2013-01-21T00:00:00+01:00",
-        //   "Duration": "05:30:00"
-        // }
-
-        var jsonWithUtcTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc
-        });
-
-        Console.WriteLine(jsonWithUtcTimeZone);
-        // {
-        //   "Destination": "Dubai",
-        //   "DepartureDate": "2013-01-21T00:00:00Z",
-        //   "DepartureDateUtc": "2013-01-21T00:00:00Z",
-        //   "DepartureDateLocal": "2013-01-20T23:00:00Z",
-        //   "Duration": "05:30:00"
-        // }
-
-        var jsonWithUnspecifiedTimeZone = JsonConvert.SerializeObject(flight, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
-        });
-
-        Console.WriteLine(jsonWithUnspecifiedTimeZone);
-        // {
-        //   "Destination": "Dubai",
-        //   "DepartureDate": "2013-01-21T00:00:00",
-        //   "DepartureDateUtc": "2013-01-21T00:00:00",
-        //   "DepartureDateLocal": "2013-01-21T00:00:00",
         //   "Duration": "05:30:00"
         // }
 

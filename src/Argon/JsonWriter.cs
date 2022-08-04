@@ -170,17 +170,11 @@ public abstract partial class JsonWriter : IDisposable
     }
 
     EscapeHandling escapeHandling;
-    CultureInfo? culture;
 
     /// <summary>
     /// Gets or sets a value indicating how JSON text output should be formatted.
     /// </summary>
     public Formatting Formatting { get; set; }
-
-    /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> time zones are handled when writing JSON text.
-    /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
@@ -208,28 +202,12 @@ public abstract partial class JsonWriter : IDisposable
     public FloatFormatHandling FloatFormatHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> and <see cref="DateTimeOffset" /> values are formatted when writing JSON text.
-    /// </summary>
-    public string? DateFormatString { get; set; }
-
-    /// <summary>
-    /// Gets or sets the culture used when writing JSON. Defaults to <see cref="CultureInfo.InvariantCulture" />.
-    /// </summary>
-    public CultureInfo Culture
-    {
-        get => culture ?? CultureInfo.InvariantCulture;
-        set => culture = value;
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="JsonWriter" /> class.
     /// </summary>
     protected JsonWriter()
     {
         currentState = State.Start;
         Formatting = Formatting.None;
-        DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
-
         CloseOutput = true;
         AutoCompleteOnClose = true;
     }

@@ -263,7 +263,7 @@ public class DataSetConverterTests : TestFixtureBase
         Assert.Equal("TimeSpanCol", dt.Columns[3].ColumnName);
         Assert.Equal(typeof(string), dt.Columns[3].DataType);
         Assert.Equal("DateTimeCol", dt.Columns[4].ColumnName);
-        Assert.Equal(typeof(DateTime), dt.Columns[4].DataType);
+        Assert.Equal(typeof(string), dt.Columns[4].DataType);
         Assert.Equal("DecimalCol", dt.Columns[5].ColumnName);
         Assert.Equal(typeof(double), dt.Columns[5].DataType);
 

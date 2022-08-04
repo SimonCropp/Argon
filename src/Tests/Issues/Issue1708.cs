@@ -8,7 +8,6 @@ public class Issue1708 : TestFixtureBase
     public void Test_DateTime()
     {
         var jsonTextReader = new JsonTextReader(new StringReader("'2018-05-27T23:25:08Z'"));
-        jsonTextReader.DateParseHandling = DateParseHandling.None;
         jsonTextReader.Read();
 
         var serializer = new JsonSerializer();

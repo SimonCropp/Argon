@@ -322,22 +322,6 @@ public class JTokenWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void DateTimeZoneHandling()
-    {
-        var writer = new JTokenWriter
-        {
-            DateTimeZoneHandling = Argon.DateTimeZoneHandling.Utc
-        };
-
-        writer.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
-
-        var value = (JValue) writer.Token;
-        var dt = (DateTime) value.Value;
-
-        Assert.Equal(new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
-    }
-
-    [Fact]
     public void WriteTokenDirect()
     {
         JToken token;

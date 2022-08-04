@@ -445,14 +445,19 @@ public class ContractResolverTests : TestFixtureBase
             JobTitle = "Support"
         };
 
-        var iPersonJson = JsonConvert.SerializeObject(employee, Formatting.Indented,
-            new JsonSerializerSettings {ContractResolver = new IPersonContractResolver()});
+        var iPersonJson = JsonConvert.SerializeObject(
+            employee,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ContractResolver = new IPersonContractResolver()
+            });
 
         var o = JObject.Parse(iPersonJson);
 
         Assert.Equal("Maurice", (string) o["FirstName"]);
         Assert.Equal("Moss", (string) o["LastName"]);
-        Assert.Equal(new(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc), (DateTime) o["BirthDate"]);
+        Assert.Equal("1977-12-30T01:01:01Z", (string)o["BirthDate"]);
     }
 
     [Fact]

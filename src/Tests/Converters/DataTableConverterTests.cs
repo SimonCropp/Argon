@@ -176,7 +176,7 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.Equal("ArrayCol", deserializedDataTable.Columns[3].ColumnName);
         Assert.Equal(typeof(long[]), deserializedDataTable.Columns[3].DataType);
         Assert.Equal("DateCol", deserializedDataTable.Columns[4].ColumnName);
-        Assert.Equal(typeof(DateTime), deserializedDataTable.Columns[4].DataType);
+        Assert.Equal(typeof(string), deserializedDataTable.Columns[4].DataType);
 
         Assert.Equal(2, deserializedDataTable.Rows.Count);
 
@@ -185,14 +185,14 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.Equal("item 0", dr1["item"]);
         Assert.Equal("0!", ((DataTable) dr1["DataTableCol"]).Rows[0]["NestedStringCol"]);
         Assert.Equal(0L, ((long[]) dr1["ArrayCol"])[0]);
-        Assert.Equal(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr1["DateCol"]);
+        Assert.Equal("2000-12-29T00:00:00Z", dr1["DateCol"]);
 
         var dr2 = deserializedDataTable.Rows[1];
         Assert.Equal(1L, dr2["id"]);
         Assert.Equal("item 1", dr2["item"]);
         Assert.Equal("1!", ((DataTable) dr2["DataTableCol"]).Rows[0]["NestedStringCol"]);
         Assert.Equal(1L, ((long[]) dr2["ArrayCol"])[0]);
-        Assert.Equal(new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc), dr2["DateCol"]);
+        Assert.Equal("2000-12-29T00:00:00Z", dr2["DateCol"]);
     }
 
     [Fact]
@@ -211,7 +211,6 @@ public class DataTableConverterTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings
         {
-            DateParseHandling = DateParseHandling.DateTimeOffset,
             FloatParseHandling = FloatParseHandling.Decimal
         };
 
@@ -222,18 +221,18 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.Equal(string.Empty, deserializedDataTable.TableName);
         Assert.Equal(2, deserializedDataTable.Columns.Count);
         Assert.Equal("DateCol", deserializedDataTable.Columns[0].ColumnName);
-        Assert.Equal(typeof(DateTimeOffset), deserializedDataTable.Columns[0].DataType);
+        Assert.Equal(typeof(string), deserializedDataTable.Columns[0].DataType);
         Assert.Equal("FloatCol", deserializedDataTable.Columns[1].ColumnName);
         Assert.Equal(typeof(decimal), deserializedDataTable.Columns[1].DataType);
 
         Assert.Equal(2, deserializedDataTable.Rows.Count);
 
         var dr1 = deserializedDataTable.Rows[0];
-        Assert.Equal(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr1["DateCol"]);
+        Assert.Equal("2000-12-29T00:00:00Z", dr1["DateCol"]);
         Assert.Equal(99.9999999999999999999m, dr1["FloatCol"]);
 
         var dr2 = deserializedDataTable.Rows[1];
-        Assert.Equal(new DateTimeOffset(2000, 12, 29, 0, 0, 0, TimeSpan.Zero), dr2["DateCol"]);
+        Assert.Equal("2000-12-29T00:00:00Z", dr2["DateCol"]);
         Assert.Equal(99.9999999999999999999m, dr2["FloatCol"]);
     }
 
@@ -609,7 +608,8 @@ public class DataTableConverterTests : TestFixtureBase
                 return SqlDateTime.Null;
             }
 
-            return new SqlDateTime((DateTime) serializer.Deserialize(reader));
+            var stringValue = (string) serializer.Deserialize(reader);
+            return new SqlDateTime(DateTime.Parse(stringValue));
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

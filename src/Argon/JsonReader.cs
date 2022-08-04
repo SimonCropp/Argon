@@ -68,7 +68,6 @@ public abstract partial class JsonReader : IDisposable
     internal char quoteChar;
     internal State currentState;
     JsonPosition currentPosition;
-    CultureInfo? culture;
     int? maxDepth;
     bool hasExceededMaxDepth;
     List<JsonPosition> stack = new();
@@ -99,24 +98,9 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> time zones are handled when reading JSON.
-    /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
-
-    /// <summary>
-    /// Gets or sets how date formatted strings, e.g. "2012-03-21T05:40Z" is parsed when reading JSON.
-    /// </summary>
-    public DateParseHandling DateParseHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// </summary>
     public FloatParseHandling FloatParseHandling { get; set; }
-
-    /// <summary>
-    /// Gets or sets how custom date formatted strings are parsed when reading JSON.
-    /// </summary>
-    public string? DateFormatString { get; set; }
 
     /// <summary>
     /// Gets or sets the maximum depth allowed when reading JSON. Reading past this depth will throw a <see cref="JsonReaderException" />.
@@ -232,15 +216,6 @@ public abstract partial class JsonReader : IDisposable
         }
     }
 
-    /// <summary>
-    /// Gets or sets the culture used when reading JSON. Defaults to <see cref="CultureInfo.InvariantCulture" />.
-    /// </summary>
-    public CultureInfo Culture
-    {
-        get => culture ?? CultureInfo.InvariantCulture;
-        set => culture = value;
-    }
-
     internal JsonPosition GetPosition(int depth)
     {
         if (depth < stack.Count)
@@ -257,8 +232,6 @@ public abstract partial class JsonReader : IDisposable
     protected JsonReader()
     {
         currentState = State.Start;
-        DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
-        DateParseHandling = DateParseHandling.DateTime;
         FloatParseHandling = FloatParseHandling.Double;
         maxDepth = 64;
 
@@ -375,7 +348,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (int.TryParse(s, NumberStyles.Integer, Culture, out var i))
+        if (int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out var i))
         {
             SetToken(JsonToken.Integer, i, false);
             return i;
@@ -414,7 +387,7 @@ public abstract partial class JsonReader : IDisposable
                 string s;
                 if (v is IFormattable formattable)
                 {
-                    s = formattable.ToString(null, Culture);
+                    s = formattable.ToString(null, CultureInfo.InvariantCulture);
                 }
                 else
                 {
@@ -592,7 +565,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, Culture, out var d))
+        if (double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var d))
         {
             SetToken(JsonToken.Float, d, false);
             return d;
@@ -713,7 +686,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (decimal.TryParse(s, NumberStyles.Number, Culture, out var d))
+        if (decimal.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out var d))
         {
             SetToken(JsonToken.Float, d, false);
             return d;
@@ -764,16 +737,14 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
+        if (DateTimeUtils.TryParseDateTime(s, out var dt))
         {
-            dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
             SetToken(JsonToken.Date, dt, false);
             return dt;
         }
 
-        if (DateTime.TryParse(s, Culture, DateTimeStyles.RoundtripKind, out dt))
+        if (DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
-            dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
             SetToken(JsonToken.Date, dt, false);
             return dt;
         }
@@ -818,13 +789,13 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (DateTimeUtils.TryParseDateTimeOffset(s, DateFormatString, Culture, out var dt))
+        if (DateTimeUtils.TryParseDateTimeOffset(s, out var dt))
         {
             SetToken(JsonToken.Date, dt, false);
             return dt;
         }
 
-        if (DateTimeOffset.TryParse(s, Culture, DateTimeStyles.RoundtripKind, out dt))
+        if (DateTimeOffset.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
             SetToken(JsonToken.Date, dt, false);
             return dt;
