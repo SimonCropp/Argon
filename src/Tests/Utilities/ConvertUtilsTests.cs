@@ -9,7 +9,7 @@ public class ConvertUtilsTests : TestFixtureBase
         var c = s.ToCharArray();
         var result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out var d);
 
-        var result2 = decimal.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out var d2)
+        var result2 = decimal.TryParse(s, NumberStyles.Float, InvariantCulture, out var d2)
                       && !s.StartsWith(".")
                       && !s.EndsWith(".")
                       && !(s.StartsWith("0") && s.Length > 1 && !s.StartsWith("0.") && !s.StartsWith("0e", StringComparison.OrdinalIgnoreCase))
@@ -49,8 +49,8 @@ public class ConvertUtilsTests : TestFixtureBase
         AssertDecimalTryParse("1.0000000000000000000000000001", ParseResult.Success, 1.0000000000000000000000000001M);
         AssertDecimalTryParse("-1.0000000000000000000000000001", ParseResult.Success, -1.0000000000000000000000000001M);
 
-        AssertDecimalTryParse(decimal.MaxValue.ToString(CultureInfo.InvariantCulture), ParseResult.Success, decimal.MaxValue);
-        AssertDecimalTryParse(decimal.MinValue.ToString(CultureInfo.InvariantCulture), ParseResult.Success, decimal.MinValue);
+        AssertDecimalTryParse(decimal.MaxValue.ToString(InvariantCulture), ParseResult.Success, decimal.MaxValue);
+        AssertDecimalTryParse(decimal.MinValue.ToString(InvariantCulture), ParseResult.Success, decimal.MinValue);
 
         AssertDecimalTryParse("12345678901234567890123456789", ParseResult.Success, 12345678901234567890123456789M);
         AssertDecimalTryParse("12345678901234567890123456789.4", ParseResult.Success, 12345678901234567890123456789M);
@@ -68,7 +68,7 @@ public class ConvertUtilsTests : TestFixtureBase
 
         for (decimal i = -100; i < 100; i += 0.1m)
         {
-            AssertDecimalTryParse(i.ToString(CultureInfo.InvariantCulture), ParseResult.Success, i);
+            AssertDecimalTryParse(i.ToString(InvariantCulture), ParseResult.Success, i);
         }
 
         AssertDecimalTryParse("1E+29", ParseResult.Overflow, null);
@@ -171,7 +171,7 @@ public class ConvertUtilsTests : TestFixtureBase
         {
             for (var k = 2; k < 10; k++)
             {
-                var t = $"{j.ToString(CultureInfo.InvariantCulture)}{k.ToString(CultureInfo.InvariantCulture)}47483647";
+                var t = $"{j.ToString(InvariantCulture)}{k.ToString(InvariantCulture)}47483647";
 
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
@@ -184,7 +184,7 @@ public class ConvertUtilsTests : TestFixtureBase
         {
             for (var k = 2; k < 10; k++)
             {
-                var t = $"-{j.ToString(CultureInfo.InvariantCulture)}{k.ToString(CultureInfo.InvariantCulture)}47483648";
+                var t = $"-{j.ToString(InvariantCulture)}{k.ToString(InvariantCulture)}47483648";
 
                 c = t.ToCharArray();
                 result = ConvertUtils.Int32TryParse(c, 0, c.Length, out i);
@@ -227,7 +227,7 @@ public class ConvertUtilsTests : TestFixtureBase
 
     static void HexParseSame(string text)
     {
-        var v1 = int.Parse(text, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+        var v1 = int.Parse(text, NumberStyles.HexNumber, InvariantCulture);
 
         Assert.True(ConvertUtils.TryHexTextToInt(text.ToCharArray(), 0, 4, out var v2));
 

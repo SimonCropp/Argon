@@ -2325,40 +2325,6 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void IgnoreCultureForTypedAttributes()
-    {
-        var originalCulture = Thread.CurrentThread.CurrentCulture;
-
-        try
-        {
-            Thread.CurrentThread.CurrentCulture = new("ru-RU");
-
-            // in russian culture value 12.27 will be written as 12,27
-
-            var serializer = JsonSerializer.Create(new()
-            {
-                Converters = {new XmlNodeConverter()}
-            });
-
-            var json = new StringBuilder(@"{
-                    ""metrics"": {
-                        ""type"": ""CPULOAD"",
-                        ""@value"": 12.27
-                    }
-                }");
-
-            using var stringReader = new StringReader(json.ToString());
-            using var jsonReader = new JsonTextReader(stringReader);
-            var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
-            XUnitAssert.AreEqualNormalized(@"<metrics value=""12.27""><type>CPULOAD</type></metrics>", document.OuterXml);
-        }
-        finally
-        {
-            Thread.CurrentThread.CurrentCulture = originalCulture;
-        }
-    }
-
-    [Fact]
     public void NullAttributeValue()
     {
         var node = JsonXmlConvert.DeserializeXmlNode(@"{
@@ -3227,7 +3193,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = new StringBuilder(1024);
 
-        using (var stringWriter = new StringWriter(json, CultureInfo.InvariantCulture))
+        using (var stringWriter = new StringWriter(json, InvariantCulture))
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.None

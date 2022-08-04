@@ -27,7 +27,7 @@ public class ConvertibleId : IConvertible
         }
         if (conversionType == typeof(string))
         {
-            return Value.ToString(CultureInfo.InvariantCulture);
+            return Value.ToString(InvariantCulture);
         }
         throw new InvalidCastException();
     }

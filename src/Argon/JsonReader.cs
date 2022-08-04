@@ -321,7 +321,7 @@ public abstract partial class JsonReader : IDisposable
                 {
                     try
                     {
-                        i = Convert.ToInt32(v, CultureInfo.InvariantCulture);
+                        i = Convert.ToInt32(v, InvariantCulture);
                     }
                     catch (Exception exception)
                     {
@@ -348,7 +348,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (int.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out var i))
+        if (int.TryParse(s, NumberStyles.Integer, InvariantCulture, out var i))
         {
             SetToken(JsonToken.Integer, i, false);
             return i;
@@ -387,7 +387,7 @@ public abstract partial class JsonReader : IDisposable
                 string s;
                 if (v is IFormattable formattable)
                 {
-                    s = formattable.ToString(null, CultureInfo.InvariantCulture);
+                    s = formattable.ToString(null, InvariantCulture);
                 }
                 else
                 {
@@ -505,7 +505,7 @@ public abstract partial class JsonReader : IDisposable
             case JsonToken.None:
                 throw JsonReaderException.Create(this, "Unexpected end when reading bytes.");
             case JsonToken.Integer:
-                buffer.Add(Convert.ToByte(Value, CultureInfo.InvariantCulture));
+                buffer.Add(Convert.ToByte(Value, InvariantCulture));
                 return false;
             case JsonToken.EndArray:
                 return true;
@@ -544,7 +544,7 @@ public abstract partial class JsonReader : IDisposable
                 }
                 else
                 {
-                    d = Convert.ToDouble(v, CultureInfo.InvariantCulture);
+                    d = Convert.ToDouble(v, InvariantCulture);
                 }
 
                 SetToken(JsonToken.Float, d, false);
@@ -565,7 +565,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var d))
+        if (double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, InvariantCulture, out var d))
         {
             SetToken(JsonToken.Float, d, false);
             return d;
@@ -598,7 +598,7 @@ public abstract partial class JsonReader : IDisposable
                 }
                 else
                 {
-                    b = Convert.ToBoolean(Value, CultureInfo.InvariantCulture);
+                    b = Convert.ToBoolean(Value, InvariantCulture);
                 }
 
                 SetToken(JsonToken.Boolean, b, false);
@@ -660,7 +660,7 @@ public abstract partial class JsonReader : IDisposable
                 {
                     try
                     {
-                        d = Convert.ToDecimal(v, CultureInfo.InvariantCulture);
+                        d = Convert.ToDecimal(v, InvariantCulture);
                     }
                     catch (Exception exception)
                     {
@@ -686,7 +686,7 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (decimal.TryParse(s, NumberStyles.Number, CultureInfo.InvariantCulture, out var d))
+        if (decimal.TryParse(s, NumberStyles.Number, InvariantCulture, out var d))
         {
             SetToken(JsonToken.Float, d, false);
             return d;
@@ -743,7 +743,7 @@ public abstract partial class JsonReader : IDisposable
             return dt;
         }
 
-        if (DateTime.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
+        if (DateTime.TryParse(s, InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
             SetToken(JsonToken.Date, dt, false);
             return dt;
@@ -795,7 +795,7 @@ public abstract partial class JsonReader : IDisposable
             return dt;
         }
 
-        if (DateTimeOffset.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
+        if (DateTimeOffset.TryParse(s, InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
             SetToken(JsonToken.Date, dt, false);
             return dt;

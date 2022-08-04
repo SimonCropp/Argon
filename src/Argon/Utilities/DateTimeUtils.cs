@@ -93,7 +93,7 @@ static class DateTimeUtils
         {
             if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
             {
-                if (DateTime.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
+                if (DateTime.TryParseExact(s, IsoDateFormat, InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
                     return true;
                 }
@@ -110,7 +110,7 @@ static class DateTimeUtils
         {
             if (s.Length is >= 19 and <= 40 && char.IsDigit(s[0]) && s[10] == 'T')
             {
-                if (DateTimeOffset.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
+                if (DateTimeOffset.TryParseExact(s, IsoDateFormat, InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
                     if (TryParseDateTimeOffsetIso(new(s.ToCharArray(), 0, s.Length), out dt))
                     {

@@ -329,7 +329,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The JSON for this token using the given formatting and converters.</returns>
     public string ToString(Formatting formatting, params JsonConverter[] converters)
     {
-        using var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        using var stringWriter = new StringWriter(InvariantCulture);
         var jsonWriter = new JsonTextWriter(stringWriter)
         {
             Formatting = formatting
@@ -391,7 +391,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return Convert.ToBoolean((int) integer);
         }
 
-        return Convert.ToBoolean(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToBoolean(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -410,10 +410,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (v.Value is string s)
         {
-            return DateTimeOffset.Parse(s, CultureInfo.InvariantCulture);
+            return DateTimeOffset.Parse(s, InvariantCulture);
         }
 
-        return new(Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture));
+        return new(Convert.ToDateTime(v.Value, InvariantCulture));
     }
 
     /// <summary>
@@ -438,7 +438,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return Convert.ToBoolean((int) integer);
         }
 
-        return v.Value != null ? Convert.ToBoolean(v.Value, CultureInfo.InvariantCulture) : null;
+        return v.Value != null ? Convert.ToBoolean(v.Value, InvariantCulture) : null;
     }
 
     /// <summary>
@@ -455,7 +455,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (long) integer;
         }
 
-        return Convert.ToInt64(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToInt64(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -480,7 +480,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return offset.DateTime;
         }
 
-        return v.Value != null ? Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture) : null;
+        return v.Value != null ? Convert.ToDateTime(v.Value, InvariantCulture) : null;
     }
 
     /// <summary>
@@ -512,10 +512,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (v.Value is string s)
         {
-            return DateTimeOffset.Parse(s, CultureInfo.InvariantCulture);
+            return DateTimeOffset.Parse(s, InvariantCulture);
         }
 
-        return new DateTimeOffset(Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture));
+        return new DateTimeOffset(Convert.ToDateTime(v.Value, InvariantCulture));
     }
 
     /// <summary>
@@ -540,7 +540,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (decimal?) integer;
         }
 
-        return v.Value != null ? Convert.ToDecimal(v.Value, CultureInfo.InvariantCulture) : null;
+        return v.Value != null ? Convert.ToDecimal(v.Value, InvariantCulture) : null;
     }
 
     /// <summary>
@@ -565,7 +565,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (double?) integer;
         }
 
-        return v.Value != null ? Convert.ToDouble(v.Value, CultureInfo.InvariantCulture) : null;
+        return v.Value != null ? Convert.ToDouble(v.Value, InvariantCulture) : null;
     }
 
     /// <summary>
@@ -590,7 +590,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (char?) integer;
         }
 
-        return v.Value != null ? Convert.ToChar(v.Value, CultureInfo.InvariantCulture) : null;
+        return v.Value != null ? Convert.ToChar(v.Value, InvariantCulture) : null;
     }
 
     /// <summary>
@@ -607,7 +607,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (int) integer;
         }
 
-        return Convert.ToInt32(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToInt32(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -624,7 +624,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (short) integer;
         }
 
-        return Convert.ToInt16(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToInt16(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -641,7 +641,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (ushort) integer;
         }
 
-        return Convert.ToUInt16(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToUInt16(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -658,7 +658,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (char) integer;
         }
 
-        return Convert.ToChar(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToChar(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -675,7 +675,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (byte) integer;
         }
 
-        return Convert.ToByte(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToByte(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -692,7 +692,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (sbyte) integer;
         }
 
-        return Convert.ToSByte(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToSByte(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -717,7 +717,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (int?) integer;
         }
 
-        return v.Value != null ? Convert.ToInt32(v.Value, CultureInfo.InvariantCulture) : null;
+        return v.Value != null ? Convert.ToInt32(v.Value, InvariantCulture) : null;
     }
 
     /// <summary>
@@ -742,7 +742,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (short?) integer;
         }
 
-        return v.Value != null ? Convert.ToInt16(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToInt16(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -767,7 +772,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (ushort?) integer;
         }
 
-        return v.Value != null ? Convert.ToUInt16(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToUInt16(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -792,7 +802,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (byte?) integer;
         }
 
-        return v.Value != null ? Convert.ToByte(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToByte(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -817,7 +832,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (sbyte?) integer;
         }
 
-        return v.Value != null ? Convert.ToSByte(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToSByte(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -834,7 +854,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return offset.DateTime;
         }
 
-        return Convert.ToDateTime(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToDateTime(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -859,7 +879,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (long?) integer;
         }
 
-        return v.Value != null ? Convert.ToInt64(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToInt64(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -884,7 +909,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (float?) integer;
         }
 
-        return v.Value != null ? Convert.ToSingle(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToSingle(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -901,7 +931,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (decimal) integer;
         }
 
-        return Convert.ToDecimal(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToDecimal(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -926,7 +956,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (uint?) integer;
         }
 
-        return v.Value != null ? Convert.ToUInt32(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToUInt32(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -951,7 +986,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (ulong?) integer;
         }
 
-        return v.Value != null ? Convert.ToUInt64(v.Value, CultureInfo.InvariantCulture) : null;
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToUInt64(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -968,7 +1008,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (double) integer;
         }
 
-        return Convert.ToDouble(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToDouble(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -985,7 +1025,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (float) integer;
         }
 
-        return Convert.ToSingle(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToSingle(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -1017,10 +1057,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (v.Value is BigInteger integer)
         {
-            return integer.ToString(CultureInfo.InvariantCulture);
+            return integer.ToString(InvariantCulture);
         }
 
-        return Convert.ToString(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToString(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -1037,7 +1077,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (uint) integer;
         }
 
-        return Convert.ToUInt32(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToUInt32(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -1054,7 +1094,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (ulong) integer;
         }
 
-        return Convert.ToUInt64(v.Value, CultureInfo.InvariantCulture);
+        return Convert.ToUInt64(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -1073,7 +1113,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
         if (v.Value is string)
         {
-            return Convert.FromBase64String(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+            return Convert.FromBase64String(Convert.ToString(v.Value, InvariantCulture)!);
         }
 
         if (v.Value is BigInteger integer)
@@ -1103,7 +1143,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return new(bytes);
         }
 
-        return v.Value is Guid guid ? guid : new(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+        if (v.Value is Guid guid)
+        {
+            return guid;
+        }
+
+        return new(Convert.ToString(v.Value, InvariantCulture)!);
     }
 
     /// <summary>
@@ -1138,7 +1183,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return guid;
         }
 
-        return new Guid(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+        return new Guid(Convert.ToString(v.Value, InvariantCulture)!);
     }
 
     /// <summary>
@@ -1155,7 +1200,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return span;
         }
 
-        return ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+        return ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, InvariantCulture)!);
     }
 
     /// <summary>
@@ -1180,7 +1225,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return null;
         }
 
-        return v.Value is TimeSpan span ? span : ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+        if (v.Value is TimeSpan span)
+        {
+            return span;
+        }
+
+        return ConvertUtils.ParseTimeSpan(Convert.ToString(v.Value, InvariantCulture)!);
     }
 
     /// <summary>
@@ -1205,7 +1255,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return null;
         }
 
-        return v.Value as Uri ?? new Uri(Convert.ToString(v.Value, CultureInfo.InvariantCulture)!);
+        return v.Value as Uri ?? new Uri(Convert.ToString(v.Value, InvariantCulture)!);
     }
 
     static BigInteger ToBigInteger(JToken value)

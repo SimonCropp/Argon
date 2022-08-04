@@ -645,8 +645,8 @@ public class LinqDynamicTests : TestFixtureBase
 
         Assert.Equal("", d.Null.ToString());
         Assert.Equal("1", d.Integer.ToString());
-        Assert.Equal("1.1", d.Float.ToString(CultureInfo.InvariantCulture));
-        Assert.Equal("12/29/2000 23:51:10", d.DateTime.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("1.1", d.Float.ToString(InvariantCulture));
+        Assert.Equal("12/29/2000 23:51:10", d.DateTime.ToString(null, InvariantCulture));
         Assert.Equal("True", d.Boolean.ToString());
         Assert.Equal("A string lol!", d.String.ToString());
         Assert.Equal("System.Byte[]", d.Bytes.ToString());

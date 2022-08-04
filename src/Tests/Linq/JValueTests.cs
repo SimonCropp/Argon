@@ -160,7 +160,7 @@ public class JValueTests : TestFixtureBase
         Assert.Equal("True", v.ToString());
 
         v = new(Encoding.UTF8.GetBytes("Blah"));
-        Assert.Equal("System.Byte[]", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("System.Byte[]", v.ToString(null, InvariantCulture));
 
         v = new("I am a string!");
         Assert.Equal("I am a string!", v.ToString());
@@ -169,22 +169,22 @@ public class JValueTests : TestFixtureBase
         Assert.Equal("", v.ToString());
 
         v = JValue.CreateNull();
-        Assert.Equal("", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("", v.ToString(null, InvariantCulture));
 
         v = new(new DateTime(2000, 12, 12, 20, 59, 59, DateTimeKind.Utc), JTokenType.Date);
-        Assert.Equal("12/12/2000 20:59:59", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("12/12/2000 20:59:59", v.ToString(null, InvariantCulture));
 
         v = new(new Uri("http://json.codeplex.com/"));
-        Assert.Equal("http://json.codeplex.com/", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("http://json.codeplex.com/", v.ToString(null, InvariantCulture));
 
         v = new(TimeSpan.FromDays(1));
-        Assert.Equal("1.00:00:00", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("1.00:00:00", v.ToString(null, InvariantCulture));
 
         v = new(new Guid("B282ADE7-C520-496C-A448-4084F6803DE5"));
-        Assert.Equal("b282ade7-c520-496c-a448-4084f6803de5", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("b282ade7-c520-496c-a448-4084f6803de5", v.ToString(null, InvariantCulture));
 
         v = new(BigInteger.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990"));
-        Assert.Equal("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990", v.ToString(null, InvariantCulture));
     }
 
     [Fact]
@@ -315,7 +315,7 @@ public class JValueTests : TestFixtureBase
         var f = new JValue(1).Value<IFormattable>();
         Assert.Equal(1L, f);
 
-        Assert.Equal("01", f.ToString("00", CultureInfo.InvariantCulture));
+        Assert.Equal("01", f.ToString("00", InvariantCulture));
     }
 
     [Fact]
@@ -478,7 +478,7 @@ public class JValueTests : TestFixtureBase
 
     [Fact]
     public void ConvertsToType() =>
-        Assert.Equal(int.MaxValue, Convert.ChangeType(new JValue(int.MaxValue), typeof(int), CultureInfo.InvariantCulture));
+        Assert.Equal(int.MaxValue, Convert.ChangeType(new JValue(int.MaxValue), typeof(int), InvariantCulture));
 
     [Fact]
     public void ConvertsToDateTime() =>
@@ -537,10 +537,10 @@ public class JValueTests : TestFixtureBase
     {
         IConvertible v = new JValue(9.0m);
 
-        var i = (int) v.ToType(typeof(int), CultureInfo.InvariantCulture);
+        var i = (int) v.ToType(typeof(int), InvariantCulture);
         Assert.Equal(9, i);
 
-        var bi = (BigInteger) v.ToType(typeof(BigInteger), CultureInfo.InvariantCulture);
+        var bi = (BigInteger) v.ToType(typeof(BigInteger), InvariantCulture);
         Assert.Equal(new(9), bi);
     }
 

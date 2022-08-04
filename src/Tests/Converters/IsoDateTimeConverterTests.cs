@@ -10,18 +10,15 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     public void PropertiesShouldBeSet()
     {
         var converter = new IsoDateTimeConverter();
-        Assert.Equal(CultureInfo.CurrentCulture, converter.Culture);
         Assert.Equal(string.Empty, converter.DateTimeFormat);
         Assert.Equal(DateTimeStyles.RoundtripKind, converter.DateTimeStyles);
 
         converter = new()
         {
             DateTimeFormat = "F",
-            Culture = CultureInfo.InvariantCulture,
             DateTimeStyles = DateTimeStyles.None
         };
 
-        Assert.Equal(CultureInfo.InvariantCulture, converter.Culture);
         Assert.Equal("F", converter.DateTimeFormat);
         Assert.Equal(DateTimeStyles.None, converter.DateTimeStyles);
     }
@@ -30,7 +27,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     {
         var utcOffset = d.GetUtcOffset();
 
-        return $"{utcOffset.Hours.ToString("+00;-00", CultureInfo.InvariantCulture)}:{utcOffset.Minutes.ToString("00;00", CultureInfo.InvariantCulture)}";
+        return $"{utcOffset.Hours.ToString("+00;-00", InvariantCulture)}:{utcOffset.Minutes.ToString("00;00", InvariantCulture)}";
     }
 
     [Fact]
@@ -53,7 +50,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void SerializeFormattedDateTimeInvariantCulture()
     {
-        var converter = new IsoDateTimeConverter {DateTimeFormat = "F", Culture = CultureInfo.InvariantCulture};
+        var converter = new IsoDateTimeConverter {DateTimeFormat = "F"};
 
         var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
 
@@ -73,48 +70,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         var converter = new IsoDateTimeConverter
         {
             DateTimeFormat = "dd/MM/yyyy",
-            Culture = CultureInfo.InvariantCulture
         };
-
-        var json = @"""09/12/2006""";
-
-        var d = JsonConvert.DeserializeObject<DateTime>(json, converter);
-
-        Assert.Equal(9, d.Day);
-        Assert.Equal(12, d.Month);
-        Assert.Equal(2006, d.Year);
-    }
-
-    [Fact]
-    public void SerializeFormattedDateTimeNewZealandCulture()
-    {
-        var culture = new CultureInfo("en-NZ")
-        {
-            DateTimeFormat =
-            {
-                AMDesignator = "a.m.",
-                PMDesignator = "p.m."
-            }
-        };
-
-        var converter = new IsoDateTimeConverter {DateTimeFormat = "F", Culture = culture};
-
-        var d = new DateTime(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Utc);
-
-        var result = JsonConvert.SerializeObject(d, converter);
-        Assert.Equal(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
-
-        Assert.Equal(d, JsonConvert.DeserializeObject<DateTime>(result, converter));
-
-        d = new(2000, 12, 15, 22, 11, 3, 0, DateTimeKind.Local);
-        result = JsonConvert.SerializeObject(d, converter);
-        Assert.Equal(@"""Friday, 15 December 2000 10:11:03 p.m.""", result);
-    }
-
-    [Fact]
-    public void SerializeDateTimeCulture()
-    {
-        var converter = new IsoDateTimeConverter {Culture = CultureInfo.GetCultureInfo("en-NZ")};
 
         var json = @"""09/12/2006""";
 

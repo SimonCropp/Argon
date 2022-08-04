@@ -40,7 +40,7 @@ static class StringUtils
     public static StringWriter CreateStringWriter(int capacity)
     {
         var stringBuilder = new StringBuilder(capacity);
-        return new(stringBuilder, CultureInfo.InvariantCulture);
+        return new(stringBuilder, InvariantCulture);
     }
 
     public static void ToCharAsUnicode(char c, char[] buffer)
@@ -108,7 +108,7 @@ static class StringUtils
     }
 
     static char ToLower(char c) =>
-        char.ToLower(c, CultureInfo.InvariantCulture);
+        char.ToLower(c, InvariantCulture);
 
     public static string ToSnakeCase(string s) =>
         ToSeparatedCase(s, '_');
@@ -165,7 +165,7 @@ static class StringUtils
                         break;
                 }
 
-                var c = char.ToLower(s[i], CultureInfo.InvariantCulture);
+                var c = char.ToLower(s[i], InvariantCulture);
                 stringBuilder.Append(c);
 
                 state = SeparatedCaseState.Upper;

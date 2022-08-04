@@ -48,7 +48,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteLazy()
     {
-        var stringWriter = new LazyStringWriter(CultureInfo.InvariantCulture);
+        var stringWriter = new LazyStringWriter(InvariantCulture);
 
         using (var writer = new JsonTextWriter(stringWriter))
         {
@@ -147,7 +147,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteLazy_Property()
     {
-        var stringWriter = new LazyStringWriter(CultureInfo.InvariantCulture);
+        var stringWriter = new LazyStringWriter(InvariantCulture);
 
         using (var writer = new JsonTextWriter(stringWriter))
         {

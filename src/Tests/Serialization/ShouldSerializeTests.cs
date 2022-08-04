@@ -92,7 +92,7 @@ public class ShouldSerializeTests : TestFixtureBase
         var jsonSerializer = JsonSerializer.CreateDefault();
 
         var stringBuilder = new StringBuilder(256);
-        var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
+        var stringWriter = new StringWriter(stringBuilder, InvariantCulture);
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.None

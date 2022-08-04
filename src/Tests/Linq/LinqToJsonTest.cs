@@ -690,7 +690,7 @@ keyword such as type of business.""
         var o = JObject.Parse(json);
 
         Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
-        Assert.Equal(@"1.1", ((JValue) o.Property("Width").Value).ToString(CultureInfo.InvariantCulture));
+        Assert.Equal(@"1.1", ((JValue) o.Property("Width").Value).ToString(InvariantCulture));
         Assert.Equal(@"""Open"": false", o.Property("Open").ToString());
         Assert.Equal(@"False", o.Property("Open").Value.ToString());
 

@@ -428,11 +428,6 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
     [Fact]
     public async Task ScientificNotationAsync()
     {
-        var d = Convert.ToDouble("6.0221418e23", CultureInfo.InvariantCulture);
-
-        Assert.Equal("6,0221418E+23", d.ToString(new CultureInfo("fr-FR")));
-        Assert.Equal("602214180000000000000000", d.ToString("0.#############################################################################"));
-
         var json = @"[0e-10,0E-10,0.25e-5,0.3e10,6.0221418e23]";
 
         var reader = new JsonTextReader(new StringReader(json));

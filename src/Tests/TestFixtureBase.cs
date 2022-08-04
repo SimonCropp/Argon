@@ -12,8 +12,8 @@ public abstract class TestFixtureBase
         //Thread.CurrentThread.CurrentCulture = turkey;
         //Thread.CurrentThread.CurrentUICulture = turkey;
 
-        Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-        Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+        Thread.CurrentThread.CurrentCulture = InvariantCulture;
+        Thread.CurrentThread.CurrentUICulture = InvariantCulture;
 #else
         // suppress writing to console with dotnet test to keep build log size small
         Console.SetOut(new StringWriter());

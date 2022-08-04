@@ -53,7 +53,7 @@ public partial class JValue
                     return writer.WriteValueAsync(integer, cancellation);
                 }
 
-                return writer.WriteValueAsync(Convert.ToInt64(value, CultureInfo.InvariantCulture), cancellation);
+                return writer.WriteValueAsync(Convert.ToInt64(value, InvariantCulture), cancellation);
             case JTokenType.Float:
                 if (value is decimal dec)
                 {
@@ -70,18 +70,18 @@ public partial class JValue
                     return writer.WriteValueAsync(f, cancellation);
                 }
 
-                return writer.WriteValueAsync(Convert.ToDouble(value, CultureInfo.InvariantCulture), cancellation);
+                return writer.WriteValueAsync(Convert.ToDouble(value, InvariantCulture), cancellation);
             case JTokenType.String:
                 return writer.WriteValueAsync(value?.ToString(), cancellation);
             case JTokenType.Boolean:
-                return writer.WriteValueAsync(Convert.ToBoolean(value, CultureInfo.InvariantCulture), cancellation);
+                return writer.WriteValueAsync(Convert.ToBoolean(value, InvariantCulture), cancellation);
             case JTokenType.Date:
                 if (value is DateTimeOffset offset)
                 {
                     return writer.WriteValueAsync(offset, cancellation);
                 }
 
-                return writer.WriteValueAsync(Convert.ToDateTime(value, CultureInfo.InvariantCulture), cancellation);
+                return writer.WriteValueAsync(Convert.ToDateTime(value, InvariantCulture), cancellation);
             case JTokenType.Bytes:
                 return writer.WriteValueAsync((byte[]?) value, cancellation);
             case JTokenType.Guid:

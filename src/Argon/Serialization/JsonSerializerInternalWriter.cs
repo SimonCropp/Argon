@@ -313,12 +313,12 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 #if NET6_0_OR_GREATER
         if (value is DateOnly dateOnly)
         {
-            s = dateOnly.ToString("yyyy'-'MM'-'dd", CultureInfo.InvariantCulture);
+            s = dateOnly.ToString("yyyy'-'MM'-'dd", InvariantCulture);
             return true;
         }
         if (value is TimeOnly timeOnly)
         {
-            s = timeOnly.ToString("HH':'mm':'ss.FFFFFFF", CultureInfo.InvariantCulture);
+            s = timeOnly.ToString("HH':'mm':'ss.FFFFFFF", InvariantCulture);
             return true;
         }
 #endif
@@ -980,7 +980,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     var dt = (DateTime) name;
 
                     escape = false;
-                    var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+                    var stringWriter = new StringWriter(InvariantCulture);
                     DateTimeUtils.WriteDateTimeString(stringWriter, dt);
                     return stringWriter.ToString();
                 }
@@ -988,7 +988,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                 {
                     escape = false;
-                    var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+                    var stringWriter = new StringWriter(InvariantCulture);
                     DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) name);
                     return stringWriter.ToString();
                 }
@@ -998,7 +998,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     var d = (double) name;
 
                     escape = false;
-                    return d.ToString("R", CultureInfo.InvariantCulture);
+                    return d.ToString("R", InvariantCulture);
                 }
                 case PrimitiveTypeCode.Single:
                 case PrimitiveTypeCode.SingleNullable:
@@ -1006,7 +1006,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     var f = (float) name;
 
                     escape = false;
-                    return f.ToString("R", CultureInfo.InvariantCulture);
+                    return f.ToString("R", InvariantCulture);
                 }
                 default:
                 {
@@ -1017,7 +1017,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                         return enumName;
                     }
 
-                    return Convert.ToString(name, CultureInfo.InvariantCulture)!;
+                    return Convert.ToString(name, InvariantCulture)!;
                 }
             }
         }

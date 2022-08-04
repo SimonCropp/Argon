@@ -102,49 +102,49 @@ public static class JsonConvert
     /// Converts the <see cref="Int32" /> to its JSON string representation.
     /// </summary>
     public static string ToString(int value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Int16" /> to its JSON string representation.
     /// </summary>
     public static string ToString(short value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="UInt16" /> to its JSON string representation.
     /// </summary>
     public static string ToString(ushort value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="UInt32" /> to its JSON string representation.
     /// </summary>
     public static string ToString(uint value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Int64" />  to its JSON string representation.
     /// </summary>
     public static string ToString(long value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     static string ToStringInternal(BigInteger value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="UInt64" /> to its JSON string representation.
     /// </summary>
     public static string ToString(ulong value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Single" /> to its JSON string representation.
     /// </summary>
     public static string ToString(float value) =>
-        EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
+        EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
     internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable) =>
-        EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture)), floatFormatHandling, quoteChar, nullable);
+        EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", InvariantCulture)), floatFormatHandling, quoteChar, nullable);
 
     static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
@@ -172,11 +172,11 @@ public static class JsonConvert
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="Double" />.</returns>
     public static string ToString(double value) =>
-        EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
+        EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
     internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
-        var ensureDecimalPlace = EnsureDecimalPlace(value, value.ToString("R", CultureInfo.InvariantCulture));
+        var ensureDecimalPlace = EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
         return EnsureFloatFormat(value, ensureDecimalPlace, floatFormatHandling, quoteChar, nullable);
     }
 
@@ -209,21 +209,21 @@ public static class JsonConvert
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="Byte" />.</returns>
     public static string ToString(byte value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="SByte" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="SByte" />.</returns>
     public static string ToString(sbyte value) =>
-        value.ToString(null, CultureInfo.InvariantCulture);
+        value.ToString(null, InvariantCulture);
 
     /// <summary>
     /// Converts the <see cref="Decimal" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="Decimal" />.</returns>
     public static string ToString(decimal value) =>
-        EnsureDecimalPlace(value.ToString(null, CultureInfo.InvariantCulture));
+        EnsureDecimalPlace(value.ToString(null, InvariantCulture));
 
     /// <summary>
     /// Converts the <see cref="Guid" /> to its JSON string representation.
@@ -231,7 +231,7 @@ public static class JsonConvert
     /// <returns>A JSON string representation of the <see cref="Guid" />.</returns>
     public static string ToString(Guid value)
     {
-        var text = value.ToString("D", CultureInfo.InvariantCulture);
+        var text = value.ToString("D", InvariantCulture);
         return $"\"{text}\"";
     }
 
@@ -465,7 +465,7 @@ public static class JsonConvert
     static string SerializeObjectInternal(object? value, Type? type, JsonSerializer jsonSerializer)
     {
         var stringBuilder = new StringBuilder(256);
-        var stringWriter = new StringWriter(stringBuilder, CultureInfo.InvariantCulture);
+        var stringWriter = new StringWriter(stringBuilder, InvariantCulture);
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = jsonSerializer.Formatting.GetValueOrDefault()

@@ -306,7 +306,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(char value)
     {
         base.WriteValue(value);
-        var s = value.ToString(CultureInfo.InvariantCulture);
+        var s = value.ToString(InvariantCulture);
         AddValue(s, JsonToken.String);
     }
 

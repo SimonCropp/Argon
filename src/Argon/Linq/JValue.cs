@@ -2,7 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
@@ -176,7 +175,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
         if (i2 is double or float)
         {
-            var d = Convert.ToDouble(i2, CultureInfo.InvariantCulture);
+            var d = Convert.ToDouble(i2, InvariantCulture);
             return 0d.CompareTo(Math.Abs(d - Math.Truncate(d)));
         }
 
@@ -216,7 +215,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
                 {
-                    return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
+                    return Convert.ToDecimal(objA, InvariantCulture).CompareTo(Convert.ToDecimal(objB, InvariantCulture));
                 }
 
                 if (objA is float || objB is float || objA is double || objB is double)
@@ -224,7 +223,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     return CompareFloat(objA, objB);
                 }
 
-                return Convert.ToInt64(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToInt64(objB, CultureInfo.InvariantCulture));
+                return Convert.ToInt64(objA, InvariantCulture).CompareTo(Convert.ToInt64(objB, InvariantCulture));
             }
             case JTokenType.Float:
             {
@@ -240,7 +239,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
                 if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
                 {
-                    return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
+                    return Convert.ToDecimal(objA, InvariantCulture).CompareTo(Convert.ToDecimal(objB, InvariantCulture));
                 }
 
                 return CompareFloat(objA, objB);
@@ -248,13 +247,13 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             case JTokenType.Comment:
             case JTokenType.String:
             case JTokenType.Raw:
-                var s1 = Convert.ToString(objA, CultureInfo.InvariantCulture);
-                var s2 = Convert.ToString(objB, CultureInfo.InvariantCulture);
+                var s1 = Convert.ToString(objA, InvariantCulture);
+                var s2 = Convert.ToString(objB, InvariantCulture);
 
                 return string.CompareOrdinal(s1, s2);
             case JTokenType.Boolean:
-                var b1 = Convert.ToBoolean(objA, CultureInfo.InvariantCulture);
-                var b2 = Convert.ToBoolean(objB, CultureInfo.InvariantCulture);
+                var b1 = Convert.ToBoolean(objA, InvariantCulture);
+                var b2 = Convert.ToBoolean(objB, InvariantCulture);
 
                 return b1.CompareTo(b2);
             case JTokenType.Date:
@@ -268,7 +267,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     }
                     else
                     {
-                        dateB = Convert.ToDateTime(objB, CultureInfo.InvariantCulture);
+                        dateB = Convert.ToDateTime(objB, InvariantCulture);
                     }
 
                     return dateA.CompareTo(dateB);
@@ -278,7 +277,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     var offsetA = (DateTimeOffset) objA;
                     if (objB is not DateTimeOffset offsetB)
                     {
-                        offsetB = new(Convert.ToDateTime(objB, CultureInfo.InvariantCulture));
+                        offsetB = new(Convert.ToDateTime(objB, InvariantCulture));
                     }
 
                     return offsetA.CompareTo(offsetB);
@@ -327,8 +326,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
     static int CompareFloat(object objA, object objB)
     {
-        var d1 = Convert.ToDouble(objA, CultureInfo.InvariantCulture);
-        var d2 = Convert.ToDouble(objB, CultureInfo.InvariantCulture);
+        var d1 = Convert.ToDouble(objA, InvariantCulture);
+        var d2 = Convert.ToDouble(objB, InvariantCulture);
 
         // take into account possible floating point errors
         if (MathUtils.ApproxEquals(d1, d2))
@@ -393,8 +392,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 return true;
             }
 
-            var d1 = Convert.ToDecimal(objA, CultureInfo.InvariantCulture);
-            var d2 = Convert.ToDecimal(objB, CultureInfo.InvariantCulture);
+            var d1 = Convert.ToDecimal(objA, InvariantCulture);
+            var d2 = Convert.ToDecimal(objB, InvariantCulture);
 
             switch (operation)
             {
@@ -424,8 +423,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 return true;
             }
 
-            var d1 = Convert.ToDouble(objA, CultureInfo.InvariantCulture);
-            var d2 = Convert.ToDouble(objB, CultureInfo.InvariantCulture);
+            var d1 = Convert.ToDouble(objA, InvariantCulture);
+            var d2 = Convert.ToDouble(objB, InvariantCulture);
 
             switch (operation)
             {
@@ -455,8 +454,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 return true;
             }
 
-            var l1 = Convert.ToInt64(objA, CultureInfo.InvariantCulture);
-            var l2 = Convert.ToInt64(objB, CultureInfo.InvariantCulture);
+            var l1 = Convert.ToInt64(objA, InvariantCulture);
+            var l2 = Convert.ToInt64(objB, InvariantCulture);
 
             switch (operation)
             {
@@ -694,7 +693,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 }
                 else
                 {
-                    writer.WriteValue(Convert.ToInt64(value, CultureInfo.InvariantCulture));
+                    writer.WriteValue(Convert.ToInt64(value, InvariantCulture));
                 }
 
                 return;
@@ -713,7 +712,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 }
                 else
                 {
-                    writer.WriteValue(Convert.ToDouble(value, CultureInfo.InvariantCulture));
+                    writer.WriteValue(Convert.ToDouble(value, InvariantCulture));
                 }
 
                 return;
@@ -721,7 +720,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 writer.WriteValue(value?.ToString());
                 return;
             case JTokenType.Boolean:
-                writer.WriteValue(Convert.ToBoolean(value, CultureInfo.InvariantCulture));
+                writer.WriteValue(Convert.ToBoolean(value, InvariantCulture));
                 return;
             case JTokenType.Date:
                 if (value is DateTimeOffset offset)
@@ -730,7 +729,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 }
                 else
                 {
-                    writer.WriteValue(Convert.ToDateTime(value, CultureInfo.InvariantCulture));
+                    writer.WriteValue(Convert.ToDateTime(value, InvariantCulture));
                 }
 
                 return;
@@ -833,7 +832,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// A <see cref="String" /> that represents this instance.
     /// </returns>
     public string ToString(string format) =>
-        ToString(format, CultureInfo.CurrentCulture);
+        ToString(format, InvariantCulture);
 
     /// <summary>
     /// Returns a <see cref="String" /> that represents this instance.
@@ -893,7 +892,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 return binder.Type.IsNullable();
             }
 
-            result = ConvertUtils.Convert(value, CultureInfo.InvariantCulture, binder.Type);
+            result = ConvertUtils.Convert(value, binder.Type);
             return true;
         }
 

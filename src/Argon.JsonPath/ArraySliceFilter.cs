@@ -52,8 +52,8 @@ class ArraySliceFilter : PathFilter
                     if (settings?.ErrorWhenNoMatch ?? false)
                     {
                         throw new JsonException(string.Format("Array slice of {0} to {1} returned no results.",
-                            Start != null ? Start.GetValueOrDefault().ToString(CultureInfo.InvariantCulture) : "*",
-                            End != null ? End.GetValueOrDefault().ToString(CultureInfo.InvariantCulture) : "*"));
+                            Start != null ? Start.GetValueOrDefault().ToString(InvariantCulture) : "*",
+                            End != null ? End.GetValueOrDefault().ToString(InvariantCulture) : "*"));
                     }
                 }
             }

@@ -46,7 +46,7 @@ public class TypeConverterSizeConverter : TypeConverter
         {
             if (destinationType == typeof(string))
             {
-                culture ??= CultureInfo.CurrentCulture;
+                culture ??= CurrentCulture;
                 var converter = TypeDescriptor.GetConverter(typeof(int));
                 var strArray = new string[2];
                 var num = 0;

@@ -427,7 +427,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
-            onebasedArray.SetValue(i.ToString(CultureInfo.InvariantCulture), new[] {i});
+            onebasedArray.SetValue(i.ToString(InvariantCulture), new[] {i});
         }
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
@@ -633,7 +633,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         Assert.Equal(1, d.Count);
 
-        var key = DateTime.Parse("04/28/2013 00:00:00", CultureInfo.InvariantCulture);
+        var key = DateTime.Parse("04/28/2013 00:00:00", InvariantCulture);
         Assert.Equal("test", d[key]);
     }
 

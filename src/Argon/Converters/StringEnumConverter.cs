@@ -134,7 +134,7 @@ public class StringEnumConverter : JsonConverter
                     throw JsonSerializationException.Create(reader, $"Integer value {reader.Value} is not allowed.");
                 }
 
-                return ConvertUtils.ConvertOrCast(reader.Value, CultureInfo.InvariantCulture, t);
+                return ConvertUtils.ConvertOrCast(reader.Value, InvariantCulture, t);
             }
         }
         catch (Exception exception)

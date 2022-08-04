@@ -1113,7 +1113,7 @@ public class JsonSerializerTest : TestFixtureBase
         var dictStore = new Dictionary<DictionaryKeyCast, int>();
         for (var i = 0; i < 800; i++)
         {
-            dictStore.Add(new(i.ToString(CultureInfo.InvariantCulture), i), i);
+            dictStore.Add(new(i.ToString(InvariantCulture), i), i);
         }
 
         var settings = new JsonSerializerSettings
@@ -4652,32 +4652,6 @@ Path '', line 1, position 1.");
         Assert.Equal(-1, c2.x);
         Assert.Equal(-2, StaticTestClass.y);
         Assert.Equal(-3, StaticTestClass.z);
-    }
-
-    [Fact]
-    public void DeserializeDecimalsWithCulture()
-    {
-        var initialCulture = Thread.CurrentThread.CurrentCulture;
-
-        try
-        {
-            var testCulture = CultureInfo.CreateSpecificCulture("nb-NO");
-
-            Thread.CurrentThread.CurrentCulture = testCulture;
-            Thread.CurrentThread.CurrentUICulture = testCulture;
-
-            var json = @"{ 'Quantity': '1.5', 'OptionalQuantity': '2.2' }";
-
-            var c = JsonConvert.DeserializeObject<DecimalTestClass>(json);
-
-            Assert.Equal(1.5m, c.Quantity);
-            Assert.Equal(2.2d, c.OptionalQuantity);
-        }
-        finally
-        {
-            Thread.CurrentThread.CurrentCulture = initialCulture;
-            Thread.CurrentThread.CurrentUICulture = initialCulture;
-        }
     }
 
     [Fact]

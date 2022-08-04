@@ -44,7 +44,7 @@ public class LowLevelBenchmarks
     public void DecimalTryParseString()
     {
         decimal value;
-        decimal.TryParse(FloatText, NumberStyles.Number | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out value);
+        decimal.TryParse(FloatText, NumberStyles.Number | NumberStyles.AllowExponent, InvariantCulture, out value);
     }
 
     [Benchmark]

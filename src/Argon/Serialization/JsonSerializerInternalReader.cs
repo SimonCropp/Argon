@@ -242,7 +242,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 case JsonToken.Boolean:
                 case JsonToken.Date:
                 case JsonToken.Bytes:
-                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
+                    return EnsureType(reader, reader.Value, InvariantCulture, contract, type);
                 case JsonToken.String:
                     var s = reader.StringValue;
 
@@ -258,7 +258,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         return null;
                     }
 
-                    return EnsureType(reader, s, CultureInfo.InvariantCulture, contract, type);
+                    return EnsureType(reader, s, InvariantCulture, contract, type);
                 case JsonToken.Null:
                 case JsonToken.Undefined:
                     if (type == typeof(DBNull))
@@ -266,7 +266,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         return DBNull.Value;
                     }
 
-                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
+                    return EnsureType(reader, reader.Value, InvariantCulture, contract, type);
                 case JsonToken.Raw:
                     return new JRaw((string?) reader.Value);
                 case JsonToken.Comment:
@@ -1257,7 +1257,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                     }
                                     else
                                     {
-                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                        keyValue = EnsureType(reader, keyValue, InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     }
 
                                     break;
@@ -1271,7 +1271,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                     }
                                     else
                                     {
-                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                        keyValue = EnsureType(reader, keyValue, InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     }
 
                                     break;
@@ -1283,7 +1283,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                     }
                                     else
                                     {
-                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                        keyValue = EnsureType(reader, keyValue, InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     }
 
                                     break;
@@ -1783,7 +1783,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             context.Value = EnsureType(
                                 reader,
                                 constructorProperty.GetResolvedDefaultValue(),
-                                CultureInfo.InvariantCulture,
+                                InvariantCulture,
                                 constructorProperty.PropertyContract!,
                                 constructorProperty.PropertyType);
                         }
@@ -2266,7 +2266,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling), DefaultValueHandling.Populate) && property.Writable)
                         {
-                            property.ValueProvider!.SetValue(newObject, EnsureType(reader, property.GetResolvedDefaultValue(), CultureInfo.InvariantCulture, property.PropertyContract!, property.PropertyType));
+                            property.ValueProvider!.SetValue(newObject, EnsureType(reader, property.GetResolvedDefaultValue(), InvariantCulture, property.PropertyContract!, property.PropertyType));
                         }
                     }
 

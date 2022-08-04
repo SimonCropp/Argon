@@ -517,7 +517,7 @@ public abstract partial class JsonWriter
             case JsonToken.Comment:
                 return WriteCommentAsync(value?.ToString(), cancellation);
             case JsonToken.Integer:
-                return value is BigInteger integer ? WriteValueAsync(integer, cancellation) : WriteValueAsync(Convert.ToInt64(value, CultureInfo.InvariantCulture), cancellation);
+                return value is BigInteger integer ? WriteValueAsync(integer, cancellation) : WriteValueAsync(Convert.ToInt64(value, InvariantCulture), cancellation);
             case JsonToken.Float:
                 if (value is decimal dec)
                 {
@@ -534,11 +534,11 @@ public abstract partial class JsonWriter
                     return WriteValueAsync(f, cancellation);
                 }
 
-                return WriteValueAsync(Convert.ToDouble(value, CultureInfo.InvariantCulture), cancellation);
+                return WriteValueAsync(Convert.ToDouble(value, InvariantCulture), cancellation);
             case JsonToken.String:
                 return WriteValueAsync(value!.ToString(), cancellation);
             case JsonToken.Boolean:
-                return WriteValueAsync(Convert.ToBoolean(value, CultureInfo.InvariantCulture), cancellation);
+                return WriteValueAsync(Convert.ToBoolean(value, InvariantCulture), cancellation);
             case JsonToken.Null:
                 return WriteNullAsync(cancellation);
             case JsonToken.Undefined:
@@ -553,7 +553,7 @@ public abstract partial class JsonWriter
                     return WriteValueAsync(offset, cancellation);
                 }
 
-                return WriteValueAsync(Convert.ToDateTime(value, CultureInfo.InvariantCulture), cancellation);
+                return WriteValueAsync(Convert.ToDateTime(value, InvariantCulture), cancellation);
             case JsonToken.Raw:
                 return WriteRawValueAsync(value?.ToString(), cancellation);
             case JsonToken.Bytes:

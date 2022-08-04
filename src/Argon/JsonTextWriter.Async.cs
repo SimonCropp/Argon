@@ -949,7 +949,7 @@ public partial class JsonTextWriter
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
         }
 
-        await writer.WriteAsync(value.ToString("D", CultureInfo.InvariantCulture), cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(value.ToString("D", InvariantCulture), cancellation).ConfigureAwait(false);
         if (QuoteValue)
         {
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
@@ -1065,7 +1065,7 @@ public partial class JsonTextWriter
         value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
 
     internal Task WriteValueAsync(BigInteger value, CancellationToken cancellation) =>
-        WriteValueInternalAsync(JsonToken.Integer, value.ToString(CultureInfo.InvariantCulture), cancellation);
+        WriteValueInternalAsync(JsonToken.Integer, value.ToString(InvariantCulture), cancellation);
 
     /// <summary>
     /// Asynchronously writes a <see cref="object" /> value.
@@ -1253,7 +1253,7 @@ public partial class JsonTextWriter
             await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
         }
 
-        await writer.WriteAsync(value.ToString(null, CultureInfo.InvariantCulture), cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(value.ToString(null, InvariantCulture), cancellation).ConfigureAwait(false);
         if (QuoteValue)
         {
             await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);

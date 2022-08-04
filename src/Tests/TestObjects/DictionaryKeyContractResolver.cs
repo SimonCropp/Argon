@@ -14,7 +14,7 @@ public class DictionaryKeyContractResolver : DefaultContractResolver
 #if NET5_0_OR_GREATER
             return propertyName.ToUpperInvariant();
 #else
-        return propertyName.ToUpper(CultureInfo.InvariantCulture);
+        return propertyName.ToUpper(InvariantCulture);
 #endif
     }
 }

@@ -500,7 +500,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     {
         long i = int.MaxValue;
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         await reader.ReadAsync();
         Assert.Equal(typeof(long), reader.ValueType);
 
@@ -510,7 +510,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
             await XUnitAssert.ThrowsAsync<JsonReaderException>(
                 async () =>
                 {
-                    reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                    reader = new(new StringReader(total.ToString(InvariantCulture)));
                     await reader.ReadAsInt32Async();
                 },
                 $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 10.");
@@ -522,7 +522,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     {
         long i = int.MinValue;
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         await reader.ReadAsync();
         Assert.Equal(typeof(long), reader.ValueType);
         Assert.Equal(i, reader.Value);
@@ -533,7 +533,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
             await XUnitAssert.ThrowsAsync<JsonReaderException>(
                 async () =>
                 {
-                    reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                    reader = new(new StringReader(total.ToString(InvariantCulture)));
                     await reader.ReadAsInt32Async();
                 },
                 $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 11.");
@@ -545,7 +545,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     {
         var i = new BigInteger(long.MaxValue);
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         await reader.ReadAsync();
         Assert.Equal(typeof(long), reader.ValueType);
 
@@ -553,7 +553,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         {
             var total = i + j;
 
-            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(InvariantCulture)));
             await reader.ReadAsync();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);
@@ -565,7 +565,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     {
         var i = new BigInteger(long.MinValue);
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         await reader.ReadAsync();
         Assert.Equal(typeof(long), reader.ValueType);
 
@@ -573,7 +573,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         {
             var total = i + -j;
 
-            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(InvariantCulture)));
             await reader.ReadAsync();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);

@@ -358,7 +358,7 @@ public abstract partial class JsonWriter : IDisposable
                 }
                 else
                 {
-                    WriteValue(Convert.ToInt64(value, CultureInfo.InvariantCulture));
+                    WriteValue(Convert.ToInt64(value, InvariantCulture));
                 }
 
                 break;
@@ -377,7 +377,7 @@ public abstract partial class JsonWriter : IDisposable
                 }
                 else
                 {
-                    WriteValue(Convert.ToDouble(value, CultureInfo.InvariantCulture));
+                    WriteValue(Convert.ToDouble(value, InvariantCulture));
                 }
 
                 break;
@@ -387,7 +387,7 @@ public abstract partial class JsonWriter : IDisposable
                 WriteValue(value?.ToString());
                 break;
             case JsonToken.Boolean:
-                WriteValue(Convert.ToBoolean(value, CultureInfo.InvariantCulture));
+                WriteValue(Convert.ToBoolean(value, InvariantCulture));
                 break;
             case JsonToken.Null:
                 WriteNull();
@@ -408,7 +408,7 @@ public abstract partial class JsonWriter : IDisposable
                 }
                 else
                 {
-                    WriteValue(Convert.ToDateTime(value, CultureInfo.InvariantCulture));
+                    WriteValue(Convert.ToDateTime(value, InvariantCulture));
                 }
 
                 break;
@@ -1338,7 +1338,7 @@ public abstract partial class JsonWriter : IDisposable
         // if convertible has an underlying typecode of Object then attempt to convert it to a string
         typeCode = typeInformation.TypeCode == PrimitiveTypeCode.Object ? PrimitiveTypeCode.String : typeInformation.TypeCode;
         var resolvedType = typeInformation.TypeCode == PrimitiveTypeCode.Object ? typeof(string) : typeInformation.Type;
-        value = convertible.ToType(resolvedType, CultureInfo.InvariantCulture);
+        value = convertible.ToType(resolvedType, InvariantCulture);
     }
 
     static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value) =>

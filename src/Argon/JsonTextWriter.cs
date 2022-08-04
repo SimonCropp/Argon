@@ -284,7 +284,7 @@ public partial class JsonTextWriter : JsonWriter
         if (value is BigInteger i)
         {
             InternalWriteValue(JsonToken.Integer);
-            WriteValueInternal(i.ToString(CultureInfo.InvariantCulture));
+            WriteValueInternal(i.ToString(InvariantCulture));
         }
         else
         {
@@ -589,7 +589,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.String);
 
-        var text = value.ToString("D", CultureInfo.InvariantCulture);
+        var text = value.ToString("D", InvariantCulture);
 
         if (QuoteValue)
         {
@@ -611,7 +611,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.String);
 
-        var text = value.ToString(null, CultureInfo.InvariantCulture);
+        var text = value.ToString(null, InvariantCulture);
 
         if (QuoteValue)
         {
