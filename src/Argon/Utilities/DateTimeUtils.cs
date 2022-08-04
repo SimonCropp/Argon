@@ -210,32 +210,6 @@ static class DateTimeUtils
         return d;
     }
 
-    internal static bool TryParseDateTime(StringReference s, DateTimeZoneHandling handling, string? formatString, CultureInfo culture, out DateTime dt)
-    {
-        if (s.Length > 0)
-        {
-            var i = s.StartIndex;
-            if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
-            {
-                if (TryParseDateTimeIso(s, handling, out dt))
-                {
-                    return true;
-                }
-            }
-
-            if (!StringUtils.IsNullOrEmpty(formatString))
-            {
-                if (TryParseDateTimeExact(s.ToString(), handling, formatString, culture, out dt))
-                {
-                    return true;
-                }
-            }
-        }
-
-        dt = default;
-        return false;
-    }
-
     internal static bool TryParseDateTime(string s, DateTimeZoneHandling handling, string? formatString, CultureInfo culture, out DateTime dt)
     {
         if (s.Length > 0)
@@ -252,32 +226,6 @@ static class DateTimeUtils
             if (!StringUtils.IsNullOrEmpty(formatString))
             {
                 if (TryParseDateTimeExact(s, handling, formatString, culture, out dt))
-                {
-                    return true;
-                }
-            }
-        }
-
-        dt = default;
-        return false;
-    }
-
-    internal static bool TryParseDateTimeOffset(StringReference s, string? dateFormatString, CultureInfo culture, out DateTimeOffset dt)
-    {
-        if (s.Length > 0)
-        {
-            var i = s.StartIndex;
-            if (s.Length is >= 19 and <= 40 && char.IsDigit(s[i]) && s[i + 10] == 'T')
-            {
-                if (TryParseDateTimeOffsetIso(s, out dt))
-                {
-                    return true;
-                }
-            }
-
-            if (!StringUtils.IsNullOrEmpty(dateFormatString))
-            {
-                if (TryParseDateTimeOffsetExact(s.ToString(), dateFormatString, culture, out dt))
                 {
                     return true;
                 }
