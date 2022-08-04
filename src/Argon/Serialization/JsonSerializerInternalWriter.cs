@@ -977,7 +977,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case PrimitiveTypeCode.DateTime:
                 case PrimitiveTypeCode.DateTimeNullable:
                 {
-                    var dt = DateTimeUtils.EnsureDateTime((DateTime) name, writer.DateTimeZoneHandling);
+                    var dt = (DateTime) name;
 
                     escape = false;
                     var stringWriter = new StringWriter(CultureInfo.InvariantCulture);

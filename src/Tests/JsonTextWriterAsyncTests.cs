@@ -1100,20 +1100,6 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public async Task DateTimeZoneHandlingAsync()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc
-        };
-
-        await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
-
-        Assert.Equal(@"""2000-01-01T01:01:01Z""", stringWriter.ToString());
-    }
-
-    [Fact]
     public async Task HtmlEscapeHandlingAsync()
     {
         var stringWriter = new StringWriter();

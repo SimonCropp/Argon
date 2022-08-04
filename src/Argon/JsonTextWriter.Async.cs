@@ -703,7 +703,6 @@ public partial class JsonTextWriter
     async Task DoWriteValueAsync(DateTime value, CancellationToken cancellation)
     {
         await InternalWriteValueAsync(JsonToken.Date, cancellation).ConfigureAwait(false);
-        value = DateTimeUtils.EnsureDateTime(value, DateTimeZoneHandling);
 
         if (StringUtils.IsNullOrEmpty(DateFormatString))
         {

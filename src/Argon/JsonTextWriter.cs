@@ -498,7 +498,6 @@ public partial class JsonTextWriter : JsonWriter
     public override void WriteValue(DateTime value)
     {
         InternalWriteValue(JsonToken.Date);
-        value = DateTimeUtils.EnsureDateTime(value, DateTimeZoneHandling);
 
         if (StringUtils.IsNullOrEmpty(DateFormatString))
         {

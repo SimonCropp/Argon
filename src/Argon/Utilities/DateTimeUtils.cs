@@ -23,129 +23,6 @@ static class DateTimeUtils
     public static TimeSpan GetUtcOffset(this DateTime d) =>
         TimeZoneInfo.Local.GetUtcOffset(d);
 
-    internal static DateTime EnsureDateTime(DateTime value, DateTimeZoneHandling timeZone)
-    {
-        switch (timeZone)
-        {
-            case DateTimeZoneHandling.Local:
-                value = SwitchToLocalTime(value);
-                break;
-            case DateTimeZoneHandling.Utc:
-                value = SwitchToUtcTime(value);
-                break;
-            case DateTimeZoneHandling.Unspecified:
-                value = new(value.Ticks, DateTimeKind.Unspecified);
-                break;
-            case DateTimeZoneHandling.RoundtripKind:
-                break;
-            default:
-                throw new ArgumentException("Invalid date time handling value.");
-        }
-
-        return value;
-    }
-
-    static DateTime SwitchToLocalTime(DateTime value)
-    {
-        switch (value.Kind)
-        {
-            case DateTimeKind.Unspecified:
-                return new(value.Ticks, DateTimeKind.Local);
-
-            case DateTimeKind.Utc:
-                return value.ToLocalTime();
-
-            case DateTimeKind.Local:
-                return value;
-        }
-
-        return value;
-    }
-
-    static DateTime SwitchToUtcTime(DateTime value)
-    {
-        switch (value.Kind)
-        {
-            case DateTimeKind.Unspecified:
-                return new(value.Ticks, DateTimeKind.Utc);
-
-            case DateTimeKind.Utc:
-                return value;
-
-            case DateTimeKind.Local:
-                return value.ToUniversalTime();
-        }
-
-        return value;
-    }
-
-    internal static bool TryParseDateTimeIso(StringReference text, DateTimeZoneHandling handling, out DateTime dt)
-    {
-        var dateTimeParser = new DateTimeParser();
-        if (!dateTimeParser.Parse(text.Chars, text.StartIndex, text.Length))
-        {
-            dt = default;
-            return false;
-        }
-
-        var d = CreateDateTime(dateTimeParser);
-
-        long ticks;
-
-        switch (dateTimeParser.Zone)
-        {
-            case ParserTimeZone.Utc:
-                d = new(d.Ticks, DateTimeKind.Utc);
-                break;
-
-            case ParserTimeZone.LocalWestOfUtc:
-            {
-                var offset = new TimeSpan(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
-                ticks = d.Ticks + offset.Ticks;
-                if (ticks <= DateTime.MaxValue.Ticks)
-                {
-                    d = new DateTime(ticks, DateTimeKind.Utc).ToLocalTime();
-                }
-                else
-                {
-                    ticks += d.GetUtcOffset().Ticks;
-                    if (ticks > DateTime.MaxValue.Ticks)
-                    {
-                        ticks = DateTime.MaxValue.Ticks;
-                    }
-
-                    d = new(ticks, DateTimeKind.Local);
-                }
-
-                break;
-            }
-            case ParserTimeZone.LocalEastOfUtc:
-            {
-                var offset = new TimeSpan(dateTimeParser.ZoneHour, dateTimeParser.ZoneMinute, 0);
-                ticks = d.Ticks - offset.Ticks;
-                if (ticks >= DateTime.MinValue.Ticks)
-                {
-                    d = new DateTime(ticks, DateTimeKind.Utc).ToLocalTime();
-                }
-                else
-                {
-                    ticks += d.GetUtcOffset().Ticks;
-                    if (ticks < DateTime.MinValue.Ticks)
-                    {
-                        ticks = DateTime.MinValue.Ticks;
-                    }
-
-                    d = new(ticks, DateTimeKind.Local);
-                }
-
-                break;
-            }
-        }
-
-        dt = EnsureDateTime(d, handling);
-        return true;
-    }
-
     internal static bool TryParseDateTimeOffsetIso(StringReference text, out DateTimeOffset dt)
     {
         var dateTimeParser = new DateTimeParser();
@@ -210,7 +87,7 @@ static class DateTimeUtils
         return d;
     }
 
-    internal static bool TryParseDateTime(string s, DateTimeZoneHandling handling, string? formatString, CultureInfo culture, out DateTime dt)
+    internal static bool TryParseDateTime(string s, string? formatString, CultureInfo culture, out DateTime dt)
     {
         if (s.Length > 0)
         {
@@ -218,14 +95,13 @@ static class DateTimeUtils
             {
                 if (DateTime.TryParseExact(s, IsoDateFormat, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
                 {
-                    dt = EnsureDateTime(dt, handling);
                     return true;
                 }
             }
 
             if (!StringUtils.IsNullOrEmpty(formatString))
             {
-                if (TryParseDateTimeExact(s, handling, formatString, culture, out dt))
+                if (TryParseDateTimeExact(s, formatString, culture, out dt))
                 {
                     return true;
                 }
@@ -264,12 +140,10 @@ static class DateTimeUtils
         return false;
     }
 
-    static bool TryParseDateTimeExact(string text, DateTimeZoneHandling dateTimeZoneHandling, string dateFormatString, CultureInfo culture, out DateTime dt)
+    static bool TryParseDateTimeExact(string text, string dateFormatString, CultureInfo culture, out DateTime dt)
     {
-        if (DateTime.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out var temp))
+        if (DateTime.TryParseExact(text, dateFormatString, culture, DateTimeStyles.RoundtripKind, out dt))
         {
-            temp = EnsureDateTime(temp, dateTimeZoneHandling);
-            dt = temp;
             return true;
         }
 

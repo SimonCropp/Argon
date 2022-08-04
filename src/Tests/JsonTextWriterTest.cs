@@ -1235,20 +1235,6 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public void DateTimeZoneHandling()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            DateTimeZoneHandling = Argon.DateTimeZoneHandling.Utc
-        };
-
-        jsonWriter.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
-
-        Assert.Equal(@"""2000-01-01T01:01:01Z""", stringWriter.ToString());
-    }
-
-    [Fact]
     public void HtmlEscapeHandling()
     {
         var stringWriter = new StringWriter();

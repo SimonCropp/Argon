@@ -176,11 +176,6 @@ public class JTokenReader : JsonReader, IJsonLineInfo
             case JTokenType.Date:
             {
                 var v = ((JValue) token).Value;
-                if (v is DateTime dt)
-                {
-                    v = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
-                }
-
                 SetToken(JsonToken.Date, v);
                 break;
             }

@@ -59,19 +59,11 @@ public static class JsonConvert
     /// <summary>
     /// Converts the <see cref="DateTime" /> to its JSON string representation.
     /// </summary>
-    public static string ToString(DateTime value) =>
-        ToString(value, DateTimeZoneHandling.RoundtripKind);
-
-    /// <summary>
-    /// Converts the <see cref="DateTime" /> to its JSON string representation using the <see cref="DateTimeZoneHandling" /> specified.
-    /// </summary>
-    public static string ToString(DateTime value, DateTimeZoneHandling timeZoneHandling)
+    public static string ToString(DateTime value)
     {
-        var updatedDateTime = DateTimeUtils.EnsureDateTime(value, timeZoneHandling);
-
         using var writer = StringUtils.CreateStringWriter(64);
         writer.Write('"');
-        DateTimeUtils.WriteDateTimeString(writer, updatedDateTime, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeString(writer, value, null, CultureInfo.InvariantCulture);
         writer.Write('"');
         return writer.ToString();
     }

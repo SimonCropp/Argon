@@ -805,9 +805,6 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.DateFormatString = "yyyy";
         Assert.Equal("yyyy", serializer.DateFormatString);
 
-        serializer.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-        Assert.Equal(DateTimeZoneHandling.Utc, serializer.DateTimeZoneHandling);
-
         serializer.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
         Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializer.DefaultValueHandling);
 
@@ -890,9 +887,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         settings.DateFormatString = "yyyy";
         Assert.Equal("yyyy", settings.DateFormatString);
-
-        settings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-        Assert.Equal(DateTimeZoneHandling.Utc, settings.DateTimeZoneHandling);
 
         settings.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
         Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, settings.DefaultValueHandling);
@@ -978,9 +972,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         serializerProxy.DateFormatString = "yyyy";
         Assert.Equal("yyyy", serializerProxy.DateFormatString);
-
-        serializerProxy.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-        Assert.Equal(DateTimeZoneHandling.Utc, serializerProxy.DateTimeZoneHandling);
 
         serializerProxy.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
         Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializerProxy.DefaultValueHandling);
@@ -5047,62 +5038,6 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
-    public void DeserializeUTC()
-    {
-        var c =
-            JsonConvert.DeserializeObject<DateTimeTestClass>(
-                @"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12Z"",""PostField"":""Post""}",
-                new JsonSerializerSettings
-                {
-                    DateTimeZoneHandling = DateTimeZoneHandling.Local
-                });
-
-        Assert.Equal(new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(), c.DateTimeField);
-        Assert.Equal(new(2008, 12, 12, 12, 12, 12, 0, TimeSpan.Zero), c.DateTimeOffsetField);
-        Assert.Equal("Pre", c.PreField);
-        Assert.Equal("Post", c.PostField);
-
-        var c2 =
-            JsonConvert.DeserializeObject<DateTimeTestClass>(
-                @"{""PreField"":""Pre"",""DateTimeField"":""2008-01-01T01:01:01Z"",""DateTimeOffsetField"":""2008-01-01T01:01:01Z"",""PostField"":""Post""}",
-                new JsonSerializerSettings
-                {
-                    DateTimeZoneHandling = DateTimeZoneHandling.Local
-                });
-
-        Assert.Equal(new DateTime(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc).ToLocalTime(), c2.DateTimeField);
-        Assert.Equal(new(2008, 1, 1, 1, 1, 1, 0, TimeSpan.Zero), c2.DateTimeOffsetField);
-        Assert.Equal("Pre", c2.PreField);
-        Assert.Equal("Post", c2.PostField);
-    }
-
-    [Fact]
-    public void NullableDeserializeUTC()
-    {
-        var c =
-            JsonConvert.DeserializeObject<NullableDateTimeTestClass>(
-                @"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12Z"",""PostField"":""Post""}",
-                new JsonSerializerSettings
-                {
-                    DateTimeZoneHandling = DateTimeZoneHandling.Local
-                });
-
-        Assert.Equal(new DateTime(2008, 12, 12, 12, 12, 12, 0, DateTimeKind.Utc).ToLocalTime(), c.DateTimeField);
-        Assert.Equal(new DateTimeOffset(2008, 12, 12, 12, 12, 12, 0, TimeSpan.Zero), c.DateTimeOffsetField);
-        Assert.Equal("Pre", c.PreField);
-        Assert.Equal("Post", c.PostField);
-
-        var c2 =
-            JsonConvert.DeserializeObject<NullableDateTimeTestClass>(
-                @"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}");
-
-        Assert.Equal(null, c2.DateTimeField);
-        Assert.Equal(null, c2.DateTimeOffsetField);
-        Assert.Equal("Pre", c2.PreField);
-        Assert.Equal("Post", c2.PostField);
-    }
-
-    [Fact]
     public void PrivateConstructor()
     {
         var person = PersonWithPrivateConstructor.CreatePerson();
@@ -5367,34 +5302,6 @@ Path '', line 1, position 1.");
         Assert.Equal(2, dic2.Count);
         Assert.Equal(1, dic2[new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
         Assert.Equal(2, dic2[new(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
-    }
-
-    [Fact]
-    public void DateTimeDictionaryKey_DateTime_Iso_Local()
-    {
-        var dic1 = new Dictionary<DateTime, int>
-        {
-            {new DateTime(2020, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1},
-            {new DateTime(2023, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2}
-        };
-
-        var json = JsonConvert.SerializeObject(dic1, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Local
-        });
-
-        var o = JObject.Parse(json);
-        Assert.False(o.Properties().ElementAt(0).Name.Contains("Z"));
-        Assert.False(o.Properties().ElementAt(1).Name.Contains("Z"));
-
-        var dic2 = JsonConvert.DeserializeObject<IDictionary<DateTime, int>>(json, new JsonSerializerSettings
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc
-        });
-
-        Assert.Equal(2, dic2.Count);
-        Assert.Equal(1, dic2[new(2020, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
-        Assert.Equal(2, dic2[new(2023, 12, 12, 12, 12, 12, DateTimeKind.Utc)]);
     }
 
     [Fact]

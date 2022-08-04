@@ -343,7 +343,6 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(DateTime value)
     {
         base.WriteValue(value);
-        value = DateTimeUtils.EnsureDateTime(value, DateTimeZoneHandling);
         AddValue(value, JsonToken.Date);
     }
 

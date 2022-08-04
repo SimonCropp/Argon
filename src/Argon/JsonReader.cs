@@ -99,11 +99,6 @@ public abstract partial class JsonReader : IDisposable
     }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> time zones are handled when reading JSON.
-    /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// </summary>
     public FloatParseHandling FloatParseHandling { get; set; }
@@ -252,7 +247,6 @@ public abstract partial class JsonReader : IDisposable
     protected JsonReader()
     {
         currentState = State.Start;
-        DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
         FloatParseHandling = FloatParseHandling.Double;
         maxDepth = 64;
 
@@ -758,16 +752,14 @@ public abstract partial class JsonReader : IDisposable
             return null;
         }
 
-        if (DateTimeUtils.TryParseDateTime(s, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
+        if (DateTimeUtils.TryParseDateTime(s, DateFormatString, Culture, out var dt))
         {
-            dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
             SetToken(JsonToken.Date, dt, false);
             return dt;
         }
 
         if (DateTime.TryParse(s, Culture, DateTimeStyles.RoundtripKind, out dt))
         {
-            dt = DateTimeUtils.EnsureDateTime(dt, DateTimeZoneHandling);
             SetToken(JsonToken.Date, dt, false);
             return dt;
         }

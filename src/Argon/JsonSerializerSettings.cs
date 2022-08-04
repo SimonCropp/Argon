@@ -170,12 +170,6 @@ public class JsonSerializerSettings
     public Formatting? Formatting { get; set; }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> time zones are handled during serialization and deserialization.
-    /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
-    /// </summary>
-    public DateTimeZoneHandling? DateTimeZoneHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how special floating point numbers, e.g. <see cref="Double.NaN" />,
     /// <see cref="Double.PositiveInfinity" /> and <see cref="Double.NegativeInfinity" />,
     /// are written as JSON.

@@ -20,20 +20,9 @@ public class DateTimeUtilsTests : TestFixtureBase
         DateTimeUtils.WriteDateTimeString(stringWriter, value, null, CultureInfo.InvariantCulture);
         var minDateText = stringWriter.ToString();
 
-        DateTimeUtils.TryParseDateTimeIso(CreateStringReference(minDateText), DateTimeZoneHandling.RoundtripKind, out var parsedDt);
+        DateTimeUtils.TryParseDateTime(minDateText, null, CultureInfo.InvariantCulture, out var parsedDt);
 
         Assert.Equal(value, parsedDt);
-    }
-
-    [Fact]
-    public void Parse24HourDateTime()
-    {
-        Assert.True(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00Z"), DateTimeZoneHandling.RoundtripKind, out var dt));
-        Assert.Equal(new(2000, 12, 16, 0, 0, 0, DateTimeKind.Utc), dt);
-
-        Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:01:00Z"), DateTimeZoneHandling.RoundtripKind, out dt));
-        Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:01Z"), DateTimeZoneHandling.RoundtripKind, out dt));
-        Assert.False(DateTimeUtils.TryParseDateTimeIso(CreateStringReference("2000-12-15T24:00:00.0000001Z"), DateTimeZoneHandling.RoundtripKind, out dt));
     }
 
     [Fact]

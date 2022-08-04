@@ -178,11 +178,6 @@ public abstract partial class JsonWriter : IDisposable
     public Formatting Formatting { get; set; }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> time zones are handled when writing JSON text.
-    /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
     /// </summary>
     public EscapeHandling EscapeHandling
@@ -228,8 +223,6 @@ public abstract partial class JsonWriter : IDisposable
     {
         currentState = State.Start;
         Formatting = Formatting.None;
-        DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
-
         CloseOutput = true;
         AutoCompleteOnClose = true;
     }
