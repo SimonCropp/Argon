@@ -450,13 +450,12 @@ static class ConvertUtils
     /// value is checked whether it assignable to the specified type.
     /// </summary>
     /// <param name="initialValue">The value to convert.</param>
-    /// <param name="culture">The culture to use when converting.</param>
     /// <param name="targetType">The type to convert or cast the value to.</param>
     /// <returns>
     /// The converted type. If conversion was unsuccessful, the initial value
     /// is returned if assignable to the target type.
     /// </returns>
-    public static object? ConvertOrCast(object? initialValue, CultureInfo culture, Type targetType)
+    public static object? ConvertOrCast(object? initialValue, Type targetType)
     {
         if (targetType == typeof(object))
         {

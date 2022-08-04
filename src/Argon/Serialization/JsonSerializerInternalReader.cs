@@ -130,7 +130,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, contract, null, reader as IJsonLineInfo, reader.Path, exception))
+            if (IsErrorHandled(null, contract, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
                 return null;
@@ -895,7 +895,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     return Convert.ChangeType(value, contract.NonNullableUnderlyingType, culture);
                 }
 
-                return ConvertUtils.ConvertOrCast(value, culture, contract.NonNullableUnderlyingType);
+                return ConvertUtils.ConvertOrCast(value, contract.NonNullableUnderlyingType);
             }
             catch (Exception exception)
             {
@@ -1313,7 +1313,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(underlyingDictionary, contract, keyValue, reader as IJsonLineInfo, reader.Path, exception))
+                        if (IsErrorHandled(underlyingDictionary, contract, keyValue, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -1407,7 +1407,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 {
                     var errorPosition = reader.GetPosition(initialDepth);
 
-                    if (IsErrorHandled(list, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, exception))
+                    if (IsErrorHandled(list, contract, errorPosition.Position, reader.Path, exception))
                     {
                         HandleError(reader, true, initialDepth + 1);
 
@@ -1480,7 +1480,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(currentObject, contract, null, reader as IJsonLineInfo, reader.Path, exception))
+            if (IsErrorHandled(currentObject, contract, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
             }
@@ -1557,7 +1557,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 var errorPosition = reader.GetPosition(initialDepth);
 
-                if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, exception))
+                if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader.Path, exception))
                 {
                     HandleError(reader, true, initialDepth + 1);
 
@@ -1666,7 +1666,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, memberName, reader as IJsonLineInfo, reader.Path, exception))
+                        if (IsErrorHandled(newObject, contract, memberName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2140,7 +2140,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, propertyName, reader as IJsonLineInfo, reader.Path, exception))
+                        if (IsErrorHandled(newObject, contract, propertyName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2287,7 +2287,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(newObject, contract, property.PropertyName, reader as IJsonLineInfo, reader.Path, exception))
+            if (IsErrorHandled(newObject, contract, property.PropertyName, reader.Path, exception))
             {
                 HandleError(reader, true, initialDepth);
             }
