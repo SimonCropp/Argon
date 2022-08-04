@@ -10,7 +10,6 @@ public class NodaInstantConverterTest
     readonly JsonSerializerSettings settings = new()
     {
         Converters = {NodaConverters.InstantConverter},
-        DateParseHandling = DateParseHandling.None
     };
 
     [Fact]

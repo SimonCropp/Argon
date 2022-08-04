@@ -16,8 +16,7 @@ public class NodaIsoIntervalConverterTest
         Converters =
         {
             NodaConverters.IsoIntervalConverter
-        },
-        DateParseHandling = DateParseHandling.None
+        }
     };
 
     [Fact]

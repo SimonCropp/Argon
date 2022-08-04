@@ -1635,7 +1635,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         // This is required because the serializer won't update settings when used inside of a converter.
         if (jsonSerializer is JsonSerializerProxy proxy)
         {
-            proxy.serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _, out _);
+            proxy.serializer.SetupReader(jsonReader, out _, out _, out _, out _, out _);
         }
 
         return jsonSerializer.TryDeserialize(jsonReader, type);

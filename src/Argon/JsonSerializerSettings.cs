@@ -11,11 +11,9 @@ public class JsonSerializerSettings
 {
     internal static readonly StreamingContext DefaultContext = new();
 
-    internal const DateParseHandling DefaultDateParseHandling = DateParseHandling.DateTime;
     internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
     internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
-    internal DateParseHandling? dateParseHandling;
     internal CultureInfo? culture;
     internal int? maxDepth;
     internal bool maxDepthSet;
@@ -176,16 +174,6 @@ public class JsonSerializerSettings
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>
     public DateTimeZoneHandling? DateTimeZoneHandling { get; set; }
-
-    /// <summary>
-    /// Gets or sets how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON.
-    /// The default value is <see cref="Argon.DateParseHandling.DateTime" />.
-    /// </summary>
-    public DateParseHandling DateParseHandling
-    {
-        get => dateParseHandling ?? DefaultDateParseHandling;
-        set => dateParseHandling = value;
-    }
 
     /// <summary>
     /// Gets or sets how special floating point numbers, e.g. <see cref="Double.NaN" />,

@@ -874,27 +874,6 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void TestJsonDateTimeOffsetRoundtrip()
-    {
-        var now = DateTimeOffset.Now;
-        var dict = new Dictionary<string, object> {{"foo", now}};
-
-        var settings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.DateTimeOffset,
-            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
-        };
-        var json = JsonConvert.SerializeObject(dict, settings);
-
-        var newDict = new Dictionary<string, object>();
-        JsonConvert.PopulateObject(json, newDict, settings);
-
-        var date = newDict["foo"];
-
-        Assert.Equal(date, now);
-    }
-
-    [Fact]
     public void MaximumDateTimeOffsetLength()
     {
         var dt = new DateTimeOffset(2000, 12, 31, 20, 59, 59, new(0, 11, 33, 0, 0));
@@ -935,17 +914,6 @@ public class JsonConvertTest : TestFixtureBase
         XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse(@"{""biginteger"":" + new string('9', 381) + "}"),
             $"JSON integer {new string('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
-    }
-
-    [Fact]
-    public void ParseIsoDate()
-    {
-        var sr = new StringReader(@"""2014-02-14T14:25:02-13:00""");
-
-        JsonReader jsonReader = new JsonTextReader(sr);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(typeof(DateTime), jsonReader.ValueType);
     }
 
 #if false

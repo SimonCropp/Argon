@@ -666,35 +666,6 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void DateTimeParseHandlingOffset()
-    {
-        var d = new DateTimeOffset(2012, 12, 12, 12, 44, 1, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(34)));
-        var x = new DateTimeOffsetContainer {Date = d};
-
-        var json = JsonConvert.SerializeObject(x, Formatting.Indented);
-
-        var doc1 = JsonConvert.DeserializeObject<XDocument>(json, new JsonSerializerSettings
-        {
-            Converters = {new XmlNodeConverter()},
-            DateParseHandling = DateParseHandling.DateTimeOffset
-        });
-
-        var xml = doc1.ToString();
-        Assert.Equal("<Date>2012-12-12T12:44:01+12:34</Date>", xml);
-
-        var settings = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        };
-        settings.Converters.Add(new XmlNodeConverter());
-        var json2 = JsonConvert.SerializeObject(doc1, settings);
-
-        var x2 = JsonConvert.DeserializeObject<DateTimeOffsetContainer>(json2);
-
-        Assert.Equal(x.Date, x2.Date);
-    }
-
-    [Fact]
     public void GroupElementsOfTheSameName()
     {
         var xml = "<root><p>Text1<span>Span1</span> <span>Span2</span> Text2</p></root>";
@@ -3159,70 +3130,6 @@ public class XmlNodeConverterTest : TestFixtureBase
         Assert.Equal("Version!", d.Declaration.Version);
         Assert.Equal("Encoding!", d.Declaration.Encoding);
         Assert.Equal("Standalone!", d.Declaration.Standalone);
-    }
-
-    [Fact]
-    public void DateTimeToXml_Unspecified()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Unspecified: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Utc()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00Z""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00Z", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Utc: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Local()
-    {
-        var dt = DateTime.Parse("2014-01-23T00:00:00+01:00");
-
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00+01:00""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal(dt.ToString("yyyy-MM-ddTHH:mm:sszzzzzzz", CultureInfo.InvariantCulture), dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Local: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Unspecified_Precision()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00.1234567""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00.1234567", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Unspecified: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Utc_Precision()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00.1234567Z""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00.1234567Z", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Utc: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Local_Precision()
-    {
-        var dt = DateTime.Parse("2014-01-23T00:00:00.1234567+01:00");
-
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00.1234567+01:00""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal(dt.ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK", CultureInfo.InvariantCulture), dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Local: {dxml.Root.Element("CreatedDate").Value}");
     }
 
     [Fact]

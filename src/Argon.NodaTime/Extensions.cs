@@ -20,9 +20,6 @@ public static class Extensions
         // Add our converters
         AddDefaultConverters(settings.Converters, provider);
 
-        // Disable automatic conversion of anything that looks like a date and time to BCL types.
-        settings.DateParseHandling = DateParseHandling.None;
-
         // return to allow fluent chaining if desired
         return settings;
     }
@@ -37,9 +34,6 @@ public static class Extensions
     {
         // Add our converters
         AddDefaultConverters(serializer.Converters, provider);
-
-        // Disable automatic conversion of anything that looks like a date and time to BCL types.
-        serializer.DateParseHandling = DateParseHandling.None;
 
         // return to allow fluent chaining if desired
         return serializer;

@@ -345,52 +345,5 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(8m, reader.Value);
     }
 
-    [Fact]
-    public void DateParseHandling()
-    {
-        var json = @"['1970-01-01T00:00:00Z']";
-
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.DateParseHandling = Argon.DateParseHandling.DateTime;
-
-        Assert.True(reader.Read());
-        Assert.True(reader.Read());
-        Assert.Equal(new DateTime(InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
-        Assert.Equal(typeof(DateTime), reader.ValueType);
-        Assert.True(reader.Read());
-
-        reader = new(new StringReader(json));
-        reader.DateParseHandling = Argon.DateParseHandling.DateTimeOffset;
-
-        Assert.True(reader.Read());
-        Assert.True(reader.Read());
-        Assert.Equal(new DateTimeOffset(InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
-        Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-
-        reader = new(new StringReader(json));
-        reader.DateParseHandling = Argon.DateParseHandling.None;
-
-        Assert.True(reader.Read());
-        Assert.True(reader.Read());
-        Assert.Equal(@"1970-01-01T00:00:00Z", reader.Value);
-        Assert.Equal(typeof(string), reader.ValueType);
-
-        reader = new(new StringReader(json));
-        reader.DateParseHandling = Argon.DateParseHandling.DateTime;
-
-        Assert.True(reader.Read());
-        reader.ReadAsDateTimeOffset();
-        Assert.Equal(new DateTimeOffset(InitialJavaScriptDateTicks, TimeSpan.Zero), reader.Value);
-        Assert.Equal(typeof(DateTimeOffset), reader.ValueType);
-
-        reader = new(new StringReader(json));
-        reader.DateParseHandling = Argon.DateParseHandling.DateTimeOffset;
-
-        Assert.True(reader.Read());
-        reader.ReadAsDateTime();
-        Assert.Equal(new DateTime(InitialJavaScriptDateTicks, DateTimeKind.Utc), reader.Value);
-        Assert.Equal(typeof(DateTime), reader.ValueType);
-    }
-
     internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
 }

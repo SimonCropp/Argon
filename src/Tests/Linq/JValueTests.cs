@@ -393,43 +393,6 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseAndConvertDateTimeOffset()
-    {
-        var json = @"{ d: '2013-08-14T04:38:31.000+01' }";
-
-        using var stringReader = new StringReader(json);
-        using var jsonReader = new JsonTextReader(stringReader);
-        jsonReader.DateParseHandling = DateParseHandling.DateTimeOffset;
-
-        var obj = JObject.Load(jsonReader);
-        var d = (JValue) obj["d"];
-
-        Assert.IsType(typeof(DateTimeOffset), d.Value);
-        var offset = ((DateTimeOffset) d.Value).Offset;
-        Assert.Equal(TimeSpan.FromHours(1), offset);
-
-        var dateTimeOffset = (DateTimeOffset) d;
-        Assert.Equal(TimeSpan.FromHours(1), dateTimeOffset.Offset);
-    }
-
-    [Fact]
-    public void ReadDatesAsDateTimeOffsetViaJsonConvert()
-    {
-        var content = @"{startDateTime:'2012-07-19T14:30:00+09:30'}";
-
-        var settings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.DateTimeOffset,
-            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
-        };
-        var obj = (JObject) JsonConvert.DeserializeObject(content, settings);
-
-        object startDateTime = obj["startDateTime"];
-
-        Assert.IsType(typeof(DateTimeOffset), ((JValue) startDateTime).Value);
-    }
-
-    [Fact]
     public void ConvertsToBoolean() =>
         XUnitAssert.True(Convert.ToBoolean(new JValue(true)));
 
@@ -617,22 +580,6 @@ public class JValueTests : TestFixtureBase
   ""http://james.newtonking.com"",
   ""http://james.newtonking.com/install?v=7.0.1""
 ]", a.ToString());
-    }
-
-    [Fact]
-    public void ParseIsoTimeZones()
-    {
-        var expectedDate = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)));
-        var reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
-        reader.DateParseHandling = DateParseHandling.DateTimeOffset;
-        var date = (JValue) JToken.ReadFrom(reader);
-        Assert.Equal(expectedDate, date.Value);
-
-        var expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
-        var reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
-        reader2.DateParseHandling = DateParseHandling.DateTimeOffset;
-        var date2 = (JValue) JToken.ReadFrom(reader2);
-        Assert.Equal(expectedDate2, date2.Value);
     }
 
     public class ReadOnlyStringConverter : JsonConverter

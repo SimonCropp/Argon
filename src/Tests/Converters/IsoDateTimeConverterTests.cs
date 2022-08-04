@@ -252,10 +252,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeDateTimeOffset()
     {
-        var settings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.DateTimeOffset
-        };
+        var settings = new JsonSerializerSettings();
         settings.Converters.Add(new IsoDateTimeConverter());
 
         // Intentionally use an offset that is unlikely in the real world,

@@ -16,9 +16,9 @@ public class LinqDynamicTests : TestFixtureBase
 }";
 
         var dyn = JsonConvert.DeserializeObject<dynamic>(rawJson);
-        DateTime dueDate = dyn.task.dueDate.Value;
+        string dueDate = dyn.task.dueDate.Value;
 
-        Assert.Equal(new(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
+        Assert.Equal("2012-12-03T00:00:00", dueDate);
     }
 
     [Fact]

@@ -363,7 +363,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 tokenReader = (JTokenReader) token.CreateReader();
                 tokenReader.Culture = reader.Culture;
                 tokenReader.DateFormatString = reader.DateFormatString;
-                tokenReader.DateParseHandling = reader.DateParseHandling;
                 tokenReader.DateTimeZoneHandling = reader.DateTimeZoneHandling;
                 tokenReader.FloatParseHandling = reader.FloatParseHandling;
                 tokenReader.SupportMultipleContent = reader.SupportMultipleContent;

@@ -104,11 +104,6 @@ public abstract partial class JsonReader : IDisposable
     public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets how date formatted strings, e.g. "2012-03-21T05:40Z" is parsed when reading JSON.
-    /// </summary>
-    public DateParseHandling DateParseHandling { get; set; }
-
-    /// <summary>
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
     /// </summary>
     public FloatParseHandling FloatParseHandling { get; set; }
@@ -258,7 +253,6 @@ public abstract partial class JsonReader : IDisposable
     {
         currentState = State.Start;
         DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
-        DateParseHandling = DateParseHandling.DateTime;
         FloatParseHandling = FloatParseHandling.Double;
         maxDepth = 64;
 

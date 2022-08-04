@@ -717,7 +717,7 @@ public class ReadTests : TestFixtureBase
         }
 
         Assert.True(reader.Read());
-        Assert.Equal(new DateTime(2000, 1, 1), reader.Value);
+        Assert.Equal("2000-01-01T00:00:00", reader.Value);
     }
 
     [Fact]

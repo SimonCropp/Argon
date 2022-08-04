@@ -132,40 +132,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 // caller will convert result
                 break;
             default:
-                if (DateParseHandling != DateParseHandling.None)
-                {
-                    DateParseHandling dateParseHandling;
-                    if (readType == ReadType.ReadAsDateTime)
-                    {
-                        dateParseHandling = DateParseHandling.DateTime;
-                    }
-                    else if (readType == ReadType.ReadAsDateTimeOffset)
-                    {
-                        dateParseHandling = DateParseHandling.DateTimeOffset;
-                    }
-                    else
-                    {
-                        dateParseHandling = DateParseHandling;
-                    }
-
-                    if (dateParseHandling == DateParseHandling.DateTime)
-                    {
-                        if (DateTimeUtils.TryParseDateTime(stringReference, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
-                        {
-                            SetToken(JsonToken.Date, dt, false);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (DateTimeUtils.TryParseDateTimeOffset(stringReference, DateFormatString, Culture, out var dt))
-                        {
-                            SetToken(JsonToken.Date, dt, false);
-                            return;
-                        }
-                    }
-                }
-
                 SetToken(JsonToken.String, stringReference.ToString(), false);
                 quoteChar = quote;
                 break;

@@ -29,12 +29,12 @@
     Value: true
   },
   {
-    TokenType: Date,
+    TokenType: String,
     LineNumber: 1,
     LinePosition: 42,
     Path: h i [1],
     Depth: 2,
-    Value: DateTime_1
+    Value: DateTimeOffset_1
   },
   {
     TokenType: EndArray,

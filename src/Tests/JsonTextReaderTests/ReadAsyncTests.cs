@@ -716,7 +716,7 @@ public class ReadAsyncTests : TestFixtureBase
         }
 
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new(2000, 01, 01, 0, 0, 0, DateTimeKind.Utc), (DateTime) reader.Value);
+        Assert.Equal("2000-01-01T00:00:00.000Z", (string) reader.Value);
     }
 
     [Fact]

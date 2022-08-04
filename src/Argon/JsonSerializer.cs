@@ -12,7 +12,6 @@ public class JsonSerializer
 {
     IContractResolver? contractResolver;
 
-    DateParseHandling? dateParseHandling;
     CultureInfo culture;
     int? maxDepth;
     bool maxDepthSet;
@@ -145,16 +144,6 @@ public class JsonSerializer
     /// The default value is <see cref="Argon.DateTimeZoneHandling.RoundtripKind" />.
     /// </summary>
     public virtual DateTimeZoneHandling? DateTimeZoneHandling { get; set; }
-
-    /// <summary>
-    /// Gets or sets how date formatted strings, e.g. <c>"\/Date(1198908717056)\/"</c> and <c>"2012-03-21T05:40Z"</c>, are parsed when reading JSON.
-    /// The default value is <see cref="Argon.DateParseHandling.DateTime" />.
-    /// </summary>
-    public virtual DateParseHandling DateParseHandling
-    {
-        get => dateParseHandling ?? JsonSerializerSettings.DefaultDateParseHandling;
-        set => dateParseHandling = value;
-    }
 
     /// <summary>
     /// Gets or sets how floating point numbers, e.g. 1.0 and 9.9, are parsed when reading JSON text.
@@ -423,11 +412,6 @@ public class JsonSerializer
             serializer.DateTimeZoneHandling = settings.DateTimeZoneHandling;
         }
 
-        if (settings.dateParseHandling != null)
-        {
-            serializer.dateParseHandling = settings.dateParseHandling;
-        }
-
         if (settings.dateFormatStringSet)
         {
             serializer.dateFormatString = settings.dateFormatString;
@@ -482,7 +466,6 @@ public class JsonSerializer
             reader,
             out var previousCulture,
             out var previousDateTimeZoneHandling,
-            out var previousDateParseHandling,
             out var previousFloatParseHandling,
             out var previousMaxDepth,
             out var previousDateFormatString);
@@ -490,7 +473,13 @@ public class JsonSerializer
         var serializerReader = new JsonSerializerInternalReader(this);
         serializerReader.Populate(reader, target);
 
-        ResetReader(reader, previousCulture, previousDateTimeZoneHandling, previousDateParseHandling, previousFloatParseHandling, previousMaxDepth, previousDateFormatString);
+        ResetReader(
+            reader,
+            previousCulture,
+            previousDateTimeZoneHandling,
+            previousFloatParseHandling,
+            previousMaxDepth,
+            previousDateFormatString);
     }
 
     /// <summary>
@@ -574,7 +563,6 @@ public class JsonSerializer
             reader,
             out var previousCulture,
             out var previousDateTimeZoneHandling,
-            out var previousDateParseHandling,
             out var previousFloatParseHandling,
             out var previousMaxDepth,
             out var previousDateFormatString);
@@ -582,12 +570,24 @@ public class JsonSerializer
         var serializerReader = new JsonSerializerInternalReader(this);
         var value = serializerReader.Deserialize(reader, type, CheckAdditionalContent);
 
-        ResetReader(reader, previousCulture, previousDateTimeZoneHandling, previousDateParseHandling, previousFloatParseHandling, previousMaxDepth, previousDateFormatString);
+        ResetReader(
+            reader,
+            previousCulture,
+            previousDateTimeZoneHandling,
+            previousFloatParseHandling,
+            previousMaxDepth,
+            previousDateFormatString);
 
         return value;
     }
 
-    internal void SetupReader(JsonReader reader, out CultureInfo? previousCulture, out DateTimeZoneHandling? previousDateTimeZoneHandling, out DateParseHandling? previousDateParseHandling, out FloatParseHandling? previousFloatParseHandling, out int? previousMaxDepth, out string? previousDateFormatString)
+    internal void SetupReader(
+        JsonReader reader,
+        out CultureInfo? previousCulture,
+        out DateTimeZoneHandling? previousDateTimeZoneHandling,
+        out FloatParseHandling? previousFloatParseHandling,
+        out int? previousMaxDepth,
+        out string? previousDateFormatString)
     {
         if (!culture.Equals(reader.Culture))
         {
@@ -607,16 +607,6 @@ public class JsonSerializer
         else
         {
             previousDateTimeZoneHandling = null;
-        }
-
-        if (dateParseHandling != null && reader.DateParseHandling != dateParseHandling)
-        {
-            previousDateParseHandling = reader.DateParseHandling;
-            reader.DateParseHandling = dateParseHandling.GetValueOrDefault();
-        }
-        else
-        {
-            previousDateParseHandling = null;
         }
 
         if (FloatParseHandling != null && reader.FloatParseHandling != FloatParseHandling)
@@ -658,7 +648,12 @@ public class JsonSerializer
         }
     }
 
-    void ResetReader(JsonReader reader, CultureInfo? previousCulture, DateTimeZoneHandling? previousDateTimeZoneHandling, DateParseHandling? previousDateParseHandling, FloatParseHandling? previousFloatParseHandling, int? previousMaxDepth, string? previousDateFormatString)
+    void ResetReader(JsonReader reader,
+        CultureInfo? previousCulture,
+        DateTimeZoneHandling? previousDateTimeZoneHandling,
+        FloatParseHandling? previousFloatParseHandling,
+        int? previousMaxDepth,
+        string? previousDateFormatString)
     {
         // reset reader back to previous options
         if (previousCulture != null)
@@ -669,11 +664,6 @@ public class JsonSerializer
         if (previousDateTimeZoneHandling != null)
         {
             reader.DateTimeZoneHandling = previousDateTimeZoneHandling.GetValueOrDefault();
-        }
-
-        if (previousDateParseHandling != null)
-        {
-            reader.DateParseHandling = previousDateParseHandling.GetValueOrDefault();
         }
 
         if (previousFloatParseHandling != null)

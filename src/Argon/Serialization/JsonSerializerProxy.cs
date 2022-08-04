@@ -120,12 +120,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.DateTimeZoneHandling = value;
     }
 
-    public override DateParseHandling DateParseHandling
-    {
-        get => serializer.DateParseHandling;
-        set => serializer.DateParseHandling = value;
-    }
-
     public override FloatFormatHandling? FloatFormatHandling
     {
         get => serializer.FloatFormatHandling;

@@ -1,4 +1,4 @@
-﻿[
+[
   {
     TokenType: StartObject,
     LineNumber: 7,
@@ -34,12 +34,12 @@ name1
     Depth: 1
   },
   {
-    TokenType: Date,
+    TokenType: String,
     LineNumber: 43,
     LinePosition: 22,
     Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'][0],
     Depth: 2,
-    Value: DateTime_1
+    Value: DateTimeOffset_1
   },
   {
     TokenType: Float,

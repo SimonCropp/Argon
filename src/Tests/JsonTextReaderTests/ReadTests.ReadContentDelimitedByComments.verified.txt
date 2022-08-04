@@ -69,12 +69,12 @@
     Value: ExpiryDate
   },
   {
-    TokenType: Date,
+    TokenType: String,
     LineNumber: 2,
     LinePosition: 41,
     Path: ExpiryDate,
     Depth: 1,
-    Value: DateTime_1
+    Value: DateTimeOffset_1
   },
   {
     TokenType: PropertyName,
