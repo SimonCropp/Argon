@@ -11,14 +11,8 @@ public class JsonSerializerSettings
 {
     internal static readonly StreamingContext DefaultContext = new();
 
-    internal static readonly CultureInfo DefaultCulture = CultureInfo.InvariantCulture;
-    internal const string DefaultDateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
-
-    internal CultureInfo? culture;
     internal int? maxDepth;
     internal bool maxDepthSet;
-    internal string? dateFormatString;
-    internal bool dateFormatStringSet;
     internal StreamingContext? context;
 
     /// <summary>
@@ -126,21 +120,6 @@ public class JsonSerializerSettings
         set => context = value;
     }
 
-    /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> and <see cref="DateTimeOffset" /> values are formatted when writing JSON text,
-    /// and the expected date format when reading JSON text.
-    /// The default value is <c>"yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK"</c>.
-    /// </summary>
-    public string DateFormatString
-    {
-        get => dateFormatString ?? DefaultDateFormatString;
-        set
-        {
-            dateFormatString = value;
-            dateFormatStringSet = true;
-        }
-    }
-
     const int DefaultMaxDepth = 64;
 
     /// <summary>
@@ -188,16 +167,6 @@ public class JsonSerializerSettings
     /// The default value is <see cref="Argon.EscapeHandling.Default" />.
     /// </summary>
     public EscapeHandling? EscapeHandling { get; set; }
-
-    /// <summary>
-    /// Gets or sets the culture used when reading JSON.
-    /// The default value is <see cref="CultureInfo.InvariantCulture" />.
-    /// </summary>
-    public CultureInfo Culture
-    {
-        get => culture ?? DefaultCulture;
-        set => culture = value;
-    }
 
     /// <summary>
     /// Gets a value indicating whether there will be a check for additional content after deserializing an object.

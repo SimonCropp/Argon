@@ -17,10 +17,10 @@ public class DateTimeUtilsTests : TestFixtureBase
     static void RoundtripDateIso(DateTime value)
     {
         var stringWriter = new StringWriter();
-        DateTimeUtils.WriteDateTimeString(stringWriter, value, null, CultureInfo.InvariantCulture);
+        DateTimeUtils.WriteDateTimeString(stringWriter, value);
         var minDateText = stringWriter.ToString();
 
-        DateTimeUtils.TryParseDateTime(minDateText, null, CultureInfo.InvariantCulture, out var parsedDt);
+        DateTimeUtils.TryParseDateTime(minDateText, out var parsedDt);
 
         Assert.Equal(value, parsedDt);
     }

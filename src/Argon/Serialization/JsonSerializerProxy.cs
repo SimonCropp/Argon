@@ -132,18 +132,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.EscapeHandling = value;
     }
 
-    public override string DateFormatString
-    {
-        get => serializer.DateFormatString;
-        set => serializer.DateFormatString = value;
-    }
-
-    public override CultureInfo Culture
-    {
-        get => serializer.Culture;
-        set => serializer.Culture = value;
-    }
-
     public override int? MaxDepth
     {
         get => serializer.MaxDepth;

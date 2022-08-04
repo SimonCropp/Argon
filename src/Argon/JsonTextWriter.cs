@@ -499,25 +499,9 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.Date);
 
-        if (StringUtils.IsNullOrEmpty(DateFormatString))
-        {
-            var length = WriteValueToBuffer(value);
+        var length = WriteValueToBuffer(value);
 
-            writer.Write(writeBuffer!, 0, length);
-        }
-        else
-        {
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-
-            writer.Write(value.ToString(DateFormatString, Culture));
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-        }
+        writer.Write(writeBuffer!, 0, length);
     }
 
     int WriteValueToBuffer(DateTime value)
@@ -573,25 +557,9 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.Date);
 
-        if (StringUtils.IsNullOrEmpty(DateFormatString))
-        {
-            var length = WriteValueToBuffer(value);
+        var length = WriteValueToBuffer(value);
 
-            writer.Write(writeBuffer!, 0, length);
-        }
-        else
-        {
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-
-            writer.Write(value.ToString(DateFormatString, Culture));
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-        }
+        writer.Write(writeBuffer!, 0, length);
     }
 
     int WriteValueToBuffer(DateTimeOffset value)

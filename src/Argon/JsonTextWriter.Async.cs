@@ -704,25 +704,9 @@ public partial class JsonTextWriter
     {
         await InternalWriteValueAsync(JsonToken.Date, cancellation).ConfigureAwait(false);
 
-        if (StringUtils.IsNullOrEmpty(DateFormatString))
-        {
-            var length = WriteValueToBuffer(value);
+        var length = WriteValueToBuffer(value);
 
-            await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
-        }
-        else
-        {
-            if (QuoteValue)
-            {
-                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
-            }
-
-            await writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellation).ConfigureAwait(false);
-            if (QuoteValue)
-            {
-                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
-            }
-        }
+        await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -773,25 +757,9 @@ public partial class JsonTextWriter
     {
         await InternalWriteValueAsync(JsonToken.Date, cancellation).ConfigureAwait(false);
 
-        if (StringUtils.IsNullOrEmpty(DateFormatString))
-        {
-            var length = WriteValueToBuffer(value);
+        var length = WriteValueToBuffer(value);
 
-            await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
-        }
-        else
-        {
-            if (QuoteValue)
-            {
-                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
-            }
-
-            await writer.WriteAsync(value.ToString(DateFormatString, Culture), cancellation).ConfigureAwait(false);
-            if (QuoteValue)
-            {
-                await writer.WriteAsync(quoteChar).ConfigureAwait(false);
-            }
-        }
+        await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
     }
 
     /// <summary>

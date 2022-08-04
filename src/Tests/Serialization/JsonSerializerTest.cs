@@ -796,14 +796,8 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.Converters.Add(new StringEnumConverter());
         Assert.Equal(1, serializer.Converters.Count);
 
-        serializer.Culture = new("en-nz");
-        Assert.Equal("en-NZ", serializer.Culture.ToString());
-
         serializer.EqualityComparer = EqualityComparer<object>.Default;
         Assert.Equal(EqualityComparer<object>.Default, serializer.EqualityComparer);
-
-        serializer.DateFormatString = "yyyy";
-        Assert.Equal("yyyy", serializer.DateFormatString);
 
         serializer.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
         Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializer.DefaultValueHandling);
@@ -879,14 +873,8 @@ public class JsonSerializerTest : TestFixtureBase
         settings.Converters.Add(new StringEnumConverter());
         Assert.Equal(1, settings.Converters.Count);
 
-        settings.Culture = new("en-nz");
-        Assert.Equal("en-NZ", settings.Culture.ToString());
-
         settings.EqualityComparer = EqualityComparer<object>.Default;
         Assert.Equal(EqualityComparer<object>.Default, settings.EqualityComparer);
-
-        settings.DateFormatString = "yyyy";
-        Assert.Equal("yyyy", settings.DateFormatString);
 
         settings.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
         Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, settings.DefaultValueHandling);
@@ -964,14 +952,8 @@ public class JsonSerializerTest : TestFixtureBase
         serializerProxy.Converters.Add(new StringEnumConverter());
         Assert.Equal(1, serializerProxy.Converters.Count);
 
-        serializerProxy.Culture = new("en-nz");
-        Assert.Equal("en-NZ", serializerProxy.Culture.ToString());
-
         serializerProxy.EqualityComparer = EqualityComparer<object>.Default;
         Assert.Equal(EqualityComparer<object>.Default, serializerProxy.EqualityComparer);
-
-        serializerProxy.DateFormatString = "yyyy";
-        Assert.Equal("yyyy", serializerProxy.DateFormatString);
 
         serializerProxy.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
         Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializerProxy.DefaultValueHandling);
@@ -5696,97 +5678,6 @@ This is just junk, though.";
     }
 
     [Fact]
-    public void DateFormatString()
-    {
-        var culture = new CultureInfo("en-NZ")
-        {
-            DateTimeFormat =
-            {
-                AMDesignator = "a.m.",
-                PMDesignator = "p.m."
-            }
-        };
-
-        var dates = new List<object>
-        {
-            new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
-            new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
-        };
-
-        var json = JsonConvert.SerializeObject(dates, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateFormatString = "yyyy tt",
-            Culture = culture
-        });
-
-        XUnitAssert.AreEqualNormalized(@"[
-  ""2000 p.m."",
-  ""2000 p.m.""
-]", json);
-    }
-
-    [Fact]
-    public void DateFormatStringForInternetExplorer()
-    {
-        var dates = new List<object>
-        {
-            new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
-            new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
-        };
-
-        var json = JsonConvert.SerializeObject(dates, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateFormatString = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffK"
-        });
-
-        XUnitAssert.AreEqualNormalized(@"[
-  ""2000-12-12T12:12:12.000Z"",
-  ""2000-12-12T12:12:12.000+01:00""
-]", json);
-    }
-
-    [Fact]
-    public void JsonSerializerDateFormatString()
-    {
-        var culture = new CultureInfo("en-NZ")
-        {
-            DateTimeFormat =
-            {
-                AMDesignator = "a.m.",
-                PMDesignator = "p.m."
-            }
-        };
-
-        var dates = new List<object>
-        {
-            new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc),
-            new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))
-        };
-
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-
-        var serializer = JsonSerializer.Create(new()
-        {
-            DateFormatString = "yyyy tt",
-            Culture = culture,
-            Formatting = Formatting.Indented
-        });
-        serializer.Serialize(jsonWriter, dates);
-
-        Assert.Null(jsonWriter.DateFormatString);
-        Assert.Equal(CultureInfo.InvariantCulture, jsonWriter.Culture);
-        Assert.Equal(Formatting.None, jsonWriter.Formatting);
-
-        var json = stringWriter.ToString();
-
-        XUnitAssert.AreEqualNormalized(@"[
-  ""2000 p.m."",
-  ""2000 p.m.""
-]", json);
-    }
-
-    [Fact]
     public void SerializeDeserializeTuple()
     {
         var tuple = Tuple.Create(500, 20);
@@ -5864,29 +5755,6 @@ This is just junk, though.";
         Assert.Equal(float.NaN, doubles[0]);
         Assert.Equal(float.PositiveInfinity, doubles[1]);
         Assert.Equal(float.NegativeInfinity, doubles[2]);
-    }
-
-    [Fact]
-    public void DefaultDateStringFormatVsUnsetDateStringFormat()
-    {
-        var dates = new Dictionary<string, object>
-        {
-            {"DateTime-Unspecified", new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Unspecified)},
-            {"DateTime-Utc", new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)},
-            {"DateTime-Local", new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Local)},
-            {"DateTimeOffset-Zero", new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)},
-            {"DateTimeOffset-Plus1", new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1))},
-            {"DateTimeOffset-Plus15", new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.FromHours(1.5))}
-        };
-
-        var expected = JsonConvert.SerializeObject(dates, Formatting.Indented);
-
-        var actual = JsonConvert.SerializeObject(dates, Formatting.Indented, new JsonSerializerSettings
-        {
-            DateFormatString = JsonSerializerSettings.DefaultDateFormatString
-        });
-
-        Assert.Equal(expected, actual);
     }
 
     [Fact]
@@ -6254,155 +6122,6 @@ This is just junk, though.";
         var uriWithPlus2 = JsonConvert.DeserializeObject<Uri>(jsonWithPlus);
 
         Assert.Equal(originalUri, uriWithPlus2.OriginalString);
-    }
-
-    [Fact]
-    public void DateFormatStringWithDateTime()
-    {
-        var dt = new DateTime(2000, 12, 22);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatString = dateFormatString
-        };
-
-        var json = JsonConvert.SerializeObject(dt, settings);
-
-        Assert.Equal(@"""2000-pie-Dec-Friday-22""", json);
-
-        var dt1 = JsonConvert.DeserializeObject<DateTime>(json, settings);
-
-        Assert.Equal(dt, dt1);
-    }
-
-    [Fact]
-    public void DateFormatStringWithDateTimeAndCulture()
-    {
-        var culture = new CultureInfo("tr-TR");
-
-        var dt = new DateTime(2000, 12, 22);
-        var dateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd";
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatString = dateFormatString,
-            Culture = culture
-        };
-
-        var json = JsonConvert.SerializeObject(dt, settings);
-
-        Assert.Equal(@"""2000-pie-Ara-Cuma-22""", json);
-
-        var dt1 = JsonConvert.DeserializeObject<DateTime>(json, settings);
-
-        Assert.Equal(dt, dt1);
-    }
-
-    [Fact]
-    public void DateFormatStringWithDictionaryKey_DateTime()
-    {
-        var dt = new DateTime(2000, 12, 22);
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd",
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(
-            new Dictionary<DateTime, string>
-            {
-                {
-                    dt, "123"
-                }
-            },
-            settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""2000-pie-Dec-Friday-22"": ""123""
-}", json);
-
-        var d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>(json, settings);
-
-        Assert.Equal(dt, d.Keys.ElementAt(0));
-    }
-
-    [Fact]
-    public void DateFormatStringWithDictionaryKey_DateTime_ReadAhead()
-    {
-        var dt = new DateTime(2000, 12, 22);
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd",
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(
-            new Dictionary<DateTime, string>
-            {
-                {dt, "123"}
-            },
-            settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""2000-pie-Dec-Friday-22"": ""123""
-}", json);
-
-        var d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>(json, settings);
-
-        Assert.Equal(dt, d.Keys.ElementAt(0));
-    }
-
-    [Fact]
-    public void DateFormatStringWithDictionaryKey_DateTimeOffset()
-    {
-        var dt = new DateTimeOffset(2000, 12, 22, 0, 0, 0, TimeSpan.Zero);
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K",
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(
-            new Dictionary<DateTimeOffset, string>
-            {
-                {dt, "123"}
-            },
-            settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""2000-pie-Dec-Friday-22!+00:00"": ""123""
-}", json);
-
-        var d = JsonConvert.DeserializeObject<Dictionary<DateTimeOffset, string>>(json, settings);
-
-        Assert.Equal(dt, d.Keys.ElementAt(0));
-    }
-
-    [Fact]
-    public void DateFormatStringWithDictionaryKey_DateTimeOffset_ReadAhead()
-    {
-        var dt = new DateTimeOffset(2000, 12, 22, 0, 0, 0, TimeSpan.Zero);
-        var settings = new JsonSerializerSettings
-        {
-            DateFormatString = "yyyy'-pie-'MMM'-'dddd'-'dd'!'K",
-            MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
-            Formatting = Formatting.Indented
-        };
-
-        var json = JsonConvert.SerializeObject(
-            new Dictionary<DateTimeOffset, string>
-            {
-                {dt, "123"}
-            },
-            settings);
-
-        XUnitAssert.AreEqualNormalized(@"{
-  ""2000-pie-Dec-Friday-22!+00:00"": ""123""
-}", json);
-
-        var d = JsonConvert.DeserializeObject<Dictionary<DateTimeOffset, string>>(json, settings);
-
-        Assert.Equal(dt, d.Keys.ElementAt(0));
     }
 
     [Fact]

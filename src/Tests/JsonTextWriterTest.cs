@@ -1403,10 +1403,6 @@ _____'propertyName': NaN,
         jsonWriter.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
         jsonWriter.WriteValue(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
 
-        jsonWriter.DateFormatString = "yyyy gg";
-        jsonWriter.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
-        jsonWriter.WriteValue(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
-
         jsonWriter.WriteValue(new byte[] {1, 2, 3});
         jsonWriter.WriteValue(TimeSpan.Zero);
         jsonWriter.WriteValue(new Uri("http://www.google.com/"));
@@ -1417,46 +1413,10 @@ _____'propertyName': NaN,
         XUnitAssert.AreEqualNormalized(@"[
   '2000-01-01T01:01:01Z',
   '2000-01-01T01:01:01+00:00',
-  '2000 A.D.',
-  '2000 A.D.',
   'AQID',
   '00:00:00',
   'http://www.google.com/',
   '00000000-0000-0000-0000-000000000000'
-]", stringWriter.ToString());
-    }
-
-    [Fact]
-    public void Culture()
-    {
-        var culture = new CultureInfo("en-NZ")
-        {
-            DateTimeFormat =
-            {
-                AMDesignator = "a.m.",
-                PMDesignator = "p.m."
-            }
-        };
-
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            Formatting = Formatting.Indented,
-            DateFormatString = "yyyy tt",
-            Culture = culture,
-            QuoteChar = '\''
-        };
-
-        jsonWriter.WriteStartArray();
-
-        jsonWriter.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
-        jsonWriter.WriteValue(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
-
-        jsonWriter.WriteEnd();
-
-        XUnitAssert.AreEqualNormalized(@"[
-  '2000 a.m.',
-  '2000 a.m.'
 ]", stringWriter.ToString());
     }
 
