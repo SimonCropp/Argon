@@ -15,7 +15,7 @@ public class TypeConverterSizeConverter : TypeConverter
     {
         if (value is not string stringValue)
         {
-            return base.ConvertFrom(context, culture, value);
+            return base.ConvertFrom(context, InvariantCulture, value);
         }
 
         var trimmed = stringValue.Trim();
@@ -29,7 +29,7 @@ public class TypeConverterSizeConverter : TypeConverter
         var converter = TypeDescriptor.GetConverter(typeof(int));
         for (var i = 0; i < numArray.Length; i++)
         {
-            numArray[i] = (int) converter.ConvertFromString(context, culture, strArray[i]);
+            numArray[i] = (int) converter.ConvertFromString(context, InvariantCulture, strArray[i]);
         }
 
         if (numArray.Length == 2)
@@ -46,15 +46,14 @@ public class TypeConverterSizeConverter : TypeConverter
         {
             if (destinationType == typeof(string))
             {
-                culture ??= CurrentCulture;
                 var converter = TypeDescriptor.GetConverter(typeof(int));
                 var strArray = new string[2];
                 var num = 0;
-                strArray[num++] = converter.ConvertToString(context, culture, size.Width);
-                strArray[num++] = converter.ConvertToString(context, culture, size.Height);
+                strArray[num++] = converter.ConvertToString(context, InvariantCulture, size.Width);
+                strArray[num++] = converter.ConvertToString(context, InvariantCulture, size.Height);
                 return string.Join(", ", strArray);
             }
         }
-        return base.ConvertTo(context, culture, value, destinationType);
+        return base.ConvertTo(context, InvariantCulture, value, destinationType);
     }
 }
