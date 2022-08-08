@@ -16,7 +16,7 @@ public partial class JRaw
     /// </returns>
     public static async Task<JRaw> CreateAsync(JsonReader reader, CancellationToken cancellation = default)
     {
-        using var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
+        using var stringWriter = new StringWriter(InvariantCulture);
         using var jsonWriter = new JsonTextWriter(stringWriter);
         await jsonWriter.WriteTokenSyncReadingAsync(reader, cancellation).ConfigureAwait(false);
 

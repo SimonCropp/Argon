@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.ComponentModel;
+
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
@@ -120,7 +120,7 @@ static class ConvertUtils
         typeof(IConvertible).IsAssignableFrom(type);
 
     public static TimeSpan ParseTimeSpan(string input) =>
-        TimeSpan.Parse(input, CultureInfo.InvariantCulture);
+        TimeSpan.Parse(input, InvariantCulture);
 
     static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> castConverters =
         new(CreateCastConverter);
@@ -151,7 +151,7 @@ static class ConvertUtils
 
         if (value is string s)
         {
-            return BigInteger.Parse(s, CultureInfo.InvariantCulture);
+            return BigInteger.Parse(s, InvariantCulture);
         }
 
         if (value is float f)
@@ -226,7 +226,7 @@ static class ConvertUtils
 
         try
         {
-            return System.Convert.ChangeType((long) i, targetType, CultureInfo.InvariantCulture);
+            return System.Convert.ChangeType((long) i, targetType, InvariantCulture);
         }
         catch (Exception exception)
         {
@@ -242,9 +242,9 @@ static class ConvertUtils
         NoValidConversion = 3
     }
 
-    public static object Convert(object initialValue, CultureInfo culture, Type targetType)
+    public static object Convert(object initialValue, Type targetType)
     {
-        switch (TryConvertInternal(initialValue, culture, targetType, out var value))
+        switch (TryConvertInternal(initialValue, targetType, out var value))
         {
             case ConvertResult.Success:
                 return value!;
@@ -259,11 +259,11 @@ static class ConvertUtils
         }
     }
 
-    static bool TryConvert(object initialValue, CultureInfo culture, Type targetType, out object? value)
+    static bool TryConvert(object initialValue, Type targetType, out object? value)
     {
         try
         {
-            if (TryConvertInternal(initialValue, culture, targetType, out value) == ConvertResult.Success)
+            if (TryConvertInternal(initialValue, targetType, out value) == ConvertResult.Success)
             {
                 return true;
             }
@@ -278,7 +278,7 @@ static class ConvertUtils
         }
     }
 
-    static ConvertResult TryConvertInternal(object initialValue, CultureInfo culture, Type targetType, out object? value)
+    static ConvertResult TryConvertInternal(object initialValue, Type targetType, out object? value)
     {
         if (targetType.IsNullableType())
         {
@@ -311,7 +311,7 @@ static class ConvertUtils
                 }
             }
 
-            value = System.Convert.ChangeType(initialValue, targetType, culture);
+            value = System.Convert.ChangeType(initialValue, targetType, InvariantCulture);
             return ConvertResult.Success;
         }
 
@@ -379,12 +379,12 @@ static class ConvertUtils
 #if NET6_0_OR_GREATER
             if (targetType == typeof(DateOnly))
             {
-                value = DateOnly.ParseExact(s, "yyyy'-'MM'-'dd", CultureInfo.InvariantCulture);
+                value = DateOnly.ParseExact(s, "yyyy'-'MM'-'dd", InvariantCulture);
                 return ConvertResult.Success;
             }
             if (targetType == typeof(TimeOnly))
             {
-                value = TimeOnly.ParseExact(s, "HH':'mm':'ss.FFFFFFF", CultureInfo.InvariantCulture);
+                value = TimeOnly.ParseExact(s, "HH':'mm':'ss.FFFFFFF", InvariantCulture);
                 return ConvertResult.Success;
             }
 #endif
@@ -407,7 +407,7 @@ static class ConvertUtils
 
         if (toConverter != null && toConverter.CanConvertTo(targetType))
         {
-            value = toConverter.ConvertTo(null, culture, initialValue, targetType);
+            value = toConverter.ConvertTo(null, InvariantCulture, initialValue, targetType);
             return ConvertResult.Success;
         }
 
@@ -415,7 +415,7 @@ static class ConvertUtils
 
         if (fromConverter != null && fromConverter.CanConvertFrom(initialType))
         {
-            value = fromConverter.ConvertFrom(null, culture, initialValue);
+            value = fromConverter.ConvertFrom(null, InvariantCulture, initialValue);
             return ConvertResult.Success;
         }
 
@@ -450,13 +450,12 @@ static class ConvertUtils
     /// value is checked whether it assignable to the specified type.
     /// </summary>
     /// <param name="initialValue">The value to convert.</param>
-    /// <param name="culture">The culture to use when converting.</param>
     /// <param name="targetType">The type to convert or cast the value to.</param>
     /// <returns>
     /// The converted type. If conversion was unsuccessful, the initial value
     /// is returned if assignable to the target type.
     /// </returns>
-    public static object? ConvertOrCast(object? initialValue, CultureInfo culture, Type targetType)
+    public static object? ConvertOrCast(object? initialValue, Type targetType)
     {
         if (targetType == typeof(object))
         {
@@ -468,7 +467,7 @@ static class ConvertUtils
             return null;
         }
 
-        if (TryConvert(initialValue, culture, targetType, out var convertedValue))
+        if (TryConvert(initialValue, targetType, out var convertedValue))
         {
             return convertedValue;
         }

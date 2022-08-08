@@ -93,10 +93,10 @@ public class XmlJsonReader : JsonReader
                     switch (valueType)
                     {
                         case JTokenType.Integer:
-                            SetToken(JsonToken.Integer, Convert.ToInt64(reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Integer, Convert.ToInt64(reader.Value, InvariantCulture));
                             break;
                         case JTokenType.Float:
-                            SetToken(JsonToken.Float, Convert.ToDouble(reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Float, Convert.ToDouble(reader.Value, InvariantCulture));
                             break;
                         case JTokenType.String:
                         case JTokenType.Uri:
@@ -105,10 +105,10 @@ public class XmlJsonReader : JsonReader
                             SetToken(JsonToken.String, reader.Value);
                             break;
                         case JTokenType.Boolean:
-                            SetToken(JsonToken.Boolean, Convert.ToBoolean(reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Boolean, Convert.ToBoolean(reader.Value, InvariantCulture));
                             break;
                         case JTokenType.Date:
-                            SetToken(JsonToken.Date, Convert.ToDateTime(reader.Value, CultureInfo.InvariantCulture));
+                            SetToken(JsonToken.Date, Convert.ToDateTime(reader.Value, InvariantCulture));
                             break;
                         case JTokenType.Bytes:
                             SetToken(JsonToken.Bytes, Convert.FromBase64String(reader.Value));

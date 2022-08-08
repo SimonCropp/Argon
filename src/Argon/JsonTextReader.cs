@@ -132,40 +132,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 // caller will convert result
                 break;
             default:
-                if (DateParseHandling != DateParseHandling.None)
-                {
-                    DateParseHandling dateParseHandling;
-                    if (readType == ReadType.ReadAsDateTime)
-                    {
-                        dateParseHandling = DateParseHandling.DateTime;
-                    }
-                    else if (readType == ReadType.ReadAsDateTimeOffset)
-                    {
-                        dateParseHandling = DateParseHandling.DateTimeOffset;
-                    }
-                    else
-                    {
-                        dateParseHandling = DateParseHandling;
-                    }
-
-                    if (dateParseHandling == DateParseHandling.DateTime)
-                    {
-                        if (DateTimeUtils.TryParseDateTime(stringReference, DateTimeZoneHandling, DateFormatString, Culture, out var dt))
-                        {
-                            SetToken(JsonToken.Date, dt, false);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (DateTimeUtils.TryParseDateTimeOffset(stringReference, DateFormatString, Culture, out var dt))
-                        {
-                            SetToken(JsonToken.Date, dt, false);
-                            return;
-                        }
-                    }
-                }
-
                 SetToken(JsonToken.String, stringReference.ToString(), false);
                 quoteChar = quote;
                 break;
@@ -722,7 +688,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             }
                             else
                             {
-                                b = Convert.ToBoolean(Value, CultureInfo.InvariantCulture);
+                                b = Convert.ToBoolean(Value, InvariantCulture);
                             }
 
                             SetToken(JsonToken.Boolean, b, false);
@@ -1765,7 +1731,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 }
                 else
                 {
-                    if (!double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
+                    if (!double.TryParse(number, NumberStyles.Float, InvariantCulture, out _))
                     {
                         throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid number.");
                     }
@@ -1883,7 +1849,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     var number = stringReference.ToString();
 
-                    if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out var value))
+                    if (double.TryParse(number, NumberStyles.Float, InvariantCulture, out var value))
                     {
                         numberValue = value;
                     }
@@ -1937,7 +1903,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             throw ThrowReaderError($"JSON integer {stringReference.ToString()} is too large to parse.");
                         }
 
-                        numberValue = BigIntegerParse(number, CultureInfo.InvariantCulture);
+                        numberValue = BigIntegerParse(number, InvariantCulture);
                         numberType = JsonToken.Integer;
                     }
                     else
@@ -1958,7 +1924,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         {
                             var number = stringReference.ToString();
 
-                            if (double.TryParse(number, NumberStyles.Float, CultureInfo.InvariantCulture, out var d))
+                            if (double.TryParse(number, NumberStyles.Float, InvariantCulture, out var d))
                             {
                                 numberValue = d;
                             }

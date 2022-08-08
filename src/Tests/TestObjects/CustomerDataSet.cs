@@ -180,10 +180,7 @@ public class CustomerDataSet : System.Data.DataSet
         tableCustomers = (CustomersDataTable)base.Tables["Customers"];
         if (initTable == true)
         {
-            if (tableCustomers != null)
-            {
-                tableCustomers.InitVars();
-            }
+            tableCustomers?.InitVars();
         }
     }
 
@@ -258,14 +255,9 @@ public class CustomerDataSet : System.Data.DataSet
             }
             finally
             {
-                if (s1 != null)
-                {
-                    s1.Close();
-                }
-                if (s2 != null)
-                {
-                    s2.Close();
-                }
+                s1.Close();
+
+                s2.Close();
             }
         }
         xs.Add(dsSchema);
@@ -417,10 +409,7 @@ public class CustomerDataSet : System.Data.DataSet
         protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e)
         {
             base.OnRowChanged(e);
-            if (CustomersRowChanged != null)
-            {
-                CustomersRowChanged(this, new((CustomersRow)e.Row, e.Action));
-            }
+            CustomersRowChanged?.Invoke(this, new((CustomersRow)e.Row, e.Action));
         }
 
         [DebuggerNonUserCodeAttribute()]
@@ -428,10 +417,7 @@ public class CustomerDataSet : System.Data.DataSet
         protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e)
         {
             base.OnRowChanging(e);
-            if (CustomersRowChanging != null)
-            {
-                CustomersRowChanging(this, new((CustomersRow)e.Row, e.Action));
-            }
+            CustomersRowChanging?.Invoke(this, new((CustomersRow)e.Row, e.Action));
         }
 
         [DebuggerNonUserCodeAttribute()]
@@ -439,10 +425,7 @@ public class CustomerDataSet : System.Data.DataSet
         protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e)
         {
             base.OnRowDeleted(e);
-            if (CustomersRowDeleted != null)
-            {
-                CustomersRowDeleted(this, new((CustomersRow)e.Row, e.Action));
-            }
+            CustomersRowDeleted?.Invoke(this, new((CustomersRow)e.Row, e.Action));
         }
 
         [DebuggerNonUserCodeAttribute()]
@@ -450,10 +433,7 @@ public class CustomerDataSet : System.Data.DataSet
         protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e)
         {
             base.OnRowDeleting(e);
-            if (CustomersRowDeleting != null)
-            {
-                CustomersRowDeleting(this, new((CustomersRow)e.Row, e.Action));
-            }
+            CustomersRowDeleting?.Invoke(this, new((CustomersRow)e.Row, e.Action));
         }
 
         [DebuggerNonUserCodeAttribute()]
@@ -516,7 +496,6 @@ public class CustomerDataSet : System.Data.DataSet
                             for (; s1.Position != s1.Length
                                    && s1.ReadByte() == s2.ReadByte();)
                             {
-                                ;
                             }
                             if (s1.Position == s1.Length)
                             {
@@ -527,14 +506,8 @@ public class CustomerDataSet : System.Data.DataSet
                 }
                 finally
                 {
-                    if (s1 != null)
-                    {
-                        s1.Close();
-                    }
-                    if (s2 != null)
-                    {
-                        s2.Close();
-                    }
+                    s1.Close();
+                    s2.Close();
                 }
             }
             xs.Add(dsSchema);

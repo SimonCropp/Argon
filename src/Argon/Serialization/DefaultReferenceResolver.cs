@@ -36,7 +36,7 @@ class DefaultReferenceResolver : IReferenceResolver
         if (!mappings.TryGetBySecond(value, out var reference))
         {
             referenceCount++;
-            reference = referenceCount.ToString(CultureInfo.InvariantCulture);
+            reference = referenceCount.ToString(InvariantCulture);
             mappings.Set(reference, value);
         }
 

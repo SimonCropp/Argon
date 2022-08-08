@@ -14,5 +14,5 @@ public class Address
     public string Phone { get; set; } = "(503) 814-6335";
 
     [DataMember]
-    public DateTime Entered { get; set; } = DateTime.Parse("01/01/2007", CultureInfo.CurrentCulture.DateTimeFormat);
+    public DateTime Entered { get; set; } = DateTime.Parse("01/01/2007", CurrentCulture.DateTimeFormat);
 }

@@ -12,7 +12,6 @@ public class IsoDateTimeConverter : DateTimeConverterBase
     const string defaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 
     string? dateTimeFormat;
-    CultureInfo? culture;
 
     /// <summary>
     /// Gets or sets the date time styles used when converting a date to and from JSON.
@@ -26,15 +25,6 @@ public class IsoDateTimeConverter : DateTimeConverterBase
     {
         get => dateTimeFormat ?? string.Empty;
         set => dateTimeFormat = StringUtils.IsNullOrEmpty(value) ? null : value;
-    }
-
-    /// <summary>
-    /// Gets or sets the culture used when converting a date to and from JSON.
-    /// </summary>
-    public CultureInfo Culture
-    {
-        get => culture ?? CultureInfo.CurrentCulture;
-        set => culture = value;
     }
 
     /// <summary>
@@ -52,7 +42,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
                 dateTime = dateTime.ToUniversalTime();
             }
 
-            text = dateTime.ToString(dateTimeFormat ?? defaultDateTimeFormat, Culture);
+            text = dateTime.ToString(dateTimeFormat ?? defaultDateTimeFormat, InvariantCulture);
         }
         else if (value is DateTimeOffset dateTimeOffset)
         {
@@ -62,7 +52,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
                 dateTimeOffset = dateTimeOffset.ToUniversalTime();
             }
 
-            text = dateTimeOffset.ToString(dateTimeFormat ?? defaultDateTimeFormat, Culture);
+            text = dateTimeOffset.ToString(dateTimeFormat ?? defaultDateTimeFormat, InvariantCulture);
         }
         else
         {
@@ -129,17 +119,17 @@ public class IsoDateTimeConverter : DateTimeConverterBase
         {
             if (StringUtils.IsNullOrEmpty(dateTimeFormat))
             {
-                return DateTimeOffset.Parse(dateText, Culture, DateTimeStyles);
+                return DateTimeOffset.Parse(dateText, InvariantCulture, DateTimeStyles);
             }
 
-            return DateTimeOffset.ParseExact(dateText, dateTimeFormat, Culture, DateTimeStyles);
+            return DateTimeOffset.ParseExact(dateText, dateTimeFormat, InvariantCulture, DateTimeStyles);
         }
 
         if (StringUtils.IsNullOrEmpty(dateTimeFormat))
         {
-            return DateTime.Parse(dateText, Culture, DateTimeStyles);
+            return DateTime.Parse(dateText, InvariantCulture, DateTimeStyles);
         }
 
-        return DateTime.ParseExact(dateText, dateTimeFormat, Culture, DateTimeStyles);
+        return DateTime.ParseExact(dateText, dateTimeFormat, InvariantCulture, DateTimeStyles);
     }
 }

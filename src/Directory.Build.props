@@ -14,5 +14,6 @@
     <Using Include="System.Runtime.Serialization" />
     <Using Include="System.Numerics" />
     <Using Include="System.Diagnostics.CodeAnalysis" />
+    <Using Include="System.Globalization.CultureInfo" Static="True" />
   </ItemGroup>
 </Project>

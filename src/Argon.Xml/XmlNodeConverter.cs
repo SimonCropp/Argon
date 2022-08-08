@@ -791,10 +791,10 @@ public class XmlNodeConverter : JsonConverter
             case JsonToken.Integer:
                 if (reader.Value is BigInteger i)
                 {
-                    return i.ToString(CultureInfo.InvariantCulture);
+                    return i.ToString(InvariantCulture);
                 }
 
-                return XmlConvert.ToString(Convert.ToInt64(reader.Value, CultureInfo.InvariantCulture));
+                return XmlConvert.ToString(Convert.ToInt64(reader.Value, InvariantCulture));
             case JsonToken.Float:
             {
                 if (reader.Value is decimal d)
@@ -807,10 +807,10 @@ public class XmlNodeConverter : JsonConverter
                     return XmlConvert.ToString(f);
                 }
 
-                return XmlConvert.ToString(Convert.ToDouble(reader.Value, CultureInfo.InvariantCulture));
+                return XmlConvert.ToString(Convert.ToDouble(reader.Value, InvariantCulture));
             }
             case JsonToken.Boolean:
-                return XmlConvert.ToString(Convert.ToBoolean(reader.Value, CultureInfo.InvariantCulture));
+                return XmlConvert.ToString(Convert.ToBoolean(reader.Value, InvariantCulture));
             case JsonToken.Date:
             {
                 if (reader.Value is DateTimeOffset offset)
@@ -818,7 +818,7 @@ public class XmlNodeConverter : JsonConverter
                     return XmlConvert.ToString(offset);
                 }
 
-                var d = Convert.ToDateTime(reader.Value, CultureInfo.InvariantCulture);
+                var d = Convert.ToDateTime(reader.Value, InvariantCulture);
                 return XmlConvert.ToString(d, ToSerializationMode(d.Kind));
             }
             case JsonToken.Bytes:

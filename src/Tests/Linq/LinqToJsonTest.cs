@@ -663,7 +663,6 @@ keyword such as type of business.""
     {
         var json = @"{
     Color:2,
-    Established:'2014-06-04T00:00:00Z',
     Width:1.1,
     Employees:999, 
     RoomsPerFloor:[1,2,3,4,5,6,7,8,9],
@@ -671,7 +670,6 @@ keyword such as type of business.""
     Symbol:'@',
     Mottos:[
         'Hello World',
-        ""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",
         null,
         ' '],
     Cost:100980.1,
@@ -680,30 +678,19 @@ keyword such as type of business.""
     [
         {
             Name:'Rocket',
-            ExpiryDate:'2014-06-04T00:00:00Z',
             Price:0
         },
         {
             Name:'Alien',
-            ExpiryDate:'2014-06-04T00:00:00Z',
             Price:0
         }
     ]
 }";
 
-        //TODO: SIMON: parse should not change date strings
         var o = JObject.Parse(json);
 
-        var established = o.Property("Established");
-        XUnitAssert.AreEqualNormalized(
-            @"""Established"": ""2014-06-04T00:00:00Z""",
-            established.ToString());
-
-        var establishedValue = (DateTime) established.Value;
-        XUnitAssert.AreEqualNormalized(@"06/04/2014 00:00:00",
-            establishedValue.ToString(DateTimeFormatInfo.InvariantInfo));
         Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
-        Assert.Equal(@"1.1", ((JValue) o.Property("Width").Value).ToString(CultureInfo.InvariantCulture));
+        Assert.Equal(@"1.1", ((JValue) o.Property("Width").Value).ToString(InvariantCulture));
         Assert.Equal(@"""Open"": false", o.Property("Open").ToString());
         Assert.Equal(@"False", o.Property("Open").Value.ToString());
 

@@ -1307,7 +1307,7 @@ public partial class JsonTextReader
                             }
                             else
                             {
-                                b = Convert.ToBoolean(Value, CultureInfo.InvariantCulture);
+                                b = Convert.ToBoolean(Value, InvariantCulture);
                             }
 
                             SetToken(JsonToken.Boolean, b, false);

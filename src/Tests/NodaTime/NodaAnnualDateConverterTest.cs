@@ -10,7 +10,6 @@ public class NodaAnnualDateConverterTest
     readonly JsonSerializerSettings settings = new()
     {
         Converters = {NodaConverters.AnnualDateConverter},
-        DateParseHandling = DateParseHandling.None
     };
 
     [Fact]

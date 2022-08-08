@@ -114,18 +114,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.Formatting = value;
     }
 
-    public override DateTimeZoneHandling? DateTimeZoneHandling
-    {
-        get => serializer.DateTimeZoneHandling;
-        set => serializer.DateTimeZoneHandling = value;
-    }
-
-    public override DateParseHandling DateParseHandling
-    {
-        get => serializer.DateParseHandling;
-        set => serializer.DateParseHandling = value;
-    }
-
     public override FloatFormatHandling? FloatFormatHandling
     {
         get => serializer.FloatFormatHandling;
@@ -142,18 +130,6 @@ class JsonSerializerProxy : JsonSerializer
     {
         get => serializer.EscapeHandling;
         set => serializer.EscapeHandling = value;
-    }
-
-    public override string DateFormatString
-    {
-        get => serializer.DateFormatString;
-        set => serializer.DateFormatString = value;
-    }
-
-    public override CultureInfo Culture
-    {
-        get => serializer.Culture;
-        set => serializer.Culture = value;
     }
 
     public override int? MaxDepth

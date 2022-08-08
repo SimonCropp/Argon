@@ -284,7 +284,7 @@ public partial class JsonTextWriter : JsonWriter
         if (value is BigInteger i)
         {
             InternalWriteValue(JsonToken.Integer);
-            WriteValueInternal(i.ToString(CultureInfo.InvariantCulture));
+            WriteValueInternal(i.ToString(InvariantCulture));
         }
         else
         {
@@ -498,27 +498,10 @@ public partial class JsonTextWriter : JsonWriter
     public override void WriteValue(DateTime value)
     {
         InternalWriteValue(JsonToken.Date);
-        value = DateTimeUtils.EnsureDateTime(value, DateTimeZoneHandling);
 
-        if (StringUtils.IsNullOrEmpty(DateFormatString))
-        {
-            var length = WriteValueToBuffer(value);
+        var length = WriteValueToBuffer(value);
 
-            writer.Write(writeBuffer!, 0, length);
-        }
-        else
-        {
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-
-            writer.Write(value.ToString(DateFormatString, Culture));
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-        }
+        writer.Write(writeBuffer!, 0, length);
     }
 
     int WriteValueToBuffer(DateTime value)
@@ -574,25 +557,9 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.Date);
 
-        if (StringUtils.IsNullOrEmpty(DateFormatString))
-        {
-            var length = WriteValueToBuffer(value);
+        var length = WriteValueToBuffer(value);
 
-            writer.Write(writeBuffer!, 0, length);
-        }
-        else
-        {
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-
-            writer.Write(value.ToString(DateFormatString, Culture));
-            if (QuoteValue)
-            {
-                writer.Write(quoteChar);
-            }
-        }
+        writer.Write(writeBuffer!, 0, length);
     }
 
     int WriteValueToBuffer(DateTimeOffset value)
@@ -622,7 +589,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.String);
 
-        var text = value.ToString("D", CultureInfo.InvariantCulture);
+        var text = value.ToString("D", InvariantCulture);
 
         if (QuoteValue)
         {
@@ -644,7 +611,7 @@ public partial class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.String);
 
-        var text = value.ToString(null, CultureInfo.InvariantCulture);
+        var text = value.ToString(null, InvariantCulture);
 
         if (QuoteValue)
         {

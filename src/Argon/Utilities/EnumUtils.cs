@@ -63,7 +63,7 @@ static class EnumUtils
         {
             if ((num & enumValue) == enumValue && enumValue != 0)
             {
-                selectedFlagsValues.Add((T) Convert.ChangeType(enumValue, underlyingType, CultureInfo.CurrentCulture));
+                selectedFlagsValues.Add((T) Convert.ChangeType(enumValue, underlyingType, InvariantCulture));
             }
         }
 
@@ -247,7 +247,7 @@ static class EnumUtils
 
             try
             {
-                temp = Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture);
+                temp = Convert.ChangeType(value, underlyingType, InvariantCulture);
             }
             catch (FormatException)
             {

@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.Text.RegularExpressions;
+
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
@@ -30,12 +30,12 @@ static class MiscellaneousUtils
         {
             if (ConvertUtils.IsInteger(objA) && ConvertUtils.IsInteger(objB))
             {
-                return Convert.ToDecimal(objA, CultureInfo.CurrentCulture).Equals(Convert.ToDecimal(objB, CultureInfo.CurrentCulture));
+                return Convert.ToDecimal(objA, InvariantCulture).Equals(Convert.ToDecimal(objB, InvariantCulture));
             }
 
             if (objA is double or float or decimal && objB is double or float or decimal)
             {
-                return MathUtils.ApproxEquals(Convert.ToDouble(objA, CultureInfo.CurrentCulture), Convert.ToDouble(objB, CultureInfo.CurrentCulture));
+                return MathUtils.ApproxEquals(Convert.ToDouble(objA, InvariantCulture), Convert.ToDouble(objB, InvariantCulture));
             }
 
             return false;

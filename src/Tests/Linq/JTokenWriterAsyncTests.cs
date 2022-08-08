@@ -317,20 +317,4 @@ public class JTokenWriterAsyncTests : TestFixtureBase
   ""prop1"": []
 }", writer.Token.ToString());
     }
-
-    [Fact]
-    public async Task DateTimeZoneHandlingAsync()
-    {
-        var writer = new JTokenWriter
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc
-        };
-
-        await writer.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
-
-        var value = (JValue) writer.Token;
-        var dt = (DateTime) value.Value;
-
-        Assert.Equal(new(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc), dt);
-    }
 }

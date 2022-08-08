@@ -306,7 +306,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(char value)
     {
         base.WriteValue(value);
-        var s = value.ToString(CultureInfo.InvariantCulture);
+        var s = value.ToString(InvariantCulture);
         AddValue(s, JsonToken.String);
     }
 
@@ -343,7 +343,6 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(DateTime value)
     {
         base.WriteValue(value);
-        value = DateTimeUtils.EnsureDateTime(value, DateTimeZoneHandling);
         AddValue(value, JsonToken.Date);
     }
 

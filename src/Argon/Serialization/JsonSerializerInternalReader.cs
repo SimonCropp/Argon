@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.Dynamic;
+
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
@@ -130,7 +130,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, contract, null, reader as IJsonLineInfo, reader.Path, exception))
+            if (IsErrorHandled(null, contract, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
                 return null;
@@ -242,7 +242,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 case JsonToken.Boolean:
                 case JsonToken.Date:
                 case JsonToken.Bytes:
-                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
+                    return EnsureType(reader, reader.Value, InvariantCulture, contract, type);
                 case JsonToken.String:
                     var s = reader.StringValue;
 
@@ -258,7 +258,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         return null;
                     }
 
-                    return EnsureType(reader, s, CultureInfo.InvariantCulture, contract, type);
+                    return EnsureType(reader, s, InvariantCulture, contract, type);
                 case JsonToken.Null:
                 case JsonToken.Undefined:
                     if (type == typeof(DBNull))
@@ -266,7 +266,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                         return DBNull.Value;
                     }
 
-                    return EnsureType(reader, reader.Value, CultureInfo.InvariantCulture, contract, type);
+                    return EnsureType(reader, reader.Value, InvariantCulture, contract, type);
                 case JsonToken.Raw:
                     return new JRaw((string?) reader.Value);
                 case JsonToken.Comment:
@@ -361,10 +361,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 var token = JToken.ReadFrom(reader);
                 tokenReader = (JTokenReader) token.CreateReader();
-                tokenReader.Culture = reader.Culture;
-                tokenReader.DateFormatString = reader.DateFormatString;
-                tokenReader.DateParseHandling = reader.DateParseHandling;
-                tokenReader.DateTimeZoneHandling = reader.DateTimeZoneHandling;
                 tokenReader.FloatParseHandling = reader.FloatParseHandling;
                 tokenReader.SupportMultipleContent = reader.SupportMultipleContent;
 
@@ -884,9 +880,9 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     else if (contract.NonNullableUnderlyingType == typeof(DateTime))
                     {
                         // use DateTimeUtils because Convert.ChangeType does not set DateTime.Kind correctly
-                        if (value is string s && DateTimeUtils.TryParseDateTime(s, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt))
+                        if (value is string s && DateTimeUtils.TryParseDateTime(s, out var dt))
                         {
-                            return DateTimeUtils.EnsureDateTime(dt, reader.DateTimeZoneHandling);
+                            return dt;
                         }
                     }
 
@@ -899,7 +895,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     return Convert.ChangeType(value, contract.NonNullableUnderlyingType, culture);
                 }
 
-                return ConvertUtils.ConvertOrCast(value, culture, contract.NonNullableUnderlyingType);
+                return ConvertUtils.ConvertOrCast(value, contract.NonNullableUnderlyingType);
             }
             catch (Exception exception)
             {
@@ -948,24 +944,21 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             value = CreateValueInternal(reader, property.PropertyType, propertyContract, property, containerContract, containerProperty, useExistingValue ? currentValue : null);
         }
 
+        // the value wasn't set be JSON was populated onto the existing value
+        if ((useExistingValue && value == currentValue) ||
+            !ShouldSetPropertyValue(property, containerContract as JsonObjectContract, value))
+        {
+            return useExistingValue;
+        }
+
         // always set the value if useExistingValue is false,
         // otherwise also set it if CreateValue returns a new value compared to the currentValue
         // this could happen because of a JsonConverter against the type
-        if ((!useExistingValue || value != currentValue)
-            && ShouldSetPropertyValue(property, containerContract as JsonObjectContract, value))
-        {
-            property.ValueProvider!.SetValue(target, value);
+        property.ValueProvider!.SetValue(target, value);
 
-            if (property.SetIsSpecified != null)
-            {
-                property.SetIsSpecified(target, true);
-            }
+        property.SetIsSpecified?.Invoke(target, true);
 
-            return true;
-        }
-
-        // the value wasn't set be JSON was populated onto the existing value
-        return useExistingValue;
+        return true;
     }
 
     bool CalculatePropertyDetails(
@@ -1258,13 +1251,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTime:
                                 case PrimitiveTypeCode.DateTimeNullable:
                                 {
-                                    if (DateTimeUtils.TryParseDateTime(keyValue.ToString()!, reader.DateTimeZoneHandling, reader.DateFormatString, reader.Culture, out var dt))
+                                    if (DateTimeUtils.TryParseDateTime(keyValue.ToString()!, out var dt))
                                     {
                                         keyValue = dt;
                                     }
                                     else
                                     {
-                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                        keyValue = EnsureType(reader, keyValue, InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     }
 
                                     break;
@@ -1272,13 +1265,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                 case PrimitiveTypeCode.DateTimeOffset:
                                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                                 {
-                                    if (DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, reader.DateFormatString, reader.Culture, out var dt))
+                                    if (DateTimeUtils.TryParseDateTimeOffset(keyValue.ToString()!, out var dt))
                                     {
                                         keyValue = dt;
                                     }
                                     else
                                     {
-                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                        keyValue = EnsureType(reader, keyValue, InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     }
 
                                     break;
@@ -1290,7 +1283,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                                     }
                                     else
                                     {
-                                        keyValue = EnsureType(reader, keyValue, CultureInfo.InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
+                                        keyValue = EnsureType(reader, keyValue, InvariantCulture, contract.KeyContract, contract.DictionaryKeyType)!;
                                     }
 
                                     break;
@@ -1320,7 +1313,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(underlyingDictionary, contract, keyValue, reader as IJsonLineInfo, reader.Path, exception))
+                        if (IsErrorHandled(underlyingDictionary, contract, keyValue, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -1414,7 +1407,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 {
                     var errorPosition = reader.GetPosition(initialDepth);
 
-                    if (IsErrorHandled(list, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, exception))
+                    if (IsErrorHandled(list, contract, errorPosition.Position, reader.Path, exception))
                     {
                         HandleError(reader, true, initialDepth + 1);
 
@@ -1487,7 +1480,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(currentObject, contract, null, reader as IJsonLineInfo, reader.Path, exception))
+            if (IsErrorHandled(currentObject, contract, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
             }
@@ -1564,7 +1557,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 var errorPosition = reader.GetPosition(initialDepth);
 
-                if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader as IJsonLineInfo, reader.Path, exception))
+                if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader.Path, exception))
                 {
                     HandleError(reader, true, initialDepth + 1);
 
@@ -1673,7 +1666,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, memberName, reader as IJsonLineInfo, reader.Path, exception))
+                        if (IsErrorHandled(newObject, contract, memberName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -1790,7 +1783,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             context.Value = EnsureType(
                                 reader,
                                 constructorProperty.GetResolvedDefaultValue(),
-                                CultureInfo.InvariantCulture,
+                                InvariantCulture,
                                 constructorProperty.PropertyContract!,
                                 constructorProperty.PropertyType);
                         }
@@ -2147,7 +2140,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, propertyName, reader as IJsonLineInfo, reader.Path, exception))
+                        if (IsErrorHandled(newObject, contract, propertyName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2273,7 +2266,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                         if (HasFlag(property.DefaultValueHandling.GetValueOrDefault(Serializer.DefaultValueHandling), DefaultValueHandling.Populate) && property.Writable)
                         {
-                            property.ValueProvider!.SetValue(newObject, EnsureType(reader, property.GetResolvedDefaultValue(), CultureInfo.InvariantCulture, property.PropertyContract!, property.PropertyType));
+                            property.ValueProvider!.SetValue(newObject, EnsureType(reader, property.GetResolvedDefaultValue(), InvariantCulture, property.PropertyContract!, property.PropertyType));
                         }
                     }
 
@@ -2294,7 +2287,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(newObject, contract, property.PropertyName, reader as IJsonLineInfo, reader.Path, exception))
+            if (IsErrorHandled(newObject, contract, property.PropertyName, reader.Path, exception))
             {
                 HandleError(reader, true, initialDepth);
             }

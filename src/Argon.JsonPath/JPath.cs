@@ -235,7 +235,7 @@ class JPath
                     }
 
                     var indexer = expression.Substring(start, length);
-                    var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                    var index = Convert.ToInt32(indexer, InvariantCulture);
 
                     indexes.Add(index);
                     return new ArrayMultipleIndexFilter(indexes);
@@ -246,7 +246,7 @@ class JPath
                     if (length > 0)
                     {
                         var indexer = expression.Substring(start, length);
-                        var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                        var index = Convert.ToInt32(indexer, InvariantCulture);
 
                         if (colonCount == 1)
                         {
@@ -269,7 +269,7 @@ class JPath
                     }
 
                     var indexer = expression.Substring(start, length);
-                    var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                    var index = Convert.ToInt32(indexer, InvariantCulture);
 
                     return new ArrayIndexFilter {Index = index};
                 }
@@ -287,7 +287,7 @@ class JPath
                 indexes ??= new();
 
                 var indexer = expression.Substring(start, length);
-                indexes.Add(Convert.ToInt32(indexer, CultureInfo.InvariantCulture));
+                indexes.Add(Convert.ToInt32(indexer, InvariantCulture));
 
                 currentIndex++;
 
@@ -316,7 +316,7 @@ class JPath
                 if (length > 0)
                 {
                     var indexer = expression.Substring(start, length);
-                    var index = Convert.ToInt32(indexer, CultureInfo.InvariantCulture);
+                    var index = Convert.ToInt32(indexer, InvariantCulture);
 
                     if (colonCount == 0)
                     {
@@ -562,13 +562,13 @@ class JPath
 
                     if (numberText.IndexOfAny(floatCharacters) == -1)
                     {
-                        var result = long.TryParse(numberText, NumberStyles.Integer, CultureInfo.InvariantCulture, out var l);
+                        var result = long.TryParse(numberText, NumberStyles.Integer, InvariantCulture, out var l);
                         value = l;
                         return result;
                     }
                     else
                     {
-                        var result = double.TryParse(numberText, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var d);
+                        var result = double.TryParse(numberText, NumberStyles.Float | NumberStyles.AllowThousands, InvariantCulture, out var d);
                         value = d;
                         return result;
                     }

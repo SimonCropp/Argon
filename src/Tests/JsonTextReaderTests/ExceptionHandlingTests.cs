@@ -528,7 +528,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         long i = int.MaxValue;
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         reader.Read();
         Assert.Equal(typeof(long), reader.ValueType);
 
@@ -538,7 +538,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             XUnitAssert.Throws<JsonReaderException>(
                 () =>
                 {
-                    reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                    reader = new(new StringReader(total.ToString(InvariantCulture)));
                     reader.ReadAsInt32();
                 },
                 $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 10.");
@@ -550,7 +550,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         long i = int.MinValue;
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         reader.Read();
         Assert.Equal(typeof(long), reader.ValueType);
         Assert.Equal(i, reader.Value);
@@ -561,7 +561,7 @@ public class ExceptionHandlingTests : TestFixtureBase
             XUnitAssert.Throws<JsonReaderException>(
                 () =>
                 {
-                    reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+                    reader = new(new StringReader(total.ToString(InvariantCulture)));
                     reader.ReadAsInt32();
                 },
                 $"JSON integer {total} is too large or small for an Int32. Path '', line 1, position 11.");
@@ -573,7 +573,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         var i = new BigInteger(long.MaxValue);
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         reader.Read();
         Assert.Equal(typeof(long), reader.ValueType);
 
@@ -581,7 +581,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         {
             var total = i + j;
 
-            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(InvariantCulture)));
             reader.Read();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);
@@ -593,7 +593,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         var i = new BigInteger(long.MinValue);
 
-        var reader = new JsonTextReader(new StringReader(i.ToString(CultureInfo.InvariantCulture)));
+        var reader = new JsonTextReader(new StringReader(i.ToString(InvariantCulture)));
         reader.Read();
         Assert.Equal(typeof(long), reader.ValueType);
 
@@ -601,7 +601,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         {
             var total = i + -j;
 
-            reader = new(new StringReader(total.ToString(CultureInfo.InvariantCulture)));
+            reader = new(new StringReader(total.ToString(InvariantCulture)));
             reader.Read();
 
             Assert.Equal(typeof(BigInteger), reader.ValueType);

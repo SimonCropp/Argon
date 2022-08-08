@@ -666,35 +666,6 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void DateTimeParseHandlingOffset()
-    {
-        var d = new DateTimeOffset(2012, 12, 12, 12, 44, 1, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(34)));
-        var x = new DateTimeOffsetContainer {Date = d};
-
-        var json = JsonConvert.SerializeObject(x, Formatting.Indented);
-
-        var doc1 = JsonConvert.DeserializeObject<XDocument>(json, new JsonSerializerSettings
-        {
-            Converters = {new XmlNodeConverter()},
-            DateParseHandling = DateParseHandling.DateTimeOffset
-        });
-
-        var xml = doc1.ToString();
-        Assert.Equal("<Date>2012-12-12T12:44:01+12:34</Date>", xml);
-
-        var settings = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        };
-        settings.Converters.Add(new XmlNodeConverter());
-        var json2 = JsonConvert.SerializeObject(doc1, settings);
-
-        var x2 = JsonConvert.DeserializeObject<DateTimeOffsetContainer>(json2);
-
-        Assert.Equal(x.Date, x2.Date);
-    }
-
-    [Fact]
     public void GroupElementsOfTheSameName()
     {
         var xml = "<root><p>Text1<span>Span1</span> <span>Span2</span> Text2</p></root>";
@@ -2354,40 +2325,6 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void IgnoreCultureForTypedAttributes()
-    {
-        var originalCulture = Thread.CurrentThread.CurrentCulture;
-
-        try
-        {
-            Thread.CurrentThread.CurrentCulture = new("ru-RU");
-
-            // in russian culture value 12.27 will be written as 12,27
-
-            var serializer = JsonSerializer.Create(new()
-            {
-                Converters = {new XmlNodeConverter()}
-            });
-
-            var json = new StringBuilder(@"{
-                    ""metrics"": {
-                        ""type"": ""CPULOAD"",
-                        ""@value"": 12.27
-                    }
-                }");
-
-            using var stringReader = new StringReader(json.ToString());
-            using var jsonReader = new JsonTextReader(stringReader);
-            var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
-            XUnitAssert.AreEqualNormalized(@"<metrics value=""12.27""><type>CPULOAD</type></metrics>", document.OuterXml);
-        }
-        finally
-        {
-            Thread.CurrentThread.CurrentCulture = originalCulture;
-        }
-    }
-
-    [Fact]
     public void NullAttributeValue()
     {
         var node = JsonXmlConvert.DeserializeXmlNode(@"{
@@ -3162,70 +3099,6 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void DateTimeToXml_Unspecified()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Unspecified: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Utc()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00Z""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00Z", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Utc: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Local()
-    {
-        var dt = DateTime.Parse("2014-01-23T00:00:00+01:00");
-
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00+01:00""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal(dt.ToString("yyyy-MM-ddTHH:mm:sszzzzzzz", CultureInfo.InvariantCulture), dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Local: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Unspecified_Precision()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00.1234567""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00.1234567", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Unspecified: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Utc_Precision()
-    {
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00.1234567Z""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal("2014-01-23T00:00:00.1234567Z", dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Utc: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
-    public void DateTimeToXml_Local_Precision()
-    {
-        var dt = DateTime.Parse("2014-01-23T00:00:00.1234567+01:00");
-
-        var json = @"{""CreatedDate"": ""2014-01-23T00:00:00.1234567+01:00""}";
-        var dxml = JsonXmlConvert.DeserializeXNode(json, "root");
-        Assert.Equal(dt.ToString("yyyy-MM-ddTHH:mm:ss.FFFFFFFK", CultureInfo.InvariantCulture), dxml.Root.Element("CreatedDate").Value);
-
-        Console.WriteLine($"DateTimeToXml_Local: {dxml.Root.Element("CreatedDate").Value}");
-    }
-
-    [Fact]
     public void SerializeEmptyNodeAndOmitRoot_XElement()
     {
         var xmlString = @"<myemptynode />";
@@ -3320,7 +3193,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = new StringBuilder(1024);
 
-        using (var stringWriter = new StringWriter(json, CultureInfo.InvariantCulture))
+        using (var stringWriter = new StringWriter(json, InvariantCulture))
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.None

@@ -137,7 +137,7 @@ public class XmlJsonWriter : JsonWriter
         base.WriteValue(value);
 
         WriteValueElement(JTokenType.String);
-        writer.WriteValue(value.ToString(CultureInfo.InvariantCulture));
+        writer.WriteValue(value.ToString(InvariantCulture));
         writer.WriteEndElement();
     }
 

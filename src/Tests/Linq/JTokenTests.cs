@@ -44,13 +44,6 @@ public class JTokenTests : TestFixtureBase
 
         v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader(@"1.1")));
         Assert.Equal(1.1, (double) v);
-
-        v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader(@"""1970-01-01T00:00:00+12:31"""))
-        {
-            DateParseHandling = DateParseHandling.DateTimeOffset
-        });
-        Assert.Equal(typeof(DateTimeOffset), v.Value.GetType());
-        Assert.Equal(new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, new(12, 31, 0)), v.Value);
     }
 
     [Fact]

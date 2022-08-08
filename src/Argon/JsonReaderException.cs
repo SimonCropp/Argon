@@ -26,15 +26,6 @@ public class JsonReaderException : JsonException
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonReaderException" /> class
-    /// with a specified error message and a reference to the inner exception that is the cause of this exception.
-    /// </summary>
-    public JsonReaderException(string message, Exception innerException)
-        : base(message, innerException)
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonReaderException" /> class
     /// with a specified error message, JSON path, line number, line position, and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>

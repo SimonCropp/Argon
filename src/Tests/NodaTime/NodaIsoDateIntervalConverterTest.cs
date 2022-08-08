@@ -13,8 +13,11 @@ public class NodaIsoDateIntervalConverterTest
 {
     readonly JsonSerializerSettings settings = new()
     {
-        Converters = {NodaConverters.IsoDateIntervalConverter, NodaConverters.LocalDateConverter},
-        DateParseHandling = DateParseHandling.None
+        Converters =
+        {
+            NodaConverters.IsoDateIntervalConverter,
+            NodaConverters.LocalDateConverter
+        }
     };
 
     [Fact]

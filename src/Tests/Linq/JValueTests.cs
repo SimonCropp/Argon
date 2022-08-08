@@ -160,7 +160,7 @@ public class JValueTests : TestFixtureBase
         Assert.Equal("True", v.ToString());
 
         v = new(Encoding.UTF8.GetBytes("Blah"));
-        Assert.Equal("System.Byte[]", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("System.Byte[]", v.ToString(null, InvariantCulture));
 
         v = new("I am a string!");
         Assert.Equal("I am a string!", v.ToString());
@@ -169,22 +169,22 @@ public class JValueTests : TestFixtureBase
         Assert.Equal("", v.ToString());
 
         v = JValue.CreateNull();
-        Assert.Equal("", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("", v.ToString(null, InvariantCulture));
 
         v = new(new DateTime(2000, 12, 12, 20, 59, 59, DateTimeKind.Utc), JTokenType.Date);
-        Assert.Equal("12/12/2000 20:59:59", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("12/12/2000 20:59:59", v.ToString(null, InvariantCulture));
 
         v = new(new Uri("http://json.codeplex.com/"));
-        Assert.Equal("http://json.codeplex.com/", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("http://json.codeplex.com/", v.ToString(null, InvariantCulture));
 
         v = new(TimeSpan.FromDays(1));
-        Assert.Equal("1.00:00:00", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("1.00:00:00", v.ToString(null, InvariantCulture));
 
         v = new(new Guid("B282ADE7-C520-496C-A448-4084F6803DE5"));
-        Assert.Equal("b282ade7-c520-496c-a448-4084f6803de5", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("b282ade7-c520-496c-a448-4084f6803de5", v.ToString(null, InvariantCulture));
 
         v = new(BigInteger.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990"));
-        Assert.Equal("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990", v.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990", v.ToString(null, InvariantCulture));
     }
 
     [Fact]
@@ -315,7 +315,7 @@ public class JValueTests : TestFixtureBase
         var f = new JValue(1).Value<IFormattable>();
         Assert.Equal(1L, f);
 
-        Assert.Equal("01", f.ToString("00", CultureInfo.InvariantCulture));
+        Assert.Equal("01", f.ToString("00", InvariantCulture));
     }
 
     [Fact]
@@ -390,43 +390,6 @@ public class JValueTests : TestFixtureBase
 
         var o = JObject.Parse(json);
         o.Property("DateTimeOffset").Value = dateTimeOffset;
-    }
-
-    [Fact]
-    public void ParseAndConvertDateTimeOffset()
-    {
-        var json = @"{ d: '2013-08-14T04:38:31.000+01' }";
-
-        using var stringReader = new StringReader(json);
-        using var jsonReader = new JsonTextReader(stringReader);
-        jsonReader.DateParseHandling = DateParseHandling.DateTimeOffset;
-
-        var obj = JObject.Load(jsonReader);
-        var d = (JValue) obj["d"];
-
-        Assert.IsType(typeof(DateTimeOffset), d.Value);
-        var offset = ((DateTimeOffset) d.Value).Offset;
-        Assert.Equal(TimeSpan.FromHours(1), offset);
-
-        var dateTimeOffset = (DateTimeOffset) d;
-        Assert.Equal(TimeSpan.FromHours(1), dateTimeOffset.Offset);
-    }
-
-    [Fact]
-    public void ReadDatesAsDateTimeOffsetViaJsonConvert()
-    {
-        var content = @"{startDateTime:'2012-07-19T14:30:00+09:30'}";
-
-        var settings = new JsonSerializerSettings
-        {
-            DateParseHandling = DateParseHandling.DateTimeOffset,
-            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
-        };
-        var obj = (JObject) JsonConvert.DeserializeObject(content, settings);
-
-        object startDateTime = obj["startDateTime"];
-
-        Assert.IsType(typeof(DateTimeOffset), ((JValue) startDateTime).Value);
     }
 
     [Fact]
@@ -515,7 +478,7 @@ public class JValueTests : TestFixtureBase
 
     [Fact]
     public void ConvertsToType() =>
-        Assert.Equal(int.MaxValue, Convert.ChangeType(new JValue(int.MaxValue), typeof(int), CultureInfo.InvariantCulture));
+        Assert.Equal(int.MaxValue, Convert.ChangeType(new JValue(int.MaxValue), typeof(int), InvariantCulture));
 
     [Fact]
     public void ConvertsToDateTime() =>
@@ -574,10 +537,10 @@ public class JValueTests : TestFixtureBase
     {
         IConvertible v = new JValue(9.0m);
 
-        var i = (int) v.ToType(typeof(int), CultureInfo.InvariantCulture);
+        var i = (int) v.ToType(typeof(int), InvariantCulture);
         Assert.Equal(9, i);
 
-        var bi = (BigInteger) v.ToType(typeof(BigInteger), CultureInfo.InvariantCulture);
+        var bi = (BigInteger) v.ToType(typeof(BigInteger), InvariantCulture);
         Assert.Equal(new(9), bi);
     }
 
@@ -617,22 +580,6 @@ public class JValueTests : TestFixtureBase
   ""http://james.newtonking.com"",
   ""http://james.newtonking.com/install?v=7.0.1""
 ]", a.ToString());
-    }
-
-    [Fact]
-    public void ParseIsoTimeZones()
-    {
-        var expectedDate = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)));
-        var reader = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+1230'"));
-        reader.DateParseHandling = DateParseHandling.DateTimeOffset;
-        var date = (JValue) JToken.ReadFrom(reader);
-        Assert.Equal(expectedDate, date.Value);
-
-        var expectedDate2 = new DateTimeOffset(2013, 08, 14, 4, 38, 31, TimeSpan.FromHours(12));
-        var reader2 = new JsonTextReader(new StringReader("'2013-08-14T04:38:31.000+12'"));
-        reader2.DateParseHandling = DateParseHandling.DateTimeOffset;
-        var date2 = (JValue) JToken.ReadFrom(reader2);
-        Assert.Equal(expectedDate2, date2.Value);
     }
 
     public class ReadOnlyStringConverter : JsonConverter

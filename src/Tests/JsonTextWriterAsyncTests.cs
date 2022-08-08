@@ -48,7 +48,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteLazy()
     {
-        var stringWriter = new LazyStringWriter(CultureInfo.InvariantCulture);
+        var stringWriter = new LazyStringWriter(InvariantCulture);
 
         using (var writer = new JsonTextWriter(stringWriter))
         {
@@ -147,7 +147,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteLazy_Property()
     {
-        var stringWriter = new LazyStringWriter(CultureInfo.InvariantCulture);
+        var stringWriter = new LazyStringWriter(InvariantCulture);
 
         using (var writer = new JsonTextWriter(stringWriter))
         {
@@ -1100,20 +1100,6 @@ _____'propertyName': NaN,
     }
 
     [Fact]
-    public async Task DateTimeZoneHandlingAsync()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc
-        };
-
-        await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Unspecified));
-
-        Assert.Equal(@"""2000-01-01T01:01:01Z""", stringWriter.ToString());
-    }
-
-    [Fact]
     public async Task HtmlEscapeHandlingAsync()
     {
         var stringWriter = new StringWriter();
@@ -1236,10 +1222,6 @@ _____'propertyName': NaN,
         await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
         await jsonWriter.WriteValueAsync(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
 
-        jsonWriter.DateFormatString = "yyyy gg";
-        await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
-        await jsonWriter.WriteValueAsync(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
-
         await jsonWriter.WriteValueAsync(new byte[] {1, 2, 3});
         await jsonWriter.WriteValueAsync(TimeSpan.Zero);
         await jsonWriter.WriteValueAsync(new Uri("http://www.google.com/"));
@@ -1250,46 +1232,10 @@ _____'propertyName': NaN,
         XUnitAssert.AreEqualNormalized(@"[
   '2000-01-01T01:01:01Z',
   '2000-01-01T01:01:01+00:00',
-  '2000 A.D.',
-  '2000 A.D.',
   'AQID',
   '00:00:00',
   'http://www.google.com/',
   '00000000-0000-0000-0000-000000000000'
-]", stringWriter.ToString());
-    }
-
-    [Fact]
-    public async Task CultureAsync()
-    {
-        var culture = new CultureInfo("en-NZ")
-        {
-            DateTimeFormat =
-            {
-                AMDesignator = "a.m.",
-                PMDesignator = "p.m."
-            }
-        };
-
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            QuoteChar = '\'',
-            Formatting = Formatting.Indented,
-            DateFormatString = "yyyy tt",
-            Culture = culture
-        };
-
-        await jsonWriter.WriteStartArrayAsync();
-
-        await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
-        await jsonWriter.WriteValueAsync(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
-
-        await jsonWriter.WriteEndAsync();
-
-        XUnitAssert.AreEqualNormalized(@"[
-  '2000 a.m.',
-  '2000 a.m.'
 ]", stringWriter.ToString());
     }
 

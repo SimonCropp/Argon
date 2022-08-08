@@ -170,17 +170,11 @@ public abstract partial class JsonWriter : IDisposable
     }
 
     EscapeHandling escapeHandling;
-    CultureInfo? culture;
 
     /// <summary>
     /// Gets or sets a value indicating how JSON text output should be formatted.
     /// </summary>
     public Formatting Formatting { get; set; }
-
-    /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> time zones are handled when writing JSON text.
-    /// </summary>
-    public DateTimeZoneHandling DateTimeZoneHandling { get; set; }
 
     /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
@@ -208,28 +202,12 @@ public abstract partial class JsonWriter : IDisposable
     public FloatFormatHandling FloatFormatHandling { get; set; }
 
     /// <summary>
-    /// Gets or sets how <see cref="DateTime" /> and <see cref="DateTimeOffset" /> values are formatted when writing JSON text.
-    /// </summary>
-    public string? DateFormatString { get; set; }
-
-    /// <summary>
-    /// Gets or sets the culture used when writing JSON. Defaults to <see cref="CultureInfo.InvariantCulture" />.
-    /// </summary>
-    public CultureInfo Culture
-    {
-        get => culture ?? CultureInfo.InvariantCulture;
-        set => culture = value;
-    }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="JsonWriter" /> class.
     /// </summary>
     protected JsonWriter()
     {
         currentState = State.Start;
         Formatting = Formatting.None;
-        DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
-
         CloseOutput = true;
         AutoCompleteOnClose = true;
     }
@@ -380,7 +358,7 @@ public abstract partial class JsonWriter : IDisposable
                 }
                 else
                 {
-                    WriteValue(Convert.ToInt64(value, CultureInfo.InvariantCulture));
+                    WriteValue(Convert.ToInt64(value, InvariantCulture));
                 }
 
                 break;
@@ -399,7 +377,7 @@ public abstract partial class JsonWriter : IDisposable
                 }
                 else
                 {
-                    WriteValue(Convert.ToDouble(value, CultureInfo.InvariantCulture));
+                    WriteValue(Convert.ToDouble(value, InvariantCulture));
                 }
 
                 break;
@@ -409,7 +387,7 @@ public abstract partial class JsonWriter : IDisposable
                 WriteValue(value?.ToString());
                 break;
             case JsonToken.Boolean:
-                WriteValue(Convert.ToBoolean(value, CultureInfo.InvariantCulture));
+                WriteValue(Convert.ToBoolean(value, InvariantCulture));
                 break;
             case JsonToken.Null:
                 WriteNull();
@@ -430,7 +408,7 @@ public abstract partial class JsonWriter : IDisposable
                 }
                 else
                 {
-                    WriteValue(Convert.ToDateTime(value, CultureInfo.InvariantCulture));
+                    WriteValue(Convert.ToDateTime(value, InvariantCulture));
                 }
 
                 break;
@@ -1360,7 +1338,7 @@ public abstract partial class JsonWriter : IDisposable
         // if convertible has an underlying typecode of Object then attempt to convert it to a string
         typeCode = typeInformation.TypeCode == PrimitiveTypeCode.Object ? PrimitiveTypeCode.String : typeInformation.TypeCode;
         var resolvedType = typeInformation.TypeCode == PrimitiveTypeCode.Object ? typeof(string) : typeInformation.Type;
-        value = convertible.ToType(resolvedType, CultureInfo.InvariantCulture);
+        value = convertible.ToType(resolvedType, InvariantCulture);
     }
 
     static JsonWriterException CreateUnsupportedTypeException(JsonWriter writer, object value) =>

@@ -1,4 +1,4 @@
-﻿[
+[
   {
     TokenType: Comment,
     LineNumber: 1,
@@ -77,12 +77,12 @@
     Value: comment
   },
   {
-    TokenType: Date,
+    TokenType: String,
     LineNumber: 7,
     LinePosition: 22,
     Path: ExpiryDate,
     Depth: 1,
-    Value: DateTime_1
+    Value: DateTimeOffset_1
   },
   {
     TokenType: PropertyName,

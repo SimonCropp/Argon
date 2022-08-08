@@ -1414,7 +1414,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             assemblyName = "AssemblyName";
 #if !NET5_0_OR_GREATER
-            typeName = $":::{serializedType.Name.ToUpper(CultureInfo.InvariantCulture)}:::";
+            typeName = $":::{serializedType.Name.ToUpper(InvariantCulture)}:::";
 #else
             typeName = $":::{serializedType.Name.ToUpper()}:::";
 #endif

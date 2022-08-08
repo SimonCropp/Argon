@@ -16,9 +16,9 @@ public class LinqDynamicTests : TestFixtureBase
 }";
 
         var dyn = JsonConvert.DeserializeObject<dynamic>(rawJson);
-        DateTime dueDate = dyn.task.dueDate.Value;
+        string dueDate = dyn.task.dueDate.Value;
 
-        Assert.Equal(new(2012, 12, 3, 0, 0, 0, DateTimeKind.Unspecified), dueDate);
+        Assert.Equal("2012-12-03T00:00:00", dueDate);
     }
 
     [Fact]
@@ -645,8 +645,8 @@ public class LinqDynamicTests : TestFixtureBase
 
         Assert.Equal("", d.Null.ToString());
         Assert.Equal("1", d.Integer.ToString());
-        Assert.Equal("1.1", d.Float.ToString(CultureInfo.InvariantCulture));
-        Assert.Equal("12/29/2000 23:51:10", d.DateTime.ToString(null, CultureInfo.InvariantCulture));
+        Assert.Equal("1.1", d.Float.ToString(InvariantCulture));
+        Assert.Equal("12/29/2000 23:51:10", d.DateTime.ToString(null, InvariantCulture));
         Assert.Equal("True", d.Boolean.ToString());
         Assert.Equal("A string lol!", d.String.ToString());
         Assert.Equal("System.Byte[]", d.Bytes.ToString());

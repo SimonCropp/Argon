@@ -12,14 +12,12 @@ public class NodaIntervalConverterTest
     {
         ContractResolver = new DefaultContractResolver(),
         Converters = {NodaConverters.IntervalConverter, NodaConverters.InstantConverter},
-        DateParseHandling = DateParseHandling.None
     };
 
     readonly JsonSerializerSettings settingsCamelCase = new()
     {
         ContractResolver = new CamelCasePropertyNamesContractResolver(),
         Converters = {NodaConverters.IntervalConverter, NodaConverters.InstantConverter},
-        DateParseHandling = DateParseHandling.None
     };
 
     [Fact]

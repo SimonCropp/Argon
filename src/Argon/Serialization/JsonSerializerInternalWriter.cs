@@ -4,7 +4,6 @@
 
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
-using System.Dynamic;
 
 class JsonSerializerInternalWriter : JsonSerializerInternalBase
 {
@@ -37,7 +36,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, contract, null, null, jsonWriter.Path, exception))
+            if (IsErrorHandled(null, contract, null, jsonWriter.Path, exception))
             {
                 HandleError(jsonWriter, 0);
             }
@@ -314,12 +313,12 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 #if NET6_0_OR_GREATER
         if (value is DateOnly dateOnly)
         {
-            s = dateOnly.ToString("yyyy'-'MM'-'dd", CultureInfo.InvariantCulture);
+            s = dateOnly.ToString("yyyy'-'MM'-'dd", InvariantCulture);
             return true;
         }
         if (value is TimeOnly timeOnly)
         {
-            s = timeOnly.ToString("HH':'mm':'ss.FFFFFFF", CultureInfo.InvariantCulture);
+            s = timeOnly.ToString("HH':'mm':'ss.FFFFFFF", InvariantCulture);
             return true;
         }
 #endif
@@ -391,7 +390,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
             catch (Exception exception)
             {
-                if (IsErrorHandled(value, contract, property.PropertyName, null, writer.ContainerPath, exception))
+                if (IsErrorHandled(value, contract, property.PropertyName, writer.ContainerPath, exception))
                 {
                     HandleError(writer, initialDepth);
                 }
@@ -410,7 +409,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 var keyContract = GetContract(e.Key);
                 var valueContract = GetContractSafe(e.Value);
 
-                var propertyName = GetPropertyName(writer, e.Key, keyContract, out _);
+                var propertyName = GetPropertyName(e.Key, keyContract, out _);
 
                 propertyName = contract.ExtensionDataNameResolver != null
                     ? contract.ExtensionDataNameResolver(propertyName)
@@ -618,7 +617,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
             catch (Exception exception)
             {
-                if (IsErrorHandled(underlyingList, contract, index, null, writer.ContainerPath, exception))
+                if (IsErrorHandled(underlyingList, contract, index, writer.ContainerPath, exception))
                 {
                     HandleError(writer, initialDepth);
                 }
@@ -703,7 +702,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(values, contract, i, null, writer.ContainerPath, exception))
+                    if (IsErrorHandled(values, contract, i, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth + 1);
                     }
@@ -779,7 +778,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, contract, property.PropertyName, null, writer.ContainerPath, exception))
+                    if (IsErrorHandled(value, contract, property.PropertyName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -816,7 +815,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, contract, memberName, null, writer.ContainerPath, exception))
+                    if (IsErrorHandled(value, contract, memberName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -914,7 +913,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             {
                 var entry = e.Entry;
 
-                var propertyName = GetPropertyName(writer, entry.Key, contract.KeyContract, out var escape);
+                var propertyName = GetPropertyName(entry.Key, contract.KeyContract, out var escape);
 
                 propertyName = contract.DictionaryKeyResolver != null
                     ? contract.DictionaryKeyResolver(propertyName)
@@ -944,7 +943,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(underlyingDictionary, contract, propertyName, null, writer.ContainerPath, exception))
+                    if (IsErrorHandled(underlyingDictionary, contract, propertyName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -968,7 +967,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 #pragma warning restore CS8600, CS8602, CS8604
     }
 
-    static string GetPropertyName(JsonWriter writer, object name, JsonContract contract, out bool escape)
+    static string GetPropertyName(object name, JsonContract contract, out bool escape)
     {
         if (contract.ContractType == JsonContractType.Primitive)
         {
@@ -978,19 +977,19 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case PrimitiveTypeCode.DateTime:
                 case PrimitiveTypeCode.DateTimeNullable:
                 {
-                    var dt = DateTimeUtils.EnsureDateTime((DateTime) name, writer.DateTimeZoneHandling);
+                    var dt = (DateTime) name;
 
                     escape = false;
-                    var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-                    DateTimeUtils.WriteDateTimeString(stringWriter, dt, writer.DateFormatString, writer.Culture);
+                    var stringWriter = new StringWriter(InvariantCulture);
+                    DateTimeUtils.WriteDateTimeString(stringWriter, dt);
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.DateTimeOffset:
                 case PrimitiveTypeCode.DateTimeOffsetNullable:
                 {
                     escape = false;
-                    var stringWriter = new StringWriter(CultureInfo.InvariantCulture);
-                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) name, writer.DateFormatString, writer.Culture);
+                    var stringWriter = new StringWriter(InvariantCulture);
+                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) name);
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.Double:
@@ -999,7 +998,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     var d = (double) name;
 
                     escape = false;
-                    return d.ToString("R", CultureInfo.InvariantCulture);
+                    return d.ToString("R", InvariantCulture);
                 }
                 case PrimitiveTypeCode.Single:
                 case PrimitiveTypeCode.SingleNullable:
@@ -1007,7 +1006,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                     var f = (float) name;
 
                     escape = false;
-                    return f.ToString("R", CultureInfo.InvariantCulture);
+                    return f.ToString("R", InvariantCulture);
                 }
                 default:
                 {
@@ -1018,7 +1017,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                         return enumName;
                     }
 
-                    return Convert.ToString(name, CultureInfo.InvariantCulture)!;
+                    return Convert.ToString(name, InvariantCulture)!;
                 }
             }
         }

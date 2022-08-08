@@ -3,8 +3,6 @@
 // as found in the license.md file.
 
 #if !NETSTANDARD2_0
-using System.Reflection.Emit;
-
 static class ILGeneratorExtensions
 {
     public static void PushInstance(this ILGenerator generator, Type type)

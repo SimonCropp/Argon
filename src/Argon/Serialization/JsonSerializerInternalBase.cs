@@ -60,7 +60,7 @@ abstract class JsonSerializerInternalBase
         currentErrorContext = null;
     }
 
-    protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, IJsonLineInfo? lineInfo, string path, Exception exception)
+    protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, string path, Exception exception)
     {
         var errorContext = GetErrorContext(currentObject, keyValue, path, exception);
 

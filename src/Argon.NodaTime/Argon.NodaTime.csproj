@@ -7,7 +7,7 @@
     <PackageTags>nodatime;json;Argon</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,10 +18,10 @@
     <Using Include="NodaTime" />
     <Using Include="Argon.NodaTime" />
     <Using Include="NodaTime.Utility" />
-    <Using Include="NodaTime.TimeZones" />    
+    <Using Include="NodaTime.TimeZones" />
     <Using Include="NodaTime.Text" />
     <Using Remove="System.Net.Http" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.78" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.79" PrivateAssets="all" />
     <PackageReference Include="NodaTime" Version="3.1.0" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
