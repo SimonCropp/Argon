@@ -58,7 +58,6 @@ public class FloatTests : TestFixtureBase
   Infinity,
   -Infinity
 ]";
-        ;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
@@ -88,7 +87,6 @@ public class FloatTests : TestFixtureBase
   Infinity,
   -Infinity
 ]";
-        ;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 

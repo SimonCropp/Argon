@@ -1,4 +1,4 @@
-[
+﻿[
   {
     TokenType: StartObject,
     LineNumber: 7,
@@ -12,7 +12,6 @@
     Path: ['\r\r\n\n\r\n \r\r\nname1\r\r\n\n\r\n \r\r\n'],
     Depth: 1,
     Value:
-
 
 
 
