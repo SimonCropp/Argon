@@ -244,7 +244,6 @@ public class CustomerDataSet : System.Data.DataSet
                         for (; s1.Position != s1.Length
                                && s1.ReadByte() == s2.ReadByte();)
                         {
-                            ;
                         }
                         if (s1.Position == s1.Length)
                         {
