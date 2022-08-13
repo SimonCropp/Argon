@@ -961,9 +961,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         using var jsonWriter = new JsonTextWriter(stringWriter);
         await jsonWriter.WriteTokenAsync(JsonToken.StartArray);
 
-        await XUnitAssert.ThrowsAsync<FormatException>(
-            () => jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"),
-            "Input string was not in a correct format.");
+        await ThrowsTask(() => jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"))
+            .UniqueForTargetFrameworkAndVersion()
+            .IgnoreStackTrace();
     }
 
     [Fact]

@@ -996,7 +996,7 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void WriteTokenDirect_BadValue()
+    public async Task WriteTokenDirect_BadValue()
     {
         var stringBuilder = new StringBuilder();
         var stringWriter = new StringWriter(stringBuilder);
@@ -1004,9 +1004,9 @@ public class JsonTextWriterTest : TestFixtureBase
         using var jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.WriteToken(JsonToken.StartArray);
 
-        XUnitAssert.Throws<FormatException>(
-            () => jsonWriter.WriteToken(JsonToken.Integer, "three"),
-            "Input string was not in a correct format.");
+        await Throws(() => jsonWriter.WriteToken(JsonToken.Integer, "three"))
+            .UniqueForTargetFrameworkAndVersion()
+            .IgnoreStackTrace();
     }
 
     [Fact]
