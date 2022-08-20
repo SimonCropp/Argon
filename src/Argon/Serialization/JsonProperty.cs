@@ -62,7 +62,7 @@ public class JsonProperty
     /// <summary>
     /// Gets or sets the type of the property.
     /// </summary>
-    public Type PropertyType { get; }
+    public Type PropertyType { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="JsonConverter" /> for the property.
