@@ -3263,6 +3263,37 @@ Path '', line 1, position 1.");
         }
     }
 
+    public class NonComparableKey
+    {
+        string member;
+
+        public NonComparableKey(string member) =>
+            this.member = member;
+
+        public override string ToString() =>
+            member;
+
+        public override int GetHashCode() =>
+            member.GetHashCode();
+    }
+
+    [Fact]
+    public void DictionaryOrderNonComparable()
+    {
+        var dictionary = new Dictionary<NonComparableKey, string>
+        {
+            [new("Foo2")] = "Bar",
+            [new("Foo1")] = "Bar"
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new SortDictionaryContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(dictionary,settings);
+        Assert.Equal(@"{""Foo2"":""Bar"",""Foo1"":""Bar""}", json);
+    }
+
     [Fact]
     public void ConstructorReadonlyFieldsTest()
     {

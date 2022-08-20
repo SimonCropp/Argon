@@ -934,9 +934,11 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
 
         if (contract.SortItems &&
+            contract.DictionaryKeyType != null &&
+            typeof(IComparable).IsAssignableFrom(contract.DictionaryKeyType) &&
             !IsSortedDictionary(underlyingDictionary))
         {
-            foreach (var entry in Items(values).OrderBy(_=>_.Key))
+            foreach (var entry in Items(values).OrderBy(_ => _.Key))
             {
                 SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
             }
