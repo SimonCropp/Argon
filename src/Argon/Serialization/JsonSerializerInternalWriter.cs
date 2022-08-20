@@ -409,11 +409,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 var keyContract = GetContract(e.Key);
                 var valueContract = GetContractSafe(e.Value);
 
-                var propertyName = GetPropertyName(e.Key, keyContract, out _);
-
-                propertyName = contract.ExtensionDataNameResolver != null
-                    ? contract.ExtensionDataNameResolver(propertyName)
-                    : propertyName;
+                var propertyName = GetDictionaryPropertyName(e.Key, keyContract, contract.ExtensionDataNameResolver, out _);
 
                 if (ShouldWriteReference(e.Value, null, valueContract, contract, member))
                 {
@@ -906,7 +902,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         contract.ItemContract ??= Serializer.ContractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
 
-        contract.KeyContract ??= Serializer.ContractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
+        var keyContract = contract.KeyContract ??= Serializer.ContractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
 
         var initialDepth = writer.Top;
 
@@ -919,50 +915,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 var value = e.Entry.Value;
                 var key = e.Entry.Key;
 
-                if (!contract.ShouldSerializeItem(key, value))
-                {
-                    continue;
-                }
-
-                var propertyName = GetPropertyName(key, contract.KeyContract, out var escape);
-
-                propertyName = contract.DictionaryKeyResolver != null
-                    ? contract.DictionaryKeyResolver(propertyName)
-                    : propertyName;
-
-
-                try
-                {
-                    var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
-
-                    if (ShouldWriteReference(value, null, valueContract, contract, member))
-                    {
-                        writer.WritePropertyName(propertyName, escape);
-                        WriteReference(writer, value);
-                    }
-                    else
-                    {
-                        if (!CheckForCircularReference(writer, value, null, valueContract, contract, member))
-                        {
-                            continue;
-                        }
-
-                        writer.WritePropertyName(propertyName, escape);
-
-                        SerializeValue(writer, value, valueContract, null, contract, member);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    if (IsErrorHandled(underlyingDictionary, contract, propertyName, writer.ContainerPath, exception))
-                    {
-                        HandleError(writer, initialDepth);
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                SerializeDictionaryItem(writer, contract, member, key, value, keyContract, underlyingDictionary, initialDepth);
             }
         }
         finally
@@ -978,7 +931,62 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 #pragma warning restore CS8600, CS8602, CS8604
     }
 
-    static string GetPropertyName(object name, JsonContract contract, out bool escape)
+    void SerializeDictionaryItem(JsonWriter writer, JsonDictionaryContract contract, JsonProperty? member, object key, object? value, JsonContract keyContract, object underlyingDictionary, int initialDepth)
+    {
+        if (!contract.ShouldSerializeItem(key, value))
+        {
+            return;
+        }
+
+        var propertyName = GetDictionaryPropertyName(key, keyContract, contract.DictionaryKeyResolver, out var escape);
+
+        try
+        {
+            var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
+
+            if (ShouldWriteReference(value, null, valueContract, contract, member))
+            {
+                writer.WritePropertyName(propertyName, escape);
+                WriteReference(writer, value);
+            }
+            else
+            {
+                if (!CheckForCircularReference(writer, value, null, valueContract, contract, member))
+                {
+                    return;
+                }
+
+                writer.WritePropertyName(propertyName, escape);
+
+                SerializeValue(writer, value, valueContract, null, contract, member);
+            }
+        }
+        catch (Exception exception)
+        {
+            if (IsErrorHandled(underlyingDictionary, contract, propertyName, writer.ContainerPath, exception))
+            {
+                HandleError(writer, initialDepth);
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
+
+    static string GetDictionaryPropertyName(object key, JsonContract keyContract, Func<string, string>? keyResolver, out bool escape)
+    {
+        var propertyName = GetDictionaryPropertyName(key, keyContract, out escape);
+
+        if (keyResolver == null)
+        {
+            return propertyName;
+        }
+
+        return keyResolver(propertyName);
+    }
+
+    static string GetDictionaryPropertyName(object name, JsonContract contract, out bool escape)
     {
         if (contract.ContractType == JsonContractType.Primitive)
         {
