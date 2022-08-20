@@ -5,6 +5,8 @@
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
+using System.Collections.Specialized;
+
 class JsonSerializerInternalWriter : JsonSerializerInternalBase
 {
     Type? rootType;
@@ -892,6 +894,23 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     void SerializeDictionary(JsonWriter writer, IDictionary values, JsonDictionaryContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
+        bool IsSortedDictionary(object o)
+        {
+            if (o is OrderedDictionary)
+            {
+                return true;
+            }
+            var type = o.GetType();
+
+            if (!type.IsGenericType)
+            {
+                return false;
+            }
+
+            var definition = type.GetGenericTypeDefinition();
+            return definition == typeof(SortedDictionary<,>) ||
+                   definition.Name == "ImmutableSortedDictionary`2";
+        }
 #pragma warning disable CS8600, CS8602, CS8604
         var underlyingDictionary = values is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : values;
 
@@ -914,7 +933,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
         }
 
-        if (contract.SortItems)
+        if (contract.SortItems &&
+            !IsSortedDictionary(underlyingDictionary))
         {
             foreach (var entry in Items(values).OrderBy(_=>_.Key))
             {

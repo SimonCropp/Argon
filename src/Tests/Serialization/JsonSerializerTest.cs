@@ -3244,7 +3244,7 @@ Path '', line 1, position 1.");
             ContractResolver = new SortDictionaryContractResolver()
         };
         var json = JsonConvert.SerializeObject(strings,settings);
-        Assert.Equal(@"{""keyA"":""value"",""keyB"":""value"",""keyD"":""value""}", json);
+        Assert.Equal(@"{""keyD"":""value"",""keyB"":""value"",""keyA"":""value""}", json);
     }
 
     class ReverseComparer : IComparer<string>
