@@ -933,7 +933,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
         }
 
-        if (contract.SortItems &&
+        if (contract.OrderByKey &&
             contract.DictionaryKeyType != null &&
             typeof(IComparable).IsAssignableFrom(contract.DictionaryKeyType) &&
             !IsSortedDictionary(underlyingDictionary))

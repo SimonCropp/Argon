@@ -39,7 +39,7 @@ public class JsonDictionaryContract : JsonContainerContract
 
     internal bool ShouldCreateWrapper { get; }
 
-    public bool SortItems { get; set; }
+    public bool OrderByKey { get; set; }
 
     readonly ConstructorInfo? parameterizedConstructor;
 

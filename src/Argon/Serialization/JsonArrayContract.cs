@@ -5,6 +5,7 @@
 namespace Argon;
 
 public delegate bool ShouldSerializeArrayItem(object? item);
+
 /// <summary>
 /// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
