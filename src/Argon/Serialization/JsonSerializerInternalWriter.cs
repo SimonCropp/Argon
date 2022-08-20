@@ -906,21 +906,27 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         var initialDepth = writer.Top;
 
-        // Manual use of IDictionaryEnumerator instead of foreach to avoid DictionaryEntry box allocations.
-        var e = values.GetEnumerator();
-        try
+        static IEnumerable<DictionaryEntry> Items(IDictionary values)
         {
-            while (e.MoveNext())
+            foreach (DictionaryEntry entry in values)
             {
-                var value = e.Entry.Value;
-                var key = e.Entry.Key;
-
-                SerializeDictionaryItem(writer, contract, member, key, value, keyContract, underlyingDictionary, initialDepth);
+                yield return entry;
             }
         }
-        finally
+
+        if (contract.SortItems)
         {
-            (e as IDisposable)?.Dispose();
+            foreach (var entry in Items(values).OrderBy(_=>_.Key))
+            {
+                SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+            }
+        }
+        else
+        {
+            foreach (DictionaryEntry entry in values)
+            {
+                SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+            }
         }
 
         writer.WriteEndObject();
@@ -942,6 +948,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         try
         {
+            //TODO: very similar to code in extensionData writing. should refactor
             var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
 
             if (ShouldWriteReference(value, null, valueContract, contract, member))

@@ -3200,6 +3200,40 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
+    public void SortDictionary()
+    {
+        var strings = new Dictionary<string, string>
+        {
+            {
+                "keyD","value"
+            },
+            {
+                "keyA","value"
+            },
+            {
+                "keyB","value"
+            }
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new SortDictionaryContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(strings,settings);
+        Assert.Equal(@"{""keyA"":""value"",""keyB"":""value"",""keyD"":""value""}", json);
+    }
+
+    class SortDictionaryContractResolver : DefaultContractResolver
+    {
+        protected override JsonDictionaryContract CreateDictionaryContract(Type type)
+        {
+            var contract = base.CreateDictionaryContract(type);
+            contract.SortItems = true;
+            return contract;
+        }
+    }
+
+    [Fact]
     public void ConstructorReadonlyFieldsTest()
     {
         var c1 = new ConstructorReadonlyFields("String!", int.MaxValue);
