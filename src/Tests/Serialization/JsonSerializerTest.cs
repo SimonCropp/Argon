@@ -3223,6 +3223,36 @@ Path '', line 1, position 1.");
         Assert.Equal(@"{""keyA"":""value"",""keyB"":""value"",""keyD"":""value""}", json);
     }
 
+    [Fact]
+    public void AlreadyOrderedDictionary()
+    {
+        var strings = new SortedDictionary<string,string>(new ReverseComparer())
+        {
+            {
+                "keyD","value"
+            },
+            {
+                "keyA","value"
+            },
+            {
+                "keyB","value"
+            }
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new SortDictionaryContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(strings,settings);
+        Assert.Equal(@"{""keyA"":""value"",""keyB"":""value"",""keyD"":""value""}", json);
+    }
+
+    class ReverseComparer : IComparer<string>
+    {
+        public int Compare(string x, string y) =>
+            y.CompareTo(x);
+    }
+
     class SortDictionaryContractResolver : DefaultContractResolver
     {
         protected override JsonDictionaryContract CreateDictionaryContract(Type type)
