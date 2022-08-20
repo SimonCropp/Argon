@@ -12,6 +12,7 @@ public class DefaultContractResolver : IContractResolver
     // Json.NET Schema requires a property
     internal static IContractResolver Instance { get; } = new DefaultContractResolver();
 
+
     static readonly string[] blacklistedTypeNames =
     {
         "System.IO.DriveInfo",

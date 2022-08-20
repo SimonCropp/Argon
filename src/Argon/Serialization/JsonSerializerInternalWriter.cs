@@ -605,6 +605,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 {
                     continue;
                 }
+
                 var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
 
                 if (ShouldWriteReference(value, null, valueContract, contract, member))
@@ -915,17 +916,23 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             while (e.MoveNext())
             {
-                var entry = e.Entry;
+                var value = e.Entry.Value;
+                var key = e.Entry.Key;
 
-                var propertyName = GetPropertyName(entry.Key, contract.KeyContract, out var escape);
+                if (!contract.ShouldSerializeItem(key, value))
+                {
+                    continue;
+                }
+
+                var propertyName = GetPropertyName(key, contract.KeyContract, out var escape);
 
                 propertyName = contract.DictionaryKeyResolver != null
                     ? contract.DictionaryKeyResolver(propertyName)
                     : propertyName;
 
+
                 try
                 {
-                    var value = entry.Value;
                     var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
 
                     if (ShouldWriteReference(value, null, valueContract, contract, member))

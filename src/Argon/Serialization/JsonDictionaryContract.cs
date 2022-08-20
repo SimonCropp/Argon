@@ -4,6 +4,8 @@
 
 namespace Argon;
 
+public delegate bool ShouldSerializeDictionaryItem(object key, object? value);
+
 /// <summary>
 /// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
@@ -13,6 +15,8 @@ public class JsonDictionaryContract : JsonContainerContract
     /// Gets or sets the dictionary key resolver.
     /// </summary>
     public Func<string, string>? DictionaryKeyResolver { get; set; }
+
+    public ShouldSerializeDictionaryItem ShouldSerializeItem { get; set; } = (_, _) => true;
 
     /// <summary>
     /// Gets the <see cref="System.Type" /> of the dictionary keys.

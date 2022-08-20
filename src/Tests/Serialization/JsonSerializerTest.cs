@@ -3158,6 +3158,48 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
+    public void IgnoreDictionaryItem()
+    {
+        var strings = new Dictionary<string, string>
+        {
+            {
+                "key1","value"
+            },
+            {
+                "ignore","value"
+            },
+            {
+                "key2","value"
+            }
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new IgnoreDictionaryContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(strings,settings);
+        Assert.Equal(@"{""key1"":""value"",""key2"":""value""}", json);
+    }
+
+    class IgnoreDictionaryContractResolver : DefaultContractResolver
+    {
+        protected override JsonDictionaryContract CreateDictionaryContract(Type type)
+        {
+            var contract = base.CreateDictionaryContract(type);
+            contract.ShouldSerializeItem = (key,value) =>
+            {
+                if (key is string itemAsString)
+                {
+                    return itemAsString != "ignore";
+                }
+
+                return true;
+            };
+            return contract;
+        }
+    }
+
+    [Fact]
     public void ConstructorReadonlyFieldsTest()
     {
         var c1 = new ConstructorReadonlyFields("String!", int.MaxValue);
