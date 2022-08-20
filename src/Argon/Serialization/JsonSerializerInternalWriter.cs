@@ -601,6 +601,10 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             try
             {
+                if (!contract.ShouldSerializeItem(value))
+                {
+                    continue;
+                }
                 var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
 
                 if (ShouldWriteReference(value, null, valueContract, contract, member))

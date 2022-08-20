@@ -67,6 +67,7 @@ public class JsonArrayContract : JsonContainerContract
     public bool HasParameterizedCreator { get; set; }
 
     internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || parameterizedCreator != null || parameterizedConstructor != null;
+    public Func<object?, bool> ShouldSerializeItem { get; set; } = _ => true;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonArrayContract" /> class.

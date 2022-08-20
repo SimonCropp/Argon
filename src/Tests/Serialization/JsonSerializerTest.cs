@@ -3122,6 +3122,42 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
+    public void IgnoreListItem()
+    {
+        var strings = new List<string>
+        {
+            "str_1",
+            "ignore",
+            "str_3"
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new IgnoreItemContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(strings,settings);
+        Assert.Equal(@"[""str_1"",""str_3""]", json);
+    }
+
+    class IgnoreItemContractResolver : DefaultContractResolver
+    {
+        protected override JsonArrayContract CreateArrayContract(Type type)
+        {
+            var contract = base.CreateArrayContract(type);
+            contract.ShouldSerializeItem = item =>
+            {
+                if (item is string itemAsString)
+                {
+                    return itemAsString != "ignore";
+                }
+
+                return true;
+            };
+            return contract;
+        }
+    }
+
+    [Fact]
     public void ConstructorReadonlyFieldsTest()
     {
         var c1 = new ConstructorReadonlyFields("String!", int.MaxValue);
