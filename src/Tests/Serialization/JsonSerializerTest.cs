@@ -3202,7 +3202,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void SortDictionary()
     {
-        var strings = new Dictionary<string, string>
+        var target = new Dictionary<string, string>
         {
             {
                 "keyD","value"
@@ -3219,14 +3219,48 @@ Path '', line 1, position 1.");
         {
             ContractResolver = new SortDictionaryContractResolver()
         };
-        var json = JsonConvert.SerializeObject(strings,settings);
+        var json = JsonConvert.SerializeObject(target, settings);
         Assert.Equal(@"{""keyA"":""value"",""keyB"":""value"",""keyD"":""value""}", json);
+    }
+
+    [Fact]
+    public void SymbolOrdering1()
+    {
+        var target = new Dictionary<string, int>
+        {
+            {"#", 1},
+            {"@", 2}
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new SortDictionaryContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(target, settings);
+        Assert.Equal(@"{""@"":2,""#"":1}", json);
+    }
+
+    [Fact]
+    public void SymbolOrdering2()
+    {
+        var target = new Dictionary<string, int>
+        {
+            {"@", 2},
+            {"#", 1}
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new SortDictionaryContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(target, settings);
+        Assert.Equal(@"{""@"":2,""#"":1}", json);
     }
 
     [Fact]
     public void AlreadyOrderedDictionary()
     {
-        var strings = new SortedDictionary<string,string>(new ReverseComparer())
+        var target = new SortedDictionary<string,string>(new ReverseComparer())
         {
             {
                 "keyD","value"
@@ -3243,7 +3277,7 @@ Path '', line 1, position 1.");
         {
             ContractResolver = new SortDictionaryContractResolver()
         };
-        var json = JsonConvert.SerializeObject(strings,settings);
+        var json = JsonConvert.SerializeObject(target, settings);
         Assert.Equal(@"{""keyD"":""value"",""keyB"":""value"",""keyA"":""value""}", json);
     }
 
