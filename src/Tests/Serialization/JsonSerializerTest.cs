@@ -3258,7 +3258,7 @@ Path '', line 1, position 1.");
         protected override JsonDictionaryContract CreateDictionaryContract(Type type)
         {
             var contract = base.CreateDictionaryContract(type);
-            contract.SortItems = true;
+            contract.OrderByKey = true;
             return contract;
         }
     }
