@@ -376,7 +376,7 @@ public static class JsonConvert
         JsonSerializerSettings? settings = null;
         if (converters is {Length: > 0})
         {
-            settings = new() {Converters = converters};
+            settings = new() {Converters = converters.ToList()};
         }
 
         return SerializeObject(value, null, settings);
@@ -391,7 +391,7 @@ public static class JsonConvert
         JsonSerializerSettings? settings = null;
         if (converters is {Length: > 0})
         {
-            settings = new() {Converters = converters};
+            settings = new() {Converters = converters.ToList()};
         }
 
         return SerializeObject(value, null, formatting, settings);
@@ -659,11 +659,11 @@ public static class JsonConvert
         return TryDeserializeObject(value, type, settings);
     }
 
-    static JsonSerializerSettings? GetSettingsForConverter(JsonConverter[] converters)
+    static JsonSerializerSettings? GetSettingsForConverter( JsonConverter[] converters)
     {
         if (converters is {Length: > 0})
         {
-            return new() {Converters = converters};
+            return new() {Converters = converters.ToList()};
         }
 
         return null;

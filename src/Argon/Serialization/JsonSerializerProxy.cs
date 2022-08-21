@@ -28,8 +28,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.EqualityComparer = value;
     }
 
-    public override JsonConverterCollection Converters => serializer.Converters;
-
     public override DefaultValueHandling? DefaultValueHandling
     {
         get => serializer.DefaultValueHandling;

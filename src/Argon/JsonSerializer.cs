@@ -103,7 +103,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets a collection <see cref="JsonConverter" /> that will be used during serialization.
     /// </summary>
-    public virtual JsonConverterCollection Converters { get; } = new();
+    public virtual List<JsonConverter> Converters { get; } = new();
 
     /// <summary>
     /// Gets or sets the contract resolver used by the serializer when

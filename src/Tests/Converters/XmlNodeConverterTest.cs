@@ -449,7 +449,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var xmlNodeConverter = new XmlNodeConverter {DeserializeRootElementName = "object"};
         var settings = new JsonSerializerSettings
         {
-            Converters = new JsonConverter[] {xmlNodeConverter}
+            Converters = new () {xmlNodeConverter}
         };
         var serializer = JsonSerializer.CreateDefault(settings);
         var d = json.ToObject<XDocument>(serializer);

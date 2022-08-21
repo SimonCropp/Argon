@@ -6218,7 +6218,7 @@ This is just junk, though.";
         // If dynamic type handling is enabled, case 1 and 3 work fine
         var options = new JsonSerializerSettings
         {
-            Converters = new JsonConverterCollection {new TypeConverterJsonConverter()}
+            Converters = new () {new TypeConverterJsonConverter()}
             //TypeNameHandling = TypeNameHandling.All
         };
 
