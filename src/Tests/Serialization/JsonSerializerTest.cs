@@ -3223,7 +3223,7 @@ Path '', line 1, position 1.");
         Assert.Equal(@"{""keyA"":""value"",""keyB"":""value"",""keyD"":""value""}", json);
     }
 
-    #if NET6_0_OR_GREATER
+    #if Release
 
     [Fact]
     public void SymbolOrdering1()
@@ -3239,7 +3239,7 @@ Path '', line 1, position 1.");
             ContractResolver = new SortDictionaryContractResolver()
         };
         var json = JsonConvert.SerializeObject(target, settings);
-        Assert.Equal(@"{""@"":2,""#"":1}", json);
+        Assert.Equal(@"{""#"":1,""@"":2}", json);
     }
 
     [Fact]
@@ -3256,7 +3256,7 @@ Path '', line 1, position 1.");
             ContractResolver = new SortDictionaryContractResolver()
         };
         var json = JsonConvert.SerializeObject(target, settings);
-        Assert.Equal(@"{""@"":2,""#"":1}", json);
+        Assert.Equal(@"{""#"":1,""@"":2}", json);
     }
 
     #endif
