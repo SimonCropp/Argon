@@ -894,23 +894,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     void SerializeDictionary(JsonWriter writer, IDictionary values, JsonDictionaryContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        bool IsSortedDictionary(object o)
-        {
-            if (o is OrderedDictionary)
-            {
-                return true;
-            }
-            var type = o.GetType();
-
-            if (!type.IsGenericType)
-            {
-                return false;
-            }
-
-            var definition = type.GetGenericTypeDefinition();
-            return definition == typeof(SortedDictionary<,>) ||
-                   definition.Name == "ImmutableSortedDictionary`2";
-        }
 #pragma warning disable CS8600, CS8602, CS8604
         var underlyingDictionary = values is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : values;
 
@@ -934,13 +917,21 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
 
         if (contract.OrderByKey &&
-            contract.DictionaryKeyType != null &&
-            typeof(IComparable).IsAssignableFrom(contract.DictionaryKeyType) &&
-            !IsSortedDictionary(underlyingDictionary))
+            contract.IsSortable)
         {
-            foreach (var entry in Items(values).OrderBy(_ => _.Key))
+            if (contract.DictionaryKeyType == typeof(string))
             {
-                SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+                foreach (var entry in Items(values).OrderBy(_ => ((string) _.Key).ToLowerInvariant()))
+                {
+                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+                }
+            }
+            else
+            {
+                foreach (var entry in Items(values).OrderBy(_ => _.Key))
+                {
+                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+                }
             }
         }
         else

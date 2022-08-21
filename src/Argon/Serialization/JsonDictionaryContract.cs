@@ -2,6 +2,8 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using System.Collections.Specialized;
+
 namespace Argon;
 
 public delegate bool ShouldSerializeDictionaryItem(object key, object? value);
@@ -148,6 +150,19 @@ public class JsonDictionaryContract : JsonContainerContract
         DictionaryKeyType = keyType;
         DictionaryValueType = valueType;
 
+        if (keyType != null)
+        {
+            if (keyType == typeof(string))
+            {
+                IsSortable = true;
+            }
+            else if (typeof(IComparable).IsAssignableFrom(keyType) &&
+                     !IsSortedDictionary(underlyingType))
+            {
+                IsSortable = true;
+            }
+        }
+
         if (DictionaryKeyType != null &&
             DictionaryValueType != null &&
             ImmutableCollectionsUtils.TryBuildImmutableForDictionaryContract(
@@ -163,6 +178,26 @@ public class JsonDictionaryContract : JsonContainerContract
         }
     }
 
+    internal IComparer<object>? KeyComparer { get; set; }
+
+    internal bool IsSortable { get; set; }
+
+    static bool IsSortedDictionary(Type type)
+    {
+        if (typeof(OrderedDictionary).IsAssignableFrom(type))
+        {
+            return true;
+        }
+
+        if (!type.IsGenericType)
+        {
+            return false;
+        }
+
+        var definition = type.GetGenericTypeDefinition();
+        return definition == typeof(SortedDictionary<,>) ||
+               definition.Name == "ImmutableSortedDictionary`2";
+    }
     internal IWrappedDictionary CreateWrapper(object dictionary)
     {
         if (genericWrapperCreator == null)
