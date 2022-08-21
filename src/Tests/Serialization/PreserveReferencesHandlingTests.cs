@@ -484,19 +484,34 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeCircularReferencesWithConverter()
     {
-        var c1 = new CircularReferenceClass {Name = "c1"};
-        var c2 = new CircularReferenceClass {Name = "c2"};
-        var c3 = new CircularReferenceClass {Name = "c3"};
+        var c1 = new CircularReferenceClass
+        {
+            Name = "c1"
+        };
+        var c2 = new CircularReferenceClass
+        {
+            Name = "c2"
+        };
+        var c3 = new CircularReferenceClass
+        {
+            Name = "c3"
+        };
 
         c1.Child = c2;
         c2.Child = c3;
         c3.Child = c1;
 
-        var json = JsonConvert.SerializeObject(c1, Formatting.Indented, new JsonSerializerSettings
-        {
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Converters = new List<JsonConverter> {new CircularReferenceClassConverter()}
-        });
+        var json = JsonConvert.SerializeObject(
+            c1,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                Converters = new()
+                {
+                    new CircularReferenceClassConverter()
+                }
+            });
 
         XUnitAssert.AreEqualNormalized(@"{
   ""$id"": ""1"",
@@ -540,11 +555,16 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
   }
 }";
 
-        var c1 = JsonConvert.DeserializeObject<CircularReferenceClass>(json, new JsonSerializerSettings
-        {
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Converters = new List<JsonConverter> {new CircularReferenceClassConverter()}
-        });
+        var c1 = JsonConvert.DeserializeObject<CircularReferenceClass>(
+            json,
+            new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                Converters = new()
+                {
+                    new CircularReferenceClassConverter()
+                }
+            });
 
         Assert.Equal("c1", c1.Name);
         Assert.Equal("c2", c1.Child.Name);

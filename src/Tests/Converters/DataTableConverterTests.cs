@@ -4,7 +4,7 @@
 
 using System.Data;
 using System.Data.SqlTypes;
-using Argon.DataSetConverters;
+using Argon.DataSets;
 using TestObjects;
 using ErrorEventArgs = Argon.ErrorEventArgs;
 

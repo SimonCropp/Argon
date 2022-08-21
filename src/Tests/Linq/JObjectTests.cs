@@ -1494,7 +1494,10 @@ Sizes: [
 
         var settings = new JsonSerializerSettings
         {
-            Converters = new List<JsonConverter> {new FooJsonConverter()},
+            Converters = new()
+            {
+                new FooJsonConverter()
+            },
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 

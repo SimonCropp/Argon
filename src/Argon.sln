@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark.Tests", "Benchmar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.Xml", "Argon.Xml\Argon.Xml.csproj", "{3B19DA3C-F5A4-41EC-A7A1-EE2641673183}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.DataSet", "Argon.DataSet\Argon.DataSet.csproj", "{179C8829-5401-4205-866C-F24D616F70A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.DataSets", "Argon.DataSets\Argon.DataSets.csproj", "{179C8829-5401-4205-866C-F24D616F70A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.JsonPath", "Argon.JsonPath\Argon.JsonPath.csproj", "{5705E5CF-E410-4510-AB3C-4FCC4E4BC991}"
 EndProject

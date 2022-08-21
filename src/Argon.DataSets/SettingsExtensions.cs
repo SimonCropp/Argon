@@ -1,6 +1,8 @@
-﻿namespace Argon.DataSetConverters;
+﻿using Argon.DataSets;
 
-public static class SettingsExtensions
+namespace Argon;
+
+public static class DataSetSettingsExtensions
 {
     /// <summary>
     /// Add <see cref="DataSetConverter" /> and <see cref="DataTableConverter" /> to <paramref name="settings" />

@@ -904,13 +904,20 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var p = new Movie
         {
-            ReleaseCountries = new() {"Existing"}
+            ReleaseCountries = new()
+            {
+                "Existing"
+            }
         };
 
-        JsonConvert.PopulateObject("{'ReleaseCountries':['Appended']}", p, new()
-        {
-            Converters = new List<JsonConverter> {new StringListAppenderConverter()}
-        });
+        JsonConvert.PopulateObject("{'ReleaseCountries':['Appended']}", p,
+            new()
+            {
+                Converters = new()
+                {
+                    new StringListAppenderConverter()
+                }
+            });
 
         Assert.Equal(2, p.ReleaseCountries.Count);
         Assert.Equal("Existing", p.ReleaseCountries[0]);
@@ -925,10 +932,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Name = "Existing,"
         };
 
-        JsonConvert.PopulateObject("{'Name':'Appended'}", p, new()
-        {
-            Converters = new List<JsonConverter> {new StringAppenderConverter()}
-        });
+        JsonConvert.PopulateObject("{'Name':'Appended'}", p,
+            new()
+            {
+                Converters = new()
+                {
+                    new StringAppenderConverter()
+                }
+            });
 
         Assert.Equal("Existing,Appended", p.Name);
     }

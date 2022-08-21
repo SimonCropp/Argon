@@ -3,7 +3,7 @@
 // as found in the license.md file.
 
 using System.Data;
-using Argon.DataSetConverters;
+using Argon.DataSets;
 using TestObjects;
 
 public class DataSetConverterTests : TestFixtureBase

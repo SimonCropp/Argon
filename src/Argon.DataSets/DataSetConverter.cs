@@ -4,7 +4,7 @@
 
 using System.Data;
 
-namespace Argon.DataSetConverters;
+namespace Argon.DataSets;
 
 /// <summary>
 /// Converts a <see cref="DataSet" /> to and from JSON.
