@@ -5,6 +5,8 @@
 using System.Xml;
 using System.Xml.Linq;
 
+namespace Argon;
+
 /// <summary>
 /// Converts XML to and from JSON.
 /// </summary>

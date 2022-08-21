@@ -3188,7 +3188,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var serializer = JsonSerializer.Create(new()
         {
-            Converters = new List<JsonConverter>(new[] {new XmlNodeConverter()})
+            Converters = new(new[] {new XmlNodeConverter()})
         });
 
         var json = new StringBuilder(1024);
