@@ -921,7 +921,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             if (contract.DictionaryKeyType == typeof(string))
             {
-                foreach (var entry in Items(values).OrderBy(_ => ((string) _.Key, StringComparer.Ordinal)))
+                foreach (var entry in Items(values).OrderBy(_ => ((string) _.Key, StringComparer.OrdinalIgnoreCase)))
                 {
                     SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
                 }
