@@ -3223,6 +3223,8 @@ Path '', line 1, position 1.");
         Assert.Equal(@"{""keyA"":""value"",""keyB"":""value"",""keyD"":""value""}", json);
     }
 
+    #if NET6_0_OR_GREATER
+
     [Fact]
     public void SymbolOrdering1()
     {
@@ -3256,6 +3258,8 @@ Path '', line 1, position 1.");
         var json = JsonConvert.SerializeObject(target, settings);
         Assert.Equal(@"{""@"":2,""#"":1}", json);
     }
+
+    #endif
 
     [Fact]
     public void AlreadyOrderedDictionary()

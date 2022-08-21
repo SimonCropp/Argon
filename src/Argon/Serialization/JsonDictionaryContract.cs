@@ -150,14 +150,13 @@ public class JsonDictionaryContract : JsonContainerContract
         DictionaryKeyType = keyType;
         DictionaryValueType = valueType;
 
-        if (keyType != null)
+        if (keyType != null && !IsSortedDictionary(underlyingType))
         {
             if (keyType == typeof(string))
             {
                 IsSortable = true;
             }
-            else if (typeof(IComparable).IsAssignableFrom(keyType) &&
-                     !IsSortedDictionary(underlyingType))
+            else if (typeof(IComparable).IsAssignableFrom(keyType))
             {
                 IsSortable = true;
             }
