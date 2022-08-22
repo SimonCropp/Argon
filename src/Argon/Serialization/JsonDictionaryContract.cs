@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 
 namespace Argon;
 
-public delegate bool ShouldSerializeDictionaryItem(object key, object? value);
+public delegate InterceptResult InterceptSerializeDictionaryItem(object key, object? value);
 
 /// <summary>
 /// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
@@ -18,7 +18,7 @@ public class JsonDictionaryContract : JsonContainerContract
     /// </summary>
     public Func<string, string>? DictionaryKeyResolver { get; set; }
 
-    public ShouldSerializeDictionaryItem ShouldSerializeItem { get; set; } = (_, _) => true;
+    public InterceptSerializeDictionaryItem InterceptSerializeItem { get; set; } = (_, _) => InterceptResult.Default;
 
     /// <summary>
     /// Gets the <see cref="System.Type" /> of the dictionary keys.

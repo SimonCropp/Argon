@@ -3144,14 +3144,56 @@ Path '', line 1, position 1.");
         protected override JsonArrayContract CreateArrayContract(Type type)
         {
             var contract = base.CreateArrayContract(type);
-            contract.ShouldSerializeItem = item =>
+            contract.InterceptSerializeItem = item =>
             {
                 if (item is string itemAsString)
                 {
-                    return itemAsString != "ignore";
+                    if (itemAsString == "ignore")
+                    {
+                        return InterceptResult.Ignore;
+                    }
                 }
 
-                return true;
+                return InterceptResult.Default;
+            };
+            return contract;
+        }
+    }
+
+    [Fact]
+    public void ReplaceListItem()
+    {
+        var strings = new List<string>
+        {
+            "str_1",
+            "toReplace",
+            "str_3"
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new ReplaceItemContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(strings,settings);
+        Assert.Equal(@"[""str_1"",10,""str_3""]", json);
+    }
+
+    class ReplaceItemContractResolver : DefaultContractResolver
+    {
+        protected override JsonArrayContract CreateArrayContract(Type type)
+        {
+            var contract = base.CreateArrayContract(type);
+            contract.InterceptSerializeItem = item =>
+            {
+                if (item is string itemAsString)
+                {
+                    if (itemAsString == "toReplace")
+                    {
+                        return InterceptResult.Replace(10);
+                    }
+                }
+
+                return InterceptResult.Default;
             };
             return contract;
         }
@@ -3163,13 +3205,13 @@ Path '', line 1, position 1.");
         var strings = new Dictionary<string, string>
         {
             {
-                "key1","value"
+                "key1", "value"
             },
             {
-                "ignore","value"
+                "ignore", "value"
             },
             {
-                "key2","value"
+                "key2", "value"
             }
         };
 
@@ -3186,14 +3228,62 @@ Path '', line 1, position 1.");
         protected override JsonDictionaryContract CreateDictionaryContract(Type type)
         {
             var contract = base.CreateDictionaryContract(type);
-            contract.ShouldSerializeItem = (key,value) =>
+            contract.InterceptSerializeItem = (key,value) =>
             {
                 if (key is string itemAsString)
                 {
-                    return itemAsString != "ignore";
+                    if (itemAsString == "ignore")
+                    {
+                        return InterceptResult.Ignore;
+                    }
                 }
 
-                return true;
+                return  InterceptResult.Default;
+            };
+            return contract;
+        }
+    }
+
+    [Fact]
+    public void ReplaceDictionaryItem()
+    {
+        var strings = new Dictionary<string, string>
+        {
+            {
+                "key1", "value"
+            },
+            {
+                "toReplace", "value"
+            },
+            {
+                "key2", "value"
+            }
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new ReplaceDictionaryContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(strings,settings);
+        Assert.Equal(@"{""key1"":""value"",""toReplace"":10,""key2"":""value""}", json);
+    }
+
+    class ReplaceDictionaryContractResolver : DefaultContractResolver
+    {
+        protected override JsonDictionaryContract CreateDictionaryContract(Type type)
+        {
+            var contract = base.CreateDictionaryContract(type);
+            contract.InterceptSerializeItem = (key,value) =>
+            {
+                if (key is string itemAsString)
+                {
+                    if (itemAsString == "toReplace")
+                    {
+                        return InterceptResult.Replace(10);
+                    }
+                }
+
+                return  InterceptResult.Default;
             };
             return contract;
         }

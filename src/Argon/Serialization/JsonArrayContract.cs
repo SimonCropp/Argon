@@ -4,7 +4,7 @@
 
 namespace Argon;
 
-public delegate bool ShouldSerializeArrayItem(object? item);
+public delegate InterceptResult InterceptSerializeArrayItem(object? value);
 
 /// <summary>
 /// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
@@ -70,7 +70,7 @@ public class JsonArrayContract : JsonContainerContract
 
     internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || parameterizedCreator != null || parameterizedConstructor != null;
 
-    public ShouldSerializeArrayItem ShouldSerializeItem { get; set; } = _ => true;
+    public InterceptSerializeArrayItem InterceptSerializeItem { get; set; } = _ => InterceptResult.Default;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonArrayContract" /> class.

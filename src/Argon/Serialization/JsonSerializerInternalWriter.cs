@@ -595,42 +595,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         // note that an error in the IEnumerable won't be caught
         foreach (var value in values)
         {
-            try
-            {
-                if (!contract.ShouldSerializeItem(value))
-                {
-                    continue;
-                }
-
-                var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
-
-                if (ShouldWriteReference(value, null, valueContract, contract, member))
-                {
-                    WriteReference(writer, value);
-                }
-                else
-                {
-                    if (CheckForCircularReference(writer, value, null, valueContract, contract, member))
-                    {
-                        SerializeValue(writer, value, valueContract, null, contract, member);
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                if (IsErrorHandled(underlyingList, contract, index, writer.ContainerPath, exception))
-                {
-                    HandleError(writer, initialDepth);
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            finally
-            {
-                index++;
-            }
+            SerializeArrayItem(writer, contract, member, value, underlyingList, initialDepth, ref index);
         }
 
         writer.WriteEndArray();
@@ -643,6 +608,56 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
         OnSerialized(contract, underlyingList);
+    }
+
+    private void SerializeArrayItem(JsonWriter writer, JsonArrayContract contract, JsonProperty? member, object? value, object underlyingList, int initialDepth, ref int index)
+    {
+        try
+        {
+            var interceptResult = contract.InterceptSerializeItem(value);
+            if (interceptResult.ShouldIgnore)
+            {
+                return;
+            }
+
+            JsonContract? valueContract;
+            if (interceptResult.ShouldReplace)
+            {
+                value = interceptResult.Replacement;
+                valueContract = GetContractSafe(value);
+            }
+            else
+            {
+                valueContract = contract.FinalItemContract ?? GetContractSafe(value);
+            }
+
+            if (ShouldWriteReference(value, null, valueContract, contract, member))
+            {
+                WriteReference(writer, value);
+            }
+            else
+            {
+                if (CheckForCircularReference(writer, value, null, valueContract, contract, member))
+                {
+                    SerializeValue(writer, value, valueContract, null, contract, member);
+                }
+            }
+        }
+        catch (Exception exception)
+        {
+            if (IsErrorHandled(underlyingList, contract, index, writer.ContainerPath, exception))
+            {
+                HandleError(writer, initialDepth);
+            }
+            else
+            {
+                throw;
+            }
+        }
+        finally
+        {
+            index++;
+        }
     }
 
     void SerializeMultidimensionalArray(JsonWriter writer, Array values, JsonArrayContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
@@ -950,7 +965,8 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     void SerializeDictionaryItem(JsonWriter writer, JsonDictionaryContract contract, JsonProperty? member, object key, object? value, JsonContract keyContract, object underlyingDictionary, int initialDepth)
     {
-        if (!contract.ShouldSerializeItem(key, value))
+        var interceptResult = contract.InterceptSerializeItem(key, value);
+        if (interceptResult.ShouldIgnore)
         {
             return;
         }
@@ -960,7 +976,17 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         try
         {
             //TODO: very similar to code in extensionData writing. should refactor
-            var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
+
+            JsonContract? valueContract;
+            if (interceptResult.ShouldReplace)
+            {
+                value = interceptResult.Replacement;
+                valueContract = GetContractSafe(value);
+            }
+            else
+            {
+                valueContract = contract.FinalItemContract ?? GetContractSafe(value);
+            }
 
             if (ShouldWriteReference(value, null, valueContract, contract, member))
             {
