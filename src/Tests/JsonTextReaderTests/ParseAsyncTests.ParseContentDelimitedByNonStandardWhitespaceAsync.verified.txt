@@ -1,4 +1,4 @@
-[
+﻿[
   {
     TokenType: StartObject,
     LineNumber: 1,

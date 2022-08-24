@@ -1,4 +1,4 @@
-[
+﻿[
   {
     TokenType: Comment,
     LineNumber: 1,
