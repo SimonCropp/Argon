@@ -8,7 +8,7 @@ public class JPropertyAsyncTests : TestFixtureBase
     [Fact]
     public async Task LoadAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader("{'propertyname':['value1']}"));
+        var reader = new JsonTextReader(new StringReader("{'propertyname':['value1']}"));
         await reader.ReadAsync();
 
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -20,7 +20,7 @@ public class JPropertyAsyncTests : TestFixtureBase
 
         Assert.Equal(JsonToken.EndObject, reader.TokenType);
 
-        reader = new JsonTextReader(new StringReader("{'propertyname':null}"));
+        reader = new(new StringReader("{'propertyname':null}"));
         await reader.ReadAsync();
 
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
