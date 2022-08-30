@@ -247,6 +247,7 @@ public class DefaultContractResolver : IContractResolver
         return contract;
     }
 
+    [DoesNotReturn]
     static void ThrowUnableToSerializeError(object o, StreamingContext context) =>
         throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
 
