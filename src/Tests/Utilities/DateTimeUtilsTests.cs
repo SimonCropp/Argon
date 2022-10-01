@@ -25,6 +25,29 @@ public class DateTimeUtilsTests : TestFixtureBase
         Assert.Equal(value, parsedDt);
     }
 
+#if NET7_0_OR_GREATER
+
+    [Fact]
+    public void DatesShouldBeTheSameAsStj()
+    {
+        var target = new
+        {
+            dateTimeLocal = new DateTime(2000, 10, 10, 1, 1, 1, DateTimeKind.Local),
+            dateTimeNow = DateTime.Now,
+            dateTimeUtcNow = DateTime.UtcNow,
+            dateTimeUtc = new DateTime(2000, 10, 10, 1, 1, 1, DateTimeKind.Utc),
+            dateTimeUnspecified = new DateTime(2000, 10, 10, 1, 1, 1, DateTimeKind.Unspecified),
+            dateTimeOffsetNow = DateTimeOffset.Now,
+            dateTimeOffsetUtcNow = DateTimeOffset.UtcNow
+        };
+        var resultStj = System.Text.Json.JsonSerializer.Serialize(target);
+
+        var result = JsonConvert.SerializeObject(target);
+        Assert.Equal(result, resultStj);
+    }
+
+#endif
+
     [Fact]
     public void Parse24HourDateTimeOffset()
     {

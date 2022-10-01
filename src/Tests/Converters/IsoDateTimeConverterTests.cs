@@ -153,7 +153,12 @@ public class IsoDateTimeConverterTests : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var c2 = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}", new IsoDateTimeConverter {DateTimeStyles = DateTimeStyles.AssumeUniversal});
+                var c2 = JsonConvert.DeserializeObject<DateTimeTestClass>(
+                    @"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}",
+                    new IsoDateTimeConverter
+                    {
+                        DateTimeStyles = DateTimeStyles.AssumeUniversal
+                    });
             },
             "Cannot convert null value to System.DateTime. Path 'DateTimeField', line 1, position 38.");
 
@@ -168,7 +173,8 @@ public class IsoDateTimeConverterTests : TestFixtureBase
             PreField = "Pre",
             PostField = "Post"
         };
-        var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter {DateTimeStyles = DateTimeStyles.AssumeUniversal}); //note that this fails without the Utc converter...
+        //note that this fails without the Utc converter...
+        var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter {DateTimeStyles = DateTimeStyles.AssumeUniversal});
         c.DateTimeField = new(2008, 1, 1, 1, 1, 1, 0, DateTimeKind.Utc);
         var json2 = JsonConvert.SerializeObject(c, new IsoDateTimeConverter {DateTimeStyles = DateTimeStyles.AssumeUniversal});
 
