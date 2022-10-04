@@ -479,7 +479,14 @@ static class ConvertUtils
 
     static object? EnsureTypeAssignable(object? value, Type initialType, Type targetType)
     {
-        if (value != null)
+        if (value == null)
+        {
+            if (targetType.IsNullable())
+            {
+                return null;
+            }
+        }
+        else
         {
             var valueType = value.GetType();
 
@@ -492,13 +499,6 @@ static class ConvertUtils
             if (castConverter != null)
             {
                 return castConverter(value);
-            }
-        }
-        else
-        {
-            if (targetType.IsNullable())
-            {
-                return null;
             }
         }
 
