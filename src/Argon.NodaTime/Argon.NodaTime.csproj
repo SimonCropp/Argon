@@ -21,8 +21,8 @@
     <Using Include="NodaTime.TimeZones" />
     <Using Include="NodaTime.Text" />
     <Using Remove="System.Net.Http" />
+    <PackageReference Include="NodaTime" Version="3.1.5" />
     <PackageReference Include="ProjectDefaults" Version="1.0.81" PrivateAssets="all" />
-    <PackageReference Include="NodaTime" Version="3.1.4" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 
