@@ -102,7 +102,18 @@ public class DefaultContractResolver : IContractResolver
 
         var serializableMembers = new List<MemberInfo>();
 
-        if (memberSerialization != MemberSerialization.Fields)
+        if (memberSerialization == MemberSerialization.Fields)
+        {
+            // serialize all fields
+            foreach (var member in allMembers)
+            {
+                if (member is FieldInfo {IsStatic: false})
+                {
+                    serializableMembers.Add(member);
+                }
+            }
+        }
+        else
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(type);
 
@@ -145,17 +156,6 @@ public class DefaultContractResolver : IContractResolver
             if (typeof(Exception).IsAssignableFrom(type))
             {
                 serializableMembers = serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal)).ToList();
-            }
-        }
-        else
-        {
-            // serialize all fields
-            foreach (var member in allMembers)
-            {
-                if (member is FieldInfo {IsStatic: false})
-                {
-                    serializableMembers.Add(member);
-                }
             }
         }
 
