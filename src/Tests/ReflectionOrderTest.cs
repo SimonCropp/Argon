@@ -3,18 +3,23 @@
     [Fact]
     public void Test()
     {
-        typeof(Target).GetProperty("Member2");
+        typeof(Target).GetProperty("Property2");
+        typeof(Target).GetField("Field2");
         var result = JsonConvert.SerializeObject(new Target(), Formatting.Indented);
         Assert.Equal(@"{
-  ""Member1"": 0,
-  ""Member2"": 0
+  ""Field1"": 0,
+  ""Field2"": 0,
+  ""Property1"": 0,
+  ""Property2"": 0
 }", result);
     }
 
     class Target
     {
-        public int Member1 { get; set; }
-        public int Member2 { get; set; }
+        public int Property1 { get; set; }
+        public int Property2 { get; set; }
+        public int Field1 = 0;
+        public int Field2 = 0;
     }
 
 }
