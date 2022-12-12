@@ -1020,8 +1020,8 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 #if NET6_0_OR_GREATER
-        if (type == typeof(DateOnly) ||
-            type == typeof(TimeOnly))
+        if (type == typeof(Date) ||
+            type == typeof(Time))
         {
             return true;
         }

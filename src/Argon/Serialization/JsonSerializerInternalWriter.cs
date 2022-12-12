@@ -311,14 +311,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     static bool TryConvertToString(object value, Type type, [NotNullWhen(true)] out string? s)
     {
 #if NET6_0_OR_GREATER
-        if (value is DateOnly dateOnly)
+        if (value is Date date)
         {
-            s = dateOnly.ToString("yyyy'-'MM'-'dd", InvariantCulture);
+            s = date.ToString("yyyy'-'MM'-'dd", InvariantCulture);
             return true;
         }
-        if (value is TimeOnly timeOnly)
+        if (value is Time time)
         {
-            s = timeOnly.ToString("HH':'mm':'ss.FFFFFFF", InvariantCulture);
+            s = time.ToString("HH':'mm':'ss.FFFFFFF", InvariantCulture);
             return true;
         }
 #endif

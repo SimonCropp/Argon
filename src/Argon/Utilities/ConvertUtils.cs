@@ -377,14 +377,14 @@ static class ConvertUtils
                 return ConvertResult.Success;
             }
 #if NET6_0_OR_GREATER
-            if (targetType == typeof(DateOnly))
+            if (targetType == typeof(Date))
             {
-                value = DateOnly.ParseExact(s, "yyyy'-'MM'-'dd", InvariantCulture);
+                value = Date.ParseExact(s, "yyyy'-'MM'-'dd", InvariantCulture);
                 return ConvertResult.Success;
             }
-            if (targetType == typeof(TimeOnly))
+            if (targetType == typeof(Time))
             {
-                value = TimeOnly.ParseExact(s, "HH':'mm':'ss.FFFFFFF", InvariantCulture);
+                value = Time.ParseExact(s, "HH':'mm':'ss.FFFFFFF", InvariantCulture);
                 return ConvertResult.Success;
             }
 #endif

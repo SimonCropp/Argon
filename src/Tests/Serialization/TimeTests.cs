@@ -24,12 +24,12 @@
 #endregion
 
 #if NET6_0_OR_GREATER
-public class TimeOnlyTests : TestFixtureBase
+public class TimeTests : TestFixtureBase
 {
     [Fact]
     public void Serialize()
     {
-        var t = new TimeOnly(23, 59, 59);
+        var t = new Time(23, 59, 59);
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
         Assert.Equal(@"""23:59:59""", json);
@@ -38,7 +38,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void Serialize_Milliseconds()
     {
-        var t = new TimeOnly(23, 59, 59, 999);
+        var t = new Time(23, 59, 59, 999);
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
         Assert.Equal(@"""23:59:59.999""", json);
@@ -47,7 +47,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void SerializeDefault()
     {
-        TimeOnly t = default;
+        Time t = default;
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
         Assert.Equal(@"""00:00:00""", json);
@@ -56,7 +56,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void SerializeMaxValue()
     {
-        var t = TimeOnly.MaxValue;
+        var t = Time.MaxValue;
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
         Assert.Equal(@"""23:59:59.9999999""", json);
@@ -65,7 +65,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void SerializeMinValue()
     {
-        var t = TimeOnly.MinValue;
+        var t = Time.MinValue;
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
         Assert.Equal(@"""00:00:00""", json);
@@ -74,7 +74,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void SerializeNullable_Null()
     {
-        TimeOnly? t = default;
+        Time? t = default;
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
         Assert.Equal("null", json);
@@ -83,7 +83,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void SerializeNullable_Value()
     {
-        TimeOnly? t = new TimeOnly(23, 59, 59, 999);
+        Time? t = new Time(23, 59, 59, 999);
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
         Assert.Equal(@"""23:59:59.999""", json);
@@ -92,7 +92,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public Task SerializeList()
     {
-        var list = new List<TimeOnly>
+        var list = new List<Time>
         {
             new(23, 59, 59)
         };
@@ -104,9 +104,9 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public Task SerializeList_Nullable()
     {
-        var list = new List<TimeOnly?>
+        var list = new List<Time?>
         {
-            new TimeOnly(23, 59, 59),
+            new Time(23, 59, 59),
             null
         };
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
@@ -117,7 +117,7 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void Deserialize()
     {
-        var t = JsonConvert.DeserializeObject<TimeOnly>(@"""23:59:59""");
+        var t = JsonConvert.DeserializeObject<Time>(@"""23:59:59""");
 
         Assert.Equal(new(23, 59, 59), t);
     }
@@ -125,31 +125,31 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void DeserializeDefault()
     {
-        var t = JsonConvert.DeserializeObject<TimeOnly>(@"""00:00:00""");
+        var t = JsonConvert.DeserializeObject<Time>(@"""00:00:00""");
 
-        Assert.Equal(default(TimeOnly), t);
+        Assert.Equal(default, t);
     }
 
     [Fact]
     public void DeserializeMaxValue()
     {
-        var t = JsonConvert.DeserializeObject<TimeOnly>(@"""23:59:59.9999999""");
+        var t = JsonConvert.DeserializeObject<Time>(@"""23:59:59.9999999""");
 
-        Assert.Equal(TimeOnly.MaxValue, t);
+        Assert.Equal(Time.MaxValue, t);
     }
 
     [Fact]
     public void DeserializeMinValue()
     {
-        var t = JsonConvert.DeserializeObject<TimeOnly>(@"""00:00:00""");
+        var t = JsonConvert.DeserializeObject<Time>(@"""00:00:00""");
 
-        Assert.Equal(TimeOnly.MinValue, t);
+        Assert.Equal(Time.MinValue, t);
     }
 
     [Fact]
     public void DeserializeNullable_Null()
     {
-        var t = JsonConvert.TryDeserializeObject<TimeOnly?>(@"null");
+        var t = JsonConvert.TryDeserializeObject<Time?>(@"null");
 
         Assert.Equal(null, t);
     }
@@ -157,15 +157,15 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void DeserializeNullable_Value()
     {
-        var t = JsonConvert.DeserializeObject<TimeOnly?>(@"""23:59:59""");
+        var t = JsonConvert.DeserializeObject<Time?>(@"""23:59:59""");
 
-        Assert.Equal(new TimeOnly(23, 59, 59), t);
+        Assert.Equal(new Time(23, 59, 59), t);
     }
 
     [Fact]
     public void DeserializeList()
     {
-        var l = JsonConvert.DeserializeObject<IList<TimeOnly>>(@"[
+        var l = JsonConvert.DeserializeObject<IList<Time>>(@"[
 ""23:59:59""
 ]");
 
@@ -176,13 +176,13 @@ public class TimeOnlyTests : TestFixtureBase
     [Fact]
     public void DeserializeList_Nullable()
     {
-        var l = JsonConvert.DeserializeObject<IList<TimeOnly?>>(@"[
+        var l = JsonConvert.DeserializeObject<IList<Time?>>(@"[
 ""23:59:59"",
 null
 ]");
 
         Assert.Equal(2, l.Count);
-        Assert.Equal(new TimeOnly(23, 59, 59), l[0]);
+        Assert.Equal(new Time(23, 59, 59), l[0]);
         Assert.Equal(null, l[1]);
     }
 }
