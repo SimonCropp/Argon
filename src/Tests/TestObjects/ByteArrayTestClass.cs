@@ -9,5 +9,5 @@ public class ByteArrayTestClass
     public byte[] Prop1 { get; set; }
 
     public ByteArrayTestClass() =>
-        Prop1 = new byte[0];
+        Prop1 = Array.Empty<byte>();
 }

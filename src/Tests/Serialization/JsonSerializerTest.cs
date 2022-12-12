@@ -4890,7 +4890,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void DeserializeByteArrayWithTypeNameHandling()
     {
-        var test = new TestObject("Test", new byte[] {72, 63, 62, 71, 92, 55});
+        var test = new TestObject("Test", "H?>G\\7"u8.ToArray());
 
         var serializer = new JsonSerializer
         {
@@ -4914,7 +4914,7 @@ Path '', line 1, position 1.");
             var newObject = (TestObject) serializer.Deserialize(jsonReader);
 
             Assert.Equal("Test", newObject.Name);
-            Assert.Equal(new byte[] {72, 63, 62, 71, 92, 55}, newObject.Data);
+            Assert.Equal("H?>G\\7"u8.ToArray(), newObject.Data);
         }
     }
 

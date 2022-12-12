@@ -7,7 +7,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task ValueFormattingAsync()
     {
-        var data = Encoding.UTF8.GetBytes("Hello world.");
+        var data = "Hello world."u8.ToArray();
 
         JToken root;
         using (var jsonWriter = new JTokenWriter())
@@ -75,7 +75,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await jsonWriter.WriteValueAsync(new BigInteger(123));
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-        await jsonWriter.WriteValueAsync(new byte[0]);
+        await jsonWriter.WriteValueAsync(Array.Empty<byte>());
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
         await jsonWriter.WriteEndAsync();
@@ -124,7 +124,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
         Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
-        await jsonWriter.WriteValueAsync(new byte[0]);
+        await jsonWriter.WriteValueAsync(Array.Empty<byte>());
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
         Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 

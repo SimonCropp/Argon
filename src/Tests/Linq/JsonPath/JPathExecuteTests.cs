@@ -1137,7 +1137,7 @@ public class JPathExecuteTests : TestFixtureBase
             "2000-12-05T05:07:59-10:00",
             new DateTimeOffset(2000, 12, 5, 5, 7, 59, -TimeSpan.FromHours(10)),
             "SGVsbG8gd29ybGQ=",
-            Encoding.UTF8.GetBytes("Hello world"),
+            "Hello world"u8.ToArray(),
             "365.23:59:59",
             new TimeSpan(365, 23, 59, 59)
         };

@@ -249,8 +249,8 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(new("http://www.google.com"), (Uri?) new JValue("http://www.google.com"));
         Assert.Equal(new("http://www.google.com"), (Uri?) new JValue(new Uri("http://www.google.com")));
         Assert.Equal(null, (Uri?) JValue.CreateNull());
-        Assert.Equal(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi")), (string?) new JValue(Encoding.UTF8.GetBytes("hi")));
-        Assert.Equal(Encoding.UTF8.GetBytes("hi"), (byte[]?) new JValue(Convert.ToBase64String(Encoding.UTF8.GetBytes("hi"))));
+        Assert.Equal(Convert.ToBase64String("hi"u8.ToArray()), (string?) new JValue("hi"u8.ToArray()));
+        Assert.Equal("hi"u8.ToArray(), (byte[]?) new JValue(Convert.ToBase64String("hi"u8.ToArray())));
         Assert.Equal(new("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid) new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
         Assert.Equal(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC"), (Guid?) new JValue(new Guid("46EFE013-B56A-4E83-99E4-4DCE7678A5BC").ToByteArray()));
         Assert.Equal((sbyte?) 1, (sbyte?) new JValue((short?) 1));
@@ -276,7 +276,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(null, (double?) (JValue?) null);
         Assert.Equal(null, (float?) (JValue?) null);
 
-        var data = new byte[0];
+        var data = Array.Empty<byte>();
         Assert.Equal(data, (byte[]?) new JValue(data));
 
         Assert.Equal(5, (int) new JValue(StringComparison.OrdinalIgnoreCase));
@@ -594,10 +594,10 @@ public class JTokenTests : TestFixtureBase
         Assert.False(JToken.DeepEquals(new JValue(true), (JValue) (bool?) null));
         Assert.False(JToken.DeepEquals(JValue.CreateNull(), null));
 
-        var emptyData = new byte[0];
+        var emptyData = Array.Empty<byte>();
         Assert.True(JToken.DeepEquals(new JValue(emptyData), (JValue) emptyData));
         Assert.False(JToken.DeepEquals(new JValue(emptyData), (JValue) new byte[1]));
-        Assert.True(JToken.DeepEquals(new JValue(Encoding.UTF8.GetBytes("Hi")), (JValue) Encoding.UTF8.GetBytes("Hi")));
+        Assert.True(JToken.DeepEquals(new JValue("Hi"u8.ToArray()), (JValue) "Hi"u8.ToArray()));
 
         Assert.True(JToken.DeepEquals(new JValue(TimeSpan.FromMinutes(1)), (JValue) TimeSpan.FromMinutes(1)));
         Assert.True(JToken.DeepEquals(JValue.CreateNull(), (JValue) (TimeSpan?) null));
@@ -1131,7 +1131,7 @@ public class JTokenTests : TestFixtureBase
                 new JArray(1, 2),
                 new JArray(1, 2, 3),
                 new JObject(
-                    new JProperty("First", new JValue(Encoding.UTF8.GetBytes("Hi"))),
+                    new JProperty("First", new JValue("Hi"u8.ToArray())),
                     new JProperty("Second", 1),
                     new JProperty("Third", null),
                     new JProperty("Fifth", double.PositiveInfinity),
@@ -1177,7 +1177,7 @@ public class JTokenTests : TestFixtureBase
                 new JArray(1, 2),
                 new JArray(1, 2, 3),
                 new JObject(
-                    new JProperty("First", new JValue(Encoding.UTF8.GetBytes("Hi"))),
+                    new JProperty("First", new JValue("Hi"u8.ToArray())),
                     new JProperty("Second", 1),
                     new JProperty("Third", null),
                     new JProperty("Fifth", double.PositiveInfinity),

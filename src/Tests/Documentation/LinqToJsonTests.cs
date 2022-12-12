@@ -191,7 +191,7 @@ public class LinqToJsonTests : TestFixtureBase
     public static class File
     {
         public static StreamReader OpenText(string path) =>
-            new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
+            new(new MemoryStream("{}"u8.ToArray()));
     }
 
     [Fact]

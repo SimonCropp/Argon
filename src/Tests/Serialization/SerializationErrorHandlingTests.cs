@@ -748,7 +748,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             new() {FirstName = "Scott", LastName = "Guthrie"}
         };
 
-        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
+        var dictionary = data.GroupBy(person => person.FirstName)
+            .ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
         Assert.Equal(@"{""Scott"":[]}", output);
     }
@@ -770,7 +771,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             new() {FirstName = "James", LastName = "Newton-King"}
         };
 
-        var dictionary = data.GroupBy(person => person.FirstName).ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
+        var dictionary = data
+            .GroupBy(person => person.FirstName)
+            .ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
 
         Assert.Equal(@"{""Scott"":[],""James"":[]}", output);

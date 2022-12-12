@@ -567,12 +567,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     while (true)
                     {
                         reader.ReadAndAssert();
-                        if (reader.TokenType == JsonToken.PropertyName)
-                        {
-                            if (reader.StringValue == JsonTypeReflector.ValuePropertyName)
+                        if (reader is
                             {
-                                return false;
-                            }
+                                TokenType: JsonToken.PropertyName,
+                                StringValue: JsonTypeReflector.ValuePropertyName
+                            })
+                        {
+                            return false;
                         }
 
                         reader.ReadAndAssert();
@@ -776,7 +777,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     throw JsonSerializationException.Create(reader, $"Cannot call OnError on an array or readonly list, or list created from a non-default constructor: {contract.UnderlyingType}.");
                 }
 
-                if (!arrayContract.HasParameterizedCreatorInternal && !arrayContract.IsArray)
+                if (arrayContract is {HasParameterizedCreatorInternal: false, IsArray: false})
                 {
                     throw JsonSerializationException.Create(reader, $"Cannot deserialize readonly or fixed size list: {contract.UnderlyingType}.");
                 }
@@ -1004,7 +1005,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 propertyContract = GetContract(currentValue.GetType());
 
-                useExistingValue = !propertyContract.IsReadOnlyOrFixedSize && !propertyContract.UnderlyingType.IsValueType;
+                useExistingValue = propertyContract is
+                {
+                    IsReadOnlyOrFixedSize: false,
+                    UnderlyingType.IsValueType: false
+                };
             }
         }
 
@@ -1834,7 +1839,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 {
                     var propertyArrayContract = (JsonArrayContract) propertyContract;
 
-                    if (propertyArrayContract.CanDeserialize && !propertyArrayContract.IsReadOnlyOrFixedSize)
+                    if (propertyArrayContract is
+                        {
+                            CanDeserialize: true,
+                            IsReadOnlyOrFixedSize: false
+                        })
                     {
                         var createdObjectCollection = property.ValueProvider!.GetValue(createdObject);
                         if (createdObjectCollection != null)

@@ -119,7 +119,7 @@ public class XmlNodeConverter : JsonConverter
 
     static string ResolveFullName(IXmlNode node, XmlNamespaceManager manager)
     {
-        var prefix = node.NamespaceUri == null || (node.LocalName == "xmlns" && node.NamespaceUri == "http://www.w3.org/2000/xmlns/")
+        var prefix = node.NamespaceUri == null || node is {LocalName: "xmlns", NamespaceUri: "http://www.w3.org/2000/xmlns/"}
             ? null
             : manager.LookupPrefix(node.NamespaceUri);
 
@@ -174,7 +174,7 @@ public class XmlNodeConverter : JsonConverter
     {
         foreach (var attribute in node.Attributes)
         {
-            if (attribute.LocalName == "Array" && attribute.NamespaceUri == jsonNamespaceUri)
+            if (attribute is {LocalName: "Array", NamespaceUri: jsonNamespaceUri})
             {
                 return XmlConvert.ToBoolean(attribute.Value);
             }
@@ -379,13 +379,14 @@ public class XmlNodeConverter : JsonConverter
                         writer.WritePropertyName(GetPropertyName(node, manager));
                     }
 
-                    if (!ValueAttributes(node.Attributes) && node.ChildNodes.Count == 1
-                                                          && node.ChildNodes[0].NodeType == XmlNodeType.Text)
+                    if (!ValueAttributes(node.Attributes) &&
+                        node.ChildNodes is [{NodeType: XmlNodeType.Text}])
                     {
                         // write elements with a single text child as a name value pair
                         writer.WriteValue(node.ChildNodes[0].Value);
                     }
-                    else if (node.ChildNodes.Count == 0 && node.Attributes.Count == 0)
+                    else if (node.ChildNodes.Count == 0 &&
+                             node.Attributes.Count == 0)
                     {
                         var element = (IXmlElement) node;
 
@@ -430,17 +431,14 @@ public class XmlNodeConverter : JsonConverter
             case XmlNodeType.ProcessingInstruction:
             case XmlNodeType.Whitespace:
             case XmlNodeType.SignificantWhitespace:
-                if (node.NamespaceUri == "http://www.w3.org/2000/xmlns/" && node.Value == jsonNamespaceUri)
+                if (node is {NamespaceUri: "http://www.w3.org/2000/xmlns/", Value: jsonNamespaceUri})
                 {
                     return;
                 }
 
-                if (node.NamespaceUri == jsonNamespaceUri)
+                if (node is {NamespaceUri: jsonNamespaceUri, LocalName: "Array"})
                 {
-                    if (node.LocalName == "Array")
-                    {
-                        return;
-                    }
+                    return;
                 }
 
                 if (writePropertyName)
@@ -1199,7 +1197,7 @@ public class XmlNodeConverter : JsonConverter
                 continue;
             }
 
-            if (xmlNode.NamespaceUri == "http://www.w3.org/2000/xmlns/" && xmlNode.Value == jsonNamespaceUri)
+            if (xmlNode is {NamespaceUri: "http://www.w3.org/2000/xmlns/", Value: jsonNamespaceUri})
             {
                 continue;
             }

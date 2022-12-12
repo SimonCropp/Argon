@@ -256,7 +256,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadBytesAsync()
     {
-        var data = Encoding.UTF8.GetBytes("Hello world!");
+        var data = "Hello world!"u8.ToArray();
 
         var o =
             new JObject(

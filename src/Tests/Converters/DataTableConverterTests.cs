@@ -290,7 +290,7 @@ public class DataTableConverterTests : TestFixtureBase
         myNewRow["DateTimeCol"] = new DateTime(2000, 12, 29, 0, 0, 0, DateTimeKind.Utc);
         myNewRow["DecimalCol"] = 64.0021;
         myNewRow["ArrayCol"] = new[] {1};
-        myNewRow["BytesCol"] = Encoding.UTF8.GetBytes("Hello world");
+        myNewRow["BytesCol"] = "Hello world"u8.ToArray();
 
         var nestedTable = new DataTable("Nested");
         var nestedColString = new DataColumn("NestedStringCol");

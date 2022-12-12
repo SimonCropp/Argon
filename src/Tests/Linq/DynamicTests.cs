@@ -202,7 +202,7 @@ public class LinqDynamicTests : TestFixtureBase
             new JProperty("DateTime", new JValue(new DateTime(2000, 12, 29, 23, 51, 10, DateTimeKind.Utc))),
             new JProperty("Boolean", new JValue(true)),
             new JProperty("String", new JValue("A string lol!")),
-            new JProperty("Bytes", new JValue(Encoding.UTF8.GetBytes("A string lol!"))),
+            new JProperty("Bytes", new JValue("A string lol!"u8.ToArray())),
             new JProperty("Uri", new Uri("http://json.codeplex.com/")),
             new JProperty("Guid", new Guid("EA27FE1D-0D80-44F2-BF34-4654156FA7AF")),
             new JProperty("TimeSpan", TimeSpan.FromDays(1))
@@ -267,8 +267,8 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.True(d.BigInteger != 1.1d);
 
         Assert.True(d.Bytes == d.Bytes);
-        Assert.True(d.Bytes == Encoding.UTF8.GetBytes("A string lol!"));
-        Assert.True(d.Bytes == new JValue(Encoding.UTF8.GetBytes("A string lol!")));
+        Assert.True(d.Bytes == "A string lol!"u8.ToArray());
+        Assert.True(d.Bytes == new JValue("A string lol!"u8.ToArray()));
 
         Assert.True(d.Uri == d.Uri);
         Assert.True(d.Uri == new Uri("http://json.codeplex.com/"));
@@ -303,7 +303,7 @@ public class LinqDynamicTests : TestFixtureBase
             new JProperty("DateTime", new JValue(new DateTime(2000, 12, 29, 23, 51, 10, DateTimeKind.Utc))),
             new JProperty("Boolean", new JValue(true)),
             new JProperty("String", new JValue("A string lol!")),
-            new JProperty("Bytes", new JValue(Encoding.UTF8.GetBytes("A string lol!"))),
+            new JProperty("Bytes", new JValue("A string lol!"u8.ToArray())),
             new JProperty("Uri", new Uri("http://json.codeplex.com/")),
             new JProperty("Guid", new Guid("EA27FE1D-0D80-44F2-BF34-4654156FA7AF")),
             new JProperty("TimeSpan", TimeSpan.FromDays(1))
@@ -634,7 +634,7 @@ public class LinqDynamicTests : TestFixtureBase
             new JProperty("DateTime", new JValue(new DateTime(2000, 12, 29, 23, 51, 10, DateTimeKind.Utc))),
             new JProperty("Boolean", new JValue(true)),
             new JProperty("String", new JValue("A string lol!")),
-            new JProperty("Bytes", new JValue(Encoding.UTF8.GetBytes("A string lol!"))),
+            new JProperty("Bytes", new JValue("A string lol!"u8.ToArray())),
             new JProperty("Uri", new Uri("http://json.codeplex.com/")),
             new JProperty("Guid", new Guid("EA27FE1D-0D80-44F2-BF34-4654156FA7AF")),
             new JProperty("TimeSpan", TimeSpan.FromDays(1))
@@ -693,7 +693,7 @@ public class LinqDynamicTests : TestFixtureBase
         AssertValueConverted<bool?>(null);
         AssertValueConverted<bool?>("true", true);
         AssertValueConverted<byte[]>(null);
-        AssertValueConverted<byte[]>(Encoding.UTF8.GetBytes("blah"));
+        AssertValueConverted<byte[]>("blah"u8.ToArray());
         AssertValueConverted<DateTime>(new DateTime(2000, 12, 20, 23, 59, 2, DateTimeKind.Utc));
         AssertValueConverted<DateTime?>(new DateTime(2000, 12, 20, 23, 59, 2, DateTimeKind.Utc));
         AssertValueConverted<DateTime?>(null);

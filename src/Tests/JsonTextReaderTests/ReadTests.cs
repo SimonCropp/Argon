@@ -172,7 +172,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsBytes()
     {
-        var data = Encoding.UTF8.GetBytes("Hello world");
+        var data = "Hello world"u8.ToArray();
 
         var json = $@"""{Convert.ToBase64String(data)}""";
 
@@ -836,7 +836,7 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(1.1m, reader.ReadAsDecimal());
         Assert.Equal(JsonToken.Float, reader.TokenType);
 
-        Assert.Equal(new byte[0], reader.ReadAsBytes());
+        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
         Assert.Equal(JsonToken.Bytes, reader.TokenType);
 
         Assert.True(reader.Read());

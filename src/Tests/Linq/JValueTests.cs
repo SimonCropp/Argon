@@ -104,7 +104,7 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(DBNull.Value, v.Value);
         Assert.Equal(JTokenType.Null, v.Type);
 
-        var data = new byte[0];
+        var data = Array.Empty<byte>();
         v.Value = data;
 
         Assert.Equal(data, v.Value);
@@ -159,7 +159,7 @@ public class JValueTests : TestFixtureBase
         var v = new JValue(true);
         Assert.Equal("True", v.ToString());
 
-        v = new(Encoding.UTF8.GetBytes("Blah"));
+        v = new("Blah"u8.ToArray());
         Assert.Equal("System.Byte[]", v.ToString(null, InvariantCulture));
 
         v = new("I am a string!");

@@ -24,7 +24,7 @@ public class ReadJson : TestFixtureBase
     public static class File
     {
         public static StreamReader OpenText(string path) =>
-            new(new MemoryStream(Encoding.UTF8.GetBytes("{}")));
+            new(new MemoryStream("{}"u8.ToArray()));
 
         public static string ReadAllText(string path) =>
             "{}";

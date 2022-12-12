@@ -172,7 +172,7 @@ public class ReadAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBytesAsync()
     {
-        var data = Encoding.UTF8.GetBytes("Hello world");
+        var data = "Hello world"u8.ToArray();
 
         var json = $@"""{Convert.ToBase64String(data)}""";
 
@@ -835,7 +835,7 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.Equal(1.1m, await reader.ReadAsDecimalAsync());
         Assert.Equal(JsonToken.Float, reader.TokenType);
 
-        Assert.Equal(new byte[0], await reader.ReadAsBytesAsync());
+        Assert.Equal(Array.Empty<byte>(), await reader.ReadAsBytesAsync());
         Assert.Equal(JsonToken.Bytes, reader.TokenType);
 
         Assert.True(await reader.ReadAsync());

@@ -56,7 +56,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
         generator.MarkLabel(argsOk);
 
-        if (!method.IsConstructor && !method.IsStatic)
+        if (method is {IsConstructor: false, IsStatic: false})
         {
             generator.PushInstance(method.DeclaringType!);
         }

@@ -809,7 +809,7 @@ public class DefaultContractResolver : IContractResolver
         if (overrideConstructor != null)
         {
             var parameters = overrideConstructor.GetParameters();
-            var expectedParameterType = contract.DictionaryKeyType != null && contract.DictionaryValueType != null
+            var expectedParameterType = contract is {DictionaryKeyType: { }, DictionaryValueType: { }}
                 ? typeof(IEnumerable<>).MakeGenericType(typeof(KeyValuePair<,>).MakeGenericType(contract.DictionaryKeyType, contract.DictionaryValueType))
                 : typeof(IDictionary);
 

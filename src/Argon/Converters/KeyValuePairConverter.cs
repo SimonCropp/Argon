@@ -106,7 +106,7 @@ public class KeyValuePairConverter : JsonConverter
             ? Nullable.GetUnderlyingType(type)!
             : type;
 
-        if (t.IsValueType && t.IsGenericType)
+        if (t is {IsValueType: true, IsGenericType: true})
         {
             return t.GetGenericTypeDefinition() == typeof(KeyValuePair<,>);
         }

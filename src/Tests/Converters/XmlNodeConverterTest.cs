@@ -2314,7 +2314,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DeserializingBooleanValues()
     {
-        var ms = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(@"{root:{""@booleanType"":true}}"));
+        var ms = new MemoryStream(@"{root:{""@booleanType"":true}}"u8.ToArray());
         var xml = new MemoryStream();
 
         JsonBodyToSoapXml(ms, xml);
@@ -2346,7 +2346,7 @@ public class XmlNodeConverterTest : TestFixtureBase
             {
                 new JProperty("@uri", new JValue(new Uri("http://localhost/"))),
                 new JProperty("@time_span", new JValue(TimeSpan.FromMinutes(1))),
-                new JProperty("@bytes", new JValue(System.Text.Encoding.UTF8.GetBytes("Hello world")))
+                new JProperty("@bytes", new JValue("Hello world"u8.ToArray()))
             })
         };
 
@@ -2370,7 +2370,7 @@ public class XmlNodeConverterTest : TestFixtureBase
             {
                 new JProperty("uri", new JValue(new Uri("http://localhost/"))),
                 new JProperty("time_span", new JValue(TimeSpan.FromMinutes(1))),
-                new JProperty("bytes", new JValue(System.Text.Encoding.UTF8.GetBytes("Hello world")))
+                new JProperty("bytes", new JValue("Hello world"u8.ToArray()))
             })
         };
 

@@ -8,7 +8,7 @@ public class JTokenWriterTest : TestFixtureBase
     [Fact]
     public void ValueFormatting()
     {
-        var data = Encoding.UTF8.GetBytes("Hello world.");
+        var data = "Hello world."u8.ToArray();
 
         JToken root;
         using (var jsonWriter = new JTokenWriter())
@@ -76,7 +76,7 @@ public class JTokenWriterTest : TestFixtureBase
         jsonWriter.WriteValue(new BigInteger(123));
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
-        jsonWriter.WriteValue(new byte[0]);
+        jsonWriter.WriteValue(Array.Empty<byte>());
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
 
         jsonWriter.WriteEnd();
@@ -125,7 +125,7 @@ public class JTokenWriterTest : TestFixtureBase
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
         Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
-        jsonWriter.WriteValue(new byte[0]);
+        jsonWriter.WriteValue(Array.Empty<byte>());
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
         Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 

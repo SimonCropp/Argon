@@ -1344,7 +1344,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             Year = new(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc)
         };
-        var data = new byte[] {75, 65, 82, 73, 82, 65};
+        var data = "KARIRA"u8.ToArray();
         testerObject.Objects = new object[] {data, "prueba"};
 
         var settings = new JsonSerializerSettings

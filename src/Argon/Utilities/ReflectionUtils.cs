@@ -181,8 +181,7 @@ static class ReflectionUtils
 
     public static Type EnsureNotByRefType(this Type type)
     {
-        if (type.IsByRef &&
-            type.HasElementType)
+        if (type is {IsByRef: true, HasElementType: true})
         {
             return type.GetElementType()!;
         }
@@ -212,17 +211,14 @@ static class ReflectionUtils
             throw new ArgumentNullException($"'{genericInterfaceDefinition}' is not a generic interface definition.");
         }
 
-        if (type.IsInterface)
+        if (type is {IsInterface: true, IsGenericType: true})
         {
-            if (type.IsGenericType)
-            {
-                var interfaceDefinition = type.GetGenericTypeDefinition();
+            var interfaceDefinition = type.GetGenericTypeDefinition();
 
-                if (genericInterfaceDefinition == interfaceDefinition)
-                {
-                    implementingType = type;
-                    return true;
-                }
+            if (genericInterfaceDefinition == interfaceDefinition)
+            {
+                implementingType = type;
+                return true;
             }
         }
 

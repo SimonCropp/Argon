@@ -439,7 +439,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     bool CalculatePropertyValues(JsonWriter writer, object value, JsonContainerContract contract, JsonProperty? member, JsonProperty property, [NotNullWhen(true)] out JsonContract? memberContract, out object? memberValue)
     {
-        if (!property.Ignored && property.Readable && ShouldSerialize(property, value) && IsSpecified(property, value))
+        if (property is {Ignored: false, Readable: true} &&
+            ShouldSerialize(property, value) &&
+            IsSpecified(property, value))
         {
             property.PropertyContract ??= Serializer.ResolveContract(property.PropertyType!);
 
@@ -929,8 +931,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
         }
 
-        if (contract.OrderByKey &&
-            contract.IsSortable)
+        if (contract is {OrderByKey: true, IsSortable: true})
         {
             if (contract.DictionaryKeyType == typeof(string))
             {
