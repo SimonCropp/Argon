@@ -37,9 +37,14 @@ class LateBoundReflectionDelegateFactory : ReflectionDelegateFactory
             return () => (T) Activator.CreateInstance(type)!;
         }
 
-        var constructorInfo = type.GetDefaultConstructor(true);
+        var constructor = type.GetDefaultConstructor(true);
 
-        return () => (T) constructorInfo.Invoke(null);
+        if (constructor == null)
+        {
+            throw new($"{type.FullName} does not have a default constructor");
+        }
+
+        return () => (T) constructor.Invoke(null);
     }
 
     public override Func<T, object?> CreateGet<T>(PropertyInfo property) =>

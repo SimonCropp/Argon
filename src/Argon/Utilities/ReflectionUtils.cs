@@ -147,10 +147,10 @@ static class ReflectionUtils
         return GetDefaultConstructor(type, nonPublic) != null;
     }
 
-    public static ConstructorInfo GetDefaultConstructor(this Type type) =>
+    public static ConstructorInfo? GetDefaultConstructor(this Type type) =>
         GetDefaultConstructor(type, false);
 
-    public static ConstructorInfo GetDefaultConstructor(this Type type, bool nonPublic)
+    public static ConstructorInfo? GetDefaultConstructor(this Type type, bool nonPublic)
     {
         var bindingFlags = BindingFlags.Instance | BindingFlags.Public;
         if (nonPublic)
@@ -158,7 +158,8 @@ static class ReflectionUtils
             bindingFlags |= BindingFlags.NonPublic;
         }
 
-        return type.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any())!;
+        return type.GetConstructors(bindingFlags)
+            .SingleOrDefault(c => !c.GetParameters().Any());
     }
 
     public static bool IsNullable(this Type type) =>
