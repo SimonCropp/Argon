@@ -1185,7 +1185,7 @@ third line", jsonTextReader.Value);
     public async Task ReadLongStringAsync()
     {
         var s = new string('a', 10000);
-        JsonReader reader = new JsonTextReader(new StringReader($"'{s}'"));
+        var reader = new JsonTextReader(new StringReader($"'{s}'"));
         await reader.ReadAsync();
 
         Assert.Equal(s, reader.Value);
@@ -1309,7 +1309,7 @@ third line", jsonTextReader.Value);
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader($@"[1,'{Convert.ToBase64String(helloWorldData)}']"));
+        var reader = new JsonTextReader(new StringReader($@"[1,'{Convert.ToBase64String(helloWorldData)}']"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);
         Assert.True(await reader.ReadAsync());
@@ -1329,7 +1329,7 @@ third line", jsonTextReader.Value);
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader($@"{{num:1,data:'{Convert.ToBase64String(helloWorldData)}'}}"));
+        var reader = new JsonTextReader(new StringReader($@"{{num:1,data:'{Convert.ToBase64String(helloWorldData)}'}}"));
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Assert.True(await reader.ReadAsync());

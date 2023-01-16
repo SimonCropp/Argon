@@ -1185,7 +1185,7 @@ third line", jsonTextReader.Value);
     public void ReadLongString()
     {
         var s = new string('a', 10000);
-        JsonReader reader = new JsonTextReader(new StringReader($"'{s}'"));
+        var reader = new JsonTextReader(new StringReader($"'{s}'"));
         reader.Read();
 
         Assert.Equal(s, reader.Value);
@@ -1269,7 +1269,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public void ReadNullTerminatorStrings()
     {
-        JsonReader reader = new JsonTextReader(new StringReader("'h\0i'"));
+        var reader = new JsonTextReader(new StringReader("'h\0i'"));
         Assert.True(reader.Read());
 
         Assert.Equal("h\0i", reader.Value);
@@ -1278,7 +1278,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public void ReadBytesNoStartWithUnexpectedEnd()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"[  "));
+        var reader = new JsonTextReader(new StringReader(@"[  "));
         Assert.True(reader.Read());
 
         Assert.Null(reader.ReadAsBytes());
@@ -1303,7 +1303,7 @@ third line", jsonTextReader.Value);
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader($@"[1,'{Convert.ToBase64String(helloWorldData)}']"));
+        var reader = new JsonTextReader(new StringReader($@"[1,'{Convert.ToBase64String(helloWorldData)}']"));
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);
         Assert.True(reader.Read());
@@ -1323,7 +1323,7 @@ third line", jsonTextReader.Value);
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader($@"{{num:1,data:'{Convert.ToBase64String(helloWorldData)}'}}"));
+        var reader = new JsonTextReader(new StringReader($@"{{num:1,data:'{Convert.ToBase64String(helloWorldData)}'}}"));
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Assert.True(reader.Read());

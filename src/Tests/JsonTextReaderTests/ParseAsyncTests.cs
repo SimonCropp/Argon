@@ -24,7 +24,7 @@ public class ParseAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParsingQuotedPropertyWithControlCharactersAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"{'hi\r\nbye':1}"));
+        var reader = new JsonTextReader(new StringReader(@"{'hi\r\nbye':1}"));
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);

@@ -24,7 +24,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParsingQuotedPropertyWithControlCharacters()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"{'hi\r\nbye':1}"));
+        var reader = new JsonTextReader(new StringReader(@"{'hi\r\nbye':1}"));
         Assert.True(reader.Read());
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);

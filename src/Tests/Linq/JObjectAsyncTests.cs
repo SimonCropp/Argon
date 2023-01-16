@@ -88,7 +88,7 @@ public class JObjectAsyncTests : TestFixtureBase
   }
 }";
 
-        JsonReader reader = new JsonTextReader(new StringReader(jsonText));
+        var reader = new JsonTextReader(new StringReader(jsonText));
         await reader.ReadAsync();
         await reader.ReadAsync();
         await reader.ReadAsync();
@@ -115,7 +115,7 @@ public class JObjectAsyncTests : TestFixtureBase
     {
       ""code"":0";
 
-                JsonReader reader = new JsonTextReader(new StringReader(jsonText));
+                var reader = new JsonTextReader(new StringReader(jsonText));
                 await reader.ReadAsync();
                 await reader.ReadAsync();
                 await reader.ReadAsync();

@@ -4908,7 +4908,7 @@ Path '', line 1, position 1.");
         }
 
         using (var stream = new MemoryStream(objectBytes))
-        using (JsonReader jsonReader = new JsonTextReader(new StreamReader(stream)))
+        using (var jsonReader = new JsonTextReader(new StreamReader(stream)))
         {
             // Get exception here
             var newObject = (TestObject) serializer.Deserialize(jsonReader);

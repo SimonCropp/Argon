@@ -125,7 +125,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void UnexpectedEndOfHex()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"'h\u123"));
+        var reader = new JsonTextReader(new StringReader(@"'h\u123"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -135,7 +135,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void UnexpectedEndOfControlCharacter()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"'h\"));
+        var reader = new JsonTextReader(new StringReader(@"'h\"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -193,7 +193,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void UnexpectedEndOfString()
     {
-        JsonReader reader = new JsonTextReader(new StringReader("'hi"));
+        var reader = new JsonTextReader(new StringReader("'hi"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -203,7 +203,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void UnexpectedEndTokenWhenParsingOddEndToken()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"{}}"));
+        var reader = new JsonTextReader(new StringReader(@"{}}"));
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
@@ -781,7 +781,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadBytesWithBadCharacter()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader(@"true"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -794,7 +794,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
+        var reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -827,7 +827,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadInt32WithBadCharacter()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader(@"true"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsInt32(),

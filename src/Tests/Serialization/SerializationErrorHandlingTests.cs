@@ -961,7 +961,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errorMessages = new List<string>();
 
-        JsonReader reader = new JsonTextReader(new StringReader(@"{
+        var reader = new JsonTextReader(new StringReader(@"{
   ""string1"": ""blah"",
   ""int1"": 2147483648,
   ""string2"": ""also blah"",

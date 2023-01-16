@@ -125,7 +125,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public Task UnexpectedEndOfHexAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"'h\u123"));
+        var reader = new JsonTextReader(new StringReader(@"'h\u123"));
 
         return XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsync(),
@@ -135,7 +135,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task UnexpectedEndOfControlCharacterAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"'h\"));
+        var reader = new JsonTextReader(new StringReader(@"'h\"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Unterminated string. Expected delimiter: '. Path '', line 1, position 3.");
     }
@@ -191,7 +191,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task UnexpectedEndOfStringAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader("'hi"));
+        var reader = new JsonTextReader(new StringReader("'hi"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsync(),
@@ -201,7 +201,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task UnexpectedEndTokenWhenParsingOddEndTokenAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"{}}"));
+        var reader = new JsonTextReader(new StringReader(@"{}}"));
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
 
@@ -750,7 +750,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadBytesWithBadCharacterAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader(@"true"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -763,7 +763,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        JsonReader reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
+        var reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -808,7 +808,7 @@ new Date()"));
     [Fact]
     public async Task ReadInt32WithBadCharacterAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader(@"true"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsInt32Async(),
@@ -1054,7 +1054,7 @@ new Date()"));
     [Fact]
     public async Task UnexpectedEndWhenParsingUnquotedPropertyAsync()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"{aww"));
+        var reader = new JsonTextReader(new StringReader(@"{aww"));
         Assert.True(await reader.ReadAsync());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Unexpected end while parsing unquoted property name. Path '', line 1, position 4.");

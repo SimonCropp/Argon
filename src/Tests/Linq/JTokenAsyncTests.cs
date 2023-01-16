@@ -16,7 +16,7 @@ public class JTokenAsyncTests : TestFixtureBase
         Assert.Equal(2, (int) a[1]);
         Assert.Equal(3, (int) a[2]);
 
-        JsonReader reader = new JsonTextReader(new StringReader("{'pie':true}"));
+        var reader = new JsonTextReader(new StringReader("{'pie':true}"));
         await reader.ReadAsync();
         await reader.ReadAsync();
 
