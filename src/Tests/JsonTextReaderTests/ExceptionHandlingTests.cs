@@ -324,11 +324,13 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ParseAdditionalContent_Comma()
     {
-        var json = @"[
-""Small"",
-""Medium"",
-""Large""
-],";
+        var json = """
+            [
+                "Small",
+                "Medium",
+                "Large"
+            ],
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -345,11 +347,13 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ParseAdditionalContent_Text()
     {
-        var json = @"[
-""Small"",
-""Medium"",
-""Large""
-]content";
+        var json = """
+            [
+                "Small",
+                "Medium",
+                "Large"
+            ]content
+            """;
 
         var reader = new JsonTextReader(new StringReader(json), 2);
 

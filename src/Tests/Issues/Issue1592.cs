@@ -7,9 +7,11 @@ public class Issue1592 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        var json = @"{
-""test customer's"": ""testing""
-}";
+        var json = """
+            {
+                "test customer's": "testing"
+            }
+            """;
 
         var stringReader = new StringReader(json);
         var reader = new JsonTextReader(stringReader);

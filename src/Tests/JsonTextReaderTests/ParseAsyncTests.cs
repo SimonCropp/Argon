@@ -7,13 +7,15 @@ public class ParseAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseAdditionalContent_WhitespaceAsync()
     {
-        var json = @"[
-""Small"",
-""Medium"",
-""Large""
-]   
+        var json = """
+            [
+                "Small",
+                "Medium",
+                "Large"
+            ]   
+            
 
-";
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
         while (await reader.ReadAsync())

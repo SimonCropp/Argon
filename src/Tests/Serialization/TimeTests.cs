@@ -165,9 +165,11 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void DeserializeList()
     {
-        var l = JsonConvert.DeserializeObject<IList<Time>>(@"[
-""23:59:59""
-]");
+        var l = JsonConvert.DeserializeObject<IList<Time>>("""
+            [
+                "23:59:59"
+            ]
+            """);
 
         Assert.Equal(1, l.Count);
         Assert.Equal(new(23, 59, 59), l[0]);
@@ -176,10 +178,12 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void DeserializeList_Nullable()
     {
-        var l = JsonConvert.DeserializeObject<IList<Time?>>(@"[
-""23:59:59"",
-null
-]");
+        var l = JsonConvert.DeserializeObject<IList<Time?>>("""
+            [
+                "23:59:59",
+                null
+            ]
+            """);
 
         Assert.Equal(2, l.Count);
         Assert.Equal(new Time(23, 59, 59), l[0]);

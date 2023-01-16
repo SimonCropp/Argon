@@ -1444,15 +1444,17 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void QueryWithEscapedPath()
     {
-        var token = JToken.Parse(@"{
-""Property"": [
-          {
-            ""@Name"": ""x"",
-            ""@Value"": ""y"",
-            ""@Type"": ""FindMe""
-          }
-   ]
-}");
+        var token = JToken.Parse("""
+            {
+            "Property": [
+                  {
+                    "@Name": "x",
+                    "@Value": "y",
+                    "@Type": "FindMe"
+                  }
+               ]
+            }
+            """);
 
         var tokens = token.SelectTokens("$..[?(@.['@Type'] == 'FindMe')]").ToList();
         Assert.Equal(1, tokens.Count);

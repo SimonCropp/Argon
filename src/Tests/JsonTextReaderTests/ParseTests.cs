@@ -7,13 +7,15 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParseAdditionalContent_Whitespace()
     {
-        var json = @"[
-""Small"",
-""Medium"",
-""Large""
-]   
+        var json = """
+            [
+                "Small",
+                "Medium",
+                "Large"
+            ]   
+            
 
-";
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
         while (reader.Read())

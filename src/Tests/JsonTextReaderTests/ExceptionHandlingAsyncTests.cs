@@ -312,11 +312,13 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseAdditionalContent_CommaAsync()
     {
-        var json = @"[
-""Small"",
-""Medium"",
-""Large""
-],";
+        var json = """
+            [
+                "Small",
+                "Medium",
+                "Large"
+            ],
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -333,11 +335,13 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseAdditionalContent_TextAsync()
     {
-        var json = @"[
-""Small"",
-""Medium"",
-""Large""
-]content";
+        var json = """
+            [
+                "Small",
+                "Medium",
+                "Large"
+            ]content
+            """;
 
         var reader = new JsonTextReader(new StringReader(json), 2);
 

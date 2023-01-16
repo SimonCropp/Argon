@@ -170,26 +170,28 @@ public class MiscAsyncTests : TestFixtureBase
     [Fact]
     public async Task YahooFinanceAsync()
     {
-        var input = @"{
-""matches"" : [
-{""t"":""C"", ""n"":""Citigroup Inc."", ""e"":""NYSE"", ""id"":""662713""}
-,{""t"":""CHL"", ""n"":""China Mobile Ltd. (ADR)"", ""e"":""NYSE"", ""id"":""660998""}
-,{""t"":""PTR"", ""n"":""PetroChina Company Limited (ADR)"", ""e"":""NYSE"", ""id"":""664536""}
-,{""t"":""RIO"", ""n"":""Companhia Vale do Rio Doce (ADR)"", ""e"":""NYSE"", ""id"":""671472""}
-,{""t"":""RIOPR"", ""n"":""Companhia Vale do Rio Doce (ADR)"", ""e"":""NYSE"", ""id"":""3512643""}
-,{""t"":""CSCO"", ""n"":""Cisco Systems, Inc."", ""e"":""NASDAQ"", ""id"":""99624""}
-,{""t"":""CVX"", ""n"":""Chevron Corporation"", ""e"":""NYSE"", ""id"":""667226""}
-,{""t"":""TM"", ""n"":""Toyota Motor Corporation (ADR)"", ""e"":""NYSE"", ""id"":""655880""}
-,{""t"":""JPM"", ""n"":""JPMorgan Chase \\x26 Co."", ""e"":""NYSE"", ""id"":""665639""}
-,{""t"":""COP"", ""n"":""ConocoPhillips"", ""e"":""NYSE"", ""id"":""1691168""}
-,{""t"":""LFC"", ""n"":""China Life Insurance Company Ltd. (ADR)"", ""e"":""NYSE"", ""id"":""688679""}
-,{""t"":""NOK"", ""n"":""Nokia Corporation (ADR)"", ""e"":""NYSE"", ""id"":""657729""}
-,{""t"":""KO"", ""n"":""The Coca-Cola Company"", ""e"":""NYSE"", ""id"":""6550""}
-,{""t"":""VZ"", ""n"":""Verizon Communications Inc."", ""e"":""NYSE"", ""id"":""664887""}
-,{""t"":""AMX"", ""n"":""America Movil S.A.B de C.V. (ADR)"", ""e"":""NYSE"", ""id"":""665834""}],
-""all"" : false
-}
-";
+        var input = """
+            {
+            "matches" : [
+            {"t":"C", "n":"Citigroup Inc.", "e":"NYSE", "id":"662713"}
+            ,{"t":"CHL", "n":"China Mobile Ltd. (ADR)", "e":"NYSE", "id":"660998"}
+            ,{"t":"PTR", "n":"PetroChina Company Limited (ADR)", "e":"NYSE", "id":"664536"}
+            ,{"t":"RIO", "n":"Companhia Vale do Rio Doce (ADR)", "e":"NYSE", "id":"671472"}
+            ,{"t":"RIOPR", "n":"Companhia Vale do Rio Doce (ADR)", "e":"NYSE", "id":"3512643"}
+            ,{"t":"CSCO", "n":"Cisco Systems, Inc.", "e":"NASDAQ", "id":"99624"}
+            ,{"t":"CVX", "n":"Chevron Corporation", "e":"NYSE", "id":"667226"}
+            ,{"t":"TM", "n":"Toyota Motor Corporation (ADR)", "e":"NYSE", "id":"655880"}
+            ,{"t":"JPM", "n":"JPMorgan Chase \\x26 Co.", "e":"NYSE", "id":"665639"}
+            ,{"t":"COP", "n":"ConocoPhillips", "e":"NYSE", "id":"1691168"}
+            ,{"t":"LFC", "n":"China Life Insurance Company Ltd. (ADR)", "e":"NYSE", "id":"688679"}
+            ,{"t":"NOK", "n":"Nokia Corporation (ADR)", "e":"NYSE", "id":"657729"}
+            ,{"t":"KO", "n":"The Coca-Cola Company", "e":"NYSE", "id":"6550"}
+            ,{"t":"VZ", "n":"Verizon Communications Inc.", "e":"NYSE", "id":"664887"}
+            ,{"t":"AMX", "n":"America Movil S.A.B de C.V. (ADR)", "e":"NYSE", "id":"665834"}],
+            "all" : false
+            }
+
+            """;
 
         using var jsonReader = new JsonTextReader(new StringReader(input));
         while (await jsonReader.ReadAsync())

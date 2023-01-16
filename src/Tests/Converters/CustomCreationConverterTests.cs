@@ -88,13 +88,14 @@ public class CustomCreationConverterTests : TestFixtureBase
     [Fact]
     public void AssertDoesDeserialize()
     {
-        const string json = @"{
-""Value"": ""A value"",
-""Thing"": {
-""Number"": 123
-}
-}
-";
+        const string json = """
+            {
+                "Value": "A value",
+                "Thing": {
+                    "Number": 123
+                }
+            }
+            """;
         var myClass = JsonConvert.DeserializeObject<MyClass>(json);
         Assert.NotNull(myClass);
         Assert.Equal("A value", myClass.Value);

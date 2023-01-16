@@ -1306,11 +1306,13 @@ public class JTokenTests : TestFixtureBase
         XUnitAssert.Throws<JsonReaderException>(
             () =>
             {
-                var json = @"[
-""Small"",
-""Medium"",
-""Large""
-],";
+                var json = """
+                    [
+                        "Small",
+                        "Medium",
+                        "Large"
+                    ],
+                    """;
 
                 JToken.Parse(json);
             },

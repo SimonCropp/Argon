@@ -520,75 +520,77 @@ undefined
     {
         #region GoogleJson
 
-        var json = @"{
-    results:
-        [
+        var json = """
             {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://www.google.com/"",
-                url : ""http://www.google.com/"",
-                visibleUrl : ""www.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com"",
-                title : ""Google"",
-                titleNoFormatting : ""Google"",
-                content : ""Enables users to search the Web, Usenet, and 
-images. Features include PageRank,   caching and translation of 
-results, and an option to find similar pages.""
-            },
-            {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://news.google.com/"",
-                url : ""http://news.google.com/"",
-                visibleUrl : ""news.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com"",
-                title : ""Google News"",
-                titleNoFormatting : ""Google News"",
-                content : ""Aggregated headlines and a search engine of many of the world's news sources.""
-            },
-            
-            {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://groups.google.com/"",
-                url : ""http://groups.google.com/"",
-                visibleUrl : ""groups.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com"",
-                title : ""Google Groups"",
-                titleNoFormatting : ""Google Groups"",
-                content : ""Enables users to search and browse the Usenet 
-archives which consist of over 700   million messages, and post new 
-comments.""
-            },
-            
-            {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://maps.google.com/"",
-                url : ""http://maps.google.com/"",
-                visibleUrl : ""maps.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com"",
-                title : ""Google Maps"",
-                titleNoFormatting : ""Google Maps"",
-                content : ""Provides directions, interactive maps, and 
-satellite/aerial imagery of the United   States. Can also search by 
-keyword such as type of business.""
+                results:
+                    [
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://www.google.com/",
+                            url : "http://www.google.com/",
+                            visibleUrl : "www.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com",
+                            title : "Google",
+                            titleNoFormatting : "Google",
+                            content : "Enables users to search the Web, Usenet, and 
+            images. Features include PageRank,   caching and translation of 
+            results, and an option to find similar pages."
+                        },
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://news.google.com/",
+                            url : "http://news.google.com/",
+                            visibleUrl : "news.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com",
+                            title : "Google News",
+                            titleNoFormatting : "Google News",
+                            content : "Aggregated headlines and a search engine of many of the world's news sources."
+                        },
+                        
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://groups.google.com/",
+                            url : "http://groups.google.com/",
+                            visibleUrl : "groups.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com",
+                            title : "Google Groups",
+                            titleNoFormatting : "Google Groups",
+                            content : "Enables users to search and browse the Usenet 
+            archives which consist of over 700   million messages, and post new 
+            comments."
+                        },
+                        
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://maps.google.com/",
+                            url : "http://maps.google.com/",
+                            visibleUrl : "maps.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com",
+                            title : "Google Maps",
+                            titleNoFormatting : "Google Maps",
+                            content : "Provides directions, interactive maps, and 
+            satellite/aerial imagery of the United   States. Can also search by 
+            keyword such as type of business."
+                        }
+                    ],
+                    
+                adResults:
+                    [
+                        {
+                            GsearchResultClass:"GwebSearch.ad",
+                            title : "Gartner Symposium/ITxpo",
+                            content1 : "Meet brilliant Gartner IT analysts",
+                            content2 : "20-23 May 2007- Barcelona, Spain",
+                            visibleUrl : "www.gartner.com"
+                        }
+                    ]
             }
-        ],
-        
-    adResults:
-        [
-            {
-                GsearchResultClass:""GwebSearch.ad"",
-                title : ""Gartner Symposium/ITxpo"",
-                content1 : ""Meet brilliant Gartner IT analysts"",
-                content2 : ""20-23 May 2007- Barcelona, Spain"",
-                visibleUrl : ""www.gartner.com""
-            }
-        ]
-}
-";
+
+            """;
 
         #endregion
 

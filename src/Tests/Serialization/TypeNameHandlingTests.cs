@@ -791,18 +791,20 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var typeName = typeof(SendHttpRequest).AssemblyQualifiedName;
 
-        var json = $@"{{
-""$type"": ""{typeName}"",
-""RequestData"": {{
-""$type"": ""System.Collections.Generic.Dictionary`2[[System.String, mscorlib,Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"",
-""Id"": ""siedemnaście"",
-""X"": ""323""
-}},
-""Method"": ""GET"",
-""Url"": ""http://www.onet.pl"",
-""RequestEncoding"": ""UTF-8"",
-""CorrelationId"": ""xyz""
-}}";
+        var json = $$"""
+            {
+                "$type": "{{typeName}}",
+                "RequestData": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib,Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                    "Id": "siedemnaście",
+                    "X": "323"
+                },
+                "Method": "GET",
+                "Url": "http://www.onet.pl",
+                "RequestEncoding": "UTF-8",
+                "CorrelationId": "xyz"
+            }
+            """;
 
         var message = JsonConvert.DeserializeObject<ICorrelatedMessage>(json, new JsonSerializerSettings
         {

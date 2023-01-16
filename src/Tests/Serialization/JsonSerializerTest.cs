@@ -1444,84 +1444,86 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void GoogleSearchAPI()
     {
-        var json = @"{
-    results:
-        [
+        var json = """
             {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://www.google.com/"",
-                url : ""http://www.google.com/"",
-                visibleUrl : ""www.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com"",
-                title : ""Google"",
-                titleNoFormatting : ""Google"",
-                content : ""Enables users to search the Web, Usenet, and 
-images. Features include PageRank,   caching and translation of 
-results, and an option to find similar pages.""
-            },
-            {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://news.google.com/"",
-                url : ""http://news.google.com/"",
-                visibleUrl : ""news.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com"",
-                title : ""Google News"",
-                titleNoFormatting : ""Google News"",
-                content : ""Aggregated headlines and a search engine of many of the world's news sources.""
-            },
+                results:
+                    [
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://www.google.com/",
+                            url : "http://www.google.com/",
+                            visibleUrl : "www.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com",
+                            title : "Google",
+                            titleNoFormatting : "Google",
+                            content : "Enables users to search the Web, Usenet, and 
+            images. Features include PageRank,   caching and translation of 
+            results, and an option to find similar pages."
+                        },
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://news.google.com/",
+                            url : "http://news.google.com/",
+                            visibleUrl : "news.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com",
+                            title : "Google News",
+                            titleNoFormatting : "Google News",
+                            content : "Aggregated headlines and a search engine of many of the world's news sources."
+                        },
+                        
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://groups.google.com/",
+                            url : "http://groups.google.com/",
+                            visibleUrl : "groups.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com",
+                            title : "Google Groups",
+                            titleNoFormatting : "Google Groups",
+                            content : "Enables users to search and browse the Usenet 
+            archives which consist of over 700   million messages, and post new 
+            comments."
+                        },
+                        
+                        {
+                            GsearchResultClass:"GwebSearch",
+                            unescapedUrl : "http://maps.google.com/",
+                            url : "http://maps.google.com/",
+                            visibleUrl : "maps.google.com",
+                            cacheUrl : 
+            "http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com",
+                            title : "Google Maps",
+                            titleNoFormatting : "Google Maps",
+                            content : "Provides directions, interactive maps, and 
+            satellite/aerial imagery of the United   States. Can also search by 
+            keyword such as type of business."
+                        }
+                    ],
+                    
+                adResults:
+                    [
+                        {
+                            GsearchResultClass:"GwebSearch.ad",
+                            title : "Gartner Symposium/ITxpo",
+                            content1 : "Meet brilliant Gartner IT analysts",
+                            content2 : "20-23 May 2007- Barcelona, Spain",
+                            url : 
+            "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=", 
             
-            {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://groups.google.com/"",
-                url : ""http://groups.google.com/"",
-                visibleUrl : ""groups.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com"",
-                title : ""Google Groups"",
-                titleNoFormatting : ""Google Groups"",
-                content : ""Enables users to search and browse the Usenet 
-archives which consist of over 700   million messages, and post new 
-comments.""
-            },
+                            impressionUrl : 
+            "http://www.google.com/uds/css/ad-indicator-on.gif?ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB", 
             
-            {
-                GsearchResultClass:""GwebSearch"",
-                unescapedUrl : ""http://maps.google.com/"",
-                url : ""http://maps.google.com/"",
-                visibleUrl : ""maps.google.com"",
-                cacheUrl : 
-""http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com"",
-                title : ""Google Maps"",
-                titleNoFormatting : ""Google Maps"",
-                content : ""Provides directions, interactive maps, and 
-satellite/aerial imagery of the United   States. Can also search by 
-keyword such as type of business.""
+                            unescapedUrl : 
+            "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=", 
+            
+                            visibleUrl : "www.gartner.com"
+                        }
+                    ]
             }
-        ],
-        
-    adResults:
-        [
-            {
-                GsearchResultClass:""GwebSearch.ad"",
-                title : ""Gartner Symposium/ITxpo"",
-                content1 : ""Meet brilliant Gartner IT analysts"",
-                content2 : ""20-23 May 2007- Barcelona, Spain"",
-                url : 
-""http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY="", 
 
-                impressionUrl : 
-""http://www.google.com/uds/css/ad-indicator-on.gif?ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB"", 
-
-                unescapedUrl : 
-""http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY="", 
-
-                visibleUrl : ""www.gartner.com""
-            }
-        ]
-}
-";
+            """;
         var o = JsonConvert.DeserializeObject(json);
         var s = string.Empty;
         s += s;
@@ -1530,16 +1532,18 @@ keyword such as type of business.""
     [Fact]
     public void TorrentDeserializeTest()
     {
-        var jsonText = @"{
-"""":"""",
-""label"": [
-       [""SomeName"",6]
-],
-""torrents"": [
-       [""192D99A5C943555CB7F00A852821CF6D6DB3008A"",201,""filename.avi"",178311826,1000,178311826,72815250,408,1603,7,121430,""NameOfLabelPrevioslyDefined"",3,6,0,8,128954,-1,0],
-],
-""torrentc"": ""1816000723""
-}";
+        var jsonText = """
+            {
+                "":"",
+                "label": [
+                       ["SomeName",6]
+                ],
+                "torrents": [
+                       ["192D99A5C943555CB7F00A852821CF6D6DB3008A",201,"filename.avi",178311826,1000,178311826,72815250,408,1603,7,121430,"NameOfLabelPrevioslyDefined",3,6,0,8,128954,-1,0],
+                ],
+                "torrentc": "1816000723"
+            }
+            """;
 
         var o = (JObject) JsonConvert.DeserializeObject(jsonText);
         Assert.Equal(4, o.Children().Count());
