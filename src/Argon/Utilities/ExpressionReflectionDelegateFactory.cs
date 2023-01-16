@@ -74,9 +74,9 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
                     isByRef = true;
                 }
 
-                Expression index = Expression.Constant(i);
+                var index = Expression.Constant(i);
 
-                Expression paramAccessor = Expression.ArrayIndex(argsParameterExpression, index);
+                var paramAccessor = Expression.ArrayIndex(argsParameterExpression, index);
 
                 var argExpression = EnsureCastExpression(paramAccessor, parameterType, !isByRef);
 
@@ -301,35 +301,37 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var expressionType = expression.Type;
 
         // check if a cast or conversion is required
-        if (expressionType == targetType || (!expressionType.IsValueType && targetType.IsAssignableFrom(expressionType)))
+        if (expressionType == targetType ||
+            (!expressionType.IsValueType && targetType.IsAssignableFrom(expressionType)))
         {
             return expression;
         }
 
-        if (targetType.IsValueType)
+        if (!targetType.IsValueType)
         {
-            Expression convert = Expression.Unbox(expression, targetType);
-
-            if (allowWidening && targetType.IsPrimitive)
-            {
-                var toTargetTypeMethod = typeof(Convert)
-                    .GetMethod($"To{targetType.Name}", new[] {typeof(object)});
-
-                if (toTargetTypeMethod != null)
-                {
-                    convert = Expression.Condition(
-                        Expression.TypeIs(expression, targetType),
-                        convert,
-                        Expression.Call(toTargetTypeMethod, expression));
-                }
-            }
-
-            return Expression.Condition(
-                Expression.Equal(expression, Expression.Constant(null, typeof(object))),
-                Expression.Default(targetType),
-                convert);
+            return Expression.Convert(expression, targetType);
         }
 
-        return Expression.Convert(expression, targetType);
+        Expression convert = Expression.Unbox(expression, targetType);
+
+        if (allowWidening && targetType.IsPrimitive)
+        {
+            var toTargetTypeMethod = typeof(Convert)
+                .GetMethod($"To{targetType.Name}", new[] {typeof(object)});
+
+            if (toTargetTypeMethod != null)
+            {
+                convert = Expression.Condition(
+                    Expression.TypeIs(expression, targetType),
+                    convert,
+                    Expression.Call(toTargetTypeMethod, expression));
+            }
+        }
+
+        return Expression.Condition(
+            Expression.Equal(expression, Expression.Constant(null, typeof(object))),
+            Expression.Default(targetType),
+            convert);
+
     }
 }
