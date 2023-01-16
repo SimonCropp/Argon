@@ -112,17 +112,19 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
-  ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
-  ""Latitude"": 33.657145,
-  ""Longitude"": -117.766684,
-  ""TimeStamp"": ""2000-03-01T23:59:59Z"",
-  ""Payload"": {{
-    ""$type"": ""{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
-    ""$value"": ""AAECAwQFBgcICQ==""
-  }}
-}}", jsonString);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "SourceTypeID": "d8220a4b-75b1-4b7a-8112-b7bdae956a45",
+              "BrokerID": "951663c4-924e-4c86-a57a-7ed737501dbd",
+              "Latitude": 33.657145,
+              "Longitude": -117.766684,
+              "TimeStamp": "2000-03-01T23:59:59Z",
+              "Payload": {
+                "$type": "{{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
+                "$value": "AAECAwQFBgcICQ=="
+              }
+            }
+            """, jsonString);
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString, new JsonSerializerSettings
         {
@@ -218,15 +220,17 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(child, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""_id"": 2,
-  ""Name"": ""Isabell"",
-  ""Father"": {
-    ""blah"": ""blah!"",
-    ""$ref"": null,
-    ""$id"": null
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "_id": 2,
+              "Name": "Isabell",
+              "Father": {
+                "blah": "blah!",
+                "$ref": null,
+                "$id": null
+              }
+            }
+            """, json);
 
         var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
         {
@@ -241,20 +245,22 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeEmployeeReference()
     {
-        var json = @"[
-  {
-    ""Name"": ""Mike Manager"",
-    ""$id"": ""1"",
-    ""Manager"": null
-  },
-  {
-    ""Name"": ""Joe User"",
-    ""$id"": ""2"",
-    ""Manager"": {
-      ""$ref"": ""1""
-    }
-  }
-]";
+        var json = """
+            [
+              {
+                "Name": "Mike Manager",
+                "$id": "1",
+                "Manager": null
+              },
+              {
+                "Name": "Joe User",
+                "$id": "2",
+                "Manager": {
+                  "$ref": "1"
+                }
+              }
+            ]
+            """;
 
         var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json, new JsonSerializerSettings
         {
@@ -270,20 +276,22 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeFromJToken()
     {
-        var json = @"[
-  {
-    ""Name"": ""Mike Manager"",
-    ""$id"": ""1"",
-    ""Manager"": null
-  },
-  {
-    ""Name"": ""Joe User"",
-    ""$id"": ""2"",
-    ""Manager"": {
-      ""$ref"": ""1""
-    }
-  }
-]";
+        var json = """
+            [
+              {
+                "Name": "Mike Manager",
+                "$id": "1",
+                "Manager": null
+              },
+              {
+                "Name": "Joe User",
+                "$id": "2",
+                "Manager": {
+                  "$ref": "1"
+                }
+              }
+            ]
+            """;
 
         var t1 = JToken.Parse(json);
         var t2 = t1.CloneToken();
@@ -308,27 +316,29 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var employeeRef = typeof(EmployeeReference).AssemblyQualifiedName;
         var personRef = typeof(Person).AssemblyQualifiedName;
 
-        var json = $@"[
-  {{
-    ""Name"": ""Bob"",
-    ""$id"": ""1"",
-    ""$type"": ""{employeeRef}"",
-    ""Manager"": {{
-      ""$id"": ""2"",
-      ""$type"": ""{employeeRef}"",
-      ""Name"": ""Frank"",
-      ""Manager"": null
-    }}
-  }},
-  {{
-    ""Name"": null,
-    ""$type"": ""{personRef}"",
-    ""BirthDate"": ""2000-03-30T00:00:00Z"",
-    ""LastModified"": ""2000-03-30T00:00:00Z""
-  }},
-  ""String!"",
-  -2147483648
-]";
+        var json = $$"""
+            [
+              {
+                "Name": "Bob",
+                "$id": "1",
+                "$type": "{{employeeRef}}",
+                "Manager": {
+                  "$id": "2",
+                  "$type": "{{employeeRef}}",
+                  "Name": "Frank",
+                  "Manager": null
+                }
+              },
+              {
+                "Name": null,
+                "$type": "{{personRef}}",
+                "BirthDate": "2000-03-30T00:00:00Z",
+                "LastModified": "2000-03-30T00:00:00Z"
+              },
+              "String!",
+              -2147483648
+            ]
+            """;
 
         var values = (List<object>) JsonConvert.DeserializeObject(
             json,
@@ -369,19 +379,21 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""Name"": ""Name!"",
-  ""Value"": {{
-    ""$type"": ""{listRef}"",
-    ""$values"": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  }}
-}}", json);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "Name": "Name!",
+              "Value": {
+                "$type": "{{listRef}}",
+                "$values": [
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              }
+            }
+            """, json);
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameHandlingTests.TypeNameProperty>(
             json,
@@ -468,17 +480,19 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void PrimitiveType_MetadataPropertyIgnore()
     {
-        var actual = JsonConvert.DeserializeObject<Item>(@"{
-  ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
-  ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
-  ""Latitude"": 33.657145,
-  ""Longitude"": -117.766684,
-  ""TimeStamp"": ""2000-03-01T23:59:59Z"",
-  ""Payload"": {
-    ""$type"": ""System.Byte[], mscorlib"",
-    ""$value"": ""AAECAwQFBgcICQ==""
-  }
-}",
+        var actual = JsonConvert.DeserializeObject<Item>("""
+            {
+              "SourceTypeID": "d8220a4b-75b1-4b7a-8112-b7bdae956a45",
+              "BrokerID": "951663c4-924e-4c86-a57a-7ed737501dbd",
+              "Latitude": 33.657145,
+              "Longitude": -117.766684,
+              "TimeStamp": "2000-03-01T23:59:59Z",
+              "Payload": {
+                "$type": "System.Byte[], mscorlib",
+                "$value": "AAECAwQFBgcICQ=="
+              }
+            }
+            """,
             new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
@@ -565,12 +579,14 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void PrimitiveType_MetadataPropertyIgnore_WithNoType()
     {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
-  ""Payload"": {
-    ""$type"": ""System.Single, mscorlib"",
-    ""$value"": ""5""
-  }
-}",
+        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+            {
+              "Payload": {
+                "$type": "System.Single, mscorlib",
+                "$value": "5"
+              }
+            }
+            """,
             new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
@@ -578,12 +594,14 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         Assert.Equal(5f, actual.Payload);
 
-        actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
-  ""Payload"": {
-    ""$type"": ""System.Single, mscorlib"",
-    ""$value"": ""5""
-  }
-}",
+        actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+            {
+              "Payload": {
+                "$type": "System.Single, mscorlib",
+                "$value": "5"
+              }
+            }
+            """,
             new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,

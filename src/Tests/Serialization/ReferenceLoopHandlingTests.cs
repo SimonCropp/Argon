@@ -193,13 +193,15 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""main"",
-  ""Manager"": {
-    ""Name"": ""main"",
-    ""Manager"": null
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "main",
+              "Manager": {
+                "Name": "main",
+                "Manager": null
+              }
+            }
+            """, json);
     }
 
 

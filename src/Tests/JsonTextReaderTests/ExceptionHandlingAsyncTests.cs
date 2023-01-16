@@ -291,9 +291,11 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task MissingColonAsync()
     {
-        var json = @"{
-    ""A"" : true,
-    ""B"" """;
+        var json = """
+            {
+                "A" : true,
+                "B" "
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
 

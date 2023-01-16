@@ -99,10 +99,12 @@ public class JObjectAsyncTests : TestFixtureBase
 
         var o = (JObject) await JToken.ReadFromAsync(reader);
         Assert.NotNull(o);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""code"": 0,
-  ""msg"": ""No action taken""
-}", o.ToString(Formatting.Indented));
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "code": 0,
+              "msg": "No action taken"
+            }
+            """, o.ToString(Formatting.Indented));
     }
 
     [Fact]
@@ -110,12 +112,14 @@ public class JObjectAsyncTests : TestFixtureBase
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             async () =>
             {
-                var jsonText = @"{
-  ""short"":
-  {
-    ""error"":
-    {
-      ""code"":0";
+                var jsonText = """
+                    {
+                      "short":
+                      {
+                        "error":
+                        {
+                          "code":0
+                    """;
 
                 var reader = new JsonTextReader(new StringReader(jsonText));
                 await reader.ReadAsync();

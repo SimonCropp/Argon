@@ -207,14 +207,16 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         Console.WriteLine(writer.Token.ToString());
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""prop1"": [
-      1
-    ],
-    ""prop2"": 1
-  }
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "prop1": [
+                  1
+                ],
+                "prop2": 1
+              }
+            ]
+            """, writer.Token.ToString());
     }
 
     [Fact]

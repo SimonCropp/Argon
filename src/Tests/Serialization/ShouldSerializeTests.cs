@@ -160,17 +160,19 @@ public class ShouldSerializeTests : TestFixtureBase
         //   }
         // ]
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""Joe Employee"",
-    ""Manager"": {
-      ""Name"": ""Mike Manager""
-    }
-  },
-  {
-    ""Name"": ""Mike Manager""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "Joe Employee",
+                "Manager": {
+                  "Name": "Mike Manager"
+                }
+              },
+              {
+                "Name": "Mike Manager"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
@@ -308,15 +310,17 @@ public class ShouldSerializeTests : TestFixtureBase
         //  }
         //]
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""Joe Family Details"",
-    ""NumberOfChildren"": 4
-  },
-  {
-    ""Name"": ""Martha Family Details""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "Joe Family Details",
+                "NumberOfChildren": 4
+              },
+              {
+                "Name": "Martha Family Details"
+              }
+            ]
+            """, json);
 
         var mikeString = "{\"Name\": \"Mike Person\"}";
         var mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeString);
@@ -358,13 +362,15 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(joe, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Age"": 100,
-  ""Name"": ""Joe Employee"",
-  ""Manager"": {
-    ""Name"": ""Mike Manager""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Age": 100,
+              "Name": "Joe Employee",
+              "Manager": {
+                "Name": "Mike Manager"
+              }
+            }
+            """, json);
     }
 
     [Fact]

@@ -480,29 +480,31 @@ public class JsonSerializerTest : TestFixtureBase
   ""Name"": ""Name!""
 }", json);
 
-        var deserializeJson = @"{
-  ""IgnoredList"": [
-    {
-      ""Major"": 1,
-      ""Minor"": 2,
-      ""Build"": 3,
-      ""Revision"": 4,
-      ""MajorRevision"": 0,
-      ""MinorRevision"": 4
-    }
-  ],
-  ""IgnoredDictionary"": {
-    ""Value"": {
-      ""Major"": 1,
-      ""Minor"": 2,
-      ""Build"": 3,
-      ""Revision"": 4,
-      ""MajorRevision"": 0,
-      ""MinorRevision"": 4
-    }
-  },
-  ""Name"": ""Name!""
-}";
+        var deserializeJson = """
+            {
+              "IgnoredList": [
+                {
+                  "Major": 1,
+                  "Minor": 2,
+                  "Build": 3,
+                  "Revision": 4,
+                  "MajorRevision": 0,
+                  "MinorRevision": 4
+                }
+              ],
+              "IgnoredDictionary": {
+                "Value": {
+                  "Major": 1,
+                  "Minor": 2,
+                  "Build": 3,
+                  "Revision": 4,
+                  "MajorRevision": 0,
+                  "MinorRevision": 4
+                }
+              },
+              "Name": "Name!"
+            }
+            """;
 
         var c2 = JsonConvert.DeserializeObject<IgnoredPropertiesTestClass>(
             deserializeJson,
@@ -554,13 +556,15 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeNullToJTokenProperty()
     {
-        var otc = JsonConvert.DeserializeObject<NullTestClass>(@"{
-    ""Value1"": null,
-    ""Value2"": null,
-    ""Value3"": null,
-    ""Value4"": null,
-    ""Value5"": null
-}");
+        var otc = JsonConvert.DeserializeObject<NullTestClass>("""
+            {
+                "Value1": null,
+                "Value2": null,
+                "Value3": null,
+                "Value4": null,
+                "Value5": null
+            }
+            """);
         Assert.Null(otc.Value1);
         Assert.Equal(JTokenType.Null, otc.Value2.Type);
         Assert.Equal(JTokenType.Raw, otc.Value3.Type);
@@ -2333,42 +2337,44 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeGoogleGeoCode()
     {
-        var json = @"{
-  ""name"": ""1600 Amphitheatre Parkway, Mountain View, CA, USA"",
-  ""Status"": {
-    ""code"": 200,
-    ""request"": ""geocode""
-  },
-  ""Placemark"": [
-    {
-      ""address"": ""1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA"",
-      ""AddressDetails"": {
-        ""Country"": {
-          ""CountryNameCode"": ""US"",
-          ""AdministrativeArea"": {
-            ""AdministrativeAreaName"": ""CA"",
-            ""SubAdministrativeArea"": {
-              ""SubAdministrativeAreaName"": ""Santa Clara"",
-              ""Locality"": {
-                ""LocalityName"": ""Mountain View"",
-                ""Thoroughfare"": {
-                  ""ThoroughfareName"": ""1600 Amphitheatre Pkwy""
-                },
-                ""PostalCode"": {
-                  ""PostalCodeNumber"": ""94043""
+        var json = """
+            {
+              "name": "1600 Amphitheatre Parkway, Mountain View, CA, USA",
+              "Status": {
+                "code": 200,
+                "request": "geocode"
+              },
+              "Placemark": [
+                {
+                  "address": "1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
+                  "AddressDetails": {
+                    "Country": {
+                      "CountryNameCode": "US",
+                      "AdministrativeArea": {
+                        "AdministrativeAreaName": "CA",
+                        "SubAdministrativeArea": {
+                          "SubAdministrativeAreaName": "Santa Clara",
+                          "Locality": {
+                            "LocalityName": "Mountain View",
+                            "Thoroughfare": {
+                              "ThoroughfareName": "1600 Amphitheatre Pkwy"
+                            },
+                            "PostalCode": {
+                              "PostalCodeNumber": "94043"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Accuracy": 8
+                  },
+                  "Point": {
+                    "coordinates": [-122.083739, 37.423021, 0]
+                  }
                 }
-              }
+              ]
             }
-          }
-        },
-        ""Accuracy"": 8
-      },
-      ""Point"": {
-        ""coordinates"": [-122.083739, 37.423021, 0]
-      }
-    }
-  ]
-}";
+            """;
 
         var jsonGoogleMapGeocoder = JsonConvert.DeserializeObject<GoogleMapGeocoderStructure>(json);
     }
@@ -2441,23 +2447,25 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""IEnumerableProperty"": [
-    4,
-    5,
-    6
-  ],
-  ""IListProperty"": [
-    1,
-    2,
-    3
-  ],
-  ""IDictionaryProperty"": {
-    ""one"": 1,
-    ""two"": 2,
-    ""three"": 3
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "IEnumerableProperty": [
+                4,
+                5,
+                6
+              ],
+              "IListProperty": [
+                1,
+                2,
+                3
+              ],
+              "IDictionaryProperty": {
+                "one": 1,
+                "two": 2,
+                "three": 3
+              }
+            }
+            """, json);
 
         var deserializedObject = JsonConvert.DeserializeObject<GenericListAndDictionaryInterfaceProperties>(json);
         Assert.NotNull(deserializedObject);
@@ -2624,23 +2632,25 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void PartialClassDeserialize()
     {
-        var json = @"{
-    ""request"": ""ux.settings.update"",
-    ""sid"": ""14c561bd-32a8-457e-b4e5-4bba0832897f"",
-    ""uid"": ""30c39065-0f31-de11-9442-001e3786a8ec"",
-    ""fidOrder"": [
-        ""id"",
-        ""andytest_name"",
-        ""andytest_age"",
-        ""andytest_address"",
-        ""andytest_phone"",
-        ""date"",
-        ""title"",
-        ""titleId""
-    ],
-    ""entityName"": ""Andy Test"",
-    ""setting"": ""entity.field.order""
-}";
+        var json = """
+            {
+                "request": "ux.settings.update",
+                "sid": "14c561bd-32a8-457e-b4e5-4bba0832897f",
+                "uid": "30c39065-0f31-de11-9442-001e3786a8ec",
+                "fidOrder": [
+                    "id",
+                    "andytest_name",
+                    "andytest_age",
+                    "andytest_address",
+                    "andytest_phone",
+                    "date",
+                    "title",
+                    "titleId"
+                ],
+                "entityName": "Andy Test",
+                "setting": "entity.field.order"
+            }
+            """;
 
         var r = JsonConvert.DeserializeObject<RequestOnly>(json);
         Assert.Equal("ux.settings.update", r.Request);
@@ -2676,12 +2686,14 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeDictionaryInterface()
     {
-        var json = @"{
-  ""Name"": ""Name!"",
-  ""Dictionary"": {
-    ""Item"": 11
-  }
-}";
+        var json = """
+            {
+              "Name": "Name!",
+              "Dictionary": {
+                "Item": 11
+              }
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<DictionaryInterfaceClass>(
             json,
@@ -2758,17 +2770,19 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void NestedInsideOuterObject()
     {
-        var json = @"{
-  ""short"": {
-    ""original"": ""http://www.contrast.ie/blog/online&#45;marketing&#45;2009/"",
-    ""short"": ""m2sqc6"",
-    ""shortened"": ""http://short.ie/m2sqc6"",
-    ""error"": {
-      ""code"": 0,
-      ""msg"": ""No action taken""
-    }
-  }
-}";
+        var json = """
+            {
+              "short": {
+                "original": "http://www.contrast.ie/blog/online&#45;marketing&#45;2009/",
+                "short": "m2sqc6",
+                "shortened": "http://short.ie/m2sqc6",
+                "error": {
+                  "code": 0,
+                  "msg": "No action taken"
+                }
+              }
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -3644,14 +3658,16 @@ Path '', line 1, position 1.");
 
         var json = JsonConvert.SerializeObject(personPropertyClass, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
-            @"{
-  ""Person"": {
-    ""HourlyWage"": 12.50,
-    ""Name"": ""Jim Bob"",
-    ""BirthDate"": ""2000-11-29T23:59:59Z"",
-    ""LastModified"": ""2000-11-29T23:59:59Z""
-  }
-}",
+            """
+                {
+                  "Person": {
+                    "HourlyWage": 12.50,
+                    "Name": "Jim Bob",
+                    "BirthDate": "2000-11-29T23:59:59Z",
+                    "LastModified": "2000-11-29T23:59:59Z"
+                  }
+                }
+                """,
             json);
 
         var newPersonPropertyClass = JsonConvert.DeserializeObject<PersonPropertyClass>(json);
@@ -3779,20 +3795,24 @@ Path '', line 1, position 1.");
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""C2"": {
-    ""IntProperty"": 1
-  },
-  ""StringProperty"": ""Value!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "C2": {
+                "IntProperty": 1
+              },
+              "StringProperty": "Value!"
+            }
+            """, json);
 
-        var newC1 = JsonConvert.DeserializeObject<CircularConstructor1>(@"{
-  ""C2"": {
-    ""IntProperty"": 1,
-    ""C1"": {}
-  },
-  ""StringProperty"": ""Value!""
-}");
+        var newC1 = JsonConvert.DeserializeObject<CircularConstructor1>("""
+            {
+              "C2": {
+                "IntProperty": 1,
+                "C1": {}
+              },
+              "StringProperty": "Value!"
+            }
+            """);
 
         Assert.Equal("Value!", newC1.StringProperty);
         Assert.Equal(1, newC1.C2.IntProperty);
@@ -3913,18 +3933,20 @@ Path '', line 1, position 1.");
         };
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(testObject, settings);
-        var expected = @"{
-  ""Document"": {
-    ""root"": ""hehe, root""
-  },
-  ""Element"": {
-    ""fifth"": {
-      ""@xmlns:json"": ""http://json.org"",
-      ""@json:Awesome"": ""true"",
-      ""#text"": ""element""
-    }
-  }
-}";
+        var expected = """
+            {
+              "Document": {
+                "root": "hehe, root"
+              },
+              "Element": {
+                "fifth": {
+                  "@xmlns:json": "http://json.org",
+                  "@json:Awesome": "true",
+                  "#text": "element"
+                }
+              }
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XNodeTestObject>(json, settings);
@@ -4283,14 +4305,16 @@ Path '', line 1, position 1.");
         expando.Complex.DateTime = new DateTime(2000, 12, 20, 18, 55, 0, DateTimeKind.Utc);
 
         string json = JsonConvert.SerializeObject(expando, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Int"": 1,
-  ""Decimal"": 99.9,
-  ""Complex"": {
-    ""String"": ""I am a string"",
-    ""DateTime"": ""2000-12-20T18:55:00Z""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Int": 1,
+              "Decimal": 99.9,
+              "Complex": {
+                "String": "I am a string",
+                "DateTime": "2000-12-20T18:55:00Z"
+              }
+            }
+            """, json);
 
         IDictionary<string, object> newExpando = JsonConvert.DeserializeObject<ExpandoObject>(json);
 
@@ -4675,13 +4699,15 @@ Path '', line 1, position 1.");
         c1.Categories.Add("two", 2);
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Title"": ""blah"",
-  ""Categories"": {
-    ""one"": 1,
-    ""two"": 2
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Title": "blah",
+              "Categories": {
+                "one": 1,
+                "two": 2
+              }
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<NonDefaultConstructorWithReadOnlyDictionaryProperty>(json);
         Assert.Equal(c1.Title, c2.Title);
@@ -5154,17 +5180,19 @@ Path '', line 1, position 1.");
 
         var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""SourceTypeID"": ""d8220a4b-75b1-4b7a-8112-b7bdae956a45"",
-  ""BrokerID"": ""951663c4-924e-4c86-a57a-7ed737501dbd"",
-  ""Latitude"": 33.657145,
-  ""Longitude"": -117.766684,
-  ""TimeStamp"": ""2000-03-01T23:59:59Z"",
-  ""Payload"": {{
-    ""$type"": ""{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
-    ""$value"": ""AAECAwQFBgcICQ==""
-  }}
-}}", jsonString);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "SourceTypeID": "d8220a4b-75b1-4b7a-8112-b7bdae956a45",
+              "BrokerID": "951663c4-924e-4c86-a57a-7ed737501dbd",
+              "Latitude": 33.657145,
+              "Longitude": -117.766684,
+              "TimeStamp": "2000-03-01T23:59:59Z",
+              "Payload": {
+                "$type": "{{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
+                "$value": "AAECAwQFBgcICQ=="
+              }
+            }
+            """, jsonString);
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString);
 
@@ -6137,22 +6165,24 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""$id"": ""0b64ffdf-d155-44ad-9689-58d9adb137f3"",
-    ""Name"": ""John Smith"",
-    ""Spouse"": {
-      ""$id"": ""ae3c399c-058d-431d-91b0-a36c266441b9"",
-      ""Name"": ""Jane Smith"",
-      ""Spouse"": {
-        ""$ref"": ""0b64ffdf-d155-44ad-9689-58d9adb137f3""
-      }
-    }
-  },
-  {
-    ""$ref"": ""ae3c399c-058d-431d-91b0-a36c266441b9""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
+                "Name": "John Smith",
+                "Spouse": {
+                  "$id": "ae3c399c-058d-431d-91b0-a36c266441b9",
+                  "Name": "Jane Smith",
+                  "Spouse": {
+                    "$ref": "0b64ffdf-d155-44ad-9689-58d9adb137f3"
+                  }
+                }
+              },
+              {
+                "$ref": "ae3c399c-058d-431d-91b0-a36c266441b9"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
@@ -6186,22 +6216,24 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""$id"": ""1"",
-    ""Name"": ""John Smith"",
-    ""Spouse"": {
-      ""$id"": ""2"",
-      ""Name"": ""Jane Smith"",
-      ""Spouse"": {
-        ""$ref"": ""1""
-      }
-    }
-  },
-  {
-    ""$ref"": ""2""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "$id": "1",
+                "Name": "John Smith",
+                "Spouse": {
+                  "$id": "2",
+                  "Name": "Jane Smith",
+                  "Spouse": {
+                    "$ref": "1"
+                  }
+                }
+              },
+              {
+                "$ref": "2"
+              }
+            ]
+            """, json);
     }
 
 #if !NET5_0_OR_GREATER
@@ -6239,22 +6271,24 @@ This is just junk, though.";
     [Fact]
     public void DeserializeCustomReferenceResolver()
     {
-        var json = @"[
-  {
-    ""$id"": ""0b64ffdf-d155-44ad-9689-58d9adb137f3"",
-    ""Name"": ""John Smith"",
-    ""Spouse"": {
-      ""$id"": ""ae3c399c-058d-431d-91b0-a36c266441b9"",
-      ""Name"": ""Jane Smith"",
-      ""Spouse"": {
-        ""$ref"": ""0b64ffdf-d155-44ad-9689-58d9adb137f3""
-      }
-    }
-  },
-  {
-    ""$ref"": ""ae3c399c-058d-431d-91b0-a36c266441b9""
-  }
-]";
+        var json = """
+            [
+              {
+                "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
+                "Name": "John Smith",
+                "Spouse": {
+                  "$id": "ae3c399c-058d-431d-91b0-a36c266441b9",
+                  "Name": "Jane Smith",
+                  "Spouse": {
+                    "$ref": "0b64ffdf-d155-44ad-9689-58d9adb137f3"
+                  }
+                }
+              },
+              {
+                "$ref": "ae3c399c-058d-431d-91b0-a36c266441b9"
+              }
+            ]
+            """;
 
         var people = JsonConvert.DeserializeObject<IList<PersonReference>>(json, new JsonSerializerSettings
         {
@@ -6275,22 +6309,24 @@ This is just junk, though.";
     [Fact]
     public void DeserializeCustomReferenceResolver_ViaProvider()
     {
-        var json = @"[
-  {
-    ""$id"": ""0b64ffdf-d155-44ad-9689-58d9adb137f3"",
-    ""Name"": ""John Smith"",
-    ""Spouse"": {
-      ""$id"": ""ae3c399c-058d-431d-91b0-a36c266441b9"",
-      ""Name"": ""Jane Smith"",
-      ""Spouse"": {
-        ""$ref"": ""0b64ffdf-d155-44ad-9689-58d9adb137f3""
-      }
-    }
-  },
-  {
-    ""$ref"": ""ae3c399c-058d-431d-91b0-a36c266441b9""
-  }
-]";
+        var json = """
+            [
+              {
+                "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
+                "Name": "John Smith",
+                "Spouse": {
+                  "$id": "ae3c399c-058d-431d-91b0-a36c266441b9",
+                  "Name": "Jane Smith",
+                  "Spouse": {
+                    "$ref": "0b64ffdf-d155-44ad-9689-58d9adb137f3"
+                  }
+                }
+              },
+              {
+                "$ref": "ae3c399c-058d-431d-91b0-a36c266441b9"
+              }
+            ]
+            """;
 
         var people = JsonConvert.DeserializeObject<IList<PersonReference>>(json, new JsonSerializerSettings
         {

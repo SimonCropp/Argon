@@ -938,26 +938,28 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Key"": ""key1"",
-    ""Value"": {
-      ""HourlyWage"": 1.0,
-      ""Name"": null,
-      ""BirthDate"": ""2000-12-01T23:01:01Z"",
-      ""LastModified"": ""2000-12-01T23:01:01Z""
-    }
-  },
-  {
-    ""Key"": ""key2"",
-    ""Value"": {
-      ""HourlyWage"": 2.0,
-      ""Name"": null,
-      ""BirthDate"": ""2000-12-01T23:01:01Z"",
-      ""LastModified"": ""2000-12-01T23:01:01Z""
-    }
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Key": "key1",
+                "Value": {
+                  "HourlyWage": 1.0,
+                  "Name": null,
+                  "BirthDate": "2000-12-01T23:01:01Z",
+                  "LastModified": "2000-12-01T23:01:01Z"
+                }
+              },
+              {
+                "Key": "key2",
+                "Value": {
+                  "HourlyWage": 2.0,
+                  "Name": null,
+                  "BirthDate": "2000-12-01T23:01:01Z",
+                  "LastModified": "2000-12-01T23:01:01Z"
+                }
+              }
+            ]
+            """, json);
 
         var result = JsonConvert.DeserializeObject<List<KeyValuePair<string, WagePerson>>>(json);
         Assert.Equal(2, result.Count);
@@ -1076,13 +1078,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var originalJson = JsonConvert.SerializeObject(go, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Components"": {
-    ""Key!"": {}
-  },
-  ""Id"": ""Id!"",
-  ""Name"": ""Name!""
-}", originalJson);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Components": {
+                "Key!": {}
+              },
+              "Id": "Id!",
+              "Name": "Name!"
+            }
+            """, originalJson);
 
         var newObject = JsonConvert.DeserializeObject<GameObject>(originalJson);
 
@@ -1258,38 +1262,40 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void PopulateReadOnlyCollections()
     {
-        var json = @"{
-  ""NonReadOnlyList"": [
-    11
-  ],
-  ""NonReadOnlyDictionary"": {
-    ""first"": 12
-  },
-  ""Array"": [
-    13
-  ],
-  ""List"": [
-    14
-  ],
-  ""Dictionary"": {
-    ""first"": 15
-  },
-  ""IReadOnlyCollection"": [
-    16
-  ],
-  ""ReadOnlyCollection"": [
-    17
-  ],
-  ""IReadOnlyList"": [
-    18
-  ],
-  ""IReadOnlyDictionary"": {
-    ""first"": 19
-  },
-  ""ReadOnlyDictionary"": {
-    ""first"": 20
-  }
-}";
+        var json = """
+            {
+              "NonReadOnlyList": [
+                11
+              ],
+              "NonReadOnlyDictionary": {
+                "first": 12
+              },
+              "Array": [
+                13
+              ],
+              "List": [
+                14
+              ],
+              "Dictionary": {
+                "first": 15
+              },
+              "IReadOnlyCollection": [
+                16
+              ],
+              "ReadOnlyCollection": [
+                17
+              ],
+              "IReadOnlyList": [
+                18
+              ],
+              "IReadOnlyDictionary": {
+                "first": 19
+              },
+              "ReadOnlyDictionary": {
+                "first": 20
+              }
+            }
+            """;
 
         var c2 = JsonConvert.DeserializeObject<PopulateReadOnlyTestClass>(json);
 
@@ -2209,20 +2215,22 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         //  }
         //]
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""Product 1"",
-    ""ExpiryDate"": ""2000-12-29T00:00:00Z"",
-    ""Price"": 99.95,
-    ""Sizes"": null
-  },
-  {
-    ""Name"": ""Product 2"",
-    ""ExpiryDate"": ""2009-07-31T00:00:00Z"",
-    ""Price"": 12.50,
-    ""Sizes"": null
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "Product 1",
+                "ExpiryDate": "2000-12-29T00:00:00Z",
+                "Price": 99.95,
+                "Sizes": null
+              },
+              {
+                "Name": "Product 2",
+                "ExpiryDate": "2009-07-31T00:00:00Z",
+                "Price": 12.50,
+                "Sizes": null
+              }
+            ]
+            """, json);
     }
 
     [Fact]

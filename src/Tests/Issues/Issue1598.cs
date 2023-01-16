@@ -45,11 +45,13 @@ public class Issue1598 : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""An activity""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "An activity"
+              }
+            ]
+            """, json);
     }
 
     public class Activity

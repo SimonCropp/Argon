@@ -1228,28 +1228,30 @@ public class JTokenTests : TestFixtureBase
 
         var a2 = (JArray) a.DeepClone();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  5,
-  [
-    1
-  ],
-  [
-    1,
-    2
-  ],
-  [
-    1,
-    2,
-    3
-  ],
-  {
-    ""First"": ""SGk="",
-    ""Second"": 1,
-    ""Third"": null,
-    ""Fifth"": ""Infinity"",
-    ""Sixth"": ""NaN""
-  }
-]", a2.ToString(Formatting.Indented));
+        XUnitAssert.AreEqualNormalized("""
+            [
+              5,
+              [
+                1
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                2,
+                3
+              ],
+              {
+                "First": "SGk=",
+                "Second": 1,
+                "Third": null,
+                "Fifth": "Infinity",
+                "Sixth": "NaN"
+              }
+            ]
+            """, a2.ToString(Formatting.Indented));
 
         Assert.True(a.DeepEquals(a2));
     }

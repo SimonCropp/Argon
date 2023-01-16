@@ -301,9 +301,11 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void MissingColon()
     {
-        var json = @"{
-    ""A"" : true,
-    ""B"" """;
+        var json = """
+            {
+                "A" : true,
+                "B" "
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
 

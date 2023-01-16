@@ -87,18 +87,20 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void ErrorDeserializingListHandled()
     {
-        var json = @"[
-  {
-    ""Name"": ""Jim"",
-    ""BirthDate"": ""2013-08-14T00:00:00.000"",
-    ""LastModified"": ""2013-08-14T00:00:00.000""
-  },
-  {
-    ""Name"": ""Jim"",
-    ""BirthDate"": ""2013-08-14T00:00:00.000"",
-    ""LastModified"": ""2013-08-14T00:00:00.000""
-  }
-]";
+        var json = """
+            [
+              {
+                "Name": "Jim",
+                "BirthDate": "2013-08-14T00:00:00.000",
+                "LastModified": "2013-08-14T00:00:00.000"
+              },
+              {
+                "Name": "Jim",
+                "BirthDate": "2013-08-14T00:00:00.000",
+                "LastModified": "2013-08-14T00:00:00.000"
+              }
+            ]
+            """;
 
         var possibleMsgs = new[]
         {
@@ -117,28 +119,30 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializingErrorInChildObject()
     {
-        var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(@"[
-  {
-    ""Member"": ""Value1"",
-    ""Member2"": null
-  },
-  {
-    ""Member"": ""Value2""
-  },
-  {
-    ""ThrowError"": ""Value"",
-    ""Object"": {
-      ""Array"": [
-        1,
-        2
-      ]
-    }
-  },
-  {
-    ""ThrowError"": ""Handle this!"",
-    ""Member"": ""Value3""
-  }
-]");
+        var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>("""
+            [
+              {
+                "Member": "Value1",
+                "Member2": null
+              },
+              {
+                "Member": "Value2"
+              },
+              {
+                "ThrowError": "Value",
+                "Object": {
+                  "Array": [
+                    1,
+                    2
+                  ]
+                }
+              },
+              {
+                "ThrowError": "Handle this!",
+                "Member": "Value3"
+              }
+            ]
+            """);
 
         Assert.Equal(3, c.Count);
         Assert.Equal("Value1", c[0].Member);
@@ -268,21 +272,23 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Member"": ""Value1"",
-    ""ThrowError"": ""Handle this!"",
-    ""Member2"": ""Member1""
-  },
-  {
-    ""Member"": ""Value2""
-  },
-  {
-    ""Member"": ""Value3"",
-    ""ThrowError"": ""Handle that!"",
-    ""Member2"": ""Member3""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Member": "Value1",
+                "ThrowError": "Handle this!",
+                "Member2": "Member1"
+              },
+              {
+                "Member": "Value2"
+              },
+              {
+                "Member": "Value3",
+                "ThrowError": "Handle that!",
+                "Member2": "Member3"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
@@ -701,12 +707,14 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<string>();
 
-        var json = @"{
-  ""Explicit"": true,
-  ""Decimal"": 99.9,
-  ""Int"": 1,
-  ""ChildObject"": {
-    ""Integer"": 123";
+        var json = """
+            {
+              "Explicit": true,
+              "Decimal": 99.9,
+              "Int": 1,
+              "ChildObject": {
+                "Integer": 123
+            """;
 
         var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(
             json,

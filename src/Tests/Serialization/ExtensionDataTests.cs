@@ -361,20 +361,22 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""readonly"": ""Readonly"",
-  ""name"": null,
-  ""custom_name"": null,
-  ""getPrivate"": false,
-  ""getOnly"": true,
-  ""ints"": [
-    0
-  ],
-  ""testValue1"": 1,
-  ""alreadyCamelCase"": {
-    ""NotProcessed"": true
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "readonly": "Readonly",
+              "name": null,
+              "custom_name": null,
+              "getPrivate": false,
+              "getOnly": true,
+              "ints": [
+                0
+              ],
+              "testValue1": 1,
+              "alreadyCamelCase": {
+                "NotProcessed": true
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -439,13 +441,15 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": null,
-  ""testValue1"": 1,
-  ""alreadyCamelCase"": {
-    ""NotProcessed"": true
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": null,
+              "testValue1": 1,
+              "alreadyCamelCase": {
+                "NotProcessed": true
+              }
+            }
+            """, json);
     }
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -619,14 +623,16 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""Name"": ""Name!"",
-  ""Test"": 1,
-  ""Self"": {
-    ""$ref"": ""1""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "Name": "Name!",
+              "Test": 1,
+              "Self": {
+                "$ref": "1"
+              }
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json, new JsonSerializerSettings
         {
@@ -644,14 +650,16 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void DeserializePublicJTokenExtensionDataCircularReference()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""Name"": ""Name!"",
-  ""Test"": 1,
-  ""Self"": {
-    ""$ref"": ""1""
-  }
-}";
+        var json = """
+            {
+              "$id": "1",
+              "Name": "Name!",
+              "Test": 1,
+              "Self": {
+                "$ref": "1"
+              }
+            }
+            """;
 
         var c2 = JsonConvert.DeserializeObject<PublicJTokenExtensionDataAttributeTestClass>(json, new JsonSerializerSettings
         {
@@ -668,18 +676,20 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void DeserializePublicExtensionDataTypeNamdHandling()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""Name"": ""Name!"",
-  ""Test"": 1,
-  ""Self"": {
-    ""$type"": ""TestObjects.WagePerson, Tests"",
-    ""HourlyWage"": 2.0,
-    ""Name"": null,
-    ""BirthDate"": ""0001-01-01T00:00:00"",
-    ""LastModified"": ""0001-01-01T00:00:00""
-  }
-}";
+        var json = """
+            {
+              "$id": "1",
+              "Name": "Name!",
+              "Test": 1,
+              "Self": {
+                "$type": "TestObjects.WagePerson, Tests",
+                "HourlyWage": 2.0,
+                "Name": null,
+                "BirthDate": "0001-01-01T00:00:00",
+                "LastModified": "0001-01-01T00:00:00"
+              }
+            }
+            """;
 
         var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json, new JsonSerializerSettings
         {
@@ -696,18 +706,20 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void DeserializePublicExtensionDataTypeNameHandlingNonDefaultConstructor()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""Name"": ""Name!"",
-  ""Test"": 1,
-  ""Self"": {
-    ""$type"": ""TestObjects.WagePerson, Tests"",
-    ""HourlyWage"": 2.0,
-    ""Name"": null,
-    ""BirthDate"": ""0001-01-01T00:00:00"",
-    ""LastModified"": ""0001-01-01T00:00:00""
-  }
-}";
+        var json = """
+            {
+              "$id": "1",
+              "Name": "Name!",
+              "Test": 1,
+              "Self": {
+                "$type": "TestObjects.WagePerson, Tests",
+                "HourlyWage": 2.0,
+                "Name": null,
+                "BirthDate": "0001-01-01T00:00:00",
+                "LastModified": "0001-01-01T00:00:00"
+              }
+            }
+            """;
 
         var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClassWithNonDefaultConstructor>(json, new JsonSerializerSettings
         {
@@ -744,27 +756,31 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$type"": ""ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests"",
-  ""Name"": ""Name!"",
-  ""Test"": {
-    ""$type"": ""TestObjects.WagePerson, Tests"",
-    ""HourlyWage"": 2.1,
-    ""Name"": null,
-    ""BirthDate"": ""0001-01-01T00:00:00"",
-    ""LastModified"": ""0001-01-01T00:00:00""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$type": "ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests",
+              "Name": "Name!",
+              "Test": {
+                "$type": "TestObjects.WagePerson, Tests",
+                "HourlyWage": 2.1,
+                "Name": null,
+                "BirthDate": "0001-01-01T00:00:00",
+                "LastModified": "0001-01-01T00:00:00"
+              }
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializePublicExtensionData()
     {
-        var json = @"{
-  'Name':'Name!',
-  'NoMatch':'NoMatch!',
-  'ExtensionData':{'HAI':true}
-}";
+        var json = """
+            {
+              'Name':'Name!',
+              'NoMatch':'NoMatch!',
+              'ExtensionData':{'HAI':true}
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json);
 

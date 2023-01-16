@@ -198,31 +198,35 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""other"": {
-    ""$id"": ""2"",
-    ""blah"": null
-  },
-  ""self"": {
-    ""$ref"": ""1""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "other": {
+                "$id": "2",
+                "blah": null
+              },
+              "self": {
+                "$ref": "1"
+              }
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeDictionarysWithPreserveObjectReferences()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""other"": {
-    ""$id"": ""2"",
-    ""blah"": null
-  },
-  ""self"": {
-    ""$ref"": ""1""
-  }
-}";
+        var json = """
+            {
+              "$id": "1",
+              "other": {
+                "$id": "2",
+                "blah": null
+              },
+              "self": {
+                "$ref": "1"
+              }
+            }
+            """;
 
         var circularDictionary = JsonConvert.DeserializeObject<CircularDictionary>(json,
             new JsonSerializerSettings
@@ -418,11 +422,13 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""other"": {
-    ""blah"": null
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "other": {
+                "blah": null
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -513,47 +519,51 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
             });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""$type"": ""CircularReferenceClass"",
-  ""Name"": ""c1"",
-  ""Child"": {
-    ""$id"": ""2"",
-    ""$type"": ""CircularReferenceClass"",
-    ""Name"": ""c2"",
-    ""Child"": {
-      ""$id"": ""3"",
-      ""$type"": ""CircularReferenceClass"",
-      ""Name"": ""c3"",
-      ""Child"": {
-        ""$ref"": ""1""
-      }
-    }
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "$type": "CircularReferenceClass",
+              "Name": "c1",
+              "Child": {
+                "$id": "2",
+                "$type": "CircularReferenceClass",
+                "Name": "c2",
+                "Child": {
+                  "$id": "3",
+                  "$type": "CircularReferenceClass",
+                  "Name": "c3",
+                  "Child": {
+                    "$ref": "1"
+                  }
+                }
+              }
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeCircularReferencesWithConverter()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""$type"": ""CircularReferenceClass"",
-  ""Name"": ""c1"",
-  ""Child"": {
-    ""$id"": ""2"",
-    ""$type"": ""CircularReferenceClass"",
-    ""Name"": ""c2"",
-    ""Child"": {
-      ""$id"": ""3"",
-      ""$type"": ""CircularReferenceClass"",
-      ""Name"": ""c3"",
-      ""Child"": {
-        ""$ref"": ""1""
-      }
-    }
-  }
-}";
+        var json = """
+            {
+              "$id": "1",
+              "$type": "CircularReferenceClass",
+              "Name": "c1",
+              "Child": {
+                "$id": "2",
+                "$type": "CircularReferenceClass",
+                "Name": "c2",
+                "Child": {
+                  "$id": "3",
+                  "$type": "CircularReferenceClass",
+                  "Name": "c3",
+                  "Child": {
+                    "$ref": "1"
+                  }
+                }
+              }
+            }
+            """;
 
         var c1 = JsonConvert.DeserializeObject<CircularReferenceClass>(
             json,
@@ -592,39 +602,43 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""$id"": ""1"",
-    ""Name"": ""Mike Manager"",
-    ""Manager"": null
-  },
-  {
-    ""$id"": ""2"",
-    ""Name"": ""Joe User"",
-    ""Manager"": {
-      ""$ref"": ""1""
-    }
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "$id": "1",
+                "Name": "Mike Manager",
+                "Manager": null
+              },
+              {
+                "$id": "2",
+                "Name": "Joe User",
+                "Manager": {
+                  "$ref": "1"
+                }
+              }
+            ]
+            """, json);
     }
 
     [Fact]
     public void DeserializeEmployeeReference()
     {
-        var json = @"[
-  {
-    ""$id"": ""1"",
-    ""Name"": ""Mike Manager"",
-    ""Manager"": null
-  },
-  {
-    ""$id"": ""2"",
-    ""Name"": ""Joe User"",
-    ""Manager"": {
-      ""$ref"": ""1""
-    }
-  }
-]";
+        var json = """
+            [
+              {
+                "$id": "1",
+                "Name": "Mike Manager",
+                "Manager": null
+              },
+              {
+                "$id": "2",
+                "Name": "Joe User",
+                "Manager": {
+                  "$ref": "1"
+                }
+              }
+            ]
+            """;
 
         var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
 
@@ -663,29 +677,33 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var value = new ClassWithConditions(condition, condition);
 
         var json = JsonConvert.SerializeObject(value, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Condition1"": {
-    ""$id"": ""1"",
-    ""Value"": 1
-  },
-  ""Condition2"": {
-    ""$ref"": ""1""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Condition1": {
+                "$id": "1",
+                "Value": 1
+              },
+              "Condition2": {
+                "$ref": "1"
+              }
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeIsReferenceReadonlyProperty()
     {
-        var json = @"{
-  ""Condition1"": {
-    ""$id"": ""1"",
-    ""Value"": 1
-  },
-  ""Condition2"": {
-    ""$ref"": ""1""
-  }
-}";
+        var json = """
+            {
+              "Condition1": {
+                "$id": "1",
+                "Value": 1
+              },
+              "Condition2": {
+                "$ref": "1"
+              }
+            }
+            """;
 
         var value = JsonConvert.DeserializeObject<ClassWithConditions>(json);
         Assert.Equal(value.Condition1.Value, 1);
@@ -708,41 +726,45 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""Name"": ""c1"",
-  ""Child"": {
-    ""$id"": ""2"",
-    ""Name"": ""c2"",
-    ""Child"": {
-      ""$id"": ""3"",
-      ""Name"": ""c3"",
-      ""Child"": {
-        ""$ref"": ""1""
-      }
-    }
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "Name": "c1",
+              "Child": {
+                "$id": "2",
+                "Name": "c2",
+                "Child": {
+                  "$id": "3",
+                  "Name": "c3",
+                  "Child": {
+                    "$ref": "1"
+                  }
+                }
+              }
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeCircularReference()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""Name"": ""c1"",
-  ""Child"": {
-    ""$id"": ""2"",
-    ""Name"": ""c2"",
-    ""Child"": {
-      ""$id"": ""3"",
-      ""Name"": ""c3"",
-      ""Child"": {
-        ""$ref"": ""1""
-      }
-    }
-  }
-}";
+        var json = """
+            {
+              "$id": "1",
+              "Name": "c1",
+              "Child": {
+                "$id": "2",
+                "Name": "c2",
+                "Child": {
+                  "$id": "3",
+                  "Name": "c3",
+                  "Child": {
+                    "$ref": "1"
+                  }
+                }
+              }
+            }
+            """;
 
         var c1 =
             JsonConvert.DeserializeObject<CircularReferenceClass>(json, new JsonSerializerSettings
@@ -766,47 +788,51 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""$id"": ""1"",
-    ""Name"": ""e1"",
-    ""Manager"": null
-  },
-  {
-    ""$id"": ""2"",
-    ""Name"": ""e2"",
-    ""Manager"": null
-  },
-  {
-    ""$ref"": ""1""
-  },
-  {
-    ""$ref"": ""2""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "$id": "1",
+                "Name": "e1",
+                "Manager": null
+              },
+              {
+                "$id": "2",
+                "Name": "e2",
+                "Manager": null
+              },
+              {
+                "$ref": "1"
+              },
+              {
+                "$ref": "2"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
     public void DeserializeReferenceInList()
     {
-        var json = @"[
-  {
-    ""$id"": ""1"",
-    ""Name"": ""e1"",
-    ""Manager"": null
-  },
-  {
-    ""$id"": ""2"",
-    ""Name"": ""e2"",
-    ""Manager"": null
-  },
-  {
-    ""$ref"": ""1""
-  },
-  {
-    ""$ref"": ""2""
-  }
-]";
+        var json = """
+            [
+              {
+                "$id": "1",
+                "Name": "e1",
+                "Manager": null
+              },
+              {
+                "$id": "2",
+                "Name": "e2",
+                "Manager": null
+              },
+              {
+                "$ref": "1"
+              },
+              {
+                "$ref": "2"
+              }
+            ]
+            """;
 
         var employees = JsonConvert.DeserializeObject<List<EmployeeReference>>(json);
         Assert.Equal(4, employees.Count);
@@ -836,47 +862,51 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""One"": {
-    ""$id"": ""1"",
-    ""Name"": ""e1"",
-    ""Manager"": null
-  },
-  ""Two"": {
-    ""$id"": ""2"",
-    ""Name"": ""e2"",
-    ""Manager"": null
-  },
-  ""Three"": {
-    ""$ref"": ""1""
-  },
-  ""Four"": {
-    ""$ref"": ""2""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "One": {
+                "$id": "1",
+                "Name": "e1",
+                "Manager": null
+              },
+              "Two": {
+                "$id": "2",
+                "Name": "e2",
+                "Manager": null
+              },
+              "Three": {
+                "$ref": "1"
+              },
+              "Four": {
+                "$ref": "2"
+              }
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeReferenceInDictionary()
     {
-        var json = @"{
-  ""One"": {
-    ""$id"": ""1"",
-    ""Name"": ""e1"",
-    ""Manager"": null
-  },
-  ""Two"": {
-    ""$id"": ""2"",
-    ""Name"": ""e2"",
-    ""Manager"": null
-  },
-  ""Three"": {
-    ""$ref"": ""1""
-  },
-  ""Four"": {
-    ""$ref"": ""2""
-  }
-}";
+        var json = """
+            {
+              "One": {
+                "$id": "1",
+                "Name": "e1",
+                "Manager": null
+              },
+              "Two": {
+                "$id": "2",
+                "Name": "e2",
+                "Manager": null
+              },
+              "Three": {
+                "$ref": "1"
+              },
+              "Four": {
+                "$ref": "2"
+              }
+            }
+            """;
 
         var employees = JsonConvert.DeserializeObject<Dictionary<string, EmployeeReference>>(json);
         Assert.Equal(4, employees.Count);
@@ -1125,19 +1155,21 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""$id"": ""1"",
-    ""MyProperty"": 0
-  },
-  {
-    ""$id"": ""2"",
-    ""MyProperty"": 0
-  },
-  {
-    ""$ref"": ""1""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "$id": "1",
+                "MyProperty": 0
+              },
+              {
+                "$id": "2",
+                "MyProperty": 0
+              },
+              {
+                "$ref": "1"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
@@ -1171,19 +1203,21 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""First"": {
-    ""$id"": ""1"",
-    ""MyProperty"": 0
-  },
-  ""Second"": {
-    ""$id"": ""2"",
-    ""MyProperty"": 0
-  },
-  ""Third"": {
-    ""$ref"": ""1""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "First": {
+                "$id": "1",
+                "MyProperty": 0
+              },
+              "Second": {
+                "$id": "2",
+                "MyProperty": 0
+              },
+              "Third": {
+                "$ref": "1"
+              }
+            }
+            """, json);
 
         var d = JsonConvert.DeserializeObject<ReferencedDictionary<TestComponentSimple>>(json);
         Assert.Equal(3, d.Count);
@@ -1204,20 +1238,22 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         o1.Integer = int.MaxValue;
 
         var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
-        var expected = @"{
-  ""Component1"": {
-    ""$id"": ""1"",
-    ""MyProperty"": 1
-  },
-  ""Component2"": {
-    ""$ref"": ""1""
-  },
-  ""ComponentNotReference"": {
-    ""MyProperty"": 0
-  },
-  ""String"": ""String!"",
-  ""Integer"": 2147483647
-}";
+        var expected = """
+            {
+              "Component1": {
+                "$id": "1",
+                "MyProperty": 1
+              },
+              "Component2": {
+                "$ref": "1"
+              },
+              "ComponentNotReference": {
+                "MyProperty": 0
+              },
+              "String": "String!",
+              "Integer": 2147483647
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, json);
 
         var referenceObject = JsonConvert.DeserializeObject<ReferenceObject>(json);
@@ -1278,18 +1314,20 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void DuplicateId()
     {
-        var json = @"{
-  ""Data"": {
-    ""Prop1"": {
-      ""$id"": ""1"",
-      ""MyProperty"": 0
-    },
-    ""Prop2"": {
-      ""$id"": ""1"",
-      ""MyProperty"": 0
-    }
-  }
-}";
+        var json = """
+            {
+              "Data": {
+                "Prop1": {
+                  "$id": "1",
+                  "MyProperty": 0
+                },
+                "Prop2": {
+                  "$id": "1",
+                  "MyProperty": 0
+                }
+              }
+            }
+            """;
 
         var settings = new JsonSerializerSettings
         {
