@@ -63,7 +63,10 @@ public class JValueTests : TestFixtureBase
         {
             JsonConvert.DefaultSettings = () => new()
             {
-                Converters = {new MetroStringConverter()}
+                Converters =
+                {
+                    new MetroStringConverter()
+                }
             };
 
             var v = new JValue(":::STRING:::");
@@ -218,35 +221,43 @@ public class JValueTests : TestFixtureBase
 
     [Fact]
     public void First() =>
-        XUnitAssert.Throws<InvalidOperationException>(() =>
-        {
-            var v = new JValue(true);
-            var first = v.First;
-        }, "Cannot access child value on Argon.JValue.");
+        XUnitAssert.Throws<InvalidOperationException>(
+            () =>
+            {
+                var v = new JValue(true);
+                var first = v.First;
+            },
+            "Cannot access child value on Argon.JValue.");
 
     [Fact]
     public void Item() =>
-        XUnitAssert.Throws<InvalidOperationException>(() =>
-        {
-            var v = new JValue(true);
-            var first = v[0];
-        }, "Cannot access child value on Argon.JValue.");
+        XUnitAssert.Throws<InvalidOperationException>(
+            () =>
+            {
+                var v = new JValue(true);
+                var first = v[0];
+            },
+            "Cannot access child value on Argon.JValue.");
 
     [Fact]
     public void Values() =>
-        XUnitAssert.Throws<InvalidOperationException>(() =>
-        {
-            var v = new JValue(true);
-            v.Values<int>();
-        }, "Cannot access child value on Argon.JValue.");
+        XUnitAssert.Throws<InvalidOperationException>(
+            () =>
+            {
+                var v = new JValue(true);
+                v.Values<int>();
+            },
+            "Cannot access child value on Argon.JValue.");
 
     [Fact]
     public void RemoveParentNull() =>
-        XUnitAssert.Throws<InvalidOperationException>(() =>
-        {
-            var v = new JValue(true);
-            v.Remove();
-        }, "The parent is missing.");
+        XUnitAssert.Throws<InvalidOperationException>(
+            () =>
+            {
+                var v = new JValue(true);
+                v.Remove();
+            },
+            "The parent is missing.");
 
     [Fact]
     public void Root()
@@ -350,7 +361,10 @@ public class JValueTests : TestFixtureBase
         public decimal Compoundings { get; set; }
     }
 
-    readonly Rate rate = new() {Compoundings = 12.166666666666666666666666667m};
+    readonly Rate rate = new()
+    {
+        Compoundings = 12.166666666666666666666666667m
+    };
 
     [Fact]
     public void WriteFullDecimalPrecision()
@@ -660,7 +674,8 @@ public class JValueTests : TestFixtureBase
 
     public enum EnumA
     {
-        [EnumMember(Value = "value_a")] ValueA
+        [EnumMember(Value = "value_a")]
+        ValueA
     }
 
     [Fact]

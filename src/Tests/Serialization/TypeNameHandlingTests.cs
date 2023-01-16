@@ -17,8 +17,36 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var o = new HasMultidimensionalByteArray
         {
-            Array2D = new byte[,] {{1, 2}, {2, 4}, {3, 6}},
-            Array3D = new byte[,,] {{{1, 2, 3}, {4, 5, 6}}}
+            Array2D = new byte[,]
+            {
+                {
+                    1,
+                    2
+                },
+                {
+                    2,
+                    4
+                },
+                {
+                    3,
+                    6
+                }
+            },
+            Array3D = new byte[,,]
+            {
+                {
+                    {
+                        1,
+                        2,
+                        3
+                    },
+                    {
+                        4,
+                        5,
+                        6
+                    }
+                }
+            }
         };
 
         var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings
@@ -158,13 +186,12 @@ public class TypeNameHandlingTests : TestFixtureBase
   }
 }";
 
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
-            });
-        }, "Error reading bytes. Unexpected token: PropertyName. Path 'EncryptedPassword.$value', line 6, position 13.");
+            }),
+            "Error reading bytes. Unexpected token: PropertyName. Path 'EncryptedPassword.$value', line 6, position 13.");
     }
 
     [Fact]
@@ -232,18 +259,37 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var c = new KnownAutoTypes
         {
-            Collection = new List<string> {"Collection value!"},
-            List = new List<string> {"List value!"},
+            Collection = new List<string>
+            {
+                "Collection value!"
+            },
+            List = new List<string>
+            {
+                "List value!"
+            },
             Dictionary = new Dictionary<string, string>
             {
-                {"Dictionary key!", "Dictionary value!"}
+                {
+                    "Dictionary key!", "Dictionary value!"
+                }
             },
-            ReadOnlyCollection = new ReadOnlyCollection<string>(new[] {"Read Only Collection value!"}),
-            ReadOnlyList = new ReadOnlyCollection<string>(new[] {"Read Only List value!"}),
-            Set = new HashSet<string> {"Set value!"},
+            ReadOnlyCollection = new ReadOnlyCollection<string>(new[]
+            {
+                "Read Only Collection value!"
+            }),
+            ReadOnlyList = new ReadOnlyCollection<string>(new[]
+            {
+                "Read Only List value!"
+            }),
+            Set = new HashSet<string>
+            {
+                "Set value!"
+            },
             ReadOnlyDictionary = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>
             {
-                {"Read Only Dictionary key!", "Read Only Dictionary value!"}
+                {
+                    "Read Only Dictionary key!", "Read Only Dictionary value!"
+                }
             })
         };
 
@@ -282,7 +328,12 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var dic = new Dictionary<string, object>
         {
-            {"movie", new Movie {Name = "Die Hard"}}
+            {
+                "movie", new Movie
+                {
+                    Name = "Die Hard"
+                }
+            }
         };
 
         var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
@@ -308,7 +359,10 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var dic = new List<KeyValuePair<string, object>>
         {
-            new("movie", new Movie {Name = "Die Hard"})
+            new("movie", new Movie
+            {
+                Name = "Die Hard"
+            })
         };
 
         var json = JsonConvert.SerializeObject(dic, Formatting.Indented, new JsonSerializerSettings
@@ -341,15 +395,17 @@ public class TypeNameHandlingTests : TestFixtureBase
             stringBuilder.Append(@"{""$value"":");
         }
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
-            var serializer = new JsonSerializer
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
             {
-                MetadataPropertyHandling = MetadataPropertyHandling.Default
-            };
-            serializer.Deserialize<sbyte>(reader);
-        }, "Unexpected token when deserializing primitive value: StartObject. Path '$value', line 1, position 11.");
+                var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
+                var serializer = new JsonSerializer
+                {
+                    MetadataPropertyHandling = MetadataPropertyHandling.Default
+                };
+                serializer.Deserialize<sbyte>(reader);
+            },
+            "Unexpected token when deserializing primitive value: StartObject. Path '$value', line 1, position 11.");
     }
 
     [Fact]
@@ -360,7 +416,10 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         };
         var stringWriter = new StringWriter();
-        serializer.Serialize(new JsonTextWriter(stringWriter) {Formatting = Formatting.Indented}, new WagePerson(), typeof(Person));
+        serializer.Serialize(new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented
+        }, new WagePerson(), typeof(Person));
         var result = stringWriter.ToString();
 
         XUnitAssert.AreEqualNormalized(@"{
@@ -440,7 +499,9 @@ public class TypeNameHandlingTests : TestFixtureBase
             },
             Dictionary = new Dictionary<string, EmployeeReference>
             {
-                {"First", new EmployeeReference()}
+                {
+                    "First", new EmployeeReference()
+                }
             }
         };
 
@@ -541,7 +602,10 @@ public class TypeNameHandlingTests : TestFixtureBase
             new EmployeeReference
             {
                 Name = "Bob",
-                Manager = new() {Name = "Frank"}
+                Manager = new()
+                {
+                    Name = "Frank"
+                }
             },
             new Person
             {
@@ -837,7 +901,14 @@ public class TypeNameHandlingTests : TestFixtureBase
         var typeNameProperty = new TypeNameProperty
         {
             Name = "Name!",
-            Value = new List<int> {1, 2, 3, 4, 5}
+            Value = new List<int>
+            {
+                1,
+                2,
+                3,
+                4,
+                5
+            }
         };
 
         var json = JsonConvert.SerializeObject(typeNameProperty, Formatting.Indented);
@@ -1086,7 +1157,12 @@ public class TypeNameHandlingTests : TestFixtureBase
         var testObject = new HolderClass
         {
             TestMember = new ContentSubClass("First One"),
-            AnotherTestMember = new() {{1, new List<ContentBaseClass>()}}
+            AnotherTestMember = new()
+            {
+                {
+                    1, new List<ContentBaseClass>()
+                }
+            }
         };
         testObject.AnotherTestMember[1].Add(new ContentSubClass("Second One"));
         testObject.AThirdTestMember = new ContentSubClass("Third One");
@@ -1199,13 +1275,33 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var collection = new Dictionary<string, object>
         {
-            {"First", new UrlStatus {Status = 404, Url = @"http://www.bing.com"}},
-            {"Second", new UrlStatus {Status = 400, Url = @"http://www.google.com"}},
+            {
+                "First", new UrlStatus
+                {
+                    Status = 404,
+                    Url = @"http://www.bing.com"
+                }
+            },
+            {
+                "Second", new UrlStatus
+                {
+                    Status = 400,
+                    Url = @"http://www.google.com"
+                }
+            },
             {
                 "List", new List<UrlStatus>
                 {
-                    new() {Status = 300, Url = @"http://www.yahoo.com"},
-                    new() {Status = 200, Url = @"http://www.askjeeves.com"}
+                    new()
+                    {
+                        Status = 300,
+                        Url = @"http://www.yahoo.com"
+                    },
+                    new()
+                    {
+                        Status = 200,
+                        Url = @"http://www.askjeeves.com"
+                    }
                 }
             }
         };
@@ -1272,7 +1368,10 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var products = new CustomEnumerable<Product>();
 
-        var json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
+        var json = JsonConvert.SerializeObject(products, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        });
 
         XUnitAssert.AreEqualNormalized($@"{{
   ""$type"": ""{productClassRef}"",
@@ -1334,7 +1433,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         public object[] Objects { get; set; }
 
         // ignored
-        [JsonIgnore] public DateTime LastModified { get; set; }
+        [JsonIgnore]
+        public DateTime LastModified { get; set; }
     }
 
     [Fact]
@@ -1345,7 +1445,11 @@ public class TypeNameHandlingTests : TestFixtureBase
             Year = new(2000, 10, 5, 1, 1, 1, DateTimeKind.Utc)
         };
         var data = "KARIRA"u8.ToArray();
-        testerObject.Objects = new object[] {data, "prueba"};
+        testerObject.Objects = new object[]
+        {
+            data,
+            "prueba"
+        };
 
         var settings = new JsonSerializerSettings
         {
@@ -1488,9 +1592,18 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var l = new TypeNameDictionary<object>
         {
-            {"First", new TestComponentSimple {MyProperty = 1}},
-            {"Second", "String!"},
-            {"Third", long.MaxValue}
+            {
+                "First", new TestComponentSimple
+                {
+                    MyProperty = 1
+                }
+            },
+            {
+                "Second", "String!"
+            },
+            {
+                "Third", long.MaxValue
+            }
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
@@ -1517,9 +1630,15 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var o1 = new TypeNameObject
         {
-            Object1 = new TestComponentSimple {MyProperty = 1},
+            Object1 = new TestComponentSimple
+            {
+                MyProperty = 1
+            },
             Object2 = 123,
-            ObjectNotHandled = new TestComponentSimple {MyProperty = int.MaxValue},
+            ObjectNotHandled = new TestComponentSimple
+            {
+                MyProperty = int.MaxValue
+            },
             String = "String!",
             Integer = int.MaxValue
         };
@@ -1560,7 +1679,10 @@ public class TypeNameHandlingTests : TestFixtureBase
             {
                 1,
                 "two",
-                new TestComponentSimple {MyProperty = 1}
+                new TestComponentSimple
+                {
+                    MyProperty = 1
+                }
             }
         };
 
@@ -1593,7 +1715,10 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             Data = new List<object>
             {
-                new TestComponentSimple {MyProperty = 1},
+                new TestComponentSimple
+                {
+                    MyProperty = 1
+                },
                 new List<object>
                 {
                     new List<object>
@@ -1670,7 +1795,10 @@ public class TypeNameHandlingTests : TestFixtureBase
             Data = new Dictionary<string, object>
             {
                 {
-                    "one", new TestComponentSimple {MyProperty = 1}
+                    "one", new TestComponentSimple
+                    {
+                        MyProperty = 1
+                    }
                 },
                 {
                     "two", new Dictionary<string, object>
@@ -1678,7 +1806,9 @@ public class TypeNameHandlingTests : TestFixtureBase
                         {
                             "one", new Dictionary<string, object>
                             {
-                                {"one", 1}
+                                {
+                                    "one", 1
+                                }
                             }
                         }
                     }
@@ -1899,7 +2029,12 @@ public class TypeNameHandlingTests : TestFixtureBase
         const string contextKey = "k1";
         var someValue = new Guid("a6e986df-fc2c-4906-a1ef-9492388f7833");
 
-        var inputContext = new Dictionary<string, Guid> {{contextKey, someValue}};
+        var inputContext = new Dictionary<string, Guid>
+        {
+            {
+                contextKey, someValue
+            }
+        };
 
         var settings = new JsonSerializerSettings
         {
@@ -1925,9 +2060,24 @@ public class TypeNameHandlingTests : TestFixtureBase
     {
         var input = new List<Stack<string>>
         {
-            new(new List<string> {"One", "Two", "Three"}),
-            new(new List<string> {"Four", "Five", "Six"}),
-            new(new List<string> {"Seven", "Eight", "Nine"})
+            new(new List<string>
+            {
+                "One",
+                "Two",
+                "Three"
+            }),
+            new(new List<string>
+            {
+                "Four",
+                "Five",
+                "Six"
+            }),
+            new(new List<string>
+            {
+                "Seven",
+                "Eight",
+                "Nine"
+            })
         };
 
         var serialized = JsonConvert.SerializeObject(input,
@@ -1939,7 +2089,10 @@ public class TypeNameHandlingTests : TestFixtureBase
             });
 
         var output = JsonConvert.DeserializeObject<List<Stack<string>>>(serialized,
-            new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All}
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            }
         );
 
         var strings = output.SelectMany(s => s).ToList();
@@ -1979,7 +2132,13 @@ public class TypeNameHandlingTests : TestFixtureBase
     public void GenericItemTypeCollection()
     {
         var data = new DataType();
-        data.Rows.Add("key", new List<MyInterfaceImplementationType> {new() {SomeProperty = "property"}});
+        data.Rows.Add("key", new List<MyInterfaceImplementationType>
+        {
+            new()
+            {
+                SomeProperty = "property"
+            }
+        });
         var serialized = JsonConvert.SerializeObject(data, Formatting.Indented);
 
         var listTypeName = typeof(List<MyInterfaceImplementationType>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
@@ -2003,86 +2162,96 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
 #if !NET5_0_OR_GREATER
-        [Fact]
-        public void DeserializeComplexGenericDictionary_Simple()
+    [Fact]
+    public void DeserializeComplexGenericDictionary_Simple()
+    {
+        var settings = new JsonSerializerSettings
         {
-            var settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All,
-                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
-            };
+            TypeNameHandling = TypeNameHandling.All,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
+        };
 
-            var dictionary = new Dictionary<int, HashSet<string>>
-            {
-                { 1, new HashSet<string>(new[] { "test" }) },
-            };
-
-            var obtainedJson = JsonConvert.SerializeObject(dictionary, settings);
-
-            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, settings);
-
-            Assert.NotNull(obtainedDictionary);
-        }
-
-        [Fact]
-        public void DeserializeComplexGenericDictionary_Full()
+        var dictionary = new Dictionary<int, HashSet<string>>
         {
-            var settings = new JsonSerializerSettings
             {
-                TypeNameHandling = TypeNameHandling.All,
-                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
-            };
+                1, new HashSet<string>(new[]
+                {
+                    "test"
+                })
+            },
+        };
 
-            var dictionary = new Dictionary<int, HashSet<string>>
-            {
-                { 1, new HashSet<string>(new[] { "test" }) },
-            };
+        var obtainedJson = JsonConvert.SerializeObject(dictionary, settings);
 
-            var obtainedJson = JsonConvert.SerializeObject(dictionary, settings);
+        var obtainedDictionary = (Dictionary<int, HashSet<string>>) JsonConvert.DeserializeObject(obtainedJson, settings);
 
-            var obtainedDictionary = (Dictionary<int, HashSet<string>>)JsonConvert.DeserializeObject(obtainedJson, settings);
+        Assert.NotNull(obtainedDictionary);
+    }
 
-            Assert.NotNull(obtainedDictionary);
-        }
-
-        [Fact]
-        public void SerializeNullableStructProperty_Auto()
+    [Fact]
+    public void DeserializeComplexGenericDictionary_Full()
+    {
+        var settings = new JsonSerializerSettings
         {
-            var settings = new JsonSerializerSettings
+            TypeNameHandling = TypeNameHandling.All,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
+        };
+
+        var dictionary = new Dictionary<int, HashSet<string>>
+        {
             {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Formatting = Formatting.Indented
-            };
+                1, new HashSet<string>(new[]
+                {
+                    "test"
+                })
+            },
+        };
 
-            var objWithMessage = new ObjectWithOptionalMessage(new Message2("Hello!"));
+        var obtainedJson = JsonConvert.SerializeObject(dictionary, settings);
 
-            var json = JsonConvert.SerializeObject(objWithMessage, settings);
+        var obtainedDictionary = (Dictionary<int, HashSet<string>>) JsonConvert.DeserializeObject(obtainedJson, settings);
 
-            XUnitAssert.AreEqualNormalized(@"{
+        Assert.NotNull(obtainedDictionary);
+    }
+
+    [Fact]
+    public void SerializeNullableStructProperty_Auto()
+    {
+        var settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.Indented
+        };
+
+        var objWithMessage = new ObjectWithOptionalMessage(new Message2("Hello!"));
+
+        var json = JsonConvert.SerializeObject(objWithMessage, settings);
+
+        XUnitAssert.AreEqualNormalized(@"{
   ""Message"": {
     ""Value"": ""Hello!""
   }
 }", json);
-        }
+    }
 
-        [Fact]
-        public void DeserializeNullableStructProperty_Auto()
+    [Fact]
+    public void DeserializeNullableStructProperty_Auto()
+    {
+        var settings = new JsonSerializerSettings
         {
-            var settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Formatting = Formatting.Indented
-            };
+            TypeNameHandling = TypeNameHandling.Auto,
+            Formatting = Formatting.Indented
+        };
 
-            var json = @"{
+        var json = @"{
   ""Message"": {
     ""Value"": ""Hello!""
   }
 }";
-            var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, settings);
+        var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, settings);
 
-            XUnitAssert.AreEqualNormalized("Hello!", objWithMessage.Message.Value.Value);
-        }
+        XUnitAssert.AreEqualNormalized("Hello!", objWithMessage.Message.Value.Value);
+    }
 #endif
 
     [Fact]
@@ -2145,7 +2314,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class MyChild : ISomeBase
     {
-        [JsonProperty("p")] public string MyProperty { get; internal set; }
+        [JsonProperty("p")]
+        public string MyProperty { get; internal set; }
     }
 
     public class MyChildList : List<string>, ISomeBase
@@ -2265,7 +2435,8 @@ public class TypeNameHandlingTests : TestFixtureBase
     [DataContract]
     public class GroupingInfo
     {
-        [DataMember] public ApplicationItemKeys ItemIdentifier { get; set; }
+        [DataMember]
+        public ApplicationItemKeys ItemIdentifier { get; set; }
 
         public GroupingInfo() =>
             ItemIdentifier = new();
@@ -2274,9 +2445,11 @@ public class TypeNameHandlingTests : TestFixtureBase
     [DataContract]
     public class ApplicationItemKeys
     {
-        [DataMember] public int ID { get; set; }
+        [DataMember]
+        public int ID { get; set; }
 
-        [DataMember] public string Name { get; set; }
+        [DataMember]
+        public string Name { get; set; }
     }
 
     [DataContract]

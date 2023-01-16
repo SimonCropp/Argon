@@ -11,13 +11,18 @@ public class JObjectTests : TestFixtureBase
     {
         string s = null;
         var v = new JValue(s);
-        dynamic o = JObject.FromObject(new {title = v});
+        dynamic o = JObject.FromObject(new
+        {
+            title = v
+        });
 
         string output = o.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""title"": null
-}", output);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "title": null
+            }
+            """, output);
 
         Assert.Equal(null, v.Value);
         Assert.Null((string) o.title);
@@ -53,16 +58,18 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void JObjectWithComments()
     {
-        var json = @"{ /*comment2*/
-        ""Name"": /*comment3*/ ""Apple"" /*comment4*/, /*comment5*/
-        ""ExpiryDate"": ""\/Date(1230422400000)\/"",
-        ""Price"": 3.99,
-        ""Sizes"": /*comment6*/ [ /*comment7*/
-          ""Small"", /*comment8*/
-          ""Medium"" /*comment9*/,
-          /*comment10*/ ""Large""
-        /*comment11*/ ] /*comment12*/
-      } /*comment13*/";
+        var json = """
+            { /*comment2*/
+                    "Name": /*comment3*/ "Apple" /*comment4*/, /*comment5*/
+                    "ExpiryDate": "\/Date(1230422400000)\/",
+                    "Price": 3.99,
+                    "Sizes": /*comment6*/ [ /*comment7*/
+                      "Small", /*comment8*/
+                      "Medium" /*comment9*/,
+                      /*comment10*/ "Large"
+                    /*comment11*/ ] /*comment12*/
+                  } /*comment13*/
+            """;
 
         var o = JToken.Parse(json);
 
@@ -72,11 +79,16 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void WritePropertyWithNoValue()
     {
-        var o = new JObject {new JProperty("novalue")};
+        var o = new JObject
+        {
+            new JProperty("novalue")
+        };
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""novalue"": null
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "novalue": null
+            }
+            """, o.ToString());
     }
 
     [Fact]
@@ -95,7 +107,12 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void TryGetValue()
     {
-        var o = new JObject {{"PropertyNameValue", new JValue(1)}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", new JValue(1)
+            }
+        };
         Assert.Equal(1, o.Children().Count());
 
         XUnitAssert.False(o.TryGetValue("sdf", out var t));
@@ -133,7 +150,12 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void Remove()
     {
-        var o = new JObject {{"PropertyNameValue", new JValue(1)}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", new JValue(1)
+            }
+        };
         Assert.Equal(1, o.Children().Count());
 
         XUnitAssert.False(o.Remove("sdf"));
@@ -146,7 +168,12 @@ public class JObjectTests : TestFixtureBase
     public void GenericCollectionRemove()
     {
         var v = new JValue(1);
-        var o = new JObject {{"PropertyNameValue", v}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", v
+            }
+        };
         Assert.Equal(1, o.Children().Count());
 
         XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue1", new JValue(1))));
@@ -164,8 +191,12 @@ public class JObjectTests : TestFixtureBase
             {
                 var o = new JObject
                 {
-                    {"PropertyNameValue", null},
-                    {"PropertyNameValue", null}
+                    {
+                        "PropertyNameValue", null
+                    },
+                    {
+                        "PropertyNameValue", null
+                    }
                 };
             },
             "Can not add property PropertyNameValue to Argon.JObject. Property with the same name already exists on object.");
@@ -173,7 +204,12 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void GenericDictionaryAdd()
     {
-        var o = new JObject {{"PropertyNameValue", new JValue(1)}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", new JValue(1)
+            }
+        };
 
         Assert.Equal(1, (int) o["PropertyNameValue"]);
 
@@ -196,7 +232,12 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void GenericCollectionClear()
     {
-        var o = new JObject {{"PropertyNameValue", new JValue(1)}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", new JValue(1)
+            }
+        };
         Assert.Equal(1, o.Children().Count());
 
         var p = (JProperty) o.Children().ElementAt(0);
@@ -211,7 +252,12 @@ public class JObjectTests : TestFixtureBase
     public void GenericCollectionContains()
     {
         var v = new JValue(1);
-        var o = new JObject {{"PropertyNameValue", v}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", v
+            }
+        };
         Assert.Equal(1, o.Children().Count());
 
         var contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", new JValue(1)));
@@ -230,7 +276,12 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void Contains()
     {
-        var o = new JObject {{"PropertyNameValue", new JValue(1)}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", new JValue(1)
+            }
+        };
         Assert.Equal(1, o.Children().Count());
 
         var contains = o.ContainsKey("PropertyNameValue");
@@ -243,7 +294,12 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void GenericDictionaryContains()
     {
-        var o = new JObject {{"PropertyNameValue", new JValue(1)}};
+        var o = new JObject
+        {
+            {
+                "PropertyNameValue", new JValue(1)
+            }
+        };
         Assert.Equal(1, o.Children().Count());
 
         var contains = ((IDictionary<string, JToken>) o).ContainsKey("PropertyNameValue");
@@ -255,9 +311,15 @@ public class JObjectTests : TestFixtureBase
     {
         var o = new JObject
         {
-            {"PropertyNameValue", new JValue(1)},
-            {"PropertyNameValue2", new JValue(2)},
-            {"PropertyNameValue3", new JValue(3)}
+            {
+                "PropertyNameValue", new JValue(1)
+            },
+            {
+                "PropertyNameValue2", new JValue(2)
+            },
+            {
+                "PropertyNameValue3", new JValue(3)
+            }
         };
         Assert.Equal(3, o.Children().Count());
 
@@ -286,8 +348,10 @@ public class JObjectTests : TestFixtureBase
                 var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], -1);
             },
-            @"arrayIndex is less than 0.
-Parameter name: arrayIndex",
+            """
+                arrayIndex is less than 0.
+                Parameter name: arrayIndex
+                """,
             "arrayIndex is less than 0. (Parameter 'arrayIndex')");
 
     [Fact]
@@ -307,9 +371,15 @@ Parameter name: arrayIndex",
             {
                 var o = new JObject
                 {
-                    {"PropertyNameValue", new JValue(1)},
-                    {"PropertyNameValue2", new JValue(2)},
-                    {"PropertyNameValue3", new JValue(3)}
+                    {
+                        "PropertyNameValue", new JValue(1)
+                    },
+                    {
+                        "PropertyNameValue2", new JValue(2)
+                    },
+                    {
+                        "PropertyNameValue3", new JValue(3)
+                    }
                 };
 
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[3], 1);
@@ -398,11 +468,13 @@ Parameter name: arrayIndex",
 
     [Fact]
     public void Parse_ShouldThrowOnUnexpectedToken() =>
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var json = @"[""prop""]";
-            JObject.Parse(json);
-        }, "Error reading JObject from JsonReader. Current JsonReader item is not an object: StartArray. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonReaderException>(
+            () =>
+            {
+                var json = @"[""prop""]";
+                JObject.Parse(json);
+            },
+            "Error reading JObject from JsonReader. Current JsonReader item is not an object: StartArray. Path '', line 1, position 1.");
 
     [Fact]
     public void GenericValueCast()
@@ -421,10 +493,12 @@ Parameter name: arrayIndex",
     [Fact]
     public void Blog() =>
         XUnitAssert.Throws<JsonReaderException>(
-            () => JObject.Parse(@"{
-    ""name"": ""James"",
-    ]!#$THIS IS: BAD JSON![{}}}}]
-  }"),
+            () => JObject.Parse("""
+                {
+                    "name": "James",
+                    ]!#$THIS IS: BAD JSON![{}}}}]
+                  }
+                """),
             "Invalid property identifier character: ]. Path 'name', line 3, position 4.");
 
     [Fact]
@@ -438,10 +512,12 @@ Parameter name: arrayIndex",
 
         var json = o.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""val1"": 1,
-  ""val2"": 1
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "val1": 1,
+              "val2": 1
+            }
+            """, json);
     }
 
     [Fact]
@@ -449,8 +525,12 @@ Parameter name: arrayIndex",
     {
         var o = new JObject
         {
-            {"PropertyNameValue1", new JValue(1)},
-            {"PropertyNameValue2", new JValue(2)}
+            {
+                "PropertyNameValue1", new JValue(1)
+            },
+            {
+                "PropertyNameValue2", new JValue(2)
+            }
         };
 
         JToken t = o;
@@ -470,8 +550,12 @@ Parameter name: arrayIndex",
     {
         var o = new JObject
         {
-            {"PropertyNameValue1", new JValue(1)},
-            {"PropertyNameValue2", new JValue(2)}
+            {
+                "PropertyNameValue1", new JValue(1)
+            },
+            {
+                "PropertyNameValue2", new JValue(2)
+            }
         };
 
         var i = 1;
@@ -499,24 +583,28 @@ Parameter name: arrayIndex",
 
         var output = o.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""title"": null
-}", output);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "title": null
+            }
+            """, output);
     }
 
     [Fact]
     public void Example()
     {
-        var json = @"{
-        Name: 'Apple',
-        Expiry: '2014-06-04T00:00:00Z',
-        Price: 3.99,
-        Sizes: [
-          'Small',
-          'Medium',
-          'Large'
-        ]
-      }";
+        var json = """
+            {
+                Name: 'Apple',
+                Expiry: '2014-06-04T00:00:00Z',
+                Price: 3.99,
+                Sizes: [
+                  'Small',
+                  'Medium',
+                  'Large'
+                ]
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -535,18 +623,20 @@ Parameter name: arrayIndex",
     [Fact]
     public void DeserializeClassManually()
     {
-        var jsonText = @"{
-  ""short"":
-  {
-    ""original"":""http://www.foo.com/"",
-    ""short"":""krehqk"",
-    ""error"":
-    {
-      ""code"":0,
-      ""msg"":""No action taken""
-    }
-  }
-}";
+        var jsonText = """
+            {
+              "short":
+              {
+                "original":"http://www.foo.com/",
+                "short":"krehqk",
+                "error":
+                {
+                  "code":0,
+                  "msg":"No action taken"
+                }
+              }
+            }
+            """;
 
         var json = JObject.Parse(jsonText);
 
@@ -578,11 +668,13 @@ Parameter name: arrayIndex",
             ["o"] = new JValue($@"<div class='s1'>{StringUtils.CarriageReturnLineFeed}</div>")
         };
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""rc"": 200,
-  ""m"": """",
-  ""o"": ""<div class='s1'>\r\n</div>""
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "rc": 200,
+              "m": "",
+              "o": "<div class='s1'>\r\n</div>"
+            }
+            """, o.ToString());
     }
 
     [Fact]
@@ -597,13 +689,15 @@ Parameter name: arrayIndex",
             ["JobTitle"] = new JValue("Support")
         };
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""FirstName"": ""Maurice"",
-  ""LastName"": ""Moss"",
-  ""BirthDate"": ""1977-12-30T00:00:00"",
-  ""Department"": ""IT"",
-  ""JobTitle"": ""Support""
-}", moss.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "FirstName": "Maurice",
+              "LastName": "Moss",
+              "BirthDate": "1977-12-30T00:00:00",
+              "Department": "IT",
+              "JobTitle": "Support"
+            }
+            """, moss.ToString());
 
         var jen = new JObject
         {
@@ -614,13 +708,15 @@ Parameter name: arrayIndex",
             ["JobTitle"] = "Manager"
         };
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""FirstName"": ""Jen"",
-  ""LastName"": ""Barber"",
-  ""BirthDate"": ""1978-03-15T00:00:00"",
-  ""Department"": ""IT"",
-  ""JobTitle"": ""Manager""
-}", jen.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "FirstName": "Jen",
+              "LastName": "Barber",
+              "BirthDate": "1978-03-15T00:00:00",
+              "Department": "IT",
+              "JobTitle": "Manager"
+            }
+            """, jen.ToString());
     }
 
     [Fact]
@@ -1058,50 +1154,52 @@ Parameter name: arrayIndex",
     [Fact]
     public void GetGeocodeAddress()
     {
-        var json = @"{
-  ""name"": ""Address: 435 North Mulford Road Rockford, IL 61107"",
-  ""Status"": {
-    ""code"": 200,
-    ""request"": ""geocode""
-  },
-  ""Placemark"": [ {
-    ""id"": ""p1"",
-    ""address"": ""435 N Mulford Rd, Rockford, IL 61107, USA"",
-    ""AddressDetails"": {
-   ""Accuracy"" : 8,
-   ""Country"" : {
-      ""AdministrativeArea"" : {
-         ""AdministrativeAreaName"" : ""IL"",
-         ""SubAdministrativeArea"" : {
-            ""Locality"" : {
-               ""LocalityName"" : ""Rockford"",
-               ""PostalCode"" : {
-                  ""PostalCodeNumber"" : ""61107""
-               },
-               ""Thoroughfare"" : {
-                  ""ThoroughfareName"" : ""435 N Mulford Rd""
+        var json = """
+            {
+              "name": "Address: 435 North Mulford Road Rockford, IL 61107",
+              "Status": {
+                "code": 200,
+                "request": "geocode"
+              },
+              "Placemark": [ {
+                "id": "p1",
+                "address": "435 N Mulford Rd, Rockford, IL 61107, USA",
+                "AddressDetails": {
+               "Accuracy" : 8,
+               "Country" : {
+                  "AdministrativeArea" : {
+                     "AdministrativeAreaName" : "IL",
+                     "SubAdministrativeArea" : {
+                        "Locality" : {
+                           "LocalityName" : "Rockford",
+                           "PostalCode" : {
+                              "PostalCodeNumber" : "61107"
+                           },
+                           "Thoroughfare" : {
+                              "ThoroughfareName" : "435 N Mulford Rd"
+                           }
+                        },
+                        "SubAdministrativeAreaName" : "Winnebago"
+                     }
+                  },
+                  "CountryName" : "USA",
+                  "CountryNameCode" : "US"
                }
             },
-            ""SubAdministrativeAreaName"" : ""Winnebago""
-         }
-      },
-      ""CountryName"" : ""USA"",
-      ""CountryNameCode"" : ""US""
-   }
-},
-    ""ExtendedData"": {
-      ""LatLonBox"": {
-        ""north"": 42.2753076,
-        ""south"": 42.2690124,
-        ""east"": -88.9964645,
-        ""west"": -89.0027597
-      }
-    },
-    ""Point"": {
-      ""coordinates"": [ -88.9995886, 42.2721596, 0 ]
-    }
-  } ]
-}";
+                "ExtendedData": {
+                  "LatLonBox": {
+                    "north": 42.2753076,
+                    "south": 42.2690124,
+                    "east": -88.9964645,
+                    "west": -89.0027597
+                  }
+                },
+                "Point": {
+                  "coordinates": [ -88.9995886, 42.2721596, 0 ]
+                }
+              } ]
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -1137,10 +1235,12 @@ Parameter name: arrayIndex",
     [Fact]
     public Task ParseMultipleProperties()
     {
-        var json = @"{
-        Name: 'Name1',
-        Name: 'Name2'
-      }";
+        var json = """
+            {
+                Name: 'Name1',
+                Name: 'Name2'
+            }
+            """;
 
         return Throws(() => JObject.Parse(json)).IgnoreStackTrace();
     }
@@ -1148,10 +1248,12 @@ Parameter name: arrayIndex",
     [Fact]
     public Task ParseMultipleProperties_EmptySettings()
     {
-        var json = @"{
-        Name: 'Name1',
-        Name: 'Name2'
-      }";
+        var json = """
+            {
+                Name: 'Name1',
+                Name: 'Name2'
+            }
+            """;
 
         return Throws(() => JObject.Parse(json, new())).IgnoreStackTrace();
     }
@@ -1171,9 +1273,11 @@ Parameter name: arrayIndex",
 
         var output = o.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""title"": null
-}", output);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "title": null
+            }
+            """, output);
     }
 
     [Fact]
@@ -1181,11 +1285,13 @@ Parameter name: arrayIndex",
         XUnitAssert.Throws<ArgumentException>(
             () =>
             {
-                var json = @"{
-  ""responseData"": {}, 
-  ""responseDetails"": null, 
-  ""responseStatus"": 200
-}";
+                var json = """
+                    {
+                      "responseData": {}, 
+                      "responseDetails": null, 
+                      "responseStatus": 200
+                    }
+                    """;
 
                 var o = JObject.Parse(json);
 
@@ -1198,11 +1304,13 @@ Parameter name: arrayIndex",
         XUnitAssert.Throws<ArgumentException>(
             () =>
             {
-                var json = @"{
-  ""responseData"": {}, 
-  ""responseDetails"": null, 
-  ""responseStatus"": 200
-}";
+                var json = """
+                    {
+                      "responseData": {}, 
+                      "responseDetails": null, 
+                      "responseStatus": 200
+                    }
+                    """;
 
                 var o = JObject.Parse(json);
 
@@ -1219,16 +1327,18 @@ Parameter name: arrayIndex",
     [Fact]
     public void LoadFromNestedObject()
     {
-        var jsonText = @"{
-  ""short"":
-  {
-    ""error"":
-    {
-      ""code"":0,
-      ""msg"":""No action taken""
-    }
-  }
-}";
+        var jsonText = """
+            {
+              "short":
+              {
+                "error":
+                {
+                  "code":0,
+                  "msg":"No action taken"
+                }
+              }
+            }
+            """;
 
         var reader = new JsonTextReader(new StringReader(jsonText));
         reader.Read();
@@ -1239,32 +1349,40 @@ Parameter name: arrayIndex",
 
         var o = (JObject) JToken.ReadFrom(reader);
         Assert.NotNull(o);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""code"": 0,
-  ""msg"": ""No action taken""
-}", o.ToString(Formatting.Indented));
+        XUnitAssert.AreEqualNormalized(
+            """
+            {
+              "code": 0,
+              "msg": "No action taken"
+            }
+            """,
+            o.ToString(Formatting.Indented));
     }
 
     [Fact]
     public void LoadFromNestedObjectIncomplete() =>
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var jsonText = @"{
-  ""short"":
-  {
-    ""error"":
-    {
-      ""code"":0";
+        XUnitAssert.Throws<JsonReaderException>(
+            () =>
+            {
+                var jsonText = """
+                {
+                  "short":
+                  {
+                    "error":
+                    {
+                      "code":0
+                """;
 
-            var reader = new JsonTextReader(new StringReader(jsonText));
-            reader.Read();
-            reader.Read();
-            reader.Read();
-            reader.Read();
-            reader.Read();
+                var reader = new JsonTextReader(new StringReader(jsonText));
+                reader.Read();
+                reader.Read();
+                reader.Read();
+                reader.Read();
+                reader.Read();
 
-            JToken.ReadFrom(reader);
-        }, "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
+                JToken.ReadFrom(reader);
+            },
+            "Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.");
 
     [Fact]
     public void ParseEmptyObjectWithComment()
@@ -1305,16 +1423,18 @@ Parameter name: arrayIndex",
         XUnitAssert.Throws<JsonReaderException>(
             () =>
             {
-                var json = @"{
-Name: 'Apple',
-Expiry: '2014-06-04T00:00:00Z',
-Price: 3.99,
-Sizes: [
-'Small',
-'Medium',
-'Large'
-]
-}, 987987";
+                var json = """
+                    {
+                        Name: 'Apple',
+                        Expiry: '2014-06-04T00:00:00Z',
+                        Price: 3.99,
+                        Sizes: [
+                            'Small',
+                            'Medium',
+                            'Large'
+                        ]
+                    }, 987987
+                    """;
 
                 var o = JObject.Parse(json);
             },
@@ -1395,7 +1515,12 @@ Sizes: [
         Assert.True(JToken.DeepEquals(new JObject(), new JObject()));
 
         var a = new JObject();
-        var b = new JObject {{"hi", "bye"}};
+        var b = new JObject
+        {
+            {
+                "hi", "bye"
+            }
+        };
 
         b.Remove("hi");
 
@@ -1406,10 +1531,12 @@ Sizes: [
     [Fact]
     public void GetValueBlogExample()
     {
-        var o = JObject.Parse(@"{
-        'name': 'Lower',
-        'NAME': 'Upper'
-      }");
+        var o = JObject.Parse("""
+            {
+                'name': 'Lower',
+                'NAME': 'Upper'
+            }
+            """);
 
         var exactMatch = (string) o.GetValue("NAME", StringComparison.OrdinalIgnoreCase);
         // Upper
@@ -1475,7 +1602,7 @@ Sizes: [
         }
 
         public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-            throw new NotSupportedException("This custom converter only supportes serialization and not deserialization.");
+            throw new NotSupportedException("This custom converter only supports serialization and not deserialization.");
 
         public override bool CanRead => false;
 

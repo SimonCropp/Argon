@@ -33,12 +33,13 @@ public class ConstructorHandlingTests : TestFixtureBase
 
     [Fact]
     public void FailWithPrivateConstructorPlusParameterizedAndDefault() =>
-        XUnitAssert.Throws<Exception>(() =>
-        {
-            var json = @"{Name:""Name!""}";
+        XUnitAssert.Throws<Exception>(
+            () =>
+            {
+                var json = @"{Name:""Name!""}";
 
-            var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
-        });
+                var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
+            });
 
     [Fact]
     public void SuccessWithPrivateConstructorPlusParameterizedAndAllowNonPublic()
@@ -127,13 +128,17 @@ public class ConstructorHandlingTests : TestFixtureBase
 
     public class ConstructorParametersRespectDefaultValueAttributes
     {
-        [DefaultValue("parameter1_default")] public string Parameter1 { get; }
+        [DefaultValue("parameter1_default")]
+        public string Parameter1 { get; }
 
-        [DefaultValue("parameter2_default")] public string Parameter2 { get; }
+        [DefaultValue("parameter2_default")]
+        public string Parameter2 { get; }
 
-        [DefaultValue("parameter3_default")] public string Parameter3 { get; set; }
+        [DefaultValue("parameter3_default")]
+        public string Parameter3 { get; set; }
 
-        [DefaultValue("parameter4_default")] public string Parameter4 { get; set; }
+        [DefaultValue("parameter4_default")]
+        public string Parameter4 { get; set; }
 
         public ConstructorParametersRespectDefaultValueAttributes(string parameter1, string parameter2, string parameter3)
         {
@@ -160,7 +165,10 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void ConstructorParametersRespectDefaultValueTest()
     {
-        var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValue>("{}", new JsonSerializerSettings {ContractResolver = ConstructorParameterDefaultStringValueContractResolver.Instance});
+        var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValue>("{}", new JsonSerializerSettings
+        {
+            ContractResolver = ConstructorParameterDefaultStringValueContractResolver.Instance
+        });
 
         Assert.Equal("Default Value", testObject.Parameter1);
         Assert.Equal("Default Value", testObject.Parameter2);

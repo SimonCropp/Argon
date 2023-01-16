@@ -59,7 +59,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeConcurrentBag()
     {
-        var bag1 = new ConcurrentBag<int> {1};
+        var bag1 = new ConcurrentBag<int>
+        {
+            1
+        };
 
         var output = JsonConvert.SerializeObject(bag1);
         Assert.Equal(@"[1]", output);
@@ -102,7 +105,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DoubleKey_WholeValue()
     {
-        var dictionary = new Dictionary<double, int> {{1d, 1}};
+        var dictionary = new Dictionary<double, int>
+        {
+            {
+                1d, 1
+            }
+        };
         var output = JsonConvert.SerializeObject(dictionary);
         Assert.Equal(@"{""1"":1}", output);
 
@@ -113,7 +121,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DoubleKey_MaxValue()
     {
-        var dictionary = new Dictionary<double, int> {{double.MaxValue, 1}};
+        var dictionary = new Dictionary<double, int>
+        {
+            {
+                double.MaxValue, 1
+            }
+        };
         var output = JsonConvert.SerializeObject(dictionary);
         Assert.Equal(@"{""1.7976931348623157E+308"":1}", output);
 
@@ -124,7 +137,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void FloatKey_MaxValue()
     {
-        var dictionary = new Dictionary<float, int> {{float.MaxValue, 1}};
+        var dictionary = new Dictionary<float, int>
+        {
+            {
+                float.MaxValue, 1
+            }
+        };
         var output = JsonConvert.SerializeObject(dictionary);
 #if !(NET5_0_OR_GREATER)
         Assert.Equal(@"{""3.40282347E+38"":1}", output);
@@ -273,9 +291,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var c1 = new TestDictionaryPrivateParameterized
         {
-            {"zero", 0},
-            {"one", 1},
-            {"two", 2}
+            {
+                "zero", 0
+            },
+            {
+                "one", 1
+            },
+            {
+                "two", 2
+            }
         };
         var json = JsonConvert.SerializeObject(c1);
         var c2 = JsonConvert.DeserializeObject<TestDictionaryPrivateParameterized>(json);
@@ -423,11 +447,20 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void NonZeroBasedArray()
     {
-        var onebasedArray = Array.CreateInstance(typeof(string), new[] {3}, new[] {2});
+        var onebasedArray = Array.CreateInstance(typeof(string), new[]
+        {
+            3
+        }, new[]
+        {
+            2
+        });
 
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
-            onebasedArray.SetValue(i.ToString(InvariantCulture), new[] {i});
+            onebasedArray.SetValue(i.ToString(InvariantCulture), new[]
+            {
+                i
+            });
         }
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
@@ -443,14 +476,26 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void NonZeroBasedMultiArray()
     {
         // lets create a two dimensional array, each rank is 1-based of with a capacity of 4.
-        var onebasedArray = Array.CreateInstance(typeof(string), new[] {3, 3}, new[] {1, 2});
+        var onebasedArray = Array.CreateInstance(typeof(string), new[]
+        {
+            3,
+            3
+        }, new[]
+        {
+            1,
+            2
+        });
 
         // Iterate of the array elements and assign a random double
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
             for (var j = onebasedArray.GetLowerBound(1); j <= onebasedArray.GetUpperBound(1); j++)
             {
-                onebasedArray.SetValue($"{i}_{j}", new[] {i, j});
+                onebasedArray.SetValue($"{i}_{j}", new[]
+                {
+                    i,
+                    j
+                });
             }
         }
 
@@ -481,9 +526,18 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         object[,] myOtherArray =
         {
-            {new KeyValuePair<string, double>("my value", 0.8), "foobar"},
-            {true, 0.4d},
-            {0.05f, 6}
+            {
+                new KeyValuePair<string, double>("my value", 0.8),
+                "foobar"
+            },
+            {
+                true,
+                0.4d
+            },
+            {
+                0.05f,
+                6
+            }
         };
 
         var myOtherArrayAsString = JsonConvert.SerializeObject(myOtherArray, Formatting.Indented);
@@ -739,8 +793,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var d = new Dictionary<string, int>
         {
-            {"one", 1},
-            {"two", 2}
+            {
+                "one", 1
+            },
+            {
+                "two", 2
+            }
         };
 
         var dic = new CustomReadOnlyDictionary<string, int>(d);
@@ -795,10 +853,20 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var serialized = JsonConvert.SerializeObject(s);
         Assert.Equal(@"""host\\user""", serialized);
 
-        var d1 = new Dictionary<int, object> {{5, s}};
+        var d1 = new Dictionary<int, object>
+        {
+            {
+                5, s
+            }
+        };
         Assert.Equal(@"{""5"":""host\\user""}", JsonConvert.SerializeObject(d1));
 
-        var d2 = new Dictionary<string, object> {{s, 5}};
+        var d2 = new Dictionary<string, object>
+        {
+            {
+                s, 5
+            }
+        };
         Assert.Equal(@"{""host\\user"":5}", JsonConvert.SerializeObject(d2));
     }
 
@@ -964,9 +1032,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var v1 = new Dictionary<string, int?>
         {
-            {"First", 1},
-            {"Second", null},
-            {"Third", 3}
+            {
+                "First", 1
+            },
+            {
+                "Second", null
+            },
+            {
+                "Third", 3
+            }
         };
 
         var json = JsonConvert.SerializeObject(v1, Formatting.Indented);
@@ -989,7 +1063,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var components = new Dictionary<string, Component>
         {
-            {"Key!", new Component()}
+            {
+                "Key!", new Component()
+            }
         };
         var go = new GameObject
         {
@@ -1081,20 +1157,58 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         public PopulateReadOnlyTestClass()
         {
-            NonReadOnlyList = new List<int> {1};
-            NonReadOnlyDictionary = new Dictionary<string, int> {{"first", 2}};
+            NonReadOnlyList = new List<int>
+            {
+                1
+            };
+            NonReadOnlyDictionary = new Dictionary<string, int>
+            {
+                {
+                    "first", 2
+                }
+            };
 
-            Array = new[] {3};
+            Array = new[]
+            {
+                3
+            };
 
-            List = new ReadOnlyCollection<int>(new[] {4});
-            Dictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 5}});
+            List = new ReadOnlyCollection<int>(new[]
+            {
+                4
+            });
+            Dictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
+            {
+                {
+                    "first", 5
+                }
+            });
 
-            IReadOnlyCollection = new ReadOnlyCollection<int>(new[] {6});
-            ReadOnlyCollection = new(new[] {7});
-            IReadOnlyList = new ReadOnlyCollection<int>(new[] {8});
+            IReadOnlyCollection = new ReadOnlyCollection<int>(new[]
+            {
+                6
+            });
+            ReadOnlyCollection = new(new[]
+            {
+                7
+            });
+            IReadOnlyList = new ReadOnlyCollection<int>(new[]
+            {
+                8
+            });
 
-            IReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int> {{"first", 9}});
-            ReadOnlyDictionary = new(new Dictionary<string, int> {{"first", 10}});
+            IReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
+            {
+                {
+                    "first", 9
+                }
+            });
+            ReadOnlyDictionary = new(new Dictionary<string, int>
+            {
+                {
+                    "first", 10
+                }
+            });
         }
     }
 
@@ -1195,7 +1309,25 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Before = "Before!",
             After = "After!",
-            Coordinates = new[,] {{1, 1}, {1, 2}, {2, 1}, {2, 2}}
+            Coordinates = new[,]
+            {
+                {
+                    1,
+                    1
+                },
+                {
+                    1,
+                    2
+                },
+                {
+                    2,
+                    1
+                },
+                {
+                    2,
+                    2
+                }
+            }
         };
 
         var json = JsonConvert.SerializeObject(aa);
@@ -1210,7 +1342,57 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Before = "Before!",
             After = "After!",
-            Coordinates = new[,,] {{{1, 1, 1}, {1, 1, 2}}, {{1, 2, 1}, {1, 2, 2}}, {{2, 1, 1}, {2, 1, 2}}, {{2, 2, 1}, {2, 2, 2}}}
+            Coordinates = new[,,]
+            {
+                {
+                    {
+                        1,
+                        1,
+                        1
+                    },
+                    {
+                        1,
+                        1,
+                        2
+                    }
+                },
+                {
+                    {
+                        1,
+                        2,
+                        1
+                    },
+                    {
+                        1,
+                        2,
+                        2
+                    }
+                },
+                {
+                    {
+                        2,
+                        1,
+                        1
+                    },
+                    {
+                        2,
+                        1,
+                        2
+                    }
+                },
+                {
+                    {
+                        2,
+                        2,
+                        1
+                    },
+                    {
+                        2,
+                        2,
+                        2
+                    }
+                }
+            }
         };
 
         var json = JsonConvert.SerializeObject(aa);
@@ -1225,7 +1407,57 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             Before = "Before!",
             After = "After!",
-            Coordinates = new[,,] {{{1, 1, 1}, {1, 1, 2}}, {{1, 2, 1}, {1, 2, 2}}, {{2, 1, 1}, {2, 1, 2}}, {{2, 2, 1}, {2, 2, 2}}}
+            Coordinates = new[,,]
+            {
+                {
+                    {
+                        1,
+                        1,
+                        1
+                    },
+                    {
+                        1,
+                        1,
+                        2
+                    }
+                },
+                {
+                    {
+                        1,
+                        2,
+                        1
+                    },
+                    {
+                        1,
+                        2,
+                        2
+                    }
+                },
+                {
+                    {
+                        2,
+                        1,
+                        1
+                    },
+                    {
+                        2,
+                        1,
+                        2
+                    }
+                },
+                {
+                    {
+                        2,
+                        2,
+                        1
+                    },
+                    {
+                        2,
+                        2,
+                        2
+                    }
+                }
+            }
         };
 
         var json = JsonConvert.SerializeObject(aa, Formatting.Indented);
@@ -1534,7 +1766,17 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             EventName = "EventName!"
         };
-        var array1 = new[,] {{e1, e1}, {e1, e1}};
+        var array1 = new[,]
+        {
+            {
+                e1,
+                e1
+            },
+            {
+                e1,
+                e1
+            }
+        };
         var values1 = new List<Event1[,]>
         {
             array1,
@@ -1588,7 +1830,17 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             EventName = "EventName!"
         };
-        var array1 = new[,] {{e1, e1}, {e1, e1}};
+        var array1 = new[,]
+        {
+            {
+                e1,
+                e1
+            },
+            {
+                e1,
+                e1
+            }
+        };
         var values1 = new List<Event1[,]>
         {
             array1,
@@ -1767,7 +2019,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             const string propertyValue = "value";
 
-            var list = new List<ITestInterface> {new TestClass {Property = propertyValue}};
+            var list = new List<ITestInterface>
+            {
+                new TestClass
+                {
+                    Property = propertyValue
+                }
+            };
 
             var json = JsonConvert.SerializeObject(list);
 
@@ -1799,9 +2057,18 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var collection = new ProductCollection
         {
-            new() {Name = "Test1"},
-            new() {Name = "Test2"},
-            new() {Name = "Test3"}
+            new()
+            {
+                Name = "Test1"
+            },
+            new()
+            {
+                Name = "Test2"
+            },
+            new()
+            {
+                Name = "Test3"
+            }
         };
 
         var jsonSerializer = new JsonSerializer
@@ -1825,21 +2092,39 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void GenericCollectionInheritance()
     {
         var foo1 = new GenericClass<GenericItem<string>, string>();
-        foo1.Items.Add(new() {Value = "Hello"});
+        foo1.Items.Add(new()
+        {
+            Value = "Hello"
+        });
 
-        var json = JsonConvert.SerializeObject(new {selectList = foo1});
+        var json = JsonConvert.SerializeObject(new
+        {
+            selectList = foo1
+        });
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
 
         var foo2 = new GenericClass<NonGenericItem, string>();
-        foo2.Items.Add(new() {Value = "Hello"});
+        foo2.Items.Add(new()
+        {
+            Value = "Hello"
+        });
 
-        json = JsonConvert.SerializeObject(new {selectList = foo2});
+        json = JsonConvert.SerializeObject(new
+        {
+            selectList = foo2
+        });
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
 
         var foo3 = new NonGenericClass();
-        foo3.Items.Add(new NonGenericItem {Value = "Hello"});
+        foo3.Items.Add(new NonGenericItem
+        {
+            Value = "Hello"
+        });
 
-        json = JsonConvert.SerializeObject(new {selectList = foo3});
+        json = JsonConvert.SerializeObject(new
+        {
+            selectList = foo3
+        });
         Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
     }
 
@@ -1866,7 +2151,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void ReadOnlyCollectionSerialize()
     {
-        var r1 = new ReadOnlyCollection<int>(new[] {0, 1, 2, 3, 4});
+        var r1 = new ReadOnlyCollection<int>(new[]
+        {
+            0,
+            1,
+            2,
+            3,
+            4
+        });
 
         var jsonText = JsonConvert.SerializeObject(r1);
 
@@ -1988,7 +2280,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         };
 
-        JsonConvert.SerializeObject(new Hashtable {{"testkey", ""}}, settings);
+        JsonConvert.SerializeObject(new Hashtable
+        {
+            {
+                "testkey", ""
+            }
+        }, settings);
         var deserializeTest2 = JsonConvert.DeserializeObject<Hashtable>(externalJson, settings);
 
         Assert.Equal(deserializeTest2["testkey"], "");
@@ -1997,13 +2294,20 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeCollectionWithConstructorArrayArgument()
     {
-        var v = new ReadOnlyCollectionWithArrayArgument<double>(new[] {-0.014147478859765236, -0.011419606805541858, -0.010038461483676238});
+        var v = new ReadOnlyCollectionWithArrayArgument<double>(new[]
+        {
+            -0.014147478859765236,
+            -0.011419606805541858,
+            -0.010038461483676238
+        });
         var json = JsonConvert.SerializeObject(v);
 
-        XUnitAssert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json);
-        }, "Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
+        XUnitAssert.Throws<JsonSerializationException>(
+            () =>
+            {
+                JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json);
+            },
+            "Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
     }
 
     [Fact]

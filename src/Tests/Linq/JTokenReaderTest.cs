@@ -35,12 +35,14 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var json = JObject.Parse(@"{""IntList"":[1, ""two""]}");
 
-        XUnitAssert.Throws<Exception>(() =>
-        {
-            var serializer = new JsonSerializer();
+        XUnitAssert.Throws<Exception>(
+            () =>
+            {
+                var serializer = new JsonSerializer();
 
-            serializer.Deserialize<TraceTestObject>(json.CreateReader());
-        }, "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
+                serializer.Deserialize<TraceTestObject>(json.CreateReader());
+            },
+            "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
     }
 
     public class TraceTestObject
@@ -319,23 +321,25 @@ public class JTokenReaderTest : TestFixtureBase
 
     [Fact]
     public void ReadBytesFailure() =>
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            var o =
-                new JObject(
-                    new JProperty("Test1", 1)
-                );
+        XUnitAssert.Throws<JsonReaderException>(
+            () =>
+            {
+                var o =
+                    new JObject(
+                        new JProperty("Test1", 1)
+                    );
 
-            using var jsonReader = new JTokenReader(o);
-            jsonReader.Read();
-            Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
+                using var jsonReader = new JTokenReader(o);
+                jsonReader.Read();
+                Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
 
-            jsonReader.Read();
-            Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
-            Assert.Equal("Test1", jsonReader.Value);
+                jsonReader.Read();
+                Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
+                Assert.Equal("Test1", jsonReader.Value);
 
-            jsonReader.ReadAsBytes();
-        }, "Error reading bytes. Unexpected token: Integer. Path 'Test1'.");
+                jsonReader.ReadAsBytes();
+            },
+            "Error reading bytes. Unexpected token: Integer. Path 'Test1'.");
 
     public class HasBytes
     {
@@ -345,7 +349,16 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadBytesFromString()
     {
-        var bytes = new HasBytes {Bytes = new byte[] {1, 2, 3, 4}};
+        var bytes = new HasBytes
+        {
+            Bytes = new byte[]
+            {
+                1,
+                2,
+                3,
+                4
+            }
+        };
         var json = JsonConvert.SerializeObject(bytes);
 
         TextReader textReader = new StringReader(json);
@@ -358,13 +371,22 @@ public class JTokenReaderTest : TestFixtureBase
         var result2 = (HasBytes) JsonSerializer.Create(null)
             .Deserialize(jsonReader, typeof(HasBytes));
 
-        Assert.Equal(new byte[] {1, 2, 3, 4}, result2.Bytes);
+        Assert.Equal(new byte[]
+        {
+            1,
+            2,
+            3,
+            4
+        }, result2.Bytes);
     }
 
     [Fact]
     public void ReadBytesFromEmptyString()
     {
-        var bytes = new HasBytes {Bytes = Array.Empty<byte>()};
+        var bytes = new HasBytes
+        {
+            Bytes = Array.Empty<byte>()
+        };
         var json = JsonConvert.SerializeObject(bytes);
 
         TextReader textReader = new StringReader(json);
@@ -611,7 +633,9 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var o = new JObject
         {
-            {"prop1", true}
+            {
+                "prop1", true
+            }
         };
 
         var reader = new JTokenReader(o, "baseprop");
@@ -639,7 +663,9 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var o = new JObject
         {
-            {"prop1", true}
+            {
+                "prop1", true
+            }
         };
 
         var reader = new JTokenReader(o, "[0]");
@@ -667,7 +693,8 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var a = new JArray
         {
-            1, 2
+            1,
+            2
         };
 
         var reader = new JTokenReader(a, "baseprop");
@@ -695,7 +722,8 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var a = new JArray
         {
-            1, 2
+            1,
+            2
         };
 
         var reader = new JTokenReader(a, "[0]");
@@ -723,7 +751,8 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var a = new JArray
         {
-            1, 2
+            1,
+            2
         };
 
         var reader = new JTokenReader(a);
@@ -738,7 +767,8 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var a = new JArray
         {
-            1, 2
+            1,
+            2
         };
 
         var reader = new JTokenReader(a);
@@ -753,7 +783,8 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var a = new JArray
         {
-            1, 2
+            1,
+            2
         };
 
         var reader = new JTokenReader(a);
@@ -768,7 +799,8 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var a = new JArray
         {
-            1, 2
+            1,
+            2
         };
 
         var reader = new JTokenReader(a);
@@ -943,7 +975,8 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var a = new JArray
         {
-            1, 2
+            1,
+            2
         };
 
         var reader = new JTokenReader(a);
