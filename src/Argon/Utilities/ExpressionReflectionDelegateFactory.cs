@@ -12,29 +12,25 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
     {
         var type = typeof(object);
 
-        var argsParameterExpression = Expression.Parameter(typeof(object[]), "args");
+        var parameters = Expression.Parameter(typeof(object[]), "args");
 
-        var callExpression = BuildMethodCall(method, type, null, argsParameterExpression);
+        var call = BuildMethodCall(method, type, null, parameters);
 
-        var lambdaExpression = Expression.Lambda(typeof(ObjectConstructor), callExpression, argsParameterExpression);
-
-        var compiled = (ObjectConstructor) lambdaExpression.Compile();
-        return compiled;
+        return Expression.Lambda<ObjectConstructor>(call, parameters)
+            .Compile();
     }
 
     public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
     {
         var type = typeof(object);
 
-        var targetParameterExpression = Expression.Parameter(type, "target");
-        var argsParameterExpression = Expression.Parameter(typeof(object[]), "args");
+        var targetParameter = Expression.Parameter(type, "target");
+        var argsParameter = Expression.Parameter(typeof(object[]), "args");
 
-        var callExpression = BuildMethodCall(method, type, targetParameterExpression, argsParameterExpression);
+        var call = BuildMethodCall(method, type, targetParameter, argsParameter);
 
-        var lambdaExpression = Expression.Lambda(typeof(MethodCall<T, object>), callExpression, targetParameterExpression, argsParameterExpression);
-
-        var compiled = (MethodCall<T, object?>) lambdaExpression.Compile();
-        return compiled;
+        return Expression.Lambda<MethodCall<T, object?>>(call, targetParameter, argsParameter)
+            .Compile();
     }
 
     class ByRefParameter
@@ -78,11 +74,11 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
                     isByRef = true;
                 }
 
-                Expression indexExpression = Expression.Constant(i);
+                Expression index = Expression.Constant(i);
 
-                Expression paramAccessorExpression = Expression.ArrayIndex(argsParameterExpression, indexExpression);
+                Expression paramAccessor = Expression.ArrayIndex(argsParameterExpression, index);
 
-                var argExpression = EnsureCastExpression(paramAccessorExpression, parameterType, !isByRef);
+                var argExpression = EnsureCastExpression(paramAccessor, parameterType, !isByRef);
 
                 if (isByRef)
                 {
@@ -96,36 +92,36 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
             }
         }
 
-        Expression callExpression;
+        Expression call;
         if (method.IsConstructor)
         {
-            callExpression = Expression.New((ConstructorInfo) method, argsExpression);
+            call = Expression.New((ConstructorInfo) method, argsExpression);
         }
         else if (method.IsStatic)
         {
-            callExpression = Expression.Call((MethodInfo) method, argsExpression);
+            call = Expression.Call((MethodInfo) method, argsExpression);
         }
         else
         {
             var readParameter = EnsureCastExpression(targetParameterExpression!, method.DeclaringType!);
 
-            callExpression = Expression.Call(readParameter, (MethodInfo) method, argsExpression);
+            call = Expression.Call(readParameter, (MethodInfo) method, argsExpression);
         }
 
         if (method is MethodInfo m)
         {
             if (m.ReturnType != typeof(void))
             {
-                callExpression = EnsureCastExpression(callExpression, type);
+                call = EnsureCastExpression(call, type);
             }
             else
             {
-                callExpression = Expression.Block(callExpression, Expression.Constant(null));
+                call = Expression.Block(call, Expression.Constant(null));
             }
         }
         else
         {
-            callExpression = EnsureCastExpression(callExpression, type);
+            call = EnsureCastExpression(call, type);
         }
 
         if (refParameterMap.Count > 0)
@@ -142,12 +138,12 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
                 variableExpressions.Add(p.Variable);
             }
 
-            bodyExpressions.Add(callExpression);
+            bodyExpressions.Add(call);
 
-            callExpression = Expression.Block(variableExpressions, bodyExpressions);
+            call = Expression.Block(variableExpressions, bodyExpressions);
         }
 
-        return callExpression;
+        return call;
     }
 
     public override Func<T> CreateDefaultConstructor<T>(Type type)
@@ -166,10 +162,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
             expression = EnsureCastExpression(expression, resultType);
 
-            var lambdaExpression = Expression.Lambda(typeof(Func<T>), expression);
-
-            var compiled = (Func<T>) lambdaExpression.Compile();
-            return compiled;
+            return Expression.Lambda<Func<T>>(expression).Compile();
         }
         catch
         {
@@ -184,8 +177,8 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         var instanceType = typeof(T);
         var resultType = typeof(object);
 
-        var parameterExpression = Expression.Parameter(instanceType, "instance");
-        Expression resultExpression;
+        var instanceParameter = Expression.Parameter(instanceType, "instance");
+        Expression result;
 
         var getMethod = property.GetMethod;
         if (getMethod == null)
@@ -195,21 +188,19 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         if (getMethod.IsStatic)
         {
-            resultExpression = Expression.MakeMemberAccess(null, property);
+            result = Expression.MakeMemberAccess(null, property);
         }
         else
         {
-            var readParameter = EnsureCastExpression(parameterExpression, property.DeclaringType!);
+            var readParameter = EnsureCastExpression(instanceParameter, property.DeclaringType!);
 
-            resultExpression = Expression.MakeMemberAccess(readParameter, property);
+            result = Expression.MakeMemberAccess(readParameter, property);
         }
 
-        resultExpression = EnsureCastExpression(resultExpression, resultType);
+        result = EnsureCastExpression(result, resultType);
 
-        var lambdaExpression = Expression.Lambda(typeof(Func<T, object>), resultExpression, parameterExpression);
-
-        var compiled = (Func<T, object?>) lambdaExpression.Compile();
-        return compiled;
+        return Expression.Lambda<Func<T, object>>(result, instanceParameter)
+            .Compile();
     }
 
     public override Func<T, object?> CreateGet<T>(FieldInfo field)
@@ -230,8 +221,8 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         fieldExpression = EnsureCastExpression(fieldExpression, typeof(object));
 
-        var compiled = Expression.Lambda<Func<T, object?>>(fieldExpression, sourceParameter).Compile();
-        return compiled;
+        return Expression.Lambda<Func<T, object?>>(fieldExpression, sourceParameter)
+            .Compile();
     }
 
     public override Action<T, object?> CreateSet<T>(FieldInfo field)
@@ -243,8 +234,8 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
             return LateBoundReflectionDelegateFactory.Instance.CreateSet<T>(field);
         }
 
-        var sourceParameterExpression = Expression.Parameter(typeof(T), "source");
-        var valueParameterExpression = Expression.Parameter(typeof(object), "value");
+        var sourceParameter = Expression.Parameter(typeof(T), "source");
+        var valueParameter = Expression.Parameter(typeof(object), "value");
 
         Expression fieldExpression;
         if (field.IsStatic)
@@ -253,19 +244,17 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         }
         else
         {
-            var sourceExpression = EnsureCastExpression(sourceParameterExpression, field.DeclaringType);
+            var source = EnsureCastExpression(sourceParameter, field.DeclaringType);
 
-            fieldExpression = Expression.Field(sourceExpression, field);
+            fieldExpression = Expression.Field(source, field);
         }
 
-        var valueExpression = EnsureCastExpression(valueParameterExpression, fieldExpression.Type);
+        var value = EnsureCastExpression(valueParameter, fieldExpression.Type);
 
-        var assignExpression = Expression.Assign(fieldExpression, valueExpression);
+        var assign = Expression.Assign(fieldExpression, value);
 
-        var lambdaExpression = Expression.Lambda(typeof(Action<T, object>), assignExpression, sourceParameterExpression, valueParameterExpression);
-
-        var compiled = (Action<T, object?>) lambdaExpression.Compile();
-        return compiled;
+        return Expression.Lambda<Action<T, object?>>(assign, sourceParameter, valueParameter)
+            .Compile();
     }
 
     public override Action<T, object?> CreateSet<T>(PropertyInfo property)
@@ -291,22 +280,20 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
             throw new ArgumentException("Property does not have a setter.");
         }
 
-        Expression setExpression;
+        Expression set;
         if (setMethod.IsStatic)
         {
-            setExpression = Expression.Call(setMethod, readValueParameter);
+            set = Expression.Call(setMethod, readValueParameter);
         }
         else
         {
             var readInstanceParameter = EnsureCastExpression(instanceParameter, property.DeclaringType);
 
-            setExpression = Expression.Call(readInstanceParameter, setMethod, readValueParameter);
+            set = Expression.Call(readInstanceParameter, setMethod, readValueParameter);
         }
 
-        var lambdaExpression = Expression.Lambda(typeof(Action<T, object?>), setExpression, instanceParameter, valueParameter);
-
-        var compiled = (Action<T, object?>) lambdaExpression.Compile();
-        return compiled;
+        return Expression.Lambda<Action<T, object?>>(set, instanceParameter, valueParameter)
+            .Compile();
     }
 
     static Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
