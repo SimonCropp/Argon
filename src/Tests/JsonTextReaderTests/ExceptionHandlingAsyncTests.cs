@@ -27,7 +27,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(0, (int) await reader.ReadAsInt32Async());
+        Assert.Equal(0, await reader.ReadAsInt32Async());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsInt32Async(),
@@ -41,7 +41,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
-        XUnitAssert.True((bool) await reader.ReadAsBooleanAsync());
+        XUnitAssert.True(await reader.ReadAsBooleanAsync());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBooleanAsync(),
@@ -55,7 +55,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), (DateTime) await reader.ReadAsDateTimeAsync());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, DateTimeKind.Utc), await reader.ReadAsDateTimeAsync());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsDateTimeAsync(),
@@ -69,7 +69,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
-        Assert.Equal(new(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), (DateTimeOffset) await reader.ReadAsDateTimeOffsetAsync());
+        Assert.Equal(new(2017, 2, 4, 0, 0, 0, TimeSpan.Zero), await reader.ReadAsDateTimeOffsetAsync());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsDateTimeOffsetAsync(),
@@ -247,7 +247,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task MatchWithInsufficentCharactersAsync()
+    public async Task MatchWithInsufficientCharactersAsync()
     {
         var reader = new JsonTextReader(new StringReader(@"nul"));
 
