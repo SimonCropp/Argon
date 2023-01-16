@@ -974,17 +974,19 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void EscapedPathInExceptionMessage()
     {
-        var json = @"{
-  ""frameworks"": {
-    ""NET5_0_OR_GREATER"": {
-      ""dependencies"": {
-        ""System.Xml.ReaderWriter"": {
-          ""source"": !!! !!!
-        }
-      }
-    }
-  }
-}";
+        var json = """
+            {
+              "frameworks": {
+                "NET5_0_OR_GREATER": {
+                  "dependencies": {
+                    "System.Xml.ReaderWriter": {
+                      "source": !!! !!!
+                    }
+                  }
+                }
+              }
+            }
+            """;
 
         XUnitAssert.Throws<JsonReaderException>(
             () =>

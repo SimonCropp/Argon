@@ -9,11 +9,13 @@ public class LinqDynamicTests : TestFixtureBase
     [Fact]
     public void AccessPropertyValue()
     {
-        var rawJson = @"{
-  ""task"": {
-    ""dueDate"": ""2012-12-03T00:00:00""
-  }
-}";
+        var rawJson = """
+            {
+              "task": {
+                "dueDate": "2012-12-03T00:00:00"
+              }
+            }
+            """;
 
         var dyn = JsonConvert.DeserializeObject<dynamic>(rawJson);
         string dueDate = dyn.task.dueDate.Value;

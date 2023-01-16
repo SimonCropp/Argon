@@ -343,14 +343,16 @@ public class JsonSerializerTest : TestFixtureBase
             ContractResolver = new DictionaryKeyContractResolver()
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""NAME"": ""James"",
-  ""AGE"": 1,
-  ""ROLENAMES"": {
-    ""IsAdmin"": true,
-    ""IsModerator"": false
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "NAME": "James",
+              "AGE": 1,
+              "ROLENAMES": {
+                "IsAdmin": true,
+                "IsModerator": false
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -2693,24 +2695,26 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeDictionaryInterfaceWithExistingValues()
     {
-        var json = @"{
-  ""Random"": {
-    ""blah"": 1
-  },
-  ""Name"": ""Name!"",
-  ""Dictionary"": {
-    ""Item"": 11,
-    ""Item1"": 12
-  },
-  ""Collection"": [
-    999
-  ],
-  ""Employee"": {
-    ""Manager"": {
-      ""Name"": ""ManagerName!""
-    }
-  }
-}";
+        var json = """
+            {
+              "Random": {
+                "blah": 1
+              },
+              "Name": "Name!",
+              "Dictionary": {
+                "Item": 11,
+                "Item1": 12
+              },
+              "Collection": [
+                999
+              ],
+              "Employee": {
+                "Manager": {
+                  "Name": "ManagerName!"
+                }
+              }
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<DictionaryInterfaceClass>(json,
             new JsonSerializerSettings {ObjectCreationHandling = ObjectCreationHandling.Reuse});

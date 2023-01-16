@@ -16,16 +16,18 @@
 
         var json = JsonConvert.SerializeObject(values, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Key"": ""123"",
-    ""Value"": 123
-  },
-  {
-    ""Key"": ""456"",
-    ""Value"": 456
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Key": "123",
+                "Value": 123
+              },
+              {
+                "Key": "456",
+                "Value": 456
+              }
+            ]
+            """, json);
 
         var v2 = JsonConvert.DeserializeObject<IList<KeyValuePair<string, int>>>(json);
 

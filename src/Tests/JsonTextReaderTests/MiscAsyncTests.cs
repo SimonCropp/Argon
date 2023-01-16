@@ -250,20 +250,20 @@ public class MiscAsyncTests : TestFixtureBase
     [Fact]
     public async Task AppendCharsWhileReadingNewLineAsync()
     {
-        var json = @"
-{
-  ""description"": ""A person"",
-  ""type"": ""object"",
-  ""properties"":
-  {
-    ""name"": {""type"":""string""},
-    ""hobbies"": {
-      ""type"": ""array"",
-      ""items"": {""type"":""string""}
-    }
-  }
-}
-";
+        var json = """
+            {
+              "description": "A person",
+              "type": "object",
+              "properties":
+              {
+                "name": {"type":"string"},
+                "hobbies": {
+                  "type": "array",
+                  "items": {"type":"string"}
+                }
+              }
+            }
+            """;
 
         var reader = new JsonTextReader(new StringReader(json), 129);
 

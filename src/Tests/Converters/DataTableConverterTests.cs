@@ -112,55 +112,59 @@ public class DataTableConverterTests : TestFixtureBase
 
         var stringName = typeof(string).AssemblyQualifiedName;
 
-        XUnitAssert.AreEqualNormalized($@"[
-  {{
-    ""TimeSpan"": ""00:00:00"",
-    ""Char[]"": [
-      ""a"",
-      ""b"",
-      ""c""
-    ],
-    ""Type"": ""{stringName}"",
-    ""Object"": {{}},
-    ""Byte[]"": ""AQIDBAUGBwg="",
-    ""Uri"": ""http://localhost"",
-    ""Guid"": ""00000001-0002-0003-0405-060708090a0b"",
-    ""BigInteger"": 10000000000000000000000000000000000
-  }}
-]", stringWriter.ToString());
+        XUnitAssert.AreEqualNormalized($$"""
+            [
+              {
+                "TimeSpan": "00:00:00",
+                "Char[]": [
+                  "a",
+                  "b",
+                  "c"
+                ],
+                "Type": "{{stringName}}",
+                "Object": {},
+                "Byte[]": "AQIDBAUGBwg=",
+                "Uri": "http://localhost",
+                "Guid": "00000001-0002-0003-0405-060708090a0b",
+                "BigInteger": 10000000000000000000000000000000000
+              }
+            ]
+            """, stringWriter.ToString());
     }
 
     [Fact]
     public void Deserialize()
     {
-        var json = @"[
-  {
-    ""id"": 0,
-    ""item"": ""item 0"",
-    ""DataTableCol"": [
-      {
-        ""NestedStringCol"": ""0!""
-      }
-    ],
-    ""ArrayCol"": [
-      0
-    ],
-    ""DateCol"": ""2000-12-29T00:00:00Z""
-  },
-  {
-    ""id"": 1,
-    ""item"": ""item 1"",
-    ""DataTableCol"": [
-      {
-        ""NestedStringCol"": ""1!""
-      }
-    ],
-    ""ArrayCol"": [
-      1
-    ],
-    ""DateCol"": ""2000-12-29T00:00:00Z""
-  }
-]";
+        var json = """
+            [
+              {
+                "id": 0,
+                "item": "item 0",
+                "DataTableCol": [
+                  {
+                    "NestedStringCol": "0!"
+                  }
+                ],
+                "ArrayCol": [
+                  0
+                ],
+                "DateCol": "2000-12-29T00:00:00Z"
+              },
+              {
+                "id": 1,
+                "item": "item 1",
+                "DataTableCol": [
+                  {
+                    "NestedStringCol": "1!"
+                  }
+                ],
+                "ArrayCol": [
+                  1
+                ],
+                "DateCol": "2000-12-29T00:00:00Z"
+              }
+            ]
+            """;
 
         var settings = new JsonSerializerSettings();
         settings.AddDataSetConverters();

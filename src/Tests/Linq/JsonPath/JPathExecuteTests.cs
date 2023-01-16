@@ -95,29 +95,31 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void RecursiveWildcard()
     {
-        var json = @"{
-    ""a"": [
-        {
-            ""id"": 1
-        }
-    ],
-    ""b"": [
-        {
-            ""id"": 2
-        },
-        {
-            ""id"": 3,
-            ""c"": {
-                ""id"": 4
+        var json = """
+            {
+                "a": [
+                    {
+                        "id": 1
+                    }
+                ],
+                "b": [
+                    {
+                        "id": 2
+                    },
+                    {
+                        "id": 3,
+                        "c": {
+                            "id": 4
+                        }
+                    }
+                ],
+                "d": [
+                    {
+                        "id": 5
+                    }
+                ]
             }
-        }
-    ],
-    ""d"": [
-        {
-            ""id"": 5
-        }
-    ]
-}";
+            """;
 
         var models = JObject.Parse(json);
 
@@ -249,29 +251,31 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void ScanQuoted()
     {
-        var json = @"{
-    ""Node1"": {
-        ""Child1"": {
-            ""Name"": ""IsMe"",
-            ""TargetNode"": {
-                ""Prop1"": ""Val1"",
-                ""Prop2"": ""Val2""
+        var json = """
+            {
+                "Node1": {
+                    "Child1": {
+                        "Name": "IsMe",
+                        "TargetNode": {
+                            "Prop1": "Val1",
+                            "Prop2": "Val2"
+                        }
+                    },
+                    "My.Child.Node": {
+                        "TargetNode": {
+                            "Prop1": "Val1",
+                            "Prop2": "Val2"
+                        }
+                    }
+                },
+                "Node2": {
+                    "TargetNode": {
+                        "Prop1": "Val1",
+                        "Prop2": "Val2"
+                    }
+                }
             }
-        },
-        ""My.Child.Node"": {
-            ""TargetNode"": {
-                ""Prop1"": ""Val1"",
-                ""Prop2"": ""Val2""
-            }
-        }
-    },
-    ""Node2"": {
-        ""TargetNode"": {
-            ""Prop1"": ""Val1"",
-            ""Prop2"": ""Val2""
-        }
-    }
-}";
+            """;
 
         var models = JObject.Parse(json);
 
@@ -285,29 +289,31 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void ScanMultipleQuoted()
     {
-        var json = @"{
-    ""Node1"": {
-        ""Child1"": {
-            ""Name"": ""IsMe"",
-            ""TargetNode"": {
-                ""Prop1"": ""Val1"",
-                ""Prop2"": ""Val2""
+        var json = """
+            {
+                "Node1": {
+                    "Child1": {
+                        "Name": "IsMe",
+                        "TargetNode": {
+                            "Prop1": "Val1",
+                            "Prop2": "Val2"
+                        }
+                    },
+                    "My.Child.Node": {
+                        "TargetNode": {
+                            "Prop1": "Val3",
+                            "Prop2": "Val4"
+                        }
+                    }
+                },
+                "Node2": {
+                    "TargetNode": {
+                        "Prop1": "Val5",
+                        "Prop2": "Val6"
+                    }
+                }
             }
-        },
-        ""My.Child.Node"": {
-            ""TargetNode"": {
-                ""Prop1"": ""Val3"",
-                ""Prop2"": ""Val4""
-            }
-        }
-    },
-    ""Node2"": {
-        ""TargetNode"": {
-            ""Prop1"": ""Val5"",
-            ""Prop2"": ""Val6""
-        }
-    }
-}";
+            """;
 
         var models = JObject.Parse(json);
 
@@ -1005,20 +1011,22 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void MultiplePaths()
     {
-        var a = JArray.Parse(@"[
-  {
-    ""price"": 199,
-    ""max_price"": 200
-  },
-  {
-    ""price"": 200,
-    ""max_price"": 200
-  },
-  {
-    ""price"": 201,
-    ""max_price"": 200
-  }
-]");
+        var a = JArray.Parse("""
+            [
+              {
+                "price": 199,
+                "max_price": 200
+              },
+              {
+                "price": 200,
+                "max_price": 200
+              },
+              {
+                "price": 201,
+                "max_price": 200
+              }
+            ]
+            """);
 
         var results = a.SelectTokens("[?(@.price > @.max_price)]").ToList();
         Assert.Equal(1, results.Count);
@@ -1028,20 +1036,22 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Exists_True()
     {
-        var a = JArray.Parse(@"[
-  {
-    ""price"": 199,
-    ""max_price"": 200
-  },
-  {
-    ""price"": 200,
-    ""max_price"": 200
-  },
-  {
-    ""price"": 201,
-    ""max_price"": 200
-  }
-]");
+        var a = JArray.Parse("""
+            [
+              {
+                "price": 199,
+                "max_price": 200
+              },
+              {
+                "price": 200,
+                "max_price": 200
+              },
+              {
+                "price": 201,
+                "max_price": 200
+              }
+            ]
+            """);
 
         var results = a.SelectTokens("[?(true)]").ToList();
         Assert.Equal(3, results.Count);
@@ -1053,20 +1063,22 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Exists_Null()
     {
-        var a = JArray.Parse(@"[
-  {
-    ""price"": 199,
-    ""max_price"": 200
-  },
-  {
-    ""price"": 200,
-    ""max_price"": 200
-  },
-  {
-    ""price"": 201,
-    ""max_price"": 200
-  }
-]");
+        var a = JArray.Parse("""
+            [
+              {
+                "price": 199,
+                "max_price": 200
+              },
+              {
+                "price": 200,
+                "max_price": 200
+              },
+              {
+                "price": 201,
+                "max_price": 200
+              }
+            ]
+            """);
 
         var results = a.SelectTokens("[?(true)]").ToList();
         Assert.Equal(3, results.Count);
@@ -1078,37 +1090,39 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void WildcardWithProperty()
     {
-        var o = JObject.Parse(@"{
-    ""station"": 92000041000001, 
-    ""containers"": [
-        {
-            ""id"": 1,
-            ""text"": ""Sort system"",
-            ""containers"": [
-                {
-                    ""id"": ""2"",
-                    ""text"": ""Yard 11""
-                },
-                {
-                    ""id"": ""92000020100006"",
-                    ""text"": ""Sort yard 12""
-                },
-                {
-                    ""id"": ""92000020100005"",
-                    ""text"": ""Yard 13""
-                } 
-            ]
-        }, 
-        {
-            ""id"": ""92000020100011"",
-            ""text"": ""TSP-1""
-        }, 
-        {
-            ""id"":""92000020100007"",
-            ""text"": ""Passenger 15""
-        }
-    ]
-}");
+        var o = JObject.Parse("""
+            {
+                "station": 92000041000001, 
+                "containers": [
+                    {
+                        "id": 1,
+                        "text": "Sort system",
+                        "containers": [
+                            {
+                                "id": "2",
+                                "text": "Yard 11"
+                            },
+                            {
+                                "id": "92000020100006",
+                                "text": "Sort yard 12"
+                            },
+                            {
+                                "id": "92000020100005",
+                                "text": "Yard 13"
+                            } 
+                        ]
+                    }, 
+                    {
+                        "id": "92000020100011",
+                        "text": "TSP-1"
+                    }, 
+                    {
+                        "id":"92000020100007",
+                        "text": "Passenger 15"
+                    }
+                ]
+            }
+            """);
 
         var tokens = o.SelectTokens("$..*[?(@.text)]").ToList();
         var i = 0;
@@ -1237,31 +1251,33 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void NotEqualsAndNonPrimativeValues()
     {
-        var json = @"[
-  {
-    ""name"": ""string"",
-    ""value"": ""aString""
-  },
-  {
-    ""name"": ""number"",
-    ""value"": 123
-  },
-  {
-    ""name"": ""array"",
-    ""value"": [
-      1,
-      2,
-      3,
-      4
-    ]
-  },
-  {
-    ""name"": ""object"",
-    ""value"": {
-      ""1"": 1
-    }
-  }
-]";
+        var json = """
+            [
+              {
+                "name": "string",
+                "value": "aString"
+              },
+              {
+                "name": "number",
+                "value": 123
+              },
+              {
+                "name": "array",
+                "value": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              {
+                "name": "object",
+                "value": {
+                  "1": 1
+                }
+              }
+            ]
+            """;
 
         var a = JArray.Parse(json);
 

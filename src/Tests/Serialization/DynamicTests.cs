@@ -36,15 +36,17 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(d.ChildObject, values["ChildObject"]);
 
         var json = JsonConvert.SerializeObject(dynamicObject, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Explicit"": true,
-  ""Decimal"": 99.9,
-  ""Int"": 1,
-  ""ChildObject"": {
-    ""Text"": null,
-    ""Integer"": 0
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Explicit": true,
+              "Decimal": 99.9,
+              "Int": 1,
+              "ChildObject": {
+                "Text": null,
+                "Integer": 0
+              }
+            }
+            """, json);
 
         var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json);
         XUnitAssert.True(newDynamicObject.Explicit);
@@ -78,16 +80,18 @@ public class DynamicTests : TestFixtureBase
         var dynamicChildObjectTypeName = typeof(DynamicChildObject).GetTypeName(TypeNameAssemblyFormatHandling.Full, null);
         var expandoObjectTypeName = typeof(ExpandoObject).GetTypeName(TypeNameAssemblyFormatHandling.Full, null);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""$type"": ""{expandoObjectTypeName}"",
-  ""Text"": ""Text!"",
-  ""Integer"": 2147483647,
-  ""DynamicChildObject"": {{
-    ""$type"": ""{dynamicChildObjectTypeName}"",
-    ""Text"": ""Child text!"",
-    ""Integer"": -2147483648
-  }}
-}}", json);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "$type": "{{expandoObjectTypeName}}",
+              "Text": "Text!",
+              "Integer": 2147483647,
+              "DynamicChildObject": {
+                "$type": "{{dynamicChildObjectTypeName}}",
+                "Text": "Child text!",
+                "Integer": -2147483648
+              }
+            }
+            """, json);
 
         dynamic n = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
         {

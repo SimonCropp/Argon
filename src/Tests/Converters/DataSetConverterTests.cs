@@ -401,59 +401,61 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Before"": ""Before"",
-  ""Set"": {
-    ""FirstTable"": [
-      {
-        ""StringCol"": ""Item Name"",
-        ""Int32Col"": 1,
-        ""BooleanCol"": true,
-        ""TimeSpanCol"": ""10.22:10:15.1000000"",
-        ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-        ""DecimalCol"": 64.0021
-      },
-      {
-        ""StringCol"": ""Item Name"",
-        ""Int32Col"": 2,
-        ""BooleanCol"": true,
-        ""TimeSpanCol"": ""10.22:10:15.1000000"",
-        ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-        ""DecimalCol"": 64.0021
-      }
-    ],
-    ""SecondTable"": [
-      {
-        ""StringCol"": ""Item Name"",
-        ""Int32Col"": 1,
-        ""BooleanCol"": true,
-        ""TimeSpanCol"": ""10.22:10:15.1000000"",
-        ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-        ""DecimalCol"": 64.0021
-      }
-    ]
-  },
-  ""Middle"": ""Middle"",
-  ""Table"": [
-    {
-      ""StringCol"": ""Item Name"",
-      ""Int32Col"": 1,
-      ""BooleanCol"": true,
-      ""TimeSpanCol"": ""10.22:10:15.1000000"",
-      ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""DecimalCol"": 64.0021
-    },
-    {
-      ""StringCol"": ""Item Name"",
-      ""Int32Col"": 2,
-      ""BooleanCol"": true,
-      ""TimeSpanCol"": ""10.22:10:15.1000000"",
-      ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""DecimalCol"": 64.0021
-    }
-  ],
-  ""After"": ""After""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Before": "Before",
+              "Set": {
+                "FirstTable": [
+                  {
+                    "StringCol": "Item Name",
+                    "Int32Col": 1,
+                    "BooleanCol": true,
+                    "TimeSpanCol": "10.22:10:15.1000000",
+                    "DateTimeCol": "2000-12-29T00:00:00Z",
+                    "DecimalCol": 64.0021
+                  },
+                  {
+                    "StringCol": "Item Name",
+                    "Int32Col": 2,
+                    "BooleanCol": true,
+                    "TimeSpanCol": "10.22:10:15.1000000",
+                    "DateTimeCol": "2000-12-29T00:00:00Z",
+                    "DecimalCol": 64.0021
+                  }
+                ],
+                "SecondTable": [
+                  {
+                    "StringCol": "Item Name",
+                    "Int32Col": 1,
+                    "BooleanCol": true,
+                    "TimeSpanCol": "10.22:10:15.1000000",
+                    "DateTimeCol": "2000-12-29T00:00:00Z",
+                    "DecimalCol": 64.0021
+                  }
+                ]
+              },
+              "Middle": "Middle",
+              "Table": [
+                {
+                  "StringCol": "Item Name",
+                  "Int32Col": 1,
+                  "BooleanCol": true,
+                  "TimeSpanCol": "10.22:10:15.1000000",
+                  "DateTimeCol": "2000-12-29T00:00:00Z",
+                  "DecimalCol": 64.0021
+                },
+                {
+                  "StringCol": "Item Name",
+                  "Int32Col": 2,
+                  "BooleanCol": true,
+                  "TimeSpanCol": "10.22:10:15.1000000",
+                  "DateTimeCol": "2000-12-29T00:00:00Z",
+                  "DecimalCol": 64.0021
+                }
+              ],
+              "After": "After"
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<DataSetAndTableTestClass>(json, settings);
 

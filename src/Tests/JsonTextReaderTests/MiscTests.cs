@@ -300,24 +300,26 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void AppendCharsWhileReadingNull()
     {
-        var json = @"[
-  {
-    ""$id"": ""1"",
-    ""Name"": ""e1"",
-    ""Manager"": null
-  },
-  {
-    ""$id"": ""2"",
-    ""Name"": ""e2"",
-    ""Manager"": null
-  },
-  {
-    ""$ref"": ""1""
-  },
-  {
-    ""$ref"": ""2""
-  }
-]";
+        var json = """
+            [
+              {
+                "$id": "1",
+                "Name": "e1",
+                "Manager": null
+              },
+              {
+                "$id": "2",
+                "Name": "e2",
+                "Manager": null
+              },
+              {
+                "$ref": "1"
+              },
+              {
+                "$ref": "2"
+              }
+            ]
+            """;
 
         var reader = new JsonTextReader(new StringReader(json), 129);
 
@@ -333,20 +335,22 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void AppendCharsWhileReadingNewLine()
     {
-        var json = @"
-{
-  ""description"": ""A person"",
-  ""type"": ""object"",
-  ""properties"":
-  {
-    ""name"": {""type"":""string""},
-    ""hobbies"": {
-      ""type"": ""array"",
-      ""items"": {""type"":""string""}
-    }
-  }
-}
-";
+        var json = """
+            
+            {
+              "description": "A person",
+              "type": "object",
+              "properties":
+              {
+                "name": {"type":"string"},
+                "hobbies": {
+                  "type": "array",
+                  "items": {"type":"string"}
+                }
+              }
+            }
+
+            """;
 
         var reader = new JsonTextReader(new StringReader(json), 129);
 

@@ -90,22 +90,24 @@ public class CreateJsonDeclaratively : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""channel"": {
-    ""title"": ""James Newton-King"",
-    ""link"": ""http://james.newtonking.com"",
-    ""description"": ""James Newton-King's blog."",
-    ""item"": [
-      {
-        ""title"": ""Title!"",
-        ""description"": ""Description!"",
-        ""link"": ""Link!"",
-        ""category"": [
-          ""Category1""
-        ]
-      }
-    ]
-  }
-}", rss.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "channel": {
+                "title": "James Newton-King",
+                "link": "http://james.newtonking.com",
+                "description": "James Newton-King's blog.",
+                "item": [
+                  {
+                    "title": "Title!",
+                    "description": "Description!",
+                    "link": "Link!",
+                    "category": [
+                      "Category1"
+                    ]
+                  }
+                ]
+              }
+            }
+            """, rss.ToString());
     }
 }

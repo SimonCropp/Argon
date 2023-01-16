@@ -121,12 +121,14 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Property1"": {
-    ""SubProperty1"": 1,
-    ""SubProperty2"": 2
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Property1": {
+                "SubProperty1": 1,
+                "SubProperty2": 2
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -146,11 +148,13 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Property1"": {
-    ""SubProperty1"": 1
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Property1": {
+                "SubProperty1": 1
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -170,13 +174,15 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Property1"": {
-    ""SubProperty1"": 1,
-    ""SubProperty2"": 2
-  },
-  ""Property2"": 2
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Property1": {
+                "SubProperty1": 1,
+                "SubProperty2": 2
+              },
+              "Property2": 2
+            }
+            """, json);
     }
 
     [Fact]
@@ -342,25 +348,27 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  1,
-  5,
-  {
-    ""Property1"": 1
-  },
-  [
-    1
-  ],
-  {
-    ""Property1"": 1
-  },
-  {
-    ""Property1"": 1
-  },
-  [
-    1
-  ]
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              1,
+              5,
+              {
+                "Property1": 1
+              },
+              [
+                1
+              ],
+              {
+                "Property1": 1
+              },
+              {
+                "Property1": 1
+              },
+              [
+                1
+              ]
+            ]
+            """, json);
     }
 
     [Fact]
@@ -394,16 +402,18 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Property1"": {
-    ""Nested"": true
-  },
-  ""Property2"": true,
-  ""Property3"": [
-    1
-  ],
-  ""Property4"": true
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Property1": {
+                "Nested": true
+              },
+              "Property2": true,
+              "Property3": [
+                1
+              ],
+              "Property4": true
+            }
+            """, json);
     }
 
     [Fact]

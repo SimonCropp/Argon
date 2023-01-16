@@ -142,131 +142,137 @@ public class Issue1734
         xmlDoc = JsonXmlConvert.DeserializeXNode(JsonWithNamespace, "", true);
 
         xml = xmlDoc.ToString();
-        XUnitAssert.AreEqualNormalized(@"<ns3:Test_Service xmlns:ns3=""http://www.CCKS.org/XRT/Form"">
-  <ns3:fname>mark</ns3:fname>
-  <ns3:lname>joye</ns3:lname>
-  <ns3:CarCompany>saab</ns3:CarCompany>
-  <ns3:CarNumber>9741</ns3:CarNumber>
-  <ns3:IsInsured>true</ns3:IsInsured>
-  <ns3:safty>ABS</ns3:safty>
-  <ns3:safty>AirBags</ns3:safty>
-  <ns3:safty>childdoorlock</ns3:safty>
-  <ns3:CarDescription>test Car</ns3:CarDescription>
-  <ns3:collections json:Array=""true"" xmlns:json=""http://james.newtonking.com/projects/json"">
-    <ns3:XYZ>1</ns3:XYZ>
-    <ns3:PQR>11</ns3:PQR>
-    <ns3:contactdetails>
-      <ns3:contname>DOM</ns3:contname>
-      <ns3:contnumber>8787</ns3:contnumber>
-    </ns3:contactdetails>
-    <ns3:contactdetails>
-      <ns3:contname>COM</ns3:contname>
-      <ns3:contnumber>4564</ns3:contnumber>
-      <ns3:addtionaldetails json:Array=""true"" xmlns:json=""http://james.newtonking.com/projects/json"">
-        <ns3:description>54657667</ns3:description>
-      </ns3:addtionaldetails>
-    </ns3:contactdetails>
-    <ns3:contactdetails>
-      <ns3:contname>gf</ns3:contname>
-      <ns3:contnumber>123</ns3:contnumber>
-      <ns3:addtionaldetails json:Array=""true"" xmlns:json=""http://james.newtonking.com/projects/json"">
-        <ns3:description>123</ns3:description>
-      </ns3:addtionaldetails>
-    </ns3:contactdetails>
-  </ns3:collections>
-</ns3:Test_Service>", xml);
+        XUnitAssert.AreEqualNormalized("""
+            <ns3:Test_Service xmlns:ns3="http://www.CCKS.org/XRT/Form">
+              <ns3:fname>mark</ns3:fname>
+              <ns3:lname>joye</ns3:lname>
+              <ns3:CarCompany>saab</ns3:CarCompany>
+              <ns3:CarNumber>9741</ns3:CarNumber>
+              <ns3:IsInsured>true</ns3:IsInsured>
+              <ns3:safty>ABS</ns3:safty>
+              <ns3:safty>AirBags</ns3:safty>
+              <ns3:safty>childdoorlock</ns3:safty>
+              <ns3:CarDescription>test Car</ns3:CarDescription>
+              <ns3:collections json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">
+                <ns3:XYZ>1</ns3:XYZ>
+                <ns3:PQR>11</ns3:PQR>
+                <ns3:contactdetails>
+                  <ns3:contname>DOM</ns3:contname>
+                  <ns3:contnumber>8787</ns3:contnumber>
+                </ns3:contactdetails>
+                <ns3:contactdetails>
+                  <ns3:contname>COM</ns3:contname>
+                  <ns3:contnumber>4564</ns3:contnumber>
+                  <ns3:addtionaldetails json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">
+                    <ns3:description>54657667</ns3:description>
+                  </ns3:addtionaldetails>
+                </ns3:contactdetails>
+                <ns3:contactdetails>
+                  <ns3:contname>gf</ns3:contname>
+                  <ns3:contnumber>123</ns3:contnumber>
+                  <ns3:addtionaldetails json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">
+                    <ns3:description>123</ns3:description>
+                  </ns3:addtionaldetails>
+                </ns3:contactdetails>
+              </ns3:collections>
+            </ns3:Test_Service>
+            """, xml);
     }
 
-    const string JsonWithoutNamespace = @"{
-  ""Test_Service"": {
-    ""fname"": ""mark"",
-    ""lname"": ""joye"",
-    ""CarCompany"": ""saab"",
-    ""CarNumber"": ""9741"",
-    ""IsInsured"": ""true"",
-    ""safty"": [
-      ""ABS"",
-      ""AirBags"",
-      ""childdoorlock""
-    ],
-    ""CarDescription"": ""test Car"",
-    ""collections"": [
-      {
-        ""XYZ"": ""1"",
-        ""PQR"": ""11"",
-        ""contactdetails"": [
-          {
-            ""contname"": ""DOM"",
-            ""contnumber"": ""8787""
-          },
-          {
-            ""contname"": ""COM"",
-            ""contnumber"": ""4564"",
-            ""addtionaldetails"": [
+    const string JsonWithoutNamespace = """
+        {
+          "Test_Service": {
+            "fname": "mark",
+            "lname": "joye",
+            "CarCompany": "saab",
+            "CarNumber": "9741",
+            "IsInsured": "true",
+            "safty": [
+              "ABS",
+              "AirBags",
+              "childdoorlock"
+            ],
+            "CarDescription": "test Car",
+            "collections": [
               {
-                ""description"": ""54657667""
-              }
-            ]
-          },
-          {
-            ""contname"": ""gf"",
-            ""contnumber"": ""123"",
-            ""addtionaldetails"": [
-              {
-                ""description"": ""123""
+                "XYZ": "1",
+                "PQR": "11",
+                "contactdetails": [
+                  {
+                    "contname": "DOM",
+                    "contnumber": "8787"
+                  },
+                  {
+                    "contname": "COM",
+                    "contnumber": "4564",
+                    "addtionaldetails": [
+                      {
+                        "description": "54657667"
+                      }
+                    ]
+                  },
+                  {
+                    "contname": "gf",
+                    "contnumber": "123",
+                    "addtionaldetails": [
+                      {
+                        "description": "123"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
-        ]
-      }
-    ]
-  }
-}";
+        }
+        """;
 
-    const string JsonWithNamespace = @"{
-  ""ns3:Test_Service"": {
-    ""@xmlns:ns3"": ""http://www.CCKS.org/XRT/Form"",
-    ""ns3:fname"": ""mark"",
-    ""ns3:lname"": ""joye"",
-    ""ns3:CarCompany"": ""saab"",
-    ""ns3:CarNumber"": ""9741"",
-    ""ns3:IsInsured"": ""true"",
-    ""ns3:safty"": [
-      ""ABS"",
-      ""AirBags"",
-      ""childdoorlock""
-    ],
-    ""ns3:CarDescription"": ""test Car"",
-    ""ns3:collections"": [
-      {
-        ""ns3:XYZ"": ""1"",
-        ""ns3:PQR"": ""11"",
-        ""ns3:contactdetails"": [
-          {
-            ""ns3:contname"": ""DOM"",
-            ""ns3:contnumber"": ""8787""
-          },
-          {
-            ""ns3:contname"": ""COM"",
-            ""ns3:contnumber"": ""4564"",
-            ""ns3:addtionaldetails"": [
+    const string JsonWithNamespace = """
+        {
+          "ns3:Test_Service": {
+            "@xmlns:ns3": "http://www.CCKS.org/XRT/Form",
+            "ns3:fname": "mark",
+            "ns3:lname": "joye",
+            "ns3:CarCompany": "saab",
+            "ns3:CarNumber": "9741",
+            "ns3:IsInsured": "true",
+            "ns3:safty": [
+              "ABS",
+              "AirBags",
+              "childdoorlock"
+            ],
+            "ns3:CarDescription": "test Car",
+            "ns3:collections": [
               {
-                ""ns3:description"": ""54657667""
-              }
-            ]
-          },
-          {
-            ""ns3:contname"": ""gf"",
-            ""ns3:contnumber"": ""123"",
-            ""ns3:addtionaldetails"": [
-              {
-                ""ns3:description"": ""123""
+                "ns3:XYZ": "1",
+                "ns3:PQR": "11",
+                "ns3:contactdetails": [
+                  {
+                    "ns3:contname": "DOM",
+                    "ns3:contnumber": "8787"
+                  },
+                  {
+                    "ns3:contname": "COM",
+                    "ns3:contnumber": "4564",
+                    "ns3:addtionaldetails": [
+                      {
+                        "ns3:description": "54657667"
+                      }
+                    ]
+                  },
+                  {
+                    "ns3:contname": "gf",
+                    "ns3:contnumber": "123",
+                    "ns3:addtionaldetails": [
+                      {
+                        "ns3:description": "123"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
-        ]
-      }
-    ]
-  }
-}";
+        }
+        """;
 }

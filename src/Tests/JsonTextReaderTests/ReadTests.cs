@@ -962,13 +962,15 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadCommentInsideArray()
     {
-        var json = @"{
-    ""projects"": [
-        ""src"",
-        //""
-        ""test""
-    ]
-}";
+        var json = """
+            {
+                "projects": [
+                    "src",
+                    //"
+                    "test"
+                ]
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
         Assert.True(jsonTextReader.Read());
@@ -1386,27 +1388,29 @@ third line", jsonTextReader.Value);
     [Fact]
     public void ReadRandomJson()
     {
-        var json = @"[
-  true,
-  {
-    ""integer"": 99,
-    ""string"": ""how now brown cow?"",
-    ""array"": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      {
-        ""decimal"": 990.00990099
-      },
-      5
-    ]
-  },
-  ""This is a string."",
-  null,
-  null
-]";
+        var json = """
+            [
+              true,
+              {
+                "integer": 99,
+                "string": "how now brown cow?",
+                "array": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  {
+                    "decimal": 990.00990099
+                  },
+                  5
+                ]
+              },
+              "This is a string.",
+              null,
+              null
+            ]
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
         while (reader.Read())

@@ -613,23 +613,25 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(result, settings); // <--- fails here with the cast message
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Country"": ""6""
-  },
-  {
-    ""FinancialTransactionApprovalRequestUID"": ""79""
-  },
-  {
-    ""TransactionStatus"": ""Approved""
-  },
-  {
-    ""StatusChangeComment"": """"
-  },
-  {
-    ""RequestedBy"": ""Someone""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Country": "6"
+              },
+              {
+                "FinancialTransactionApprovalRequestUID": "79"
+              },
+              {
+                "TransactionStatus": "Approved"
+              },
+              {
+                "StatusChangeComment": ""
+              },
+              {
+                "RequestedBy": "Someone"
+              }
+            ]
+            """, json);
     }
 
     public class DecimalContainer
@@ -751,21 +753,23 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DeserializeMultipleRootElements()
     {
-        var json = @"{
-    ""Id"": 1,
-     ""Email"": ""james@example.com"",
-     ""Active"": true,
-     ""CreatedDate"": ""2013-01-20T00:00:00Z"",
-     ""Roles"": [
-       ""User"",
-       ""Admin""
-     ],
-    ""Team"": {
-        ""Id"": 2,
-        ""Name"": ""Software Developers"",
-        ""Description"": ""Creators of fine software products and services.""
-    }
-}";
+        var json = """
+            {
+                "Id": 1,
+                 "Email": "james@example.com",
+                 "Active": true,
+                 "CreatedDate": "2013-01-20T00:00:00Z",
+                 "Roles": [
+                   "User",
+                   "Admin"
+                 ],
+                "Team": {
+                    "Id": 2,
+                    "Name": "Software Developers",
+                    "Description": "Creators of fine software products and services."
+                }
+            }
+            """;
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonXmlConvert.DeserializeXmlNode(json),
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Email', line 3, position 13.");
@@ -898,15 +902,17 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         jsonText = JsonXmlConvert.SerializeXmlNode(element, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""xs:Choice"": {
-    ""@msdata:IsDataSet"": """",
-    ""@xmlns:xs"": ""http://www.w3.org/2001/XMLSchema"",
-    ""@xmlns:msdata"": ""urn:schemas-microsoft-com:xml-msdata"",
-    ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
-    ""#cdata-section"": ""<Kiwi>true</Kiwi>""
-  }
-}", jsonText);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "xs:Choice": {
+                "@msdata:IsDataSet": "",
+                "@xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+                "@xmlns:msdata": "urn:schemas-microsoft-com:xml-msdata",
+                "?xml-stylesheet": "href=\"classic.xsl\" type=\"text/xml\"",
+                "#cdata-section": "<Kiwi>true</Kiwi>"
+              }
+            }
+            """, jsonText);
     }
 
     [Fact]
@@ -1190,24 +1196,26 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DocumentDeserialize()
     {
-        var jsonText = @"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@standalone"": ""no""
-  },
-  ""span"": {
-    ""@class"": ""vevent"",
-    ""a"": {
-      ""@class"": ""url"",
-      ""span"": {
-        ""@class"": ""summary"",
-        ""#text"": ""Web 2.0 Conference"",
-        ""#cdata-section"": ""my escaped text""
-      },
-      ""@href"": ""http://www.web2con.com/""
-    }
-  }
-}";
+        var jsonText = """
+            {
+              "?xml": {
+                "@version": "1.0",
+                "@standalone": "no"
+              },
+              "span": {
+                "@class": "vevent",
+                "a": {
+                  "@class": "url",
+                  "span": {
+                    "@class": "summary",
+                    "#text": "Web 2.0 Conference",
+                    "#cdata-section": "my escaped text"
+                  },
+                  "@href": "http://www.web2con.com/"
+                }
+              }
+            }
+            """;
 
         var doc = (XmlDocument) DeserializeXmlNode(jsonText);
 
@@ -2180,25 +2188,30 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var xmlProduct = JsonXmlConvert.DeserializeXmlNode(output, "product", true);
 
-        XUnitAssert.AreEqualNormalized(@"<product>
-  <Name>Apple</Name>
-  <ExpiryDate>2008-12-28T00:00:00Z</ExpiryDate>
-  <Price>3.99</Price>
-  <Sizes json:Array=""true"" xmlns:json=""http://james.newtonking.com/projects/json"">Small</Sizes>
-</product>", IndentXml(xmlProduct.InnerXml));
+        XUnitAssert.AreEqualNormalized("""
+            <product>
+              <Name>Apple</Name>
+              <ExpiryDate>2008-12-28T00:00:00Z</ExpiryDate>
+              <Price>3.99</Price>
+              <Sizes json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">Small</Sizes>
+            </product>
+            """, 
+            IndentXml(xmlProduct.InnerXml));
 
         var output2 = JsonXmlConvert.SerializeXmlNode(xmlProduct.DocumentElement, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""product"": {
-    ""Name"": ""Apple"",
-    ""ExpiryDate"": ""2008-12-28T00:00:00Z"",
-    ""Price"": ""3.99"",
-    ""Sizes"": [
-      ""Small""
-    ]
-  }
-}", output2);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "product": {
+                "Name": "Apple",
+                "ExpiryDate": "2008-12-28T00:00:00Z",
+                "Price": "3.99",
+                "Sizes": [
+                  "Small"
+                ]
+              }
+            }
+            """, output2);
     }
 
     public class TestComplexArrayClass
@@ -2501,162 +2514,164 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = JsonXmlConvert.SerializeXNode(XDocument.Parse(xaml), Formatting.Indented);
 
-        var expectedJson = @"{
-  ""Grid"": {
-    ""@xmlns"": ""http://schemas.microsoft.com/winfx/2006/xaml/presentation"",
-    ""@xmlns:x"": ""http://schemas.microsoft.com/winfx/2006/xaml"",
-    ""@xmlns:toolkit"": ""clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"",
-    ""@Style"": ""{StaticResource trimFormGrid}"",
-    ""@x:Name"": ""TrimObjectForm"",
-    ""Grid.ColumnDefinitions"": {
-      ""ColumnDefinition"": [
-        {
-          ""@Width"": ""63*""
-        },
-        {
-          ""@Width"": ""320*""
-        }
-      ]
-    },
-    ""Grid.RowDefinitions"": {
-      ""@xmlns"": """",
-      ""RowDefinition"": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    ""TextBox"": [
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordTypedTitle"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""0"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordExternalReference"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""1"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding Author, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordAuthor"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""4"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding Container, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordContainer"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""5"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordIsEnclosed"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""6"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding Assignee, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordAssignee"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""7"",
-        ""@xmlns"": """"
-      }
-    ],
-    ""toolkit:DatePicker"": [
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_DP}"",
-        ""@Value"": ""{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordDateCreated"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""2""
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_DP}"",
-        ""@Value"": ""{Binding DateDue, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordDateDue"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""3""
-      }
-    ],
-    ""TextBlock"": [
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Title (Free Text Part)"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""0"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""External ID"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""1"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Date Created"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""2"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Date Due"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""3"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Author"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""4"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Container"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""5"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Enclosed?"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""6"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Assignee"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""7"",
-        ""@xmlns"": """"
-      }
-    ]
-  }
-}";
+        var expectedJson = """
+            {
+              "Grid": {
+                "@xmlns": "http://schemas.microsoft.com/winfx/2006/xaml/presentation",
+                "@xmlns:x": "http://schemas.microsoft.com/winfx/2006/xaml",
+                "@xmlns:toolkit": "clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit",
+                "@Style": "{StaticResource trimFormGrid}",
+                "@x:Name": "TrimObjectForm",
+                "Grid.ColumnDefinitions": {
+                  "ColumnDefinition": [
+                    {
+                      "@Width": "63*"
+                    },
+                    {
+                      "@Width": "320*"
+                    }
+                  ]
+                },
+                "Grid.RowDefinitions": {
+                  "@xmlns": "",
+                  "RowDefinition": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "TextBox": [
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordTypedTitle",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "0",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordExternalReference",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "1",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding Author, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordAuthor",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "4",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding Container, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordContainer",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "5",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordIsEnclosed",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "6",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding Assignee, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordAssignee",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "7",
+                    "@xmlns": ""
+                  }
+                ],
+                "toolkit:DatePicker": [
+                  {
+                    "@Style": "{StaticResource trimFormGrid_DP}",
+                    "@Value": "{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordDateCreated",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "2"
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_DP}",
+                    "@Value": "{Binding DateDue, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordDateDue",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "3"
+                  }
+                ],
+                "TextBlock": [
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Title (Free Text Part)",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "0",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "External ID",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "1",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Date Created",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "2",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Date Due",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "3",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Author",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "4",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Container",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "5",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Enclosed?",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "6",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Assignee",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "7",
+                    "@xmlns": ""
+                  }
+                ]
+              }
+            }
+            """;
 
         XUnitAssert.AreEqualNormalized(expectedJson, json);
 
@@ -3082,26 +3097,28 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void RootPropertyError()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""AOSLocaleName"": ""en-US"",
-  ""AXLanguage"": ""EN-AU"",
-  ""Company"": ""AURE"",
-  ""CompanyTimeZone"": 8,
-  ""CurrencyInfo"": {
-    ""$id"": ""2"",
-    ""CurrencyCode"": ""AUD"",
-    ""Description"": ""Australian Dollar"",
-    ""ExchangeRate"": 100.0,
-    ""ISOCurrencyCode"": ""AUD"",
-    ""Prefix"": """",
-    ""Suffix"": """"
-  },
-  ""IsSysAdmin"": true,
-  ""UserId"": ""lamar.miller"",
-  ""UserPreferredCalendar"": 0,
-  ""UserPreferredTimeZone"": 8
-}";
+        var json = """
+            {
+              "$id": "1",
+              "AOSLocaleName": "en-US",
+              "AXLanguage": "EN-AU",
+              "Company": "AURE",
+              "CompanyTimeZone": 8,
+              "CurrencyInfo": {
+                "$id": "2",
+                "CurrencyCode": "AUD",
+                "Description": "Australian Dollar",
+                "ExchangeRate": 100.0,
+                "ISOCurrencyCode": "AUD",
+                "Prefix": "",
+                "Suffix": ""
+              },
+              "IsSysAdmin": true,
+              "UserId": "lamar.miller",
+              "UserPreferredCalendar": 0,
+              "UserPreferredTimeZone": 8
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonXmlConvert.DeserializeXmlNode(json),

@@ -356,17 +356,19 @@ undefined
     [Fact]
     public void EscapedPath()
     {
-        var json = @"{
-  ""frameworks"": {
-    ""NET5_0_OR_GREATER"": {
-      ""dependencies"": {
-        ""System.Xml.ReaderWriter"": {
-          ""source"": ""NuGet""
-        }
-      }
-    }
-  }
-}";
+        var json = """
+            {
+              "frameworks": {
+                "NET5_0_OR_GREATER": {
+                  "dependencies": {
+                    "System.Xml.ReaderWriter": {
+                      "source": "NuGet"
+                    }
+                  }
+                }
+              }
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -741,22 +743,24 @@ undefined
             );
 
         Assert.Equal(4, a.Count);
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Test1"": ""Test1Value"",
-    ""Test2"": ""Test2Value"",
-    ""Test3"": ""Test3Value"",
-    ""Test4"": null
-  },
-  ""2000-10-10T00:00:00Z"",
-  55,
-  [
-    ""1"",
-    2,
-    3.0,
-    ""0004-05-06T07:08:09Z""
-  ]
-]", a.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Test1": "Test1Value",
+                "Test2": "Test2Value",
+                "Test3": "Test3Value",
+                "Test4": null
+              },
+              "2000-10-10T00:00:00Z",
+              55,
+              [
+                "1",
+                2,
+                3.0,
+                "0004-05-06T07:08:09Z"
+              ]
+            ]
+            """, a.ToString());
     }
 
     class Post
@@ -893,33 +897,35 @@ undefined
                                             from c in p.Categories
                                             select new JValue(c)))))))));
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""channel"": {
-    ""title"": ""James Newton-King"",
-    ""link"": ""http://james.newtonking.com"",
-    ""description"": ""James Newton-King's blog."",
-    ""item"": [
-      {
-        ""title"": ""Json.NET 1.3 + New license + Now on CodePlex"",
-        ""description"": ""Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex"",
-        ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-        ""category"": [
-          ""Json.NET"",
-          ""CodePlex""
-        ]
-      },
-      {
-        ""title"": ""LINQ to JSON beta"",
-        ""description"": ""Announcing LINQ to JSON"",
-        ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-        ""category"": [
-          ""Json.NET"",
-          ""LINQ""
-        ]
-      }
-    ]
-  }
-}", rss.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "channel": {
+                "title": "James Newton-King",
+                "link": "http://james.newtonking.com",
+                "description": "James Newton-King's blog.",
+                "item": [
+                  {
+                    "title": "Json.NET 1.3 + New license + Now on CodePlex",
+                    "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+                    "link": "http://james.newtonking.com/projects/json-net.aspx",
+                    "category": [
+                      "Json.NET",
+                      "CodePlex"
+                    ]
+                  },
+                  {
+                    "title": "LINQ to JSON beta",
+                    "description": "Announcing LINQ to JSON",
+                    "link": "http://james.newtonking.com/projects/json-net.aspx",
+                    "category": [
+                      "Json.NET",
+                      "LINQ"
+                    ]
+                  }
+                ]
+              }
+            }
+            """, rss.ToString());
 
         var postTitles =
             from p in rss["channel"]["item"]
@@ -1091,33 +1097,35 @@ undefined
             }
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""channel"": {
-    ""title"": ""James Newton-King"",
-    ""link"": ""http://james.newtonking.com"",
-    ""description"": ""James Newton-King's blog."",
-    ""item"": [
-      {
-        ""title"": ""Json.NET 1.3 + New license + Now on CodePlex"",
-        ""description"": ""Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex"",
-        ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-        ""category"": [
-          ""Json.NET"",
-          ""CodePlex""
-        ]
-      },
-      {
-        ""title"": ""LINQ to JSON beta"",
-        ""description"": ""Announcing LINQ to JSON"",
-        ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-        ""category"": [
-          ""Json.NET"",
-          ""LINQ""
-        ]
-      }
-    ]
-  }
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "channel": {
+                "title": "James Newton-King",
+                "link": "http://james.newtonking.com",
+                "description": "James Newton-King's blog.",
+                "item": [
+                  {
+                    "title": "Json.NET 1.3 + New license + Now on CodePlex",
+                    "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+                    "link": "http://james.newtonking.com/projects/json-net.aspx",
+                    "category": [
+                      "Json.NET",
+                      "CodePlex"
+                    ]
+                  },
+                  {
+                    "title": "LINQ to JSON beta",
+                    "description": "Announcing LINQ to JSON",
+                    "link": "http://james.newtonking.com/projects/json-net.aspx",
+                    "category": [
+                      "Json.NET",
+                      "LINQ"
+                    ]
+                  }
+                ]
+              }
+            }
+            """, o.ToString());
 
         Assert.IsType(typeof(JObject), o);
         Assert.IsType(typeof(JObject), o["channel"]);
@@ -1168,33 +1176,35 @@ undefined
             }
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""channel"": {
-    ""title"": ""James Newton-King"",
-    ""link"": ""http://james.newtonking.com"",
-    ""description"": ""James Newton-King's blog."",
-    ""item"": [
-      {
-        ""title"": ""Json.NET 1.3 + New license + Now on CodePlex"",
-        ""description"": ""Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex"",
-        ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-        ""category"": [
-          ""Json.NET"",
-          ""CodePlex""
-        ]
-      },
-      {
-        ""title"": ""LINQ to JSON beta"",
-        ""description"": ""Announcing LINQ to JSON"",
-        ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-        ""category"": [
-          ""Json.NET"",
-          ""LINQ""
-        ]
-      }
-    ]
-  }
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "channel": {
+                "title": "James Newton-King",
+                "link": "http://james.newtonking.com",
+                "description": "James Newton-King's blog.",
+                "item": [
+                  {
+                    "title": "Json.NET 1.3 + New license + Now on CodePlex",
+                    "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+                    "link": "http://james.newtonking.com/projects/json-net.aspx",
+                    "category": [
+                      "Json.NET",
+                      "CodePlex"
+                    ]
+                  },
+                  {
+                    "title": "LINQ to JSON beta",
+                    "description": "Announcing LINQ to JSON",
+                    "link": "http://james.newtonking.com/projects/json-net.aspx",
+                    "category": [
+                      "Json.NET",
+                      "LINQ"
+                    ]
+                  }
+                ]
+              }
+            }
+            """, o.ToString());
 
         Assert.IsType(typeof(JObject), o);
         Assert.IsType(typeof(JObject), o["channel"]);
@@ -1489,28 +1499,30 @@ undefined
 
         var json = SerializeWithNoRedundantIdProperties(dic1);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""list1"": [
-    ""A string!"",
-    {
-      ""$ref"": ""1""
-    },
-    []
-  ],
-  ""list2"": [],
-  ""dic1"": {
-    ""$ref"": ""1""
-  },
-  ""dic2"": {},
-  ""dic3"": {
-    ""$id"": ""3"",
-    ""dic3"": {
-      ""$ref"": ""3""
-    }
-  },
-  ""integer"": 12345
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "list1": [
+                "A string!",
+                {
+                  "$ref": "1"
+                },
+                []
+              ],
+              "list2": [],
+              "dic1": {
+                "$ref": "1"
+              },
+              "dic2": {},
+              "dic3": {
+                "$id": "3",
+                "dic3": {
+                  "$ref": "3"
+                }
+              },
+              "integer": 12345
+            }
+            """, json);
     }
 
     static string SerializeWithNoRedundantIdProperties(object o)

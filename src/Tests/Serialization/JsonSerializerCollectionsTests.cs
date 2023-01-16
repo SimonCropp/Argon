@@ -1219,38 +1219,40 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""NonReadOnlyList"": [
-    1
-  ],
-  ""NonReadOnlyDictionary"": {
-    ""first"": 2
-  },
-  ""Array"": [
-    3
-  ],
-  ""List"": [
-    4
-  ],
-  ""Dictionary"": {
-    ""first"": 5
-  },
-  ""IReadOnlyCollection"": [
-    6
-  ],
-  ""ReadOnlyCollection"": [
-    7
-  ],
-  ""IReadOnlyList"": [
-    8
-  ],
-  ""IReadOnlyDictionary"": {
-    ""first"": 9
-  },
-  ""ReadOnlyDictionary"": {
-    ""first"": 10
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "NonReadOnlyList": [
+                1
+              ],
+              "NonReadOnlyDictionary": {
+                "first": 2
+              },
+              "Array": [
+                3
+              ],
+              "List": [
+                4
+              ],
+              "Dictionary": {
+                "first": 5
+              },
+              "IReadOnlyCollection": [
+                6
+              ],
+              "ReadOnlyCollection": [
+                7
+              ],
+              "IReadOnlyList": [
+                8
+              ],
+              "IReadOnlyDictionary": {
+                "first": 9
+              },
+              "ReadOnlyDictionary": {
+                "first": 10
+              }
+            }
+            """, json);
     }
 
     [Fact]

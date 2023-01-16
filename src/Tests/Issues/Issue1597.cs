@@ -7,13 +7,15 @@ public class Issue1597 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        var json = @"{
-    ""wish"": 264,
-    ""collect"": 7498,
-    ""doing"": 385,
-    ""on_hold"": 285,
-    ""dropped"": 221
-}";
+        var json = """
+            {
+                "wish": 264,
+                "collect": 7498,
+                "doing": 385,
+                "on_hold": 285,
+                "dropped": 221
+            }
+            """;
 
         var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 
@@ -27,13 +29,15 @@ public class Issue1597 : TestFixtureBase
     [Fact]
     public void Test_WithNumbers()
     {
-        var json = @"{
-    ""0"": 264,
-    ""1"": 7498,
-    ""2"": 385,
-    ""3"": 285,
-    ""4"": 221
-}";
+        var json = """
+            {
+                "0": 264,
+                "1": 7498,
+                "2": 385,
+                "3": 285,
+                "4": 221
+            }
+            """;
 
         var o = JsonConvert.DeserializeObject<IReadOnlyDictionary<CollectionStatus, int>>(json);
 

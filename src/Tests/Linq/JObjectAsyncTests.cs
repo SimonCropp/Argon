@@ -77,16 +77,18 @@ public class JObjectAsyncTests : TestFixtureBase
     [Fact]
     public async Task LoadFromNestedObjectAsync()
     {
-        var jsonText = @"{
-  ""short"":
-  {
-    ""error"":
-    {
-      ""code"":0,
-      ""msg"":""No action taken""
-    }
-  }
-}";
+        var jsonText = """
+            {
+              "short":
+              {
+                "error":
+                {
+                  "code":0,
+                  "msg":"No action taken"
+                }
+              }
+            }
+            """;
 
         var reader = new JsonTextReader(new StringReader(jsonText));
         await reader.ReadAsync();

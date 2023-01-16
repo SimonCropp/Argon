@@ -962,13 +962,15 @@ public class ReadAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadCommentInsideArrayAsync()
     {
-        var json = @"{
-    ""projects"": [
-        ""src"",
-        //""
-        ""test""
-    ]
-}";
+        var json = """
+            {
+                "projects": [
+                    "src",
+                    //"
+                    "test"
+                ]
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
         Assert.True(await jsonTextReader.ReadAsync());
@@ -1377,27 +1379,29 @@ third line", jsonTextReader.Value);
     [Fact]
     public async Task ReadRandomJsonAsync()
     {
-        var json = @"[
-  true,
-  {
-    ""integer"": 99,
-    ""string"": ""how now brown cow?"",
-    ""array"": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      {
-        ""decimal"": 990.00990099
-      },
-      5
-    ]
-  },
-  ""This is a string."",
-  null,
-  null
-]";
+        var json = """
+            [
+              true,
+              {
+                "integer": 99,
+                "string": "how now brown cow?",
+                "array": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  {
+                    "decimal": 990.00990099
+                  },
+                  5
+                ]
+              },
+              "This is a string.",
+              null,
+              null
+            ]
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
         while (await reader.ReadAsync())

@@ -956,17 +956,19 @@ new Date()"));
     [Fact]
     public async Task EscapedPathInExceptionMessageAsync()
     {
-        var json = @"{
-  ""frameworks"": {
-    ""NET5_0_OR_GREATER"": {
-      ""dependencies"": {
-        ""System.Xml.ReaderWriter"": {
-          ""source"": !!! !!!
-        }
-      }
-    }
-  }
-}";
+        var json = """
+            {
+              "frameworks": {
+                "NET5_0_OR_GREATER": {
+                  "dependencies": {
+                    "System.Xml.ReaderWriter": {
+                      "source": !!! !!!
+                    }
+                  }
+                }
+              }
+            }
+            """;
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             async () =>

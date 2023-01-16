@@ -401,20 +401,22 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""readonly"": ""Readonly"",
-  ""name"": null,
-  ""custom_name"": null,
-  ""getPrivate"": false,
-  ""getOnly"": true,
-  ""ints"": [
-    0
-  ],
-  ""TestValue1"": 1,
-  ""alreadyCamelCase"": {
-    ""NotProcessed"": true
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "readonly": "Readonly",
+              "name": null,
+              "custom_name": null,
+              "getPrivate": false,
+              "getOnly": true,
+              "ints": [
+                0
+              ],
+              "TestValue1": 1,
+              "alreadyCamelCase": {
+                "NotProcessed": true
+              }
+            }
+            """, json);
     }
 
     [Fact]

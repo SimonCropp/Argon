@@ -64,33 +64,37 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Before"": null,
-  ""Expando"": null,
-  ""After"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Before": null,
+              "Expando": null,
+              "After": null
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeExpandoObject()
     {
-        var json = @"{
-  ""Before"": ""Before!"",
-  ""Expando"": {
-    ""String"": ""String!"",
-    ""Integer"": 234,
-    ""Float"": 1.23,
-    ""List"": [
-      ""First"",
-      ""Second"",
-      ""Third""
-    ],
-    ""Object"": {
-      ""First"": 1
-    }
-  },
-  ""After"": ""After!""
-}";
+        var json = """
+            {
+              "Before": "Before!",
+              "Expando": {
+                "String": "String!",
+                "Integer": 234,
+                "Float": 1.23,
+                "List": [
+                  "First",
+                  "Second",
+                  "Third"
+                ],
+                "Object": {
+                  "First": 1
+                }
+              },
+              "After": "After!"
+            }
+            """;
 
         var o = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
