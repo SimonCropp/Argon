@@ -6072,8 +6072,8 @@ This is just junk, though.";
     {
         var reader = new JsonTextReader(new StringReader("1234567890.123456"));
         var settings = new JsonSerializerSettings();
-        var serialiser = JsonSerializer.Create(settings);
-        var d = serialiser.Deserialize<decimal?>(reader);
+        var serializer = JsonSerializer.Create(settings);
+        var d = serializer.Deserialize<decimal?>(reader);
 
         Assert.Equal(1234567890.123456m, d);
     }

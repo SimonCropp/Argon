@@ -894,20 +894,20 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeWrappingErrorsAndErrorHandling()
     {
-        var serialiser = JsonSerializer.Create(new());
+        var serializer = JsonSerializer.Create(new());
 
         var foo = "{ something: { rootSomethingElse { somethingElse: 0 } } }";
         var reader = new StringReader(foo);
 
         XUnitAssert.Throws<Exception>(
-            () => serialiser.Deserialize(reader, typeof(Something)),
+            () => serializer.Deserialize(reader, typeof(Something)),
             "An error occurred.");
     }
 
     [Fact]
     public void SerializeWrappingErrorsAndErrorHandling()
     {
-        var serialiser = JsonSerializer.Create(new());
+        var serializer = JsonSerializer.Create(new());
 
         var s = new Something
         {
@@ -924,7 +924,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var writer = new StringWriter();
 
         XUnitAssert.Throws<Exception>(
-            () => serialiser.Serialize(writer, r),
+            () => serializer.Serialize(writer, r),
             "An error occurred.");
     }
 
