@@ -535,30 +535,32 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(test, Formatting.Indented, new LowercaseDataTableConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""TableWrapper1"": {
-    ""DataTableProperty"": [
-      {
-        ""table1col1"": ""1"",
-        ""table1col2"": ""2"",
-        ""table1col3"": ""3""
-      }
-    ],
-    ""StringProperty"": null,
-    ""IntProperty"": 0
-  },
-  ""TableWrapper2"": {
-    ""DataTableProperty"": [
-      {
-        ""table2col1"": ""1"",
-        ""table2col2"": ""2"",
-        ""table2col3"": ""3""
-      }
-    ],
-    ""StringProperty"": null,
-    ""IntProperty"": 0
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "TableWrapper1": {
+                "DataTableProperty": [
+                  {
+                    "table1col1": "1",
+                    "table1col2": "2",
+                    "table1col3": "3"
+                  }
+                ],
+                "StringProperty": null,
+                "IntProperty": 0
+              },
+              "TableWrapper2": {
+                "DataTableProperty": [
+                  {
+                    "table2col1": "1",
+                    "table2col2": "2",
+                    "table2col3": "3"
+                  }
+                ],
+                "StringProperty": null,
+                "IntProperty": 0
+              }
+            }
+            """, json);
     }
 
     static DataTable CreateDataTable(int cols, string colNamePrefix)

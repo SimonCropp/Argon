@@ -52,17 +52,19 @@ public class ModifyJson : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""channel"": {
-    ""title"": ""STAR WARS"",
-    ""link"": ""http://www.starwars.com"",
-    ""description"": ""STAR WARS BLOG."",
-    ""new"": ""New value"",
-    ""item"": [
-      ""Item 1"",
-      ""Item 2""
-    ]
-  }
-}", rss.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "channel": {
+                "title": "STAR WARS",
+                "link": "http://www.starwars.com",
+                "description": "STAR WARS BLOG.",
+                "new": "New value",
+                "item": [
+                  "Item 1",
+                  "Item 2"
+                ]
+              }
+            }
+            """, rss.ToString());
     }
 }

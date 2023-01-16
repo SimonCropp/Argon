@@ -28,7 +28,7 @@ public class PersonConverter : CustomCreationConverter<IPerson>
         new Employee();
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L423-L448' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcreationconverterobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L425-L450' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcreationconverterobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomCreationConverterExample -->
@@ -66,7 +66,7 @@ var employee = (Employee) person;
 Console.WriteLine(employee.JobTitle);
 // Support
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L470-L504' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcreationconverterexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L474-L508' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcreationconverterexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

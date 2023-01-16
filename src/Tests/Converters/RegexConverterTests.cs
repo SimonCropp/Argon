@@ -156,12 +156,14 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(new RegexTestClass {Regex = regex}, Formatting.Indented, new RegexConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Regex"": {
-    ""Pattern"": """",
-    ""Options"": 0
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Regex": {
+                "Pattern": "",
+                "Options": 0
+              }
+            }
+            """, json);
 
         var newRegex = JsonConvert.DeserializeObject<RegexTestClass>(json, new RegexConverter());
         Assert.Equal("", newRegex.Regex.ToString());

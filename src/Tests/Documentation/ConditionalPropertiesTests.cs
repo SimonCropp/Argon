@@ -87,17 +87,19 @@ public class ConditionalPropertiesTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""Joe Employee"",
-    ""Manager"": {
-      ""Name"": ""Mike Manager""
-    }
-  },
-  {
-    ""Name"": ""Mike Manager""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "Joe Employee",
+                "Manager": {
+                  "Name": "Mike Manager"
+                }
+              },
+              {
+                "Name": "Mike Manager"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
@@ -123,16 +125,18 @@ public class ConditionalPropertiesTests : TestFixtureBase
                 ContractResolver = ShouldSerializeContractResolver.Instance
             });
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""Joe Employee"",
-    ""Manager"": {
-      ""Name"": ""Mike Manager""
-    }
-  },
-  {
-    ""Name"": ""Mike Manager""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "Joe Employee",
+                "Manager": {
+                  "Name": "Mike Manager"
+                }
+              },
+              {
+                "Name": "Mike Manager"
+              }
+            ]
+            """, json);
     }
 }

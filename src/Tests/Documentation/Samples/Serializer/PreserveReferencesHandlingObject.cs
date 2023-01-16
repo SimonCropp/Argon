@@ -100,24 +100,26 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""Name"": ""My Documents"",
-  ""Parent"": {
-    ""$id"": ""2"",
-    ""Name"": ""Root"",
-    ""Parent"": null,
-    ""Files"": null
-  },
-  ""Files"": [
-    {
-      ""$id"": ""3"",
-      ""Name"": ""ImportantLegalDocument.docx"",
-      ""Parent"": {
-        ""$ref"": ""1""
-      }
-    }
-  ]
-}", preserveReferenacesObjects);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "Name": "My Documents",
+              "Parent": {
+                "$id": "2",
+                "Name": "Root",
+                "Parent": null,
+                "Files": null
+              },
+              "Files": [
+                {
+                  "$id": "3",
+                  "Name": "ImportantLegalDocument.docx",
+                  "Parent": {
+                    "$ref": "1"
+                  }
+                }
+              ]
+            }
+            """, preserveReferenacesObjects);
     }
 }

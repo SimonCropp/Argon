@@ -55,16 +55,18 @@ public class SerializeConditionalProperty : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""Joe Employee"",
-    ""Manager"": {
-      ""Name"": ""Mike Manager""
-    }
-  },
-  {
-    ""Name"": ""Mike Manager""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "Joe Employee",
+                "Manager": {
+                  "Name": "Mike Manager"
+                }
+              },
+              {
+                "Name": "Mike Manager"
+              }
+            ]
+            """, json);
     }
 }

@@ -59,14 +59,16 @@ public class NamingStrategySkipDictionaryKeys : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""date"": ""2016-06-27T00:00:00Z"",
-  ""game"": ""Donkey Kong"",
-  ""userPoints"": {
-    ""JamesNK"": 9001,
-    ""JoC"": 1337,
-    ""JessicaN"": 1000
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "date": "2016-06-27T00:00:00Z",
+              "game": "Donkey Kong",
+              "userPoints": {
+                "JamesNK": 9001,
+                "JoC": 1337,
+                "JessicaN": 1000
+              }
+            }
+            """, json);
     }
 }

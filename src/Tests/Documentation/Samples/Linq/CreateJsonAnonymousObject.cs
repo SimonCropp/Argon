@@ -80,23 +80,25 @@ public class CreateJsonAnonymousObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""channel"": {
-    ""title"": ""Star Wars"",
-    ""link"": ""http://www.starwars.com"",
-    ""description"": ""Star Wars blog."",
-    ""item"": [
-      {
-        ""title"": ""Episode VII"",
-        ""description"": ""Episode VII production"",
-        ""link"": ""episode-vii-production.aspx"",
-        ""category"": [
-          ""episode-vii"",
-          ""movie""
-        ]
-      }
-    ]
-  }
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "channel": {
+                "title": "Star Wars",
+                "link": "http://www.starwars.com",
+                "description": "Star Wars blog.",
+                "item": [
+                  {
+                    "title": "Episode VII",
+                    "description": "Episode VII production",
+                    "link": "episode-vii-production.aspx",
+                    "category": [
+                      "episode-vii",
+                      "movie"
+                    ]
+                  }
+                ]
+              }
+            }
+            """, o.ToString());
     }
 }

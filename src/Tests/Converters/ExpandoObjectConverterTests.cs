@@ -36,23 +36,25 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Before"": ""Before!"",
-  ""Expando"": {
-    ""String"": ""String!"",
-    ""Integer"": 234,
-    ""Float"": 1.23,
-    ""List"": [
-      ""First"",
-      ""Second"",
-      ""Third""
-    ],
-    ""Object"": {
-      ""First"": 1
-    }
-  },
-  ""After"": ""After!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Before": "Before!",
+              "Expando": {
+                "String": "String!",
+                "Integer": 234,
+                "Float": 1.23,
+                "List": [
+                  "First",
+                  "Second",
+                  "Third"
+                ],
+                "Object": {
+                  "First": 1
+                }
+              },
+              "After": "After!"
+            }
+            """, json);
     }
 
     [Fact]

@@ -69,16 +69,18 @@ public class SerializeWithLinq : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Title"": ""Json.NET is awesome!"",
-    ""Author"": {
-      ""Name"": ""James Newton-King"",
-      ""Twitter"": ""JamesNK""
-    },
-    ""Date"": ""2013-01-23T19:30:00"",
-    ""BodyHtml"": ""&lt;h3&gt;Title!&lt;/h3&gt;&lt;p&gt;Content!&lt;/p&gt;""
-  }
-]", blogPostsArray.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Title": "Json.NET is awesome!",
+                "Author": {
+                  "Name": "James Newton-King",
+                  "Twitter": "JamesNK"
+                },
+                "Date": "2013-01-23T19:30:00",
+                "BodyHtml": "&lt;h3&gt;Title!&lt;/h3&gt;&lt;p&gt;Content!&lt;/p&gt;"
+              }
+            ]
+            """, blogPostsArray.ToString());
     }
 }

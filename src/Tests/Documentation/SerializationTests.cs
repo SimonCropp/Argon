@@ -343,18 +343,20 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""James"",
-    ""BirthDate"": ""1980-12-23T00:00:00Z"",
-    ""LastModified"": ""2009-02-20T12:59:21Z""
-  },
-  {
-    ""Name"": ""James"",
-    ""BirthDate"": ""1980-12-23T00:00:00Z"",
-    ""LastModified"": ""2009-02-20T12:59:21Z""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "James",
+                "BirthDate": "1980-12-23T00:00:00Z",
+                "LastModified": "2009-02-20T12:59:21Z"
+              },
+              {
+                "Name": "James",
+                "BirthDate": "1980-12-23T00:00:00Z",
+                "LastModified": "2009-02-20T12:59:21Z"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
@@ -450,22 +452,24 @@ public class SerializationTests : TestFixtureBase
     [Fact]
     public void CustomCreationConverterExample()
     {
-        var json = @"[
-  {
-    ""FirstName"": ""Maurice"",
-    ""LastName"": ""Moss"",
-    ""BirthDate"": ""1981-03-08T00:00Z"",
-    ""Department"": ""IT"",
-    ""JobTitle"": ""Support""
-  },
-  {
-    ""FirstName"": ""Jen"",
-    ""LastName"": ""Barber"",
-    ""BirthDate"": ""1985-12-10T00:00Z"",
-    ""Department"": ""IT"",
-    ""JobTitle"": ""Manager""
-  }
-]";
+        var json = """
+            [
+              {
+                "FirstName": "Maurice",
+                "LastName": "Moss",
+                "BirthDate": "1981-03-08T00:00Z",
+                "Department": "IT",
+                "JobTitle": "Support"
+              },
+              {
+                "FirstName": "Jen",
+                "LastName": "Barber",
+                "BirthDate": "1985-12-10T00:00Z",
+                "Department": "IT",
+                "JobTitle": "Manager"
+              }
+            ]
+            """;
 
         #region CustomCreationConverterExample
 
@@ -593,20 +597,22 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Name"": ""Product 1"",
-    ""ExpiryDate"": ""2000-12-29T00:00:00Z"",
-    ""Price"": 99.95,
-    ""Sizes"": null
-  },
-  {
-    ""Name"": ""Product 2"",
-    ""ExpiryDate"": ""2009-07-31T00:00:00Z"",
-    ""Price"": 12.50,
-    ""Sizes"": null
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Name": "Product 1",
+                "ExpiryDate": "2000-12-29T00:00:00Z",
+                "Price": 99.95,
+                "Sizes": null
+              },
+              {
+                "Name": "Product 2",
+                "ExpiryDate": "2009-07-31T00:00:00Z",
+                "Price": 12.50,
+                "Sizes": null
+              }
+            ]
+            """, json);
     }
 
     [Fact]

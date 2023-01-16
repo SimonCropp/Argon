@@ -30,18 +30,20 @@ public class Issue1327 : TestFixtureBase
     [Fact]
     public void Test_XmlNode()
     {
-        var json = @"{
-  ""TestXml"": {
-    ""orders"": {
-      ""order"": {
-        ""id"": ""550268"",
-        ""name"": ""vinoth""
-      }
-    }
-  },
-  ""Name"": ""Kumar"",
-  ""IdNumber"": 990268
-}";
+        var json = """
+            {
+              "TestXml": {
+                "orders": {
+                  "order": {
+                    "id": "550268",
+                    "name": "vinoth"
+                  }
+                }
+              },
+              "Name": "Kumar",
+              "IdNumber": 990268
+            }
+            """;
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());
         var p = JsonConvert.DeserializeObject<PersonWithXmlNode>(json, settings);
@@ -53,34 +55,36 @@ public class Issue1327 : TestFixtureBase
     [Fact]
     public void Test_XObject()
     {
-        var json = @"{
-  ""TestXml1"": {
-    ""orders"": {
-      ""order"": {
-        ""id"": ""550268"",
-        ""name"": ""vinoth""
-      }
-    }
-  },
-  ""TestXml2"": {
-    ""orders"": {
-      ""order"": {
-        ""id"": ""550268"",
-        ""name"": ""vinoth""
-      }
-    }
-  },
-  ""TestXml3"": {
-    ""orders"": {
-      ""order"": {
-        ""id"": ""550268"",
-        ""name"": ""vinoth""
-      }
-    }
-  },
-  ""Name"": ""Kumar"",
-  ""IdNumber"": 990268
-}";
+        var json = """
+            {
+              "TestXml1": {
+                "orders": {
+                  "order": {
+                    "id": "550268",
+                    "name": "vinoth"
+                  }
+                }
+              },
+              "TestXml2": {
+                "orders": {
+                  "order": {
+                    "id": "550268",
+                    "name": "vinoth"
+                  }
+                }
+              },
+              "TestXml3": {
+                "orders": {
+                  "order": {
+                    "id": "550268",
+                    "name": "vinoth"
+                  }
+                }
+              },
+              "Name": "Kumar",
+              "IdNumber": 990268
+            }
+            """;
 
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());

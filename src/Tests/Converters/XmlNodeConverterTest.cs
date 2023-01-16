@@ -491,18 +491,20 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(d, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""result"": {
-    ""@xp_0:end"": ""2014-08-15 13:12:11.9184"",
-    ""@xp_0:start"": ""2014-08-15 13:11:49.3140"",
-    ""@xp_0:time_diff"": ""22604.3836"",
-    ""@xmlns:xp_0"": ""Test1"",
-    ""@p2:end"": ""2014-08-15 13:13:49.5522"",
-    ""@p2:start"": ""2014-08-15 13:13:49.0268"",
-    ""@p2:time_diff"": ""525.4646"",
-    ""@xmlns:p2"": ""Test2""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "result": {
+                "@xp_0:end": "2014-08-15 13:12:11.9184",
+                "@xp_0:start": "2014-08-15 13:11:49.3140",
+                "@xp_0:time_diff": "22604.3836",
+                "@xmlns:xp_0": "Test1",
+                "@p2:end": "2014-08-15 13:13:49.5522",
+                "@p2:start": "2014-08-15 13:13:49.0268",
+                "@p2:time_diff": "525.4646",
+                "@xmlns:p2": "Test2"
+              }
+            }
+            """, json);
 
         var doc = JsonConvert.DeserializeObject<XDocument>(json, settings);
 
@@ -524,18 +526,20 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(d, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""result"": {
-    ""@xp_0:end"": ""2014-08-15 13:12:11.9184"",
-    ""@xp_0:start"": ""2014-08-15 13:11:49.3140"",
-    ""@xp_0:time_diff"": ""22604.3836"",
-    ""@xmlns:xp_0"": ""Test1"",
-    ""@p2:end"": ""2014-08-15 13:13:49.5522"",
-    ""@p2:start"": ""2014-08-15 13:13:49.0268"",
-    ""@p2:time_diff"": ""525.4646"",
-    ""@xmlns:p2"": ""Test2""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "result": {
+                "@xp_0:end": "2014-08-15 13:12:11.9184",
+                "@xp_0:start": "2014-08-15 13:11:49.3140",
+                "@xp_0:time_diff": "22604.3836",
+                "@xmlns:xp_0": "Test1",
+                "@p2:end": "2014-08-15 13:13:49.5522",
+                "@p2:start": "2014-08-15 13:13:49.0268",
+                "@p2:time_diff": "525.4646",
+                "@xmlns:p2": "Test2"
+              }
+            }
+            """, json);
 
         var doc = JsonConvert.DeserializeObject<XmlDocument>(json, settings);
 
@@ -566,23 +570,25 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(result, settings); // <--- fails here with the cast message
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""Country"": ""6""
-  },
-  {
-    ""FinancialTransactionApprovalRequestUID"": ""79""
-  },
-  {
-    ""TransactionStatus"": ""Approved""
-  },
-  {
-    ""StatusChangeComment"": """"
-  },
-  {
-    ""RequestedBy"": ""Someone""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "Country": "6"
+              },
+              {
+                "FinancialTransactionApprovalRequestUID": "79"
+              },
+              {
+                "TransactionStatus": "Approved"
+              },
+              {
+                "StatusChangeComment": ""
+              },
+              {
+                "RequestedBy": "Someone"
+              }
+            ]
+            """, json);
     }
 
     [Fact]
@@ -768,57 +774,61 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DocumentSerializeIndented()
     {
-        var xml = @"<?xml version=""1.0"" standalone=""no""?>
-<?xml-stylesheet href=""classic.xsl"" type=""text/xml""?>
-<span class=""vevent"">
-  <a class=""url"" href=""http://www.web2con.com/"">
-    <span class=""summary"">Web 2.0 Conference<![CDATA[my escaped text]]></span>
-    <abbr class=""dtstart"" title=""2005-10-05"">October 5</abbr>
-    <abbr class=""dtend"" title=""2005-10-08"">7</abbr>
-    <span class=""location"">Argent Hotel, San Francisco, CA</span>
-  </a>
-</span>";
+        var xml = """
+            <?xml version="1.0" standalone="no"?>
+            <?xml-stylesheet href="classic.xsl" type="text/xml"?>
+            <span class="vevent">
+              <a class="url" href="http://www.web2con.com/">
+                <span class="summary">Web 2.0 Conference<![CDATA[my escaped text]]></span>
+                <abbr class="dtstart" title="2005-10-05">October 5</abbr>
+                <abbr class="dtend" title="2005-10-08">7</abbr>
+                <span class="location">Argent Hotel, San Francisco, CA</span>
+              </a>
+            </span>
+            """;
         var doc = new XmlDocument();
         doc.LoadXml(xml);
 
         var jsonText = SerializeXmlNode(doc);
-        var expected = @"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@standalone"": ""no""
-  },
-  ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
-  ""span"": {
-    ""@class"": ""vevent"",
-    ""a"": {
-      ""@class"": ""url"",
-      ""@href"": ""http://www.web2con.com/"",
-      ""span"": [
-        {
-          ""@class"": ""summary"",
-          ""#text"": ""Web 2.0 Conference"",
-          ""#cdata-section"": ""my escaped text""
-        },
-        {
-          ""@class"": ""location"",
-          ""#text"": ""Argent Hotel, San Francisco, CA""
-        }
-      ],
-      ""abbr"": [
-        {
-          ""@class"": ""dtstart"",
-          ""@title"": ""2005-10-05"",
-          ""#text"": ""October 5""
-        },
-        {
-          ""@class"": ""dtend"",
-          ""@title"": ""2005-10-08"",
-          ""#text"": ""7""
-        }
-      ]
-    }
-  }
-}";
+        var expected = """
+            {
+              "?xml": {
+                "@version": "1.0",
+                "@standalone": "no"
+              },
+              "?xml-stylesheet": "href=\"classic.xsl\" type=\"text/xml\"",
+              "span": {
+                "@class": "vevent",
+                "a": {
+                  "@class": "url",
+                  "@href": "http://www.web2con.com/",
+                  "span": [
+                    {
+                      "@class": "summary",
+                      "#text": "Web 2.0 Conference",
+                      "#cdata-section": "my escaped text"
+                    },
+                    {
+                      "@class": "location",
+                      "#text": "Argent Hotel, San Francisco, CA"
+                    }
+                  ],
+                  "abbr": [
+                    {
+                      "@class": "dtstart",
+                      "@title": "2005-10-05",
+                      "#text": "October 5"
+                    },
+                    {
+                      "@class": "dtend",
+                      "@title": "2005-10-08",
+                      "#text": "7"
+                    }
+                  ]
+                }
+              }
+            }
+            """;
 
         XUnitAssert.AreEqualNormalized(expected, jsonText);
     }
@@ -902,29 +912,33 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeNodeTypes_Encoding()
     {
-        var node = DeserializeXmlNode(@"{
-  ""xs!:Choice!"": {
-    ""@msdata:IsDataSet!"": """",
-    ""@xmlns:xs!"": ""http://www.w3.org/2001/XMLSchema"",
-    ""@xmlns:msdata"": ""urn:schemas-microsoft-com:xml-msdata"",
-    ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
-    ""#cdata-section"": ""<Kiwi>true</Kiwi>""
-  }
-}");
+        var node = DeserializeXmlNode("""
+            {
+              "xs!:Choice!": {
+                "@msdata:IsDataSet!": "",
+                "@xmlns:xs!": "http://www.w3.org/2001/XMLSchema",
+                "@xmlns:msdata": "urn:schemas-microsoft-com:xml-msdata",
+                "?xml-stylesheet": "href=\"classic.xsl\" type=\"text/xml\"",
+                "#cdata-section": "<Kiwi>true</Kiwi>"
+              }
+            }
+            """);
 
         Assert.Equal(@"<xs_x0021_:Choice_x0021_ msdata:IsDataSet_x0021_="""" xmlns:xs_x0021_=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata""><?xml-stylesheet href=""classic.xsl"" type=""text/xml""?><![CDATA[<Kiwi>true</Kiwi>]]></xs_x0021_:Choice_x0021_>", node.InnerXml);
 
         var json = SerializeXmlNode(node);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""xs!:Choice!"": {
-    ""@msdata:IsDataSet!"": """",
-    ""@xmlns:xs!"": ""http://www.w3.org/2001/XMLSchema"",
-    ""@xmlns:msdata"": ""urn:schemas-microsoft-com:xml-msdata"",
-    ""?xml-stylesheet"": ""href=\""classic.xsl\"" type=\""text/xml\"""",
-    ""#cdata-section"": ""<Kiwi>true</Kiwi>""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "xs!:Choice!": {
+                "@msdata:IsDataSet!": "",
+                "@xmlns:xs!": "http://www.w3.org/2001/XMLSchema",
+                "@xmlns:msdata": "urn:schemas-microsoft-com:xml-msdata",
+                "?xml-stylesheet": "href=\"classic.xsl\" type=\"text/xml\"",
+                "#cdata-section": "<Kiwi>true</Kiwi>"
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -948,76 +962,78 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var xml = @"<?xml version=""1.0"" encoding=""utf-8""?><!DOCTYPE STOCKQUOTE PUBLIC ""-//W3C//DTD StockQuote 1.5//EN"" ""http://www.idontexistnopenopewhatnope123.org/dtd/stockquote_1.5.dtd""><STOCKQUOTE ROWCOUNT=""2""><RESULT><ROW><ASK>0</ASK><BID>0</BID><CHANGE>-16.310</CHANGE><COMPANYNAME>Dow Jones</COMPANYNAME><DATETIME>2014-04-17 15:50:37</DATETIME><DIVIDEND>0</DIVIDEND><EPS>0</EPS><EXCHANGE></EXCHANGE><HIGH>16460.490</HIGH><LASTDATETIME>2014-04-17 15:50:37</LASTDATETIME><LASTPRICE>16408.540</LASTPRICE><LOW>16368.140</LOW><OPEN>16424.140</OPEN><PCHANGE>-0.099</PCHANGE><PE>0</PE><PREVIOUSCLOSE>16424.850</PREVIOUSCLOSE><SHARES>0</SHARES><TICKER>DJII</TICKER><TRADES>0</TRADES><VOLUME>136188700</VOLUME><YEARHIGH>11309.000</YEARHIGH><YEARLOW>9302.280</YEARLOW><YIELD>0</YIELD></ROW><ROW><ASK>0</ASK><BID>0</BID><CHANGE>9.290</CHANGE><COMPANYNAME>NASDAQ</COMPANYNAME><DATETIME>2014-04-17 15:40:01</DATETIME><DIVIDEND>0</DIVIDEND><EPS>0</EPS><EXCHANGE></EXCHANGE><HIGH>4110.460</HIGH><LASTDATETIME>2014-04-17 15:40:01</LASTDATETIME><LASTPRICE>4095.520</LASTPRICE><LOW>4064.700</LOW><OPEN>4080.300</OPEN><PCHANGE>0.227</PCHANGE><PE>0</PE><PREVIOUSCLOSE>4086.230</PREVIOUSCLOSE><SHARES>0</SHARES><TICKER>COMP</TICKER><TRADES>0</TRADES><VOLUME>1784210100</VOLUME><YEARHIGH>4371.710</YEARHIGH><YEARLOW>3154.960</YEARLOW><YIELD>0</YIELD></ROW></RESULT><STATUS>Couldn't find ticker: SPIC?</STATUS><STATUSCODE>2</STATUSCODE></STOCKQUOTE>";
 
-        var expected = @"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@encoding"": ""utf-8""
-  },
-  ""!DOCTYPE"": {
-    ""@name"": ""STOCKQUOTE"",
-    ""@public"": ""-//W3C//DTD StockQuote 1.5//EN"",
-    ""@system"": ""http://www.idontexistnopenopewhatnope123.org/dtd/stockquote_1.5.dtd""
-  },
-  ""STOCKQUOTE"": {
-    ""@ROWCOUNT"": ""2"",
-    ""RESULT"": {
-      ""ROW"": [
-        {
-          ""ASK"": ""0"",
-          ""BID"": ""0"",
-          ""CHANGE"": ""-16.310"",
-          ""COMPANYNAME"": ""Dow Jones"",
-          ""DATETIME"": ""2014-04-17 15:50:37"",
-          ""DIVIDEND"": ""0"",
-          ""EPS"": ""0"",
-          ""EXCHANGE"": """",
-          ""HIGH"": ""16460.490"",
-          ""LASTDATETIME"": ""2014-04-17 15:50:37"",
-          ""LASTPRICE"": ""16408.540"",
-          ""LOW"": ""16368.140"",
-          ""OPEN"": ""16424.140"",
-          ""PCHANGE"": ""-0.099"",
-          ""PE"": ""0"",
-          ""PREVIOUSCLOSE"": ""16424.850"",
-          ""SHARES"": ""0"",
-          ""TICKER"": ""DJII"",
-          ""TRADES"": ""0"",
-          ""VOLUME"": ""136188700"",
-          ""YEARHIGH"": ""11309.000"",
-          ""YEARLOW"": ""9302.280"",
-          ""YIELD"": ""0""
-        },
-        {
-          ""ASK"": ""0"",
-          ""BID"": ""0"",
-          ""CHANGE"": ""9.290"",
-          ""COMPANYNAME"": ""NASDAQ"",
-          ""DATETIME"": ""2014-04-17 15:40:01"",
-          ""DIVIDEND"": ""0"",
-          ""EPS"": ""0"",
-          ""EXCHANGE"": """",
-          ""HIGH"": ""4110.460"",
-          ""LASTDATETIME"": ""2014-04-17 15:40:01"",
-          ""LASTPRICE"": ""4095.520"",
-          ""LOW"": ""4064.700"",
-          ""OPEN"": ""4080.300"",
-          ""PCHANGE"": ""0.227"",
-          ""PE"": ""0"",
-          ""PREVIOUSCLOSE"": ""4086.230"",
-          ""SHARES"": ""0"",
-          ""TICKER"": ""COMP"",
-          ""TRADES"": ""0"",
-          ""VOLUME"": ""1784210100"",
-          ""YEARHIGH"": ""4371.710"",
-          ""YEARLOW"": ""3154.960"",
-          ""YIELD"": ""0""
-        }
-      ]
-    },
-    ""STATUS"": ""Couldn't find ticker: SPIC?"",
-    ""STATUSCODE"": ""2""
-  }
-}";
+        var expected = """
+            {
+              "?xml": {
+                "@version": "1.0",
+                "@encoding": "utf-8"
+              },
+              "!DOCTYPE": {
+                "@name": "STOCKQUOTE",
+                "@public": "-//W3C//DTD StockQuote 1.5//EN",
+                "@system": "http://www.idontexistnopenopewhatnope123.org/dtd/stockquote_1.5.dtd"
+              },
+              "STOCKQUOTE": {
+                "@ROWCOUNT": "2",
+                "RESULT": {
+                  "ROW": [
+                    {
+                      "ASK": "0",
+                      "BID": "0",
+                      "CHANGE": "-16.310",
+                      "COMPANYNAME": "Dow Jones",
+                      "DATETIME": "2014-04-17 15:50:37",
+                      "DIVIDEND": "0",
+                      "EPS": "0",
+                      "EXCHANGE": "",
+                      "HIGH": "16460.490",
+                      "LASTDATETIME": "2014-04-17 15:50:37",
+                      "LASTPRICE": "16408.540",
+                      "LOW": "16368.140",
+                      "OPEN": "16424.140",
+                      "PCHANGE": "-0.099",
+                      "PE": "0",
+                      "PREVIOUSCLOSE": "16424.850",
+                      "SHARES": "0",
+                      "TICKER": "DJII",
+                      "TRADES": "0",
+                      "VOLUME": "136188700",
+                      "YEARHIGH": "11309.000",
+                      "YEARLOW": "9302.280",
+                      "YIELD": "0"
+                    },
+                    {
+                      "ASK": "0",
+                      "BID": "0",
+                      "CHANGE": "9.290",
+                      "COMPANYNAME": "NASDAQ",
+                      "DATETIME": "2014-04-17 15:40:01",
+                      "DIVIDEND": "0",
+                      "EPS": "0",
+                      "EXCHANGE": "",
+                      "HIGH": "4110.460",
+                      "LASTDATETIME": "2014-04-17 15:40:01",
+                      "LASTPRICE": "4095.520",
+                      "LOW": "4064.700",
+                      "OPEN": "4080.300",
+                      "PCHANGE": "0.227",
+                      "PE": "0",
+                      "PREVIOUSCLOSE": "4086.230",
+                      "SHARES": "0",
+                      "TICKER": "COMP",
+                      "TRADES": "0",
+                      "VOLUME": "1784210100",
+                      "YEARHIGH": "4371.710",
+                      "YEARLOW": "3154.960",
+                      "YIELD": "0"
+                    }
+                  ]
+                },
+                "STATUS": "Couldn't find ticker: SPIC?",
+                "STATUSCODE": "2"
+              }
+            }
+            """;
 
         var doc1 = new XmlDocument
         {
@@ -1107,50 +1123,52 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var jsonText = SerializeXmlNode(doc);
 
-        var expected = @"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@encoding"": ""utf-8""
-  },
-  ""xs:schema"": {
-    ""@xs:id"": ""SomeID"",
-    ""@xmlns"": """",
-    ""@xmlns:xs"": ""http://www.w3.org/2001/XMLSchema"",
-    ""@xmlns:msdata"": ""urn:schemas-microsoft-com:xml-msdata"",
-    ""xs:element"": {
-      ""@name"": ""MyDataSet"",
-      ""@msdata:IsDataSet"": ""true"",
-      ""xs:complexType"": {
-        ""xs:choice"": {
-          ""@maxOccurs"": ""unbounded"",
-          ""xs:element"": {
-            ""@name"": ""customers"",
-            ""xs:complexType"": {
-              ""xs:sequence"": {
-                ""xs:element"": [
-                  {
-                    ""@name"": ""CustomerID"",
-                    ""@type"": ""xs:integer"",
-                    ""@minOccurs"": ""0""
-                  },
-                  {
-                    ""@name"": ""CompanyName"",
-                    ""@type"": ""xs:string"",
-                    ""@minOccurs"": ""0""
-                  },
-                  {
-                    ""@name"": ""Phone"",
-                    ""@type"": ""xs:string""
+        var expected = """
+            {
+              "?xml": {
+                "@version": "1.0",
+                "@encoding": "utf-8"
+              },
+              "xs:schema": {
+                "@xs:id": "SomeID",
+                "@xmlns": "",
+                "@xmlns:xs": "http://www.w3.org/2001/XMLSchema",
+                "@xmlns:msdata": "urn:schemas-microsoft-com:xml-msdata",
+                "xs:element": {
+                  "@name": "MyDataSet",
+                  "@msdata:IsDataSet": "true",
+                  "xs:complexType": {
+                    "xs:choice": {
+                      "@maxOccurs": "unbounded",
+                      "xs:element": {
+                        "@name": "customers",
+                        "xs:complexType": {
+                          "xs:sequence": {
+                            "xs:element": [
+                              {
+                                "@name": "CustomerID",
+                                "@type": "xs:integer",
+                                "@minOccurs": "0"
+                              },
+                              {
+                                "@name": "CompanyName",
+                                "@type": "xs:string",
+                                "@minOccurs": "0"
+                              },
+                              {
+                                "@name": "Phone",
+                                "@type": "xs:string"
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
                   }
-                ]
+                }
               }
             }
-          }
-        }
-      }
-    }
-  }
-}";
+            """;
 
         XUnitAssert.AreEqualNormalized(expected, jsonText);
 
@@ -1284,26 +1302,28 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var jsonText = SerializeXmlNode(doc);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@standalone"": ""no""
-  },
-  ""root"": {
-    ""person"": [
-      {
-        ""@id"": ""1"",
-        ""name"": ""Alan"",
-        ""url"": null
-      },
-      {
-        ""@id"": ""2"",
-        ""name"": ""Louis"",
-        ""url"": ""http://www.yahoo.com""
-      }
-    ]
-  }
-}", jsonText);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "?xml": {
+                "@version": "1.0",
+                "@standalone": "no"
+              },
+              "root": {
+                "person": [
+                  {
+                    "@id": "1",
+                    "name": "Alan",
+                    "url": null
+                  },
+                  {
+                    "@id": "2",
+                    "name": "Louis",
+                    "url": "http://www.yahoo.com"
+                  }
+                ]
+              }
+            }
+            """, jsonText);
 
         var newDoc = (XmlDocument) DeserializeXmlNode(jsonText);
 
@@ -1344,108 +1364,124 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void ForceJsonArray()
     {
-        var arrayXml = @"<root xmlns:json=""http://james.newtonking.com/projects/json"">
-			  <person id=""1"">
-				  <name>Alan</name>
-				  <url>http://www.google.com</url>
-				  <role json:Array=""true"">Admin</role>
-			  </person>
-			</root>";
+        var arrayXml = """
+            <root xmlns:json="http://james.newtonking.com/projects/json">
+                <person id="1">
+                    <name>Alan</name>
+                    <url>http://www.google.com</url>
+                    <role json:Array="true">Admin</role>
+                </person>
+            </root>
+            """;
 
         var arrayDoc = new XmlDocument();
         arrayDoc.LoadXml(arrayXml);
 
         var arrayJsonText = SerializeXmlNode(arrayDoc);
-        var expected = @"{
-  ""root"": {
-    ""person"": {
-      ""@id"": ""1"",
-      ""name"": ""Alan"",
-      ""url"": ""http://www.google.com"",
-      ""role"": [
-        ""Admin""
-      ]
-    }
-  }
-}";
+        var expected = """
+            {
+              "root": {
+                "person": {
+                  "@id": "1",
+                  "name": "Alan",
+                  "url": "http://www.google.com",
+                  "role": [
+                    "Admin"
+                  ]
+                }
+              }
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, arrayJsonText);
 
-        arrayXml = @"<root xmlns:json=""http://james.newtonking.com/projects/json"">
-			  <person id=""1"">
-				  <name>Alan</name>
-				  <url>http://www.google.com</url>
-				  <role json:Array=""true"">Admin1</role>
-				  <role json:Array=""true"">Admin2</role>
-			  </person>
-			</root>";
+        arrayXml = """
+            <root xmlns:json="http://james.newtonking.com/projects/json">
+                <person id="1">
+                    <name>Alan</name>
+                    <url>http://www.google.com</url>
+                    <role json:Array="true">Admin1</role>
+                    <role json:Array="true">Admin2</role>
+                </person>
+            </root>
+            """;
 
         arrayDoc = new();
         arrayDoc.LoadXml(arrayXml);
 
         arrayJsonText = SerializeXmlNode(arrayDoc);
-        expected = @"{
-  ""root"": {
-    ""person"": {
-      ""@id"": ""1"",
-      ""name"": ""Alan"",
-      ""url"": ""http://www.google.com"",
-      ""role"": [
-        ""Admin1"",
-        ""Admin2""
-      ]
-    }
-  }
-}";
+        expected = """
+            {
+              "root": {
+                "person": {
+                  "@id": "1",
+                  "name": "Alan",
+                  "url": "http://www.google.com",
+                  "role": [
+                    "Admin1",
+                    "Admin2"
+                  ]
+                }
+              }
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, arrayJsonText);
 
-        arrayXml = @"<root xmlns:json=""http://james.newtonking.com/projects/json"">
-			  <person id=""1"">
-				  <name>Alan</name>
-				  <url>http://www.google.com</url>
-				  <role json:Array=""false"">Admin1</role>
-			  </person>
-			</root>";
+        arrayXml = """
+            <root xmlns:json="http://james.newtonking.com/projects/json">
+                <person id="1">
+                  <name>Alan</name>
+                  <url>http://www.google.com</url>
+                  <role json:Array="false">Admin1</role>
+                </person>
+            </root>
+            """;
 
         arrayDoc = new();
         arrayDoc.LoadXml(arrayXml);
 
         arrayJsonText = SerializeXmlNode(arrayDoc);
-        expected = @"{
-  ""root"": {
-    ""person"": {
-      ""@id"": ""1"",
-      ""name"": ""Alan"",
-      ""url"": ""http://www.google.com"",
-      ""role"": ""Admin1""
-    }
-  }
-}";
+        expected = """
+            {
+              "root": {
+                "person": {
+                  "@id": "1",
+                  "name": "Alan",
+                  "url": "http://www.google.com",
+                  "role": "Admin1"
+                }
+              }
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, arrayJsonText);
 
-        arrayXml = @"<root>
-			  <person id=""1"">
-				  <name>Alan</name>
-				  <url>http://www.google.com</url>
-				  <role json:Array=""true"" xmlns:json=""http://james.newtonking.com/projects/json"">Admin</role>
-			  </person>
-			</root>";
+        arrayXml = """
+            <root>
+                <person id="1">
+                    <name>Alan</name>
+                    <url>http://www.google.com</url>
+                    <role json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">Admin</role>
+                </person>
+            </root>
+            """;
 
         arrayDoc = new();
         arrayDoc.LoadXml(arrayXml);
 
         arrayJsonText = SerializeXmlNode(arrayDoc);
-        expected = @"{
-  ""root"": {
-    ""person"": {
-      ""@id"": ""1"",
-      ""name"": ""Alan"",
-      ""url"": ""http://www.google.com"",
-      ""role"": [
-        ""Admin""
-      ]
-    }
-  }
-}";
+        expected = """
+            {
+              "root": {
+                "person": {
+                  "@id": "1",
+                  "name": "Alan",
+                  "url": "http://www.google.com",
+                  "role": [
+                    "Admin"
+                  ]
+                }
+              }
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, arrayJsonText);
     }
 
@@ -1640,24 +1676,28 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeComment()
     {
-        var xml = @"<span class=""vevent"">
-  <a class=""url"" href=""http://www.web2con.com/""><!-- Hi --><span>Text</span></a><!-- Hi! -->
-</span>";
+        var xml = """
+            <span class="vevent">
+              <a class="url" href="http://www.web2con.com/"><!-- Hi --><span>Text</span></a><!-- Hi! -->
+            </span>
+            """;
         var doc = new XmlDocument();
         doc.LoadXml(xml);
 
         var jsonText = SerializeXmlNode(doc);
 
-        var expected = @"{
-  ""span"": {
-    ""@class"": ""vevent"",
-    ""a"": {
-      ""@class"": ""url"",
-      ""@href"": ""http://www.web2con.com/""/* Hi */,
-      ""span"": ""Text""
-    }/* Hi! */
-  }
-}";
+        var expected = """
+            {
+              "span": {
+                "@class": "vevent",
+                "a": {
+                  "@class": "url",
+                  "@href": "http://www.web2con.com/"/* Hi */,
+                  "span": "Text"
+                }/* Hi! */
+              }
+            }
+            """;
 
         XUnitAssert.AreEqualNormalized(expected, jsonText);
 
@@ -1708,26 +1748,28 @@ public class XmlNodeConverterTest : TestFixtureBase
         // format
         jsonText = JObject.Parse(jsonText).ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@standalone"": ""no""
-  },
-  ""root"": {
-    ""person"": [
-      {
-        ""@id"": ""1"",
-        ""name"": ""Alan"",
-        ""url"": ""http://www.google.com""
-      },
-      {
-        ""@id"": ""2"",
-        ""name"": ""Louis"",
-        ""url"": ""http://www.yahoo.com""
-      }
-    ]
-  }
-}", jsonText);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "?xml": {
+                "@version": "1.0",
+                "@standalone": "no"
+              },
+              "root": {
+                "person": [
+                  {
+                    "@id": "1",
+                    "name": "Alan",
+                    "url": "http://www.google.com"
+                  },
+                  {
+                    "@id": "2",
+                    "name": "Louis",
+                    "url": "http://www.yahoo.com"
+                  }
+                ]
+              }
+            }
+            """, jsonText);
 
         var newDoc = (XmlDocument) DeserializeXmlNode(jsonText);
 
@@ -1800,22 +1842,24 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json2 = SerializeXmlNode(doc);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""root!"": {
-    ""person!"": [
-      {
-        ""@id!"": ""1"",
-        ""name!"": ""Alan"",
-        ""url!"": ""http://www.google.com""
-      },
-      {
-        ""@id!"": ""2"",
-        ""name!"": ""Louis"",
-        ""url!"": ""http://www.yahoo.com""
-      }
-    ]
-  }
-}", json2);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "root!": {
+                "person!": [
+                  {
+                    "@id!": "1",
+                    "name!": "Alan",
+                    "url!": "http://www.google.com"
+                  },
+                  {
+                    "@id!": "2",
+                    "name!": "Louis",
+                    "url!": "http://www.yahoo.com"
+                  }
+                ]
+              }
+            }
+            """, json2);
     }
 
     [Fact]
@@ -1828,42 +1872,48 @@ public class XmlNodeConverterTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""other"": {
-    ""$id"": ""2"",
-    ""blah"": null
-  },
-  ""self"": {
-    ""$ref"": ""1""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "other": {
+                "$id": "2",
+                "blah": null
+              },
+              "self": {
+                "$ref": "1"
+              }
+            }
+            """, json);
 
         var node = DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
-        var expected = @"<?xml version=""1.0"" encoding=""utf-16""?>
-<root xmlns:json=""http://james.newtonking.com/projects/json"" json:id=""1"">
-  <other json:id=""2"">
-    <blah />
-  </other>
-  <self json:ref=""1"" />
-</root>";
+        var expected = """
+            <?xml version="1.0" encoding="utf-16"?>
+            <root xmlns:json="http://james.newtonking.com/projects/json" json:id="1">
+              <other json:id="2">
+                <blah />
+              </other>
+              <self json:ref="1" />
+            </root>
+            """;
 
         XUnitAssert.AreEqualNormalized(expected, xml);
 
         var xmlJson = SerializeXmlNode(node);
-        var expectedXmlJson = @"{
-  ""root"": {
-    ""$id"": ""1"",
-    ""other"": {
-      ""$id"": ""2"",
-      ""blah"": null
-    },
-    ""self"": {
-      ""$ref"": ""1""
-    }
-  }
-}";
+        var expectedXmlJson = """
+            {
+              "root": {
+                "$id": "1",
+                "other": {
+                  "$id": "2",
+                  "blah": null
+                },
+                "self": {
+                  "$ref": "1"
+                }
+              }
+            }
+            """;
 
         XUnitAssert.AreEqualNormalized(expectedXmlJson, xmlJson);
     }
@@ -1871,16 +1921,18 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeDeserializeMetadataArray()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""$values"": [
-    ""1"",
-    ""2"",
-    ""3"",
-    ""4"",
-    ""5""
-  ]
-}";
+        var json = """
+            {
+              "$id": "1",
+              "$values": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+              ]
+            }
+            """;
 
         XmlNode node = JsonXmlConvert.DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
@@ -2027,84 +2079,86 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void EmptyPropertyName()
     {
-        var json = @"{
-  ""8452309520V2"": {
-    """": {
-      ""CLIENT"": {
-        ""ID_EXPIRATION_1"": {
-          ""VALUE"": ""12/12/2000"",
-          ""DATATYPE"": ""D"",
-          ""MSG"": ""Missing Identification Exp. Date 1""
-        },
-        ""ID_ISSUEDATE_1"": {
-          ""VALUE"": """",
-          ""DATATYPE"": ""D"",
-          ""MSG"": ""Missing Identification Issue Date 1""
-        }
-      }
-    },
-    ""457463534534"": {
-      ""ACCOUNT"": {
-        ""FUNDING_SOURCE"": {
-          ""VALUE"": ""FS0"",
-          ""DATATYPE"": ""L"",
-          ""MSG"": ""Missing Source of Funds""
-        }
-      }
-    }
-  }
-}{
-  ""34534634535345"": {
-    """": {
-      ""CLIENT"": {
-        ""ID_NUMBER_1"": {
-          ""VALUE"": """",
-          ""DATATYPE"": ""S"",
-          ""MSG"": ""Missing Picture ID""
-        },
-        ""ID_EXPIRATION_1"": {
-          ""VALUE"": ""12/12/2000"",
-          ""DATATYPE"": ""D"",
-          ""MSG"": ""Missing Picture ID""
-        },
-        ""WALK_IN"": {
-          ""VALUE"": """",
-          ""DATATYPE"": ""L"",
-          ""MSG"": ""Missing Walk in""
-        },
-        ""PERSONAL_MEETING"": {
-          ""VALUE"": ""PM1"",
-          ""DATATYPE"": ""L"",
-          ""MSG"": ""Missing Met Client in Person""
-        },
-        ""ID_ISSUEDATE_1"": {
-          ""VALUE"": """",
-          ""DATATYPE"": ""D"",
-          ""MSG"": ""Missing Picture ID""
-        },
-        ""PHOTO_ID"": {
-          ""VALUE"": """",
-          ""DATATYPE"": ""L"",
-          ""MSG"": ""Missing Picture ID""
-        },
-        ""ID_TYPE_1"": {
-          ""VALUE"": """",
-          ""DATATYPE"": ""L"",
-          ""MSG"": ""Missing Picture ID""
-        }
-      }
-    },
-    ""45635624523"": {
-      ""ACCOUNT"": {
-        ""FUNDING_SOURCE"": {
-          ""VALUE"": ""FS1"",
-          ""DATATYPE"": ""L"",
-          ""MSG"": ""Missing Source of Funds""
-        }
-      }
-    }
-  }
-}";
+        var json = """
+            {
+              "8452309520V2": {
+                "": {
+                  "CLIENT": {
+                    "ID_EXPIRATION_1": {
+                      "VALUE": "12/12/2000",
+                      "DATATYPE": "D",
+                      "MSG": "Missing Identification Exp. Date 1"
+                    },
+                    "ID_ISSUEDATE_1": {
+                      "VALUE": "",
+                      "DATATYPE": "D",
+                      "MSG": "Missing Identification Issue Date 1"
+                    }
+                  }
+                },
+                "457463534534": {
+                  "ACCOUNT": {
+                    "FUNDING_SOURCE": {
+                      "VALUE": "FS0",
+                      "DATATYPE": "L",
+                      "MSG": "Missing Source of Funds"
+                    }
+                  }
+                }
+              }
+            }{
+              "34534634535345": {
+                "": {
+                  "CLIENT": {
+                    "ID_NUMBER_1": {
+                      "VALUE": "",
+                      "DATATYPE": "S",
+                      "MSG": "Missing Picture ID"
+                    },
+                    "ID_EXPIRATION_1": {
+                      "VALUE": "12/12/2000",
+                      "DATATYPE": "D",
+                      "MSG": "Missing Picture ID"
+                    },
+                    "WALK_IN": {
+                      "VALUE": "",
+                      "DATATYPE": "L",
+                      "MSG": "Missing Walk in"
+                    },
+                    "PERSONAL_MEETING": {
+                      "VALUE": "PM1",
+                      "DATATYPE": "L",
+                      "MSG": "Missing Met Client in Person"
+                    },
+                    "ID_ISSUEDATE_1": {
+                      "VALUE": "",
+                      "DATATYPE": "D",
+                      "MSG": "Missing Picture ID"
+                    },
+                    "PHOTO_ID": {
+                      "VALUE": "",
+                      "DATATYPE": "L",
+                      "MSG": "Missing Picture ID"
+                    },
+                    "ID_TYPE_1": {
+                      "VALUE": "",
+                      "DATATYPE": "L",
+                      "MSG": "Missing Picture ID"
+                    }
+                  }
+                },
+                "45635624523": {
+                  "ACCOUNT": {
+                    "FUNDING_SOURCE": {
+                      "VALUE": "FS1",
+                      "DATATYPE": "L",
+                      "MSG": "Missing Source of Funds"
+                    }
+                  }
+                }
+              }
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => DeserializeXmlNode(json),
@@ -2232,39 +2286,43 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void EmtpyElementWithArrayAttributeShouldWriteAttributes()
     {
-        var xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
-<root xmlns:json=""http://james.newtonking.com/projects/json"">
-<A>
-<B name=""sample"" json:Array=""true""/>
-<C></C>
-<C></C>
-</A>
-</root>";
+        var xml = """
+            <?xml version="1.0" encoding="utf-8" ?>
+            <root xmlns:json="http://james.newtonking.com/projects/json">
+                <A>
+                    <B name="sample" json:Array="true"/>
+                    <C></C>
+                    <C></C>
+                </A>
+            </root>
+            """;
 
         var d = new XmlDocument();
         d.LoadXml(xml);
 
         var json = JsonXmlConvert.SerializeXmlNode(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""?xml"": {
-    ""@version"": ""1.0"",
-    ""@encoding"": ""utf-8""
-  },
-  ""root"": {
-    ""A"": {
-      ""B"": [
-        {
-          ""@name"": ""sample""
-        }
-      ],
-      ""C"": [
-        """",
-        """"
-      ]
-    }
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "?xml": {
+                "@version": "1.0",
+                "@encoding": "utf-8"
+              },
+              "root": {
+                "A": {
+                  "B": [
+                    {
+                      "@name": "sample"
+                    }
+                  ],
+                  "C": [
+                    "",
+                    ""
+                  ]
+                }
+              }
+            }
+            """, json);
 
         var d2 = JsonXmlConvert.DeserializeXmlNode(json);
 
@@ -2281,22 +2339,26 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void EmtpyElementWithArrayAttributeShouldWriteElement()
     {
-        var xml = @"<root>
-<Reports d1p1:Array=""true"" xmlns:d1p1=""http://james.newtonking.com/projects/json"" />
-</root>";
+        var xml = """
+            <root>
+                <Reports d1p1:Array="true" xmlns:d1p1="http://james.newtonking.com/projects/json" />
+            </root>
+            """;
 
         var d = new XmlDocument();
         d.LoadXml(xml);
 
         var json = JsonXmlConvert.SerializeXmlNode(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""root"": {
-    ""Reports"": [
-      {}
-    ]
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "root": {
+                "Reports": [
+                  {}
+                ]
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -2641,200 +2703,204 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DeserializeXmlNodeDefaultNamespace()
     {
-        var xaml = @"<Grid xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" xmlns:toolkit=""clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"" Style=""{StaticResource trimFormGrid}"" x:Name=""TrimObjectForm"">
-  <Grid.ColumnDefinitions>
-    <ColumnDefinition Width=""63*"" />
-    <ColumnDefinition Width=""320*"" />
-  </Grid.ColumnDefinitions>
-  <Grid.RowDefinitions xmlns="""">
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-  </Grid.RowDefinitions>
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordTypedTitle"" Grid.Column=""1"" Grid.Row=""0"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordExternalReference"" Grid.Column=""1"" Grid.Row=""1"" xmlns="""" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateCreated"" Grid.Column=""1"" Grid.Row=""2"" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateDue, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateDue"" Grid.Column=""1"" Grid.Row=""3"" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Author, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAuthor"" Grid.Column=""1"" Grid.Row=""4"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Container, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordContainer"" Grid.Column=""1"" Grid.Row=""5"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordIsEnclosed"" Grid.Column=""1"" Grid.Row=""6"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Assignee, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAssignee"" Grid.Column=""1"" Grid.Row=""7"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Title (Free Text Part)"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""0"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""External ID"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""1"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Created"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""2"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Due"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""3"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Author"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""4"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Container"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""5"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Enclosed?"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""6"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Assignee"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""7"" xmlns="""" />
-</Grid>";
+        var xaml = """
+            <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" Style="{StaticResource trimFormGrid}" x:Name="TrimObjectForm">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="63*" />
+                <ColumnDefinition Width="320*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions xmlns="">
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}" Name="RecordTypedTitle" Grid.Column="1" Grid.Row="0" xmlns="" />
+              <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}" Name="RecordExternalReference" Grid.Column="1" Grid.Row="1" xmlns="" />
+              <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateCreated" Grid.Column="1" Grid.Row="2" />
+              <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateDue, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateDue" Grid.Column="1" Grid.Row="3" />
+              <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Author, Converter={StaticResource trimPropertyConverter}}" Name="RecordAuthor" Grid.Column="1" Grid.Row="4" xmlns="" />
+              <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Container, Converter={StaticResource trimPropertyConverter}}" Name="RecordContainer" Grid.Column="1" Grid.Row="5" xmlns="" />
+              <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}" Name="RecordIsEnclosed" Grid.Column="1" Grid.Row="6" xmlns="" />
+              <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Assignee, Converter={StaticResource trimPropertyConverter}}" Name="RecordAssignee" Grid.Column="1" Grid.Row="7" xmlns="" />
+              <TextBlock Grid.Column="0" Text="Title (Free Text Part)" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="0" xmlns="" />
+              <TextBlock Grid.Column="0" Text="External ID" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="1" xmlns="" />
+              <TextBlock Grid.Column="0" Text="Date Created" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="2" xmlns="" />
+              <TextBlock Grid.Column="0" Text="Date Due" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="3" xmlns="" />
+              <TextBlock Grid.Column="0" Text="Author" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="4" xmlns="" />
+              <TextBlock Grid.Column="0" Text="Container" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="5" xmlns="" />
+              <TextBlock Grid.Column="0" Text="Enclosed?" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="6" xmlns="" />
+              <TextBlock Grid.Column="0" Text="Assignee" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="7" xmlns="" />
+            </Grid>
+            """;
 
         var document = new XmlDocument();
         document.LoadXml(xaml);
 
         var json = JsonXmlConvert.SerializeXmlNode(document, Formatting.Indented);
 
-        var expectedJson = @"{
-  ""Grid"": {
-    ""@xmlns"": ""http://schemas.microsoft.com/winfx/2006/xaml/presentation"",
-    ""@xmlns:x"": ""http://schemas.microsoft.com/winfx/2006/xaml"",
-    ""@xmlns:toolkit"": ""clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"",
-    ""@Style"": ""{StaticResource trimFormGrid}"",
-    ""@x:Name"": ""TrimObjectForm"",
-    ""Grid.ColumnDefinitions"": {
-      ""ColumnDefinition"": [
-        {
-          ""@Width"": ""63*""
-        },
-        {
-          ""@Width"": ""320*""
-        }
-      ]
-    },
-    ""Grid.RowDefinitions"": {
-      ""@xmlns"": """",
-      ""RowDefinition"": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ]
-    },
-    ""TextBox"": [
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordTypedTitle"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""0"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordExternalReference"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""1"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding Author, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordAuthor"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""4"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding Container, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordContainer"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""5"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordIsEnclosed"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""6"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_TB}"",
-        ""@Text"": ""{Binding Assignee, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordAssignee"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""7"",
-        ""@xmlns"": """"
-      }
-    ],
-    ""toolkit:DatePicker"": [
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_DP}"",
-        ""@Value"": ""{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordDateCreated"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""2""
-      },
-      {
-        ""@Style"": ""{StaticResource trimFormGrid_DP}"",
-        ""@Value"": ""{Binding DateDue, Converter={StaticResource trimPropertyConverter}}"",
-        ""@Name"": ""RecordDateDue"",
-        ""@Grid.Column"": ""1"",
-        ""@Grid.Row"": ""3""
-      }
-    ],
-    ""TextBlock"": [
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Title (Free Text Part)"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""0"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""External ID"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""1"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Date Created"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""2"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Date Due"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""3"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Author"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""4"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Container"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""5"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Enclosed?"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""6"",
-        ""@xmlns"": """"
-      },
-      {
-        ""@Grid.Column"": ""0"",
-        ""@Text"": ""Assignee"",
-        ""@Style"": ""{StaticResource trimFormGrid_LBL}"",
-        ""@Grid.Row"": ""7"",
-        ""@xmlns"": """"
-      }
-    ]
-  }
-}";
+        var expectedJson = """
+            {
+              "Grid": {
+                "@xmlns": "http://schemas.microsoft.com/winfx/2006/xaml/presentation",
+                "@xmlns:x": "http://schemas.microsoft.com/winfx/2006/xaml",
+                "@xmlns:toolkit": "clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit",
+                "@Style": "{StaticResource trimFormGrid}",
+                "@x:Name": "TrimObjectForm",
+                "Grid.ColumnDefinitions": {
+                  "ColumnDefinition": [
+                    {
+                      "@Width": "63*"
+                    },
+                    {
+                      "@Width": "320*"
+                    }
+                  ]
+                },
+                "Grid.RowDefinitions": {
+                  "@xmlns": "",
+                  "RowDefinition": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                  ]
+                },
+                "TextBox": [
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordTypedTitle",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "0",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordExternalReference",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "1",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding Author, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordAuthor",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "4",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding Container, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordContainer",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "5",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordIsEnclosed",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "6",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_TB}",
+                    "@Text": "{Binding Assignee, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordAssignee",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "7",
+                    "@xmlns": ""
+                  }
+                ],
+                "toolkit:DatePicker": [
+                  {
+                    "@Style": "{StaticResource trimFormGrid_DP}",
+                    "@Value": "{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordDateCreated",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "2"
+                  },
+                  {
+                    "@Style": "{StaticResource trimFormGrid_DP}",
+                    "@Value": "{Binding DateDue, Converter={StaticResource trimPropertyConverter}}",
+                    "@Name": "RecordDateDue",
+                    "@Grid.Column": "1",
+                    "@Grid.Row": "3"
+                  }
+                ],
+                "TextBlock": [
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Title (Free Text Part)",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "0",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "External ID",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "1",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Date Created",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "2",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Date Due",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "3",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Author",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "4",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Container",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "5",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Enclosed?",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "6",
+                    "@xmlns": ""
+                  },
+                  {
+                    "@Grid.Column": "0",
+                    "@Text": "Assignee",
+                    "@Style": "{StaticResource trimFormGrid_LBL}",
+                    "@Grid.Row": "7",
+                    "@xmlns": ""
+                  }
+                ]
+              }
+            }
+            """;
 
         XUnitAssert.AreEqualNormalized(expectedJson, json);
 
