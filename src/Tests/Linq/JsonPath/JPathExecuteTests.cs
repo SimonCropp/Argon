@@ -37,15 +37,13 @@ public class JPathExecuteTests : TestFixtureBase
                 new JProperty("b", @"15/04/2020 8:18:03 PM|1|System.String[]|3|Libero eligendi magnam ut inventore.. Quaerat et sit voluptatibus repellendus blanditiis aliquam ut.. Quidem qui ut sint in ex et tempore.|||.\iste.cpp||46018|-1"))
         };
 
-        XUnitAssert.Throws<RegexMatchTimeoutException>(() =>
-        {
-            regexBacktrackingData.SelectTokens(
+        XUnitAssert.Throws<RegexMatchTimeoutException>(
+            () => regexBacktrackingData.SelectTokens(
                 $"[?(@.b =~ /{RegexBacktrackingPattern}/)]",
                 new JsonSelectSettings
                 {
                     RegexMatchTimeout = TimeSpan.FromSeconds(0.01)
-                }).ToArray();
-        });
+                }).ToArray());
     }
 
     [Fact]

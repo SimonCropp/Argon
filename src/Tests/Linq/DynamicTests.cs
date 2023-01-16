@@ -165,12 +165,19 @@ public class LinqDynamicTests : TestFixtureBase
 
     [Fact]
     public void JObjectPropertyNameWithNonToken() =>
-        XUnitAssert.Throws<ArgumentException>(() =>
-        {
-            dynamic d = new JObject();
+        XUnitAssert.Throws<ArgumentException>(
+            () =>
+            {
+                dynamic d = new JObject();
 
-            d.First = new[] {"One", "II", "3"};
-        }, "Could not determine JSON object type for type System.String[].");
+                d.First = new[]
+                {
+                    "One",
+                    "II",
+                    "3"
+                };
+            },
+            "Could not determine JSON object type for type System.String[].");
 
     [Fact]
     public void JObjectMethods()
@@ -758,7 +765,11 @@ public class LinqDynamicTests : TestFixtureBase
 
         value.Name = "Arine Admin";
         value.Enabled = true;
-        value.Roles = new[] {"Admin", "User"};
+        value.Roles = new[]
+        {
+            "Admin",
+            "User"
+        };
 
         string json = JsonConvert.SerializeObject(value, Formatting.Indented);
         // {
@@ -840,7 +851,10 @@ public class LinqDynamicTests : TestFixtureBase
     public void DynamicAccess_ToJToken_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new {uid = g});
+        dynamic json = JObject.FromObject(new
+        {
+            uid = g
+        });
         JToken token = json.uid;
 
         Assert.Equal(g, ((JValue) token).Value);
@@ -850,7 +864,10 @@ public class LinqDynamicTests : TestFixtureBase
     public void DynamicAccess_ToJTokenExplicit_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new {uid = g});
+        dynamic json = JObject.FromObject(new
+        {
+            uid = g
+        });
         var token = (JToken) json.uid;
 
         Assert.Equal(g, ((JValue) token).Value);
@@ -860,7 +877,10 @@ public class LinqDynamicTests : TestFixtureBase
     public void DynamicAccess_ToJTokenSafeCast_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new {uid = g});
+        dynamic json = JObject.FromObject(new
+        {
+            uid = g
+        });
         var token = json.uid as JToken;
 
         Assert.Equal(g, ((JValue) token).Value);
@@ -870,7 +890,10 @@ public class LinqDynamicTests : TestFixtureBase
     public void IndexAccess_ToJToken_ShouldNotFail()
     {
         var g = Guid.NewGuid();
-        var json = JObject.FromObject(new {uid = g});
+        var json = JObject.FromObject(new
+        {
+            uid = g
+        });
         var token = json["uid"];
 
         Assert.Equal(g, ((JValue) token).Value);
@@ -880,7 +903,10 @@ public class LinqDynamicTests : TestFixtureBase
     public void DynamicAccess_ToJToken_ShouldFail()
     {
         var g = Guid.NewGuid();
-        dynamic json = JObject.FromObject(new {uid = g});
+        dynamic json = JObject.FromObject(new
+        {
+            uid = g
+        });
 
         XUnitAssert.Throws<InvalidOperationException>(
             () =>

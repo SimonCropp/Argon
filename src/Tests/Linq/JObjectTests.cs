@@ -420,13 +420,12 @@ Parameter name: arrayIndex",
 
     [Fact]
     public void Blog() =>
-        XUnitAssert.Throws<JsonReaderException>(() =>
-        {
-            JObject.Parse(@"{
+        XUnitAssert.Throws<JsonReaderException>(
+            () => JObject.Parse(@"{
     ""name"": ""James"",
     ]!#$THIS IS: BAD JSON![{}}}}]
-  }");
-        }, "Invalid property identifier character: ]. Path 'name', line 3, position 4.");
+  }"),
+            "Invalid property identifier character: ]. Path 'name', line 3, position 4.");
 
     [Fact]
     public void RawChildValues()
