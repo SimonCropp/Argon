@@ -738,7 +738,7 @@ keyword such as type of business.""
                 )
             );
 
-        Assert.Equal(4, a.Count());
+        Assert.Equal(4, a.Count);
         XUnitAssert.AreEqualNormalized(@"[
   {
     ""Test1"": ""Test1Value"",
@@ -1131,7 +1131,7 @@ keyword such as type of business.""
             4
         });
         Assert.IsType(typeof(JArray), a);
-        Assert.Equal(5, a.Count());
+        Assert.Equal(5, a.Count);
     }
 
     [Fact]
@@ -1208,7 +1208,7 @@ keyword such as type of business.""
             4
         });
         Assert.IsType(typeof(JArray), a);
-        Assert.Equal(5, a.Count());
+        Assert.Equal(5, a.Count);
     }
 
     [Fact]

@@ -253,7 +253,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
 
-        Assert.Equal(3, l.Count());
+        Assert.Equal(3, l.Count);
         Assert.True(l.Contains("3"));
         Assert.True(l.Contains("II"));
         Assert.True(l.Contains("One"));
@@ -270,7 +270,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
 
-        Assert.Equal(3, l.Count());
+        Assert.Equal(3, l.Count);
         Assert.True(l.Contains("3"));
         Assert.True(l.Contains("II"));
         Assert.True(l.Contains("One"));
@@ -311,7 +311,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
 
-        Assert.Equal(3, l.Count());
+        Assert.Equal(3, l.Count);
         Assert.True(l.Contains("3"));
         Assert.True(l.Contains("II"));
         Assert.True(l.Contains("One"));

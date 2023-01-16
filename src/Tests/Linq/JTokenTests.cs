@@ -119,7 +119,7 @@ public class JTokenTests : TestFixtureBase
                 new JArray(1, 2, 3)
             );
 
-        Assert.Equal(4, a.Count());
+        Assert.Equal(4, a.Count);
         Assert.Equal(3, a.Children<JArray>().Count());
     }
 
@@ -731,7 +731,7 @@ public class JTokenTests : TestFixtureBase
 
         Assert.Equal(6, (int) a[0]);
         Assert.True(JToken.DeepEquals(new JArray(9, 10), a[1]));
-        Assert.Equal(2, a.Count());
+        Assert.Equal(2, a.Count);
 
         var token = a[1];
         token.Remove();
@@ -742,7 +742,7 @@ public class JTokenTests : TestFixtureBase
 
         token = a[0];
         token.Remove();
-        Assert.Equal(0, a.Count());
+        Assert.Equal(0, a.Count);
 
         Assert.Null(token.Next);
         Assert.Null(token.Previous);
@@ -814,7 +814,7 @@ public class JTokenTests : TestFixtureBase
 
         var token = a[1][0];
         var ancestors = token.Ancestors().ToList();
-        Assert.Equal(2, ancestors.Count());
+        Assert.Equal(2, ancestors.Count);
         Assert.Equal(a[1], ancestors[0]);
         Assert.Equal(a, ancestors[1]);
     }
@@ -832,7 +832,7 @@ public class JTokenTests : TestFixtureBase
 
         var token = a[1][0];
         var ancestors = token.AncestorsAndSelf().ToList();
-        Assert.Equal(3, ancestors.Count());
+        Assert.Equal(3, ancestors.Count);
         Assert.Equal(token, ancestors[0]);
         Assert.Equal(a[1], ancestors[1]);
         Assert.Equal(a, ancestors[2]);
@@ -860,7 +860,7 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JToken> {t1, t2};
 
         var ancestors = source.AncestorsAndSelf().ToList();
-        Assert.Equal(6, ancestors.Count());
+        Assert.Equal(6, ancestors.Count);
         Assert.Equal(t1, ancestors[0]);
         Assert.Equal(a[1], ancestors[1]);
         Assert.Equal(a, ancestors[2]);
@@ -891,7 +891,7 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JToken> {t1, t2};
 
         var ancestors = source.Ancestors().ToList();
-        Assert.Equal(4, ancestors.Count());
+        Assert.Equal(4, ancestors.Count);
         Assert.Equal(a[1], ancestors[0]);
         Assert.Equal(a, ancestors[1]);
         Assert.Equal(o.Property("prop1"), ancestors[2]);
@@ -910,7 +910,7 @@ public class JTokenTests : TestFixtureBase
             );
 
         var descendants = a.Descendants().ToList();
-        Assert.Equal(10, descendants.Count());
+        Assert.Equal(10, descendants.Count);
         Assert.Equal(5, (int) descendants[0]);
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 4]));
         Assert.Equal(1, (int) descendants[descendants.Count - 3]);
@@ -937,7 +937,7 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JContainer> {a, o};
 
         var descendants = source.Descendants().ToList();
-        Assert.Equal(12, descendants.Count());
+        Assert.Equal(12, descendants.Count);
         Assert.Equal(5, (int) descendants[0]);
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendants[descendants.Count - 6]));
         Assert.Equal(1, (int) descendants[descendants.Count - 5]);
@@ -959,7 +959,7 @@ public class JTokenTests : TestFixtureBase
             );
 
         var descendantsAndSelf = a.DescendantsAndSelf().ToList();
-        Assert.Equal(11, descendantsAndSelf.Count());
+        Assert.Equal(11, descendantsAndSelf.Count);
         Assert.Equal(a, descendantsAndSelf[0]);
         Assert.Equal(5, (int) descendantsAndSelf[1]);
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 4]));
@@ -987,7 +987,7 @@ public class JTokenTests : TestFixtureBase
         var source = new List<JContainer> {a, o};
 
         var descendantsAndSelf = source.DescendantsAndSelf().ToList();
-        Assert.Equal(14, descendantsAndSelf.Count());
+        Assert.Equal(14, descendantsAndSelf.Count);
         Assert.Equal(a, descendantsAndSelf[0]);
         Assert.Equal(5, (int) descendantsAndSelf[1]);
         Assert.True(JToken.DeepEquals(new JArray(1, 2, 3), descendantsAndSelf[descendantsAndSelf.Count - 7]));
@@ -1012,10 +1012,10 @@ public class JTokenTests : TestFixtureBase
 
         var writer = a.CreateWriter();
         Assert.NotNull(writer);
-        Assert.Equal(4, a.Count());
+        Assert.Equal(4, a.Count);
 
         writer.WriteValue("String");
-        Assert.Equal(5, a.Count());
+        Assert.Equal(5, a.Count);
         Assert.Equal("String", (string) a[4]);
 
         writer.WriteStartObject();
@@ -1023,7 +1023,7 @@ public class JTokenTests : TestFixtureBase
         writer.WriteValue("PropertyValue");
         writer.WriteEnd();
 
-        Assert.Equal(6, a.Count());
+        Assert.Equal(6, a.Count);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("Property", "PropertyValue")), a[5]));
     }
 
@@ -1043,13 +1043,13 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal("First", (string) a[0]);
         Assert.Equal(a, a[0].Parent);
         Assert.Equal(a[1], a[0].Next);
-        Assert.Equal(5, a.Count());
+        Assert.Equal(5, a.Count);
 
         a.AddFirst("NewFirst");
         Assert.Equal("NewFirst", (string) a[0]);
         Assert.Equal(a, a[0].Parent);
         Assert.Equal(a[1], a[0].Next);
-        Assert.Equal(6, a.Count());
+        Assert.Equal(6, a.Count);
 
         Assert.Equal(a[0], a[0].Next.Previous);
     }
@@ -1069,7 +1069,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(5, (int) first);
 
         a.RemoveAll();
-        Assert.Equal(0, a.Count());
+        Assert.Equal(0, a.Count);
 
         Assert.Null(first.Parent);
         Assert.Null(first.Next);
@@ -1106,14 +1106,14 @@ public class JTokenTests : TestFixtureBase
 
         a[0].Replace(new JValue(int.MaxValue));
         Assert.Equal(int.MaxValue, (int) a[0]);
-        Assert.Equal(4, a.Count());
+        Assert.Equal(4, a.Count);
 
         a[1][0].Replace(new JValue("Test"));
         Assert.Equal("Test", (string) a[1][0]);
 
         a[2].Replace(new JValue(int.MaxValue));
         Assert.Equal(int.MaxValue, (int) a[2]);
-        Assert.Equal(4, a.Count());
+        Assert.Equal(4, a.Count);
 
         Assert.True(JToken.DeepEquals(new JArray(int.MaxValue, new JArray("Test"), int.MaxValue, new JArray(1, 2, 3)), a));
     }
@@ -1166,7 +1166,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(5, (int) a[0]);
         Assert.Equal(1, a[1].Count());
         Assert.Equal("pie", (string) a[2]);
-        Assert.Equal(5, a.Count());
+        Assert.Equal(5, a.Count);
 
         a[4].AddAfterSelf("lastpie");
 
@@ -1191,7 +1191,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal("pie", (string) a[1]);
         Assert.Equal(a, a[1].Parent);
         Assert.Equal(a[2], a[1].Next);
-        Assert.Equal(5, a.Count());
+        Assert.Equal(5, a.Count);
 
         a[0].AddBeforeSelf("firstpie");
 
@@ -1200,12 +1200,12 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal("pie", (string) a[2]);
         Assert.Equal(a, a[0].Parent);
         Assert.Equal(a[1], a[0].Next);
-        Assert.Equal(6, a.Count());
+        Assert.Equal(6, a.Count);
 
         a.Last.AddBeforeSelf("secondlastpie");
 
         Assert.Equal("secondlastpie", (string) a[5]);
-        Assert.Equal(7, a.Count());
+        Assert.Equal(7, a.Count);
     }
 
     [Fact]
