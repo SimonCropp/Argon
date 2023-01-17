@@ -28,15 +28,17 @@ public class User
 <!-- snippet: JsonConstructorAttributeUsage -->
 <a id='snippet-jsonconstructorattributeusage'></a>
 ```cs
-var json = @"{
-      ""UserName"": ""domain\\username"",
-      ""Enabled"": true
-    }";
+var json = """
+    {
+      "UserName": "domain\\username",
+      "Enabled": true
+    }
+    """;
 
 var user = JsonConvert.DeserializeObject<User>(json);
 
 Console.WriteLine(user.UserName);
 // domain\username
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

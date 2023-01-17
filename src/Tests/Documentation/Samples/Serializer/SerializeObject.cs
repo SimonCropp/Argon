@@ -48,14 +48,16 @@ public class SerializeObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Email"": ""james@example.com"",
-  ""Active"": true,
-  ""CreatedDate"": ""2013-01-20T00:00:00Z"",
-  ""Roles"": [
-    ""User"",
-    ""Admin""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Email": "james@example.com",
+              "Active": true,
+              "CreatedDate": "2013-01-20T00:00:00Z",
+              "Roles": [
+                "User",
+                "Admin"
+              ]
+            }
+            """, json);
     }
 }

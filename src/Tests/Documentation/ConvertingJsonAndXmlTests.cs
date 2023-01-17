@@ -58,7 +58,8 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
     {
         #region DeserializeXmlNode
 
-        var json = @"{
+        var json = """
+            {
               '?xml': {
                 '@version': '1.0',
                 '@standalone': 'no'
@@ -77,7 +78,8 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
                   }
                 ]
               }
-            }";
+            }
+            """;
 
         var doc = JsonXmlConvert.DeserializeXmlNode(json);
         // <?xml version="1.0" standalone="no"?>

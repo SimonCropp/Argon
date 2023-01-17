@@ -21,7 +21,8 @@ public class DeserializeObject : TestFixtureBase
     {
         #region DeserializeObjectUsage
 
-        var json = @"{
+        var json = """
+            {
               'Email': 'james@example.com',
               'Active': true,
               'CreatedDate': '2013-01-20T00:00:00Z',
@@ -29,7 +30,8 @@ public class DeserializeObject : TestFixtureBase
                 'User',
                 'Admin'
               ]
-            }";
+            }
+            """;
 
         var account = JsonConvert.DeserializeObject<Account>(json);
 

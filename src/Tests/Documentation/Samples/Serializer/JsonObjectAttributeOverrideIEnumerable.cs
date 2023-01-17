@@ -52,12 +52,14 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""My Documents"",
-  ""Files"": [
-    ""ImportantLegalDocuments.docx"",
-    ""WiseFinancalAdvice.xlsx""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "My Documents",
+              "Files": [
+                "ImportantLegalDocuments.docx",
+                "WiseFinancalAdvice.xlsx"
+              ]
+            }
+            """, json);
     }
 }

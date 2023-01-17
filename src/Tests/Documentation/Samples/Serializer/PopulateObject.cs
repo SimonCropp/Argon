@@ -33,12 +33,14 @@ public class PopulateObject : TestFixtureBase
             }
         };
 
-        var json = @"{
+        var json = """
+            {
               'Active': false,
               'Roles': [
                 'Expired'
               ]
-            }";
+            }
+            """;
 
         JsonConvert.PopulateObject(json, account);
 

@@ -11,7 +11,8 @@ public class ConvertJsonToXml : TestFixtureBase
     {
         #region ConvertJsonToXml
 
-        var json = @"{
+        var json = """
+            {
               '@Id': 1,
               'Email': 'james@example.com',
               'Active': true,
@@ -25,7 +26,8 @@ public class ConvertJsonToXml : TestFixtureBase
                 'Name': 'Software Developers',
                 'Description': 'Creators of fine software products and services.'
               }
-            }";
+            }
+            """;
 
         XNode node = JsonXmlConvert.DeserializeXNode(json, "Root");
 

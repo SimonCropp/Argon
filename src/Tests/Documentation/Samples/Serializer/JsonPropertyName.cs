@@ -36,9 +36,11 @@ public class JsonPropertyName : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""Starcraft"",
-  ""release_date"": ""1998-01-01T00:00:00""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "Starcraft",
+              "release_date": "1998-01-01T00:00:00"
+            }
+            """, json);
     }
 }

@@ -5,11 +5,13 @@ This sample deserializes JSON with `Argon.MetadataPropertyHandling` set to ReadA
 <!-- snippet: DeserializeMetadataPropertyHandling -->
 <a id='snippet-deserializemetadatapropertyhandling'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'Name': 'James',
       'Password': 'Password1',
       '$type': 'MyNamespace.User, MyAssembly'
-    }";
+    }
+    """;
 
 var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
 {
@@ -23,5 +25,5 @@ var u = (User) o;
 Console.WriteLine(u.Name);
 // James
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

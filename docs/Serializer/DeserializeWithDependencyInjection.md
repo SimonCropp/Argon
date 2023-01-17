@@ -71,11 +71,13 @@ var container = builder.Build();
 
 var contractResolver = new AutofacContractResolver(container);
 
-var json = @"{
+var json = """
+    {
       'Logger': {
         'Level':'Debug'
       }
-    }";
+    }
+    """;
 
 // ITaskRespository and ILogger constructor parameters are injected by Autofac
 var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSerializerSettings
@@ -86,5 +88,5 @@ var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSer
 Console.WriteLine(controller.Repository.GetType().Name);
 // TaskRepository
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L69-L95' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L69-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -19,7 +19,8 @@ public class Account
 <!-- snippet: DeserializeObjectUsage -->
 <a id='snippet-deserializeobjectusage'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'Email': 'james@example.com',
       'Active': true,
       'CreatedDate': '2013-01-20T00:00:00Z',
@@ -27,12 +28,13 @@ var json = @"{
         'User',
         'Admin'
       ]
-    }";
+    }
+    """;
 
 var account = JsonConvert.DeserializeObject<Account>(json);
 
 Console.WriteLine(account.Email);
 // james@example.com
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObject.cs#L22-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObject.cs#L22-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

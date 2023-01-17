@@ -31,12 +31,14 @@ var account = new Account
     }
 };
 
-var json = @"{
+var json = """
+    {
       'Active': false,
       'Roles': [
         'Expired'
       ]
-    }";
+    }
+    """;
 
 JsonConvert.PopulateObject(json, account);
 
@@ -49,5 +51,5 @@ Console.WriteLine(account.Active);
 Console.WriteLine(string.Join(", ", account.Roles.ToArray()));
 // User, Admin, Expired
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L22-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/PopulateObject.cs#L22-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-populateobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

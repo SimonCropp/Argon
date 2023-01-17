@@ -11,13 +11,15 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region LinqToJsonBasic
 
-        var o = JObject.Parse(@"{
+        var o = JObject.Parse("""
+            {
               'CPU': 'Intel',
               'Drives': [
                 'DVD read/writer',
                 '500 gigabyte hard drive'
               ]
-            }");
+            }
+            """);
 
         var cpu = (string) o["CPU"];
         // Intel
@@ -159,13 +161,15 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region LinqToJsonCreateParse
 
-        var json = @"{
+        var json = """
+            {
               CPU: 'Intel',
               Drives: [
                 'DVD read/writer',
                 '500 gigabyte hard drive'
               ]
-            }";
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -211,7 +215,8 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region LinqToJsonSimpleQuerying
 
-        var json = @"{
+        var json = """
+            {
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -237,7 +242,8 @@ public class LinqToJsonTests : TestFixtureBase
                   }
                 ]
               }
-            }";
+            }
+            """;
 
         var rss = JObject.Parse(json);
 
@@ -260,7 +266,8 @@ public class LinqToJsonTests : TestFixtureBase
     [Fact]
     public void LinqToJsonQuerying()
     {
-        var rss = JObject.Parse(@"{
+        var rss = JObject.Parse("""
+            {
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -286,7 +293,8 @@ public class LinqToJsonTests : TestFixtureBase
                   }
                 ]
               }
-            }");
+            }
+            """);
 
         #region LinqToJsonQuerying
 
@@ -347,7 +355,8 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region LinqToJsonDeserializeExample
 
-        var jsonText = @"{
+        var jsonText = """
+            {
               'short': {
                 'original': 'http://www.foo.com/',
                 'short': 'krehqk',
@@ -356,7 +365,8 @@ public class LinqToJsonTests : TestFixtureBase
                   'msg': 'No action taken'
                 }
               }
-            }";
+            }
+            """;
 
         var json = JObject.Parse(jsonText);
 

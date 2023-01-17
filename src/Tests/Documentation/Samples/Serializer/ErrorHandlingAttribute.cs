@@ -60,10 +60,12 @@ public class ErrorHandlingAttribute : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""George Michael Bluth"",
-  ""Age"": 16,
-  ""Title"": ""Mister Manager""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "George Michael Bluth",
+              "Age": 16,
+              "Title": "Mister Manager"
+            }
+            """, json);
     }
 }

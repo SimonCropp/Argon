@@ -5,7 +5,8 @@ This sample converts JSON to XML.
 <!-- snippet: ConvertJsonToXml -->
 <a id='snippet-convertjsontoxml'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       '@Id': 1,
       'Email': 'james@example.com',
       'Active': true,
@@ -19,7 +20,8 @@ var json = @"{
         'Name': 'Software Developers',
         'Description': 'Creators of fine software products and services.'
       }
-    }";
+    }
+    """;
 
 XNode node = JsonXmlConvert.DeserializeXNode(json, "Root");
 
@@ -36,5 +38,5 @@ Console.WriteLine(node.ToString());
 //   </Team>
 // </Root>
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertJsonToXml.cs#L12-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertjsontoxml' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertJsonToXml.cs#L12-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertjsontoxml' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

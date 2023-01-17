@@ -77,11 +77,13 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 
         var contractResolver = new AutofacContractResolver(container);
 
-        var json = @"{
+        var json = """
+            {
               'Logger': {
                 'Level':'Debug'
               }
-            }";
+            }
+            """;
 
         // ITaskRespository and ILogger constructor parameters are injected by Autofac
         var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSerializerSettings

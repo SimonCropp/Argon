@@ -44,9 +44,11 @@ public class NamingStrategyKebabCase : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""user-name"": ""jamesn"",
-  ""enabled"": true
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "user-name": "jamesn",
+              "enabled": true
+            }
+            """, json);
     }
 }

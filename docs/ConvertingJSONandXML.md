@@ -115,7 +115,7 @@ json = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L101-L143' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L103-L145' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -128,7 +128,8 @@ Because valid XML must have one root element, the JSON passed to DeserializeXmlN
 <!-- snippet: DeserializeXmlNode -->
 <a id='snippet-deserializexmlnode'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       '?xml': {
         '@version': '1.0',
         '@standalone': 'no'
@@ -147,7 +148,8 @@ var json = @"{
           }
         ]
       }
-    }";
+    }
+    """;
 
 var doc = JsonXmlConvert.DeserializeXmlNode(json);
 // <?xml version="1.0" standalone="no"?>
@@ -162,5 +164,5 @@ var doc = JsonXmlConvert.DeserializeXmlNode(json);
 //   </person>
 // </root>
 ```
-<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L59-L95' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ConvertingJsonAndXmlTests.cs#L59-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

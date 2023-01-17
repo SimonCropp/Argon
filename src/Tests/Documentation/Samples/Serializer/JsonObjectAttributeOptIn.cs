@@ -42,9 +42,11 @@ public class JsonObjectAttributeOptIn : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""ImportantLegalDocuments.docx"",
-  ""Size"": 51200
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "ImportantLegalDocuments.docx",
+              "Size": 51200
+            }
+            """, json);
     }
 }

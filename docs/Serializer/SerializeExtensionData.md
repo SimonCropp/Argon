@@ -20,11 +20,13 @@ public class CustomerInvoice
 <!-- snippet: SerializeExtensionDataUsage -->
 <a id='snippet-serializeextensiondatausage'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'HourlyRate': 150,
       'Hours': 40,
       'TaxRate': 0.125
-    }";
+    }
+    """;
 
 var invoice = JsonConvert.DeserializeObject<CustomerInvoice>(json);
 
@@ -38,5 +40,5 @@ var result = JsonConvert.SerializeObject(invoice);
 //   "Hours": 40
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L27-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L27-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

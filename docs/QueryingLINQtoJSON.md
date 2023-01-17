@@ -10,7 +10,8 @@ The simplest way to get a value from LINQ to JSON is to use the `Argon.JToken.It
 <!-- snippet: LinqToJsonSimpleQuerying -->
 <a id='snippet-linqtojsonsimplequerying'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'channel': {
         'title': 'James Newton-King',
         'link': 'http://james.newtonking.com',
@@ -36,7 +37,8 @@ var json = @"{
           }
         ]
       }
-    }";
+    }
+    """;
 
 var rss = JObject.Parse(json);
 
@@ -53,7 +55,7 @@ var categoriesText = categories.Select(c => (string) c).ToList();
 // Json.NET
 // CodePlex
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L212-L257' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L216-L263' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -94,7 +96,7 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L291-L321' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L299-L329' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 LINQ to JSON can also be used to manually convert JSON to a .NET object.
@@ -116,7 +118,7 @@ public class ShortieException
     public string ErrorMessage { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L327-L343' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L335-L351' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Manually serializing and deserializing between .NET objects is useful when working with JSON that doesn't closely match the .NET objects.
@@ -124,7 +126,8 @@ Manually serializing and deserializing between .NET objects is useful when worki
 <!-- snippet: LinqToJsonDeserializeExample -->
 <a id='snippet-linqtojsondeserializeexample'></a>
 ```cs
-var jsonText = @"{
+var jsonText = """
+    {
       'short': {
         'original': 'http://www.foo.com/',
         'short': 'krehqk',
@@ -133,7 +136,8 @@ var jsonText = @"{
           'msg': 'No action taken'
         }
       }
-    }";
+    }
+    """;
 
 var json = JObject.Parse(jsonText);
 
@@ -154,7 +158,7 @@ Console.WriteLine(shortie.Original);
 Console.WriteLine(shortie.Error.ErrorMessage);
 // No action taken
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L348-L380' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L356-L390' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

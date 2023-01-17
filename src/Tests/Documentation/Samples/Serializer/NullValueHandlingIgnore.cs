@@ -50,9 +50,11 @@ public class NullValueHandlingIgnore : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Nigal Newborn"",
-  ""Age"": 1
-}", jsonIgnoreNullValues);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Nigal Newborn",
+              "Age": 1
+            }
+            """, jsonIgnoreNullValues);
     }
 }

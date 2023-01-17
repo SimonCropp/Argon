@@ -16,11 +16,13 @@ public class DeserializeMetadataPropertyHandling : TestFixtureBase
         {
             #region DeserializeMetadataPropertyHandling
 
-            var json = @"{
+            var json = """
+                {
                   'Name': 'James',
                   'Password': 'Password1',
                   '$type': 'MyNamespace.User, MyAssembly'
-                }";
+                }
+                """;
 
             var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
             {

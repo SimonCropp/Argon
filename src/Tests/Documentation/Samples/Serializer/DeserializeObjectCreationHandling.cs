@@ -27,14 +27,16 @@ public class DeserializeObjectCreationHandling : TestFixtureBase
     {
         #region DeserializeObjectCreationHandlingUsage
 
-        var json = @"{
+        var json = """
+            {
               'Name': 'James',
               'Offices': [
                 'Auckland',
                 'Wellington',
                 'Christchurch'
               ]
-            }";
+            }
+            """;
 
         var model1 = JsonConvert.DeserializeObject<UserViewModel>(json);
 

@@ -25,14 +25,16 @@ public class UserViewModel
 <!-- snippet: DeserializeObjectCreationHandlingUsage -->
 <a id='snippet-deserializeobjectcreationhandlingusage'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'Name': 'James',
       'Offices': [
         'Auckland',
         'Wellington',
         'Christchurch'
       ]
-    }";
+    }
+    """;
 
 var model1 = JsonConvert.DeserializeObject<UserViewModel>(json);
 
@@ -61,5 +63,5 @@ foreach (var office in model2.Offices)
 // Wellington
 // Christchurch
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L28-L66' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L28-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

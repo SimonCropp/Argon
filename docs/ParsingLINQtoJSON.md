@@ -10,17 +10,19 @@ JSON values can be read from a string using `Argon.JToken.Parse(System.String)`.
 <!-- snippet: LinqToJsonCreateParse -->
 <a id='snippet-linqtojsoncreateparse'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       CPU: 'Intel',
       Drives: [
         'DVD read/writer',
         '500 gigabyte hard drive'
       ]
-    }";
+    }
+    """;
 
 var o = JObject.Parse(json);
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L160-L172' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparse' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L162-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparse' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: LinqToJsonCreateParseArray -->
@@ -34,7 +36,7 @@ var json = @"[
 
 var a = JArray.Parse(json);
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L178-L188' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparsearray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L182-L192' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparsearray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -49,7 +51,7 @@ using var reader = File.OpenText(@"c:\person.json");
 var o = (JObject) JToken.ReadFrom(new JsonTextReader(reader));
 // do stuff
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L200-L206' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L204-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

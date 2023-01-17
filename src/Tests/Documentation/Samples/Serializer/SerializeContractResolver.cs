@@ -41,10 +41,12 @@ public class SerializeContractResolver : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""firstName"": ""Sarah"",
-  ""lastName"": ""Security"",
-  ""fullName"": ""Sarah Security""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "firstName": "Sarah",
+              "lastName": "Security",
+              "fullName": "Sarah Security"
+            }
+            """, json);
     }
 }

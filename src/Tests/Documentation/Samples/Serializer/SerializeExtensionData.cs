@@ -26,11 +26,13 @@ public class SerializeExtensionData : TestFixtureBase
     {
         #region SerializeExtensionDataUsage
 
-        var json = @"{
+        var json = """
+            {
               'HourlyRate': 150,
               'Hours': 40,
               'TaxRate': 0.125
-            }";
+            }
+            """;
 
         var invoice = JsonConvert.DeserializeObject<CustomerInvoice>(json);
 

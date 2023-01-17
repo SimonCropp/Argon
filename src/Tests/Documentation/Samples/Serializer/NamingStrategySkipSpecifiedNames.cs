@@ -50,10 +50,12 @@ public class NamingStrategySkipSpecifiedNames : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""firstName"": ""John"",
-  ""lastName"": ""Smith"",
-  ""UPN"": ""john.smith@acme.com""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "firstName": "John",
+              "lastName": "Smith",
+              "UPN": "john.smith@acme.com"
+            }
+            """, json);
     }
 }

@@ -32,10 +32,12 @@ public class JsonConstructorAttribute : TestFixtureBase
     {
         #region JsonConstructorAttributeUsage
 
-        var json = @"{
-              ""UserName"": ""domain\\username"",
-              ""Enabled"": true
-            }";
+        var json = """
+            {
+              "UserName": "domain\\username",
+              "Enabled": true
+            }
+            """;
 
         var user = JsonConvert.DeserializeObject<User>(json);
 
