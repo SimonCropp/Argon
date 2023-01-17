@@ -116,32 +116,34 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WriteEndObjectAsync();
         }
 
-        XUnitAssert.AreEqualNormalized(@"{
-    ""PropByte"": 1,
-    ""PropSByte"": 2,
-    ""PropShort"": 3,
-    ""PropUInt"": 4,
-    ""PropUShort"": 5,
-    ""PropUri"": ""http://localhost/"",
-    ""PropRaw"": 'raw string',
-    ""PropObjectNull"": null,
-    ""PropObjectBigInteger"": 123456789012345678901234567890,
-    ""PropUndefined"": undefined,
-    ""PropEscaped \""name\"""": null,
-    ""PropUnescaped"": null,
-    ""PropArray"": [
-        ""string!""
-    ],
-    ""PropNested"": [
-        [
-            [
-                [
-                    []
+        XUnitAssert.AreEqualNormalized("""
+            {
+                "PropByte": 1,
+                "PropSByte": 2,
+                "PropShort": 3,
+                "PropUInt": 4,
+                "PropUShort": 5,
+                "PropUri": "http://localhost/",
+                "PropRaw": 'raw string',
+                "PropObjectNull": null,
+                "PropObjectBigInteger": 123456789012345678901234567890,
+                "PropUndefined": undefined,
+                "PropEscaped \"name\"": null,
+                "PropUnescaped": null,
+                "PropArray": [
+                    "string!"
+                ],
+                "PropNested": [
+                    [
+                        [
+                            [
+                                []
+                            ]
+                        ]
+                    ]
                 ]
-            ]
-        ]
-    ]
-}", stringWriter.ToString());
+            }
+            """, stringWriter.ToString());
     }
 
     [Fact]

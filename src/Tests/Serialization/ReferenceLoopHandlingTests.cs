@@ -43,19 +43,21 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Value"": {
-    ""Value"": {
-      ""Value"": {
-        ""Value"": {
-          ""Value"": {
-            ""Value"": null
-          }
-        }
-      }
-    }
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Value": {
+                "Value": {
+                  "Value": {
+                    "Value": {
+                      "Value": {
+                        "Value": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            """, json);
     }
 
     [Fact]

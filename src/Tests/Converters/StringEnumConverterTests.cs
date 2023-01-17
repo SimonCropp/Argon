@@ -222,9 +222,11 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Enum"": ""@first""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Enum": "@first"
+            }
+            """, json);
 
         c = new()
         {
@@ -232,9 +234,11 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Enum"": ""Third""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Enum": "Third"
+            }
+            """, json);
     }
 
     [Fact]
@@ -246,9 +250,11 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Enum"": "",third""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Enum": ",third"
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<EnumContainer<NamedEnumWithComma>>(json, new StringEnumConverter());
         Assert.Equal(NamedEnumWithComma.Third, c2.Enum);
@@ -263,9 +269,11 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Enum"": "",""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Enum": ","
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<EnumContainer<NamedEnumWithComma>>(json, new StringEnumConverter());
         Assert.Equal(NamedEnumWithComma.JustComma, c2.Enum);
@@ -281,16 +289,20 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeNameEnumTest()
     {
-        var json = @"{
-  ""Enum"": ""@first""
-}";
+        var json = """
+            {
+              "Enum": "@first"
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<EnumContainer<NamedEnum>>(json, new StringEnumConverter());
         Assert.Equal(NamedEnum.First, c.Enum);
 
-        json = @"{
-  ""Enum"": ""Third""
-}";
+        json = """
+            {
+              "Enum": "Third"
+            }
+            """;
 
         c = JsonConvert.DeserializeObject<EnumContainer<NamedEnum>>(json, new StringEnumConverter());
         Assert.Equal(NamedEnum.Third, c.Enum);
@@ -308,11 +320,13 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""StoreColor"": ""Red"",
-  ""NullableStoreColor1"": ""White"",
-  ""NullableStoreColor2"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "StoreColor": "Red",
+              "NullableStoreColor1": "White",
+              "NullableStoreColor2": null
+            }
+            """, json);
     }
 
     [Fact]
@@ -327,11 +341,13 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""StoreColor"": ""red"",
-  ""NullableStoreColor1"": ""darkGoldenrod"",
-  ""NullableStoreColor2"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "StoreColor": "red",
+              "NullableStoreColor1": "darkGoldenrod",
+              "NullableStoreColor2": null
+            }
+            """, json);
     }
 
     [Fact]
@@ -346,11 +362,13 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""StoreColor"": 1000,
-  ""NullableStoreColor1"": 1000,
-  ""NullableStoreColor2"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "StoreColor": 1000,
+              "NullableStoreColor1": 1000,
+              "NullableStoreColor2": null
+            }
+            """, json);
     }
 
     [Fact]
@@ -365,11 +383,13 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""StoreColor"": ""Red, White"",
-  ""NullableStoreColor1"": 0,
-  ""NullableStoreColor2"": ""Black, Red, White""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "StoreColor": "Red, White",
+              "NullableStoreColor1": 0,
+              "NullableStoreColor2": "Black, Red, White"
+            }
+            """, json);
     }
 
     [Fact]
@@ -383,19 +403,23 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Value1"": ""NegativeTwo"",
-  ""Value2"": ""Two, Four""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Value1": "NegativeTwo",
+              "Value2": "Two, Four"
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeNegativeFlagsEnum()
     {
-        var json = @"{
-  ""Value1"": ""NegativeFour,NegativeTwo"",
-  ""Value2"": ""NegativeFour,Four""
-}";
+        var json = """
+            {
+              "Value1": "NegativeFour,NegativeTwo",
+              "Value2": "NegativeFour,Four"
+            }
+            """;
 
         var negativeEnumClass = JsonConvert.DeserializeObject<NegativeFlagsEnumClass>(json, new StringEnumConverter());
 
@@ -414,19 +438,23 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Value1"": ""Negative"",
-  ""Value2"": -2147483648
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Value1": "Negative",
+              "Value2": -2147483648
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeNegativeEnum()
     {
-        var json = @"{
-  ""Value1"": ""Negative"",
-  ""Value2"": -2147483648
-}";
+        var json = """
+            {
+              "Value1": "Negative",
+              "Value2": -2147483648
+            }
+            """;
 
         var negativeEnumClass = JsonConvert.DeserializeObject<NegativeEnumClass>(json, new StringEnumConverter());
 
@@ -437,11 +465,13 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeFlagEnum()
     {
-        var json = @"{
-  ""StoreColor"": ""Red, White"",
-  ""NullableStoreColor1"": 0,
-  ""NullableStoreColor2"": ""black, Red, White""
-}";
+        var json = """
+            {
+              "StoreColor": "Red, White",
+              "NullableStoreColor1": 0,
+              "NullableStoreColor2": "black, Red, White"
+            }
+            """;
 
         var enumClass = JsonConvert.DeserializeObject<EnumClass>(json, new StringEnumConverter());
 
@@ -453,11 +483,13 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeEnumClass()
     {
-        var json = @"{
-  ""StoreColor"": ""Red"",
-  ""NullableStoreColor1"": ""White"",
-  ""NullableStoreColor2"": null
-}";
+        var json = """
+            {
+              "StoreColor": "Red",
+              "NullableStoreColor1": "White",
+              "NullableStoreColor2": null
+            }
+            """;
 
         var enumClass = JsonConvert.DeserializeObject<EnumClass>(json, new StringEnumConverter());
 
@@ -469,11 +501,13 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeEnumClassUndefined()
     {
-        var json = @"{
-  ""StoreColor"": 1000,
-  ""NullableStoreColor1"": 1000,
-  ""NullableStoreColor2"": null
-}";
+        var json = """
+            {
+              "StoreColor": 1000,
+              "NullableStoreColor1": 1000,
+              "NullableStoreColor2": null
+            }
+            """;
 
         var enumClass = JsonConvert.DeserializeObject<EnumClass>(json, new StringEnumConverter());
 
@@ -491,17 +525,21 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Enum"": ""first, second""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Enum": "first, second"
+            }
+            """, json);
     }
 
     [Fact]
     public void CamelCaseTextFlagEnumDeserialization()
     {
-        var json = @"{
-  ""Enum"": ""first, second""
-}";
+        var json = """
+            {
+              "Enum": "first, second"
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<EnumContainer<FlagsTestEnum>>(json, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
         Assert.Equal(FlagsTestEnum.First | FlagsTestEnum.Second, c.Enum);
@@ -510,11 +548,13 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeEmptyStringIntoNullable()
     {
-        var json = @"{
-  ""StoreColor"": ""Red"",
-  ""NullableStoreColor1"": ""White"",
-  ""NullableStoreColor2"": """"
-}";
+        var json = """
+            {
+              "StoreColor": "Red",
+              "NullableStoreColor1": "White",
+              "NullableStoreColor2": ""
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<EnumClass>(json, new StringEnumConverter());
         Assert.Null(c.NullableStoreColor2);

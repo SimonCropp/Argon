@@ -9,7 +9,8 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
     {
         #region QueryJsonSelectTokenJsonPath
 
-        var o = JObject.Parse(@"{
+        var o = JObject.Parse("""
+            {
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -38,7 +39,8 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
                   ]
                 }
               ]
-            }");
+            }
+            """);
 
         // manufacturer with the name 'Acme Co'
         var acme = o.SelectToken("$.Manufacturers[?(@.Name == 'Acme Co')]");
@@ -59,15 +61,17 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Acme Co"",
-  ""Products"": [
-    {
-      ""Name"": ""Anvil"",
-      ""Price"": 50
-    }
-  ]
-}", acme.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Acme Co",
+              "Products": [
+                {
+                  "Name": "Anvil",
+                  "Price": 50
+                }
+              ]
+            }
+            """, acme.ToString());
 
         Assert.Equal("Anvil", (string) pricyProducts.ElementAt(0));
         Assert.Equal("Elbow Grease", (string) pricyProducts.ElementAt(1));

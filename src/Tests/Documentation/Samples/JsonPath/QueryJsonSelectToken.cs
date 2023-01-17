@@ -9,7 +9,8 @@ public class QueryJsonSelectToken : TestFixtureBase
     {
         #region QueryJsonSelectToken
 
-        var o = JObject.Parse(@"{
+        var o = JObject.Parse("""
+            {
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -38,7 +39,8 @@ public class QueryJsonSelectToken : TestFixtureBase
                   ]
                 }
               ]
-            }");
+            }
+            """);
 
         var name = (string) o.SelectToken("Manufacturers[0].Name");
 

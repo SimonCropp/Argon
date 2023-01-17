@@ -11,13 +11,15 @@ public class ParseJsonObject : TestFixtureBase
     {
         #region ParseJsonObject
 
-        var json = @"{
+        var json = """
+            {
               CPU: 'Intel',
               Drives: [
                 'DVD read/writer',
                 '500 gigabyte hard drive'
               ]
-            }";
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -32,12 +34,14 @@ public class ParseJsonObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""CPU"": ""Intel"",
-  ""Drives"": [
-    ""DVD read/writer"",
-    ""500 gigabyte hard drive""
-  ]
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "CPU": "Intel",
+              "Drives": [
+                "DVD read/writer",
+                "500 gigabyte hard drive"
+              ]
+            }
+            """, o.ToString());
     }
 }

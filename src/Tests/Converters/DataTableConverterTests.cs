@@ -481,15 +481,17 @@ public class DataTableConverterTests : TestFixtureBase
 
         var serializedpair = JsonConvert.SerializeObject(pair, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Key"": [
-    {
-      ""id"": 0,
-      ""item"": ""item!""
-    }
-  ],
-  ""Value"": 1
-}", serializedpair);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Key": [
+                {
+                  "id": 0,
+                  "item": "item!"
+                }
+              ],
+              "Value": 1
+            }
+            """, serializedpair);
 
         var pair2 = (KeyValuePair<DataTable, int>) JsonConvert.DeserializeObject(serializedpair, typeof(KeyValuePair<DataTable, int>), settings);
 
@@ -555,9 +557,11 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Table"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Table": null
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<DataTableTestClass>(json);
 
@@ -581,16 +585,18 @@ public class DataTableConverterTests : TestFixtureBase
     [Fact]
     public void DeserializedTypedDataTableWithConverter()
     {
-        var json = @"{
-  ""TestTable"": [
-    {
-      ""DateTimeValue"": ""2015-11-28T00:00:00""
-    },
-    {
-      ""DateTimeValue"": null
-    }
-  ]
-}";
+        var json = """
+            {
+              "TestTable": [
+                {
+                  "DateTimeValue": "2015-11-28T00:00:00"
+                },
+                {
+                  "DateTimeValue": null
+                }
+              ]
+            }
+            """;
 
         var settings = new JsonSerializerSettings
         {

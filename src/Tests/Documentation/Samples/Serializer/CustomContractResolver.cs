@@ -65,8 +65,10 @@ public class CustomContractResolver : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""LastName"": ""Deepwater-Diver""
-}", startingWithL);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "LastName": "Deepwater-Diver"
+            }
+            """, startingWithL);
     }
 }

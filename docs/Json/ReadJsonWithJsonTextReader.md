@@ -5,7 +5,8 @@ This sample reads JSON using the `Argon.JsonTextReader`.
 <!-- snippet: ReadJsonWithJsonTextReader -->
 <a id='snippet-readjsonwithjsontextreader'></a>
 ```cs
-var json = @"{
+var json = """
+    {
        'CPU': 'Intel',
        'PSU': '500W',
        'Drives': [
@@ -14,7 +15,8 @@ var json = @"{
          '500 gigabyte hard drive',
          '200 gigabyte hard drive'
        ]
-    }";
+    }
+    """;
 
 var reader = new JsonTextReader(new StringReader(json));
 while (reader.Read())
@@ -43,5 +45,5 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/ReadJsonWithJsonTextReader.cs#L10-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjsonwithjsontextreader' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Json/ReadJsonWithJsonTextReader.cs#L10-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjsonwithjsontextreader' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

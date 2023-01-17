@@ -9,12 +9,14 @@ public class QueryJsonSelectTokenEscaped : TestFixtureBase
     {
         #region QueryJsonSelectTokenEscaped
 
-        var o = JObject.Parse(@"{
+        var o = JObject.Parse("""
+            {
               'Space Invaders': 'Taito',
               'Doom ]|[': 'id',
-              ""Yar's Revenge"": 'Atari',
-              'Government ""Intelligence""': 'Make-Believe'
-            }");
+              "Yar's Revenge": 'Atari',
+              'Government "Intelligence"': 'Make-Believe'
+            }
+            """);
 
         var spaceInvaders = (string) o.SelectToken("['Space Invaders']");
         // Taito

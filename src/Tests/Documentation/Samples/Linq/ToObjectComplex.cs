@@ -20,7 +20,8 @@ public class ToObjectComplex : TestFixtureBase
     {
         #region ToObjectComplex
 
-        var json = @"{
+        var json = """
+            {
               'd': [
                 {
                   'Name': 'John Smith'
@@ -29,7 +30,8 @@ public class ToObjectComplex : TestFixtureBase
                   'Name': 'Mike Smith'
                 }
               ]
-            }";
+            }
+            """;
 
         var o = JObject.Parse(json);
 

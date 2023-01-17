@@ -111,26 +111,30 @@ public class JsonSerializerTest : TestFixtureBase
         //Class implementing interface with hidden members - flat object.
         var strJsonSubclass = JsonConvert.SerializeObject(mySubclass, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""ID"": 123,
-  ""Name"": ""ABC"",
-  ""P1"": true,
-  ""P2"": 44
-}", strJsonSubclass);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "ID": 123,
+              "Name": "ABC",
+              "P1": true,
+              "P2": 44
+            }
+            """, strJsonSubclass);
 
         //Class implementing interface with hidden members - member of another class.
         var strJsonMainClass = JsonConvert.SerializeObject(myMainClass, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""ID"": 567,
-  ""Name"": ""XYZ"",
-  ""Subclass"": {
-    ""ID"": 123,
-    ""Name"": ""ABC"",
-    ""P1"": true,
-    ""P2"": 44
-  }
-}", strJsonMainClass);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "ID": 567,
+              "Name": "XYZ",
+              "Subclass": {
+                "ID": 123,
+                "Name": "ABC",
+                "P1": true,
+                "P2": 44
+              }
+            }
+            """, strJsonMainClass);
     }
 
     [Fact]
@@ -3970,11 +3974,13 @@ Path '', line 1, position 1.");
         };
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(testObject, settings);
-        var expected = @"{
-  ""Document"": {
-    ""root"": ""hehe, root""
-  }
-}";
+        var expected = """
+            {
+              "Document": {
+                "root": "hehe, root"
+              }
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XmlNodeTestObject>(json, settings);
@@ -6531,45 +6537,47 @@ This is just junk, though.";
     [Fact]
     public void MailMessageConverterTest()
     {
-        const string JsonMessage = @"{
-  ""From"": {
-    ""Address"": ""askywalker@theEmpire.gov"",
-    ""DisplayName"": ""Darth Vader""
-  },
-  ""Sender"": null,
-  ""ReplyTo"": null,
-  ""ReplyToList"": [],
-  ""To"": [
-    {
-      ""Address"": ""lskywalker@theRebellion.org"",
-      ""DisplayName"": ""Luke Skywalker""
-    }
-  ],
-  ""Bcc"": [],
-  ""CC"": [
-    {
-      ""Address"": ""lorgana@alderaan.gov"",
-      ""DisplayName"": ""Princess Leia""
-    }
-  ],
-  ""Priority"": 0,
-  ""DeliveryNotificationOptions"": 0,
-  ""Subject"": ""Family tree"",
-  ""SubjectEncoding"": null,
-  ""Headers"": [],
-  ""HeadersEncoding"": null,
-  ""Body"": ""<strong>I am your father!</strong>"",
-  ""BodyEncoding"": ""US-ASCII"",
-  ""BodyTransferEncoding"": -1,
-  ""IsBodyHtml"": true,
-  ""Attachments"": [
-    {
-      ""FileName"": ""skywalker family tree.jpg"",
-      ""ContentBase64"": ""AQIDBAU=""
-    }
-  ],
-  ""AlternateViews"": []
-}";
+        const string JsonMessage = """
+            {
+              "From": {
+                "Address": "askywalker@theEmpire.gov",
+                "DisplayName": "Darth Vader"
+              },
+              "Sender": null,
+              "ReplyTo": null,
+              "ReplyToList": [],
+              "To": [
+                {
+                  "Address": "lskywalker@theRebellion.org",
+                  "DisplayName": "Luke Skywalker"
+                }
+              ],
+              "Bcc": [],
+              "CC": [
+                {
+                  "Address": "lorgana@alderaan.gov",
+                  "DisplayName": "Princess Leia"
+                }
+              ],
+              "Priority": 0,
+              "DeliveryNotificationOptions": 0,
+              "Subject": "Family tree",
+              "SubjectEncoding": null,
+              "Headers": [],
+              "HeadersEncoding": null,
+              "Body": "<strong>I am your father!</strong>",
+              "BodyEncoding": "US-ASCII",
+              "BodyTransferEncoding": -1,
+              "IsBodyHtml": true,
+              "Attachments": [
+                {
+                  "FileName": "skywalker family tree.jpg",
+                  "ContentBase64": "AQIDBAU="
+                }
+              ],
+              "AlternateViews": []
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
             {

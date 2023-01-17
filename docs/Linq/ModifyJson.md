@@ -5,7 +5,8 @@ This sample loads JSON, modifies `Argon.JObject` and `Argon.JArray` instances an
 <!-- snippet: ModifyJson -->
 <a id='snippet-modifyjson'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'channel': {
         'title': 'Star Wars',
         'link': 'http://www.starwars.com',
@@ -13,7 +14,8 @@ var json = @"{
         'obsolete': 'Obsolete value',
         'item': []
       }
-    }";
+    }
+    """;
 
 var rss = JObject.Parse(json);
 
@@ -44,5 +46,5 @@ Console.WriteLine(rss.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/ModifyJson.cs#L12-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-modifyjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/ModifyJson.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-modifyjson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

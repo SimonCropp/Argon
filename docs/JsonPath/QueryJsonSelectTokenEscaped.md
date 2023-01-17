@@ -5,12 +5,14 @@ This sample loads JSON with properties that need to be escaped when queried with
 <!-- snippet: QueryJsonSelectTokenEscaped -->
 <a id='snippet-queryjsonselecttokenescaped'></a>
 ```cs
-var o = JObject.Parse(@"{
+var o = JObject.Parse("""
+    {
       'Space Invaders': 'Taito',
       'Doom ]|[': 'id',
-      ""Yar's Revenge"": 'Atari',
-      'Government ""Intelligence""': 'Make-Believe'
-    }");
+      "Yar's Revenge": 'Atari',
+      'Government "Intelligence"': 'Make-Believe'
+    }
+    """);
 
 var spaceInvaders = (string) o.SelectToken("['Space Invaders']");
 // Taito
@@ -24,5 +26,5 @@ var yarsRevenge = (string) o.SelectToken("['Yar\\'s Revenge']");
 var governmentIntelligence = (string) o.SelectToken("['Government \"Intelligence\"']");
 // Make-Believe
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L10-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

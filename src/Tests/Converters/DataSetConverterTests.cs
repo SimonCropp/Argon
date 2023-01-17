@@ -54,18 +54,20 @@ public class DataSetConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(dataSet, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Table1"": [
-    {
-      ""id"": 0,
-      ""item"": ""item 0""
-    },
-    {
-      ""id"": 1,
-      ""item"": ""item 1""
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Table1": [
+                {
+                  "id": 0,
+                  "item": "item 0"
+                },
+                {
+                  "id": 1,
+                  "item": "item 1"
+                }
+              ]
+            }
+            """, json);
 
         var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json, settings);
         Assert.NotNull(deserializedDataSet);
@@ -99,9 +101,11 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Set"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Set": null
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<DataSetTestClass>(json);
 
@@ -122,9 +126,11 @@ public class DataSetConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeNullTable()
     {
-        var json = @"{
-  ""TableName"": null
-}";
+        var json = """
+            {
+              "TableName": null
+            }
+            """;
 
         var settings = new JsonSerializerSettings();
 
@@ -183,36 +189,38 @@ public class DataSetConverterTests : TestFixtureBase
 
         var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""FirstTable"": [
-    {
-      ""StringCol"": ""Item Name"",
-      ""Int32Col"": 1,
-      ""BooleanCol"": true,
-      ""TimeSpanCol"": ""10.22:10:15.1000000"",
-      ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""DecimalCol"": 64.0021
-    },
-    {
-      ""StringCol"": ""Item Name"",
-      ""Int32Col"": 2,
-      ""BooleanCol"": true,
-      ""TimeSpanCol"": ""10.22:10:15.1000000"",
-      ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""DecimalCol"": 64.0021
-    }
-  ],
-  ""SecondTable"": [
-    {
-      ""StringCol"": ""Item Name"",
-      ""Int32Col"": 1,
-      ""BooleanCol"": true,
-      ""TimeSpanCol"": ""10.22:10:15.1000000"",
-      ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""DecimalCol"": 64.0021
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "FirstTable": [
+                {
+                  "StringCol": "Item Name",
+                  "Int32Col": 1,
+                  "BooleanCol": true,
+                  "TimeSpanCol": "10.22:10:15.1000000",
+                  "DateTimeCol": "2000-12-29T00:00:00Z",
+                  "DecimalCol": 64.0021
+                },
+                {
+                  "StringCol": "Item Name",
+                  "Int32Col": 2,
+                  "BooleanCol": true,
+                  "TimeSpanCol": "10.22:10:15.1000000",
+                  "DateTimeCol": "2000-12-29T00:00:00Z",
+                  "DecimalCol": 64.0021
+                }
+              ],
+              "SecondTable": [
+                {
+                  "StringCol": "Item Name",
+                  "Int32Col": 1,
+                  "BooleanCol": true,
+                  "TimeSpanCol": "10.22:10:15.1000000",
+                  "DateTimeCol": "2000-12-29T00:00:00Z",
+                  "DecimalCol": 64.0021
+                }
+              ]
+            }
+            """, json);
 
         Assert.NotNull(deserializedDs);
     }
@@ -220,28 +228,30 @@ public class DataSetConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeMultiTableDataSet()
     {
-        var json = @"{
-  ""FirstTable"": [
-    {
-      ""StringCol"": ""Item Name"",
-      ""Int32Col"": 2147483647,
-      ""BooleanCol"": true,
-      ""TimeSpanCol"": ""10.22:10:15.1000000"",
-      ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""DecimalCol"": 64.0021
-    }
-  ],
-  ""SecondTable"": [
-    {
-      ""StringCol"": ""Item Name"",
-      ""Int32Col"": 2147483647,
-      ""BooleanCol"": true,
-      ""TimeSpanCol"": ""10.22:10:15.1000000"",
-      ""DateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""DecimalCol"": 64.0021
-    }
-  ]
-}";
+        var json = """
+            {
+              "FirstTable": [
+                {
+                  "StringCol": "Item Name",
+                  "Int32Col": 2147483647,
+                  "BooleanCol": true,
+                  "TimeSpanCol": "10.22:10:15.1000000",
+                  "DateTimeCol": "2000-12-29T00:00:00Z",
+                  "DecimalCol": 64.0021
+                }
+              ],
+              "SecondTable": [
+                {
+                  "StringCol": "Item Name",
+                  "Int32Col": 2147483647,
+                  "BooleanCol": true,
+                  "TimeSpanCol": "10.22:10:15.1000000",
+                  "DateTimeCol": "2000-12-29T00:00:00Z",
+                  "DecimalCol": 64.0021
+                }
+              ]
+            }
+            """;
 
         var settings = new JsonSerializerSettings();
 
@@ -344,36 +354,38 @@ public class DataSetConverterTests : TestFixtureBase
         settings.Converters.Add(new IsoDateTimeConverter());
         var json = JsonConvert.SerializeObject(ds, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""firstTable"": [
-    {
-      ""stringCol"": ""Item Name"",
-      ""int32Col"": 1,
-      ""booleanCol"": true,
-      ""timeSpanCol"": ""10.22:10:15.1000000"",
-      ""dateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""decimalCol"": 64.0021
-    },
-    {
-      ""stringCol"": ""Item Name"",
-      ""int32Col"": 2,
-      ""booleanCol"": true,
-      ""timeSpanCol"": ""10.22:10:15.1000000"",
-      ""dateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""decimalCol"": 64.0021
-    }
-  ],
-  ""secondTable"": [
-    {
-      ""stringCol"": ""Item Name"",
-      ""int32Col"": 1,
-      ""booleanCol"": true,
-      ""timeSpanCol"": ""10.22:10:15.1000000"",
-      ""dateTimeCol"": ""2000-12-29T00:00:00Z"",
-      ""decimalCol"": 64.0021
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "firstTable": [
+                {
+                  "stringCol": "Item Name",
+                  "int32Col": 1,
+                  "booleanCol": true,
+                  "timeSpanCol": "10.22:10:15.1000000",
+                  "dateTimeCol": "2000-12-29T00:00:00Z",
+                  "decimalCol": 64.0021
+                },
+                {
+                  "stringCol": "Item Name",
+                  "int32Col": 2,
+                  "booleanCol": true,
+                  "timeSpanCol": "10.22:10:15.1000000",
+                  "dateTimeCol": "2000-12-29T00:00:00Z",
+                  "decimalCol": 64.0021
+                }
+              ],
+              "secondTable": [
+                {
+                  "stringCol": "Item Name",
+                  "int32Col": 1,
+                  "booleanCol": true,
+                  "timeSpanCol": "10.22:10:15.1000000",
+                  "dateTimeCol": "2000-12-29T00:00:00Z",
+                  "decimalCol": 64.0021
+                }
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -480,13 +492,15 @@ public class DataSetConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var json1 = JsonConvert.SerializeObject(ds, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Customers"": [
-    {
-      ""CustomerID"": ""234""
-    }
-  ]
-}", json1);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Customers": [
+                {
+                  "CustomerID": "234"
+                }
+              ]
+            }
+            """, json1);
 
         var ds1 = new CustomerDataSet();
         var table = ds1.Tables["Customers"];
@@ -497,13 +511,15 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(ds1, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Customers"": [
-    {
-      ""CustomerID"": ""234""
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Customers": [
+                {
+                  "CustomerID": "234"
+                }
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -513,13 +529,15 @@ public class DataSetConverterTests : TestFixtureBase
 
         settings.AddDataSetConverters();
 
-        var json = @"{
-  ""Customers"": [
-    {
-      ""CustomerID"": ""234""
-    }
-  ]
-}";
+        var json = """
+            {
+              "Customers": [
+                {
+                  "CustomerID": "234"
+                }
+              ]
+            }
+            """;
 
         var ds = JsonConvert.DeserializeObject<CustomerDataSet>(json, settings);
 

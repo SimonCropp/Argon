@@ -36,13 +36,15 @@ public class CreateWriter : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name1"": ""value1"",
-  ""name2"": ""value2"",
-  ""name3"": [
-    1,
-    2
-  ]
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name1": "value1",
+              "name2": "value2",
+              "name3": [
+                1,
+                2
+              ]
+            }
+            """, o.ToString());
     }
 }

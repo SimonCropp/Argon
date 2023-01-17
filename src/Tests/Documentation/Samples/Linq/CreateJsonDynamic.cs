@@ -35,17 +35,19 @@ public class CreateJsonDynamic : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""ProductName"": ""Elbow Grease"",
-  ""Enabled"": true,
-  ""Price"": 4.90,
-  ""StockCount"": 9000,
-  ""StockValue"": 44100,
-  ""Tags"": [
-    ""Real"",
-    ""OnSale""
-  ]
-}", product.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "ProductName": "Elbow Grease",
+              "Enabled": true,
+              "Price": 4.90,
+              "StockCount": 9000,
+              "StockValue": 44100,
+              "Tags": [
+                "Real",
+                "OnSale"
+              ]
+            }
+            """, product.ToString());
     }
 }
 

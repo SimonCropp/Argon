@@ -9,7 +9,8 @@ public class ReadJsonWithJsonTextReader : TestFixtureBase
     {
         #region ReadJsonWithJsonTextReader
 
-        var json = @"{
+        var json = """
+            {
                'CPU': 'Intel',
                'PSU': '500W',
                'Drives': [
@@ -18,7 +19,8 @@ public class ReadJsonWithJsonTextReader : TestFixtureBase
                  '500 gigabyte hard drive',
                  '200 gigabyte hard drive'
                ]
-            }";
+            }
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
         while (reader.Read())

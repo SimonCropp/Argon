@@ -5,7 +5,8 @@ This sample loads JSON and then queries values from it using `Argon.JToken.Selec
 <!-- snippet: QueryJsonSelectToken -->
 <a id='snippet-queryjsonselecttoken'></a>
 ```cs
-var o = JObject.Parse(@"{
+var o = JObject.Parse("""
+    {
       'Stores': [
         'Lambton Quay',
         'Willis Street'
@@ -34,7 +35,8 @@ var o = JObject.Parse(@"{
           ]
         }
       ]
-    }");
+    }
+    """);
 
 var name = (string) o.SelectToken("Manufacturers[0].Name");
 
@@ -51,5 +53,5 @@ var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 Console.WriteLine(productName);
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectToken.cs#L10-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttoken' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectToken.cs#L10-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttoken' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

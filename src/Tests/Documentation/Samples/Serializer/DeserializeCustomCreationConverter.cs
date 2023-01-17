@@ -32,13 +32,15 @@ public class DeserializeCustomCreationConverter : TestFixtureBase
     {
         #region DeserializeCustomCreationConverterUsage
 
-        var json = @"{
+        var json = """
+            {
               'Department': 'Furniture',
               'JobTitle': 'Carpenter',
               'FirstName': 'John',
               'LastName': 'Joinery',
               'BirthDate': '1983-02-02T00:00:00'
-            }";
+            }
+            """;
 
         var person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
 

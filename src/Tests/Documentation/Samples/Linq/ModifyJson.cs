@@ -11,7 +11,8 @@ public class ModifyJson : TestFixtureBase
     {
         #region ModifyJson
 
-        var json = @"{
+        var json = """
+            {
               'channel': {
                 'title': 'Star Wars',
                 'link': 'http://www.starwars.com',
@@ -19,7 +20,8 @@ public class ModifyJson : TestFixtureBase
                 'obsolete': 'Obsolete value',
                 'item': []
               }
-            }";
+            }
+            """;
 
         var rss = JObject.Parse(json);
 

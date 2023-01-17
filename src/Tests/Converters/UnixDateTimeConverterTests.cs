@@ -180,10 +180,12 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""First"": 3,
-  ""Second"": 1514840476
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "First": 3,
+              "Second": 1514840476
+            }
+            """, json);
 
         var l2 = JsonConvert.DeserializeObject<UnixConverterDictionary<object>>(json);
         Assert.NotNull(l2);
@@ -203,11 +205,13 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(obj1, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Object1"": 3,
-  ""Object2"": null,
-  ""ObjectNotHandled"": 1514840476
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Object1": 3,
+              "Object2": null,
+              "ObjectNotHandled": 1514840476
+            }
+            """, json);
 
         var obj2 = JsonConvert.DeserializeObject<UnixConverterObject>(json);
         Assert.NotNull(obj2);

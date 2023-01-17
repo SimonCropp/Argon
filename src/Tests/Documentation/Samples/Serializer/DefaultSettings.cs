@@ -47,12 +47,14 @@ public class DefaultSettings : TestFixtureBase
             JsonConvert.DefaultSettings = null;
         }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""firstName"": ""Eric"",
-  ""lastName"": ""Example"",
-  ""birthDate"": ""1980-04-20T00:00:00Z"",
-  ""department"": ""IT"",
-  ""jobTitle"": ""Web Dude""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "firstName": "Eric",
+              "lastName": "Example",
+              "birthDate": "1980-04-20T00:00:00Z",
+              "department": "IT",
+              "jobTitle": "Web Dude"
+            }
+            """, json);
     }
 }

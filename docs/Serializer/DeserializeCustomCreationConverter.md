@@ -31,13 +31,15 @@ public class PersonConverter : CustomCreationConverter<Person>
 <!-- snippet: DeserializeCustomCreationConverterUsage -->
 <a id='snippet-deserializecustomcreationconverterusage'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'Department': 'Furniture',
       'JobTitle': 'Carpenter',
       'FirstName': 'John',
       'LastName': 'Joinery',
       'BirthDate': '1983-02-02T00:00:00'
-    }";
+    }
+    """;
 
 var person = JsonConvert.DeserializeObject<Person>(json, new PersonConverter());
 
@@ -49,5 +51,5 @@ var employee = (Employee) person;
 Console.WriteLine(employee.JobTitle);
 // Carpenter
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L33-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeCustomCreationConverter.cs#L33-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializecustomcreationconverterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

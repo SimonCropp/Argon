@@ -18,10 +18,12 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new RegexConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Pattern"": ""abc"",
-  ""Options"": 513
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Pattern": "abc",
+              "Options": 513
+            }
+            """, json);
     }
 
     [Fact]
@@ -35,19 +37,23 @@ public class RegexConverterTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""pattern"": ""abc"",
-  ""options"": ""ignoreCase""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "pattern": "abc",
+              "options": "ignoreCase"
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeCamelCaseAndStringEnums()
     {
-        var json = @"{
-  ""pattern"": ""abc"",
-  ""options"": ""ignoreCase""
-}";
+        var json = """
+            {
+              "pattern": "abc",
+              "options": "ignoreCase"
+            }
+            """;
 
         var regex = JsonConvert.DeserializeObject<Regex>(json, new JsonSerializerSettings
         {
@@ -61,13 +67,15 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeISerializeRegexJson()
     {
-        var json = @"{
-                        ""Regex"": {
-                          ""pattern"": ""(hi)"",
-                          ""options"": 5,
-                          ""matchTimeout"": -10000
-                        }
-                      }";
+        var json = """
+            {
+                "Regex": {
+                  "pattern": "(hi)",
+                  "options": 5,
+                  "matchTimeout": -10000
+                }
+            }
+            """;
 
         var r = JsonConvert.DeserializeObject<RegexTestClass>(json);
 
@@ -78,9 +86,11 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeStringRegex()
     {
-        var json = @"{
-  ""Regex"": ""\/abc\/""
-}";
+        var json = """
+            {
+              "Regex": "\/abc\/"
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
         {
@@ -94,9 +104,11 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeStringRegex_NoStartSlash_Error()
     {
-        var json = @"{
-  ""Regex"": ""abc\/""
-}";
+        var json = """
+            {
+              "Regex": "abc\/"
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
@@ -109,9 +121,11 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeStringRegex_NoEndSlash_Error()
     {
-        var json = @"{
-  ""Regex"": ""\/abc""
-}";
+        var json = """
+            {
+              "Regex": "\/abc"
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
@@ -124,9 +138,11 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeStringRegex_NoStartAndEndSlashes_Error()
     {
-        var json = @"{
-  ""Regex"": ""abc""
-}";
+        var json = """
+            {
+              "Regex": "abc"
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
@@ -139,10 +155,12 @@ public class RegexConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeFromText()
     {
-        var json = @"{
-  ""Pattern"": ""abc"",
-  ""Options"": 513
-}";
+        var json = """
+            {
+              "Pattern": "abc",
+              "Options": 513
+            }
+            """;
 
         var newRegex = JsonConvert.DeserializeObject<Regex>(json, new RegexConverter());
         Assert.Equal("abc", newRegex.ToString());

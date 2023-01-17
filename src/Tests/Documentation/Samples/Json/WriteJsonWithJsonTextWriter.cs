@@ -45,15 +45,17 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""CPU"": ""Intel"",
-  ""PSU"": ""500W"",
-  ""Drives"": [
-    ""DVD read/writer""
-    /*(broken)*/,
-    ""500 gigabyte hard drive"",
-    ""200 gigabyte hard drive""
-  ]
-}", stringBuilder.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "CPU": "Intel",
+              "PSU": "500W",
+              "Drives": [
+                "DVD read/writer"
+                /*(broken)*/,
+                "500 gigabyte hard drive",
+                "200 gigabyte hard drive"
+              ]
+            }
+            """, stringBuilder.ToString());
     }
 }

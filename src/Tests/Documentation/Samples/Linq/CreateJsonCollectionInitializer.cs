@@ -36,13 +36,15 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Cpu"": ""Intel"",
-  ""Memory"": 32,
-  ""Drives"": [
-    ""DVD"",
-    ""SSD""
-  ]
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Cpu": "Intel",
+              "Memory": 32,
+              "Drives": [
+                "DVD",
+                "SSD"
+              ]
+            }
+            """, o.ToString());
     }
 }

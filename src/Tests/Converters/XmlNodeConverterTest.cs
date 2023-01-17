@@ -1642,22 +1642,24 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void MultipleNestedArraysToXml()
     {
-        var json = @"{
-  ""available_sizes"": [
-    [
-      [113, 150],
-      ""assets/images/resized/0001/1070/11070v1-max-150x150.jpg""
-    ],
-    [
-      [189, 250],
-      ""assets/images/resized/0001/1070/11070v1-max-250x250.jpg""
-    ],
-    [
-      [341, 450],
-      ""assets/images/resized/0001/1070/11070v1-max-450x450.jpg""
-    ]
-  ]
-}";
+        var json = """
+            {
+              "available_sizes": [
+                [
+                  [113, 150],
+                  "assets/images/resized/0001/1070/11070v1-max-150x150.jpg"
+                ],
+                [
+                  [189, 250],
+                  "assets/images/resized/0001/1070/11070v1-max-250x250.jpg"
+                ],
+                [
+                  [341, 450],
+                  "assets/images/resized/0001/1070/11070v1-max-450x450.jpg"
+                ]
+              ]
+            }
+            """;
 
         var newDoc = JsonXmlConvert.DeserializeXmlNode(json, "myRoot");
 
@@ -1676,9 +1678,11 @@ public class XmlNodeConverterTest : TestFixtureBase
         doc.LoadXml(@"<name>O""Connor</name>"); // i use "" so it will be easier to see the  problem
 
         var json = SerializeXmlNode(doc);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""O\""Connor""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "O\"Connor"
+            }
+            """, json);
     }
 
     [Fact]
@@ -1787,26 +1791,28 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DeserializeExample()
     {
-        var json = @"{
-        ""?xml"": {
-          ""@version"": ""1.0"",
-          ""@standalone"": ""no""
-        },
-        ""root"": {
-          ""person"": [
+        var json = """
             {
-              ""@id"": ""1"",
-              ""name"": ""Alan"",
-              ""url"": ""http://www.google.com""
+            "?xml": {
+              "@version": "1.0",
+              "@standalone": "no"
             },
-            {
-              ""@id"": ""2"",
-              ""name"": ""Louis"",
-              ""url"": ""http://www.yahoo.com""
+            "root": {
+              "person": [
+                {
+                  "@id": "1",
+                  "name": "Alan",
+                  "url": "http://www.google.com"
+                },
+                {
+                  "@id": "2",
+                  "name": "Louis",
+                  "url": "http://www.yahoo.com"
+                }
+              ]
             }
-          ]
-        }
-      }";
+            }
+            """;
 
         var doc = (XmlDocument) DeserializeXmlNode(json);
         // <?xml version="1.0" standalone="no"?>
@@ -1827,22 +1833,24 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void EscapingNames()
     {
-        var json = @"{
-              ""root!"": {
-                ""person!"": [
+        var json = """
+            {
+              "root!": {
+                "person!": [
                   {
-                    ""@id!"": ""1"",
-                    ""name!"": ""Alan"",
-                    ""url!"": ""http://www.google.com""
+                    "@id!": "1",
+                    "name!": "Alan",
+                    "url!": "http://www.google.com"
                   },
                   {
-                    ""@id!"": ""2"",
-                    ""name!"": ""Louis"",
-                    ""url!"": ""http://www.yahoo.com""
+                    "@id!": "2",
+                    "name!": "Louis",
+                    "url!": "http://www.yahoo.com"
                   }
                 ]
               }
-            }";
+            }
+            """;
 
         var doc = (XmlDocument) DeserializeXmlNode(json);
 
@@ -1962,15 +1970,17 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeDeserializeMetadataArrayNoId()
     {
-        var json = @"{
-  ""$values"": [
-    ""1"",
-    ""2"",
-    ""3"",
-    ""4"",
-    ""5""
-  ]
-}";
+        var json = """
+            {
+              "$values": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+              ]
+            }
+            """;
 
         XmlNode node = JsonXmlConvert.DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
@@ -1994,49 +2004,57 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeDeserializeMetadataArrayWithIdLast()
     {
-        var json = @"{
-  ""$values"": [
-    ""1"",
-    ""2"",
-    ""3"",
-    ""4"",
-    ""5""
-  ],
-  ""$id"": ""1""
-}";
+        var json = """
+            {
+              "$values": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+              ],
+              "$id": "1"
+            }
+            """;
 
         XmlNode node = JsonXmlConvert.DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
 
-        XUnitAssert.AreEqualNormalized(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<root xmlns:json=""http://james.newtonking.com/projects/json"" json:id=""1"">
-  <values xmlns=""http://james.newtonking.com/projects/json"">1</values>
-  <values xmlns=""http://james.newtonking.com/projects/json"">2</values>
-  <values xmlns=""http://james.newtonking.com/projects/json"">3</values>
-  <values xmlns=""http://james.newtonking.com/projects/json"">4</values>
-  <values xmlns=""http://james.newtonking.com/projects/json"">5</values>
-</root>", xml);
+        XUnitAssert.AreEqualNormalized("""
+            <?xml version="1.0" encoding="utf-16"?>
+            <root xmlns:json="http://james.newtonking.com/projects/json" json:id="1">
+              <values xmlns="http://james.newtonking.com/projects/json">1</values>
+              <values xmlns="http://james.newtonking.com/projects/json">2</values>
+              <values xmlns="http://james.newtonking.com/projects/json">3</values>
+              <values xmlns="http://james.newtonking.com/projects/json">4</values>
+              <values xmlns="http://james.newtonking.com/projects/json">5</values>
+            </root>
+            """, xml);
 
         var newJson = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""$values"": [
-    ""1"",
-    ""2"",
-    ""3"",
-    ""4"",
-    ""5""
-  ]
-}", newJson);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "$values": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+              ]
+            }
+            """, newJson);
     }
 
     [Fact]
     public void SerializeMetadataPropertyWithBadValue()
     {
-        var json = @"{
-  ""$id"": []
-}";
+        var json = """
+            {
+              "$id": []
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonXmlConvert.DeserializeXmlNode(json, "root"),
@@ -2046,21 +2064,27 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeDeserializeMetadataWithNullValue()
     {
-        var json = @"{
-  ""$id"": null
-}";
+        var json = """
+            {
+              "$id": null
+            }
+            """;
 
         XmlNode node = JsonXmlConvert.DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
 
-        XUnitAssert.AreEqualNormalized(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<root xmlns:json=""http://james.newtonking.com/projects/json"" json:id="""" />", xml);
+        XUnitAssert.AreEqualNormalized("""
+            <?xml version="1.0" encoding="utf-16"?>
+            <root xmlns:json="http://james.newtonking.com/projects/json" json:id="" />
+            """, xml);
 
         var newJson = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": """"
-}", newJson);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": ""
+            }
+            """, newJson);
     }
 
     [Fact]
@@ -2236,64 +2260,75 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var xmlProduct = JsonXmlConvert.DeserializeXmlNode(output, "test", true);
 
-        XUnitAssert.AreEqualNormalized(@"<test>
-  <Name>Hi</Name>
-  <Products json:Array=""true"" xmlns:json=""http://james.newtonking.com/projects/json"">
-    <Name>First</Name>
-    <ExpiryDate>2000-01-01T00:00:00Z</ExpiryDate>
-    <Price>0</Price>
-    <Sizes />
-  </Products>
-</test>", IndentXml(xmlProduct.InnerXml));
+        XUnitAssert.AreEqualNormalized(
+            """
+                <test>
+                  <Name>Hi</Name>
+                  <Products json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">
+                    <Name>First</Name>
+                    <ExpiryDate>2000-01-01T00:00:00Z</ExpiryDate>
+                    <Price>0</Price>
+                    <Sizes />
+                  </Products>
+                </test>
+                """,
+            IndentXml(xmlProduct.InnerXml));
 
         var output2 = JsonXmlConvert.SerializeXmlNode(xmlProduct.DocumentElement, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Hi"",
-  ""Products"": [
-    {
-      ""Name"": ""First"",
-      ""ExpiryDate"": ""2000-01-01T00:00:00Z"",
-      ""Price"": ""0"",
-      ""Sizes"": null
-    }
-  ]
-}", output2);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Hi",
+              "Products": [
+                {
+                  "Name": "First",
+                  "ExpiryDate": "2000-01-01T00:00:00Z",
+                  "Price": "0",
+                  "Sizes": null
+                }
+              ]
+            }
+            """,
+            output2);
     }
 
     [Fact]
     public void OmitRootObject()
     {
-        var xml = @"<test>
-  <Name>Hi</Name>
-  <Name>Hi</Name>
-  <Products json:Array=""true"" xmlns:json=""http://james.newtonking.com/projects/json"">
-    <Name>First</Name>
-    <ExpiryDate>2000-01-01T00:00:00Z</ExpiryDate>
-    <Price>0</Price>
-    <Sizes />
-  </Products>
-</test>";
+        var xml = """
+            <test>
+              <Name>Hi</Name>
+              <Name>Hi</Name>
+              <Products json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">
+                <Name>First</Name>
+                <ExpiryDate>2000-01-01T00:00:00Z</ExpiryDate>
+                <Price>0</Price>
+                <Sizes />
+              </Products>
+            </test>
+            """;
 
         var d = new XmlDocument();
         d.LoadXml(xml);
 
         var output = JsonXmlConvert.SerializeXmlNode(d, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": [
-    ""Hi"",
-    ""Hi""
-  ],
-  ""Products"": [
-    {
-      ""Name"": ""First"",
-      ""ExpiryDate"": ""2000-01-01T00:00:00Z"",
-      ""Price"": ""0"",
-      ""Sizes"": null
-    }
-  ]
-}", output);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": [
+                "Hi",
+                "Hi"
+              ],
+              "Products": [
+                {
+                  "Name": "First",
+                  "ExpiryDate": "2000-01-01T00:00:00Z",
+                  "Price": "0",
+                  "Sizes": null
+                }
+              ]
+            }
+            """, output);
     }
 
     [Fact]
@@ -2402,12 +2437,14 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void NullAttributeValue()
     {
-        var node = JsonXmlConvert.DeserializeXmlNode(@"{
-                    ""metrics"": {
-                        ""type"": ""CPULOAD"",
-                        ""@value"": null
-                    }
-                }");
+        var node = JsonXmlConvert.DeserializeXmlNode("""
+            {
+                "metrics": {
+                    "type": "CPULOAD",
+                    "@value": null
+                }
+            }
+            """);
 
         XUnitAssert.AreEqualNormalized(@"<metrics value=""""><type>CPULOAD</type></metrics>", node.OuterXml);
     }

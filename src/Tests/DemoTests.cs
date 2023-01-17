@@ -540,18 +540,20 @@ public class DemoTests : TestFixtureBase
         //   }
         // ]
 
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""PackageId"": ""Argon"",
-    ""Version"": ""11.0.1"",
-    ""ReleaseDate"": ""2018-02-17T00:00:00""
-  },
-  {
-    ""PackageId"": ""Argon"",
-    ""Version"": ""10.0.3"",
-    ""ReleaseDate"": ""2017-06-18T00:00:00""
-  }
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "PackageId": "Argon",
+                "Version": "11.0.1",
+                "ReleaseDate": "2018-02-17T00:00:00"
+              },
+              {
+                "PackageId": "Argon",
+                "Version": "10.0.3",
+                "ReleaseDate": "2017-06-18T00:00:00"
+              }
+            ]
+            """, json);
     }
 
     [Fact]

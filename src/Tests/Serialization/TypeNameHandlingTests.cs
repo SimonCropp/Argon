@@ -1352,34 +1352,36 @@ public class TypeNameHandlingTests : TestFixtureBase
         var urlStatusTypeName = typeof(UrlStatus).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
         var listTypeName = typeof(List<UrlStatus>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""$type"": ""{dictionaryTypeName}"",
-  ""First"": {{
-    ""$type"": ""{urlStatusTypeName}"",
-    ""Status"": 404,
-    ""Url"": ""http://www.bing.com""
-  }},
-  ""Second"": {{
-    ""$type"": ""{urlStatusTypeName}"",
-    ""Status"": 400,
-    ""Url"": ""http://www.google.com""
-  }},
-  ""List"": {{
-    ""$type"": ""{listTypeName}"",
-    ""$values"": [
-      {{
-        ""$type"": ""{urlStatusTypeName}"",
-        ""Status"": 300,
-        ""Url"": ""http://www.yahoo.com""
-      }},
-      {{
-        ""$type"": ""{urlStatusTypeName}"",
-        ""Status"": 200,
-        ""Url"": ""http://www.askjeeves.com""
-      }}
-    ]
-  }}
-}}", json);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "$type": "{{dictionaryTypeName}}",
+              "First": {
+                "$type": "{{urlStatusTypeName}}",
+                "Status": 404,
+                "Url": "http://www.bing.com"
+              },
+              "Second": {
+                "$type": "{{urlStatusTypeName}}",
+                "Status": 400,
+                "Url": "http://www.google.com"
+              },
+              "List": {
+                "$type": "{{listTypeName}}",
+                "$values": [
+                  {
+                    "$type": "{{urlStatusTypeName}}",
+                    "Status": 300,
+                    "Url": "http://www.yahoo.com"
+                  },
+                  {
+                    "$type": "{{urlStatusTypeName}}",
+                    "Status": 200,
+                    "Url": "http://www.askjeeves.com"
+                  }
+                ]
+              }
+            }
+            """, json);
 
         var c = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
@@ -1499,20 +1501,22 @@ public class TypeNameHandlingTests : TestFixtureBase
         var objectArrayRef = typeof(object[]).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
         var byteArrayRef = typeof(byte[]).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
-        XUnitAssert.AreEqualNormalized(output, $@"{{
-  ""$type"": ""{carClassRef}"",
-  ""Year"": ""2000-10-05T01:01:01Z"",
-  ""Objects"": {{
-    ""$type"": ""{objectArrayRef}"",
-    ""$values"": [
-      {{
-        ""$type"": ""{byteArrayRef}"",
-        ""$value"": ""S0FSSVJB""
-      }},
-      ""prueba""
-    ]
-  }}
-}}");
+        XUnitAssert.AreEqualNormalized(output, $$"""
+            {
+              "$type": "{{carClassRef}}",
+              "Year": "2000-10-05T01:01:01Z",
+              "Objects": {
+                "$type": "{{objectArrayRef}}",
+                "$values": [
+                  {
+                    "$type": "{{byteArrayRef}}",
+                    "$value": "S0FSSVJB"
+                  },
+                  "prueba"
+                ]
+              }
+            }
+            """);
         var obj = JsonConvert.DeserializeObject<Car>(output, settings);
 
         Assert.NotNull(obj);
@@ -1597,22 +1601,24 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  {
-    ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-    ""MyProperty"": 0
-  },
-  {
-    ""$type"": ""TestObjects.Employee, Tests"",
-    ""FirstName"": null,
-    ""LastName"": null,
-    ""BirthDate"": ""2000-12-12T12:12:12Z"",
-    ""Department"": ""Department!"",
-    ""JobTitle"": null
-  },
-  ""String!"",
-  9223372036854775807
-]", json);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              {
+                "$type": "TestObjects.TestComponentSimple, Tests",
+                "MyProperty": 0
+              },
+              {
+                "$type": "TestObjects.Employee, Tests",
+                "FirstName": null,
+                "LastName": null,
+                "BirthDate": "2000-12-12T12:12:12Z",
+                "Department": "Department!",
+                "JobTitle": null
+              },
+              "String!",
+              9223372036854775807
+            ]
+            """, json);
 
         var l2 = JsonConvert.DeserializeObject<TypeNameList<object>>(json);
         Assert.Equal(4, l2.Count);
@@ -1643,14 +1649,16 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""First"": {
-    ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-    ""MyProperty"": 1
-  },
-  ""Second"": ""String!"",
-  ""Third"": 9223372036854775807
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "First": {
+                "$type": "TestObjects.TestComponentSimple, Tests",
+                "MyProperty": 1
+              },
+              "Second": "String!",
+              "Third": 9223372036854775807
+            }
+            """, json);
 
         var l2 = JsonConvert.DeserializeObject<TypeNameDictionary<object>>(json);
         Assert.Equal(3, l2.Count);
@@ -1680,18 +1688,20 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
-        var expected = @"{
-  ""Object1"": {
-    ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-    ""MyProperty"": 1
-  },
-  ""Object2"": 123,
-  ""ObjectNotHandled"": {
-    ""MyProperty"": 2147483647
-  },
-  ""String"": ""String!"",
-  ""Integer"": 2147483647
-}";
+        var expected = """
+            {
+              "Object1": {
+                "$type": "TestObjects.TestComponentSimple, Tests",
+                "MyProperty": 1
+              },
+              "Object2": 123,
+              "ObjectNotHandled": {
+                "MyProperty": 2147483647
+              },
+              "String": "String!",
+              "Integer": 2147483647
+            }
+            """;
         XUnitAssert.AreEqualNormalized(expected, json);
 
         var o2 = JsonConvert.DeserializeObject<TypeNameObject>(json);
@@ -1856,20 +1866,22 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var dictionaryTypeName = typeof(Dictionary<string, object>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""Data"": {{
-    ""one"": {{
-      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-      ""MyProperty"": 1
-    }},
-    ""two"": {{
-      ""$type"": ""{dictionaryTypeName}"",
-      ""one"": {{
-        ""one"": 1
-      }}
-    }}
-  }}
-}}", json);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "Data": {
+                "one": {
+                  "$type": "TestObjects.TestComponentSimple, Tests",
+                  "MyProperty": 1
+                },
+                "two": {
+                  "$type": "{{dictionaryTypeName}}",
+                  "one": {
+                    "one": 1
+                  }
+                }
+              }
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
         Assert.Equal(2, c2.Data.Count);
@@ -1879,21 +1891,23 @@ public class TypeNameHandlingTests : TestFixtureBase
         var c = (Dictionary<string, object>) c2.Data["two"];
         Assert.IsType(typeof(JObject), c["one"]);
 
-        json = $@"{{
-  ""Data"": {{
-    ""one"": {{
-      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-      ""MyProperty"": 1
-    }},
-    ""two"": {{
-      ""$type"": ""{dictionaryTypeName}"",
-      ""one"": {{
-        ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-        ""MyProperty"": 1
-      }}
-    }}
-  }}
-}}";
+        json = $$"""
+            {
+              "Data": {
+                "one": {
+                  "$type": "TestObjects.TestComponentSimple, Tests",
+                  "MyProperty": 1
+                },
+                "two": {
+                  "$type": "{{dictionaryTypeName}}",
+                  "one": {
+                    "$type": "TestObjects.TestComponentSimple, Tests",
+                    "MyProperty": 1
+                  }
+                }
+              }
+            }
+            """;
 
         c2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDictionary>(json);
         Assert.Equal(2, c2.Data.Count);
@@ -1934,24 +1948,26 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = typeof(List<object>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""Data"": {{
-    ""Prop1"": {{
-      ""$type"": ""{listTypeName}"",
-      ""$values"": [
-        {{
-          ""MyProperty"": 1
-        }}
-      ]
-    }},
-    ""Prop2"": {{
-      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-      ""MyProperty"": 1
-    }},
-    ""Prop3"": 3,
-    ""Prop4"": {{}}
-  }}
-}}", json);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "Data": {
+                "Prop1": {
+                  "$type": "{{listTypeName}}",
+                  "$values": [
+                    {
+                      "MyProperty": 1
+                    }
+                  ]
+                },
+                "Prop2": {
+                  "$type": "TestObjects.TestComponentSimple, Tests",
+                  "MyProperty": 1
+                },
+                "Prop3": 3,
+                "Prop4": {}
+              }
+            }
+            """, json);
 
         var o2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingObject>(json);
         Assert.NotNull(o2);
@@ -1989,20 +2005,22 @@ public class TypeNameHandlingTests : TestFixtureBase
         d1.Data = (DynamicDictionary) data;
 
         var json = JsonConvert.SerializeObject(d1, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Data"": {
-    ""one"": {
-      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-      ""MyProperty"": 1
-    },
-    ""two"": {
-      ""$type"": ""TypeNameHandlingTests+DynamicDictionary, Tests"",
-      ""one"": {
-        ""MyProperty"": 2
-      }
-    }
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Data": {
+                "one": {
+                  "$type": "TestObjects.TestComponentSimple, Tests",
+                  "MyProperty": 1
+                },
+                "two": {
+                  "$type": "TypeNameHandlingTests+DynamicDictionary, Tests",
+                  "one": {
+                    "MyProperty": 2
+                  }
+                }
+              }
+            }
+            """, json);
 
         var d2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDynamic>(json);
         Assert.NotNull(d2);
@@ -2016,21 +2034,23 @@ public class TypeNameHandlingTests : TestFixtureBase
         var o = (JObject) data4.one;
         Assert.Equal(2, (int) o["MyProperty"]);
 
-        json = @"{
-  ""Data"": {
-    ""one"": {
-      ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-      ""MyProperty"": 1
-    },
-    ""two"": {
-      ""$type"": ""TypeNameHandlingTests+DynamicDictionary, Tests"",
-      ""one"": {
-        ""$type"": ""TestObjects.TestComponentSimple, Tests"",
-        ""MyProperty"": 2
-      }
-    }
-  }
-}";
+        json = """
+            {
+              "Data": {
+                "one": {
+                  "$type": "TestObjects.TestComponentSimple, Tests",
+                  "MyProperty": 1
+                },
+                "two": {
+                  "$type": "TypeNameHandlingTests+DynamicDictionary, Tests",
+                  "one": {
+                    "$type": "TestObjects.TestComponentSimple, Tests",
+                    "MyProperty": 2
+                  }
+                }
+              }
+            }
+            """;
 
         d2 = JsonConvert.DeserializeObject<PropertyItemTypeNameHandlingDynamic>(json);
         data3 = d2.Data;
@@ -2141,19 +2161,21 @@ public class TypeNameHandlingTests : TestFixtureBase
     [Fact]
     public void ExistingBaseValue()
     {
-        var json = @"{
-    ""itemIdentifier"": {
-        ""$type"": ""TypeNameHandlingTests+ReportItemKeys, Tests"",
-        ""dataType"": 0,
-        ""wantedUnitID"": 1,
-        ""application"": 3,
-        ""id"": 101,
-        ""name"": ""Machine""
-    },
-    ""isBusinessEntity"": false,
-    ""isKeyItem"": true,
-    ""summarizeOnThisItem"": false
-}";
+        var json = """
+            {
+                "itemIdentifier": {
+                    "$type": "TypeNameHandlingTests+ReportItemKeys, Tests",
+                    "dataType": 0,
+                    "wantedUnitID": 1,
+                    "application": 3,
+                    "id": 101,
+                    "name": "Machine"
+                },
+                "isBusinessEntity": false,
+                "isKeyItem": true,
+                "summarizeOnThisItem": false
+            }
+            """;
 
         var g = JsonConvert.DeserializeObject<GroupingInfo>(json, new JsonSerializerSettings
         {
@@ -2179,18 +2201,20 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var listTypeName = typeof(List<MyInterfaceImplementationType>).GetTypeName(TypeNameAssemblyFormatHandling.Simple, null);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""Rows"": {{
-    ""key"": {{
-      ""$type"": ""{listTypeName}"",
-      ""$values"": [
-        {{
-          ""SomeProperty"": ""property""
-        }}
-      ]
-    }}
-  }}
-}}", serialized);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "Rows": {
+                "key": {
+                  "$type": "{{listTypeName}}",
+                  "$values": [
+                    {
+                      "SomeProperty": "property"
+                    }
+                  ]
+                }
+              }
+            }
+            """, serialized);
 
         var deserialized = JsonConvert.DeserializeObject<DataType>(serialized);
 
@@ -2263,11 +2287,13 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(objWithMessage, settings);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Message"": {
-    ""Value"": ""Hello!""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Message": {
+                "Value": "Hello!"
+              }
+            }
+            """, json);
     }
 
     [Fact]
@@ -2279,11 +2305,13 @@ public class TypeNameHandlingTests : TestFixtureBase
             Formatting = Formatting.Indented
         };
 
-        var json = @"{
-  ""Message"": {
-    ""Value"": ""Hello!""
-  }
-}";
+        var json = """
+            {
+              "Message": {
+                "Value": "Hello!"
+              }
+            }
+            """;
         var objWithMessage = JsonConvert.DeserializeObject<ObjectWithOptionalMessage>(json, settings);
 
         XUnitAssert.AreEqualNormalized("Hello!", objWithMessage.Message.Value.Value);

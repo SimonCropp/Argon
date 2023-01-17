@@ -134,11 +134,13 @@ public class ExpandoObjectConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeNullExpandoObject()
     {
-        var json = @"{
-  ""Before"": null,
-  ""Expando"": null,
-  ""After"": null
-}";
+        var json = """
+            {
+              "Before": null,
+              "Expando": null,
+              "After": null
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 

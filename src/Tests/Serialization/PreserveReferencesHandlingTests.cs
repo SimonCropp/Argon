@@ -72,30 +72,32 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var s = JsonConvert.SerializeObject(c1, settings);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""$id"": ""1"",
-  ""$type"": ""PreserveReferencesHandlingTests+Container, Tests"",
-  ""ListA"": {{
-    ""$id"": ""2"",
-    ""$type"": ""{typeof(List<ContentA>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
-    ""$values"": [
-      {{
-        ""$id"": ""3"",
-        ""$type"": ""PreserveReferencesHandlingTests+ContentB, Tests"",
-        ""SomeValue"": true
-      }}
-    ]
-  }},
-  ""ListB"": {{
-    ""$id"": ""4"",
-    ""$type"": ""{typeof(List<ContentA>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
-    ""$values"": [
-      {{
-        ""$ref"": ""3""
-      }}
-    ]
-  }}
-}}", s);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "$id": "1",
+              "$type": "PreserveReferencesHandlingTests+Container, Tests",
+              "ListA": {
+                "$id": "2",
+                "$type": "{{typeof(List<ContentA>).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
+                "$values": [
+                  {
+                    "$id": "3",
+                    "$type": "PreserveReferencesHandlingTests+ContentB, Tests",
+                    "SomeValue": true
+                  }
+                ]
+              },
+              "ListB": {
+                "$id": "4",
+                "$type": "{{typeof(List<ContentA>).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
+                "$values": [
+                  {
+                    "$ref": "3"
+                  }
+                ]
+              }
+            }
+            """, s);
 
         var c2 = JsonConvert.DeserializeObject<Container>(s, settings);
 
@@ -146,31 +148,33 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.All
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""ReadOnlyChild"": {
-    ""PropertyName"": ""value?""
-  },
-  ""Child1"": {
-    ""$id"": ""2"",
-    ""PropertyName"": ""value?""
-  },
-  ""Child2"": {
-    ""$ref"": ""2""
-  },
-  ""ReadOnlyList"": [
-    ""value!""
-  ],
-  ""List1"": {
-    ""$id"": ""3"",
-    ""$values"": [
-      ""value!""
-    ]
-  },
-  ""List2"": {
-    ""$ref"": ""3""
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "ReadOnlyChild": {
+                "PropertyName": "value?"
+              },
+              "Child1": {
+                "$id": "2",
+                "PropertyName": "value?"
+              },
+              "Child2": {
+                "$ref": "2"
+              },
+              "ReadOnlyList": [
+                "value!"
+              ],
+              "List1": {
+                "$id": "3",
+                "$values": [
+                  "value!"
+                ]
+              },
+              "List2": {
+                "$ref": "3"
+              }
+            }
+            """, json);
 
         var newP = JsonConvert.DeserializeObject<Parent>(json, new JsonSerializerSettings
         {
@@ -1281,25 +1285,27 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Data"": {
-    ""Prop1"": {
-      ""$id"": ""1"",
-      ""MyProperty"": 0
-    },
-    ""Prop2"": {
-      ""$ref"": ""1""
-    },
-    ""Data"": {
-      ""$id"": ""2"",
-      ""$values"": [
-        {
-          ""MyProperty"": 0
-        }
-      ]
-    }
-  }
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Data": {
+                "Prop1": {
+                  "$id": "1",
+                  "MyProperty": 0
+                },
+                "Prop2": {
+                  "$ref": "1"
+                },
+                "Data": {
+                  "$id": "2",
+                  "$values": [
+                    {
+                      "MyProperty": 0
+                    }
+                  ]
+                }
+              }
+            }
+            """, json);
 
         var o2 = JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json);
 

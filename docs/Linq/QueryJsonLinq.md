@@ -5,7 +5,8 @@ This sample loads JSON and then queries values from it using LINQ operators.
 <!-- snippet: QueryJsonLinq -->
 <a id='snippet-queryjsonlinq'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'channel': {
         'title': 'James Newton-King',
         'link': 'http://james.newtonking.com',
@@ -31,7 +32,8 @@ var json = @"{
           }
         ]
       }
-    }";
+    }
+    """;
 
 var rss = JObject.Parse(json);
 
@@ -62,5 +64,5 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

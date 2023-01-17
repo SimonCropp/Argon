@@ -11,7 +11,8 @@ public class QueryJson : TestFixtureBase
     {
         #region QueryJson
 
-        var json = @"{
+        var json = """
+            {
               'channel': {
                 'title': 'James Newton-King',
                 'link': 'http://james.newtonking.com',
@@ -37,7 +38,8 @@ public class QueryJson : TestFixtureBase
                   }
                 ]
               }
-            }";
+            }
+            """;
 
         var rss = JObject.Parse(json);
 

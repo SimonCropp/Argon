@@ -5,16 +5,20 @@ This sample merges LINQ to JSON objects.
 <!-- snippet: MergeJson -->
 <a id='snippet-mergejson'></a>
 ```cs
-var o1 = JObject.Parse(@"{
+var o1 = JObject.Parse("""
+    {
       'FirstName': 'John',
       'LastName': 'Smith',
       'Enabled': false,
       'Roles': [ 'User' ]
-    }");
-var o2 = JObject.Parse(@"{
+    }
+    """);
+var o2 = JObject.Parse("""
+    {
       'Enabled': true,
       'Roles': [ 'User', 'Admin' ]
-    }");
+    }
+    """);
 
 o1.Merge(o2, new()
 {
@@ -33,5 +37,5 @@ var json = o1.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/MergeJson.cs#L12-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Linq/MergeJson.cs#L12-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

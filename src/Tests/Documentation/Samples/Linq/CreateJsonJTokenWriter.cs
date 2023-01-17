@@ -35,12 +35,14 @@ public class CreateJsonJTokenWriter : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name1"": ""value1"",
-  ""name2"": [
-    1,
-    2
-  ]
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name1": "value1",
+              "name2": [
+                1,
+                2
+              ]
+            }
+            """, o.ToString());
     }
 }

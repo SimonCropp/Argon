@@ -11,10 +11,12 @@ public class QueryJsonIgnoreCase : TestFixtureBase
     {
         #region Usage
 
-        var json = @"{
+        var json = """
+            {
               'name': 'James Newton-King',
               'blog': 'http://james.newtonking.com'
-            }";
+            }
+            """;
 
         var profile = JObject.Parse(json);
 

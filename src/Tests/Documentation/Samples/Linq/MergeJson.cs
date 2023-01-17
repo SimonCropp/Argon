@@ -11,16 +11,20 @@ public class MergeJson : TestFixtureBase
     {
         #region MergeJson
 
-        var o1 = JObject.Parse(@"{
+        var o1 = JObject.Parse("""
+            {
               'FirstName': 'John',
               'LastName': 'Smith',
               'Enabled': false,
               'Roles': [ 'User' ]
-            }");
-        var o2 = JObject.Parse(@"{
+            }
+            """);
+        var o2 = JObject.Parse("""
+            {
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]
-            }");
+            }
+            """);
 
         o1.Merge(o2, new()
         {
@@ -41,14 +45,16 @@ public class MergeJson : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""FirstName"": ""John"",
-  ""LastName"": ""Smith"",
-  ""Enabled"": true,
-  ""Roles"": [
-    ""User"",
-    ""Admin""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "FirstName": "John",
+              "LastName": "Smith",
+              "Enabled": true,
+              "Roles": [
+                "User",
+                "Admin"
+              ]
+            }
+            """, json);
     }
 }

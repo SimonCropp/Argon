@@ -63,7 +63,8 @@ SelectToken supports JSONPath queries. See: https://goessner.net/articles/JsonPa
 <!-- snippet: QueryJsonSelectTokenJsonPath -->
 <a id='snippet-queryjsonselecttokenjsonpath'></a>
 ```cs
-var o = JObject.Parse(@"{
+var o = JObject.Parse("""
+    {
       'Stores': [
         'Lambton Quay',
         'Willis Street'
@@ -92,7 +93,8 @@ var o = JObject.Parse(@"{
           ]
         }
       ]
-    }");
+    }
+    """);
 
 // manufacturer with the name 'Acme Co'
 var acme = o.SelectToken("$.Manufacturers[?(@.Name == 'Acme Co')]");
@@ -111,7 +113,7 @@ foreach (var item in pricyProducts)
 // Anvil
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L10-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L10-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
