@@ -14,13 +14,14 @@ public class SearchResult
     public string Url { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L945-L954' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L957-L966' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializingPartialJsonFragmentsExample -->
 <a id='snippet-serializingpartialjsonfragmentsexample'></a>
 ```cs
-var googleSearchText = @"{
+var googleSearchText = """
+    {
       'responseData': {
         'results': [
           {
@@ -70,7 +71,8 @@ var googleSearchText = @"{
       },
       'responseDetails': null,
       'responseStatus': 200
-    }";
+    }
+    """;
 
 var googleSearch = JObject.Parse(googleSearchText);
 
@@ -94,7 +96,7 @@ foreach (var result in results)
 // Content = Self: Zoolander. Socialite <b>Paris Hilton</b>...
 // Url = http://www.imdb.com/name/nm0385296/
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L959-L1035' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L971-L1049' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

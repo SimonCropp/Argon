@@ -410,11 +410,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(person, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""George Michael Bluth"",
-  ""Age"": 16,
-  ""Title"": ""Mister Manager""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "George Michael Bluth",
+              "Age": 16,
+              "Title": "Mister Manager"
+            }
+            """, json);
     }
 
     [Fact]
@@ -969,15 +971,17 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errorMessages = new List<string>();
 
-        var reader = new JsonTextReader(new StringReader(@"{
-  ""string1"": ""blah"",
-  ""int1"": 2147483648,
-  ""string2"": ""also blah"",
-  ""int2"": 2147483648,
-  ""string3"": ""more blah"",
-  ""dateTime1"": ""200NOTDATE"",
-  ""string4"": ""even more blah""
-}"));
+        var reader = new JsonTextReader(new StringReader("""
+            {
+              "string1": "blah",
+              "int1": 2147483648,
+              "string2": "also blah",
+              "int2": 2147483648,
+              "string3": "more blah",
+              "dateTime1": "200NOTDATE",
+              "string4": "even more blah"
+            }
+            """));
         var settings = new JsonSerializerSettings
         {
             Error = (_, args) =>
@@ -1008,10 +1012,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void HandleErrorInDictionaryObject()
     {
-        var json = @"{
+        var json = """
+            {
                 model1: { String1: 's1', Int1: 'x' },
                 model2: { String1: 's2', Int1: 2 }
-            }";
+            }
+            """;
         var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
 
         Assert.Equal(1, dictionary.Count);

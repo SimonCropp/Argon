@@ -67,14 +67,16 @@ public class Snippets
     {
         #region DeserializeJson
 
-        var json = @"{
-  'Name': 'Bad Boys',
-  'ReleaseDate': '1995-4-7T00:00:00',
-  'Genres': [
-    'Action',
-    'Comedy'
-  ]
-}";
+        var json = """
+            {
+              'Name': 'Bad Boys',
+              'ReleaseDate': '1995-4-7T00:00:00',
+              'Genres': [
+                'Action',
+                'Comedy'
+              ]
+            }
+            """;
 
         var movie = JsonConvert.DeserializeObject<Movie>(json);
 

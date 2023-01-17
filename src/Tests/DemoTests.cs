@@ -159,19 +159,23 @@ public class DemoTests : TestFixtureBase
         //   "Date": new Date(1401796800000)
         // }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Serialize All The Things"",
-  ""Date"": ""2014-06-04T00:00:00Z""
-}", j);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Serialize All The Things",
+              "Date": "2014-06-04T00:00:00Z"
+            }
+            """, j);
     }
 
     [Fact]
     public void DeserializationBasics1()
     {
-        var j = @"{
+        var j = """
+            {
               Name: 'Serialize All The Things',
               Date: '2014-06-03'
-            }";
+            }
+            """;
 
         var s = JsonConvert.DeserializeObject<Session>(j, new JsonSerializerSettings());
         // Name = Serialize All The Things
@@ -188,9 +192,11 @@ public class DemoTests : TestFixtureBase
             Date = new(2014, 6, 4)
         };
 
-        var j = @"{
+        var j = """
+            {
               'Name': 'Serialize All The Things'
-            }";
+            }
+            """;
 
         JsonConvert.PopulateObject(j, s);
         // Name = Serialize All The Things
@@ -241,22 +247,24 @@ public class DemoTests : TestFixtureBase
         //   "Name": "Mike Manager"
         // }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Reportees"": [
-    {
-      ""Name"": ""Arnie Admin""
-    },
-    {
-      ""Reportees"": [
-        {
-          ""Name"": ""Arnie Admin""
-        }
-      ],
-      ""Name"": ""Susan Supervisor""
-    }
-  ],
-  ""Name"": ""Mike Manager""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Reportees": [
+                {
+                  "Name": "Arnie Admin"
+                },
+                {
+                  "Reportees": [
+                    {
+                      "Name": "Arnie Admin"
+                    }
+                  ],
+                  "Name": "Susan Supervisor"
+                }
+              ],
+              "Name": "Mike Manager"
+            }
+            """, json);
     }
 
     [Fact]
@@ -298,55 +306,59 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""$type"": ""DemoTests+Manager, Tests"",
-  ""Reportees"": [
-    {
-      ""$id"": ""2"",
-      ""$type"": ""DemoTests+Employee, Tests"",
-      ""Name"": ""Arnie Admin""
-    },
-    {
-      ""$id"": ""3"",
-      ""$type"": ""DemoTests+Manager, Tests"",
-      ""Reportees"": [
-        {
-          ""$ref"": ""2""
-        }
-      ],
-      ""Name"": ""Susan Supervisor""
-    }
-  ],
-  ""Name"": ""Mike Manager""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "$type": "DemoTests+Manager, Tests",
+              "Reportees": [
+                {
+                  "$id": "2",
+                  "$type": "DemoTests+Employee, Tests",
+                  "Name": "Arnie Admin"
+                },
+                {
+                  "$id": "3",
+                  "$type": "DemoTests+Manager, Tests",
+                  "Reportees": [
+                    {
+                      "$ref": "2"
+                    }
+                  ],
+                  "Name": "Susan Supervisor"
+                }
+              ],
+              "Name": "Mike Manager"
+            }
+            """, json);
     }
 
     [Fact]
     public void RoundtripTypesAndReferences()
     {
-        var json = @"{
-  '$id': '1',
-  '$type': 'DemoTests+Manager, Tests',
-  'Reportees': [
-    {
-      '$id': '2',
-      '$type': 'DemoTests+Employee, Tests',
-      'Name': 'Arnie Admin'
-    },
-    {
-      '$id': '3',
-      '$type': 'DemoTests+Manager, Tests',
-      'Reportees': [
-        {
-          '$ref': '2'
-        }
-      ],
-      'Name': 'Susan Supervisor'
-    }
-  ],
-  'Name': 'Mike Manager'
-}";
+        var json = """
+            {
+              '$id': '1',
+              '$type': 'DemoTests+Manager, Tests',
+              'Reportees': [
+                {
+                  '$id': '2',
+                  '$type': 'DemoTests+Employee, Tests',
+                  'Name': 'Arnie Admin'
+                },
+                {
+                  '$id': '3',
+                  '$type': 'DemoTests+Manager, Tests',
+                  'Reportees': [
+                    {
+                      '$ref': '2'
+                    }
+                  ],
+                  'Name': 'Susan Supervisor'
+                }
+              ],
+              'Name': 'Mike Manager'
+            }
+            """;
 
         var e = JsonConvert.DeserializeObject<Employee>(json, new JsonSerializerSettings
         {
@@ -467,16 +479,20 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void MergeJson()
     {
-        var o1 = JObject.Parse(@"{
+        var o1 = JObject.Parse("""
+            {
               'FirstName': 'John',
               'LastName': 'Smith',
               'Enabled': false,
               'Roles': [ 'User' ]
-            }");
-        var o2 = JObject.Parse(@"{
+            }
+            """);
+        var o2 = JObject.Parse("""
+            {
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]
-            }");
+            }
+            """);
 
         o1.Merge(o2, new()
         {
@@ -495,15 +511,17 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""FirstName"": ""John"",
-  ""LastName"": ""Smith"",
-  ""Enabled"": true,
-  ""Roles"": [
-    ""User"",
-    ""Admin""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "FirstName": "John",
+              "LastName": "Smith",
+              "Enabled": true,
+              "Roles": [
+                "User",
+                "Admin"
+              ]
+            }
+            """, json);
     }
 
     [Fact]

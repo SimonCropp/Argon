@@ -97,13 +97,15 @@ public class JsonConvertTest : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(new {test = new[] {1, 2, 3}});
 
-            XUnitAssert.AreEqualNormalized(@"{
-  ""test"": [
-    1,
-    2,
-    3
-  ]
-}", json);
+            XUnitAssert.AreEqualNormalized("""
+                {
+                  "test": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+                """, json);
         }
         finally
         {
@@ -212,13 +214,15 @@ public class JsonConvertTest : TestFixtureBase
             //   "jobTitle": "Web Dude"
             // }
 
-            XUnitAssert.AreEqualNormalized(@"{
-  ""firstName"": ""Eric"",
-  ""lastName"": ""Example"",
-  ""birthDate"": ""1980-04-20T00:00:00Z"",
-  ""department"": ""IT"",
-  ""jobTitle"": ""Web Dude""
-}", json);
+            XUnitAssert.AreEqualNormalized("""
+                {
+                  "firstName": "Eric",
+                  "lastName": "Example",
+                  "birthDate": "1980-04-20T00:00:00Z",
+                  "department": "IT",
+                  "jobTitle": "Web Dude"
+                }
+                """, json);
         }
         finally
         {
@@ -803,14 +807,16 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void DeserializeObject()
     {
-        var json = @"{
-        'Name': 'Bad Boys',
-        'ReleaseDate': '1995-4-7T00:00:00',
-        'Genres': [
-          'Action',
-          'Comedy'
-        ]
-      }";
+        var json = """
+            {
+                'Name': 'Bad Boys',
+                'ReleaseDate': '1995-4-7T00:00:00',
+                'Genres': [
+                  'Action',
+                  'Comedy'
+                ]
+            }
+            """;
 
         var m = JsonConvert.DeserializeObject<Movie>(json);
 
@@ -1439,10 +1445,12 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void ShouldNotRequireIgnoredPropertiesWithItemsRequired()
     {
-        var json = @"{
-  ""exp"": 1483228800,
-  ""active"": true
-}";
+        var json = """
+            {
+              "exp": 1483228800,
+              "active": true
+            }
+            """;
         var value = JsonConvert.DeserializeObject<ItemsRequiredObjectWithIgnoredProperty>(json);
         Assert.NotNull(value);
         Assert.Equal(value.Expiration, new(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));

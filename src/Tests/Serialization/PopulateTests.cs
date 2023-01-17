@@ -51,38 +51,40 @@ public class PopulateTests : TestFixtureBase
             Mottos = new() {"Can do!", "We deliver!"}
         };
 
-        var json = @"{
-  ""Color"": 2,
-  ""Established"": ""2013-08-14T04:38:31.000+1230"",
-  ""Width"": 99.99,
-  ""Employees"": 999,
-  ""RoomsPerFloor"": [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9
-  ],
-  ""Open"": false,
-  ""Symbol"": ""@"",
-  ""Mottos"": [
-    ""Fail whale""
-  ],
-  ""Cost"": 100980.1,
-  ""Escape"": ""\r\n\t\f\b?{\\r\\n\""'"",
-  ""product"": [
-    {
-      ""Name"": ""ProductName!"",
-      ""ExpiryDate"": ""2013-08-14T04:38:31.000+1230"",
-      ""Price"": 9.9,
-      ""Sizes"": null
-    }
-  ]
-}";
+        var json = """
+            {
+              "Color": 2,
+              "Established": "2013-08-14T04:38:31.000+1230",
+              "Width": 99.99,
+              "Employees": 999,
+              "RoomsPerFloor": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+              ],
+              "Open": false,
+              "Symbol": "@",
+              "Mottos": [
+                "Fail whale"
+              ],
+              "Cost": 100980.1,
+              "Escape": "\r\n\t\f\b?{\\r\\n\"'",
+              "product": [
+                {
+                  "Name": "ProductName!",
+                  "ExpiryDate": "2013-08-14T04:38:31.000+1230",
+                  "Price": 9.9,
+                  "Sizes": null
+                }
+              ]
+            }
+            """;
 
         JsonConvert.PopulateObject(json, s, new()
         {

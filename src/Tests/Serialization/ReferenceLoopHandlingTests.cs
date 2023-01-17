@@ -97,25 +97,27 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Text"": ""Text!"",
-  ""Data"": [
-    {
-      ""Text"": ""Text!"",
-      ""Data"": [
-        {
-          ""Text"": ""Text!"",
-          ""Data"": [
+        XUnitAssert.AreEqualNormalized("""
             {
-              ""Text"": ""Text!"",
-              ""Data"": null
+              "Text": "Text!",
+              "Data": [
+                {
+                  "Text": "Text!",
+                  "Data": [
+                    {
+                      "Text": "Text!",
+                      "Data": [
+                        {
+                          "Text": "Text!",
+                          "Data": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
-          ]
-        }
-      ]
-    }
-  ]
-}", json);
+            """, json);
     }
 
     public class DictionaryDynamicObject : DynamicObject

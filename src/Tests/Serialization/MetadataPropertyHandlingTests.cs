@@ -14,11 +14,13 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void Demo()
     {
-        var json = @"{
+        var json = """
+            {
                 'Name': 'James',
                 'Password': 'Password1',
                 '$type': 'MetadataPropertyHandlingTests+User, Tests'
-            }";
+            }
+            """;
 
         var o = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
@@ -35,31 +37,33 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeArraysWithPreserveObjectReferences()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""$values"": [
-    null,
-    {
-      ""$id"": ""2"",
-      ""$values"": [
-        null
-      ]
-    },
-    {
-      ""$id"": ""3"",
-      ""$values"": [
-        {
-          ""$id"": ""4"",
-          ""$values"": [
+        var json = """
             {
-              ""$ref"": ""1""
+              "$id": "1",
+              "$values": [
+                null,
+                {
+                  "$id": "2",
+                  "$values": [
+                    null
+                  ]
+                },
+                {
+                  "$id": "3",
+                  "$values": [
+                    {
+                      "$id": "4",
+                      "$values": [
+                        {
+                          "$ref": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
-          ]
-        }
-      ]
-    }
-  ]
-}";
+            """;
 
         var settings = new JsonSerializerSettings
         {
@@ -87,10 +91,12 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         };
         var serializedString = JsonConvert.SerializeObject(inputContext, settings);
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""$type"": ""{typeof(Dictionary<string, Guid>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
-  ""k1"": ""5dd2dba0-20c0-49f8-a054-1fa3b0a8d774""
-}}", serializedString);
+        XUnitAssert.AreEqualNormalized($$"""
+            {
+              "$type": "{{typeof(Dictionary<string, Guid>).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
+              "k1": "5dd2dba0-20c0-49f8-a054-1fa3b0a8d774"
+            }
+            """, serializedString);
 
         var deserializedObject = (Dictionary<string, Guid>) JsonConvert.DeserializeObject(serializedString, settings);
 
@@ -140,31 +146,33 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeListsWithPreserveObjectReferences()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""$values"": [
-    null,
-    {
-      ""$id"": ""2"",
-      ""$values"": [
-        null
-      ]
-    },
-    {
-      ""$id"": ""3"",
-      ""$values"": [
-        {
-          ""$id"": ""4"",
-          ""$values"": [
+        var json = """
             {
-              ""$ref"": ""1""
+              "$id": "1",
+              "$values": [
+                null,
+                {
+                  "$id": "2",
+                  "$values": [
+                    null
+                  ]
+                },
+                {
+                  "$id": "3",
+                  "$values": [
+                    {
+                      "$id": "4",
+                      "$values": [
+                        {
+                          "$ref": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
-          ]
-        }
-      ]
-    }
-  ]
-}";
+            """;
 
         var circularList = JsonConvert.DeserializeObject<PreserveReferencesHandlingTests.CircularList>(json,
             new JsonSerializerSettings
@@ -184,12 +192,14 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeTypeNameOnly()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""$type"": ""TestObjects.Employee"",
-  ""Name"": ""Name!"",
-  ""Manager"": null
-}";
+        var json = """
+            {
+              "$id": "1",
+              "$type": "TestObjects.Employee",
+              "Name": "Name!",
+              "Manager": null
+            }
+            """;
 
         var settings = new JsonSerializerSettings
         {
@@ -440,13 +450,15 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""Id!"",
-  ""$ref"": ""Ref!"",
-  ""$value"": ""Value!"",
-  ""$values"": ""Values!"",
-  ""$type"": ""Type!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "Id!",
+              "$ref": "Ref!",
+              "$value": "Value!",
+              "$values": "Values!",
+              "$type": "Type!"
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<MetadataPropertyDisabledTestClass>(
             json,
@@ -509,9 +521,11 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAhead_JObject_NoParent()
     {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
-  ""Payload"": {}
-}",
+        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+            {
+              "Payload": {}
+            }
+            """,
             new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
@@ -531,12 +545,14 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAhead_TypedJValue_NoParent()
     {
-        var actual = (ItemWithJTokens) JsonConvert.DeserializeObject(@"{
-  ""Payload1"": 1,
-  ""Payload2"": {'prop1':1,'prop2':[2]},
-  ""Payload3"": [1],
-  ""$type"": ""MetadataPropertyHandlingTests+ItemWithJTokens, Tests""
-}",
+        var actual = (ItemWithJTokens) JsonConvert.DeserializeObject("""
+            {
+              "Payload1": 1,
+              "Payload2": {'prop1':1,'prop2':[2]},
+              "Payload3": [1],
+              "$type": "MetadataPropertyHandlingTests+ItemWithJTokens, Tests"
+            }
+            """,
             new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead,
@@ -559,9 +575,11 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAhead_JArray_NoParent()
     {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(@"{
-  ""Payload"": [1]
-}",
+        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+            {
+              "Payload": [1]
+            }
+            """,
             new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
@@ -614,10 +632,12 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeCircularReferencesWithConverter()
     {
-        var json = @"{
-  ""$id"": ""1"",
-  ""$type"": ""CircularReferenceClass""
-}";
+        var json = """
+            {
+              "$id": "1",
+              "$type": "CircularReferenceClass"
+            }
+            """;
 
         var c = new MetadataPropertyDisabledTestClass();
 
