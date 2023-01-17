@@ -20,10 +20,12 @@ public class Videogame
 <!-- snippet: JsonPropertyRequiredUsage -->
 <a id='snippet-jsonpropertyrequiredusage'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'Name': 'Starcraft III',
       'ReleaseDate': null
-    }";
+    }
+    """;
 
 var starcraft = JsonConvert.DeserializeObject<Videogame>(json);
 
@@ -33,5 +35,5 @@ Console.WriteLine(starcraft.Name);
 Console.WriteLine(starcraft.ReleaseDate);
 // null
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L23-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L23-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

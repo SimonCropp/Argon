@@ -19,11 +19,13 @@ public class DeserializeMissingMemberHandling : TestFixtureBase
     {
         #region DeserializeMissingMemberHandlingUsage
 
-        var json = @"{
+        var json = """
+            {
               'FullName': 'Dan Deleted',
               'Deleted': true,
               'DeletedDate': '2013-01-20T00:00:00'
-            }";
+            }
+            """;
 
         try
         {

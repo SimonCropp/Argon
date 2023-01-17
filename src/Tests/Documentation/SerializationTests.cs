@@ -852,19 +852,23 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Company"": ""Acme Ltd."",
-  ""Amount"": 50.0,
-  ""Paid"": false,
-  ""PaidDate"": null,
-  ""FollowUpDays"": 30,
-  ""FollowUpEmailAddress"": """"
-}", included);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Company": "Acme Ltd.",
+              "Amount": 50.0,
+              "Paid": false,
+              "PaidDate": null,
+              "FollowUpDays": 30,
+              "FollowUpEmailAddress": ""
+            }
+            """, included);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Company"": ""Acme Ltd."",
-  ""Amount"": 50.0
-}", ignored);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Company": "Acme Ltd.",
+              "Amount": 50.0
+            }
+            """, ignored);
     }
 
     #region ReducingSerializedJsonSizeContractResolverObject

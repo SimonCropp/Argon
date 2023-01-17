@@ -11,7 +11,8 @@ public class DeserializeDataSet : TestFixtureBase
     {
         #region DeserializeDataSet
 
-        var json = @"{
+        var json = """
+            {
               'Table1': [
                 {
                   'id': 0,
@@ -22,7 +23,8 @@ public class DeserializeDataSet : TestFixtureBase
                   'item': 'item 1'
                 }
               ]
-            }";
+            }
+            """;
 
         var settings = new JsonSerializerSettings();
 

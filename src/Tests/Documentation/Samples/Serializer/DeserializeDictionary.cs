@@ -9,10 +9,12 @@ public class DeserializeDictionary : TestFixtureBase
     {
         #region DeserializeDictionary
 
-        var json = @"{
+        var json = """
+            {
               'href': '/account/login.aspx',
               'target': '_blank'
-            }";
+            }
+            """;
 
         var htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 

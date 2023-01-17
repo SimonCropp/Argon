@@ -22,10 +22,12 @@ public class JsonPropertyRequired : TestFixtureBase
     {
         #region JsonPropertyRequiredUsage
 
-        var json = @"{
+        var json = """
+            {
               'Name': 'Starcraft III',
               'ReleaseDate': null
-            }";
+            }
+            """;
 
         var starcraft = JsonConvert.DeserializeObject<Videogame>(json);
 

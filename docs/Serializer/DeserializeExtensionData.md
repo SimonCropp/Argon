@@ -37,10 +37,12 @@ public class DirectoryAccount
 <!-- snippet: DeserializeExtensionDataUsage -->
 <a id='snippet-deserializeextensiondatausage'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'DisplayName': 'John Smith',
       'SAMAccountName': 'contoso\\johns'
-    }";
+    }
+    """;
 
 var account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
 
@@ -53,5 +55,5 @@ Console.WriteLine(account.Domain);
 Console.WriteLine(account.UserName);
 // johns
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L40-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L40-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

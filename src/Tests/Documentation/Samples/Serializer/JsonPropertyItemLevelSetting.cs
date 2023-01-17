@@ -70,22 +70,24 @@ public class JsonPropertyItemLevelSetting : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Acme Ltd."",
-  ""Employees"": [
-    {
-      ""$id"": ""1"",
-      ""Name"": ""George-Michael"",
-      ""Manager"": null
-    },
-    {
-      ""$id"": ""2"",
-      ""Name"": ""Maeby"",
-      ""Manager"": {
-        ""$ref"": ""1""
-      }
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Acme Ltd.",
+              "Employees": [
+                {
+                  "$id": "1",
+                  "Name": "George-Michael",
+                  "Manager": null
+                },
+                {
+                  "$id": "2",
+                  "Name": "Maeby",
+                  "Manager": {
+                    "$ref": "1"
+                  }
+                }
+              ]
+            }
+            """, json);
     }
 }

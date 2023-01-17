@@ -17,11 +17,13 @@ public class Account
 <!-- snippet: DeserializeMissingMemberHandlingUsage -->
 <a id='snippet-deserializemissingmemberhandlingusage'></a>
 ```cs
-var json = @"{
+var json = """
+    {
       'FullName': 'Dan Deleted',
       'Deleted': true,
       'DeletedDate': '2013-01-20T00:00:00'
-    }";
+    }
+    """;
 
 try
 {
@@ -36,5 +38,5 @@ catch (JsonSerializationException exception)
     // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L20-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L20-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

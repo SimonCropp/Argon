@@ -39,10 +39,12 @@ public class DeserializeExtensionData : TestFixtureBase
     {
         #region DeserializeExtensionDataUsage
 
-        var json = @"{
+        var json = """
+            {
               'DisplayName': 'John Smith',
               'SAMAccountName': 'contoso\\johns'
-            }";
+            }
+            """;
 
         var account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
 
