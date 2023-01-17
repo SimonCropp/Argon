@@ -429,13 +429,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""key"": [
-    {
-      ""Text1"": ""value1""
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "key": [
+                {
+                  "Text1": "value1"
+                }
+              ]
+            }
+            """, json);
 
         var d2 = JsonConvert.DeserializeObject<CustomConcurrentDictionary>(json);
 
@@ -542,28 +544,32 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var myOtherArrayAsString = JsonConvert.SerializeObject(myOtherArray, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  [
-    {
-      ""Key"": ""my value"",
-      ""Value"": 0.8
-    },
-    ""foobar""
-  ],
-  [
-    true,
-    0.4
-  ],
-  [
-    0.05,
-    6
-  ]
-]", myOtherArrayAsString);
+        XUnitAssert.AreEqualNormalized("""
+            [
+              [
+                {
+                  "Key": "my value",
+                  "Value": 0.8
+                },
+                "foobar"
+              ],
+              [
+                true,
+                0.4
+              ],
+              [
+                0.05,
+                6
+              ]
+            ]
+            """, myOtherArrayAsString);
 
-        var o = JObject.Parse(@"{
-              ""Key"": ""my value"",
-              ""Value"": 0.8
-            }");
+        var o = JObject.Parse("""
+            {
+              "Key": "my value",
+              "Value": 0.8
+            }
+            """);
 
         var myOtherResult = JsonConvert.DeserializeObject<object[,]>(myOtherArrayAsString);
         Assert.True(JToken.DeepEquals(o, (JToken) myOtherResult[0, 0]));
@@ -804,10 +810,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var dic = new CustomReadOnlyDictionary<string, int>(d);
 
         var json = JsonConvert.SerializeObject(dic, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""one"": 1,
-  ""two"": 2
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "one": 1,
+              "two": 2
+            }
+            """, json);
     }
 
     public class CustomReadOnlyCollection<T> : IReadOnlyCollection<T>
@@ -1047,11 +1055,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(v1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""First"": 1,
-  ""Second"": null,
-  ""Third"": 3
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "First": 1,
+              "Second": null,
+              "Third": 3
+            }
+            """, json);
 
         var v2 = JsonConvert.DeserializeObject<IDictionary<string, int?>>(json);
         Assert.Equal(3, v2.Count);
@@ -1470,119 +1480,123 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(aa, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Before"": ""Before!"",
-  ""Coordinates"": [
-    [
-      [
-        1.0,
-        1.0,
-        1.0
-      ],
-      [
-        1.0,
-        1.0,
-        2.0
-      ]
-    ],
-    [
-      [
-        1.0,
-        2.0,
-        1.0
-      ],
-      [
-        1.0,
-        2.0,
-        2.0
-      ]
-    ],
-    [
-      [
-        2.0,
-        1.0,
-        1.0
-      ],
-      [
-        2.0,
-        1.0,
-        2.0
-      ]
-    ],
-    [
-      [
-        2.0,
-        2.0,
-        1.0
-      ],
-      [
-        2.0,
-        2.0,
-        2.0
-      ]
-    ]
-  ],
-  ""After"": ""After!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Before": "Before!",
+              "Coordinates": [
+                [
+                  [
+                    1.0,
+                    1.0,
+                    1.0
+                  ],
+                  [
+                    1.0,
+                    1.0,
+                    2.0
+                  ]
+                ],
+                [
+                  [
+                    1.0,
+                    2.0,
+                    1.0
+                  ],
+                  [
+                    1.0,
+                    2.0,
+                    2.0
+                  ]
+                ],
+                [
+                  [
+                    2.0,
+                    1.0,
+                    1.0
+                  ],
+                  [
+                    2.0,
+                    1.0,
+                    2.0
+                  ]
+                ],
+                [
+                  [
+                    2.0,
+                    2.0,
+                    1.0
+                  ],
+                  [
+                    2.0,
+                    2.0,
+                    2.0
+                  ]
+                ]
+              ],
+              "After": "After!"
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeArray3DWithConverter()
     {
-        var json = @"{
-  ""Before"": ""Before!"",
-  ""Coordinates"": [
-    [
-      [
-        1.0,
-        1.0,
-        1.0
-      ],
-      [
-        1.0,
-        1.0,
-        2.0
-      ]
-    ],
-    [
-      [
-        1.0,
-        2.0,
-        1.0
-      ],
-      [
-        1.0,
-        2.0,
-        2.0
-      ]
-    ],
-    [
-      [
-        2.0,
-        1.0,
-        1.0
-      ],
-      [
-        2.0,
-        1.0,
-        2.0
-      ]
-    ],
-    [
-      [
-        2.0,
-        2.0,
-        1.0
-      ],
-      [
-        2.0,
-        2.0,
-        2.0
-      ]
-    ]
-  ],
-  ""After"": ""After!""
-}";
+        var json = """
+            {
+              "Before": "Before!",
+              "Coordinates": [
+                [
+                  [
+                    1.0,
+                    1.0,
+                    1.0
+                  ],
+                  [
+                    1.0,
+                    1.0,
+                    2.0
+                  ]
+                ],
+                [
+                  [
+                    1.0,
+                    2.0,
+                    1.0
+                  ],
+                  [
+                    1.0,
+                    2.0,
+                    2.0
+                  ]
+                ],
+                [
+                  [
+                    2.0,
+                    1.0,
+                    1.0
+                  ],
+                  [
+                    2.0,
+                    1.0,
+                    2.0
+                  ]
+                ],
+                [
+                  [
+                    2.0,
+                    2.0,
+                    1.0
+                  ],
+                  [
+                    2.0,
+                    2.0,
+                    2.0
+                  ]
+                ]
+              ],
+              "After": "After!"
+            }
+            """;
 
         var aa = JsonConvert.DeserializeObject<Array3DWithConverter>(json);
 
@@ -1797,38 +1811,40 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""$id"": ""1"",
-  ""$values"": [
-    {
-      ""$id"": ""2"",
-      ""$values"": [
-        [
-          {
-            ""$id"": ""3"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          },
-          {
-            ""$ref"": ""3""
-          }
-        ],
-        [
-          {
-            ""$ref"": ""3""
-          },
-          {
-            ""$ref"": ""3""
-          }
-        ]
-      ]
-    },
-    {
-      ""$ref"": ""2""
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "$id": "1",
+              "$values": [
+                {
+                  "$id": "2",
+                  "$values": [
+                    [
+                      {
+                        "$id": "3",
+                        "EventName": "EventName!",
+                        "Venue": null,
+                        "Performances": null
+                      },
+                      {
+                        "$ref": "3"
+                      }
+                    ],
+                    [
+                      {
+                        "$ref": "3"
+                      },
+                      {
+                        "$ref": "3"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "$ref": "2"
+                }
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -1998,17 +2014,19 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(name, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""personsName"": ""The Idiot in Next To Me"",
-  ""pNumbers"": [
-    {
-      ""phoneNumber"": ""555-1212""
-    },
-    {
-      ""phoneNumber"": ""444-1212""
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "personsName": "The Idiot in Next To Me",
+              "pNumbers": [
+                {
+                  "phoneNumber": "555-1212"
+                },
+                {
+                  "phoneNumber": "444-1212"
+                }
+              ]
+            }
+            """, json);
 
         var newName = JsonConvert.DeserializeObject<Name>(json);
 

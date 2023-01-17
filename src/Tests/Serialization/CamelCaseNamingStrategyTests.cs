@@ -26,11 +26,13 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""Name!"",
-  ""birthDate"": ""2000-11-20T23:55:44Z"",
-  ""lastModified"": ""2000-11-20T23:55:44Z""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "Name!",
+              "birthDate": "2000-11-20T23:55:44Z",
+              "lastModified": "2000-11-20T23:55:44Z"
+            }
+            """, json);
 
         var deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
         {
@@ -42,11 +44,13 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
         Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Name!"",
-  ""BirthDate"": ""2000-11-20T23:55:44Z"",
-  ""LastModified"": ""2000-11-20T23:55:44Z""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Name!",
+              "BirthDate": "2000-11-20T23:55:44Z",
+              "LastModified": "2000-11-20T23:55:44Z"
+            }
+            """, json);
     }
 
     [Fact]
@@ -114,16 +118,18 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
         //  ]
         //}
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""Widget"",
-  ""expiryDate"": ""2010-12-20T18:01:00Z"",
-  ""price"": 9.99,
-  ""sizes"": [
-    ""Small"",
-    ""Medium"",
-    ""Large""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "Widget",
+              "expiryDate": "2010-12-20T18:01:00Z",
+              "price": 9.99,
+              "sizes": [
+                "Small",
+                "Medium",
+                "Large"
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -147,13 +153,15 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""explicit"": false,
-  ""text"": ""Text!"",
-  ""integer"": 2147483647,
-  ""int"": 0,
-  ""childObject"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "explicit": false,
+              "text": "Text!",
+              "integer": 2147483647,
+              "int": 0,
+              "childObject": null
+            }
+            """, json);
     }
 
     [Fact]
@@ -176,10 +184,12 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""First"": ""Value1!"",
-  ""Second"": ""Value2!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "First": "Value1!",
+              "Second": "Value2!"
+            }
+            """, json);
     }
 
     [Fact]
@@ -205,10 +215,12 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""first"": ""Value1!"",
-  ""second"": ""Value2!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "first": "Value1!",
+              "second": "Value2!"
+            }
+            """, json);
     }
 
     public class PropertyAttributeNamingStrategyTestClass
@@ -230,10 +242,12 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""HasNoAttributeNamingStrategy"": ""Value1!"",
-  ""hasAttributeNamingStrategy"": ""Value2!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "HasNoAttributeNamingStrategy": "Value1!",
+              "hasAttributeNamingStrategy": "Value2!"
+            }
+            """, json);
     }
 
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
@@ -257,11 +271,13 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""prop1"": ""Value1!"",
-  ""prop2"": ""Value2!"",
-  ""HasAttributeNamingStrategy"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "prop1": "Value1!",
+              "prop2": "Value2!",
+              "HasAttributeNamingStrategy": null
+            }
+            """, json);
     }
 
     [JsonDictionary(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true})]
@@ -280,9 +296,11 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""key1"": ""Value1!"",
-  ""key2"": ""Value2!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "key1": "Value1!",
+              "key2": "Value2!"
+            }
+            """, json);
     }
 }

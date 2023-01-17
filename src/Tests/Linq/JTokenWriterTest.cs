@@ -238,9 +238,11 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndObject();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Prop1"": 1
-}", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Prop1": 1
+            }
+            """, writer.Token.ToString());
     }
 
     [Fact]
@@ -318,9 +320,11 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndObject();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""prop1"": []
-}", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "prop1": []
+            }
+            """, writer.Token.ToString());
     }
 
     [Fact]

@@ -489,16 +489,20 @@ public class ContractResolverTests : TestFixtureBase
         //   "BookPrice": 16.19
         // }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""AuthorName"": ""Brandon Sanderson"",
-  ""AuthorAge"": 34,
-  ""AuthorCountry"": ""United States of America""
-}", startingWithA);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "AuthorName": "Brandon Sanderson",
+              "AuthorAge": 34,
+              "AuthorCountry": "United States of America"
+            }
+            """, startingWithA);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""BookName"": ""The Gathering Storm"",
-  ""BookPrice"": 16.19
-}", startingWithB);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "BookName": "The Gathering Storm",
+              "BookPrice": 16.19
+            }
+            """, startingWithB);
     }
 
     //TODO:

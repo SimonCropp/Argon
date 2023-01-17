@@ -372,9 +372,11 @@ public class JValueTests : TestFixtureBase
         var jTokenWriter = new JTokenWriter();
         new JsonSerializer().Serialize(jTokenWriter, rate);
         var json = jTokenWriter.Token.ToString();
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Compoundings"": 12.166666666666666666666666667
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Compoundings": 12.166666666666666666666666667
+            }
+            """, json);
     }
 
     [Fact]
@@ -617,9 +619,11 @@ public class JValueTests : TestFixtureBase
 
         var json = o.ToString(Formatting.Indented, new ReadOnlyStringConverter());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""Hello World""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "Hello World"
+            }
+            """, json);
     }
 
     [Fact]

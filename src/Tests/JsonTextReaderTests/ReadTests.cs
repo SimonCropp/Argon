@@ -1042,18 +1042,22 @@ third line""";
         Assert.True(jsonTextReader.Read());
         Assert.Equal(JsonToken.String, jsonTextReader.TokenType);
 
-        Assert.Equal(@"first line
-second line
-third line", jsonTextReader.Value);
+        Assert.Equal("""
+            first line
+            second line
+            third line
+            """, jsonTextReader.Value);
     }
 
     [Fact]
     public void ReadBigInteger()
     {
-        var json = @"{
-    ParentId: 1,
-    ChildId: 333333333333333333333333333333333333333,
-}";
+        var json = """
+            {
+                ParentId: 1,
+                ChildId: 333333333333333333333333333333333333333,
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
@@ -1087,9 +1091,11 @@ third line", jsonTextReader.Value);
     [Fact]
     public void ReadBadMSDateAsString()
     {
-        var json = @"{
-    ChildId: '\/Date(9467082_PIE_340000-0631)\/'
-}";
+        var json = """
+            {
+                ChildId: '\/Date(9467082_PIE_340000-0631)\/'
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
@@ -1112,13 +1118,15 @@ third line", jsonTextReader.Value);
     [Fact]
     public void ReadingIndented()
     {
-        var input = @"{
-  CPU: 'Intel',
-  Drives: [
-    'DVD read/writer',
-    ""500 gigabyte hard drive""
-  ]
-}";
+        var input = """
+            {
+              CPU: 'Intel',
+              Drives: [
+                'DVD read/writer',
+                "500 gigabyte hard drive"
+              ]
+            }
+            """;
 
         var sr = new StringReader(input);
 
@@ -1373,14 +1381,16 @@ third line", jsonTextReader.Value);
     [Fact]
     public void ReadNewlineLastCharacter()
     {
-        var input = @"{
-  CPU: 'Intel',
-  Drives: [ /* Com*ment */
-    'DVD read/writer',
-    ""500 gigabyte hard drive""
-  ]
-}
-";
+        var input = """
+            {
+              CPU: 'Intel',
+              Drives: [ /* Com*ment */
+                'DVD read/writer',
+                "500 gigabyte hard drive"
+              ]
+            }
+
+            """;
 
         var o = JsonConvert.DeserializeObject(input);
     }

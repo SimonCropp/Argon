@@ -142,11 +142,13 @@ public class JPropertyTests : TestFixtureBase
     [Fact]
     public void NullParent()
     {
-        var json = @"{
-                ""prop1"": {
-                    ""foo"": ""bar""
+        var json = """
+            {
+                "prop1": {
+                    "foo": "bar"
                 },
-            }";
+            }
+            """;
 
         var obj = JsonConvert.DeserializeObject<JObject>(json);
 

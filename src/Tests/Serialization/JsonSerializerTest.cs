@@ -140,9 +140,11 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeGenericIEnumerableWithImplicitConversion()
     {
-        var deserialized = @"{
-  ""Enumerable"": [ ""abc"", ""def"" ] 
-}";
+        var deserialized = """
+            {
+              "Enumerable": [ "abc", "def" ] 
+            }
+            """;
         var enumerableClass = JsonConvert.DeserializeObject<GenericIEnumerableWithImplicitConversion>(deserialized);
         var enumerableObject = enumerableClass.Enumerable.ToArray();
         Assert.Equal(2, enumerableObject.Length);
@@ -480,9 +482,11 @@ public class JsonSerializerTest : TestFixtureBase
             ContractResolver = new IgnoredPropertiesContractResolver()
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Name!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Name!"
+            }
+            """, json);
 
         var deserializeJson = """
             {

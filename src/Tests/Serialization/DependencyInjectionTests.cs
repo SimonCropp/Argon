@@ -47,11 +47,13 @@ public class DependencyInjectionTests : TestFixtureBase
         var contractResolver = new AutofacContractResolver(container);
 
         var controller = JsonConvert.DeserializeObject<TaskController>(
-            @"{
-                'Logger': {
-                    'Level':'Debug'
+            """
+                {
+                    'Logger': {
+                        'Level':'Debug'
+                    }
                 }
-            }",
+                """,
             new JsonSerializerSettings
             {
                 ContractResolver = contractResolver
@@ -89,26 +91,28 @@ public class DependencyInjectionTests : TestFixtureBase
         var contractResolver = new AutofacContractResolver(container);
 
         var o = JsonConvert.DeserializeObject<HasSettableProperty>(
-            @"{
-                'Logger': {
-                    'Level': 'Debug'
-                },
-                'Repository': {
-                    'ConnectionString': 'server=.',
-                    'CreatedOn': '2015-04-01 20:00'
-                },
-                'People': [
-                    {
-                        'Name': 'Name1!'
+            """
+                {
+                    'Logger': {
+                        'Level': 'Debug'
                     },
-                    {
-                        'Name': 'Name2!'
+                    'Repository': {
+                        'ConnectionString': 'server=.',
+                        'CreatedOn': '2015-04-01 20:00'
+                    },
+                    'People': [
+                        {
+                            'Name': 'Name1!'
+                        },
+                        {
+                            'Name': 'Name2!'
+                        }
+                    ],
+                    'Person': {
+                        'Name': 'Name3!'
                     }
-                ],
-                'Person': {
-                    'Name': 'Name3!'
                 }
-            }",
+                """,
             new JsonSerializerSettings
             {
                 ContractResolver = contractResolver

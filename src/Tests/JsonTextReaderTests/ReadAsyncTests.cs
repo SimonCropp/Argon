@@ -1050,10 +1050,12 @@ third line", jsonTextReader.Value);
     [Fact]
     public async Task ReadBigIntegerAsync()
     {
-        var json = @"{
-    ParentId: 1,
-    ChildId: 333333333333333333333333333333333333333,
-}";
+        var json = """
+            {
+                ParentId: 1,
+                ChildId: 333333333333333333333333333333333333333,
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
@@ -1087,9 +1089,11 @@ third line", jsonTextReader.Value);
     [Fact]
     public async Task ReadBadMSDateAsStringAsync()
     {
-        var json = @"{
-    ChildId: '\/Date(9467082_PIE_340000-0631)\/'
-}";
+        var json = """
+            {
+                ChildId: '\/Date(9467082_PIE_340000-0631)\/'
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
@@ -1112,13 +1116,15 @@ third line", jsonTextReader.Value);
     [Fact]
     public async Task ReadingIndentedAsync()
     {
-        var input = @"{
-  CPU: 'Intel',
-  Drives: [
-    'DVD read/writer',
-    ""500 gigabyte hard drive""
-  ]
-}";
+        var input = """
+            {
+              CPU: 'Intel',
+              Drives: [
+                'DVD read/writer',
+                "500 gigabyte hard drive"
+              ]
+            }
+            """;
 
         var sr = new StringReader(input);
 

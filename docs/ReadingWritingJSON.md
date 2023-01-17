@@ -51,7 +51,8 @@ JsonTextReader has settings on it for reading different date formats, time zones
 <!-- snippet: ReadingJsonText -->
 <a id='snippet-readingjsontext'></a>
 ```cs
-var json = @"{
+var json = """
+    {
        'CPU': 'Intel',
        'PSU': '500W',
        'Drives': [
@@ -60,7 +61,8 @@ var json = @"{
          '500 gigabyte hard drive',
          '200 gigabyte hard drive'
        ]
-    }";
+    }
+    """;
 
 var reader = new JsonTextReader(new StringReader(json));
 while (reader.Read())
@@ -89,7 +91,7 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L51-L91' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L51-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -111,7 +113,7 @@ var p = (Person) serializer.Deserialize(new JTokenReader(o), typeof(Person));
 Console.WriteLine(p.Name);
 // John Smith
 ```
-<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L97-L110' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/ReadingAndWritingJsonTests.cs#L99-L112' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

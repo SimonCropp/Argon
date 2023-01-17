@@ -195,13 +195,15 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadLineInfo()
     {
-        var input = @"{
-  CPU: 'Intel',
-  Drives: [
-    'DVD read/writer',
-    ""500 gigabyte hard drive""
-  ]
-}";
+        var input = """
+            {
+              CPU: 'Intel',
+              Drives: [
+                'DVD read/writer',
+                "500 gigabyte hard drive"
+              ]
+            }
+            """;
 
         var o = JObject.Parse(input);
 
@@ -445,10 +447,12 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void DeserializeStringInt()
     {
-        var json = @"{
-  ""PreProperty"": ""99"",
-  ""PostProperty"": ""-1""
-}";
+        var json = """
+            {
+              "PreProperty": "99",
+              "PostProperty": "-1"
+            }
+            """;
 
         var o = JObject.Parse(json);
 

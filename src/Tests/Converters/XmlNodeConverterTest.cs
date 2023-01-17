@@ -1530,21 +1530,23 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void NestedArrays()
     {
-        var json = @"{
-  ""available_sizes"": [
-    [
-      ""assets/images/resized/0001/1070/11070v1-max-150x150.jpg"",
-      ""assets/images/resized/0001/1070/11070v1-max-150x150.jpg""
-    ],
-    [
-      ""assets/images/resized/0001/1070/11070v1-max-250x250.jpg"",
-      ""assets/images/resized/0001/1070/11070v1-max-250x250.jpg""
-    ],
-    [
-      ""assets/images/resized/0001/1070/11070v1-max-250x250.jpg""
-    ]
-  ]
-}";
+        var json = """
+            {
+              "available_sizes": [
+                [
+                  "assets/images/resized/0001/1070/11070v1-max-150x150.jpg",
+                  "assets/images/resized/0001/1070/11070v1-max-150x150.jpg"
+                ],
+                [
+                  "assets/images/resized/0001/1070/11070v1-max-250x250.jpg",
+                  "assets/images/resized/0001/1070/11070v1-max-250x250.jpg"
+                ],
+                [
+                  "assets/images/resized/0001/1070/11070v1-max-250x250.jpg"
+                ]
+              ]
+            }
+            """;
 
         var newDoc = JsonXmlConvert.DeserializeXmlNode(json, "myRoot");
 

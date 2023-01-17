@@ -49,18 +49,20 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void GreaterThanWithIntegerParameterAndStringValue()
     {
-        var json = @"{
-  ""persons"": [
-    {
-      ""name""  : ""John"",
-      ""age"": ""26""
-    },
-    {
-      ""name""  : ""Jane"",
-      ""age"": ""2""
-    }
-  ]
-}";
+        var json = """
+            {
+              "persons": [
+                {
+                  "name"  : "John",
+                  "age": "26"
+                },
+                {
+                  "name"  : "Jane",
+                  "age": "2"
+                }
+              ]
+            }
+            """;
 
         var models = JObject.Parse(json);
 
@@ -72,18 +74,20 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void GreaterThanWithStringParameterAndIntegerValue()
     {
-        var json = @"{
-  ""persons"": [
-    {
-      ""name""  : ""John"",
-      ""age"": 26
-    },
-    {
-      ""name""  : ""Jane"",
-      ""age"": 2
-    }
-  ]
-}";
+        var json = """
+            {
+              "persons": [
+                {
+                  "name"  : "John",
+                  "age": 26
+                },
+                {
+                  "name"  : "Jane",
+                  "age": 2
+                }
+              ]
+            }
+            """;
 
         var models = JObject.Parse(json);
 
@@ -134,33 +138,35 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void ScanFilter()
     {
-        var json = @"{
-  ""elements"": [
-    {
-      ""id"": ""A"",
-      ""children"": [
-        {
-          ""id"": ""AA"",
-          ""children"": [
+        var json = """
             {
-              ""id"": ""AAA""
-            },
-            {
-              ""id"": ""AAB""
+              "elements": [
+                {
+                  "id": "A",
+                  "children": [
+                    {
+                      "id": "AA",
+                      "children": [
+                        {
+                          "id": "AAA"
+                        },
+                        {
+                          "id": "AAB"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "AB"
+                    }
+                  ]
+                },
+                {
+                  "id": "B",
+                  "children": []
+                }
+              ]
             }
-          ]
-        },
-        {
-          ""id"": ""AB""
-        }
-      ]
-    },
-    {
-      ""id"": ""B"",
-      ""children"": []
-    }
-  ]
-}";
+            """;
 
         var models = JObject.Parse(json);
 
@@ -173,33 +179,35 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void FilterTrue()
     {
-        var json = @"{
-  ""elements"": [
-    {
-      ""id"": ""A"",
-      ""children"": [
-        {
-          ""id"": ""AA"",
-          ""children"": [
+        var json = """
             {
-              ""id"": ""AAA""
-            },
-            {
-              ""id"": ""AAB""
+              "elements": [
+                {
+                  "id": "A",
+                  "children": [
+                    {
+                      "id": "AA",
+                      "children": [
+                        {
+                          "id": "AAA"
+                        },
+                        {
+                          "id": "AAB"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "AB"
+                    }
+                  ]
+                },
+                {
+                  "id": "B",
+                  "children": []
+                }
+              ]
             }
-          ]
-        },
-        {
-          ""id"": ""AB""
-        }
-      ]
-    },
-    {
-      ""id"": ""B"",
-      ""children"": []
-    }
-  ]
-}";
+            """;
 
         var models = JObject.Parse(json);
 
@@ -213,33 +221,35 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void ScanFilterTrue()
     {
-        var json = @"{
-  ""elements"": [
-    {
-      ""id"": ""A"",
-      ""children"": [
-        {
-          ""id"": ""AA"",
-          ""children"": [
+        var json = """
             {
-              ""id"": ""AAA""
-            },
-            {
-              ""id"": ""AAB""
+              "elements": [
+                {
+                  "id": "A",
+                  "children": [
+                    {
+                      "id": "AA",
+                      "children": [
+                        {
+                          "id": "AAA"
+                        },
+                        {
+                          "id": "AAB"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "AB"
+                    }
+                  ]
+                },
+                {
+                  "id": "B",
+                  "children": []
+                }
+              ]
             }
-          ]
-        },
-        {
-          ""id"": ""AB""
-        }
-      ]
-    },
-    {
-      ""id"": ""B"",
-      ""children"": []
-    }
-  ]
-}";
+            """;
 
         var models = JObject.Parse(json);
 
@@ -330,40 +340,42 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void ParseWithEmptyArrayContent()
     {
-        var json = @"{
-    'controls': [
-        {
-            'messages': {
-                'addSuggestion': {
-                    'en-US': 'Add'
-                }
-            }
-        },
-        {
-            'header': {
-                'controls': []
-            },
-            'controls': [
-                {
-                    'controls': [
-                        {
-                            'defaultCaption': {
-                                'en-US': 'Sort by'
-                            },
-                            'sortOptions': [
-                                {
-                                    'label': {
-                                        'en-US': 'Name'
-                                    }
-                                }
-                            ]
+        var json = """
+            {
+                'controls': [
+                    {
+                        'messages': {
+                            'addSuggestion': {
+                                'en-US': 'Add'
+                            }
                         }
-                    ]
-                }
-            ]
-        }
-    ]
-}";
+                    },
+                    {
+                        'header': {
+                            'controls': []
+                        },
+                        'controls': [
+                            {
+                                'controls': [
+                                    {
+                                        'defaultCaption': {
+                                            'en-US': 'Sort by'
+                                        },
+                                        'sortOptions': [
+                                            {
+                                                'label': {
+                                                    'en-US': 'Name'
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+            """;
         var jToken = JObject.Parse(json);
         var tokens = jToken.SelectTokens("$..en-US").ToList();
 
@@ -376,10 +388,12 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void SelectTokenAfterEmptyContainer()
     {
-        var json = @"{
-    'cont': [],
-    'test': 'no one will find me'
-}";
+        var json = """
+            {
+                'cont': [],
+                'test': 'no one will find me'
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -1184,36 +1198,38 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Example()
     {
-        var o = JObject.Parse(@"{
-        ""Stores"": [
-          ""Lambton Quay"",
-          ""Willis Street""
-        ],
-        ""Manufacturers"": [
-          {
-            ""Name"": ""Acme Co"",
-            ""Products"": [
-              {
-                ""Name"": ""Anvil"",
-                ""Price"": 50
+        var o = JObject.Parse("""
+            {
+                "Stores": [
+                  "Lambton Quay",
+                  "Willis Street"
+                ],
+                "Manufacturers": [
+                  {
+                    "Name": "Acme Co",
+                    "Products": [
+                      {
+                        "Name": "Anvil",
+                        "Price": 50
+                      }
+                    ]
+                  },
+                  {
+                    "Name": "Contoso",
+                    "Products": [
+                      {
+                        "Name": "Elbow Grease",
+                        "Price": 99.95
+                      },
+                      {
+                        "Name": "Headlight Fluid",
+                        "Price": 4
+                      }
+                    ]
+                  }
+                ]
               }
-            ]
-          },
-          {
-            ""Name"": ""Contoso"",
-            ""Products"": [
-              {
-                ""Name"": ""Elbow Grease"",
-                ""Price"": 99.95
-              },
-              {
-                ""Name"": ""Headlight Fluid"",
-                ""Price"": 4
-              }
-            ]
-          }
-        ]
-      }");
+            """);
 
         var name = (string) o.SelectToken("Manufacturers[0].Name");
         // Acme Co
@@ -1352,45 +1368,47 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void RootInFilterWithRootObject()
     {
-        var json = @"{
-                ""store"" : {
-                    ""book"" : [
+        var json = """
+            {
+                "store" : {
+                    "book" : [
                         {
-                            ""category"" : ""reference"",
-                            ""author"" : ""Nigel Rees"",
-                            ""title"" : ""Sayings of the Century"",
-                            ""price"" : 8.95
+                            "category" : "reference",
+                            "author" : "Nigel Rees",
+                            "title" : "Sayings of the Century",
+                            "price" : 8.95
                         },
                         {
-                            ""category"" : ""fiction"",
-                            ""author"" : ""Evelyn Waugh"",
-                            ""title"" : ""Sword of Honour"",
-                            ""price"" : 12.99
+                            "category" : "fiction",
+                            "author" : "Evelyn Waugh",
+                            "title" : "Sword of Honour",
+                            "price" : 12.99
                         },
                         {
-                            ""category"" : ""fiction"",
-                            ""author"" : ""Herman Melville"",
-                            ""title"" : ""Moby Dick"",
-                            ""isbn"" : ""0-553-21311-3"",
-                            ""price"" : 8.99
+                            "category" : "fiction",
+                            "author" : "Herman Melville",
+                            "title" : "Moby Dick",
+                            "isbn" : "0-553-21311-3",
+                            "price" : 8.99
                         },
                         {
-                            ""category"" : ""fiction"",
-                            ""author"" : ""J. R. R. Tolkien"",
-                            ""title"" : ""The Lord of the Rings"",
-                            ""isbn"" : ""0-395-19395-8"",
-                            ""price"" : 22.99
+                            "category" : "fiction",
+                            "author" : "J. R. R. Tolkien",
+                            "title" : "The Lord of the Rings",
+                            "isbn" : "0-395-19395-8",
+                            "price" : 22.99
                         }
                     ],
-                    ""bicycle"" : [
+                    "bicycle" : [
                         {
-                            ""color"" : ""red"",
-                            ""price"" : 19.95
+                            "color" : "red",
+                            "price" : 19.95
                         }
                     ]
                 },
-                ""expensive"" : 10
-            }";
+                "expensive" : 10
+            }
+            """;
 
         var a = JObject.Parse(json);
 
@@ -1426,17 +1444,19 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void IdentityOperator()
     {
-        var o = JObject.Parse(@"{
-	            'Values': [{
-
-                    'Coercible': 1,
-                    'Name': 'Number'
-
-                }, {
-		            'Coercible': '1',
-		            'Name': 'String'
-	            }]
-            }");
+        var o = JObject.Parse("""
+            {
+                'Values': [
+                    {
+                        'Coercible': 1,
+                        'Name': 'Number'
+                    }, 
+                    {
+                        'Coercible': '1',
+                        'Name': 'String'
+                    }]
+            }
+            """);
 
         // just to verify expected behavior hasn't changed
         var sanity1 = o.SelectTokens("Values[?(@.Coercible == '1')].Name").Select(x => (string) x);
@@ -1479,13 +1499,15 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Equals_FloatWithInt()
     {
-        var token = JToken.Parse(@"{
-  ""Values"": [
-    {
-      ""Property"": 1
-    }
-  ]
-}");
+        var token = JToken.Parse("""
+            {
+              "Values": [
+                {
+                  "Property": 1
+                }
+              ]
+            }
+            """);
 
         Assert.NotNull(token.SelectToken(@"Values[?(@.Property == 1.0)]"));
     }

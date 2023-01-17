@@ -12,7 +12,8 @@ The path is made up of property names and array indexes separated by periods, e.
 <!-- snippet: SelectTokenComplex -->
 <a id='snippet-selecttokencomplex'></a>
 ```cs
-var o = JObject.Parse(@"{
+var o = JObject.Parse("""
+    {
       'Stores': [
         'Lambton Quay',
         'Willis Street'
@@ -41,7 +42,8 @@ var o = JObject.Parse(@"{
           ]
         }
       ]
-    }");
+    }
+    """);
 
 var name = (string) o.SelectToken("Manufacturers[0].Name");
 // Acme Co
@@ -52,7 +54,7 @@ var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price")
 var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L442-L484' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L444-L488' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -135,7 +137,7 @@ var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("P
 var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
 // 149.95
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L525-L538' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L531-L544' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

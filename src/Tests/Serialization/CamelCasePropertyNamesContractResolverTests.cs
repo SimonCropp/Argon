@@ -38,11 +38,13 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""Name!"",
-  ""birthDate"": ""2000-11-20T23:55:44Z"",
-  ""lastModified"": ""2000-11-20T23:55:44Z""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "Name!",
+              "birthDate": "2000-11-20T23:55:44Z",
+              "lastModified": "2000-11-20T23:55:44Z"
+            }
+            """, json);
 
         var deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
         {
@@ -54,11 +56,13 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Name!"",
-  ""BirthDate"": ""2000-11-20T23:55:44Z"",
-  ""LastModified"": ""2000-11-20T23:55:44Z""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Name!",
+              "BirthDate": "2000-11-20T23:55:44Z",
+              "LastModified": "2000-11-20T23:55:44Z"
+            }
+            """, json);
     }
 
     [Fact]
@@ -115,16 +119,18 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
         //  ]
         //}
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""Widget"",
-  ""expiryDate"": ""2010-12-20T18:01:00Z"",
-  ""price"": 9.99,
-  ""sizes"": [
-    ""Small"",
-    ""Medium"",
-    ""Large""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "Widget",
+              "expiryDate": "2010-12-20T18:01:00Z",
+              "price": 9.99,
+              "sizes": [
+                "Small",
+                "Medium",
+                "Large"
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -140,13 +146,15 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""explicit"": false,
-  ""text"": ""Text!"",
-  ""integer"": 2147483647,
-  ""int"": 0,
-  ""childObject"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "explicit": false,
+              "text": "Text!",
+              "integer": 2147483647,
+              "int": 0,
+              "childObject": null
+            }
+            """, json);
     }
 
     [Fact]
@@ -164,9 +172,11 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""first"": ""Value1!"",
-  ""second"": ""Value2!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "first": "Value1!",
+              "second": "Value2!"
+            }
+            """, json);
     }
 }

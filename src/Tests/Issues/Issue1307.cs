@@ -60,11 +60,13 @@ public class Issue1307 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        var json = @"{
-  ""instanceOfMyClass"":
-    /* Comment explaining that this is a legacy data contract: */
-    [ 1, 2, 3 ]
-}";
+        var json = """
+            {
+              "instanceOfMyClass":
+                /* Comment explaining that this is a legacy data contract: */
+                [ 1, 2, 3 ]
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<MyOtherClass>(json);
         Assert.Equal(3, c.InstanceOfMyClass.Dummy.Length);

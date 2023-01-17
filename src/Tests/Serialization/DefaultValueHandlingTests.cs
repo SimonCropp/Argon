@@ -99,14 +99,16 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Include});
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Company"": ""Acme Ltd."",
-  ""Amount"": 50.0,
-  ""Paid"": false,
-  ""PaidDate"": null,
-  ""FollowUpDays"": 30,
-  ""FollowUpEmailAddress"": """"
-}", included);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Company": "Acme Ltd.",
+              "Amount": 50.0,
+              "Paid": false,
+              "PaidDate": null,
+              "FollowUpDays": 30,
+              "FollowUpEmailAddress": ""
+            }
+            """, included);
     }
 
     [Fact]
@@ -126,23 +128,27 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Company"": ""Acme Ltd."",
-  ""Amount"": 50.0,
-  ""Paid"": false,
-  ""PaidDate"": null,
-  ""FollowUpDays"": 30,
-  ""FollowUpEmailAddress"": """"
-}", included);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Company": "Acme Ltd.",
+              "Amount": 50.0,
+              "Paid": false,
+              "PaidDate": null,
+              "FollowUpDays": 30,
+              "FollowUpEmailAddress": ""
+            }
+            """, included);
 
         var ignored = JsonConvert.SerializeObject(invoice,
             Formatting.Indented,
             new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Company"": ""Acme Ltd."",
-  ""Amount"": 50.0
-}", ignored);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Company": "Acme Ltd.",
+              "Amount": 50.0
+            }
+            """, ignored);
     }
 
     [Fact]
@@ -291,29 +297,35 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""IntInclude"": 0,
-  ""IntDefault"": 0
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "IntInclude": 0,
+              "IntDefault": 0
+            }
+            """, json);
 
         json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.Ignore
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""IntInclude"": 0
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "IntInclude": 0
+            }
+            """, json);
 
         json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.Include
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""IntInclude"": 0,
-  ""IntDefault"": 0
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "IntInclude": 0,
+              "IntDefault": 0
+            }
+            """, json);
     }
 
     [Fact]

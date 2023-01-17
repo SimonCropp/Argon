@@ -285,11 +285,13 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public async Task Depth()
     {
-        var input = @"{
-  value:'Purple',
-  array:[1,2,'2014-06-04T00:00:00Z'],
-  subobject:{prop:1,proparray:[1]}
-}";
+        var input = """
+            {
+              value:'Purple',
+              array:[1,2,'2014-06-04T00:00:00Z'],
+              subobject:{prop:1,proparray:[1]}
+            }
+            """;
 
         var sr = new StringReader(input);
 

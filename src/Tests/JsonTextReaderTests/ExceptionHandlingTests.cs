@@ -441,9 +441,11 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadIntegerWithError()
     {
-        var json = @"{
-    ChildId: 333333333333333333333333333333333333333
-}";
+        var json = """
+            {
+                ChildId: 333333333333333333333333333333333333333
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 
@@ -503,9 +505,11 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadBytesWithError()
     {
-        var json = @"{
-    ChildId: '123'
-}";
+        var json = """
+            {
+                ChildId: '123'
+            }
+            """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 

@@ -157,13 +157,15 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadLineInfoAsync()
     {
-        var input = @"{
-  CPU: 'Intel',
-  Drives: [
-    'DVD read/writer',
-    ""500 gigabyte hard drive""
-  ]
-}";
+        var input = """
+            {
+              CPU: 'Intel',
+              Drives: [
+                'DVD read/writer',
+                "500 gigabyte hard drive"
+              ]
+            }
+            """;
 
         var o = JObject.Parse(input);
 

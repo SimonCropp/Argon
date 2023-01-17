@@ -7,19 +7,21 @@ public class Issue1545 : TestFixtureBase
     [Fact]
     public void Test_Populate()
     {
-        var json = @"{
-                ""array"": [
+        var json = """
+            {
+                "array": [
                     /* comment0 */
                     {
-                        ""value"": ""item1""
+                        "value": "item1"
                     },
                     /* comment1 */
                     {
-                        ""value"": ""item2""
+                        "value": "item2"
                     }
                     /* comment2 */
                 ]
-            }";
+            }
+            """;
 
         var s = JsonConvert.DeserializeObject<Simple>(json);
         Assert.Equal(2, s.Array.Length);

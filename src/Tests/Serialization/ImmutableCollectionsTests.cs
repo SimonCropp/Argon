@@ -342,11 +342,13 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeDictionary()
     {
-        var json = @"{
-  ""1"": ""One"",
-  ""2"": ""II"",
-  ""3"": ""3""
-}";
+        var json = """
+            {
+              "1": "One",
+              "2": "II",
+              "3": "3"
+            }
+            """;
 
         var l = JsonConvert.DeserializeObject<ImmutableDictionary<int, string>>(json);
 
@@ -359,11 +361,13 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeDictionaryInterface()
     {
-        var json = @"{
-  ""1"": ""One"",
-  ""2"": ""II"",
-  ""3"": ""3""
-}";
+        var json = """
+            {
+              "1": "One",
+              "2": "II",
+              "3": "3"
+            }
+            """;
 
         var l = JsonConvert.DeserializeObject<IImmutableDictionary<int, string>>(json);
 
@@ -390,21 +394,25 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""1"": ""One"",
-  ""2"": ""II"",
-  ""3"": ""3""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "1": "One",
+              "2": "II",
+              "3": "3"
+            }
+            """, json);
     }
 
     [Fact]
     public void DeserializeSortedDictionary()
     {
-        var json = @"{
-  ""1"": ""One"",
-  ""2"": ""II"",
-  ""3"": ""3""
-}";
+        var json = """
+            {
+              "1": "One",
+              "2": "II",
+              "3": "3"
+            }
+            """;
 
         var l = JsonConvert.DeserializeObject<ImmutableSortedDictionary<int, string>>(json);
 

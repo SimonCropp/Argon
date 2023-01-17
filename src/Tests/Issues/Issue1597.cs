@@ -63,14 +63,16 @@ public class Issue1597 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Wish"": 264,
-  ""Collect"": 7498,
-  ""Doing"": 385,
-  ""on_hold"": 285,
-  ""Dropped"": 221,
-  ""2147483647"": 2147483647
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Wish": 264,
+              "Collect": 7498,
+              "Doing": 385,
+              "on_hold": 285,
+              "Dropped": 221,
+              "2147483647": 2147483647
+            }
+            """, json);
     }
 
     public enum CollectionStatus

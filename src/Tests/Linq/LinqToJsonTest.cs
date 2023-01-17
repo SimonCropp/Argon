@@ -111,9 +111,11 @@ public class LinqToJsonTest : TestFixtureBase
         };
         var output = JObject.FromObject(instance);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Value"": 18446744073709551615
-}", output.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Value": 18446744073709551615
+            }
+            """, output.ToString());
     }
 
     public class TestClass_Byte
@@ -130,9 +132,11 @@ public class LinqToJsonTest : TestFixtureBase
         };
         var output = JObject.FromObject(instance);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Value"": 255
-}", output.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Value": 255
+            }
+            """, output.ToString());
     }
 
     [Fact]
@@ -411,9 +415,11 @@ undefined
 
         foreach (JObject friend in items)
         {
-            XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""value!""
-}", friend.ToString());
+            XUnitAssert.AreEqualNormalized("""
+                {
+                  "name": "value!"
+                }
+                """, friend.ToString());
         }
     }
 
@@ -463,13 +469,15 @@ undefined
     [Fact]
     public void ObjectParse()
     {
-        var json = @"{
-        CPU: 'Intel',
-        Drives: [
-          'DVD read/writer',
-          ""500 gigabyte hard drive""
-        ]
-      }";
+        var json = """
+            {
+                CPU: 'Intel',
+                Drives: [
+                  'DVD read/writer',
+                  "500 gigabyte hard drive"
+                ]
+            }
+            """;
 
         var o = JObject.Parse(json);
         var properties = o.Properties().ToList();
@@ -627,23 +635,27 @@ undefined
     [Fact]
     public void JTokenToString()
     {
-        var json = @"{
-  CPU: 'Intel',
-  Drives: [
-    'DVD read/writer',
-    ""500 gigabyte hard drive""
-  ]
-}";
+        var json = """
+            {
+              CPU: 'Intel',
+              Drives: [
+                'DVD read/writer',
+                "500 gigabyte hard drive"
+              ]
+            }
+            """;
 
         var o = JObject.Parse(json);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""CPU"": ""Intel"",
-  ""Drives"": [
-    ""DVD read/writer"",
-    ""500 gigabyte hard drive""
-  ]
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "CPU": "Intel",
+              "Drives": [
+                "DVD read/writer",
+                "500 gigabyte hard drive"
+              ]
+            }
+            """, o.ToString());
 
         var list = o.Value<JArray>("Drives");
 
@@ -656,40 +668,44 @@ undefined
         Assert.Equal(@"""CPU"": ""Intel""", cpuProperty.ToString());
 
         var drivesProperty = o.Property("Drives");
-        XUnitAssert.AreEqualNormalized(@"""Drives"": [
-  ""DVD read/writer"",
-  ""500 gigabyte hard drive""
-]", drivesProperty.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            "Drives": [
+              "DVD read/writer",
+              "500 gigabyte hard drive"
+            ]
+            """, drivesProperty.ToString());
     }
 
     [Fact]
     public void JTokenToStringTypes()
     {
-        var json = @"{
-    Color:2,
-    Width:1.1,
-    Employees:999, 
-    RoomsPerFloor:[1,2,3,4,5,6,7,8,9],
-    Open:false,
-    Symbol:'@',
-    Mottos:[
-        'Hello World',
-        null,
-        ' '],
-    Cost:100980.1,
-    Escape:""\r\n\t\f\b?{\\r\\n\""'"",
-    product:
-    [
-        {
-            Name:'Rocket',
-            Price:0
-        },
-        {
-            Name:'Alien',
-            Price:0
-        }
-    ]
-}";
+        var json = """
+            {
+                Color:2,
+                Width:1.1,
+                Employees:999, 
+                RoomsPerFloor:[1,2,3,4,5,6,7,8,9],
+                Open:false,
+                Symbol:'@',
+                Mottos:[
+                    'Hello World',
+                    null,
+                    ' '],
+                Cost:100980.1,
+                Escape:"\r\n\t\f\b?{\\r\\n\"'",
+                product:
+                [
+                    {
+                        Name:'Rocket',
+                        Price:0
+                    },
+                    {
+                        Name:'Alien',
+                        Price:0
+                    }
+                ]
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -722,12 +738,14 @@ undefined
 
         Assert.Equal(4, o.Properties().Count());
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Test1"": ""Test1Value"",
-  ""Test2"": ""Test2Value"",
-  ""Test3"": ""Test3Value"",
-  ""Test4"": null
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Test1": "Test1Value",
+              "Test2": "Test2Value",
+              "Test3": "Test3Value",
+              "Test4": null
+            }
+            """, o.ToString());
 
         var a =
             new JArray(
@@ -826,14 +844,16 @@ undefined
         //   ]
         // }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Title"": ""How to use FromObject - Super effective!"",
-  ""Description"": null,
-  ""Link"": null,
-  ""Categories"": [
-    ""LINQ to JSON""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Title": "How to use FromObject - Super effective!",
+              "Description": null,
+              "Link": null,
+              "Categories": [
+                "LINQ to JSON"
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -956,33 +976,35 @@ undefined
     [Fact]
     public void BasicQuerying()
     {
-        var json = @"{
-                        ""channel"": {
-                          ""title"": ""James Newton-King"",
-                          ""link"": ""http://james.newtonking.com"",
-                          ""description"": ""James Newton-King's blog."",
-                          ""item"": [
-                            {
-                              ""title"": ""Json.NET 1.3 + New license + Now on CodePlex"",
-                              ""description"": ""Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex"",
-                              ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-                              ""category"": [
-                                ""Json.NET"",
-                                ""CodePlex""
-                              ]
-                            },
-                            {
-                              ""title"": ""LINQ to JSON beta"",
-                              ""description"": ""Announcing LINQ to JSON"",
-                              ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-                              ""category"": [
-                                ""Json.NET"",
-                                ""LINQ""
-                              ]
-                            }
-                          ]
-                        }
-                      }";
+        var json = """
+            {
+            "channel": {
+              "title": "James Newton-King",
+              "link": "http://james.newtonking.com",
+              "description": "James Newton-King's blog.",
+              "item": [
+                {
+                  "title": "Json.NET 1.3 + New license + Now on CodePlex",
+                  "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+                  "link": "http://james.newtonking.com/projects/json-net.aspx",
+                  "category": [
+                    "Json.NET",
+                    "CodePlex"
+                  ]
+                },
+                {
+                  "title": "LINQ to JSON beta",
+                  "description": "Announcing LINQ to JSON",
+                  "link": "http://james.newtonking.com/projects/json-net.aspx",
+                  "category": [
+                    "Json.NET",
+                    "LINQ"
+                  ]
+                }
+              ]
+            }
+            }
+            """;
 
         var o = JObject.Parse(json);
 
@@ -1042,12 +1064,14 @@ undefined
 
         var json = stringWriter.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Test1"": ""2000-10-15T05:05:05Z"",
-  ""Test2"": ""2000-10-15T05:05:05+11:11"",
-  ""Test3"": ""Test3Value"",
-  ""Test4"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Test1": "2000-10-15T05:05:05Z",
+              "Test2": "2000-10-15T05:05:05+11:11",
+              "Test3": "Test3Value",
+              "Test4": null
+            }
+            """, json);
     }
 
     [Fact]
@@ -1349,13 +1373,15 @@ undefined
         var c1 = new UriGuidTimeSpanTestClass();
         var o = JObject.FromObject(c1);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Guid"": ""00000000-0000-0000-0000-000000000000"",
-  ""NullableGuid"": null,
-  ""TimeSpan"": ""00:00:00"",
-  ""NullableTimeSpan"": null,
-  ""Uri"": null
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Guid": "00000000-0000-0000-0000-000000000000",
+              "NullableGuid": null,
+              "TimeSpan": "00:00:00",
+              "NullableTimeSpan": null,
+              "Uri": null
+            }
+            """, o.ToString());
 
         var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
         Assert.Equal(c1.Guid, c2.Guid);
@@ -1378,13 +1404,15 @@ undefined
         };
         var o = JObject.FromObject(c1);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Guid"": ""1924129c-f7e0-40f3-9607-9939c531395a"",
-  ""NullableGuid"": ""9e9f3adf-e017-4f72-91e0-617ebe85967d"",
-  ""TimeSpan"": ""1.00:00:00"",
-  ""NullableTimeSpan"": ""01:00:00"",
-  ""Uri"": ""http://testuri.com""
-}", o.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Guid": "1924129c-f7e0-40f3-9607-9939c531395a",
+              "NullableGuid": "9e9f3adf-e017-4f72-91e0-617ebe85967d",
+              "TimeSpan": "1.00:00:00",
+              "NullableTimeSpan": "01:00:00",
+              "Uri": "http://testuri.com"
+            }
+            """, o.ToString());
 
         var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
         Assert.Equal(c1.Guid, c2.Guid);

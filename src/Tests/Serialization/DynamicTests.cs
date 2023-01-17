@@ -117,9 +117,11 @@ public class DynamicTests : TestFixtureBase
                 {
                     NullValueHandling = NullValueHandling.Ignore
                 };
-                var json = @"{
-  ""contributors"": null
-}";
+                var json = """
+                    {
+                      "contributors": null
+                    }
+                    """;
 
                 JsonConvert.DeserializeObject<DynamicObject>(json, settings);
             },
@@ -225,11 +227,13 @@ public class DynamicTests : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Explicit"": false,
-  ""Text"": ""Text!"",
-  ""Int"": 2147483647
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Explicit": false,
+              "Text": "Text!",
+              "Int": 2147483647
+            }
+            """, json);
     }
 
     [Fact]
@@ -246,13 +250,15 @@ public class DynamicTests : TestFixtureBase
             NullValueHandling = NullValueHandling.Include
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Explicit"": false,
-  ""Text"": ""Text!"",
-  ""DynamicChildObject"": null,
-  ""Int"": 2147483647,
-  ""ChildObject"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Explicit": false,
+              "Text": "Text!",
+              "DynamicChildObject": null,
+              "Int": 2147483647,
+              "ChildObject": null
+            }
+            """, json);
     }
 
     [Fact]
@@ -271,10 +277,12 @@ public class DynamicTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Ignore
         });
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Text"": ""Text!"",
-  ""Int"": 2147483647
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Text": "Text!",
+              "Int": 2147483647
+            }
+            """, json);
     }
 }
 

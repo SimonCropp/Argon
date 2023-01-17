@@ -396,7 +396,8 @@ public class LinqToJsonTests : TestFixtureBase
     [Fact]
     public void SelectTokenSimple()
     {
-        var o = JObject.Parse(@"{
+        var o = JObject.Parse("""
+            {
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -425,7 +426,8 @@ public class LinqToJsonTests : TestFixtureBase
                   ]
                 }
               ]
-            }");
+            }
+            """);
 
         #region SelectTokenSimple
 
@@ -441,7 +443,8 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region SelectTokenComplex
 
-        var o = JObject.Parse(@"{
+        var o = JObject.Parse("""
+            {
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -470,7 +473,8 @@ public class LinqToJsonTests : TestFixtureBase
                   ]
                 }
               ]
-            }");
+            }
+            """);
 
         var name = (string) o.SelectToken("Manufacturers[0].Name");
         // Acme Co
@@ -491,7 +495,8 @@ public class LinqToJsonTests : TestFixtureBase
     [Fact]
     public void SelectTokenLinq()
     {
-        var o = JObject.Parse(@"{
+        var o = JObject.Parse("""
+            {
               'Stores': [
                 'Lambton Quay',
                 'Willis Street'
@@ -520,7 +525,8 @@ public class LinqToJsonTests : TestFixtureBase
                   ]
                 }
               ]
-            }");
+            }
+            """);
 
         #region SelectTokenLinq
 

@@ -840,13 +840,15 @@ public class LinqDynamicTests : TestFixtureBase
         //   "StockValue": 22050.00
         // }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""ProductName"": ""Elbow Grease (SALE)"",
-  ""Enabled"": true,
-  ""Price"": 2.45,
-  ""StockCount"": 9000,
-  ""StockValue"": 22050.00
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "ProductName": "Elbow Grease (SALE)",
+              "Enabled": true,
+              "Price": 2.45,
+              "StockCount": 9000,
+              "StockValue": 22050.00
+            }
+            """, json);
     }
 
     [Fact]

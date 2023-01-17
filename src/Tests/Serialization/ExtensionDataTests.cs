@@ -74,13 +74,15 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""extensionData1"": [
-    1,
-    2,
-    3
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "extensionData1": [
+                1,
+                2,
+                3
+              ]
+            }
+            """, json);
 
         var e2 = JsonConvert.DeserializeObject<Example>(json);
 
@@ -132,10 +134,12 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void ExtensionDataWithNull()
     {
-        var json = @"{
+        var json = """
+            {
               'TaxRate': 0.125,
               'a':null
-            }";
+            }
+            """;
 
         var invoice = JsonConvert.DeserializeObject<ExtendedObject>(json);
 
@@ -150,10 +154,12 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void ExtensionDataFloatParseHandling()
     {
-        var json = @"{
+        var json = """
+            {
               'TaxRate': 0.125,
               'a':null
-            }";
+            }
+            """;
 
         var invoice = JsonConvert.DeserializeObject<ExtendedObject>(json, new JsonSerializerSettings
         {
@@ -184,11 +190,13 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void ExtensionDataExample()
     {
-        var json = @"{
+        var json = """
+            {
               'HourlyRate': 150,
               'Hours': 40,
               'TaxRate': 0.125
-            }";
+            }
+            """;
 
         var invoice = JsonConvert.DeserializeObject<CustomerInvoice>(json);
 
@@ -266,17 +274,19 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void ExtensionDataTest()
     {
-        var json = @"{
-  ""Ints"": [1,2,3],
-  ""Ignored"": [1,2,3],
-  ""Readonly"": ""Readonly"",
-  ""Name"": ""Actually set!"",
-  ""CustomName"": ""Wrong name!"",
-  ""GetPrivate"": true,
-  ""GetOnly"": true,
-  ""NewValueSimple"": true,
-  ""NewValueComplex"": [1,2,3]
-}";
+        var json = """
+            {
+              "Ints": [1,2,3],
+              "Ignored": [1,2,3],
+              "Readonly": "Readonly",
+              "Name": "Actually set!",
+              "CustomName": "Wrong name!",
+              "GetPrivate": true,
+              "GetOnly": true,
+              "NewValueSimple": true,
+              "NewValueComplex": [1,2,3]
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<ExtensionDataTestClass>(json);
 
@@ -297,17 +307,19 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void ExtensionDataTest_DeserializeWithNamingStrategy()
     {
-        var json = @"{
-  ""Ints"": [1,2,3],
-  ""Ignored"": [1,2,3],
-  ""Readonly"": ""Readonly"",
-  ""Name"": ""Actually set!"",
-  ""CustomName"": ""Wrong name!"",
-  ""GetPrivate"": true,
-  ""GetOnly"": true,
-  ""NewValueSimple"": true,
-  ""NewValueComplex"": [1,2,3]
-}";
+        var json = """
+            {
+              "Ints": [1,2,3],
+              "Ignored": [1,2,3],
+              "Readonly": "Readonly",
+              "Name": "Actually set!",
+              "CustomName": "Wrong name!",
+              "GetPrivate": true,
+              "GetOnly": true,
+              "NewValueSimple": true,
+              "NewValueComplex": [1,2,3]
+            }
+            """;
 
         var c = JsonConvert.DeserializeObject<ExtensionDataTestClass>(json, new JsonSerializerSettings
         {

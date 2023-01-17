@@ -99,10 +99,12 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Property1"": 1,
-  ""Property2"": 2
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Property1": 1,
+              "Property2": 2
+            }
+            """, json);
     }
 
     [Fact]
@@ -245,27 +247,29 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Array1"": [
-    {
-      ""Property1"": {
-        ""Property1"": 1,
-        ""Property2"": 3,
-        ""Property3"": {},
-        ""Property4"": 4,
-        ""Property5"": null
-      }
-    },
-    {},
-    3,
-    4,
-    5.1,
-    null,
-    {
-      ""Property1"": 1
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Array1": [
+                {
+                  "Property1": {
+                    "Property1": 1,
+                    "Property2": 3,
+                    "Property3": {},
+                    "Property4": 4,
+                    "Property5": null
+                  }
+                },
+                {},
+                3,
+                4,
+                5.1,
+                null,
+                {
+                  "Property1": 1
+                }
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -296,25 +300,27 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Array1"": [
-    {
-      ""Property1"": 1
-    },
-    {
-      ""Property1"": 1
-    },
-    {
-      ""Property1"": 1
-    },
-    {
-      ""Property2"": 2
-    },
-    {
-      ""Property3"": 3
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Array1": [
+                {
+                  "Property1": 1
+                },
+                {
+                  "Property1": 1
+                },
+                {
+                  "Property1": 1
+                },
+                {
+                  "Property2": 2
+                },
+                {
+                  "Property3": 3
+                }
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -444,12 +450,14 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Array1"": [
-    4,
-    5
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Array1": [
+                4,
+                5
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -508,22 +516,24 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Array1"": [
-    {
-      ""Property1"": 1
-    },
-    {
-      ""Property1"": 1
-    },
-    {
-      ""Property2"": 2
-    },
-    {
-      ""Property3"": 3
-    }
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Array1": [
+                {
+                  "Property1": 1
+                },
+                {
+                  "Property1": 1
+                },
+                {
+                  "Property2": 2
+                },
+                {
+                  "Property3": 3
+                }
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -580,16 +590,20 @@ Parameter name: content",
     [Fact]
     public void MergeNullValueHandling_Array()
     {
-        var originalJson = @"{
-  ""Bar"": [
-    ""a"",
-    ""b"",
-    ""c""
-  ]
-}";
-        var newJson = @"{
-  ""Bar"": null
-}";
+        var originalJson = """
+            {
+              "Bar": [
+                "a",
+                "b",
+                "c"
+              ]
+            }
+            """;
+        var newJson = """
+            {
+              "Bar": null
+            }
+            """;
 
         var oldFoo = JObject.Parse(originalJson);
         var newFoo = JObject.Parse(newJson);
@@ -612,12 +626,16 @@ Parameter name: content",
     [Fact]
     public void MergeNullValueHandling_Object()
     {
-        var originalJson = @"{
-  ""Bar"": {}
-}";
-        var newJson = @"{
-  ""Bar"": null
-}";
+        var originalJson = """
+            {
+              "Bar": {}
+            }
+            """;
+        var newJson = """
+            {
+              "Bar": null
+            }
+            """;
 
         var oldFoo = JObject.Parse(originalJson);
         var newFoo = JObject.Parse(newJson);
@@ -640,14 +658,18 @@ Parameter name: content",
     [Fact]
     public void Merge_IgnorePropertyCase()
     {
-        var o1 = JObject.Parse(@"{
-                                          'Id': '1',
-                                          'Words': [ 'User' ]
-                                        }");
-        var o2 = JObject.Parse(@"{
-                                            'Id': '1',
-                                            'words': [ 'Name' ]
-                                        }");
+        var o1 = JObject.Parse("""
+            {
+              'Id': '1',
+              'Words': [ 'User' ]
+            }
+            """);
+        var o2 = JObject.Parse("""
+            {
+                'Id': '1',
+                'words': [ 'Name' ]
+            }
+            """);
 
         o1.Merge(o2, new()
         {
