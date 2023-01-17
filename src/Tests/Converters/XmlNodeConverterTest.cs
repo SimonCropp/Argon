@@ -2225,7 +2225,7 @@ public class XmlNodeConverterTest : TestFixtureBase
               <Price>3.99</Price>
               <Sizes json:Array="true" xmlns:json="http://james.newtonking.com/projects/json">Small</Sizes>
             </product>
-            """, 
+            """,
             IndentXml(xmlProduct.InnerXml));
 
         var output2 = JsonXmlConvert.SerializeXmlNode(xmlProduct.DocumentElement, Formatting.Indented);
