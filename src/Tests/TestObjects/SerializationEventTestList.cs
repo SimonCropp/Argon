@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace TestObjects;
 
-public class SerializationEventTestList : Collection<decimal>
+public class SerializationEventTestList : Collection<decimal>, IJsonOnSerializing
 {
     // This member is serialized and deserialized with no change.
     public int Member1 { get; }
@@ -30,8 +30,7 @@ public class SerializationEventTestList : Collection<decimal>
         Member4 = null;
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context)
+    public void OnSerializing()
     {
         Member2 = "This value went into the data file during serialization.";
         Insert(0, -1);
@@ -48,4 +47,5 @@ public class SerializationEventTestList : Collection<decimal>
     [OnDeserialized]
     internal void OnDeserializedMethod(StreamingContext context) =>
         Member4 = "This value was set after deserialization.";
+
 }

@@ -237,19 +237,8 @@ public class DefaultContractResolver : IContractResolver
             SetExtensionDataDelegates(contract, extensionDataMember);
         }
 
-        // serializing DirectoryInfo without ISerializable will stackoverflow
-        // https://github.com/JamesNK/Newtonsoft.Json/issues/1541
-        if (Array.IndexOf(blacklistedTypeNames, type.FullName) != -1)
-        {
-            contract.OnSerializingCallbacks.Add(ThrowUnableToSerializeError);
-        }
-
         return contract;
     }
-
-    [DoesNotReturn]
-    static void ThrowUnableToSerializeError(object o, StreamingContext context) =>
-        throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
 
     static MemberInfo? GetExtensionDataMemberForType(Type type)
     {
@@ -621,16 +610,10 @@ public class DefaultContractResolver : IContractResolver
     {
         GetCallbackMethodsForType(
             type,
-            out var onSerializing,
             out var onSerialized,
             out var onDeserializing,
             out var onDeserialized,
             out var onError);
-
-        if (onSerializing != null)
-        {
-            contract.OnSerializingCallbacks.AddRange(onSerializing);
-        }
 
         if (onSerialized != null)
         {
@@ -653,9 +636,8 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    static void GetCallbackMethodsForType(Type type, out List<SerializationCallback>? onSerializing, out List<SerializationCallback>? onSerialized, out List<SerializationCallback>? onDeserializing, out List<SerializationCallback>? onDeserialized, out List<SerializationErrorCallback>? onError)
+    static void GetCallbackMethodsForType(Type type, out List<SerializationCallback>? onSerialized, out List<SerializationCallback>? onDeserializing, out List<SerializationCallback>? onDeserialized, out List<SerializationErrorCallback>? onError)
     {
-        onSerializing = null;
         onSerialized = null;
         onDeserializing = null;
         onDeserialized = null;
@@ -664,13 +646,11 @@ public class DefaultContractResolver : IContractResolver
         foreach (var baseType in GetClassHierarchyForType(type))
         {
             // while we allow more than one OnSerialized total, only one can be defined per class
-            MethodInfo? currentOnSerializing = null;
             MethodInfo? currentOnSerialized = null;
             MethodInfo? currentOnDeserializing = null;
             MethodInfo? currentOnDeserialized = null;
             MethodInfo? currentOnError = null;
 
-            var skipSerializing = ShouldSkipSerializing(baseType);
             var skipDeserialized = ShouldSkipDeserialized(baseType);
 
             foreach (var method in baseType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
@@ -684,13 +664,6 @@ public class DefaultContractResolver : IContractResolver
 
                 Type? prevAttributeType = null;
                 var parameters = method.GetParameters();
-
-                if (!skipSerializing && IsValidCallback(method, parameters, typeof(OnSerializingAttribute), currentOnSerializing, ref prevAttributeType))
-                {
-                    onSerializing ??= new();
-                    onSerializing.Add(JsonContract.CreateSerializationCallback(method));
-                    currentOnSerializing = method;
-                }
 
                 if (IsValidCallback(method, parameters, typeof(OnSerializedAttribute), currentOnSerialized, ref prevAttributeType))
                 {
@@ -746,18 +719,6 @@ public class DefaultContractResolver : IContractResolver
     static bool ShouldSkipDeserialized(Type type)
     {
         // ConcurrentDictionary throws an error in its OnDeserialized so ignore - http://json.codeplex.com/discussions/257093
-        if (IsConcurrentOrObservableCollection(type))
-        {
-            return true;
-        }
-
-        return type.Name is
-            FSharpUtils.FSharpSetTypeName or
-            FSharpUtils.FSharpMapTypeName;
-    }
-
-    static bool ShouldSkipSerializing(Type type)
-    {
         if (IsConcurrentOrObservableCollection(type))
         {
             return true;

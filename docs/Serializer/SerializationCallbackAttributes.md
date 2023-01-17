@@ -5,7 +5,8 @@ This sample uses serialization callback attributes (`OnSerializingAttribute`, `O
 <!-- snippet: SerializationCallbackAttributesTypes -->
 <a id='snippet-serializationcallbackattributestypes'></a>
 ```cs
-public class SerializationEventTestObject
+public class SerializationEventTestObject :
+    IJsonOnSerializing
 {
     // 2222
     // This member is serialized and deserialized with no change.
@@ -30,8 +31,7 @@ public class SerializationEventTestObject
         Member4 = null;
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context) =>
+    public void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
 
     [OnSerialized]

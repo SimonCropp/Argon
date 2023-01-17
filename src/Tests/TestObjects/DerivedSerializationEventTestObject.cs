@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-public class DerivedSerializationEventTestObject : SerializationEventTestObject
+public class DerivedSerializationEventTestObject : SerializationEventTestObject, IJsonOnSerializing
 {
     // This field is set to null, but populated after deserialization, only
     // in the derived class
@@ -13,8 +13,8 @@ public class DerivedSerializationEventTestObject : SerializationEventTestObject
 
     // These empty methods exist to make sure we're not covering up the base
     // methods
-    [OnSerializing]
-    internal void OnDerivedSerializingMethod(StreamingContext context)
+
+    public override void OnSerializing()
     {
     }
 

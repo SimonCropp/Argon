@@ -6,7 +6,8 @@ public class SerializationCallbackAttributes : TestFixtureBase
 {
     #region SerializationCallbackAttributesTypes
 
-    public class SerializationEventTestObject
+    public class SerializationEventTestObject :
+        IJsonOnSerializing
     {
         // 2222
         // This member is serialized and deserialized with no change.
@@ -31,8 +32,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
             Member4 = null;
         }
 
-        [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context) =>
+        public void OnSerializing() =>
             Member2 = "This value went into the data file during serialization.";
 
         [OnSerialized]

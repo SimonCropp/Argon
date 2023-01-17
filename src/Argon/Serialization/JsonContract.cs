@@ -22,7 +22,6 @@ public abstract class JsonContract
     List<SerializationCallback>? onDeserializedCallbacks;
     List<SerializationCallback>? onDeserializingCallbacks;
     List<SerializationCallback>? onSerializedCallbacks;
-    List<SerializationCallback>? onSerializingCallbacks;
     List<SerializationErrorCallback>? onErrorCallbacks;
     Type createdType;
 
@@ -79,11 +78,6 @@ public abstract class JsonContract
     public List<SerializationCallback> OnSerializedCallbacks => onSerializedCallbacks ??= new();
 
     /// <summary>
-    /// Gets or sets all methods called before serialization of the object.
-    /// </summary>
-    public List<SerializationCallback> OnSerializingCallbacks => onSerializingCallbacks ??= new();
-
-    /// <summary>
     /// Gets or sets all method called when an error is thrown during the serialization of the object.
     /// </summary>
     public List<SerializationErrorCallback> OnErrorCallbacks => onErrorCallbacks ??= new();
@@ -123,20 +117,6 @@ public abstract class JsonContract
         IsEnum = NonNullableUnderlyingType.IsEnum;
 
         InternalReadType = ReadType.Read;
-    }
-
-    internal void InvokeOnSerializing(object o, StreamingContext? context)
-    {
-        var contextToUse = ContextToUse(context);
-        if (onSerializingCallbacks == null)
-        {
-            return;
-        }
-
-        foreach (var callback in onSerializingCallbacks)
-        {
-            callback(o, contextToUse);
-        }
     }
 
     internal void InvokeOnSerialized(object o, StreamingContext? context)

@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-public class SerializationEventTestObject
+public class SerializationEventTestObject : IJsonOnSerializing
 {
     // This member is serialized and deserialized with no change.
     public int Member1 { get; set; }
@@ -40,8 +40,7 @@ public class SerializationEventTestObject
         Member4 = null;
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context) =>
+    public virtual void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
 
     [OnSerialized]

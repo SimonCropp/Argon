@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-public class SerializationEventTestDictionary : Dictionary<decimal, string>
+public class SerializationEventTestDictionary : Dictionary<decimal, string>, IJsonOnSerializing
 {
     // This member is serialized and deserialized with no change.
     public int Member1 { get; }
@@ -28,8 +28,7 @@ public class SerializationEventTestDictionary : Dictionary<decimal, string>
         Member4 = null;
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context)
+    public void OnSerializing()
     {
         Member2 = "This value went into the data file during serialization.";
         Add(decimal.MaxValue, "Inserted on serializing");
@@ -46,4 +45,5 @@ public class SerializationEventTestDictionary : Dictionary<decimal, string>
     [OnDeserialized]
     internal void OnDeserializedMethod(StreamingContext context) =>
         Member4 = "This value was set after deserialization.";
+
 }

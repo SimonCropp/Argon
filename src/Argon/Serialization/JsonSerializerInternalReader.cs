@@ -458,11 +458,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                             throw JsonSerializationException.Create(reader, $"Cannot preserve reference to readonly dictionary, or dictionary created from a non-default constructor: {contract.UnderlyingType}.");
                         }
 
-                        if (contract.OnSerializingCallbacks.Count > 0)
-                        {
-                            throw JsonSerializationException.Create(reader, $"Cannot call OnSerializing on readonly dictionary, or dictionary created from a non-default constructor: {contract.UnderlyingType}.");
-                        }
-
                         if (contract.OnErrorCallbacks.Count > 0)
                         {
                             throw JsonSerializationException.Create(reader, $"Cannot call OnError on readonly list, or dictionary created from a non-default constructor: {contract.UnderlyingType}.");
@@ -765,11 +760,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 if (id != null)
                 {
                     throw JsonSerializationException.Create(reader, $"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: {contract.UnderlyingType}.");
-                }
-
-                if (contract.OnSerializingCallbacks.Count > 0)
-                {
-                    throw JsonSerializationException.Create(reader, $"Cannot call OnSerializing on an array or readonly list, or list created from a non-default constructor: {contract.UnderlyingType}.");
                 }
 
                 if (contract.OnErrorCallbacks.Count > 0)

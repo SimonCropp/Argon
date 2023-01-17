@@ -17,7 +17,8 @@ Example object with serialization callback methods:</para>
 <!-- snippet: SerializationCallbacksObject -->
 <a id='snippet-serializationcallbacksobject'></a>
 ```cs
-public class SerializationEventTestObject
+public class SerializationEventTestObject :
+    IJsonOnSerializing
 {
     // 2222
     // This member is serialized and deserialized with no change.
@@ -29,7 +30,8 @@ public class SerializationEventTestObject
 
     // This field is not serialized. The OnDeserializedAttribute
     // is used to set the member value after serialization.
-    [JsonIgnore] public string Member3 { get; set; }
+    [JsonIgnore]
+    public string Member3 { get; set; }
 
     // This field is set to null, but populated after deserialization.
     public string Member4 { get; set; }
@@ -42,8 +44,7 @@ public class SerializationEventTestObject
         Member4 = null;
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context) =>
+    public void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
 
     [OnSerialized]
@@ -59,7 +60,7 @@ public class SerializationEventTestObject
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L95-L139' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L95-L140' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The example object being serialized and deserialized by Json.NET:</para>
@@ -105,5 +106,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L144-L184' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L145-L185' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
