@@ -1744,7 +1744,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             // set presence of read values
             if (trackPresence)
             {
-                if (context.Property != null && context.Presence == null)
+                if (context is {Property: { }, Presence: null})
                 {
                     var v = context.Value;
                     PropertyPresence propertyPresence;
