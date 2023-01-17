@@ -6,10 +6,6 @@ namespace TestObjects;
 
 public class PersonSerializable
 {
-    public PersonSerializable()
-    {
-    }
-
     public string Name { get; set; } = "";
 
     [field: NonSerialized]

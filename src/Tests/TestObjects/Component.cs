@@ -9,8 +9,4 @@ public class Component
 {
     [JsonIgnore] // Ignore circular reference
     public GameObject GameObject { get; set; }
-
-    public Component()
-    {
-    }
 }

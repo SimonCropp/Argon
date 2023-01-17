@@ -9,8 +9,4 @@ public class TestComponentSimple
 {
     [JsonProperty]
     public int MyProperty { get; set; }
-
-    public TestComponentSimple()
-    {
-    }
 }

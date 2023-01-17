@@ -6,10 +6,6 @@ namespace TestObjects;
 
 public class HolderClass
 {
-    public HolderClass()
-    {
-    }
-
     [JsonProperty(TypeNameHandling = TypeNameHandling.All)]
     public ContentBaseClass TestMember { get; set; }
 

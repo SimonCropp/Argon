@@ -22,8 +22,4 @@ public interface IInterfacePropertyTestClass
 public class InterfacePropertyTestClass : IInterfacePropertyTestClass
 {
     public ICo co { get; set; }
-
-    public InterfacePropertyTestClass()
-    {
-    }
 }
