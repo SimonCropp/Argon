@@ -4,6 +4,7 @@
 
 using TestObjects;
 
+[UsesVerify]
 public class SerializationEventAttributeTests : TestFixtureBase
 {
     [Fact]
@@ -323,7 +324,7 @@ OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
     }
 
     [Fact]
-    public void DerivedDerivedSerializationEvents()
+    public Task DerivedDerivedSerializationEvents()
     {
         var c = JsonConvert.DeserializeObject<DerivedDerivedSerializationEventOrderTestObject>("{}");
 
@@ -331,22 +332,11 @@ OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
         var e = c.GetEvents();
 
-        XUnitAssert.AreEqualNormalized(@"OnDeserializing
-OnDeserializing_Derived
-OnDeserializing_Derived_Derived
-OnDeserialized
-OnDeserialized_Derived
-OnDeserialized_Derived_Derived
-OnSerializing
-OnSerializing_Derived
-OnSerializing_Derived_Derived
-OnSerialized
-OnSerialized_Derived
-OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
+        return Verify(e);
     }
 
     [Fact]
-    public void DerivedDerivedSerializationEvents_DataContractSerializer()
+    public Task DerivedDerivedSerializationEvents_DataContractSerializer()
     {
         var xml = @"<SerializationEventAttributeTests.DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
 
@@ -359,18 +349,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
         var e = c.GetEvents();
 
-        XUnitAssert.AreEqualNormalized(@"OnDeserializing
-OnDeserializing_Derived
-OnDeserializing_Derived_Derived
-OnDeserialized
-OnDeserialized_Derived
-OnDeserialized_Derived_Derived
-OnSerializing
-OnSerializing_Derived
-OnSerializing_Derived_Derived
-OnSerialized
-OnSerialized_Derived
-OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
+        return Verify(e);
     }
 
     [Fact]
