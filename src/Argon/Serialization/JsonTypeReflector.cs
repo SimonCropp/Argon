@@ -279,10 +279,10 @@ static class JsonTypeReflector
     {
         get
         {
-#if !NETSTANDARD2_0
-            return DynamicReflectionDelegateFactory.Instance;
-#else
+#if NETSTANDARD2_0
             return ExpressionReflectionDelegateFactory.Instance;
+#else
+            return DynamicReflectionDelegateFactory.Instance;
 #endif
         }
     }
