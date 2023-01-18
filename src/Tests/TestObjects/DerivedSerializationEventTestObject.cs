@@ -11,22 +11,11 @@ public class DerivedSerializationEventTestObject : SerializationEventTestObject
     [JsonIgnore]
     public string Member7 { get; set; }
 
-    // These empty methods exist to make sure we're not covering up the base
-    // methods
-
-    [OnSerialized]
-    internal void OnDerivedSerializedMethod(StreamingContext context)
+    public override void OnDeserialized()
     {
-    }
-
-    [OnDeserializing]
-    internal void OnDerivedDeserializingMethod(StreamingContext context)
-    {
-    }
-
-    [OnDeserialized]
-    internal void OnDerivedDeserializedMethod(StreamingContext context) =>
+        base.OnDeserialized();
         Member7 = "This value was set after deserialization.";
+    }
 
     [OnError]
     internal void OnDerivedErrorMethod(StreamingContext context, ErrorContext errorContext)

@@ -402,10 +402,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         public string Text1 { get; set; }
     }
 
-    public class CustomConcurrentDictionary : ConcurrentDictionary<string, List<SomeObject>>
+    public class CustomConcurrentDictionary :
+        ConcurrentDictionary<string, List<SomeObject>>,
+        IJsonOnDeserialized
     {
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context) =>
+        public void OnDeserialized() =>
             ((IDictionary) this).Add("key2", new List<SomeObject>
             {
                 new()

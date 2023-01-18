@@ -350,7 +350,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return false;
     }
 
-    void SerializeString(JsonWriter writer, object value, JsonStringContract contract)
+    static void SerializeString(JsonWriter writer, object value, JsonStringContract contract)
     {
         OnSerializing(value);
 

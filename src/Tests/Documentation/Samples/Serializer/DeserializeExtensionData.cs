@@ -6,7 +6,7 @@ public class DeserializeExtensionData : TestFixtureBase
 {
     #region DeserializeExtensionDataTypes
 
-    public class DirectoryAccount
+    public class DirectoryAccount : IJsonOnDeserialized
     {
         // normal deserialization
         public string DisplayName { get; set; }
@@ -17,8 +17,7 @@ public class DeserializeExtensionData : TestFixtureBase
 
         [JsonExtensionData] IDictionary<string, JToken> _additionalData;
 
-        [OnDeserialized]
-        void OnDeserialized(StreamingContext context)
+        public void OnDeserialized()
         {
             // SAMAccountName is not deserialized to any property
             // and so it is added to the extension data dictionary

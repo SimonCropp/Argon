@@ -53,7 +53,7 @@ public class SerializationEventTestObject :
     public void OnDeserializing() =>
         Member3 = "This value was set during deserialization";
 
-    public void OnDeserialized() =>
+    public virtual void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
 
     [OnError]
