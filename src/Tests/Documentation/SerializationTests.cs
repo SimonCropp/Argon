@@ -234,16 +234,17 @@ public class SerializationTests : TestFixtureBase
 
         var errors = new List<string>();
 
-        var serializer = new JsonSerializer();
-        serializer.Error = context =>
+        var serializer = new JsonSerializer
         {
-            
-            // only log an error once
-            if (context.CurrentObject == context.OriginalObject)
+            Error = (currentObject, context) =>
             {
-                errors.Add(context.Error.Message);
+                // only log an error once
+                if (currentObject == context.OriginalObject)
+                {
+                    errors.Add(context.Error.Message);
+                }
             }
-        } ;
+        };
 
         #endregion
     }

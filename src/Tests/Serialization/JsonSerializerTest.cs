@@ -593,7 +593,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<Link>(json, new JsonSerializerSettings
         {
-            Error = (_, a) => a.ErrorContext.Handled = true
+            Error = (_, a) => a.Handled = true
         });
 
         Assert.Equal(0, l.ChildId);

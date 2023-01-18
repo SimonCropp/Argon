@@ -671,18 +671,19 @@ public class DataTableConverterTests : TestFixtureBase
         {
             existingValue ??= CreateTable();
 
-            serializer.Error += OnError;
+            var previousError = serializer.Error;
+            serializer.Error = OnError;
             try
             {
                 return base.ReadJson(reader, type, existingValue, serializer);
             }
             finally
             {
-                serializer.Error -= OnError;
+                serializer.Error = previousError;
             }
         }
 
-        public void OnError(ErrorContext context) =>
+        public void OnError(object o, ErrorContext context) =>
             context.Handled = true;
     }
 }

@@ -26,10 +26,10 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
         ]",
     new JsonSerializerSettings
     {
-        Error = delegate(object _, ErrorEventArgs args)
+        Error = (currentObject, context) =>
         {
-            errors.Add(args.ErrorContext.Error.Message);
-            args.ErrorContext.Handled = true;
+            errors.Add(context.Error.Message);
+            context.Handled = true;
         },
         Converters = {new IsoDateTimeConverter()}
     });
@@ -56,17 +56,19 @@ One thing to note with error handling in Json.NET is that an unhandled error wil
 ```cs
 var errors = new List<string>();
 
-var serializer = new JsonSerializer();
-serializer.Error += delegate(object _, ErrorEventArgs args)
+var serializer = new JsonSerializer
 {
-    // only log an error once
-    if (args.CurrentObject == args.ErrorContext.OriginalObject)
+    Error = (currentObject, context) =>
     {
-        errors.Add(args.ErrorContext.Error.Message);
+        // only log an error once
+        if (currentObject == context.OriginalObject)
+        {
+            errors.Add(context.Error.Message);
+        }
     }
 };
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L233-L247' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingwithparent' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L233-L249' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingwithparent' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If you aren't immediately handling an error and only want to perform an action against it once, then you can check to see whether the `Argon.ErrorEventArgs`'s CurrentObject is equal to the OriginalObject. OriginalObject is the object that threw the error and CurrentObject is the object that the event is being raised against. They will only equal the first time the event is raised against the OriginalObject.
@@ -106,7 +108,7 @@ public class PersonError
         errorContext.Handled = true;
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L250-L280' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L252-L282' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In this example accessing the Roles property will throw an exception when no roles have been set. The HandleError method will set the error when serializing Roles as handled and allow the continued serializing the class.
@@ -131,7 +133,7 @@ Console.WriteLine(json);
 //  "Title": "Mister Manager"
 //}
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L285-L304' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L287-L306' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

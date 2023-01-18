@@ -61,7 +61,7 @@ abstract class JsonSerializerInternalBase
 
         if (currentObject is IJsonOnError onError)
         {
-            onError.OnError(currentErrorContext);
+            onError.OnError(currentObject, currentErrorContext);
         }
 
         if (!currentErrorContext.Handled)

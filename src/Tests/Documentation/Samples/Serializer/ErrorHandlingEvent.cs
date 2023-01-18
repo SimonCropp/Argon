@@ -23,7 +23,7 @@ public class ErrorHandlingEvent : TestFixtureBase
             ]",
             new JsonSerializerSettings
             {
-                Error = context =>
+                Error = (_, context) =>
                 {
                     errors.Add(context.Error.Message);
                     context.Handled = true;
