@@ -8,5 +8,5 @@ public interface IJsonOnError
     /// <summary>
     /// The method that is called after serialization.
     /// </summary>
-    void OnError(ErrorContext context, out bool handled);
+    void OnError(ErrorContext context);
 }

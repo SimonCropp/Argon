@@ -18,7 +18,7 @@ public class JsonSerializer
     /// <summary>
     /// Occurs when the <see cref="JsonSerializer" /> errors during serialization and deserialization.
     /// </summary>
-    public virtual event EventHandler<ErrorEventArgs>? Error;
+    public virtual Action<ErrorContext>? Error { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IReferenceResolver" /> used by the serializer when resolving references.
@@ -340,7 +340,7 @@ public class JsonSerializer
 
         if (settings.Error != null)
         {
-            serializer.Error += settings.Error;
+            serializer.Error = settings.Error;
         }
 
         if (settings.ContractResolver != null)
@@ -675,7 +675,4 @@ public class JsonSerializer
 
         return null;
     }
-
-    internal void OnError(ErrorEventArgs e) =>
-        Error?.Invoke(this, e);
 }

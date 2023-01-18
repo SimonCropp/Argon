@@ -67,15 +67,14 @@ abstract class JsonSerializerInternalBase
     {
         var errorContext = GetErrorContext(currentObject, keyValue, path, exception);
 
-        // attribute method is non-static so don't invoke if no object
-        if (contract != null && currentObject != null)
+        if (currentObject is IJsonOnError onError)
         {
-            contract.InvokeOnError(currentObject, Serializer.Context, errorContext);
+            onError.OnError(errorContext);
         }
 
         if (!errorContext.Handled)
         {
-            Serializer.OnError(new(currentObject, errorContext));
+            Serializer.Error?.Invoke(errorContext);
         }
 
         return errorContext.Handled;

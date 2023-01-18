@@ -2,8 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using ErrorEventArgs = Argon.ErrorEventArgs;
-
 public class ErrorHandlingEvent : TestFixtureBase
 {
     [Fact]
@@ -25,10 +23,10 @@ public class ErrorHandlingEvent : TestFixtureBase
             ]",
             new JsonSerializerSettings
             {
-                Error = delegate(object _, ErrorEventArgs args)
+                Error = context =>
                 {
-                    errors.Add(args.ErrorContext.Error.Message);
-                    args.ErrorContext.Handled = true;
+                    errors.Add(context.Error.Message);
+                    context.Handled = true;
                 },
                 Converters = {new IsoDateTimeConverter()}
             });

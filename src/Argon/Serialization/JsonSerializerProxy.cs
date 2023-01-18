@@ -2,18 +2,16 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using ErrorEventArgs = Argon.ErrorEventArgs;
-
 class JsonSerializerProxy : JsonSerializer
 {
     readonly JsonSerializerInternalReader? serializerReader;
     readonly JsonSerializerInternalWriter? serializerWriter;
     internal readonly JsonSerializer serializer;
 
-    public override event EventHandler<ErrorEventArgs>? Error
+    public override Action<ErrorContext>? Error
     {
-        add => serializer.Error += value;
-        remove => serializer.Error -= value;
+        get => serializer.Error;
+        set => serializer.Error = value;
     }
 
     public override IReferenceResolver? ReferenceResolver

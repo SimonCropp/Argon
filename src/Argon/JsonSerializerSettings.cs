@@ -109,7 +109,7 @@ public class JsonSerializerSettings
     /// <summary>
     /// Gets or sets the error handler called during serialization and deserialization.
     /// </summary>
-    public EventHandler<ErrorEventArgs>? Error { get; set; }
+    public Action<ErrorContext>? Error { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="StreamingContext" /> used by the serializer when invoking serialization callback methods.
