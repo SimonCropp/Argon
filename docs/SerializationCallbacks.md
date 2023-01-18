@@ -44,7 +44,7 @@ public class SerializationEventTestObject :
         Member4 = null;
     }
 
-    public void OnSerializing() =>
+    public virtual void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
 
     [OnSerialized]

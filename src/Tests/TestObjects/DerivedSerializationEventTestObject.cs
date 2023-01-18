@@ -14,10 +14,6 @@ public class DerivedSerializationEventTestObject : SerializationEventTestObject
     // These empty methods exist to make sure we're not covering up the base
     // methods
 
-    public override void OnSerializing()
-    {
-    }
-
     [OnSerialized]
     internal void OnDerivedSerializedMethod(StreamingContext context)
     {
