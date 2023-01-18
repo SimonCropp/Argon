@@ -38,21 +38,6 @@ abstract class JsonSerializerInternalBase
         Serializer.NullValueHandling ??
         default;
 
-    ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
-    {
-        if (currentErrorContext == null)
-        {
-            return currentErrorContext = new(currentObject, member, path, error);
-        }
-
-        if (currentErrorContext.Error == error)
-        {
-            return currentErrorContext;
-        }
-
-        throw new InvalidOperationException("Current error context error is different to requested error.");
-    }
-
     protected void ClearErrorContext()
     {
         if (currentErrorContext == null)
@@ -65,19 +50,26 @@ abstract class JsonSerializerInternalBase
 
     protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, string path, Exception exception)
     {
-        var errorContext = GetErrorContext(currentObject, keyValue, path, exception);
+        if (currentErrorContext == null)
+        {
+            currentErrorContext = new(currentObject, keyValue, path, exception);
+        }
+        else if (currentErrorContext.Error != exception)
+        {
+            throw new InvalidOperationException("Current error context error is different to requested error.");
+        }
 
         // attribute method is non-static so don't invoke if no object
         if (contract != null && currentObject != null)
         {
-            contract.InvokeOnError(currentObject, Serializer.Context, errorContext);
+            contract.InvokeOnError(currentObject, Serializer.Context, currentErrorContext);
         }
 
-        if (!errorContext.Handled)
+        if (!currentErrorContext.Handled)
         {
-            Serializer.OnError(new(currentObject, errorContext));
+            Serializer.OnError(new(currentObject, currentErrorContext));
         }
 
-        return errorContext.Handled;
+        return currentErrorContext.Handled;
     }
 }
