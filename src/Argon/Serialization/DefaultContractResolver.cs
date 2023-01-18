@@ -116,31 +116,9 @@ public class DefaultContractResolver : IContractResolver
 
             foreach (var member in allMembers)
             {
-                // exclude members that are compiler generated if set
-                if (SerializeCompilerGeneratedMembers || !member.IsDefined(typeof(CompilerGeneratedAttribute), true))
+                if (ShouldSerialize(member, defaultMembers, dataContractAttribute))
                 {
-                    if (defaultMembers.Contains(member))
-                    {
-                        // add all members that are found by default member search
-                        serializableMembers.Add(member);
-                    }
-                    else
-                    {
-                        // add members that are explicitly marked with JsonProperty/DataMember attribute
-                        // or are a field if serializing just fields
-                        if (member.GetAttribute<JsonPropertyAttribute>() != null)
-                        {
-                            serializableMembers.Add(member);
-                        }
-                        else if (member.GetAttribute<JsonRequiredAttribute>() != null)
-                        {
-                            serializableMembers.Add(member);
-                        }
-                        else if (dataContractAttribute != null && member.GetAttribute<DataMemberAttribute>() != null)
-                        {
-                            serializableMembers.Add(member);
-                        }
-                    }
+                    serializableMembers.Add(member);
                 }
             }
 
@@ -153,6 +131,40 @@ public class DefaultContractResolver : IContractResolver
         }
 
         return serializableMembers;
+    }
+
+    bool ShouldSerialize(MemberInfo member, List<MemberInfo> defaultMembers, DataContractAttribute? dataContractAttribute)
+    {
+        // exclude members that are compiler generated if set
+        if (!SerializeCompilerGeneratedMembers && member.IsDefined(typeof(CompilerGeneratedAttribute), true))
+        {
+            return false;
+        }
+
+        if (defaultMembers.Contains(member))
+        {
+            // add all members that are found by default member search
+            return true;
+        }
+
+        // add members that are explicitly marked with JsonProperty/DataMember attribute
+        // or are a field if serializing just fields
+        if (member.GetAttribute<JsonPropertyAttribute>() != null)
+        {
+            return true;
+        }
+
+        if (member.GetAttribute<JsonRequiredAttribute>() != null)
+        {
+            return true;
+        }
+
+        if (dataContractAttribute != null && member.GetAttribute<DataMemberAttribute>() != null)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
