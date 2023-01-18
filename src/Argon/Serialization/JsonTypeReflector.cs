@@ -101,13 +101,13 @@ static class JsonTypeReflector
         }
 
         var dataContractAttribute = GetDataContractAttribute(type);
-        if (dataContractAttribute != null)
+        if (dataContractAttribute == null)
         {
-            return MemberSerialization.OptIn;
+            // the default
+            return MemberSerialization.OptOut;
         }
 
-        // the default
-        return MemberSerialization.OptOut;
+        return MemberSerialization.OptIn;
     }
 
     public static JsonConverter? GetJsonConverter(ICustomAttributeProvider attributeProvider)
