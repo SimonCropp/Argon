@@ -5,7 +5,7 @@
     {
         if (value != null)
         {
-            writer.WriteValue(value.FullName.Replace('\\', '/'));
+            writer.WriteValue(value.ToString().Replace('\\', '/'));
         }
     }
 

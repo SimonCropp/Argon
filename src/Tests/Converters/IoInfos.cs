@@ -5,35 +5,35 @@
 #nullable enable
 public class IoInfos : TestFixtureBase
 {
+
+    static DriveInfo driveInfo = DriveInfo.GetDrives()[0];
+    static FileInfo fileInfo = new($"one{Path.DirectorySeparatorChar}two.txt");
+    static DirectoryInfo directoryInfo = new(Path.Combine($"one{Path.DirectorySeparatorChar}two"));
+
     [Fact]
     public void Test_DirectoryInfo()
     {
-        var info = new DirectoryInfo(@"c:\dir\one");
-        var serialized = JsonConvert.SerializeObject(info);
-        Assert.Equal($"\"{info.FullName.Replace('\\', '/')}\"", serialized);
+        var serialized = JsonConvert.SerializeObject(directoryInfo);
+        Assert.Equal("\"one/two\"", serialized);
         var result = JsonConvert.DeserializeObject<DirectoryInfo>(serialized);
-        Assert.Equal(info.FullName, result.FullName);
+        Assert.Equal(directoryInfo.FullName, result.FullName);
     }
 
     [Fact]
     public void Test_FileInfo()
     {
-        var info = new FileInfo(@"d:\large.json");
-        var serialized = JsonConvert.SerializeObject(info);
-        Assert.Equal($"\"{info.FullName.Replace('\\', '/')}\"", serialized);
+        var serialized = JsonConvert.SerializeObject(fileInfo);
+        Assert.Equal("\"one/two.txt\"", serialized);
         var result = JsonConvert.DeserializeObject<FileInfo>(serialized);
-        Assert.Equal(info.FullName, result.FullName);
+        Assert.Equal(fileInfo.FullName, result.FullName);
     }
-
     [Fact]
     public void Test_DriveInfo()
     {
-        var info = new DriveInfo(@"D:\");
-
-        var serialized = JsonConvert.SerializeObject(info);
-        Assert.Equal($"\"{info.Name.Replace('\\', '/')}\"", serialized);
+        var serialized = JsonConvert.SerializeObject(driveInfo);
+        Assert.Equal($"\"{driveInfo.Name.Replace('\\', '/')}\"", serialized);
         var result = JsonConvert.DeserializeObject<DriveInfo>(serialized);
-        Assert.Equal(info.Name, result.Name);
+        Assert.Equal(driveInfo.Name, result.Name);
     }
 
     [Fact]
@@ -41,17 +41,19 @@ public class IoInfos : TestFixtureBase
     {
         var target = new Target
         {
-            DirectoryInfo = new(@"c:\dir\one"),
-            DriveInfo = new(@"D:\"),
-            FileInfo = new(@"d:\large.json")
+            DirectoryInfo = directoryInfo,
+            DriveInfo = driveInfo,
+            FileInfo = fileInfo
         };
         var result = JsonConvert.SerializeObject(target);
-        Assert.Equal("""{"DirectoryInfo":"c:/dir/one","FileInfo":"d:/large.json","DriveInfo":"D:/"}""", result);
+        Assert.Equal($$"""{"DirectoryInfo":"one/two","FileInfo":"one/two.txt","DriveInfo":"{{driveInfo.Name.Replace('\\', '/')}}"}""", result);
         var deserialize = JsonConvert.DeserializeObject<Target>(result);
 
         Assert.Equal(target.DirectoryInfo.FullName, deserialize.DirectoryInfo!.FullName);
+        Assert.Equal(target.DirectoryInfo.ToString(), deserialize.DirectoryInfo!.ToString());
         Assert.Equal(target.DriveInfo.Name, deserialize.DriveInfo!.Name);
         Assert.Equal(target.FileInfo.FullName, deserialize.FileInfo!.FullName);
+        Assert.Equal(target.FileInfo.ToString(), deserialize.FileInfo!.ToString());
     }
 
     [Fact]
