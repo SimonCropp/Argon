@@ -1,4 +1,6 @@
-﻿class PathInfoConverter :
+﻿// ReSharper disable NullableWarningSuppressionIsUsed
+// ReSharper disable RedundantSuppressNullableWarningExpression
+class PathInfoConverter :
     JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
