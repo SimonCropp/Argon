@@ -126,11 +126,6 @@ public class JsonSerializer
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="StreamingContext" /> used by the serializer when invoking serialization callback methods.
-    /// </summary>
-    public virtual StreamingContext? Context { get; set; }
-
-    /// <summary>
     /// Indicates how JSON text output is formatted.
     /// The default value is <see cref="Argon.Formatting.None" />.
     /// </summary>
@@ -326,11 +321,6 @@ public class JsonSerializer
         if (settings.ConstructorHandling != null)
         {
             serializer.ConstructorHandling = settings.ConstructorHandling;
-        }
-
-        if (settings.context != null)
-        {
-            serializer.Context = settings.Context;
         }
 
         if (settings.CheckAdditionalContent != null)

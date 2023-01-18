@@ -861,54 +861,6 @@ public class DefaultContractResolver : IContractResolver
                type.IsSubclassOf(typeof(Type));
     }
 
-    static bool IsValidCallback(MethodInfo method, ParameterInfo[] parameters, Type attributeType, MethodInfo? currentCallback, ref Type? prevAttributeType)
-    {
-        if (!method.IsDefined(attributeType, false))
-        {
-            return false;
-        }
-
-        var declaringType = method.DeclaringType!;
-        if (currentCallback != null)
-        {
-            throw new JsonException($"Invalid attribute. Both '{method}' and '{currentCallback}' in type '{GetClrTypeFullName(declaringType)}' have '{attributeType}'.");
-        }
-
-        if (prevAttributeType != null)
-        {
-            throw new JsonException($"Invalid Callback. Method '{method}' in type '{GetClrTypeFullName(declaringType)}' has both '{prevAttributeType}' and '{attributeType}'.");
-        }
-
-        if (method.IsVirtual)
-        {
-            throw new JsonException($"Virtual Method '{method}' of type '{GetClrTypeFullName(declaringType)}' cannot be marked with '{attributeType}' attribute.");
-        }
-
-        if (method.ReturnType != typeof(void))
-        {
-            throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(declaringType)}' must return void.");
-        }
-
-        if (attributeType == typeof(OnErrorAttribute))
-        {
-            if (parameters is not {Length: 2} || parameters[0].ParameterType != typeof(StreamingContext) || parameters[1].ParameterType != typeof(ErrorContext))
-            {
-                throw new JsonException($"Serialization Error Callback '{method}' in type '{GetClrTypeFullName(declaringType)}' must have two parameters of type '{typeof(StreamingContext)}' and '{typeof(ErrorContext)}'.");
-            }
-        }
-        else
-        {
-            if (parameters is not {Length: 1} || parameters[0].ParameterType != typeof(StreamingContext))
-            {
-                throw new JsonException($"Serialization Callback '{method}' in type '{GetClrTypeFullName(declaringType)}' must have a single parameter of type '{typeof(StreamingContext)}'.");
-            }
-        }
-
-        prevAttributeType = attributeType;
-
-        return true;
-    }
-
     static string GetClrTypeFullName(Type type)
     {
         if (type.IsGenericTypeDefinition ||

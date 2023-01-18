@@ -98,12 +98,6 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.SerializationBinder = value;
     }
 
-    public override StreamingContext? Context
-    {
-        get => serializer.Context;
-        set => serializer.Context = value;
-    }
-
     public override Formatting? Formatting
     {
         get => serializer.Formatting;

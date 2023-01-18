@@ -803,9 +803,6 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializer.ConstructorHandling);
 
-        serializer.Context = new StreamingContext(StreamingContextStates.Other);
-        Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializer.Context);
-
         var resolver = new CamelCasePropertyNamesContractResolver();
         serializer.ContractResolver = resolver;
         Assert.Equal(resolver, serializer.ContractResolver);
@@ -879,9 +876,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, settings.ConstructorHandling);
-
-        settings.Context = new(StreamingContextStates.Other);
-        Assert.Equal(new(StreamingContextStates.Other), settings.Context);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
         settings.ContractResolver = resolver;
@@ -958,9 +952,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         serializerProxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializerProxy.ConstructorHandling);
-
-        serializerProxy.Context = new StreamingContext(StreamingContextStates.Other);
-        Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializerProxy.Context);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
         serializerProxy.ContractResolver = resolver;

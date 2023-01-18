@@ -9,11 +9,8 @@ namespace Argon;
 /// </summary>
 public class JsonSerializerSettings
 {
-    internal static readonly StreamingContext DefaultContext = new();
-
     internal int? maxDepth;
     internal bool maxDepthSet;
-    internal StreamingContext? context;
 
     /// <summary>
     /// Gets or sets how reference loops (e.g. a class referencing itself) are handled.
@@ -110,15 +107,6 @@ public class JsonSerializerSettings
     /// Gets or sets the error handler called during serialization and deserialization.
     /// </summary>
     public Action<object?, ErrorContext>? Error { get; set; }
-
-    /// <summary>
-    /// Gets or sets the <see cref="StreamingContext" /> used by the serializer when invoking serialization callback methods.
-    /// </summary>
-    public StreamingContext Context
-    {
-        get => context ?? DefaultContext;
-        set => context = value;
-    }
 
     const int DefaultMaxDepth = 64;
 
