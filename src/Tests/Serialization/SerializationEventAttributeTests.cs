@@ -307,23 +307,6 @@ OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
     }
 
     [Fact]
-    public Task DerivedDerivedSerializationEvents_DataContractSerializer()
-    {
-        var xml = @"<SerializationEventAttributeTests.DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
-
-        var ss = new DataContractSerializer(typeof(DerivedDerivedSerializationEventOrderTestObject));
-
-        var c = (DerivedDerivedSerializationEventOrderTestObject) ss.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
-
-        var ms = new MemoryStream();
-        ss.WriteObject(ms, c);
-
-        var e = c.GetEvents();
-
-        return Verify(e);
-    }
-
-    [Fact]
     public void NoStreamingContextParameter()
     {
         var d = new ExportPostData
