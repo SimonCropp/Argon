@@ -1331,7 +1331,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!finished)
         {
-            ThrowUnexpectedEndException(reader, contract, underlyingDictionary, "Unexpected end when deserializing object.");
+            ThrowUnexpectedEndException(reader, underlyingDictionary, "Unexpected end when deserializing object.");
         }
 
         OnDeserialized(underlyingDictionary);
@@ -1461,13 +1461,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!finished)
         {
-            ThrowUnexpectedEndException(reader, contract, list, "Unexpected end when deserializing array.");
+            ThrowUnexpectedEndException(reader, list, "Unexpected end when deserializing array.");
         }
 
         OnDeserialized(list);
     }
 
-    void ThrowUnexpectedEndException(JsonReader reader, JsonContract contract, object? currentObject, string message)
+    void ThrowUnexpectedEndException(JsonReader reader, object? currentObject, string message)
     {
         try
         {
@@ -1574,7 +1574,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!finished)
         {
-            ThrowUnexpectedEndException(reader, contract, underlyingList, "Unexpected end when deserializing array.");
+            ThrowUnexpectedEndException(reader, underlyingList, "Unexpected end when deserializing array.");
         }
 
         OnDeserialized(underlyingList);
@@ -1682,7 +1682,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!finished)
         {
-            ThrowUnexpectedEndException(reader, contract, newObject, "Unexpected end when deserializing object.");
+            ThrowUnexpectedEndException(reader, newObject, "Unexpected end when deserializing object.");
         }
 
         OnDeserialized(newObject);
@@ -2006,7 +2006,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!exit)
         {
-            ThrowUnexpectedEndException(reader, contract, null, "Unexpected end when deserializing object.");
+            ThrowUnexpectedEndException(reader, null, "Unexpected end when deserializing object.");
         }
 
         return propertyValues;
@@ -2164,7 +2164,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (!finished)
         {
-            ThrowUnexpectedEndException(reader, contract, newObject, "Unexpected end when deserializing object.");
+            ThrowUnexpectedEndException(reader, newObject, "Unexpected end when deserializing object.");
         }
 
         if (propertiesPresence != null)
