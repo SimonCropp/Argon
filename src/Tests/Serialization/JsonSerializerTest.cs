@@ -79,6 +79,11 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(2, result.Value2);
     }
 
+    public class ErroringClass
+    {
+        public DateTime Tags { get; set; }
+    }
+
     [Fact]
     public void DontCloseInputOnDeserializeError()
     {
@@ -148,6 +153,11 @@ public class JsonSerializerTest : TestFixtureBase
             """, strJsonMainClass);
     }
 
+    public class GenericIEnumerableWithImplicitConversion
+    {
+        public IEnumerable<ClassWithImplicitOperator> Enumerable { get; set; }
+    }
+
     [Fact]
     public void DeserializeGenericIEnumerableWithImplicitConversion()
     {
@@ -161,6 +171,11 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(2, enumerableObject.Length);
         Assert.Equal("abc", enumerableObject[0].Value);
         Assert.Equal("def", enumerableObject[1].Value);
+    }
+
+    public class Foo64
+    {
+        public string Blah { get; set; }
     }
 
     [Fact]
