@@ -129,10 +129,10 @@ public partial class JTokenWriter : JsonWriter
         base.WritePropertyName(name);
     }
 
-    void AddValue(object? value, JsonToken token) =>
-        AddValue(new(value), token);
+    void AddValue(object? value) =>
+        AddValue(new(value));
 
-    internal void AddValue(JValue? value, JsonToken token)
+    internal void AddValue(JValue? value)
     {
         if (parent == null)
         {
@@ -166,7 +166,7 @@ public partial class JTokenWriter : JsonWriter
         if (value is BigInteger)
         {
             InternalWriteValue(JsonToken.Integer);
-            AddValue(value, JsonToken.Integer);
+            AddValue(value);
         }
         else
         {
@@ -180,7 +180,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteNull()
     {
         base.WriteNull();
-        AddValue(null, JsonToken.Null);
+        AddValue(null);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteUndefined()
     {
         base.WriteUndefined();
-        AddValue(null, JsonToken.Undefined);
+        AddValue(null);
     }
 
     /// <summary>
@@ -198,7 +198,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteRaw(string? json)
     {
         base.WriteRaw(json);
-        AddValue(new JRaw(json), JsonToken.Raw);
+        AddValue(new JRaw(json));
     }
 
     /// <summary>
@@ -207,7 +207,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteComment(string? text)
     {
         base.WriteComment(text);
-        AddValue(JValue.CreateComment(text), JsonToken.Comment);
+        AddValue(JValue.CreateComment(text));
     }
 
     /// <summary>
@@ -216,7 +216,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(string? value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.String);
+        AddValue(value);
     }
 
     /// <summary>
@@ -225,7 +225,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(int value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -234,7 +234,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(uint value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(long value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -252,7 +252,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(ulong value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -261,7 +261,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(float value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Float);
+        AddValue(value);
     }
 
     /// <summary>
@@ -270,7 +270,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(double value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Float);
+        AddValue(value);
     }
 
     /// <summary>
@@ -279,7 +279,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(bool value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Boolean);
+        AddValue(value);
     }
 
     /// <summary>
@@ -288,7 +288,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(short value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -297,7 +297,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(ushort value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -307,7 +307,7 @@ public partial class JTokenWriter : JsonWriter
     {
         base.WriteValue(value);
         var s = value.ToString(InvariantCulture);
-        AddValue(s, JsonToken.String);
+        AddValue(s);
     }
 
     /// <summary>
@@ -316,7 +316,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(byte value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -325,7 +325,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(sbyte value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Integer);
+        AddValue(value);
     }
 
     /// <summary>
@@ -334,7 +334,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(decimal value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Float);
+        AddValue(value);
     }
 
     /// <summary>
@@ -343,7 +343,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(DateTime value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Date);
+        AddValue(value);
     }
 
     /// <summary>
@@ -352,7 +352,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(DateTimeOffset value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Date);
+        AddValue(value);
     }
 
     /// <summary>
@@ -361,7 +361,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(byte[]? value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.Bytes);
+        AddValue(value);
     }
 
     /// <summary>
@@ -370,7 +370,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(TimeSpan value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.String);
+        AddValue(value);
     }
 
     /// <summary>
@@ -379,7 +379,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(Guid value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.String);
+        AddValue(value);
     }
 
     /// <summary>
@@ -388,7 +388,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(Uri? value)
     {
         base.WriteValue(value);
-        AddValue(value, JsonToken.String);
+        AddValue(value);
     }
 
     #endregion
