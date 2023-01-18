@@ -1198,11 +1198,21 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
-    void OnDeserializing(JsonContract contract, object value) =>
-        contract.InvokeOnDeserializing(value, Serializer.Context);
+    static void OnDeserializing(object value)
+    {
+        if (value is IJsonOnDeserializing deserializing)
+        {
+            deserializing.OnDeserializing();
+        }
+    }
 
-    void OnDeserialized(JsonContract contract, object value) =>
-        contract.InvokeOnDeserialized(value, Serializer.Context);
+    static void OnDeserialized(object value)
+    {
+        if (value is IJsonOnDeserialized deserialized)
+        {
+            deserialized.OnDeserialized();
+        }
+    }
 
     object PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty? containerProperty, string? id)
     {
@@ -1213,7 +1223,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, underlyingDictionary);
         }
 
-        OnDeserializing(contract, underlyingDictionary);
+        OnDeserializing(underlyingDictionary);
 
         var initialDepth = reader.Depth;
 
@@ -1334,7 +1344,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, underlyingDictionary, "Unexpected end when deserializing object.");
         }
 
-        OnDeserialized(contract, underlyingDictionary);
+        OnDeserialized(underlyingDictionary);
         return underlyingDictionary;
     }
 
@@ -1347,7 +1357,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, list);
         }
 
-        OnDeserializing(contract, list);
+        OnDeserializing(list);
 
         var collectionItemContract = GetContractSafe(contract.CollectionItemType);
         var collectionItemConverter = GetConverter(collectionItemContract, null, contract, containerProperty);
@@ -1464,7 +1474,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, list, "Unexpected end when deserializing array.");
         }
 
-        OnDeserialized(contract, list);
+        OnDeserialized(list);
     }
 
     void ThrowUnexpectedEndException(JsonReader reader, JsonContract contract, object? currentObject, string message)
@@ -1503,7 +1513,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             return underlyingList;
         }
 
-        OnDeserializing(contract, underlyingList);
+        OnDeserializing(underlyingList);
 
         var initialDepth = reader.Depth;
 
@@ -1577,7 +1587,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, underlyingList, "Unexpected end when deserializing array.");
         }
 
-        OnDeserialized(contract, underlyingList);
+        OnDeserialized(underlyingList);
         return underlyingList;
 #pragma warning restore CS8600, CS8602, CS8603, CS8604
     }
@@ -1606,7 +1616,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, newObject);
         }
 
-        OnDeserializing(contract, newObject);
+        OnDeserializing(newObject);
 
         var initialDepth = reader.Depth;
 
@@ -1685,7 +1695,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             ThrowUnexpectedEndException(reader, contract, newObject, "Unexpected end when deserializing object.");
         }
 
-        OnDeserialized(contract, newObject);
+        OnDeserialized(newObject);
 
         return newObject;
     }
@@ -1799,7 +1809,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             AddReference(reader, id, createdObject);
         }
 
-        OnDeserializing(contract, createdObject);
+        OnDeserializing(createdObject);
 
         // go through unused values and set the newly created object's properties
         foreach (var context in propertyContexts)
@@ -1920,7 +1930,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
         }
 
-        OnDeserialized(contract, createdObject);
+        OnDeserialized(createdObject);
         return createdObject;
     }
 
@@ -2057,7 +2067,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
     object PopulateObject(object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty? member, string? id)
     {
-        OnDeserializing(contract, newObject);
+        OnDeserializing(newObject);
 
         // only need to keep a track of properties' presence if they are required or a value should be defaulted if missing
         var propertiesPresence = contract.HasRequiredOrDefaultValueProperties || HasFlag(Serializer.DefaultValueHandling, DefaultValueHandling.Populate)
@@ -2178,7 +2188,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             }
         }
 
-        OnDeserialized(contract, newObject);
+        OnDeserialized(newObject);
         return newObject;
     }
 

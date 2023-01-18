@@ -19,9 +19,6 @@ public abstract class JsonContract
     internal bool IsSealed;
     internal bool IsInstantiable;
 
-    List<SerializationCallback>? onDeserializedCallbacks;
-    List<SerializationCallback>? onDeserializingCallbacks;
-    List<SerializationCallback>? onSerializedCallbacks;
     List<SerializationErrorCallback>? onErrorCallbacks;
     Type createdType;
 
@@ -61,21 +58,6 @@ public abstract class JsonContract
     /// Setting <see cref="Converter" /> will always override this converter.
     /// </summary>
     public JsonConverter? InternalConverter { get; internal set; }
-
-    /// <summary>
-    /// Gets or sets all methods called immediately after deserialization of the object.
-    /// </summary>
-    public List<SerializationCallback> OnDeserializedCallbacks => onDeserializedCallbacks ??= new();
-
-    /// <summary>
-    /// Gets or sets all methods called during deserialization of the object.
-    /// </summary>
-    public List<SerializationCallback> OnDeserializingCallbacks => onDeserializingCallbacks ??= new();
-
-    /// <summary>
-    /// Gets or sets all methods called after serialization of the object graph.
-    /// </summary>
-    public List<SerializationCallback> OnSerializedCallbacks => onSerializedCallbacks ??= new();
 
     /// <summary>
     /// Gets or sets all method called when an error is thrown during the serialization of the object.
@@ -119,48 +101,6 @@ public abstract class JsonContract
         InternalReadType = ReadType.Read;
     }
 
-    internal void InvokeOnSerialized(object o, StreamingContext? context)
-    {
-        var contextToUse = ContextToUse(context);
-        if (onSerializedCallbacks == null)
-        {
-            return;
-        }
-
-        foreach (var callback in onSerializedCallbacks)
-        {
-            callback(o, contextToUse);
-        }
-    }
-
-    internal void InvokeOnDeserializing(object o, StreamingContext? context)
-    {
-        var contextToUse = ContextToUse(context);
-        if (onDeserializingCallbacks == null)
-        {
-            return;
-        }
-
-        foreach (var callback in onDeserializingCallbacks)
-        {
-            callback(o, contextToUse);
-        }
-    }
-
-    internal void InvokeOnDeserialized(object o, StreamingContext? context)
-    {
-        var contextToUse = ContextToUse(context);
-        if (onDeserializedCallbacks == null)
-        {
-            return;
-        }
-
-        foreach (var callback in onDeserializedCallbacks)
-        {
-            callback(o, contextToUse);
-        }
-    }
-
     internal void InvokeOnError(object o, StreamingContext? context, ErrorContext errorContext)
     {
         var contextToUse = ContextToUse(context);
@@ -177,9 +117,6 @@ public abstract class JsonContract
 
     static StreamingContext ContextToUse(StreamingContext? context) =>
         context ?? JsonSerializerSettings.DefaultContext;
-
-    internal static SerializationCallback CreateSerializationCallback(MethodInfo callbackMethodInfo) =>
-        (o, context) => callbackMethodInfo.Invoke(o, new object[] {context});
 
     internal static SerializationErrorCallback CreateSerializationErrorCallback(MethodInfo callbackMethodInfo) =>
         (o, context, errorContext) => callbackMethodInfo.Invoke(o, new object[] {context, errorContext});

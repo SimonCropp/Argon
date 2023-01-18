@@ -605,25 +605,7 @@ public class DefaultContractResolver : IContractResolver
     {
         GetCallbackMethodsForType(
             type,
-            out var onSerialized,
-            out var onDeserializing,
-            out var onDeserialized,
             out var onError);
-
-        if (onSerialized != null)
-        {
-            contract.OnSerializedCallbacks.AddRange(onSerialized);
-        }
-
-        if (onDeserializing != null)
-        {
-            contract.OnDeserializingCallbacks.AddRange(onDeserializing);
-        }
-
-        if (onDeserialized != null)
-        {
-            contract.OnDeserializedCallbacks.AddRange(onDeserialized);
-        }
 
         if (onError != null)
         {
@@ -631,19 +613,13 @@ public class DefaultContractResolver : IContractResolver
         }
     }
 
-    static void GetCallbackMethodsForType(Type type, out List<SerializationCallback>? onSerialized, out List<SerializationCallback>? onDeserializing, out List<SerializationCallback>? onDeserialized, out List<SerializationErrorCallback>? onError)
+    static void GetCallbackMethodsForType(Type type, out List<SerializationErrorCallback>? onError)
     {
-        onSerialized = null;
-        onDeserializing = null;
-        onDeserialized = null;
         onError = null;
 
         foreach (var baseType in GetClassHierarchyForType(type))
         {
             // while we allow more than one OnSerialized total, only one can be defined per class
-            MethodInfo? currentOnSerialized = null;
-            MethodInfo? currentOnDeserializing = null;
-            MethodInfo? currentOnDeserialized = null;
             MethodInfo? currentOnError = null;
 
             var skipDeserialized = ShouldSkipDeserialized(baseType);
@@ -659,27 +635,6 @@ public class DefaultContractResolver : IContractResolver
 
                 Type? prevAttributeType = null;
                 var parameters = method.GetParameters();
-
-                if (IsValidCallback(method, parameters, typeof(OnSerializedAttribute), currentOnSerialized, ref prevAttributeType))
-                {
-                    onSerialized ??= new();
-                    onSerialized.Add(JsonContract.CreateSerializationCallback(method));
-                    currentOnSerialized = method;
-                }
-
-                if (IsValidCallback(method, parameters, typeof(OnDeserializingAttribute), currentOnDeserializing, ref prevAttributeType))
-                {
-                    onDeserializing ??= new();
-                    onDeserializing.Add(JsonContract.CreateSerializationCallback(method));
-                    currentOnDeserializing = method;
-                }
-
-                if (!skipDeserialized && IsValidCallback(method, parameters, typeof(OnDeserializedAttribute), currentOnDeserialized, ref prevAttributeType))
-                {
-                    onDeserialized ??= new();
-                    onDeserialized.Add(JsonContract.CreateSerializationCallback(method));
-                    currentOnDeserialized = method;
-                }
 
                 if (IsValidCallback(method, parameters, typeof(OnErrorAttribute), currentOnError, ref prevAttributeType))
                 {
