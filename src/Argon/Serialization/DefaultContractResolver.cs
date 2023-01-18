@@ -15,7 +15,6 @@ public class DefaultContractResolver : IContractResolver
     static readonly JsonConverter[] builtInConverters =
     {
         new ExpandoObjectConverter(),
-        new DiscriminatedUnionConverter(),
         new KeyValuePairConverter(),
         new DriveInfoConverter(),
         new PathInfoConverter(),

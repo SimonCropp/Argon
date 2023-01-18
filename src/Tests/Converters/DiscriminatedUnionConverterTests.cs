@@ -7,6 +7,8 @@ using TestObjects;
 
 public class DiscriminatedUnionConverterTests : TestFixtureBase
 {
+    static DiscriminatedUnionConverter unionConverter = new();
+
     public class DoubleDoubleConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -30,11 +32,11 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     [Fact]
     public void SerializeUnionWithConverter()
     {
-        var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new DoubleDoubleConverter());
+        var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new DoubleDoubleConverter(), unionConverter);
 
         Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[20.0,10.0]}", json);
 
-        var c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter());
+        var c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter(), unionConverter);
         XUnitAssert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle) c;
@@ -46,7 +48,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     [Fact]
     public void SerializeBasicUnion()
     {
-        var json = JsonConvert.SerializeObject(Currency.AUD);
+        var json = JsonConvert.SerializeObject(Currency.AUD, unionConverter);
 
         Assert.Equal(@"{""Case"":""AUD""}", json);
     }
@@ -60,14 +62,14 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             Shape.NewCircle(7.5)
         };
 
-        var json = JsonConvert.SerializeObject(values, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(values, Formatting.Indented, unionConverter);
 
         var ts = new Stopwatch();
         ts.Start();
 
         for (var i = 0; i < 100; i++)
         {
-            JsonConvert.SerializeObject(values);
+            JsonConvert.SerializeObject(values, unionConverter);
         }
 
         ts.Stop();
@@ -86,14 +88,14 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
   {""Case"":""Rectangle"",""Fields"":[10.0,5.0]}
 ]";
 
-        JsonConvert.DeserializeObject<List<Shape>>(json);
+        JsonConvert.DeserializeObject<List<Shape>>(json, unionConverter);
 
         var ts = new Stopwatch();
         ts.Start();
 
         for (var i = 0; i < 100; i++)
         {
-            JsonConvert.DeserializeObject<List<Shape>>(json);
+            JsonConvert.DeserializeObject<List<Shape>>(json, unionConverter);
         }
 
         ts.Stop();
@@ -104,7 +106,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     [Fact]
     public void SerializeUnionWithFields()
     {
-        var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0));
+        var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), unionConverter);
 
         Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
     }
@@ -112,20 +114,20 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeBasicUnion()
     {
-        var c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD""}");
+        var c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD""}", unionConverter);
         Assert.Equal(Currency.AUD, c);
 
-        c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""EUR""}");
+        c = JsonConvert.DeserializeObject<Currency>(@"{""Case"":""EUR""}", unionConverter);
         Assert.Equal(Currency.EUR, c);
 
-        c = JsonConvert.TryDeserializeObject<Currency>(@"null");
+        c = JsonConvert.TryDeserializeObject<Currency>(@"null", unionConverter);
         Assert.Equal(null, c);
     }
 
     [Fact]
     public void DeserializeUnionWithFields()
     {
-        var c = JsonConvert.DeserializeObject<Shape>(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}");
+        var c = JsonConvert.DeserializeObject<Shape>(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", unionConverter);
         XUnitAssert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle) c;
@@ -213,51 +215,53 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeBasicUnion_NoMatch() =>
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}"),
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""abcdefg"",""Fields"":[]}", unionConverter),
             "No union type found with the name 'abcdefg'. Path 'Case', line 1, position 17.");
 
     [Fact]
     public void DeserializeBasicUnion_MismatchedFieldCount() =>
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}"),
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":[1]}", unionConverter),
             "The number of field values does not match the number of properties defined by union 'AUD'. Path '', line 1, position 27.");
 
     [Fact]
     public void DeserializeBasicUnion_NoCaseName() =>
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Fields"":[1]}"),
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Fields"":[1]}", unionConverter),
             "No 'Case' property with union name found. Path '', line 1, position 14.");
 
     [Fact]
     public void DeserializeBasicUnion_UnexpectedEnd() =>
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":"),
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":", unionConverter),
             "Unexpected end when reading JSON. Path 'Case', line 1, position 8.");
 
     [Fact]
     public void DeserializeBasicUnion_FieldsObject() =>
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":{}}"),
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case"":""AUD"",""Fields"":{}}", unionConverter),
             "Union fields must been an array. Path 'Fields', line 1, position 24.");
 
     [Fact]
     public void DeserializeBasicUnion_UnexpectedProperty() =>
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}"),
+            () => JsonConvert.DeserializeObject<Currency>(@"{""Case123"":""AUD""}", unionConverter),
             "Unexpected property 'Case123' found when reading union. Path 'Case123', line 1, position 11.");
 
     [Fact]
     public void SerializeUnionWithTypeNameHandlingAndReferenceTracking()
     {
-        var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.All,
             TypeNameHandling = TypeNameHandling.All
-        });
+        };
+        settings.Converters.Add(unionConverter);
+        var json = JsonConvert.SerializeObject(Shape.NewRectangle(10.0, 5.0), settings);
 
         Assert.Equal(@"{""Case"":""Rectangle"",""Fields"":[10.0,5.0]}", json);
 
-        var c = JsonConvert.DeserializeObject<Shape>(json);
+        var c = JsonConvert.DeserializeObject<Shape>(json, unionConverter);
         XUnitAssert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle) c;
