@@ -240,11 +240,6 @@ public class SerializationEventAttributeTests : TestFixtureBase
     [Fact]
     public void WhenSerializationErrorDetectedBySerializer_ThenCallbackIsCalled()
     {
-        // Verify contract is properly finding our callback
-        var resolver = new DefaultContractResolver().ResolveContract(typeof(FooEvent));
-
-        Assert.Equal(resolver.OnErrorCallbacks.Count, 1);
-
         var serializer = JsonSerializer.Create(new()
         {
             // If I don't specify Error here, the callback isn't called

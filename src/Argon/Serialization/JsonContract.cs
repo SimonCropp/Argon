@@ -19,7 +19,6 @@ public abstract class JsonContract
     internal bool IsSealed;
     internal bool IsInstantiable;
 
-    List<SerializationErrorCallback>? onErrorCallbacks;
     Type createdType;
 
     /// <summary>
@@ -60,11 +59,6 @@ public abstract class JsonContract
     public JsonConverter? InternalConverter { get; internal set; }
 
     /// <summary>
-    /// Gets or sets all method called when an error is thrown during the serialization of the object.
-    /// </summary>
-    public List<SerializationErrorCallback> OnErrorCallbacks => onErrorCallbacks ??= new();
-
-    /// <summary>
     /// Gets or sets the default creator method used to create the object.
     /// </summary>
     public Func<object>? DefaultCreator { get; set; }
@@ -100,23 +94,6 @@ public abstract class JsonContract
 
         InternalReadType = ReadType.Read;
     }
-
-    internal void InvokeOnError(object o, StreamingContext? context, ErrorContext errorContext)
-    {
-        var contextToUse = ContextToUse(context);
-        if (onErrorCallbacks == null)
-        {
-            return;
-        }
-
-        foreach (var callback in onErrorCallbacks)
-        {
-            callback(o, contextToUse, errorContext);
-        }
-    }
-
-    static StreamingContext ContextToUse(StreamingContext? context) =>
-        context ?? JsonSerializerSettings.DefaultContext;
 
     internal static SerializationErrorCallback CreateSerializationErrorCallback(MethodInfo callbackMethodInfo) =>
         (o, context, errorContext) => callbackMethodInfo.Invoke(o, new object[] {context, errorContext});

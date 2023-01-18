@@ -597,51 +597,6 @@ public class DefaultContractResolver : IContractResolver
             contract.DefaultCreatorNonPublic = !createdType.IsValueType &&
                                                createdType.GetDefaultConstructor() == null;
         }
-
-        ResolveCallbackMethods(contract, contract.NonNullableUnderlyingType);
-    }
-
-    static void ResolveCallbackMethods(JsonContract contract, Type type)
-    {
-        GetCallbackMethodsForType(
-            type,
-            out var onError);
-
-        if (onError != null)
-        {
-            contract.OnErrorCallbacks.AddRange(onError);
-        }
-    }
-
-    static void GetCallbackMethodsForType(Type type, out List<SerializationErrorCallback>? onError)
-    {
-        onError = null;
-
-        foreach (var baseType in GetClassHierarchyForType(type))
-        {
-            // while we allow more than one OnSerialized total, only one can be defined per class
-            MethodInfo? currentOnError = null;
-
-            foreach (var method in baseType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
-            {
-                // compact framework errors when getting parameters for a generic method
-                // lame, but generic methods should not be callbacks anyway
-                if (method.ContainsGenericParameters)
-                {
-                    continue;
-                }
-
-                Type? prevAttributeType = null;
-                var parameters = method.GetParameters();
-
-                if (IsValidCallback(method, parameters, typeof(OnErrorAttribute), currentOnError, ref prevAttributeType))
-                {
-                    onError ??= new();
-                    onError.Add(JsonContract.CreateSerializationErrorCallback(method));
-                    currentOnError = method;
-                }
-            }
-        }
     }
 
     static List<Type> GetClassHierarchyForType(Type type)
