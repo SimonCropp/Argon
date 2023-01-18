@@ -10,6 +10,6 @@ public class ListErrorObjectCollection :
     Collection<ListErrorObject>,
     IJsonOnError
 {
-    public void OnError(object currentObject, ErrorContext context) =>
+    public void OnError(ErrorContext context) =>
         context.Handled = true;
 }

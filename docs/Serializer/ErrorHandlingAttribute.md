@@ -29,7 +29,7 @@ public class Employee:IJsonOnError
 
     public string Title { get; set; }
 
-    public void OnError(object currentObject, ErrorContext context) =>
+    public void OnError(ErrorContext context) =>
         context.Handled = true;
 }
 ```

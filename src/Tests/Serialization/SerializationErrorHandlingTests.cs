@@ -1187,7 +1187,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public class ErrorTestObject :
         IJsonOnError
     {
-        public void OnError(object currentObject, ErrorContext context)
+        public void OnError(ErrorContext context)
         {
         }
     }
@@ -1199,7 +1199,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Dictionary<TKey, TValue>,
         IJsonOnError
     {
-        public void OnError(object currentObject, ErrorContext context) =>
+        public void OnError(ErrorContext context) =>
             context.Handled = true;
     }
 }

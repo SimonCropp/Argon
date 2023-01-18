@@ -19,7 +19,7 @@ public class VersionKeyedCollection :
     protected override string GetKeyForItem(Person item) =>
         item.Name;
 
-    public void OnError(object currentObject, ErrorContext context)
+    public void OnError(ErrorContext context)
     {
         Messages.Add($"{context.Path} - Error message for member {context.Member} = {context.Error.Message}");
         context.Handled = true;

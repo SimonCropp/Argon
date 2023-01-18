@@ -57,7 +57,7 @@ public class SerializationEventTestObject :
     public virtual void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
 
-    public void OnError(object currentObject, ErrorContext context)
+    public void OnError(ErrorContext context)
     {
         Member5 = $"Error message for member {context.Member} = {context.Error.Message}";
         context.Handled = true;

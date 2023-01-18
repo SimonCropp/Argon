@@ -10,6 +10,6 @@ public class DateTimeErrorObjectCollection :
     Collection<DateTime>,
     IJsonOnError
 {
-    public void OnError(object currentObject, ErrorContext context) =>
+    public void OnError(ErrorContext context) =>
         context.Handled = true;
 }
