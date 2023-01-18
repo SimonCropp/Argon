@@ -5,4 +5,4 @@
 /// </summary>
 /// <param name="current">The object that raised the callback event.</param>
 /// <param name="errorContext">The error context.</param>
-public delegate void ErrorCallback(object? current, ErrorContext errorContext);
+public delegate void OnError(object? current, ErrorContext errorContext);
