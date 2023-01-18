@@ -12,19 +12,14 @@ public class DefaultContractResolver : IContractResolver
     // Json.NET Schema requires a property
     internal static IContractResolver Instance { get; } = new DefaultContractResolver();
 
-
-    static readonly string[] blacklistedTypeNames =
-    {
-        "System.IO.DriveInfo",
-        "System.IO.FileInfo",
-        "System.IO.DirectoryInfo"
-    };
-
     static readonly JsonConverter[] builtInConverters =
     {
         new ExpandoObjectConverter(),
         new DiscriminatedUnionConverter(),
         new KeyValuePairConverter(),
+        new DriveInfoConverter(),
+        new DirectoryInfoConverter(),
+        new FileInfoConverter(),
         new RegexConverter()
     };
 
