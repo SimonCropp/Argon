@@ -32,7 +32,7 @@ var json = JsonConvert.SerializeObject(people, Formatting.Indented);
 //  }
 //]
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L317-L346' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesoff' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L318-L347' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesoff' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In most cases this is the desired result, but in certain scenarios writing the second item in the list as a reference to the first is a better solution. If the above JSON was deserialized now, then the returned list would contain two completely separate Person objects with the same values. Writing references by value will also cause problems on objects where a circular reference occurs.
@@ -77,7 +77,7 @@ Console.WriteLine(p2.Name);
 var equal = ReferenceEquals(p1, p2);
 // true
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L377-L411' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferenceson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L378-L412' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferenceson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The first Person in the list is serialized with the addition of an object ID. The second Person in JSON is now only a reference to the first.
@@ -105,7 +105,7 @@ public class EmployeeReference
     public EmployeeReference Manager { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L416-L425' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L417-L426' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
