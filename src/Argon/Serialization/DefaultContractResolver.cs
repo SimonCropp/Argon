@@ -622,8 +622,6 @@ public class DefaultContractResolver : IContractResolver
             // while we allow more than one OnSerialized total, only one can be defined per class
             MethodInfo? currentOnError = null;
 
-            var skipDeserialized = ShouldSkipDeserialized(baseType);
-
             foreach (var method in baseType.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
             {
                 // compact framework errors when getting parameters for a generic method
@@ -644,39 +642,6 @@ public class DefaultContractResolver : IContractResolver
                 }
             }
         }
-    }
-
-    static bool IsConcurrentOrObservableCollection(Type type)
-    {
-        if (type.IsGenericType)
-        {
-            var definition = type.GetGenericTypeDefinition();
-
-            switch (definition.FullName)
-            {
-                case "System.Collections.Concurrent.ConcurrentQueue`1":
-                case "System.Collections.Concurrent.ConcurrentStack`1":
-                case "System.Collections.Concurrent.ConcurrentBag`1":
-                case JsonTypeReflector.ConcurrentDictionaryTypeName:
-                case "System.Collections.ObjectModel.ObservableCollection`1":
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    static bool ShouldSkipDeserialized(Type type)
-    {
-        // ConcurrentDictionary throws an error in its OnDeserialized so ignore - http://json.codeplex.com/discussions/257093
-        if (IsConcurrentOrObservableCollection(type))
-        {
-            return true;
-        }
-
-        return type.Name is
-            FSharpUtils.FSharpSetTypeName or
-            FSharpUtils.FSharpMapTypeName;
     }
 
     static List<Type> GetClassHierarchyForType(Type type)
