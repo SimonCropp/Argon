@@ -165,10 +165,10 @@ public class MissingMemberHandlingTests : TestFixtureBase
             //This works on properties but not on a objects property.
             /* So nameERROR:{"first":"ni"} would throw. The payload name:{"firstERROR":"hi"} would not */
             MissingMemberHandling = MissingMemberHandling.Error,
-            Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
+            Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
             {
                 // A more concrete error type would be nice but we are limited by Newtonsofts library here.
-                errors.Add(error.Message);
+                errors.Add(exception.Message);
                 markAsHandled();
             }
         };
@@ -191,10 +191,10 @@ public class MissingMemberHandlingTests : TestFixtureBase
             //This works on properties but not on a objects property.
             /* So nameERROR:{"first":"ni"} would throw. The payload name:{"firstERROR":"hi"} would not */
             MissingMemberHandling = MissingMemberHandling.Error,
-            Error = (_, _, _, _, error, markAsHandled) =>
+            Error = (_, _, _, _, exception, markAsHandled) =>
             {
                 // A more concrete error type would be nice but we are limited by Newtonsofts library here.
-                errors.Add(error.Message);
+                errors.Add(exception.Message);
                 markAsHandled();
             }
         };

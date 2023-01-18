@@ -206,9 +206,9 @@ public class SerializationTests : TestFixtureBase
                 ]",
             new JsonSerializerSettings
             {
-                Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
+                Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
                 {
-                    errors.Add(error.Message);
+                    errors.Add(exception.Message);
                     markAsHandled();
                 },
                 Converters = {new IsoDateTimeConverter()}
@@ -236,12 +236,12 @@ public class SerializationTests : TestFixtureBase
 
         var serializer = new JsonSerializer
         {
-            Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
+            Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
             {
                 // only log an error once
                 if (currentObject == originalObject)
                 {
-                    errors.Add(error.Message);
+                    errors.Add(exception.Message);
                 }
             }
         };

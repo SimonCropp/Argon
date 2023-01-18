@@ -23,9 +23,9 @@ public class ErrorHandlingEvent : TestFixtureBase
             ]",
             new JsonSerializerSettings
             {
-                Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
+                Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
                 {
-                    errors.Add(error.Message);
+                    errors.Add(exception.Message);
                     markAsHandled();
                 },
                 Converters = {new IsoDateTimeConverter()}
