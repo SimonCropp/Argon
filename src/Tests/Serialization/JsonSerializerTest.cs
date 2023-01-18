@@ -5588,7 +5588,7 @@ Path '', line 1, position 1.");
             {
                 Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
                 {
-                    errors.Add(e.Error.Message);
+                    errors.Add(error.Message);
                     markAsHandled();
                 },
                 Formatting = Formatting.Indented

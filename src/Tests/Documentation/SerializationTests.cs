@@ -236,7 +236,7 @@ public class SerializationTests : TestFixtureBase
 
         var serializer = new JsonSerializer
         {
-            Error = (currentObject, context) =>
+            Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 // only log an error once
                 if (currentObject == context.OriginalObject)

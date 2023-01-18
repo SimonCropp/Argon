@@ -470,7 +470,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var serializer = new JsonSerializer
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Default,
-            Error = (_, context) =>
+            Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 errors.Add($"{context.Path} - {context.Member} - {context.Error.Message}");
                 context.Handled = true;
@@ -535,7 +535,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
         var serializer = new JsonSerializer();
         var errors = new List<string>();
-        serializer.Error = (_, e) =>
+        serializer.Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
         {
             e.Handled = true;
             errors.Add(e.Path);
@@ -562,7 +562,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var serializer = new JsonSerializer
         {
-            Error = (_, e) =>
+            Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 errors.Add(e.Error.Message);
                 e.Handled = true;
@@ -677,7 +677,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-            jsonSerializer.Error = (_, e) =>
+            jsonSerializer.Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 errors.Add(e.Error.Message);
                 e.Handled = true;
@@ -714,7 +714,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-            jsonSerializer.Error = (_, e) =>
+            jsonSerializer.Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 errors.Add(e.Error.Message);
                 e.Handled = true;
@@ -851,7 +851,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var jReader = new JsonTextReader(new StreamReader(stream));
         var s = new JsonSerializer
         {
-            Error = (_, args) =>
+            Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 args.Handled = true;
             }
