@@ -25,7 +25,7 @@ public class ErrorHandlingEvent : TestFixtureBase
             {
                 Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
                 {
-                    errors.Add(context.Error.Message);
+                    errors.Add(error.Message);
                     markAsHandled();
                 },
                 Converters = {new IsoDateTimeConverter()}

@@ -26,10 +26,10 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
         ]",
     new JsonSerializerSettings
     {
-        Error = (currentObject, context) =>
+        Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
         {
-            errors.Add(context.Error.Message);
-            context.Handled = true;
+            errors.Add(error.Message);
+            markAsHandled();
         },
         Converters = {new IsoDateTimeConverter()}
     });
@@ -58,12 +58,12 @@ var errors = new List<string>();
 
 var serializer = new JsonSerializer
 {
-    Error = (currentObject, context) =>
+    Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
     {
         // only log an error once
-        if (currentObject == context.OriginalObject)
+        if (currentObject == originalObject)
         {
-            errors.Add(context.Error.Message);
+            errors.Add(error.Message);
         }
     }
 };
@@ -104,8 +104,8 @@ public class PersonError :
 
     public string Title { get; set; }
 
-    public void OnError(object originalObject, object member, string path, Exception error, Action markAsHanded) =>
-        markAsHanded();
+    public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled) =>
+        markAsHandled();
 }
 ```
 <sup><a href='/src/Tests/Documentation/SerializationTests.cs#L252-L282' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeobject' title='Start of snippet'>anchor</a></sup>

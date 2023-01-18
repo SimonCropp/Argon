@@ -208,8 +208,8 @@ public class SerializationTests : TestFixtureBase
             {
                 Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
                 {
-                    errors.Add(context.Error.Message);
-                    context.Handled = true;
+                    errors.Add(error.Message);
+                    markAsHandled();
                 },
                 Converters = {new IsoDateTimeConverter()}
             });
@@ -239,9 +239,9 @@ public class SerializationTests : TestFixtureBase
             Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 // only log an error once
-                if (currentObject == context.OriginalObject)
+                if (currentObject == originalObject)
                 {
-                    errors.Add(context.Error.Message);
+                    errors.Add(error.Message);
                 }
             }
         };

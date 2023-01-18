@@ -19,10 +19,10 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
     ]",
     new JsonSerializerSettings
     {
-        Error = (_, context) =>
+        Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
         {
-            errors.Add(context.Error.Message);
-            context.Handled = true;
+            errors.Add(error.Message);
+            markAsHandled();
         },
         Converters = {new IsoDateTimeConverter()}
     });

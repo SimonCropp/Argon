@@ -168,7 +168,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
                 // A more concrete error type would be nice but we are limited by Newtonsofts library here.
-                errors.Add(args.Error.Message);
+                errors.Add(error.Message);
                 markAsHandled();
             }
         };

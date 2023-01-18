@@ -472,8 +472,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.Default,
             Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
-                errors.Add($"{context.Path} - {context.Member} - {context.Error.Message}");
-                context.Handled = true;
+                errors.Add($"{path} - {member} - {error.Message}");
+                markAsHandled();
             }
         };
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
@@ -537,8 +537,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var errors = new List<string>();
         serializer.Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
         {
-            e.Handled = true;
-            errors.Add(e.Path);
+            markAsHandled();
+            errors.Add(path);
         };
 
         serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json))
@@ -564,8 +564,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
-                errors.Add(e.Error.Message);
-                e.Handled = true;
+                errors.Add(error.Message);
+                markAsHandled();
             }
         };
 
@@ -679,8 +679,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             });
             jsonSerializer.Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
-                errors.Add(e.Error.Message);
-                e.Handled = true;
+                errors.Add(error.Message);
+                markAsHandled();
             };
 
             var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
@@ -716,16 +716,16 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             });
             jsonSerializer.Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
-                errors.Add(e.Error.Message);
-                e.Handled = true;
+                errors.Add(error.Message);
+                markAsHandled();
             };
 
-            var logEvents = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
+            var events = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
 
-            Assert.NotNull(logEvents);
-            Assert.Equal(2, logEvents.Count);
-            Assert.Equal("64411", logEvents["events"].Code);
-            Assert.Equal("64412", logEvents["events2"].Code);
+            Assert.NotNull(events);
+            Assert.Equal(2, events.Count);
+            Assert.Equal("64411", events["events"].Code);
+            Assert.Equal("64412", events["events2"].Code);
         }
 
         Assert.Equal(2, errors.Count);
@@ -853,7 +853,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
             {
-                args.Handled = true;
+                markAsHandled();
             }
         };
         var obj = s.TryDeserialize<ErrorPerson2>(jReader);
