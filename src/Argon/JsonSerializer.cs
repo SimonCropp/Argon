@@ -18,7 +18,7 @@ public class JsonSerializer
     /// <summary>
     /// Occurs when the <see cref="JsonSerializer" /> errors during serialization and deserialization.
     /// </summary>
-    public virtual event EventHandler<ErrorEventArgs>? Error;
+    public virtual OnError? Error { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IReferenceResolver" /> used by the serializer when resolving references.
@@ -124,11 +124,6 @@ public class JsonSerializer
 
         return contractResolver.ResolveContract(type);
     }
-
-    /// <summary>
-    /// Gets or sets the <see cref="StreamingContext" /> used by the serializer when invoking serialization callback methods.
-    /// </summary>
-    public virtual StreamingContext? Context { get; set; }
 
     /// <summary>
     /// Indicates how JSON text output is formatted.
@@ -328,11 +323,6 @@ public class JsonSerializer
             serializer.ConstructorHandling = settings.ConstructorHandling;
         }
 
-        if (settings.context != null)
-        {
-            serializer.Context = settings.Context;
-        }
-
         if (settings.CheckAdditionalContent != null)
         {
             serializer.CheckAdditionalContent = settings.CheckAdditionalContent;
@@ -340,7 +330,7 @@ public class JsonSerializer
 
         if (settings.Error != null)
         {
-            serializer.Error += settings.Error;
+            serializer.Error = settings.Error;
         }
 
         if (settings.ContractResolver != null)
@@ -675,7 +665,4 @@ public class JsonSerializer
 
         return null;
     }
-
-    internal void OnError(ErrorEventArgs e) =>
-        Error?.Invoke(this, e);
 }

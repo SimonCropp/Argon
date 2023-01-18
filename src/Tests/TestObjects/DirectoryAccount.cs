@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-public class DirectoryAccount
+public class DirectoryAccount : IJsonOnDeserialized
 {
     // normal deserialization
     public string DisplayName { get; set; }
@@ -16,8 +16,7 @@ public class DirectoryAccount
     [JsonExtensionData]
     IDictionary<string, JToken> additionalData;
 
-    [OnDeserialized]
-    void OnDeserialized(StreamingContext context)
+    public void OnDeserialized()
     {
         // SAMAccountName is not deserialized to any property
         // and so it is added to the extension data dictionary

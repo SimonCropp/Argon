@@ -116,7 +116,7 @@ public class PerformanceTests : TestFixtureBase
         #endregion
     }
 
-    void DeserializeStream(Stream stream)
+    public void DeserializeStream(Stream stream)
     {
         #region DeserializeStream
 

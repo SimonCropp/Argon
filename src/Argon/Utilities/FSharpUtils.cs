@@ -76,7 +76,6 @@ class FSharpUtils
     public Func<object, object> GetUnionCaseInfoTag { get; }
     public MethodCall<object, object?> GetUnionCaseInfoFields { get; }
 
-    public const string FSharpSetTypeName = "FSharpSet`1";
     public const string FSharpListTypeName = "FSharpList`1";
     public const string FSharpMapTypeName = "FSharpMap`2";
 

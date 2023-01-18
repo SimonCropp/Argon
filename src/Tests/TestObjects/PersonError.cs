@@ -4,7 +4,8 @@
 
 namespace TestObjects;
 
-public class PersonError
+public class PersonError :
+    IJsonOnError
 {
     List<string> _roles;
 
@@ -27,7 +28,6 @@ public class PersonError
 
     public string Title { get; set; }
 
-    [OnError]
-    internal void HandleError(StreamingContext context, ErrorContext errorContext) =>
-        errorContext.Handled = true;
+    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+        markAsHandled();
 }

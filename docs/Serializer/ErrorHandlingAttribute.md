@@ -6,7 +6,8 @@ This sample uses `Argon.OnErrorAttribute` to ignore the exception thrown setting
 <!-- snippet: ErrorHandlingAttributeTypes -->
 <a id='snippet-errorhandlingattributetypes'></a>
 ```cs
-public class Employee
+public class Employee :
+    IJsonOnError
 {
     List<string> roles;
 
@@ -29,9 +30,8 @@ public class Employee
 
     public string Title { get; set; }
 
-    [OnError]
-    internal void OnError(StreamingContext context, ErrorContext errorContext) =>
-        errorContext.Handled = true;
+    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+        markAsHandled();
 }
 ```
 <sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L7-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributetypes' title='Start of snippet'>anchor</a></sup>

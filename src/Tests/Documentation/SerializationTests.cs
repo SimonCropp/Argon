@@ -94,7 +94,11 @@ public class SerializationTests : TestFixtureBase
 
     #region SerializationCallbacksObject
 
-    public class SerializationEventTestObject
+    public class SerializationEventTestObject :
+        IJsonOnSerializing,
+        IJsonOnSerialized,
+        IJsonOnDeserializing,
+        IJsonOnDeserialized
     {
         // 2222
         // This member is serialized and deserialized with no change.
@@ -120,20 +124,16 @@ public class SerializationTests : TestFixtureBase
             Member4 = null;
         }
 
-        [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context) =>
+        public virtual void OnSerializing() =>
             Member2 = "This value went into the data file during serialization.";
 
-        [OnSerialized]
-        internal void OnSerializedMethod(StreamingContext context) =>
+        public virtual void OnSerialized() =>
             Member2 = "This value was reset after serialization.";
 
-        [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context) =>
+        public virtual void OnDeserializing() =>
             Member3 = "This value was set during deserialization";
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context) =>
+        public virtual void OnDeserialized() =>
             Member4 = "This value was set after deserialization.";
     }
 
@@ -206,10 +206,10 @@ public class SerializationTests : TestFixtureBase
                 ]",
             new JsonSerializerSettings
             {
-                Error = delegate(object _, ErrorEventArgs args)
+                Error = (currentObject, originalObject, location, exception, markAsHandled) =>
                 {
-                    errors.Add(args.ErrorContext.Error.Message);
-                    args.ErrorContext.Handled = true;
+                    errors.Add(exception.Message);
+                    markAsHandled();
                 },
                 Converters = {new IsoDateTimeConverter()}
             });
@@ -234,13 +234,15 @@ public class SerializationTests : TestFixtureBase
 
         var errors = new List<string>();
 
-        var serializer = new JsonSerializer();
-        serializer.Error += delegate(object _, ErrorEventArgs args)
+        var serializer = new JsonSerializer
         {
-            // only log an error once
-            if (args.CurrentObject == args.ErrorContext.OriginalObject)
+            Error = (currentObject, originalObject, location, exception, markAsHandled) =>
             {
-                errors.Add(args.ErrorContext.Error.Message);
+                // only log an error once
+                if (currentObject == originalObject)
+                {
+                    errors.Add(exception.Message);
+                }
             }
         };
 
@@ -249,7 +251,8 @@ public class SerializationTests : TestFixtureBase
 
     #region SerializationErrorHandlingAttributeObject
 
-    public class PersonError
+    public class PersonError :
+        IJsonOnError
     {
         List<string> roles;
 
@@ -272,9 +275,8 @@ public class SerializationTests : TestFixtureBase
 
         public string Title { get; set; }
 
-        [OnError]
-        internal void OnError(StreamingContext context, ErrorContext errorContext) =>
-            errorContext.Handled = true;
+        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+            markAsHandled();
     }
 
     #endregion

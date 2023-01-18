@@ -4,7 +4,11 @@
 
 namespace TestObjects;
 
-public class SerializationEventTestObjectWithConstructor
+public class SerializationEventTestObjectWithConstructor :
+    IJsonOnSerializing,
+    IJsonOnSerialized,
+    IJsonOnDeserializing,
+    IJsonOnDeserialized
 {
     // This member is serialized and deserialized with no change.
     public int Member1 { get; }
@@ -31,19 +35,16 @@ public class SerializationEventTestObjectWithConstructor
         Member4 = member4;
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context) =>
+    public void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
 
-    [OnSerialized]
-    internal void OnSerializedMethod(StreamingContext context) =>
+    public void OnSerialized() =>
         Member2 = "This value was reset after serialization.";
 
-    [OnDeserializing]
-    internal void OnDeserializingMethod(StreamingContext context) =>
+    public void OnDeserializing() =>
         Member3 = "This value was set during deserialization";
 
-    [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context) =>
+    public void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
+
 }

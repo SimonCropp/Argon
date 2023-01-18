@@ -48,26 +48,28 @@ abstract class JsonSerializerInternalBase
         currentErrorContext = null;
     }
 
-    protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, string path, Exception exception)
+    protected bool IsErrorHandled(object? currentObject, object? member, string path, Exception exception)
     {
         if (currentErrorContext == null)
         {
-            currentErrorContext = new(currentObject, keyValue, path, exception);
+            currentErrorContext = new(currentObject, exception);
         }
-        else if (currentErrorContext.Error != exception)
+        else if (currentErrorContext.Exception != exception)
         {
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
-        // attribute method is non-static so don't invoke if no object
-        if (contract != null && currentObject != null)
+        void MarkAsHandled() =>
+            currentErrorContext.Handled = true;
+
+        if (currentObject is IJsonOnError onError)
         {
-            contract.InvokeOnError(currentObject, Serializer.Context, currentErrorContext);
+            onError.OnError(currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
         }
 
         if (!currentErrorContext.Handled)
         {
-            Serializer.OnError(new(currentObject, currentErrorContext));
+            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
         }
 
         return currentErrorContext.Handled;

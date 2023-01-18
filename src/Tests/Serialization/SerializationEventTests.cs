@@ -5,7 +5,7 @@
 using TestObjects;
 
 [UsesVerify]
-public class SerializationEventAttributeTests : TestFixtureBase
+public class SerializationEventTests : TestFixtureBase
 {
     [Fact]
     public void ObjectEvents()
@@ -211,12 +211,12 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member5);
     }
 
-    public class SerializationEventBaseTestObject
+    public class SerializationEventBaseTestObject :
+        IJsonOnSerializing
     {
         public string TestMember { get; set; }
 
-        [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context) =>
+        public void OnSerializing() =>
             TestMember = "Set!";
     }
 
@@ -237,43 +237,9 @@ public class SerializationEventAttributeTests : TestFixtureBase
             """, json);
     }
 
-    public class SerializationEventContextTestObject
-    {
-        public string TestMember { get; set; }
-
-        [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context) =>
-            TestMember = $"{context.State} {context.Context}";
-    }
-
-    [Fact]
-    public void SerializationEventContextTest()
-    {
-        var value = new SerializationEventContextTestObject();
-
-        var json = JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
-        {
-            Context =
-                new(
-                    StreamingContextStates.Remoting,
-                    "ContextValue")
-        });
-
-        XUnitAssert.AreEqualNormalized("""
-            {
-              "TestMember": "Remoting ContextValue"
-            }
-            """, json);
-    }
-
     [Fact]
     public void WhenSerializationErrorDetectedBySerializer_ThenCallbackIsCalled()
     {
-        // Verify contract is properly finding our callback
-        var resolver = new DefaultContractResolver().ResolveContract(typeof(FooEvent));
-
-        Assert.Equal(resolver.OnErrorCallbacks.Count, 1);
-
         var serializer = JsonSerializer.Create(new()
         {
             // If I don't specify Error here, the callback isn't called
@@ -288,19 +254,19 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(25, foo.Identifier);
     }
 
-    public class FooEvent
+    public class FooEvent:
+        IJsonOnError
     {
         public int Identifier { get; set; }
 
-        [OnError]
-        void OnError(StreamingContext context, ErrorContext error)
+        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
         {
             Identifier = 25;
 
             // Here we could for example manually copy the
             // persisted "Id" value into the renamed "Identifier"
             // property, etc.
-            error.Handled = true;
+            markAsHandled();
         }
     }
 
@@ -335,41 +301,11 @@ OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
         return Verify(e);
     }
 
-    [Fact]
-    public Task DerivedDerivedSerializationEvents_DataContractSerializer()
-    {
-        var xml = @"<SerializationEventAttributeTests.DerivedDerivedSerializationEventOrderTestObject xmlns=""http://schemas.datacontract.org/2004/07/"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""/>";
-
-        var ss = new DataContractSerializer(typeof(DerivedDerivedSerializationEventOrderTestObject));
-
-        var c = (DerivedDerivedSerializationEventOrderTestObject) ss.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
-
-        var ms = new MemoryStream();
-        ss.WriteObject(ms, c);
-
-        var e = c.GetEvents();
-
-        return Verify(e);
-    }
-
-    [Fact]
-    public void NoStreamingContextParameter()
-    {
-        var d = new ExportPostData
-        {
-            user = "user!",
-            contract = new()
-            {
-                contractName = "name!"
-            }
-        };
-
-        XUnitAssert.Throws<JsonException>(
-            () => JsonConvert.SerializeObject(d, Formatting.Indented),
-            "Serialization Callback 'Void Deserialized()' in type 'SerializationEventAttributeTests+Contract' must have a single parameter of type 'System.Runtime.Serialization.StreamingContext'.");
-    }
-
-    public class SerializationEventOrderTestObject
+    public class SerializationEventOrderTestObject :
+        IJsonOnSerializing,
+        IJsonOnSerialized,
+        IJsonOnDeserializing,
+        IJsonOnDeserialized
     {
         protected IList<string> Events { get; }
 
@@ -379,84 +315,70 @@ OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
         public IList<string> GetEvents() =>
             Events;
 
-        [OnSerializing]
-        internal void OnSerializingMethod(StreamingContext context) =>
+        public virtual void OnSerializing() =>
             Events.Add("OnSerializing");
 
-        [OnSerialized]
-        internal void OnSerializedMethod(StreamingContext context) =>
+        public virtual void OnSerialized() =>
             Events.Add("OnSerialized");
 
-        [OnDeserializing]
-        internal void OnDeserializingMethod(StreamingContext context) =>
+        public virtual void OnDeserializing() =>
             Events.Add("OnDeserializing");
 
-        [OnDeserialized]
-        internal void OnDeserializedMethod(StreamingContext context) =>
+        public virtual void OnDeserialized() =>
             Events.Add("OnDeserialized");
     }
 
     public class DerivedSerializationEventOrderTestObject : SerializationEventOrderTestObject
     {
-        [OnSerializing]
-        internal new void OnSerializingMethod(StreamingContext context) =>
+        public override void OnSerializing()
+        {
+            base.OnSerializing();
             Events.Add("OnSerializing_Derived");
+        }
 
-        [OnSerialized]
-        internal new void OnSerializedMethod(StreamingContext context) =>
+        public override void OnSerialized()
+        {
+            base.OnSerialized();
             Events.Add("OnSerialized_Derived");
+        }
 
-        [OnDeserializing]
-        internal new void OnDeserializingMethod(StreamingContext context) =>
+        public override void OnDeserializing()
+        {
+            base.OnDeserializing();
             Events.Add("OnDeserializing_Derived");
+        }
 
-        [OnDeserialized]
-        internal new void OnDeserializedMethod(StreamingContext context) =>
+        public override void OnDeserialized()
+        {
+            base.OnDeserialized();
             Events.Add("OnDeserialized_Derived");
+        }
     }
 
     public class DerivedDerivedSerializationEventOrderTestObject : DerivedSerializationEventOrderTestObject
     {
-        [OnSerializing]
-        internal new void OnSerializingMethod(StreamingContext context) =>
+        public override void OnSerializing()
+        {
+            base.OnSerializing();
             Events.Add("OnSerializing_Derived_Derived");
+        }
 
-        [OnSerialized]
-        internal new void OnSerializedMethod(StreamingContext context) =>
+        public override void OnSerialized()
+        {
+            base.OnSerialized();
             Events.Add("OnSerialized_Derived_Derived");
+        }
 
-        [OnDeserializing]
-        internal new void OnDeserializingMethod(StreamingContext context) =>
+        public override void OnDeserializing()
+        {
+            base.OnDeserializing();
             Events.Add("OnDeserializing_Derived_Derived");
+        }
 
-        [OnDeserialized]
-        internal new void OnDeserializedMethod(StreamingContext context) =>
+        public override void OnDeserialized()
+        {
+            base.OnDeserialized();
             Events.Add("OnDeserialized_Derived_Derived");
-    }
-
-    public class ExportPostData
-    {
-        public Contract contract { get; set; }
-        public bool includeSubItems { get; set; }
-        public string user { get; set; }
-        public string[] projects { get; set; }
-    }
-
-    public class Contract
-    {
-        public string _id { get; set; }
-        public string contractName { get; set; }
-        public string contractNumber { get; set; }
-        public string updatedBy { get; set; }
-        public DateTime updated_at { get; set; }
-
-        bool _onDeserializedCalled;
-
-        public bool GetOnDeserializedCalled() =>
-            _onDeserializedCalled;
-
-        [OnDeserialized]
-        internal void Deserialized() =>
-            _onDeserializedCalled = true;
+        }
     }
 }

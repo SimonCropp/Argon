@@ -126,7 +126,7 @@ This example shows the JsonExtensionDataAttribute being applied to a field, unma
 <!-- snippet: DeserializeExtensionDataTypes -->
 <a id='snippet-deserializeextensiondatatypes'></a>
 ```cs
-public class DirectoryAccount
+public class DirectoryAccount : IJsonOnDeserialized
 {
     // normal deserialization
     public string DisplayName { get; set; }
@@ -137,8 +137,7 @@ public class DirectoryAccount
 
     [JsonExtensionData] IDictionary<string, JToken> _additionalData;
 
-    [OnDeserialized]
-    void OnDeserialized(StreamingContext context)
+    public void OnDeserialized()
     {
         // SAMAccountName is not deserialized to any property
         // and so it is added to the extension data dictionary
@@ -152,7 +151,7 @@ public class DirectoryAccount
         _additionalData = new Dictionary<string, JToken>();
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeExtensionDataUsage -->
@@ -176,7 +175,7 @@ Console.WriteLine(account.Domain);
 Console.WriteLine(account.UserName);
 // johns
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L40-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L39-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

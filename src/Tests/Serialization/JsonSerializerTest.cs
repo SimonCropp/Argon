@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using TestObjects;
-using ErrorEventArgs = Argon.ErrorEventArgs;
 using Formatting = Argon.Formatting;
 using JsonConstructor = Argon.JsonConstructorAttribute;
 
@@ -594,7 +593,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<Link>(json, new JsonSerializerSettings
         {
-            Error = (_, a) => a.ErrorContext.Handled = true
+            Error = (_, _, _, _, markAsHandled) => markAsHandled()
         });
 
         Assert.Equal(0, l.ChildId);
@@ -804,9 +803,6 @@ public class JsonSerializerTest : TestFixtureBase
         serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializer.ConstructorHandling);
 
-        serializer.Context = new StreamingContext(StreamingContextStates.Other);
-        Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializer.Context);
-
         var resolver = new CamelCasePropertyNamesContractResolver();
         serializer.ContractResolver = resolver;
         Assert.Equal(resolver, serializer.ContractResolver);
@@ -880,9 +876,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, settings.ConstructorHandling);
-
-        settings.Context = new(StreamingContextStates.Other);
-        Assert.Equal(new(StreamingContextStates.Other), settings.Context);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
         settings.ContractResolver = resolver;
@@ -959,9 +952,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         serializerProxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializerProxy.ConstructorHandling);
-
-        serializerProxy.Context = new StreamingContext(StreamingContextStates.Other);
-        Assert.Equal(new StreamingContext(StreamingContextStates.Other), serializerProxy.Context);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
         serializerProxy.ContractResolver = resolver;
@@ -5548,15 +5538,13 @@ Path '', line 1, position 1.");
         var json = "{}";
         var errors = new List<string>();
 
-        EventHandler<ErrorEventArgs> error = (_, e) =>
-        {
-            errors.Add(e.ErrorContext.Error.Message);
-            e.ErrorContext.Handled = true;
-        };
-
         var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
         {
-            Error = error
+            Error = (_, _, _, exception, markAsHandled) =>
+            {
+                errors.Add(exception.Message);
+                markAsHandled();
+            }
         });
 
         Assert.NotNull(o);
@@ -5573,15 +5561,13 @@ Path '', line 1, position 1.");
         var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
         var errors = new List<string>();
 
-        EventHandler<ErrorEventArgs> error = (_, e) =>
-        {
-            errors.Add(e.ErrorContext.Error.Message);
-            e.ErrorContext.Handled = true;
-        };
-
         var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
         {
-            Error = error
+            Error = (_, _, _, exception, markAsHandled) =>
+            {
+                errors.Add(exception.Message);
+                markAsHandled();
+            }
         });
 
         Assert.NotNull(o);
@@ -5596,17 +5582,15 @@ Path '', line 1, position 1.");
     {
         var errors = new List<string>();
 
-        EventHandler<ErrorEventArgs> error = (_, e) =>
-        {
-            errors.Add(e.ErrorContext.Error.Message);
-            e.ErrorContext.Handled = true;
-        };
-
         var json = JsonConvert.SerializeObject(
             new RequiredObject(),
             new JsonSerializerSettings
             {
-                Error = error,
+                Error = (_, _, _, exception, markAsHandled) =>
+                {
+                    errors.Add(exception.Message);
+                    markAsHandled();
+                },
                 Formatting = Formatting.Indented
             });
 

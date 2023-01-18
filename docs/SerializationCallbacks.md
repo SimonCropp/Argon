@@ -17,7 +17,11 @@ Example object with serialization callback methods:</para>
 <!-- snippet: SerializationCallbacksObject -->
 <a id='snippet-serializationcallbacksobject'></a>
 ```cs
-public class SerializationEventTestObject
+public class SerializationEventTestObject :
+    IJsonOnSerializing,
+    IJsonOnSerialized,
+    IJsonOnDeserializing,
+    IJsonOnDeserialized
 {
     // 2222
     // This member is serialized and deserialized with no change.
@@ -43,20 +47,16 @@ public class SerializationEventTestObject
         Member4 = null;
     }
 
-    [OnSerializing]
-    internal void OnSerializingMethod(StreamingContext context) =>
+    public virtual void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
 
-    [OnSerialized]
-    internal void OnSerializedMethod(StreamingContext context) =>
+    public virtual void OnSerialized() =>
         Member2 = "This value was reset after serialization.";
 
-    [OnDeserializing]
-    internal void OnDeserializingMethod(StreamingContext context) =>
+    public virtual void OnDeserializing() =>
         Member3 = "This value was set during deserialization";
 
-    [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context) =>
+    public virtual void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
 }
 ```

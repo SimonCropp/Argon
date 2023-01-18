@@ -36,7 +36,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, contract, null, jsonWriter.Path, exception))
+            if (IsErrorHandled(null, null, jsonWriter.Path, exception))
             {
                 HandleError(jsonWriter, 0);
             }
@@ -350,25 +350,35 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return false;
     }
 
-    void SerializeString(JsonWriter writer, object value, JsonStringContract contract)
+    static void SerializeString(JsonWriter writer, object value, JsonStringContract contract)
     {
-        OnSerializing(contract, value);
+        OnSerializing(value);
 
         TryConvertToString(value, contract.UnderlyingType, out var s);
         writer.WriteValue(s);
 
-        OnSerialized(contract, value);
+        OnSerialized(value);
     }
 
-    void OnSerializing(JsonContract contract, object value) =>
-        contract.InvokeOnSerializing(value, Serializer.Context);
+    static void OnSerializing(object value)
+    {
+        if (value is IJsonOnSerializing serializing)
+        {
+            serializing.OnSerializing();
+        }
+    }
 
-    void OnSerialized(JsonContract contract, object value) =>
-        contract.InvokeOnSerialized(value, Serializer.Context);
+    static void OnSerialized(object value)
+    {
+        if (value is IJsonOnSerialized serialized)
+        {
+            serialized.OnSerialized();
+        }
+    }
 
     void SerializeObject(JsonWriter writer, object value, JsonObjectContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        OnSerializing(contract, value);
+        OnSerializing(value);
 
         serializeStack.Add(value);
 
@@ -390,7 +400,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
             catch (Exception exception)
             {
-                if (IsErrorHandled(value, contract, property.PropertyName, writer.ContainerPath, exception))
+                if (IsErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
                 {
                     HandleError(writer, initialDepth);
                 }
@@ -434,7 +444,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(contract, value);
+        OnSerialized(value);
     }
 
     bool CalculatePropertyValues(JsonWriter writer, object value, JsonContainerContract contract, JsonProperty? member, JsonProperty property, [NotNullWhen(true)] out JsonContract? memberContract, out object? memberValue)
@@ -583,7 +593,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
     {
         var underlyingList = values is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : values;
 
-        OnSerializing(contract, underlyingList);
+        OnSerializing(underlyingList);
 
         serializeStack.Add(underlyingList);
 
@@ -609,7 +619,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(contract, underlyingList);
+        OnSerialized(underlyingList);
     }
 
     private void SerializeArrayItem(JsonWriter writer, JsonArrayContract contract, JsonProperty? member, object? value, object underlyingList, int initialDepth, ref int index)
@@ -647,7 +657,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(underlyingList, contract, index, writer.ContainerPath, exception))
+            if (IsErrorHandled(underlyingList, index, writer.ContainerPath, exception))
             {
                 HandleError(writer, initialDepth);
             }
@@ -664,7 +674,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     void SerializeMultidimensionalArray(JsonWriter writer, Array values, JsonArrayContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        OnSerializing(contract, values);
+        OnSerializing(values);
 
         serializeStack.Add(values);
 
@@ -679,7 +689,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(contract, values);
+        OnSerialized(values);
     }
 
     void SerializeMultidimensionalArray(JsonWriter writer, Array values, JsonArrayContract contract, JsonProperty? member, int initialDepth, int[] indices)
@@ -720,7 +730,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(values, contract, i, writer.ContainerPath, exception))
+                    if (IsErrorHandled(values, i, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth + 1);
                     }
@@ -772,7 +782,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
     void SerializeDynamic(JsonWriter writer, IDynamicMetaObjectProvider value, JsonDynamicContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        OnSerializing(contract, value);
+        OnSerializing(value);
         serializeStack.Add(value);
 
         WriteObjectStart(writer, value, contract, member, collectionContract, containerProperty);
@@ -796,7 +806,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, contract, property.PropertyName, writer.ContainerPath, exception))
+                    if (IsErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -833,7 +843,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, contract, memberName, writer.ContainerPath, exception))
+                    if (IsErrorHandled(value, memberName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -848,7 +858,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         writer.WriteEndObject();
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
-        OnSerialized(contract, value);
+        OnSerialized(value);
     }
 
     bool ShouldWriteDynamicProperty(object? memberValue)
@@ -912,7 +922,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 #pragma warning disable CS8600, CS8602, CS8604
         var underlyingDictionary = values is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : values;
 
-        OnSerializing(contract, underlyingDictionary);
+        OnSerializing(underlyingDictionary);
         serializeStack.Add(underlyingDictionary);
 
         WriteObjectStart(writer, underlyingDictionary, contract, member, collectionContract, containerProperty);
@@ -960,7 +970,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(contract, underlyingDictionary);
+        OnSerialized(underlyingDictionary);
 #pragma warning restore CS8600, CS8602, CS8604
     }
 
@@ -1008,7 +1018,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(underlyingDictionary, contract, propertyName, writer.ContainerPath, exception))
+            if (IsErrorHandled(underlyingDictionary, propertyName, writer.ContainerPath, exception))
             {
                 HandleError(writer, initialDepth);
             }

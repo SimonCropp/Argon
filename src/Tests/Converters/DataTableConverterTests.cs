@@ -6,7 +6,6 @@ using System.Data;
 using System.Data.SqlTypes;
 using Argon.DataSets;
 using TestObjects;
-using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class DataTableConverterTests : TestFixtureBase
 {
@@ -659,7 +658,9 @@ public class DataTableConverterTests : TestFixtureBase
     {
     }
 
-    public class DataTableConverterTest : DataTableConverter
+    public class DataTableConverterTest :
+        DataTableConverter,
+        IJsonOnError
     {
         protected DataTable CreateTable()
         {
@@ -672,18 +673,19 @@ public class DataTableConverterTests : TestFixtureBase
         {
             existingValue ??= CreateTable();
 
-            serializer.Error += OnError;
+            var previousError = serializer.Error;
+            serializer.Error = (_, _, _, _, markAsHandled) => markAsHandled();
             try
             {
                 return base.ReadJson(reader, type, existingValue, serializer);
             }
             finally
             {
-                serializer.Error -= OnError;
+                serializer.Error = previousError;
             }
         }
 
-        static void OnError(object sender, ErrorEventArgs e) =>
-            e.ErrorContext.Handled = true;
+        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+            markAsHandled();
     }
 }
