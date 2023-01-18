@@ -1,0 +1,14 @@
+﻿[
+  OnDeserializing,
+  OnDeserializing_Derived,
+  OnDeserializing_Derived_Derived,
+  OnDeserialized,
+  OnDeserialized_Derived,
+  OnDeserialized_Derived_Derived,
+  OnSerializing,
+  OnSerializing_Derived,
+  OnSerializing_Derived_Derived,
+  OnSerialized,
+  OnSerialized_Derived,
+  OnSerialized_Derived_Derived
+]
