@@ -27,6 +27,7 @@ public class IoInfos : TestFixtureBase
         var result = JsonConvert.DeserializeObject<FileInfo>(serialized);
         Assert.Equal(fileInfo.FullName, result.FullName);
     }
+
     [Fact]
     public void Test_DriveInfo()
     {
