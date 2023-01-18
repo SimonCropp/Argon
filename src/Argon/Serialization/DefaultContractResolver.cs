@@ -1090,17 +1090,17 @@ public class DefaultContractResolver : IContractResolver
             // automatically ignore extension data dictionary property if it is public
             || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null;
 
-        if (memberSerialization != MemberSerialization.OptIn)
+        if (memberSerialization == MemberSerialization.OptIn)
+        {
+            // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
+            property.Ignored = hasJsonIgnoreAttribute || !hasMemberAttribute;
+        }
+        else
         {
             var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
 
             // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
             property.Ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
-        }
-        else
-        {
-            // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
-            property.Ignored = hasJsonIgnoreAttribute || !hasMemberAttribute;
         }
 
         // resolve converter for property
@@ -1113,16 +1113,8 @@ public class DefaultContractResolver : IContractResolver
             property.DefaultValue = defaultValueAttribute.Value;
         }
 
-        allowNonPublicAccess = false;
-        if (hasMemberAttribute)
-        {
-            allowNonPublicAccess = true;
-        }
-
-        if (memberSerialization == MemberSerialization.Fields)
-        {
-            allowNonPublicAccess = true;
-        }
+        allowNonPublicAccess = hasMemberAttribute ||
+                               memberSerialization == MemberSerialization.Fields;
     }
 
     static Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
