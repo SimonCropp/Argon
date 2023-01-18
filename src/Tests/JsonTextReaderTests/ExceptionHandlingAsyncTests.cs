@@ -561,7 +561,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
 
         for (var j = 1; j < 1000; j++)
         {
-            var total = i + j;
+            var total = BigInteger.Add(i, j);
 
             reader = new(new StringReader(total.ToString(InvariantCulture)));
             await reader.ReadAsync();
@@ -581,7 +581,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
 
         for (var j = 1; j < 1000; j++)
         {
-            var total = i + -j;
+            var total = BigInteger.Add(i, -j);
 
             reader = new(new StringReader(total.ToString(InvariantCulture)));
             await reader.ReadAsync();
