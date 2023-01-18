@@ -8,7 +8,8 @@ public class SerializationEventTestObject :
     IJsonOnSerializing,
     IJsonOnSerialized,
     IJsonOnDeserializing,
-    IJsonOnDeserialized
+    IJsonOnDeserialized,
+    IJsonOnError
 {
     // This member is serialized and deserialized with no change.
     public int Member1 { get; set; }
@@ -56,10 +57,9 @@ public class SerializationEventTestObject :
     public virtual void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
 
-    [OnError]
-    internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
+    public void OnError(object currentObject, ErrorContext context)
     {
-        Member5 = $"Error message for member {errorContext.Member} = {errorContext.Error.Message}";
-        errorContext.Handled = true;
+        Member5 = $"Error message for member {context.Member} = {context.Error.Message}";
+        context.Handled = true;
     }
 }

@@ -6,7 +6,7 @@ public class ErrorHandlingAttribute : TestFixtureBase
 {
     #region ErrorHandlingAttributeTypes
 
-    public class Employee
+    public class Employee:IJsonOnError
     {
         List<string> roles;
 
@@ -29,9 +29,8 @@ public class ErrorHandlingAttribute : TestFixtureBase
 
         public string Title { get; set; }
 
-        [OnError]
-        internal void OnError(StreamingContext context, ErrorContext errorContext) =>
-            errorContext.Handled = true;
+        public void OnError(object currentObject, ErrorContext context) =>
+            context.Handled = true;
     }
 
     #endregion

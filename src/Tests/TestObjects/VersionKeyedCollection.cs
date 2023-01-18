@@ -6,7 +6,10 @@ using System.Collections.ObjectModel;
 
 namespace TestObjects;
 
-public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerable<Person>
+public class VersionKeyedCollection :
+    KeyedCollection<string, Person>,
+    IEnumerable<Person>,
+    IJsonOnError
 {
     public List<string> Messages { get; set; }
 
@@ -16,11 +19,10 @@ public class VersionKeyedCollection : KeyedCollection<string, Person>, IEnumerab
     protected override string GetKeyForItem(Person item) =>
         item.Name;
 
-    [OnError]
-    internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext)
+    public void OnError(object currentObject, ErrorContext context)
     {
-        Messages.Add($"{errorContext.Path} - Error message for member {errorContext.Member} = {errorContext.Error.Message}");
-        errorContext.Handled = true;
+        Messages.Add($"{context.Path} - Error message for member {context.Member} = {context.Error.Message}");
+        context.Handled = true;
     }
 
     IEnumerator<Person> IEnumerable<Person>.GetEnumerator()

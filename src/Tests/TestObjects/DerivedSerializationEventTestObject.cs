@@ -16,9 +16,4 @@ public class DerivedSerializationEventTestObject : SerializationEventTestObject
         base.OnDeserialized();
         Member7 = "This value was set after deserialization.";
     }
-
-    [OnError]
-    internal void OnDerivedErrorMethod(StreamingContext context, ErrorContext errorContext)
-    {
-    }
 }

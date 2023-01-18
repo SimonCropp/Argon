@@ -259,19 +259,19 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(25, foo.Identifier);
     }
 
-    public class FooEvent
+    public class FooEvent:
+        IJsonOnError
     {
         public int Identifier { get; set; }
 
-        [OnError]
-        void OnError(StreamingContext context, ErrorContext error)
+        public void OnError(object currentObject, ErrorContext context)
         {
             Identifier = 25;
 
             // Here we could for example manually copy the
             // persisted "Id" value into the renamed "Identifier"
             // property, etc.
-            error.Handled = true;
+            context.Handled = true;
         }
     }
 

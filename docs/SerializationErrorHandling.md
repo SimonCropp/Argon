@@ -80,7 +80,8 @@ The `Argon.OnErrorAttribute` works much like the other [NET serialization attrib
 <!-- snippet: SerializationErrorHandlingAttributeObject -->
 <a id='snippet-serializationerrorhandlingattributeobject'></a>
 ```cs
-public class PersonError
+public class PersonError :
+    IJsonOnError
 {
     List<string> roles;
 
@@ -103,9 +104,8 @@ public class PersonError
 
     public string Title { get; set; }
 
-    [OnError]
-    internal void OnError(StreamingContext context, ErrorContext errorContext) =>
-        errorContext.Handled = true;
+    public void OnError(object currentObject, ErrorContext context) =>
+        context.Handled = true;
 }
 ```
 <sup><a href='/src/Tests/Documentation/SerializationTests.cs#L252-L282' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeobject' title='Start of snippet'>anchor</a></sup>

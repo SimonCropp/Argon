@@ -6,9 +6,10 @@ using System.Collections.ObjectModel;
 
 namespace TestObjects;
 
-public class DateTimeErrorObjectCollection : Collection<DateTime>
+public class DateTimeErrorObjectCollection :
+    Collection<DateTime>,
+    IJsonOnError
 {
-    [OnError]
-    internal void OnErrorMethod(StreamingContext context, ErrorContext errorContext) =>
-        errorContext.Handled = true;
+    public void OnError(object currentObject, ErrorContext context) =>
+        context.Handled = true;
 }

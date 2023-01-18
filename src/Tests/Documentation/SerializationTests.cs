@@ -251,7 +251,8 @@ public class SerializationTests : TestFixtureBase
 
     #region SerializationErrorHandlingAttributeObject
 
-    public class PersonError
+    public class PersonError :
+        IJsonOnError
     {
         List<string> roles;
 
@@ -274,9 +275,8 @@ public class SerializationTests : TestFixtureBase
 
         public string Title { get; set; }
 
-        [OnError]
-        internal void OnError(StreamingContext context, ErrorContext errorContext) =>
-            errorContext.Handled = true;
+        public void OnError(object currentObject, ErrorContext context) =>
+            context.Handled = true;
     }
 
     #endregion
