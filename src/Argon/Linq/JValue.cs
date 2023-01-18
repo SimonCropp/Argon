@@ -368,19 +368,19 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             {
                 case ExpressionType.Add:
                 case ExpressionType.AddAssign:
-                    result = i1 + i2;
+                    result = BigInteger.Add(i1, i2);
                     return true;
                 case ExpressionType.Subtract:
                 case ExpressionType.SubtractAssign:
-                    result = i1 - i2;
+                    result = BigInteger.Subtract(i1, i2);
                     return true;
                 case ExpressionType.Multiply:
                 case ExpressionType.MultiplyAssign:
-                    result = i1 * i2;
+                    result = BigInteger.Multiply(i1, i2);
                     return true;
                 case ExpressionType.Divide:
                 case ExpressionType.DivideAssign:
-                    result = i1 / i2;
+                    result = BigInteger.Divide(i1, i2);
                     return true;
             }
         }
