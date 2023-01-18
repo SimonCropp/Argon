@@ -6,7 +6,8 @@ public class ErrorHandlingAttribute : TestFixtureBase
 {
     #region ErrorHandlingAttributeTypes
 
-    public class Employee:IJsonOnError
+    public class Employee :
+        IJsonOnError
     {
         List<string> roles;
 
@@ -29,7 +30,7 @@ public class ErrorHandlingAttribute : TestFixtureBase
 
         public string Title { get; set; }
 
-        public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled) =>
+        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 

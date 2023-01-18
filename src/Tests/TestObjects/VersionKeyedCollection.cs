@@ -19,9 +19,9 @@ public class VersionKeyedCollection :
     protected override string GetKeyForItem(Person item) =>
         item.Name;
 
-    public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled)
+    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
     {
-        Messages.Add($"{path} - Error message for member {member} = {exception.Message}");
+        Messages.Add($"{location.Path} - Error message for member {location.Member} = {exception.Message}");
         markAsHandled();
     }
 

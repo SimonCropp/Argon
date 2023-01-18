@@ -593,7 +593,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var l = JsonConvert.DeserializeObject<Link>(json, new JsonSerializerSettings
         {
-            Error = (currentObject, originalObject, member, path, exception, markAsHandled) => markAsHandled()
+            Error = (_, _, _, _, markAsHandled) => markAsHandled()
         });
 
         Assert.Equal(0, l.ChildId);
@@ -5540,7 +5540,7 @@ Path '', line 1, position 1.");
 
         var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
         {
-            Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
+            Error = (_, _, _, exception, markAsHandled) =>
             {
                 errors.Add(exception.Message);
                 markAsHandled();
@@ -5563,7 +5563,7 @@ Path '', line 1, position 1.");
 
         var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
         {
-            Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
+            Error = (_, _, _, exception, markAsHandled) =>
             {
                 errors.Add(exception.Message);
                 markAsHandled();
@@ -5586,7 +5586,7 @@ Path '', line 1, position 1.");
             new RequiredObject(),
             new JsonSerializerSettings
             {
-                Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
+                Error = (_, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();

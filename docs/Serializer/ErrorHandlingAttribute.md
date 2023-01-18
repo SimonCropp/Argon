@@ -6,7 +6,8 @@ This sample uses `Argon.OnErrorAttribute` to ignore the exception thrown setting
 <!-- snippet: ErrorHandlingAttributeTypes -->
 <a id='snippet-errorhandlingattributetypes'></a>
 ```cs
-public class Employee:IJsonOnError
+public class Employee :
+    IJsonOnError
 {
     List<string> roles;
 
@@ -29,11 +30,11 @@ public class Employee:IJsonOnError
 
     public string Title { get; set; }
 
-    public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled) =>
+    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L7-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L7-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributetypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ErrorHandlingAttributeUsage -->
@@ -56,5 +57,5 @@ Console.WriteLine(json);
 //   "Title": "Mister Manager"
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L41-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L42-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributeusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

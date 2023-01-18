@@ -48,13 +48,13 @@ abstract class JsonSerializerInternalBase
         currentErrorContext = null;
     }
 
-    protected bool IsErrorHandled(object? currentObject, object? keyValue, string path, Exception exception)
+    protected bool IsErrorHandled(object? currentObject, object? member, string path, Exception exception)
     {
         if (currentErrorContext == null)
         {
-            currentErrorContext = new(currentObject, keyValue, path, exception);
+            currentErrorContext = new(currentObject, member, path, exception);
         }
-        else if (currentErrorContext.Error != exception)
+        else if (currentErrorContext.Exception != exception)
         {
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
@@ -64,12 +64,12 @@ abstract class JsonSerializerInternalBase
 
         if (currentObject is IJsonOnError onError)
         {
-            onError.OnError(currentErrorContext.OriginalObject, keyValue, path, exception, MarkAsHandled);
+            onError.OnError(currentErrorContext.OriginalObject, new(member, path), exception, MarkAsHandled);
         }
 
         if (!currentErrorContext.Handled)
         {
-            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, keyValue, path, exception, MarkAsHandled);
+            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, new(member, path), exception, MarkAsHandled);
         }
 
         return currentErrorContext.Handled;

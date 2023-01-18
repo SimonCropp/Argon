@@ -658,7 +658,9 @@ public class DataTableConverterTests : TestFixtureBase
     {
     }
 
-    public class DataTableConverterTest : DataTableConverter, IJsonOnError
+    public class DataTableConverterTest :
+        DataTableConverter,
+        IJsonOnError
     {
         protected DataTable CreateTable()
         {
@@ -672,7 +674,7 @@ public class DataTableConverterTests : TestFixtureBase
             existingValue ??= CreateTable();
 
             var previousError = serializer.Error;
-            serializer.Error = (_, _, _, _, _, markAsHandled) => markAsHandled();
+            serializer.Error = (_, _, _, _, markAsHandled) => markAsHandled();
             try
             {
                 return base.ReadJson(reader, type, existingValue, serializer);
@@ -683,7 +685,7 @@ public class DataTableConverterTests : TestFixtureBase
             }
         }
 
-        public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled) =>
+        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 }

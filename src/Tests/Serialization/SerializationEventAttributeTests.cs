@@ -259,7 +259,7 @@ public class SerializationEventAttributeTests : TestFixtureBase
     {
         public int Identifier { get; set; }
 
-        public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled)
+        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
         {
             Identifier = 25;
 

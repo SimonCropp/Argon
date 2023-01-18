@@ -26,9 +26,9 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
         ]",
     new JsonSerializerSettings
     {
-        Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
+        Error = (currentObject, originalObject, location, exception, markAsHandled) =>
         {
-            errors.Add(error.Message);
+            errors.Add(exception.Message);
             markAsHandled();
         },
         Converters = {new IsoDateTimeConverter()}
@@ -58,12 +58,12 @@ var errors = new List<string>();
 
 var serializer = new JsonSerializer
 {
-    Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
+    Error = (currentObject, originalObject, location, exception, markAsHandled) =>
     {
         // only log an error once
         if (currentObject == originalObject)
         {
-            errors.Add(error.Message);
+            errors.Add(exception.Message);
         }
     }
 };
@@ -104,7 +104,7 @@ public class PersonError :
 
     public string Title { get; set; }
 
-    public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled) =>
+    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }
 ```

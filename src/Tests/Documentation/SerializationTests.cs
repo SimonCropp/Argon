@@ -206,7 +206,7 @@ public class SerializationTests : TestFixtureBase
                 ]",
             new JsonSerializerSettings
             {
-                Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
+                Error = (currentObject, originalObject, location, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();
@@ -236,7 +236,7 @@ public class SerializationTests : TestFixtureBase
 
         var serializer = new JsonSerializer
         {
-            Error = (currentObject, originalObject, member, path, exception, markAsHandled) =>
+            Error = (currentObject, originalObject, location, exception, markAsHandled) =>
             {
                 // only log an error once
                 if (currentObject == originalObject)
@@ -275,7 +275,7 @@ public class SerializationTests : TestFixtureBase
 
         public string Title { get; set; }
 
-        public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled) =>
+        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 

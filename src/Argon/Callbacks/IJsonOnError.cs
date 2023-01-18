@@ -8,5 +8,5 @@ public interface IJsonOnError
     /// <summary>
     /// The method that is called after serialization.
     /// </summary>
-    void OnError(object? originalObject, object? member, string path, Exception exception, Action markAsHanded);
+    void OnError(object? originalObject, ErrorLocation location, Exception exception, Action markAsHanded);
 }
