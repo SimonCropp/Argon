@@ -52,7 +52,7 @@ abstract class JsonSerializerInternalBase
     {
         if (currentErrorContext == null)
         {
-            currentErrorContext = new(currentObject, member, path, exception);
+            currentErrorContext = new(currentObject, exception);
         }
         else if (currentErrorContext.Exception != exception)
         {
@@ -64,12 +64,12 @@ abstract class JsonSerializerInternalBase
 
         if (currentObject is IJsonOnError onError)
         {
-            onError.OnError(currentErrorContext.OriginalObject, new(member, path), exception, MarkAsHandled);
+            onError.OnError(currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
         }
 
         if (!currentErrorContext.Handled)
         {
-            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, new(member, path), exception, MarkAsHandled);
+            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
         }
 
         return currentErrorContext.Handled;

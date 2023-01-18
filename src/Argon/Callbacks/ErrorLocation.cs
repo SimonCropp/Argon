@@ -1,6 +1,6 @@
 ﻿namespace Argon;
 
-public readonly record struct ErrorLocation(object? Member, string Path)
+public readonly record struct ErrorLocation(string Path, object? Member)
 {
     public override string ToString()
     {

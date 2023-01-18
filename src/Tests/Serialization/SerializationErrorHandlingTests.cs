@@ -322,7 +322,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = (_, _, location, exception, markAsHanded) =>
             {
-                errors.Add($"{location.Path} - {location.Member} - {exception.Message}");
+                errors.Add($"{location} - {exception.Message}");
                 markAsHanded();
             },
             Converters =
@@ -441,7 +441,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                     // only log an error once
                     if (currentObject == originalObject)
                     {
-                        errors.Add($"{location.Path} - {location.Member} - {exception.Message}");
+                        errors.Add($"{location} - {exception.Message}");
                     }
                 }
             };
@@ -472,7 +472,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.Default,
             Error = (currentObject, originalObject, location, exception, markAsHandled) =>
             {
-                errors.Add($"{location.Path} - {location.Member} - {exception.Message}");
+                errors.Add($"{location} - {exception.Message}");
                 markAsHandled();
             }
         };
@@ -494,7 +494,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = (currentObject, originalObject, location, exception, markAsHandled) =>
             {
-                errors.Add($"{location.Path} - {location.Member} - {exception.Message}");
+                errors.Add($"{location} - {exception.Message}");
                 markAsHandled();
             }
         };
@@ -517,7 +517,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = (currentObject, originalObject, location, exception, markAsHandled) =>
             {
-                errors.Add($"{location.Path} - {location.Member} - {exception.Message}");
+                errors.Add($"{location} - {exception.Message}");
                 markAsHandled();
             }
         };
