@@ -6,7 +6,12 @@ using System.Collections.ObjectModel;
 
 namespace TestObjects;
 
-public class SerializationEventTestList : Collection<decimal>, IJsonOnSerializing
+public class SerializationEventTestList :
+    Collection<decimal>,
+    IJsonOnSerializing,
+    IJsonOnSerialized,
+    IJsonOnDeserializing,
+    IJsonOnDeserialized
 {
     // This member is serialized and deserialized with no change.
     public int Member1 { get; }
@@ -36,16 +41,13 @@ public class SerializationEventTestList : Collection<decimal>, IJsonOnSerializin
         Insert(0, -1);
     }
 
-    [OnSerialized]
-    internal void OnSerializedMethod(StreamingContext context) =>
+    public void OnSerialized() =>
         Member2 = "This value was reset after serialization.";
 
-    [OnDeserializing]
-    internal void OnDeserializingMethod(StreamingContext context) =>
+    public void OnDeserializing() =>
         Member3 = "This value was set during deserialization";
 
-    [OnDeserialized]
-    internal void OnDeserializedMethod(StreamingContext context) =>
+    public void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
 
 }
