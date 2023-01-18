@@ -36,7 +36,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, contract, null, jsonWriter.Path, exception))
+            if (IsErrorHandled(null, null, jsonWriter.Path, exception))
             {
                 HandleError(jsonWriter, 0);
             }
@@ -400,7 +400,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             }
             catch (Exception exception)
             {
-                if (IsErrorHandled(value, contract, property.PropertyName, writer.ContainerPath, exception))
+                if (IsErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
                 {
                     HandleError(writer, initialDepth);
                 }
@@ -657,7 +657,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(underlyingList, contract, index, writer.ContainerPath, exception))
+            if (IsErrorHandled(underlyingList, index, writer.ContainerPath, exception))
             {
                 HandleError(writer, initialDepth);
             }
@@ -730,7 +730,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(values, contract, i, writer.ContainerPath, exception))
+                    if (IsErrorHandled(values, i, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth + 1);
                     }
@@ -806,7 +806,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, contract, property.PropertyName, writer.ContainerPath, exception))
+                    if (IsErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -843,7 +843,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, contract, memberName, writer.ContainerPath, exception))
+                    if (IsErrorHandled(value, memberName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -1018,7 +1018,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(underlyingDictionary, contract, propertyName, writer.ContainerPath, exception))
+            if (IsErrorHandled(underlyingDictionary, propertyName, writer.ContainerPath, exception))
             {
                 HandleError(writer, initialDepth);
             }

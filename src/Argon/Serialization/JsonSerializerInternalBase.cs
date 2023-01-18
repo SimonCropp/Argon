@@ -48,7 +48,7 @@ abstract class JsonSerializerInternalBase
         currentErrorContext = null;
     }
 
-    protected bool IsErrorHandled(object? currentObject, JsonContract? contract, object? keyValue, string path, Exception exception)
+    protected bool IsErrorHandled(object? currentObject, object? keyValue, string path, Exception exception)
     {
         if (currentErrorContext == null)
         {
@@ -61,12 +61,12 @@ abstract class JsonSerializerInternalBase
 
         if (currentObject is IJsonOnError onError)
         {
-            onError.OnError(errorContext);
+            onError.OnError(currentErrorContext);
         }
 
         if (!currentErrorContext.Handled)
         {
-            Serializer.OnError(new(currentObject, currentErrorContext));
+            Serializer.Error?.Invoke(currentErrorContext);
         }
 
         return currentErrorContext.Handled;

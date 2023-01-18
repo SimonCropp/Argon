@@ -130,7 +130,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, contract, null, reader.Path, exception))
+            if (IsErrorHandled(null, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
                 return null;
@@ -1318,7 +1318,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(underlyingDictionary, contract, keyValue, reader.Path, exception))
+                        if (IsErrorHandled(underlyingDictionary, keyValue, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -1412,7 +1412,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 {
                     var errorPosition = reader.GetPosition(initialDepth);
 
-                    if (IsErrorHandled(list, contract, errorPosition.Position, reader.Path, exception))
+                    if (IsErrorHandled(list, errorPosition.Position, reader.Path, exception))
                     {
                         HandleError(reader, true, initialDepth + 1);
 
@@ -1485,7 +1485,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(currentObject, contract, null, reader.Path, exception))
+            if (IsErrorHandled(currentObject, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
             }
@@ -1562,7 +1562,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             {
                 var errorPosition = reader.GetPosition(initialDepth);
 
-                if (IsErrorHandled(underlyingList, contract, errorPosition.Position, reader.Path, exception))
+                if (IsErrorHandled(underlyingList, errorPosition.Position, reader.Path, exception))
                 {
                     HandleError(reader, true, initialDepth + 1);
 
@@ -1671,7 +1671,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, memberName, reader.Path, exception))
+                        if (IsErrorHandled(newObject, memberName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2149,7 +2149,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, contract, propertyName, reader.Path, exception))
+                        if (IsErrorHandled(newObject, propertyName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2296,7 +2296,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(newObject, contract, property.PropertyName, reader.Path, exception))
+            if (IsErrorHandled(newObject, property.PropertyName, reader.Path, exception))
             {
                 HandleError(reader, true, initialDepth);
             }
