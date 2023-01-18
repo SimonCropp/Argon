@@ -12,19 +12,14 @@ public class DefaultContractResolver : IContractResolver
     // Json.NET Schema requires a property
     internal static IContractResolver Instance { get; } = new DefaultContractResolver();
 
-
-    static readonly string[] blacklistedTypeNames =
-    {
-        "System.IO.DriveInfo",
-        "System.IO.FileInfo",
-        "System.IO.DirectoryInfo"
-    };
-
     static readonly JsonConverter[] builtInConverters =
     {
         new ExpandoObjectConverter(),
         new DiscriminatedUnionConverter(),
         new KeyValuePairConverter(),
+        new DriveInfoConverter(),
+        new DirectoryInfoConverter(),
+        new FileInfoConverter(),
         new RegexConverter()
     };
 
@@ -237,19 +232,8 @@ public class DefaultContractResolver : IContractResolver
             SetExtensionDataDelegates(contract, extensionDataMember);
         }
 
-        // serializing DirectoryInfo without ISerializable will stackoverflow
-        // https://github.com/JamesNK/Newtonsoft.Json/issues/1541
-        if (Array.IndexOf(blacklistedTypeNames, type.FullName) != -1)
-        {
-            contract.OnSerializingCallbacks.Add(ThrowUnableToSerializeError);
-        }
-
         return contract;
     }
-
-    [DoesNotReturn]
-    static void ThrowUnableToSerializeError(object o, StreamingContext context) =>
-        throw new JsonSerializationException($"Unable to serialize instance of '{o.GetType()}'.");
 
     static MemberInfo? GetExtensionDataMemberForType(Type type)
     {
