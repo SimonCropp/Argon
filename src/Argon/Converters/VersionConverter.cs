@@ -14,9 +14,9 @@ public class VersionConverter : JsonConverter
     /// </summary>
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        if (value is Version)
+        if (value is Version version)
         {
-            writer.WriteValue(value.ToString());
+            writer.WriteValue(version.ToString());
             return;
         }
 
