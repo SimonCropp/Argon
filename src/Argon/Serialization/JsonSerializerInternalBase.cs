@@ -40,14 +40,17 @@ abstract class JsonSerializerInternalBase
 
     ErrorContext GetErrorContext(object? currentObject, object? member, string path, Exception error)
     {
-        currentErrorContext ??= new(currentObject, member, path, error);
-
-        if (currentErrorContext.Error != error)
+        if (currentErrorContext == null)
         {
-            throw new InvalidOperationException("Current error context error is different to requested error.");
+            return currentErrorContext = new(currentObject, member, path, error);
         }
 
-        return currentErrorContext;
+        if (currentErrorContext.Error == error)
+        {
+            return currentErrorContext;
+        }
+
+        throw new InvalidOperationException("Current error context error is different to requested error.");
     }
 
     protected void ClearErrorContext()
