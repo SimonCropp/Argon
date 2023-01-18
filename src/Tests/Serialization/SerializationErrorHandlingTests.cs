@@ -420,13 +420,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeNestedUnhandled()
+    public Task DeserializeNestedUnhandled()
     {
         var errors = new List<string>();
 
         var json = @"[[""kjhkjhkjhkjh""]]";
 
-        Exception e = null;
+        Exception exception = null;
         try
         {
             var serializer = new JsonSerializer();
@@ -441,15 +441,18 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
             serializer.Deserialize(new StringReader(json), typeof(List<List<DateTime>>));
         }
-        catch (Exception exception)
+        catch (Exception e)
         {
-            e = exception;
+            exception = e;
         }
 
-        Assert.Equal(@"Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", e.Message);
-
-        Assert.Equal(1, errors.Count);
-        Assert.Equal(@"[0][0] - 0 - Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.", errors[0]);
+        return Verify(
+                new
+                {
+                    exception,
+                    errors
+                })
+            .IgnoreStackTrace();
     }
 
     [Fact]

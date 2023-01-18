@@ -1,0 +1,13 @@
+﻿{
+  exception: {
+    $type: JsonReaderException,
+    Type: JsonReaderException,
+    LineNumber: 1,
+    LinePosition: 16,
+    Path: [0][0],
+    Message: Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.
+  },
+  errors: [
+    [0][0] - 0 - Could not convert string to DateTime: kjhkjhkjhkjh. Path '[0][0]', line 1, position 16.
+  ]
+}
