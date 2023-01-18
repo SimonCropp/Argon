@@ -18,8 +18,7 @@ public class DefaultContractResolver : IContractResolver
         new DiscriminatedUnionConverter(),
         new KeyValuePairConverter(),
         new DriveInfoConverter(),
-        new DirectoryInfoConverter(),
-        new FileInfoConverter(),
+        new PathInfoConverter(),
         new RegexConverter()
     };
 
