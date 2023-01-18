@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 using TestObjects;
-using ErrorEventArgs = Argon.ErrorEventArgs;
 using Formatting = Argon.Formatting;
 using JsonConstructor = Argon.JsonConstructorAttribute;
 
@@ -5548,15 +5547,13 @@ Path '', line 1, position 1.");
         var json = "{}";
         var errors = new List<string>();
 
-        EventHandler<ErrorEventArgs> error = (_, e) =>
-        {
-            errors.Add(e.ErrorContext.Error.Message);
-            e.ErrorContext.Handled = true;
-        };
-
         var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
         {
-            Error = error
+            Error = (_, e) =>
+            {
+                errors.Add(e.Error.Message);
+                e.Handled = true;
+            }
         });
 
         Assert.NotNull(o);
@@ -5573,15 +5570,13 @@ Path '', line 1, position 1.");
         var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
         var errors = new List<string>();
 
-        EventHandler<ErrorEventArgs> error = (_, e) =>
-        {
-            errors.Add(e.ErrorContext.Error.Message);
-            e.ErrorContext.Handled = true;
-        };
-
         var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
         {
-            Error = error
+            Error =  (_, e) =>
+            {
+                errors.Add(e.Error.Message);
+                e.Handled = true;
+            }
         });
 
         Assert.NotNull(o);
@@ -5596,17 +5591,15 @@ Path '', line 1, position 1.");
     {
         var errors = new List<string>();
 
-        EventHandler<ErrorEventArgs> error = (_, e) =>
-        {
-            errors.Add(e.ErrorContext.Error.Message);
-            e.ErrorContext.Handled = true;
-        };
-
         var json = JsonConvert.SerializeObject(
             new RequiredObject(),
             new JsonSerializerSettings
             {
-                Error = error,
+                Error = (_, e) =>
+                {
+                    errors.Add(e.Error.Message);
+                    e.Handled = true;
+                },
                 Formatting = Formatting.Indented
             });
 

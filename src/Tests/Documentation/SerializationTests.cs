@@ -206,7 +206,7 @@ public class SerializationTests : TestFixtureBase
                 ]",
             new JsonSerializerSettings
             {
-                Error = context =>
+                Error = (currentObject, context) =>
                 {
                     errors.Add(context.Error.Message);
                     context.Handled = true;

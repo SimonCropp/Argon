@@ -3,7 +3,6 @@
 // as found in the license.md file.
 
 using TestObjects;
-using ErrorEventArgs = Argon.ErrorEventArgs;
 
 public class SerializationErrorHandlingTests : TestFixtureBase
 {
@@ -17,8 +16,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto,
             Error = (_, e) =>
             {
-                errors.Add(e.ErrorContext.Error);
-                e.ErrorContext.Handled = true;
+                errors.Add(e.Error);
+                e.Handled = true;
             }
         });
 
@@ -37,8 +36,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto,
             Error = (_, e) =>
             {
-                errors.Add(e.ErrorContext.Error);
-                e.ErrorContext.Handled = true;
+                errors.Add(e.Error);
+                e.Handled = true;
             }
         });
 
@@ -75,8 +74,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = delegate(object _, ErrorEventArgs args)
             {
-                errors.Add(args.ErrorContext.Error.Message);
-                args.ErrorContext.Handled = true;
+                errors.Add(args.Error.Message);
+                args.Handled = true;
             }
         });
 
@@ -201,13 +200,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
-            Error = (_, e) =>
+            Error = context =>
             {
                 if (e.CurrentObject.GetType().IsArray)
                 {
                     e.ErrorContext.Handled = true;
                 }
-            }
+            } 
         });
 
         XUnitAssert.AreEqualNormalized(@"[
@@ -464,10 +463,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Default
         };
-        serializer.Error += delegate(object _, ErrorEventArgs args)
+        serializer.Error =(_, context) =>
         {
-            errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
-            args.ErrorContext.Handled = true;
+            errors.Add($"{context.Path} - {context.Member} - {context.Error.Message}");
+            context.Handled = true;
         };
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
 
@@ -483,11 +482,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var errors = new List<string>();
 
-        var serializer = new JsonSerializer();
-        serializer.Error += delegate(object _, ErrorEventArgs args)
+        var serializer = new JsonSerializer
         {
-            errors.Add($"{args.ErrorContext.Path} - {args.ErrorContext.Member} - {args.ErrorContext.Error.Message}");
-            args.ErrorContext.Handled = true;
+            Error = (_, context) =>
+            {
+                errors.Add($"{context.Path} - {context.Member} - {context.Error.Message}");
+                context.Handled = true;
+            }
         };
 
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[]));
@@ -524,10 +525,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
         var serializer = new JsonSerializer();
         var errors = new List<string>();
-        serializer.Error += (_, e) =>
+        serializer.Error = (_, e) =>
         {
-            e.ErrorContext.Handled = true;
-            errors.Add(e.ErrorContext.Path);
+            e.Handled = true;
+            errors.Add(e.Path);
         };
 
         serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json)) {MaxDepth = 3});
@@ -546,11 +547,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<string>();
 
-        var serializer = new JsonSerializer();
-        serializer.Error += (_, e) =>
+        var serializer = new JsonSerializer
         {
-            errors.Add(e.ErrorContext.Error.Message);
-            e.ErrorContext.Handled = true;
+            Error = (_, e) =>
+            {
+                errors.Add(e.Error.Message);
+                e.Handled = true;
+            }
         };
 
         var result = serializer.TryDeserialize<ErrorPerson[]>(new JsonTextReader(new ThrowingReader()));
@@ -574,8 +577,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             {
                 Error = (_, arg) =>
                 {
-                    errors.Add(arg.ErrorContext.Error.Message);
-                    arg.ErrorContext.Handled = true;
+                    errors.Add(arg.Error.Message);
+                    arg.Handled = true;
                 }
             });
 
@@ -626,8 +629,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.Default,
                 Error = (_, arg) =>
                 {
-                    errors.Add(arg.ErrorContext.Error.Message);
-                    arg.ErrorContext.Handled = true;
+                    errors.Add(arg.Error.Message);
+                    arg.Handled = true;
                 }
             });
 
@@ -658,10 +661,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-            jsonSerializer.Error += (_, e) =>
+            jsonSerializer.Error = (_, e) =>
             {
-                errors.Add(e.ErrorContext.Error.Message);
-                e.ErrorContext.Handled = true;
+                errors.Add(e.Error.Message);
+                e.Handled = true;
             };
 
             var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
@@ -727,8 +730,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             {
                 Error = (_, e) =>
                 {
-                    errors.Add(e.ErrorContext.Error.Message);
-                    e.ErrorContext.Handled = true;
+                    errors.Add(e.Error.Message);
+                    e.Handled = true;
                 },
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
@@ -751,7 +754,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings();
         settings.Error += (_, args) =>
         {
-            args.ErrorContext.Handled = true;
+            args.Handled = true;
         };
 
         var data = new List<ErrorPerson2>
@@ -770,10 +773,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void WriteEndOnPropertyState2()
     {
-        var settings = new JsonSerializerSettings();
-        settings.Error += (_, args) =>
+        var settings = new JsonSerializerSettings
         {
-            args.ErrorContext.Handled = true;
+            Error = (_, args) =>
+            {
+                args.Handled = true;
+            }
         };
 
         var data = new List<ErrorPerson2>
@@ -799,10 +804,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var byteArray = Encoding.UTF8.GetBytes(json);
         var stream = new MemoryStream(byteArray);
         var jReader = new JsonTextReader(new StreamReader(stream));
-        var s = new JsonSerializer();
-        s.Error += (_, args) =>
+        var s = new JsonSerializer
         {
-            args.ErrorContext.Handled = true;
+            Error = (_, args) =>
+            {
+                args.Handled = true;
+            }
         };
         var obj = s.TryDeserialize<ErrorPerson2>(jReader);
 
@@ -948,7 +955,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             Error = (_, e) =>
             {
-                e.ErrorContext.Handled = true;
+                e.Handled = true;
             }
         });
 

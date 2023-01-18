@@ -168,8 +168,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Error = (_, args) =>
             {
                 // A more concrete error type would be nice but we are limited by Newtonsofts library here.
-                errors.Add(args.ErrorContext.Error.Message);
-                args.ErrorContext.Handled = true;
+                errors.Add(args.Error.Message);
+                args.Handled = true;
             }
         };
 
@@ -194,8 +194,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Error = (_, args) =>
             {
                 // A more concrete error type would be nice but we are limited by Newtonsofts library here.
-                errors.Add(args.ErrorContext.Error.Message);
-                args.ErrorContext.Handled = true;
+                errors.Add(args.Error.Message);
+                args.Handled = true;
             }
         };
 

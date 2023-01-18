@@ -66,7 +66,7 @@ abstract class JsonSerializerInternalBase
 
         if (!currentErrorContext.Handled)
         {
-            Serializer.Error?.Invoke(currentErrorContext);
+            Serializer.Error?.Invoke(currentObject, currentErrorContext);
         }
 
         return currentErrorContext.Handled;
