@@ -29,7 +29,7 @@ public class ErrorHandlingAttribute : TestFixtureBase
 
         public string Title { get; set; }
 
-        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled) =>
+        public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 

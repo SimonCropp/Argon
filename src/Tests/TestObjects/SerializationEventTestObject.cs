@@ -57,7 +57,7 @@ public class SerializationEventTestObject :
     public virtual void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
 
-    public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled)
+    public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled)
     {
         Member5 = $"Error message for member {member} = {error.Message}";
         markAsHandled();

@@ -9,18 +9,18 @@ namespace Argon;
 /// </summary>
 public class ErrorContext
 {
-    internal ErrorContext(object? originalObject, object? member, string path, Exception error)
+    internal ErrorContext(object? originalObject, object? member, string path, Exception exception)
     {
         OriginalObject = originalObject;
         Member = member;
-        Error = error;
+        Exception = exception;
         Path = path;
     }
 
     /// <summary>
     /// Gets the error.
     /// </summary>
-    public Exception Error { get; }
+    public Exception Exception { get; }
 
     /// <summary>
     /// Gets the original object that caused the error.

@@ -683,7 +683,7 @@ public class DataTableConverterTests : TestFixtureBase
             }
         }
 
-        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled) =>
+        public void OnError(object originalObject, object member, string path, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 }
