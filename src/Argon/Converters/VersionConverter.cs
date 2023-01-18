@@ -35,10 +35,10 @@ public class VersionConverter : JsonConverter
 
         if (reader.TokenType == JsonToken.String)
         {
-            var value = reader.GetValue();
+            var value = reader.StringValue;
             try
             {
-                return new Version((string)value);
+                return new Version(value);
             }
             catch (Exception exception)
             {
