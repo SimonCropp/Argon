@@ -106,7 +106,7 @@ public class JsonSerializerSettings
     /// <summary>
     /// Gets or sets the error handler called during serialization and deserialization.
     /// </summary>
-    public Action<object?, ErrorContext>? Error { get; set; }
+    public ErrorCallback? Error { get; set; }
 
     const int DefaultMaxDepth = 64;
 

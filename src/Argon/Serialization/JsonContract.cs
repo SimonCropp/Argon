@@ -94,7 +94,4 @@ public abstract class JsonContract
 
         InternalReadType = ReadType.Read;
     }
-
-    internal static SerializationErrorCallback CreateSerializationErrorCallback(MethodInfo callbackMethodInfo) =>
-        (o, context, errorContext) => callbackMethodInfo.Invoke(o, new object[] {context, errorContext});
 }

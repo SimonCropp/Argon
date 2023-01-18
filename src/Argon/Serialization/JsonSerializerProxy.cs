@@ -8,7 +8,7 @@ class JsonSerializerProxy : JsonSerializer
     readonly JsonSerializerInternalWriter? serializerWriter;
     internal readonly JsonSerializer serializer;
 
-    public override Action<object?, ErrorContext>? Error
+    public override ErrorCallback? Error
     {
         get => serializer.Error;
         set => serializer.Error = value;

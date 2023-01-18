@@ -18,7 +18,7 @@ public class JsonSerializer
     /// <summary>
     /// Occurs when the <see cref="JsonSerializer" /> errors during serialization and deserialization.
     /// </summary>
-    public virtual Action<object?, ErrorContext>? Error { get; set; }
+    public virtual ErrorCallback? Error { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IReferenceResolver" /> used by the serializer when resolving references.
