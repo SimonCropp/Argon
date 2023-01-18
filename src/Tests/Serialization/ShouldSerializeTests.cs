@@ -115,17 +115,21 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Age"": 27
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Age": 27
+            }
+            """, json);
 
         c.shouldSerializeName = true;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""James"",
-  ""Age"": 27
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "James",
+              "Age": 27
+            }
+            """, json);
 
         var deserialized = JsonConvert.DeserializeObject<ShouldSerializeTestClass>(json);
         Assert.Equal("James", deserialized.Name);
@@ -187,9 +191,11 @@ public class ShouldSerializeTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Age"": 27
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Age": 27
+            }
+            """, json);
 
         var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
         Assert.Null(deserialized.Name);
@@ -205,13 +211,15 @@ public class ShouldSerializeTests : TestFixtureBase
         c.FavoriteNumber = 23;
         json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""James"",
-  ""Age"": 27,
-  ""Weight"": 0,
-  ""Height"": 0,
-  ""FavoriteNumber"": 23
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "James",
+              "Age": 27,
+              "Weight": 0,
+              "Height": 0,
+              "FavoriteNumber": 23
+            }
+            """, json);
 
         deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
         Assert.Equal("James", deserialized.Name);

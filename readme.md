@@ -40,21 +40,23 @@ var json = JsonConvert.SerializeObject(product);
 <!-- snippet: DeserializeJson -->
 <a id='snippet-deserializejson'></a>
 ```cs
-var json = @"{
-'Name': 'Bad Boys',
-'ReleaseDate': '1995-4-7T00:00:00',
-'Genres': [
-'Action',
-'Comedy'
-]
-}";
+var json = """
+    {
+      'Name': 'Bad Boys',
+      'ReleaseDate': '1995-4-7T00:00:00',
+      'Genres': [
+        'Action',
+        'Comedy'
+      ]
+    }
+    """;
 
 var movie = JsonConvert.DeserializeObject<Movie>(json);
 
 var name = movie.Name;
 // Bad Boys
 ```
-<sup><a href='/src/Tests/Documentation/Snippets.cs#L68-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Documentation/Snippets.cs#L68-L86' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

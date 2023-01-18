@@ -6,19 +6,23 @@ using TestObjects;
 
 public class NullValueHandlingTests : TestFixtureBase
 {
-    const string MovieNullValueHandlingIncludeExpectedResult = @"{
-  ""Name"": ""Bad Boys III"",
-  ""Description"": ""It's no Bad Boys"",
-  ""Classification"": null,
-  ""Studio"": null,
-  ""ReleaseDate"": null,
-  ""ReleaseCountries"": null
-}";
+    const string MovieNullValueHandlingIncludeExpectedResult = """
+        {
+          "Name": "Bad Boys III",
+          "Description": "It's no Bad Boys",
+          "Classification": null,
+          "Studio": null,
+          "ReleaseDate": null,
+          "ReleaseCountries": null
+        }
+        """;
 
-    const string MovieNullValueHandlingIgnoreExpectedResult = @"{
-  ""Name"": ""Bad Boys III"",
-  ""Description"": ""It's no Bad Boys""
-}";
+    const string MovieNullValueHandlingIgnoreExpectedResult = """
+        {
+          "Name": "Bad Boys III",
+          "Description": "It's no Bad Boys"
+        }
+        """;
 
     [Fact]
     public void DeserializeNullIntoDateTime()

@@ -195,9 +195,11 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        XUnitAssert.EqualsNormalized(@"{
-  ""prop"": true
-}", json);
+        XUnitAssert.EqualsNormalized("""
+            {
+              "prop": true
+            }
+            """, json);
     }
 
     [Fact]
@@ -423,16 +425,18 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             Assert.Equal(WriteState.Start, jsonWriter.WriteState);
         }
 
-        var expected = @"{
-  ""CPU"": ""Intel"",
-  ""PSU"": ""500W"",
-  ""Drives"": [
-    ""DVD read/writer""
-    /*(broken)*/,
-    ""500 gigabyte hard drive"",
-    ""200 gigabyte hard drive""
-  ]
-}";
+        var expected = """
+            {
+              "CPU": "Intel",
+              "PSU": "500W",
+              "Drives": [
+                "DVD read/writer"
+                /*(broken)*/,
+                "500 gigabyte hard drive",
+                "200 gigabyte hard drive"
+              ]
+            }
+            """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -463,16 +467,18 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.CloseAsync();
         }
 
-        var expected = @"{
-  ""CPU"": ""Intel"",
-  ""PSU"": ""500W"",
-  ""Drives"": [
-    ""DVD read/writer""
-    /*(broken)*/,
-    ""500 gigabyte hard drive"",
-    ""200 gigabyte hard drive""
-  ]
-}";
+        var expected = """
+            {
+              "CPU": "Intel",
+              "PSU": "500W",
+              "Drives": [
+                "DVD read/writer"
+                /*(broken)*/,
+                "500 gigabyte hard drive",
+                "200 gigabyte hard drive"
+              ]
+            }
+            """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -516,16 +522,18 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         //   ]
         // }
 
-        var expected = @"{
-  ""CPU"": ""Intel"",
-  ""PSU"": ""500W"",
-  ""Drives"": [
-    ""DVD read/writer""
-    /*(broken)*/,
-    ""500 gigabyte hard drive"",
-    ""200 gigabyte hard drive""
-  ]
-}";
+        var expected = """
+            {
+              "CPU": "Intel",
+              "PSU": "500W",
+              "Drives": [
+                "DVD read/writer"
+                /*(broken)*/,
+                "500 gigabyte hard drive",
+                "200 gigabyte hard drive"
+              ]
+            }
+            """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -1028,10 +1036,12 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndObjectAsync();
         }
 
-        var expected = @"{
-_____'propertyName': NaN,
-??????'prop2': 123
-}";
+        var expected = """
+            {
+            _____'propertyName': NaN,
+            ??????'prop2': 123
+            }
+            """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -1410,9 +1420,11 @@ _____'propertyName': NaN,
         await writer.WriteEndObjectAsync();
         Assert.Equal(WriteState.Start, writer.WriteState);
 
-        XUnitAssert.AreEqualNormalized(@"{{{
-  ""1ytreporP"": NULL!!!
-}}}", stringWriter.ToString());
+        XUnitAssert.AreEqualNormalized("""
+            {{{
+              "1ytreporP": NULL!!!
+            }}}
+            """, stringWriter.ToString());
     }
 
     [Fact]
@@ -1437,9 +1449,11 @@ _____'propertyName': NaN,
             await writer.CloseAsync();
         }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  a: 1
-}",
+        XUnitAssert.AreEqualNormalized("""
+            {
+              a: 1
+            }
+            """,
             stringWriter.ToString());
     }
 
@@ -1465,29 +1479,33 @@ _____'propertyName': NaN,
             await writer.CloseAsync();
         }
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""a"": b
-}",
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "a": b
+            }
+            """,
             stringWriter.ToString());
     }
 
     [Fact]
     public async Task WriteCommentsAsync()
     {
-        var json = $@"//comment*//*hi*/
-{{//comment
-Name://comment
-true//comment after true{StringUtils.CarriageReturn}
-,//comment after comma{StringUtils.CarriageReturnLineFeed}
-ExpiryDate:'2014-06-04T00:00:00Z',
-        Price: 3.99,
-        Sizes: //comment
-[//comment
-
-          ""Small""//comment
-]//comment
-}}//comment 
-//comment 1 ";
+        var json = $$"""
+            //comment*//*hi*/
+            {//comment
+            Name://comment
+            true//comment after true{{StringUtils.CarriageReturn}}
+            ,//comment after comma{{StringUtils.CarriageReturnLineFeed}}
+            ExpiryDate:'2014-06-04T00:00:00Z',
+                    Price: 3.99,
+                    Sizes: //comment
+            [//comment
+            
+                      "Small"//comment
+            ]//comment
+            }//comment 
+            //comment 1 
+            """;
 
         var reader = new JsonTextReader(new StringReader(json));
 

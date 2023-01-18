@@ -118,10 +118,12 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Name!"",
-  ""Key!"": ""Value!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Name!",
+              "Key!": "Value!"
+            }
+            """, json);
 
         var c2 = JsonConvert.DeserializeObject<ExtensionDataDeserializeWithNonDefaultConstructor>(json);
 

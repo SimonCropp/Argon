@@ -303,11 +303,13 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""George Michael Bluth"",
-  ""Age"": 16,
-  ""Title"": ""Mister Manager""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "George Michael Bluth",
+              "Age": 16,
+              "Title": "Mister Manager"
+            }
+            """, json);
     }
 
     [Fact]
@@ -544,16 +546,18 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""name"": ""Widget"",
-  ""expiryDate"": ""2010-12-20T18:01:00Z"",
-  ""price"": 9.99,
-  ""sizes"": [
-    ""Small"",
-    ""Medium"",
-    ""Large""
-  ]
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "name": "Widget",
+              "expiryDate": "2010-12-20T18:01:00Z",
+              "price": 9.99,
+              "sizes": [
+                "Small",
+                "Medium",
+                "Large"
+              ]
+            }
+            """, json);
     }
 
     [Fact]
@@ -778,19 +782,23 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Bad Boys III"",
-  ""Description"": ""It's no Bad Boys"",
-  ""Classification"": null,
-  ""Studio"": null,
-  ""ReleaseDate"": null,
-  ""ReleaseCountries"": null
-}", included);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Bad Boys III",
+              "Description": "It's no Bad Boys",
+              "Classification": null,
+              "Studio": null,
+              "ReleaseDate": null,
+              "ReleaseCountries": null
+            }
+            """, included);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Name"": ""Bad Boys III"",
-  ""Description"": ""It's no Bad Boys""
-}", ignored);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Name": "Bad Boys III",
+              "Description": "It's no Bad Boys"
+            }
+            """, ignored);
     }
 
     #region ReducingSerializedJsonSizeDefaultValueHandlingObject
@@ -931,16 +939,20 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""AuthorName"": ""Brandon Sanderson"",
-  ""AuthorAge"": 34,
-  ""AuthorCountry"": ""United States of America""
-}", startingWithA);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "AuthorName": "Brandon Sanderson",
+              "AuthorAge": 34,
+              "AuthorCountry": "United States of America"
+            }
+            """, startingWithA);
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""BookName"": ""The Gathering Storm"",
-  ""BookPrice"": 16.19
-}", startingWithB);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "BookName": "The Gathering Storm",
+              "BookPrice": 16.19
+            }
+            """, startingWithB);
     }
 
     #region SerializingPartialJsonFragmentsObject
@@ -959,7 +971,8 @@ public class SerializationTests : TestFixtureBase
     {
         #region SerializingPartialJsonFragmentsExample
 
-        var googleSearchText = @"{
+        var googleSearchText = """
+            {
               'responseData': {
                 'results': [
                   {
@@ -1009,7 +1022,8 @@ public class SerializationTests : TestFixtureBase
               },
               'responseDetails': null,
               'responseStatus': 200
-            }";
+            }
+            """;
 
         var googleSearch = JObject.Parse(googleSearchText);
 

@@ -22,11 +22,13 @@ public class SerializationEventAttributeTests : TestFixtureBase
             Assert.Equal(null, obj.Member5);
 
             var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-            XUnitAssert.AreEqualNormalized(@"{
-  ""Member1"": 11,
-  ""Member2"": ""This value went into the data file during serialization."",
-  ""Member4"": null
-}", json);
+            XUnitAssert.AreEqualNormalized("""
+                {
+                  "Member1": 11,
+                  "Member2": "This value went into the data file during serialization.",
+                  "Member4": null
+                }
+                """, json);
 
             Assert.Equal(11, obj.Member1);
             Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -36,11 +38,13 @@ public class SerializationEventAttributeTests : TestFixtureBase
             var expectedError = $"Error message for member Member6 = Error getting value from 'Member6' on '{obj.GetType().FullName}'.";
             Assert.Equal(expectedError, obj.Member5);
 
-            var o = JObject.Parse(@"{
-  ""Member1"": 11,
-  ""Member2"": ""This value went into the data file during serialization."",
-  ""Member4"": null
-}");
+            var o = JObject.Parse("""
+                {
+                  "Member1": 11,
+                  "Member2": "This value went into the data file during serialization.",
+                  "Member4": null
+                }
+                """);
             o["Member6"] = "Dummy text for error";
 
             obj = (SerializationEventTestObject) JsonConvert.DeserializeObject(o.ToString(), obj.GetType());
@@ -72,11 +76,13 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Member1"": 11,
-  ""Member2"": ""This value went into the data file during serialization."",
-  ""Member4"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Member1": 11,
+              "Member2": "This value went into the data file during serialization.",
+              "Member4": null
+            }
+            """, json);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -146,13 +152,15 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""1.1"": ""first"",
-  ""2.222222222"": ""second"",
-  ""2147483647"": ""third"",
-  ""3.14159265358979"": ""fourth"",
-  ""79228162514264337593543950335"": ""Inserted on serializing""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "1.1": "first",
+              "2.222222222": "second",
+              "2147483647": "third",
+              "3.14159265358979": "fourth",
+              "79228162514264337593543950335": "Inserted on serializing"
+            }
+            """, json);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -179,11 +187,13 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member5);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""Member1"": 11,
-  ""Member2"": ""This value went into the data file during serialization."",
-  ""Member4"": null
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "Member1": 11,
+              "Member2": "This value went into the data file during serialization.",
+              "Member4": null
+            }
+            """, json);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -200,12 +210,12 @@ public class SerializationEventAttributeTests : TestFixtureBase
         Assert.Equal(null, obj.Member5);
     }
 
-    public class SerializationEventBaseTestObject :
-        IJsonOnSerializing
+    public class SerializationEventBaseTestObject
     {
         public string TestMember { get; set; }
 
-        public void OnSerializing() =>
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context) =>
             TestMember = "Set!";
     }
 
@@ -219,9 +229,40 @@ public class SerializationEventAttributeTests : TestFixtureBase
         var obj = new SerializationEventContextSubClassTestObject();
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"{
-  ""TestMember"": ""Set!""
-}", json);
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "TestMember": "Set!"
+            }
+            """, json);
+    }
+
+    public class SerializationEventContextTestObject
+    {
+        public string TestMember { get; set; }
+
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context) =>
+            TestMember = $"{context.State} {context.Context}";
+    }
+
+    [Fact]
+    public void SerializationEventContextTest()
+    {
+        var value = new SerializationEventContextTestObject();
+
+        var json = JsonConvert.SerializeObject(value, Formatting.Indented, new JsonSerializerSettings
+        {
+            Context =
+                new(
+                    StreamingContextStates.Remoting,
+                    "ContextValue")
+        });
+
+        XUnitAssert.AreEqualNormalized("""
+            {
+              "TestMember": "Remoting ContextValue"
+            }
+            """, json);
     }
 
     [Fact]
@@ -349,7 +390,7 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
             "Serialization Callback 'Void Deserialized()' in type 'SerializationEventAttributeTests+Contract' must have a single parameter of type 'System.Runtime.Serialization.StreamingContext'.");
     }
 
-    public class SerializationEventOrderTestObject:IJsonOnSerializing
+    public class SerializationEventOrderTestObject
     {
         protected IList<string> Events { get; }
 
@@ -359,7 +400,8 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         public IList<string> GetEvents() =>
             Events;
 
-        public virtual void OnSerializing() =>
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context) =>
             Events.Add("OnSerializing");
 
         [OnSerialized]
@@ -373,16 +415,13 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
         [OnDeserialized]
         internal void OnDeserializedMethod(StreamingContext context) =>
             Events.Add("OnDeserialized");
-
     }
 
     public class DerivedSerializationEventOrderTestObject : SerializationEventOrderTestObject
     {
-        public override void OnSerializing()
-        {
+        [OnSerializing]
+        internal new void OnSerializingMethod(StreamingContext context) =>
             Events.Add("OnSerializing_Derived");
-            base.OnSerializing();
-        }
 
         [OnSerialized]
         internal new void OnSerializedMethod(StreamingContext context) =>
@@ -399,11 +438,9 @@ OnSerialized_Derived_Derived", string.Join(Environment.NewLine, e.ToArray()));
 
     public class DerivedDerivedSerializationEventOrderTestObject : DerivedSerializationEventOrderTestObject
     {
-        public override void OnSerializing()
-        {
+        [OnSerializing]
+        internal new void OnSerializingMethod(StreamingContext context) =>
             Events.Add("OnSerializing_Derived_Derived");
-            base.OnSerializing();
-        }
 
         [OnSerialized]
         internal new void OnSerializedMethod(StreamingContext context) =>
