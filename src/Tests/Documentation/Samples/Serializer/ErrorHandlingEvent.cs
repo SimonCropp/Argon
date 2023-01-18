@@ -23,10 +23,10 @@ public class ErrorHandlingEvent : TestFixtureBase
             ]",
             new JsonSerializerSettings
             {
-                Error = (_, context) =>
+                Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
                 {
                     errors.Add(context.Error.Message);
-                    context.Handled = true;
+                    markAsHandled();
                 },
                 Converters = {new IsoDateTimeConverter()}
             });

@@ -59,14 +59,17 @@ abstract class JsonSerializerInternalBase
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
+        void MarkAsHandled() =>
+            currentErrorContext.Handled = true;
+
         if (currentObject is IJsonOnError onError)
         {
-            onError.OnError(currentErrorContext.OriginalObject, keyValue, path, exception, () => currentErrorContext.Handled = true);
+            onError.OnError(currentErrorContext.OriginalObject, keyValue, path, exception, MarkAsHandled);
         }
 
         if (!currentErrorContext.Handled)
         {
-            Serializer.Error?.Invoke(currentObject, currentErrorContext);
+            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, keyValue, path, exception, MarkAsHandled);
         }
 
         return currentErrorContext.Handled;

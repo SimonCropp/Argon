@@ -259,14 +259,14 @@ public class SerializationEventAttributeTests : TestFixtureBase
     {
         public int Identifier { get; set; }
 
-        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHanded)
+        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled)
         {
             Identifier = 25;
 
             // Here we could for example manually copy the
             // persisted "Id" value into the renamed "Identifier"
             // property, etc.
-            markAsHanded();
+            markAsHandled();
         }
     }
 

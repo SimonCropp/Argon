@@ -206,7 +206,7 @@ public class SerializationTests : TestFixtureBase
                 ]",
             new JsonSerializerSettings
             {
-                Error = (currentObject, context) =>
+                Error = (currentObject, originalObject, member, path, error, markAsHandled) =>
                 {
                     errors.Add(context.Error.Message);
                     context.Handled = true;
@@ -275,8 +275,8 @@ public class SerializationTests : TestFixtureBase
 
         public string Title { get; set; }
 
-        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHanded) =>
-            markAsHanded();
+        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled) =>
+            markAsHandled();
     }
 
     #endregion

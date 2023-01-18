@@ -672,7 +672,7 @@ public class DataTableConverterTests : TestFixtureBase
             existingValue ??= CreateTable();
 
             var previousError = serializer.Error;
-            serializer.Error = (_, context) => context.Handled = true;
+            serializer.Error = (_, _, _, _, _, markAsHandled) => markAsHandled();
             try
             {
                 return base.ReadJson(reader, type, existingValue, serializer);
@@ -683,7 +683,7 @@ public class DataTableConverterTests : TestFixtureBase
             }
         }
 
-        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHanded) =>
-            markAsHanded();
+        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHandled) =>
+            markAsHandled();
     }
 }
