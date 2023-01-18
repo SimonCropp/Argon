@@ -104,8 +104,8 @@ public class PersonError :
 
     public string Title { get; set; }
 
-    public void OnError(ErrorContext context) =>
-        context.Handled = true;
+    public void OnError(object originalObject, object member, string path, Exception error, Action markAsHanded) =>
+        markAsHanded();
 }
 ```
 <sup><a href='/src/Tests/Documentation/SerializationTests.cs#L252-L282' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationerrorhandlingattributeobject' title='Start of snippet'>anchor</a></sup>

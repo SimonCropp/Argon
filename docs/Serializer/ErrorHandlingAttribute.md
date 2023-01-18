@@ -29,8 +29,8 @@ public class Employee:IJsonOnError
 
     public string Title { get; set; }
 
-    public void OnError(ErrorContext context) =>
-        context.Handled = true;
+    public void OnError(object originalObject, object member, string path, Exception error, Action markAsHanded) =>
+        markAsHanded();
 }
 ```
 <sup><a href='/src/Tests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L7-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributetypes' title='Start of snippet'>anchor</a></sup>

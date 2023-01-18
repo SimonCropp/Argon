@@ -29,8 +29,8 @@ public class ErrorHandlingAttribute : TestFixtureBase
 
         public string Title { get; set; }
 
-        public void OnError(ErrorContext context) =>
-            context.Handled = true;
+        public void OnError(object originalObject, object member, string path, Exception error, Action markAsHanded) =>
+            markAsHanded();
     }
 
     #endregion
