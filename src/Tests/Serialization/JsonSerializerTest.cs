@@ -37,6 +37,18 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal("test", c2.strprop);
     }
 
+    public struct ImmutableStruct
+    {
+        public ImmutableStruct(string value)
+        {
+            Value = value;
+            Value2 = 0;
+        }
+
+        public string Value { get; }
+        public int Value2 { get; set; }
+    }
+
     [Fact]
     public void DeserializeImmutableStruct()
     {
