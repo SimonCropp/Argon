@@ -128,15 +128,15 @@ public class DefaultContractResolver : IContractResolver
                     {
                         // add members that are explicitly marked with JsonProperty/DataMember attribute
                         // or are a field if serializing just fields
-                        if (JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(member) != null)
+                        if (member.GetAttribute<JsonPropertyAttribute>() != null)
                         {
                             serializableMembers.Add(member);
                         }
-                        else if (JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(member) != null)
+                        else if (member.GetAttribute<JsonRequiredAttribute>() != null)
                         {
                             serializableMembers.Add(member);
                         }
-                        else if (dataContractAttribute != null && JsonTypeReflector.GetAttribute<DataMemberAttribute>(member) != null)
+                        else if (dataContractAttribute != null && member.GetAttribute<DataMemberAttribute>() != null)
                         {
                             serializableMembers.Add(member);
                         }
