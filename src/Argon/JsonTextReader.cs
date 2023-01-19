@@ -38,6 +38,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     bool isEndOfFile;
     StringBuffer stringBuffer;
     StringReference stringReference;
+    char[] charBuffer;
+    int charPos;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonTextReader" /> class with the specified <see cref="TextReader" />.
@@ -52,12 +54,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         charBuffer = BufferUtils.RentBuffer(bufferSize);
         charBuffer[0] = '\0';
     }
-
-    char[] charBuffer;
-
-    internal int CharBufferLength => charBuffer.Length;
-
-    internal int CharPos { get; private set; }
 
     /// <summary>
     /// Gets or sets the reader's property name table.
@@ -74,12 +70,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void SetNewLine(bool hasNextChar)
     {
-        if (hasNextChar && charBuffer[CharPos] == StringUtils.LineFeed)
+        if (hasNextChar && charBuffer[charPos] == StringUtils.LineFeed)
         {
-            CharPos++;
+            charPos++;
         }
 
-        OnNewLine(CharPos);
+        OnNewLine(charPos);
     }
 
     void OnNewLine(int pos)
@@ -90,7 +86,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void ParseString(char quote, ReadType readType)
     {
-        CharPos++;
+        charPos++;
 
         ShiftBufferIfNeeded();
         ReadStringIntoBuffer(quote);
@@ -151,16 +147,16 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         // shift the remaining content to the start to avoid unnecessarily increasing
         // the buffer size when reading numbers/strings
         var length = charBuffer.Length;
-        if (length - CharPos <= length * 0.1 || length >= LargeBufferLength)
+        if (length - charPos <= length * 0.1 || length >= LargeBufferLength)
         {
-            var count = charsUsed - CharPos;
+            var count = charsUsed - charPos;
             if (count > 0)
             {
-                BlockCopyChars(charBuffer, CharPos, charBuffer, 0, count);
+                BlockCopyChars(charBuffer, charPos, charBuffer, 0, count);
             }
 
-            lineStartPos -= CharPos;
-            CharPos = 0;
+            lineStartPos -= charPos;
+            charPos = 0;
             charsUsed = count;
             charBuffer[charsUsed] = '\0';
         }
@@ -194,7 +190,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             }
             else
             {
-                var remainingCharCount = charsUsed - CharPos;
+                var remainingCharCount = charsUsed - charPos;
 
                 if (remainingCharCount + charsRequired + 1 >= charBuffer.Length)
                 {
@@ -203,7 +199,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                     if (remainingCharCount > 0)
                     {
-                        BlockCopyChars(charBuffer, CharPos, dst, 0, remainingCharCount);
+                        BlockCopyChars(charBuffer, charPos, dst, 0, remainingCharCount);
                     }
 
                     BufferUtils.ReturnBuffer(charBuffer);
@@ -215,12 +211,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     // copy any remaining data to the beginning of the buffer if needed and reset positions
                     if (remainingCharCount > 0)
                     {
-                        BlockCopyChars(charBuffer, CharPos, charBuffer, 0, remainingCharCount);
+                        BlockCopyChars(charBuffer, charPos, charBuffer, 0, remainingCharCount);
                     }
                 }
 
-                lineStartPos -= CharPos;
-                CharPos = 0;
+                lineStartPos -= charPos;
+                charPos = 0;
                 charsUsed = remainingCharCount;
             }
         }
@@ -251,7 +247,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     }
 
     bool EnsureChars(int relativePosition, bool append) =>
-        CharPos + relativePosition < charsUsed ||
+        charPos + relativePosition < charsUsed ||
         ReadChars(relativePosition, append);
 
     bool ReadChars(int relativePosition, bool append)
@@ -261,7 +257,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             return false;
         }
 
-        var charsRequired = CharPos + relativePosition - charsUsed + 1;
+        var charsRequired = charPos + relativePosition - charsUsed + 1;
 
         var totalCharsRead = 0;
 
@@ -322,13 +318,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             return false;
                         }
 
-                        if (charBuffer[CharPos] == '/')
+                        if (charBuffer[charPos] == '/')
                         {
                             ParseComment(true);
                             return true;
                         }
 
-                        throw JsonReaderException.Create(this, $"Additional text encountered after finished reading JSON content: {charBuffer[CharPos]}.");
+                        throw JsonReaderException.Create(this, $"Additional text encountered after finished reading JSON content: {charBuffer[charPos]}.");
                     }
 
                     SetToken(JsonToken.None);
@@ -383,7 +379,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.ArrayStart:
                 while (true)
                 {
-                    var currentChar = charBuffer[CharPos];
+                    var currentChar = charBuffer[charPos];
 
                     switch (currentChar)
                     {
@@ -412,13 +408,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                             return data;
                         case '{':
-                            CharPos++;
+                            charPos++;
                             SetToken(JsonToken.StartObject);
                             ReadIntoWrappedTypeObject();
                             isWrapped = true;
                             break;
                         case '[':
-                            CharPos++;
+                            charPos++;
                             SetToken(JsonToken.StartArray);
                             return ReadArrayIntoByteArray();
                         case 'n':
@@ -431,7 +427,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             ProcessValueComma();
                             break;
                         case ']':
-                            CharPos++;
+                            charPos++;
                             if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -448,10 +444,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case ' ':
                         case StringUtils.Tab:
                             // eat
-                            CharPos++;
+                            charPos++;
                             break;
                         default:
-                            CharPos++;
+                            charPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {
@@ -487,7 +483,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.ArrayStart:
                 while (true)
                 {
-                    var currentChar = charBuffer[CharPos];
+                    var currentChar = charBuffer[charPos];
 
                     switch (currentChar)
                     {
@@ -504,7 +500,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             ParseString(currentChar, readType);
                             return FinishReadQuotedStringValue(readType);
                         case '-':
-                            if (EnsureChars(1, true) && charBuffer[CharPos + 1] == 'I')
+                            if (EnsureChars(1, true) && charBuffer[charPos + 1] == 'I')
                             {
                                 return ParseNumberNegativeInfinity(readType);
                             }
@@ -524,7 +520,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case '9':
                             if (readType != ReadType.ReadAsString)
                             {
-                                CharPos++;
+                                charPos++;
                                 throw CreateUnexpectedCharacterException(currentChar);
                             }
 
@@ -534,14 +530,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case 'f':
                             if (readType != ReadType.ReadAsString)
                             {
-                                CharPos++;
+                                charPos++;
                                 throw CreateUnexpectedCharacterException(currentChar);
                             }
 
                             var expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
                             if (!MatchValueWithTrailingSeparator(expected))
                             {
-                                throw CreateUnexpectedCharacterException(charBuffer[CharPos]);
+                                throw CreateUnexpectedCharacterException(charBuffer[charPos]);
                             }
 
                             SetToken(JsonToken.String, expected);
@@ -560,7 +556,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             ProcessValueComma();
                             break;
                         case ']':
-                            CharPos++;
+                            charPos++;
                             if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -577,10 +573,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case ' ':
                         case StringUtils.Tab:
                             // eat
-                            CharPos++;
+                            charPos++;
                             break;
                         default:
-                            CharPos++;
+                            charPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {
@@ -649,7 +645,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.ArrayStart:
                 while (true)
                 {
-                    var currentChar = charBuffer[CharPos];
+                    var currentChar = charBuffer[charPos];
 
                     switch (currentChar)
                     {
@@ -700,7 +696,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                             if (!MatchValueWithTrailingSeparator(expected))
                             {
-                                throw CreateUnexpectedCharacterException(charBuffer[CharPos]);
+                                throw CreateUnexpectedCharacterException(charBuffer[charPos]);
                             }
 
                             SetToken(JsonToken.Boolean, isTrue);
@@ -712,7 +708,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             ProcessValueComma();
                             break;
                         case ']':
-                            CharPos++;
+                            charPos++;
                             if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -729,10 +725,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case ' ':
                         case StringUtils.Tab:
                             // eat
-                            CharPos++;
+                            charPos++;
                             break;
                         default:
-                            CharPos++;
+                            charPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {
@@ -753,14 +749,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void ProcessValueComma()
     {
-        CharPos++;
+        charPos++;
 
         if (currentState != State.PostValue)
         {
             SetToken(JsonToken.Undefined);
             var ex = CreateUnexpectedCharacterException(',');
             // so the comma will be parsed again
-            CharPos--;
+            charPos--;
 
             throw ex;
         }
@@ -785,7 +781,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case State.ArrayStart:
                 while (true)
                 {
-                    var currentChar = charBuffer[CharPos];
+                    var currentChar = charBuffer[charPos];
 
                     switch (currentChar)
                     {
@@ -809,7 +805,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case 'I':
                             return ParseNumberPositiveInfinity(readType);
                         case '-':
-                            if (EnsureChars(1, true) && charBuffer[CharPos + 1] == 'I')
+                            if (EnsureChars(1, true) && charBuffer[charPos + 1] == 'I')
                             {
                                 return ParseNumberNegativeInfinity(readType);
                             }
@@ -836,7 +832,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             ProcessValueComma();
                             break;
                         case ']':
-                            CharPos++;
+                            charPos++;
                             if (currentState is State.Array or State.ArrayStart or State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
@@ -853,10 +849,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case ' ':
                         case StringUtils.Tab:
                             // eat
-                            CharPos++;
+                            charPos++;
                             break;
                         default:
-                            CharPos++;
+                            charPos++;
 
                             if (!char.IsWhiteSpace(currentChar))
                             {
@@ -915,7 +911,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (EnsureChars(1, true))
         {
-            var next = charBuffer[CharPos + 1];
+            var next = charBuffer[charPos + 1];
 
             if (next == 'u')
             {
@@ -923,11 +919,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 return;
             }
 
-            CharPos += 2;
-            throw CreateUnexpectedCharacterException(charBuffer[CharPos - 1]);
+            charPos += 2;
+            throw CreateUnexpectedCharacterException(charBuffer[charPos - 1]);
         }
 
-        CharPos = charsUsed;
+        charPos = charsUsed;
         throw CreateUnexpectedEndException();
     }
 
@@ -941,13 +937,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 return;
             }
 
-            if (charBuffer[CharPos] == '/')
+            if (charBuffer[charPos] == '/')
             {
                 ParseComment(false);
             }
             else
             {
-                throw JsonReaderException.Create(this, $"Additional text encountered after finished reading JSON content: {charBuffer[CharPos]}.");
+                throw JsonReaderException.Create(this, $"Additional text encountered after finished reading JSON content: {charBuffer[charPos]}.");
             }
         }
 
@@ -956,7 +952,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     bool ReadNullChar()
     {
-        if (charsUsed == CharPos)
+        if (charsUsed == charPos)
         {
             if (ReadData(false) == 0)
             {
@@ -966,7 +962,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
         else
         {
-            CharPos++;
+            charPos++;
         }
 
         return false;
@@ -974,9 +970,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void ReadStringIntoBuffer(char quote)
     {
-        var charPos = CharPos;
-        var initialPosition = CharPos;
-        var lastWritePosition = CharPos;
+        var charPos = this.charPos;
+        var initialPosition = this.charPos;
+        var lastWritePosition = this.charPos;
         stringBuffer.Position = 0;
 
         while (true)
@@ -990,14 +986,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         if (ReadData(true) == 0)
                         {
-                            CharPos = charPos;
+                            this.charPos = charPos;
                             throw JsonReaderException.Create(this, $"Unterminated string. Expected delimiter: {quote}.");
                         }
                     }
 
                     break;
                 case '\\':
-                    CharPos = charPos;
+                    this.charPos = charPos;
                     if (!EnsureChars(0, true))
                     {
                         throw JsonReaderException.Create(this, $"Unterminated string. Expected delimiter: {quote}.");
@@ -1037,7 +1033,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             writeChar = currentChar;
                             break;
                         case 'u':
-                            CharPos = charPos;
+                            this.charPos = charPos;
                             writeChar = ParseUnicode();
 
                             if (StringUtils.IsLowSurrogate(writeChar))
@@ -1055,11 +1051,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                     anotherHighSurrogate = false;
 
                                     // potential start of a surrogate pair
-                                    if (EnsureChars(2, true) && charBuffer[CharPos] == '\\' && charBuffer[CharPos + 1] == 'u')
+                                    if (EnsureChars(2, true) && charBuffer[this.charPos] == '\\' && charBuffer[this.charPos + 1] == 'u')
                                     {
                                         var highSurrogate = writeChar;
 
-                                        CharPos += 2;
+                                        this.charPos += 2;
                                         writeChar = ParseUnicode();
 
                                         if (StringUtils.IsLowSurrogate(writeChar))
@@ -1081,7 +1077,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                         EnsureBufferNotEmpty();
 
                                         WriteCharToBuffer(highSurrogate, lastWritePosition, escapeStartPos);
-                                        lastWritePosition = CharPos;
+                                        lastWritePosition = this.charPos;
                                     }
                                     else
                                     {
@@ -1092,10 +1088,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 } while (anotherHighSurrogate);
                             }
 
-                            charPos = CharPos;
+                            charPos = this.charPos;
                             break;
                         default:
-                            CharPos = charPos;
+                            this.charPos = charPos;
                             throw JsonReaderException.Create(this, $"Bad JSON escape sequence: \\{currentChar}.");
                     }
 
@@ -1105,14 +1101,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     lastWritePosition = charPos;
                     break;
                 case StringUtils.CarriageReturn:
-                    CharPos = charPos - 1;
+                    this.charPos = charPos - 1;
                     ProcessCarriageReturn(true);
-                    charPos = CharPos;
+                    charPos = this.charPos;
                     break;
                 case StringUtils.LineFeed:
-                    CharPos = charPos - 1;
+                    this.charPos = charPos - 1;
                     ProcessLineFeed();
-                    charPos = CharPos;
+                    charPos = this.charPos;
                     break;
                 case '"':
                 case '\'':
@@ -1145,7 +1141,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             stringReference = new(stringBuffer.InternalBuffer!, 0, stringBuffer.Position);
         }
 
-        CharPos = charPos + 1;
+        this.charPos = charPos + 1;
     }
 
     void WriteCharToBuffer(char writeChar, int lastWritePosition, int writeToPosition)
@@ -1162,14 +1158,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (enoughChars)
         {
-            if (ConvertUtils.TryHexTextToInt(charBuffer, CharPos, CharPos + 4, out var value))
+            if (ConvertUtils.TryHexTextToInt(charBuffer, charPos, charPos + 4, out var value))
             {
                 var hexChar = Convert.ToChar(value);
-                CharPos += 4;
+                charPos += 4;
                 return hexChar;
             }
 
-            throw JsonReaderException.Create(this, $@"Invalid Unicode escape sequence: \u{new string(charBuffer, CharPos, 4)}.");
+            throw JsonReaderException.Create(this, $@"Invalid Unicode escape sequence: \u{new string(charBuffer, charPos, 4)}.");
         }
 
         throw JsonReaderException.Create(this, "Unexpected end while parsing Unicode escape sequence.");
@@ -1180,14 +1176,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void ReadNumberIntoBuffer()
     {
-        var charPos = CharPos;
+        var charPos = this.charPos;
 
         while (true)
         {
             var currentChar = charBuffer[charPos];
             if (currentChar == '\0')
             {
-                CharPos = charPos;
+                this.charPos = charPos;
 
                 if (charsUsed == charPos)
                 {
@@ -1245,7 +1241,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             case '9':
                 return false;
             default:
-                CharPos = charPos;
+                this.charPos = charPos;
 
                 if (char.IsWhiteSpace(currentChar) || currentChar is ',' or '}' or ']' or ')' or '/')
                 {
@@ -1266,12 +1262,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         while (true)
         {
-            var currentChar = charBuffer[CharPos];
+            var currentChar = charBuffer[charPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (charsUsed == CharPos)
+                    if (charsUsed == charPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1281,16 +1277,16 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        CharPos++;
+                        charPos++;
                     }
 
                     break;
                 case '}':
-                    CharPos++;
+                    charPos++;
                     SetToken(JsonToken.EndObject);
                     return true;
                 case ']':
-                    CharPos++;
+                    charPos++;
                     SetToken(JsonToken.EndArray);
                     return true;
                 case '/':
@@ -1302,7 +1298,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                     break;
                 case ',':
-                    CharPos++;
+                    charPos++;
 
                     // finished parsing
                     SetStateBasedOnCurrent();
@@ -1310,7 +1306,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case ' ':
                 case StringUtils.Tab:
                     // eat
-                    CharPos++;
+                    charPos++;
                     break;
                 case StringUtils.CarriageReturn:
                     ProcessCarriageReturn(false);
@@ -1322,7 +1318,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     if (char.IsWhiteSpace(currentChar))
                     {
                         // eat
-                        CharPos++;
+                        charPos++;
                     }
                     else
                     {
@@ -1345,12 +1341,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         while (true)
         {
-            var currentChar = charBuffer[CharPos];
+            var currentChar = charBuffer[charPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (charsUsed == CharPos)
+                    if (charsUsed == charPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1359,13 +1355,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        CharPos++;
+                        charPos++;
                     }
 
                     break;
                 case '}':
                     SetToken(JsonToken.EndObject);
-                    CharPos++;
+                    charPos++;
                     return true;
                 case '/':
                     ParseComment(true);
@@ -1379,13 +1375,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case ' ':
                 case StringUtils.Tab:
                     // eat
-                    CharPos++;
+                    charPos++;
                     break;
                 default:
                     if (char.IsWhiteSpace(currentChar))
                     {
                         // eat
-                        CharPos++;
+                        charPos++;
                     }
                     else
                     {
@@ -1399,12 +1395,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     bool ParseProperty()
     {
-        var firstChar = charBuffer[CharPos];
+        var firstChar = charBuffer[charPos];
         char quoteChar;
 
         if (firstChar is '"' or '\'')
         {
-            CharPos++;
+            charPos++;
             quoteChar = firstChar;
             ShiftBufferIfNeeded();
             ReadStringIntoBuffer(quoteChar);
@@ -1417,7 +1413,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
         else
         {
-            throw JsonReaderException.Create(this, $"Invalid property identifier character: {charBuffer[CharPos]}.");
+            throw JsonReaderException.Create(this, $"Invalid property identifier character: {charBuffer[charPos]}.");
         }
 
         string? propertyName;
@@ -1435,12 +1431,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         EatWhitespace();
 
-        if (charBuffer[CharPos] != ':')
+        if (charBuffer[charPos] != ':')
         {
-            throw JsonReaderException.Create(this, $"Invalid character after parsing property name. Expected ':' but got: {charBuffer[CharPos]}.");
+            throw JsonReaderException.Create(this, $"Invalid character after parsing property name. Expected ':' but got: {charBuffer[charPos]}.");
         }
 
-        CharPos++;
+        charPos++;
 
         SetToken(JsonToken.PropertyName, propertyName);
         this.quoteChar = quoteChar;
@@ -1454,15 +1450,15 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void ParseUnquotedProperty()
     {
-        var initialPosition = CharPos;
+        var initialPosition = charPos;
 
         // parse unquoted property name until whitespace or colon
         while (true)
         {
-            var currentChar = charBuffer[CharPos];
+            var currentChar = charBuffer[charPos];
             if (currentChar == '\0')
             {
-                if (charsUsed == CharPos)
+                if (charsUsed == charPos)
                 {
                     if (ReadData(true) == 0)
                     {
@@ -1472,7 +1468,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     continue;
                 }
 
-                stringReference = new(charBuffer, initialPosition, CharPos - initialPosition);
+                stringReference = new(charBuffer, initialPosition, charPos - initialPosition);
                 return;
             }
 
@@ -1487,13 +1483,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (ValidIdentifierChar(currentChar))
         {
-            CharPos++;
+            charPos++;
             return false;
         }
 
         if (char.IsWhiteSpace(currentChar) || currentChar == ':')
         {
-            stringReference = new(charBuffer, initialPosition, CharPos - initialPosition);
+            stringReference = new(charBuffer, initialPosition, charPos - initialPosition);
             return true;
         }
 
@@ -1504,12 +1500,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         while (true)
         {
-            var currentChar = charBuffer[CharPos];
+            var currentChar = charBuffer[charPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (charsUsed == CharPos)
+                    if (charsUsed == charPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1518,7 +1514,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        CharPos++;
+                        charPos++;
                     }
 
                     break;
@@ -1535,7 +1531,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case 'n':
                     if (EnsureChars(1, true))
                     {
-                        var next = charBuffer[CharPos + 1];
+                        var next = charBuffer[charPos + 1];
 
                         if (next == 'u')
                         {
@@ -1543,12 +1539,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         }
                         else
                         {
-                            throw CreateUnexpectedCharacterException(charBuffer[CharPos]);
+                            throw CreateUnexpectedCharacterException(charBuffer[charPos]);
                         }
                     }
                     else
                     {
-                        CharPos++;
+                        charPos++;
                         throw CreateUnexpectedEndException();
                     }
 
@@ -1560,7 +1556,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     ParseNumberPositiveInfinity(ReadType.Read);
                     return true;
                 case '-':
-                    if (EnsureChars(1, true) && charBuffer[CharPos + 1] == 'I')
+                    if (EnsureChars(1, true) && charBuffer[charPos + 1] == 'I')
                     {
                         ParseNumberNegativeInfinity(ReadType.Read);
                     }
@@ -1577,15 +1573,15 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     ParseUndefined();
                     return true;
                 case '{':
-                    CharPos++;
+                    charPos++;
                     SetToken(JsonToken.StartObject);
                     return true;
                 case '[':
-                    CharPos++;
+                    charPos++;
                     SetToken(JsonToken.StartArray);
                     return true;
                 case ']':
-                    CharPos++;
+                    charPos++;
                     SetToken(JsonToken.EndArray);
                     return true;
                 case ',':
@@ -1602,13 +1598,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case ' ':
                 case StringUtils.Tab:
                     // eat
-                    CharPos++;
+                    charPos++;
                     break;
                 default:
                     if (char.IsWhiteSpace(currentChar))
                     {
                         // eat
-                        CharPos++;
+                        charPos++;
                         break;
                     }
 
@@ -1625,13 +1621,13 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     void ProcessLineFeed()
     {
-        CharPos++;
-        OnNewLine(CharPos);
+        charPos++;
+        OnNewLine(charPos);
     }
 
     void ProcessCarriageReturn(bool append)
     {
-        CharPos++;
+        charPos++;
 
         SetNewLine(EnsureChars(1, append));
     }
@@ -1640,12 +1636,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         while (true)
         {
-            var currentChar = charBuffer[CharPos];
+            var currentChar = charBuffer[charPos];
 
             switch (currentChar)
             {
                 case '\0':
-                    if (charsUsed == CharPos)
+                    if (charsUsed == charPos)
                     {
                         if (ReadData(false) == 0)
                         {
@@ -1654,7 +1650,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        CharPos++;
+                        charPos++;
                     }
 
                     break;
@@ -1667,7 +1663,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 default:
                     if (currentChar == ' ' || char.IsWhiteSpace(currentChar))
                     {
-                        CharPos++;
+                        charPos++;
                     }
                     else
                     {
@@ -1683,8 +1679,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         ShiftBufferIfNeeded();
 
-        var firstChar = charBuffer[CharPos];
-        var initialPosition = CharPos;
+        var firstChar = charBuffer[charPos];
+        var initialPosition = charPos;
 
         ReadNumberIntoBuffer();
 
@@ -1696,7 +1692,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         // set state to PostValue now so that if there is an error parsing the number then the reader can continue
         SetPostValueState(true);
 
-        stringReference = new(charBuffer, initialPosition, CharPos - initialPosition);
+        stringReference = new(charBuffer, initialPosition, charPos - initialPosition);
 
         object numberValue;
         JsonToken numberType;
@@ -1966,7 +1962,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     void ParseComment(bool setToken)
     {
         // should have already parsed / character before reaching this method
-        CharPos++;
+        charPos++;
 
         if (!EnsureChars(1, false))
         {
@@ -1975,29 +1971,29 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         bool singleLineComment;
 
-        if (charBuffer[CharPos] == '*')
+        if (charBuffer[charPos] == '*')
         {
             singleLineComment = false;
         }
-        else if (charBuffer[CharPos] == '/')
+        else if (charBuffer[charPos] == '/')
         {
             singleLineComment = true;
         }
         else
         {
-            throw JsonReaderException.Create(this, $"Error parsing comment. Expected: *, got {charBuffer[CharPos]}.");
+            throw JsonReaderException.Create(this, $"Error parsing comment. Expected: *, got {charBuffer[charPos]}.");
         }
 
-        CharPos++;
+        charPos++;
 
-        var initialPosition = CharPos;
+        var initialPosition = charPos;
 
         while (true)
         {
-            switch (charBuffer[CharPos])
+            switch (charBuffer[charPos])
             {
                 case '\0':
-                    if (charsUsed == CharPos)
+                    if (charsUsed == charPos)
                     {
                         if (ReadData(true) == 0)
                         {
@@ -2006,28 +2002,28 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 throw JsonReaderException.Create(this, "Unexpected end while parsing comment.");
                             }
 
-                            EndComment(setToken, initialPosition, CharPos);
+                            EndComment(setToken, initialPosition, charPos);
                             return;
                         }
                     }
                     else
                     {
-                        CharPos++;
+                        charPos++;
                     }
 
                     break;
                 case '*':
-                    CharPos++;
+                    charPos++;
 
                     if (!singleLineComment)
                     {
                         if (EnsureChars(0, true))
                         {
-                            if (charBuffer[CharPos] == '/')
+                            if (charBuffer[charPos] == '/')
                             {
-                                EndComment(setToken, initialPosition, CharPos - 1);
+                                EndComment(setToken, initialPosition, charPos - 1);
 
-                                CharPos++;
+                                charPos++;
                                 return;
                             }
                         }
@@ -2037,7 +2033,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case StringUtils.CarriageReturn:
                     if (singleLineComment)
                     {
-                        EndComment(setToken, initialPosition, CharPos);
+                        EndComment(setToken, initialPosition, charPos);
                         return;
                     }
 
@@ -2046,14 +2042,14 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case StringUtils.LineFeed:
                     if (singleLineComment)
                     {
-                        EndComment(setToken, initialPosition, CharPos);
+                        EndComment(setToken, initialPosition, charPos);
                         return;
                     }
 
                     ProcessLineFeed();
                     break;
                 default:
-                    CharPos++;
+                    charPos++;
                     break;
             }
         }
@@ -2074,20 +2070,20 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (!enoughChars)
         {
-            CharPos = charsUsed;
+            charPos = charsUsed;
             throw CreateUnexpectedEndException();
         }
 
         for (var i = 0; i < value.Length; i++)
         {
-            if (charBuffer[CharPos + i] != value[i])
+            if (charBuffer[charPos + i] != value[i])
             {
-                CharPos += i;
+                charPos += i;
                 return false;
             }
         }
 
-        CharPos += value.Length;
+        charPos += value.Length;
 
         return true;
     }
@@ -2108,7 +2104,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         }
 
         //TODO
-        return IsSeparator(charBuffer[CharPos]) || charBuffer[CharPos] == '\0';
+        return IsSeparator(charBuffer[charPos]) || charBuffer[charPos] == '\0';
     }
 
     bool IsSeparator(char c)
@@ -2126,7 +2122,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     return false;
                 }
 
-                var nextChart = charBuffer[CharPos + 1];
+                var nextChart = charBuffer[charPos + 1];
 
                 return nextChart is '*' or '/';
             case ' ':
@@ -2330,5 +2326,5 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     /// <summary>
     /// Gets the current line position.
     /// </summary>
-    public int LinePosition => CharPos - lineStartPos;
+    public int LinePosition => charPos - lineStartPos;
 }
