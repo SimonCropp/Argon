@@ -19,10 +19,10 @@ public class JsonDynamicContract : JsonContainerContract
     /// </summary>
     public Func<string, string>? PropertyNameResolver { get; set; }
 
-    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> callSiteGetters =
+    static ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> callSiteGetters =
         new(CreateCallSiteGetter);
 
-    readonly ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> callSiteSetters =
+    static ThreadSafeStore<string, CallSite<Func<CallSite, object, object?, object>>> callSiteSetters =
         new(CreateCallSiteSetter);
 
     static CallSite<Func<CallSite, object, object>> CreateCallSiteGetter(string name)
