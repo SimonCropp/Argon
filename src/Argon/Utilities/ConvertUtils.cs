@@ -122,7 +122,7 @@ static class ConvertUtils
     public static TimeSpan ParseTimeSpan(string input) =>
         TimeSpan.Parse(input, InvariantCulture);
 
-    static readonly ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> castConverters =
+    static ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> castConverters =
         new(CreateCastConverter);
 
     static Func<object?, object?>? CreateCastConverter(StructMultiKey<Type, Type> t)
