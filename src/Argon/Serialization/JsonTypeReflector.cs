@@ -15,7 +15,7 @@ static class JsonTypeReflector
 
     public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
 
-    static readonly ThreadSafeStore<Type, Func<object[]?, object>> creatorCache = new(GetCreator);
+    static ThreadSafeStore<Type, Func<object[]?, object>> creatorCache = new(GetCreator);
 
     public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
     {
