@@ -121,7 +121,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(Uri? value)
-        : this(value, value != null ? JTokenType.Uri : JTokenType.Null)
+        : this(value, value == null ? JTokenType.Null : JTokenType.Uri)
     {
     }
 
@@ -737,10 +737,10 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                 writer.WriteValue((byte[]?) value);
                 return;
             case JTokenType.Guid:
-                writer.WriteValue(value != null ? (Guid?) value : null);
+                writer.WriteValue(value == null ? null : (Guid?) value);
                 return;
             case JTokenType.TimeSpan:
-                writer.WriteValue(value != null ? (TimeSpan?) value : null);
+                writer.WriteValue(value == null ? null : (TimeSpan?) value);
                 return;
             case JTokenType.Uri:
                 writer.WriteValue((Uri?) value);
@@ -752,7 +752,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
 
     internal override int GetDeepHashCode()
     {
-        var valueHashCode = value != null ? value.GetHashCode() : 0;
+        var valueHashCode = value == null ? 0 : value.GetHashCode();
 
         // GetHashCode on an enum boxes so cast to int
         return ((int) valueType).GetHashCode() ^ valueHashCode;

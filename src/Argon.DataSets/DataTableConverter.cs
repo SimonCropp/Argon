@@ -33,7 +33,7 @@ public class DataTableConverter : JsonConverter
                     continue;
                 }
 
-                writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(column.ColumnName) : column.ColumnName);
+                writer.WritePropertyName(resolver == null ? column.ColumnName : resolver.GetResolvedPropertyName(column.ColumnName));
                 serializer.Serialize(writer, columnValue);
             }
 

@@ -54,7 +54,7 @@ public partial class JProperty : JContainer
             return false;
         }
 
-        public int Count => token != null ? 1 : 0;
+        public int Count => token == null ? 0 : 1;
 
         public bool IsReadOnly => false;
 

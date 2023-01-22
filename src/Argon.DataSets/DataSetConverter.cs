@@ -25,7 +25,7 @@ public class DataSetConverter : JsonConverter
 
         foreach (DataTable table in dataSet.Tables)
         {
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(table.TableName) : table.TableName);
+            writer.WritePropertyName(resolver == null ? table.TableName : resolver.GetResolvedPropertyName(table.TableName));
 
             converter.WriteJson(writer, table, serializer);
         }

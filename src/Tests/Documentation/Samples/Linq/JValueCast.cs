@@ -44,12 +44,12 @@ public class JValueCast : TestFixtureBase
         var v6 = JValue.CreateNull();
         u = (Uri) v6;
 
-        Console.WriteLine(u != null ? u.ToString() : "{null}");
+        Console.WriteLine(u == null ? "{null}" : u.ToString());
         // {null}
 
         var dt = (DateTime?) v6;
 
-        Console.WriteLine(dt != null ? dt.ToString() : "{null}");
+        Console.WriteLine(dt == null ? "{null}" : dt.ToString());
         // {null}
 
         #endregion

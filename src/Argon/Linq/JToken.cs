@@ -438,7 +438,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return Convert.ToBoolean((int) integer);
         }
 
-        return v.Value != null ? Convert.ToBoolean(v.Value, InvariantCulture) : null;
+        return v.Value == null ? null : Convert.ToBoolean(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -480,7 +480,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return offset.DateTime;
         }
 
-        return v.Value != null ? Convert.ToDateTime(v.Value, InvariantCulture) : null;
+        return v.Value == null ? null : Convert.ToDateTime(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -540,7 +540,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (decimal?) integer;
         }
 
-        return v.Value != null ? Convert.ToDecimal(v.Value, InvariantCulture) : null;
+        return v.Value == null ? null : Convert.ToDecimal(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -565,7 +565,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (double?) integer;
         }
 
-        return v.Value != null ? Convert.ToDouble(v.Value, InvariantCulture) : null;
+        return v.Value == null ? null : Convert.ToDouble(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -590,7 +590,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (char?) integer;
         }
 
-        return v.Value != null ? Convert.ToChar(v.Value, InvariantCulture) : null;
+        return v.Value == null ? null : Convert.ToChar(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -717,7 +717,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (int?) integer;
         }
 
-        return v.Value != null ? Convert.ToInt32(v.Value, InvariantCulture) : null;
+        return v.Value == null ? null : Convert.ToInt32(v.Value, InvariantCulture);
     }
 
     /// <summary>

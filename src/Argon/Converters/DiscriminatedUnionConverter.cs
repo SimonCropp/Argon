@@ -95,13 +95,13 @@ public class DiscriminatedUnionConverter : JsonConverter
         var caseInfo = union.Cases.Single(c => c.Tag == tag);
 
         writer.WriteStartObject();
-        writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(casePropertyName) : casePropertyName);
+        writer.WritePropertyName(resolver == null ? casePropertyName : resolver.GetResolvedPropertyName(casePropertyName));
         writer.WriteValue(caseInfo.Name);
         if (caseInfo.Fields is {Length: > 0})
         {
             var fields = (object[])caseInfo.FieldReader.Invoke(value);
 
-            writer.WritePropertyName(resolver != null ? resolver.GetResolvedPropertyName(fieldsPropertyName) : fieldsPropertyName);
+            writer.WritePropertyName(resolver == null ? fieldsPropertyName : resolver.GetResolvedPropertyName(fieldsPropertyName));
             writer.WriteStartArray();
             foreach (var field in fields)
             {

@@ -1072,7 +1072,7 @@ public class DefaultContractResolver : IContractResolver
             property.IsReference = propertyAttribute.isReference;
 
             property.ItemIsReference = propertyAttribute.itemIsReference;
-            property.ItemConverter = propertyAttribute.ItemConverterType != null ? JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters) : null;
+            property.ItemConverter = propertyAttribute.ItemConverterType == null ? null : JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters);
             property.ItemReferenceLoopHandling = propertyAttribute.itemReferenceLoopHandling;
             property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
         }
