@@ -15,7 +15,7 @@ public class JsonProperty
     object? defaultValue;
     bool hasGeneratedDefaultValue;
     string? propertyName;
-    bool skipPropertyNameEscape;
+    internal bool skipPropertyNameEscape;
 
     public JsonProperty(Type propertyType, Type declaringType)
     {
