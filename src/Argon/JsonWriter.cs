@@ -1195,7 +1195,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.Int32Nullable:
-                    writer.WriteValue((int?) value);
+                    writer.WriteValue(value == null ? null : (int) value);
                     return;
 
                 case PrimitiveTypeCode.Byte:
