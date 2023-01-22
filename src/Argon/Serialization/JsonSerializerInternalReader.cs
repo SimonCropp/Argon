@@ -1045,16 +1045,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
     }
 
-    static bool HasFlag(DefaultValueHandling? value, DefaultValueHandling flag)
-    {
-        if (value == null)
-        {
-            return false;
-        }
-
-        return (value & flag) == flag;
-    }
-
     bool ShouldSetPropertyValue(JsonProperty property, JsonObjectContract? contract, object? value)
     {
         if (value == null && ResolvedNullValueHandling(contract, property) == NullValueHandling.Ignore)

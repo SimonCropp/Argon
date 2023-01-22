@@ -539,16 +539,6 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         writer.WriteValue(typeName);
     }
 
-    static bool HasFlag(DefaultValueHandling? value, DefaultValueHandling flag)
-    {
-        if (value == null)
-        {
-            return false;
-        }
-
-        return (value & flag) == flag;
-    }
-
     static bool HasFlag(PreserveReferencesHandling? value, PreserveReferencesHandling flag)
     {
         if (value == null)

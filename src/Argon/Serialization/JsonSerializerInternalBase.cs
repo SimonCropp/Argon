@@ -20,8 +20,22 @@ abstract class JsonSerializerInternalBase
     internal readonly JsonSerializer Serializer;
     protected JsonSerializerProxy? InternalSerializer;
 
-    protected JsonSerializerInternalBase(JsonSerializer serializer) =>
+    protected JsonSerializerInternalBase(JsonSerializer serializer)
+    {
         Serializer = serializer;
+        
+        //var hasPopulateFlag = HasFlag(serializer.DefaultValueHandling, DefaultValueHandling.Populate);
+    }
+
+    protected static bool HasFlag(DefaultValueHandling? value, DefaultValueHandling flag)
+    {
+        if (value == null)
+        {
+            return false;
+        }
+
+        return (value & flag) == flag;
+    }
 
     internal BidirectionalDictionary<string, object> DefaultReferenceMappings =>
         // override equality comparer for object key dictionary
