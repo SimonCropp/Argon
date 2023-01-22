@@ -87,7 +87,7 @@ public class DefaultSerializationBinder :
             return null;
         }
 
-        var genericTypeDefName = typeName.Substring(0, openBracketIndex);
+        var genericTypeDefName = typeName[..openBracketIndex];
         var genericTypeDef = assembly.GetType(genericTypeDefName);
         if (genericTypeDef == null)
         {

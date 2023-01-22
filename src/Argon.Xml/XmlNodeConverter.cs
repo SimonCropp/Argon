@@ -252,7 +252,10 @@ public class XmlNodeConverter : JsonConverter
                         {
                             if (value is not List<IXmlNode> nodes)
                             {
-                                nodes = new() {(IXmlNode) value};
+                                nodes = new()
+                                {
+                                    (IXmlNode) value
+                                };
                                 nodesGroupedByName[currentNodeName] = nodes;
                             }
 
@@ -681,7 +684,7 @@ public class XmlNodeConverter : JsonConverter
 
             if (propertyName.StartsWith('@'))
             {
-                var attributeName = propertyName.Substring(1);
+                var attributeName = propertyName[1..];
                 var attributePrefix = MiscellaneousUtils.GetPrefix(attributeName);
 
                 AddAttribute(reader, document, currentNode, propertyName, attributeName, manager, attributePrefix);
@@ -693,7 +696,7 @@ public class XmlNodeConverter : JsonConverter
                 switch (propertyName)
                 {
                     case JsonTypeReflector.ArrayValuesPropertyName:
-                        propertyName = propertyName.Substring(1);
+                        propertyName = propertyName[1..];
                         elementPrefix = manager.LookupPrefix(jsonNamespaceUri);
                         CreateElement(reader, document, currentNode, propertyName, manager, elementPrefix, attributeNameValues);
                         return;
@@ -701,7 +704,7 @@ public class XmlNodeConverter : JsonConverter
                     case JsonTypeReflector.RefPropertyName:
                     case JsonTypeReflector.TypePropertyName:
                     case JsonTypeReflector.ValuePropertyName:
-                        var attributeName = propertyName.Substring(1);
+                        var attributeName = propertyName[1..];
                         var attributePrefix = manager.LookupPrefix(jsonNamespaceUri);
                         AddAttribute(reader, document, currentNode, propertyName, attributeName, manager, attributePrefix);
                         return;
@@ -937,7 +940,7 @@ public class XmlNodeConverter : JsonConverter
                         case '@':
                             attributeNameValues ??= new();
 
-                            attributeName = attributeName.Substring(1);
+                            attributeName = attributeName[1..];
                             reader.ReadAndAssert();
                             attributeValue = ConvertTokenToXmlValue(reader)!;
                             attributeNameValues.Add(attributeName, attributeValue);
@@ -983,7 +986,7 @@ public class XmlNodeConverter : JsonConverter
                                         break;
                                     }
 
-                                    attributeName = attributeName.Substring(1);
+                                    attributeName = attributeName[1..];
                                     reader.ReadAndAssert();
 
                                     if (!JsonTokenUtils.IsPrimitiveToken(reader.TokenType))
@@ -1053,7 +1056,7 @@ public class XmlNodeConverter : JsonConverter
         }
         else
         {
-            var instruction = document.CreateProcessingInstruction(propertyName.Substring(1), ConvertTokenToXmlValue(reader)!);
+            var instruction = document.CreateProcessingInstruction(propertyName[1..], ConvertTokenToXmlValue(reader)!);
             currentNode.AppendChild(instruction);
         }
     }
@@ -1098,9 +1101,7 @@ public class XmlNodeConverter : JsonConverter
         var encodeName = EncodeSpecialCharacters ? XmlConvert.EncodeLocalName(elementName) : XmlConvert.EncodeName(elementName);
         var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
 
-        var element = !StringUtils.IsNullOrEmpty(ns) ? document.CreateElement(encodeName, ns) : document.CreateElement(encodeName);
-
-        return element;
+        return StringUtils.IsNullOrEmpty(ns) ? document.CreateElement(encodeName) : document.CreateElement(encodeName, ns);
     }
 
     void DeserializeNode(JsonReader reader, IXmlDocument document, XmlNamespaceManager manager, IXmlNode currentNode)

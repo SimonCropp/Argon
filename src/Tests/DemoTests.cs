@@ -95,7 +95,7 @@ public class DemoTests : TestFixtureBase
             // build html color from hex
             return new HtmlColor
             {
-                Red = Convert.ToInt32(hexString.Substring(0, 2), 16),
+                Red = Convert.ToInt32(hexString[..2], 16),
                 Green = Convert.ToInt32(hexString.Substring(2, 2), 16),
                 Blue = Convert.ToInt32(hexString.Substring(4, 2), 16)
             };

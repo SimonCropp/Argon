@@ -111,8 +111,8 @@ static class MiscellaneousUtils
         }
         else
         {
-            prefix = qualifiedName.Substring(0, colonPosition);
-            localName = qualifiedName.Substring(colonPosition + 1);
+            prefix = qualifiedName[..colonPosition];
+            localName = qualifiedName[(colonPosition + 1)..];
         }
     }
 

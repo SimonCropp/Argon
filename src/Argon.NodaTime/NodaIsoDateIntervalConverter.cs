@@ -21,13 +21,13 @@ sealed class NodaIsoDateIntervalConverter : NodaConverterBase<DateInterval>
             throw new InvalidNodaDataException("Expected ISO-8601-formatted date interval; slash was missing.");
         }
 
-        var startText = text.Substring(0, slash);
+        var startText = text[..slash];
         if (startText == "")
         {
             throw new InvalidNodaDataException("Expected ISO-8601-formatted date interval; start date was missing.");
         }
 
-        var endText = text.Substring(slash + 1);
+        var endText = text[(slash + 1)..];
         if (endText == "")
         {
             throw new InvalidNodaDataException("Expected ISO-8601-formatted date interval; end date was missing.");

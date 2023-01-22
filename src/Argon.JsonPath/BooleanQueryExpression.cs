@@ -155,7 +155,7 @@ class BooleanQueryExpression : QueryExpression
         var patternOptionDelimiterIndex = regexText.LastIndexOf('/');
 
         var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
-        var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
+        var optionsText = regexText[(patternOptionDelimiterIndex + 1)..];
 
         var timeout = settings.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
         return Regex.IsMatch((string) input.GetValue(), patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);

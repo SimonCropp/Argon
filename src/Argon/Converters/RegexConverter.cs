@@ -72,7 +72,7 @@ public class RegexConverter : JsonConverter
             if (patternOptionDelimiterIndex > 0)
             {
                 var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
-                var optionsText = regexText.Substring(patternOptionDelimiterIndex + 1);
+                var optionsText = regexText[(patternOptionDelimiterIndex + 1)..];
 
                 var options = MiscellaneousUtils.GetRegexOptions(optionsText);
 
