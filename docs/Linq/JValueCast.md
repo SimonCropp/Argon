@@ -38,12 +38,12 @@ Console.WriteLine(u);
 var v6 = JValue.CreateNull();
 u = (Uri) v6;
 
-Console.WriteLine(u != null ? u.ToString() : "{null}");
+Console.WriteLine(u == null ? "{null}" : u.ToString());
 // {null}
 
 var dt = (DateTime?) v6;
 
-Console.WriteLine(dt != null ? dt.ToString() : "{null}");
+Console.WriteLine(dt == null ? "{null}" : dt.ToString());
 // {null}
 ```
 <sup><a href='/src/Tests/Documentation/Samples/Linq/JValueCast.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluecast' title='Start of snippet'>anchor</a></sup>

@@ -160,7 +160,7 @@ public class XmlJsonReader : JsonReader
     {
         if (Read())
         {
-            return Value != null ? Convert.ToInt32(Value) : null;
+            return Value == null ? null : Convert.ToInt32(Value);
         }
 
         return null;
@@ -190,7 +190,7 @@ public class XmlJsonReader : JsonReader
     {
         if (Read())
         {
-            return Value != null ? Convert.ToDecimal(Value) : null;
+            return Value == null ? null : Convert.ToDecimal(Value);
         }
 
         return null;
@@ -200,7 +200,7 @@ public class XmlJsonReader : JsonReader
     {
         if (Read())
         {
-            return Value != null ? Convert.ToDateTime(Value) : null;
+            return Value == null ? null : Convert.ToDateTime(Value);
         }
 
         return null;
@@ -210,7 +210,7 @@ public class XmlJsonReader : JsonReader
     {
         if (Read())
         {
-            return Value != null ? Convert.ToDateTime(Value) : null;
+            return Value == null ? null : Convert.ToDateTime(Value);
         }
 
         return null;
