@@ -1698,7 +1698,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         JsonToken numberType;
 
         var singleDigit = char.IsDigit(firstChar) && stringReference.Length == 1;
-        var nonBase10 = firstChar == '0' && stringReference.Length > 1 && stringReference.Chars[stringReference.StartIndex + 1] != '.' && stringReference.Chars[stringReference.StartIndex + 1] != 'e' && stringReference.Chars[stringReference.StartIndex + 1] != 'E';
+        var nonBase10 = firstChar == '0' &&
+                        stringReference.Length > 1 &&
+                        stringReference.Chars[stringReference.StartIndex + 1] != '.' &&
+                        stringReference.Chars[stringReference.StartIndex + 1] != 'e' &&
+                        stringReference.Chars[stringReference.StartIndex + 1] != 'E';
 
         switch (readType)
         {
