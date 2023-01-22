@@ -364,9 +364,9 @@ public class XmlNodeConverter : JsonConverter
                     {
                         if (attribute.NamespaceUri == "http://www.w3.org/2000/xmlns/")
                         {
-                            var namespacePrefix = attribute.LocalName != "xmlns"
-                                ? XmlConvert.DecodeName(attribute.LocalName)
-                                : string.Empty;
+                            var namespacePrefix = attribute.LocalName == "xmlns"
+                                ? string.Empty
+                                : XmlConvert.DecodeName(attribute.LocalName);
                             var namespaceUri = attribute.Value;
                             if (namespaceUri == null)
                             {
@@ -726,10 +726,10 @@ public class XmlNodeConverter : JsonConverter
             // add attributes to newly created element
             foreach (var nameValue in attributeNameValues)
             {
-                var encodedName = XmlConvert.EncodeName(nameValue.Key);
+                var encoded = XmlConvert.EncodeName(nameValue.Key);
                 var attributePrefix = MiscellaneousUtils.GetPrefix(nameValue.Key);
 
-                var attribute = !StringUtils.IsNullOrEmpty(attributePrefix) ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value!) : document.CreateAttribute(encodedName, nameValue.Value!);
+                var attribute = StringUtils.IsNullOrEmpty(attributePrefix) ? document.CreateAttribute(encoded, nameValue.Value!) : document.CreateAttribute(encoded, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value!);
 
                 element.SetAttributeNode(attribute);
             }
@@ -778,9 +778,9 @@ public class XmlNodeConverter : JsonConverter
         var encodedName = XmlConvert.EncodeName(attributeName);
         var attributeValue = ConvertTokenToXmlValue(reader)!;
 
-        var attribute = !StringUtils.IsNullOrEmpty(attributePrefix)
-            ? document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix)!, attributeValue)
-            : document.CreateAttribute(encodedName, attributeValue);
+        var attribute = StringUtils.IsNullOrEmpty(attributePrefix)
+            ? document.CreateAttribute(encodedName, attributeValue)
+            : document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix)!, attributeValue);
 
         ((IXmlElement) currentNode).SetAttributeNode(attribute);
     }

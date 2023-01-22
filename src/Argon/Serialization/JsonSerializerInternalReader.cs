@@ -805,7 +805,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 throw JsonSerializationException.Create(reader, $"Cannot populate list type {contract.CreatedType}.");
             }
 
-            value = PopulateList(arrayContract.ShouldCreateWrapper || existingValue is not IList list ? arrayContract.CreateWrapper(existingValue) : list, reader, arrayContract, member, id);
+            value = PopulateList(!arrayContract.ShouldCreateWrapper && existingValue is IList list ? list : arrayContract.CreateWrapper(existingValue), reader, arrayContract, member, id);
         }
 
         return value;

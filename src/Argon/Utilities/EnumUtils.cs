@@ -34,9 +34,9 @@ static class EnumUtils
                 throw new InvalidOperationException($"Enum name '{resolvedName}' already exists on enum '{enumType.Name}'.");
             }
 
-            resolvedNames[i] = key.Value2 != null
-                ? key.Value2.GetPropertyName(resolvedName, hasSpecifiedName)
-                : resolvedName;
+            resolvedNames[i] = key.Value2 == null
+                ? resolvedName
+                : key.Value2.GetPropertyName(resolvedName, hasSpecifiedName);
         }
 
         var isFlags = enumType.IsDefined(typeof(FlagsAttribute), false);

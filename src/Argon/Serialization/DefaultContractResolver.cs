@@ -687,9 +687,9 @@ public class DefaultContractResolver : IContractResolver
         if (overrideConstructor != null)
         {
             var parameters = overrideConstructor.GetParameters();
-            var expectedParameterType = contract.CollectionItemType != null
-                ? typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType)
-                : typeof(IEnumerable);
+            var expectedParameterType = contract.CollectionItemType == null
+                ? typeof(IEnumerable)
+                : typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType);
 
             if (parameters.Length == 0)
             {
@@ -1054,7 +1054,7 @@ public class DefaultContractResolver : IContractResolver
             if (dataMemberAttribute != null)
             {
                 property.required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
-                property.Order = dataMemberAttribute.Order != -1 ? dataMemberAttribute.Order : null;
+                property.Order = dataMemberAttribute.Order == -1 ? null : dataMemberAttribute.Order;
                 property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? DefaultValueHandling.Ignore : null;
                 hasMemberAttribute = true;
             }

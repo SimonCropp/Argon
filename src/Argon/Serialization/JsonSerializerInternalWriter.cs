@@ -257,9 +257,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             referenceLoopHandling = containerContract.ItemReferenceLoopHandling;
         }
 
-        var exists = Serializer.EqualityComparer != null
-            ? serializeStack.Contains(value, Serializer.EqualityComparer)
-            : serializeStack.Contains(value);
+        var exists = Serializer.EqualityComparer == null
+            ? serializeStack.Contains(value)
+            : serializeStack.Contains(value, Serializer.EqualityComparer);
 
         if (!exists)
         {
@@ -833,9 +833,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 
                     if (CheckForCircularReference(writer, memberValue, null, valueContract, contract, member))
                     {
-                        var resolvedPropertyName = contract.PropertyNameResolver != null
-                            ? contract.PropertyNameResolver(memberName)
-                            : memberName;
+                        var resolvedPropertyName = contract.PropertyNameResolver == null
+                            ? memberName
+                            : contract.PropertyNameResolver(memberName);
 
                         writer.WritePropertyName(resolvedPropertyName);
                         SerializeValue(writer, memberValue, valueContract, null, contract, member);

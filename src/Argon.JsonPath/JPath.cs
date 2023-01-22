@@ -173,11 +173,8 @@ class JPath
         return atPathEnd;
     }
 
-    static PathFilter CreatePathFilter(string? member, bool scan)
-    {
-        var filter = scan ? (PathFilter) new ScanFilter(member) : new FieldFilter(member);
-        return filter;
-    }
+    static PathFilter CreatePathFilter(string? member, bool scan) =>
+        scan ? new ScanFilter(member) : new FieldFilter(member);
 
     PathFilter ParseIndexer(char indexerOpenChar, bool scan)
     {
