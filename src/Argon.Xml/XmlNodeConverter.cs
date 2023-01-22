@@ -1216,26 +1216,7 @@ public class XmlNodeConverter : JsonConverter
     /// <returns>
     /// <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type valueType)
-    {
-        if (valueType.AssignableToTypeName("System.Xml.Linq.XObject", false))
-        {
-            return IsXObject(valueType);
-        }
-
-        if (valueType.AssignableToTypeName("System.Xml.XmlNode", false))
-        {
-            return IsXmlNode(valueType);
-        }
-
-        return false;
-    }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    static bool IsXObject(Type valueType) =>
-        typeof(XObject).IsAssignableFrom(valueType);
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    static bool IsXmlNode(Type valueType) =>
+    public override bool CanConvert(Type valueType) =>
+        typeof(XObject).IsAssignableFrom(valueType) ||
         typeof(XmlNode).IsAssignableFrom(valueType);
 }
