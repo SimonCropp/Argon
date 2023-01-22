@@ -18,30 +18,6 @@ class JPropertyKeyedCollection : Collection<JToken>
         dictionary![key] = item;
     }
 
-    protected void ChangeItemKey(JToken item, string newKey)
-    {
-        if (!ContainsItem(item))
-        {
-            throw new ArgumentException("The specified item does not exist in this KeyedCollection.");
-        }
-
-        var keyForItem = GetKeyForItem(item);
-        if (comparer.Equals(keyForItem, newKey))
-        {
-            return;
-        }
-
-        if (newKey != null)
-        {
-            AddKey(newKey, item);
-        }
-
-        if (keyForItem != null)
-        {
-            RemoveKey(keyForItem);
-        }
-    }
-
     protected override void ClearItems()
     {
         base.ClearItems();
