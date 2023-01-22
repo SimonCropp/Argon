@@ -1903,7 +1903,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             throw ThrowReaderError($"JSON integer {stringReference.ToString()} is too large to parse.");
                         }
 
-                        numberValue = BigIntegerParse(number, InvariantCulture);
+                        numberValue = BigInteger.Parse(number, InvariantCulture);
                         numberType = JsonToken.Integer;
                     }
                     else
@@ -1954,14 +1954,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         SetToken(JsonToken.Undefined, null, false);
         return JsonReaderException.Create(this, message, ex);
     }
-
-    // By using the BigInteger type in a separate method,
-    // the runtime can execute the ParseNumber even if
-    // the System.Numerics.BigInteger.Parse method is
-    // missing, which happens in some versions of Mono
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    static object BigIntegerParse(string number, CultureInfo culture) =>
-        BigInteger.Parse(number, culture);
 
     void ParseComment(bool setToken)
     {
