@@ -8,10 +8,10 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
     <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
-    <SupportedPlatform Include="browser" />
   </PropertyGroup>
 
   <ItemGroup>
+    <SupportedPlatform Include="browser" />
     <Using Include="NodaTime" />
     <Using Include="Argon.NodaTime" />
     <Using Include="NodaTime.Utility" />
