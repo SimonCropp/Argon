@@ -4,29 +4,20 @@
 
 static class JsonTokenUtils
 {
-    internal static bool IsEndToken(JsonToken token)
+    internal static bool IsEndToken(this JsonToken token) =>
+        token is JsonToken.EndObject or JsonToken.EndArray;
+    internal static int EndTokenOffset(this JsonToken token)
     {
-        switch (token)
+        if (token is JsonToken.EndObject or JsonToken.EndArray)
         {
-            case JsonToken.EndObject:
-            case JsonToken.EndArray:
-                return true;
-            default:
-                return false;
+            return 1;
         }
+
+        return 0;
     }
 
-    internal static bool IsStartToken(JsonToken token)
-    {
-        switch (token)
-        {
-            case JsonToken.StartObject:
-            case JsonToken.StartArray:
-                return true;
-            default:
-                return false;
-        }
-    }
+    internal static bool IsStartToken(this JsonToken token) =>
+        token is JsonToken.StartObject or JsonToken.StartArray;
 
     internal static bool IsPrimitiveToken(JsonToken token)
     {

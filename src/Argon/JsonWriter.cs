@@ -449,9 +449,9 @@ public abstract partial class JsonWriter : IDisposable
             }
         } while (
             // stop if we have reached the end of the token being read
-            initialDepth - 1 < reader.Depth - (JsonTokenUtils.IsEndToken(reader.TokenType) ? 1 : 0)
-            && writeChildren
-            && reader.Read());
+            initialDepth - 1 < reader.Depth - reader.TokenType.EndTokenOffset() &&
+            writeChildren &&
+            reader.Read());
 
         if (IsWriteTokenIncomplete(reader, writeChildren, initialDepth))
         {
@@ -463,7 +463,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         var finalDepth = CalculateWriteTokenFinalDepth(reader);
         return initialDepth < finalDepth ||
-               (writeChildren && initialDepth == finalDepth && JsonTokenUtils.IsStartToken(reader.TokenType));
+               (writeChildren && initialDepth == finalDepth && reader.TokenType.IsStartToken());
     }
 
     static int CalculateWriteTokenInitialDepth(JsonReader reader)
@@ -474,7 +474,7 @@ public abstract partial class JsonWriter : IDisposable
             return -1;
         }
 
-        return JsonTokenUtils.IsStartToken(type) ? reader.Depth : reader.Depth + 1;
+        return type.IsStartToken() ? reader.Depth : reader.Depth + 1;
     }
 
     static int CalculateWriteTokenFinalDepth(JsonReader reader)
@@ -485,7 +485,7 @@ public abstract partial class JsonWriter : IDisposable
             return -1;
         }
 
-        return JsonTokenUtils.IsEndToken(type) ? reader.Depth - 1 : reader.Depth;
+        return reader.Depth - type.EndTokenOffset();
     }
 
     void WriteEnd(JsonContainerType type)
