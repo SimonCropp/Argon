@@ -1162,12 +1162,12 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>Resolved name of the property.</returns>
     protected virtual string ResolvePropertyName(string propertyName)
     {
-        if (NamingStrategy != null)
+        if (NamingStrategy == null)
         {
-            return NamingStrategy.GetPropertyName(propertyName, false);
+            return propertyName;
         }
 
-        return propertyName;
+        return NamingStrategy.GetPropertyName(propertyName, false);
     }
 
     /// <summary>
@@ -1177,12 +1177,12 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>Resolved name of the extension data.</returns>
     protected virtual string ResolveExtensionDataName(string extensionDataName)
     {
-        if (NamingStrategy != null)
+        if (NamingStrategy == null)
         {
-            return NamingStrategy.GetExtensionDataName(extensionDataName);
+            return extensionDataName;
         }
 
-        return extensionDataName;
+        return NamingStrategy.GetExtensionDataName(extensionDataName);
     }
 
     /// <summary>
@@ -1192,12 +1192,12 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>Resolved key of the dictionary.</returns>
     protected virtual string ResolveDictionaryKey(string dictionaryKey)
     {
-        if (NamingStrategy != null)
+        if (NamingStrategy == null)
         {
-            return NamingStrategy.GetDictionaryKey(dictionaryKey);
+            return ResolvePropertyName(dictionaryKey);
         }
 
-        return ResolvePropertyName(dictionaryKey);
+        return NamingStrategy.GetDictionaryKey(dictionaryKey);
     }
 
     /// <summary>
