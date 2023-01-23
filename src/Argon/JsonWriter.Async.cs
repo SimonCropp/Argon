@@ -572,6 +572,7 @@ public abstract partial class JsonWriter
     {
         var initialDepth = CalculateWriteTokenInitialDepth(reader);
 
+        var initialDepthOffset = initialDepth - 1;
         do
         {
             if (writeComments || reader.TokenType != JsonToken.Comment)
@@ -580,7 +581,7 @@ public abstract partial class JsonWriter
             }
         } while (
             // stop if we have reached the end of the token being read
-            initialDepth - 1 < reader.Depth - reader.TokenType.EndTokenOffset()
+            initialDepthOffset < reader.Depth - reader.TokenType.EndTokenOffset()
             && writeChildren
             && await reader.ReadAsync(cancellation).ConfigureAwait(false));
 
@@ -597,12 +598,13 @@ public abstract partial class JsonWriter
     {
         var initialDepth = CalculateWriteTokenInitialDepth(reader);
 
+        var initialDepthOffset = initialDepth - 1;
         do
         {
             WriteToken(reader.TokenType, reader.Value);
         } while (
             // stop if we have reached the end of the token being read
-            initialDepth - 1 < reader.Depth - reader.TokenType.EndTokenOffset()
+            initialDepthOffset < reader.Depth - reader.TokenType.EndTokenOffset()
             && await reader.ReadAsync(cancellation).ConfigureAwait(false));
 
         if (initialDepth < CalculateWriteTokenFinalDepth(reader))

@@ -441,6 +441,7 @@ public abstract partial class JsonWriter : IDisposable
     {
         var initialDepth = CalculateWriteTokenInitialDepth(reader);
 
+        var initialDepthOffset = initialDepth - 1;
         do
         {
             if (writeComments || reader.TokenType != JsonToken.Comment)
@@ -449,7 +450,7 @@ public abstract partial class JsonWriter : IDisposable
             }
         } while (
             // stop if we have reached the end of the token being read
-            initialDepth - 1 < reader.Depth - reader.TokenType.EndTokenOffset() &&
+            initialDepthOffset < reader.Depth - reader.TokenType.EndTokenOffset() &&
             writeChildren &&
             reader.Read());
 
@@ -474,7 +475,12 @@ public abstract partial class JsonWriter : IDisposable
             return -1;
         }
 
-        return type.IsStartToken() ? reader.Depth : reader.Depth + 1;
+        if (type.IsStartToken())
+        {
+            return reader.Depth;
+        }
+
+        return reader.Depth + 1;
     }
 
     static int CalculateWriteTokenFinalDepth(JsonReader reader)
