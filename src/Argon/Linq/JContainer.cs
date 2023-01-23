@@ -142,7 +142,7 @@ public abstract partial class JContainer :
         }
     }
 
-    internal bool IsMultiContent([NotNullWhen(true)] object? content) =>
+    internal static bool IsMultiContent([NotNullWhen(true)] object? content) =>
         content is
             IEnumerable and
             not string and
