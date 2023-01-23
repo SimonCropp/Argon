@@ -480,7 +480,7 @@ public abstract partial class JsonWriter
     /// </summary>
     /// <param name="writeChildren">A flag indicating whether the current token's children should be written.</param>
     public Task WriteTokenAsync(JsonReader reader, bool writeChildren, CancellationToken cancellation = default) =>
-        WriteTokenAsync(reader, writeChildren, true, true, cancellation);
+        WriteTokenAsync(reader, writeChildren, true, cancellation);
 
     /// <summary>
     /// Asynchronously writes the <see cref="JsonToken" /> token and its value.
@@ -568,7 +568,7 @@ public abstract partial class JsonWriter
         }
     }
 
-    internal virtual async Task WriteTokenAsync(JsonReader reader, bool writeChildren, bool writeDateConstructorAsDate, bool writeComments, CancellationToken cancellation)
+    internal virtual async Task WriteTokenAsync(JsonReader reader, bool writeChildren, bool writeComments, CancellationToken cancellation)
     {
         var initialDepth = CalculateWriteTokenInitialDepth(reader);
 

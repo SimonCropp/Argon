@@ -393,10 +393,10 @@ public partial class JTokenWriter : JsonWriter
 
     #endregion
 
-    internal override void WriteToken(JsonReader reader, bool writeChildren, bool writeDateConstructorAsDate, bool writeComments)
+    internal override void WriteToken(JsonReader reader, bool writeChildren, bool writeComments)
     {
         // cloning the token rather than reading then writing it doesn't lose some type information, e.g. Guid, byte[], etc
-        if (reader is JTokenReader tokenReader && writeChildren && writeDateConstructorAsDate && writeComments)
+        if (reader is JTokenReader tokenReader && writeChildren && writeComments)
         {
             if (tokenReader.TokenType == JsonToken.None)
             {
@@ -435,7 +435,7 @@ public partial class JTokenWriter : JsonWriter
         }
         else
         {
-            base.WriteToken(reader, writeChildren, writeDateConstructorAsDate, writeComments);
+            base.WriteToken(reader, writeChildren, writeComments);
         }
     }
 }

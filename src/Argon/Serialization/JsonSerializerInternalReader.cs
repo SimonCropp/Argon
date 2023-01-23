@@ -203,7 +203,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 }
 
                 writer.WritePropertyName(propertyName);
-                writer.WriteToken(reader, true, true, false);
+                writer.WriteToken(reader, true, false);
                 continue;
             }
 

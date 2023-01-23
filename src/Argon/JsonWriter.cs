@@ -322,7 +322,7 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     /// <param name="writeChildren">A flag indicating whether the current token's children should be written.</param>
     public void WriteToken(JsonReader reader, bool writeChildren) =>
-        WriteToken(reader, writeChildren, true, true);
+        WriteToken(reader, writeChildren, true);
 
     /// <summary>
     /// Writes the <see cref="JsonToken" /> token and its value.
@@ -437,7 +437,7 @@ public abstract partial class JsonWriter : IDisposable
     public void WriteToken(JsonToken token) =>
         WriteToken(token, null);
 
-    internal virtual void WriteToken(JsonReader reader, bool writeChildren, bool writeDateConstructorAsDate, bool writeComments)
+    internal virtual void WriteToken(JsonReader reader, bool writeChildren, bool writeComments)
     {
         var initialDepth = CalculateWriteTokenInitialDepth(reader);
 
