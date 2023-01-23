@@ -6,6 +6,7 @@ static class JsonTokenUtils
 {
     internal static bool IsEndToken(this JsonToken token) =>
         token is JsonToken.EndObject or JsonToken.EndArray;
+
     internal static int EndTokenOffset(this JsonToken token)
     {
         if (token is JsonToken.EndObject or JsonToken.EndArray)

@@ -580,7 +580,7 @@ public abstract partial class JsonWriter
             }
         } while (
             // stop if we have reached the end of the token being read
-            initialDepth - 1 < reader.Depth - (JsonTokenUtils.IsEndToken(reader.TokenType) ? 1 : 0)
+            initialDepth - 1 < reader.Depth - reader.TokenType.EndTokenOffset()
             && writeChildren
             && await reader.ReadAsync(cancellation).ConfigureAwait(false));
 
@@ -602,7 +602,7 @@ public abstract partial class JsonWriter
             WriteToken(reader.TokenType, reader.Value);
         } while (
             // stop if we have reached the end of the token being read
-            initialDepth - 1 < reader.Depth - (JsonTokenUtils.IsEndToken(reader.TokenType) ? 1 : 0)
+            initialDepth - 1 < reader.Depth - reader.TokenType.EndTokenOffset()
             && await reader.ReadAsync(cancellation).ConfigureAwait(false));
 
         if (initialDepth < CalculateWriteTokenFinalDepth(reader))
