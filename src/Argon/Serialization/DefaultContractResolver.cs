@@ -856,7 +856,7 @@ public class DefaultContractResolver : IContractResolver
 
     static bool CanConvertToString(Type type)
     {
-        if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out _))
+        if (JsonTypeReflector.TryGetStringConverter(type, out _))
         {
             return true;
         }

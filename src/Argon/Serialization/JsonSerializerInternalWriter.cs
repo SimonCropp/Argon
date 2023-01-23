@@ -322,7 +322,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return true;
         }
 #endif
-        if (JsonTypeReflector.CanTypeDescriptorConvertString(type, out var converter))
+        if (JsonTypeReflector.TryGetStringConverter(type, out var converter))
         {
             s = converter.ConvertToInvariantString(value)!;
             return true;

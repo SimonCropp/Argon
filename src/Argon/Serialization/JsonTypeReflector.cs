@@ -17,24 +17,27 @@ static class JsonTypeReflector
 
     static ThreadSafeStore<Type, Func<object[]?, object>> creatorCache = new(GetCreator);
 
-    public static bool CanTypeDescriptorConvertString(Type type, out TypeConverter typeConverter)
+    public static bool TryGetStringConverter(Type type, [NotNullWhen(true)] out TypeConverter? typeConverter)
     {
         typeConverter = TypeDescriptor.GetConverter(type);
 
-        // use the type's TypeConverter if it has one and can convert to a string
-        if (typeConverter != null)
-        {
-            var converterType = typeConverter.GetType();
+        // use the type's TypeConverter can convert to a string
+        var converterType = typeConverter.GetType();
 
-            if (!string.Equals(converterType.FullName, "System.ComponentModel.ComponentConverter", StringComparison.Ordinal)
-                && !string.Equals(converterType.FullName, "System.ComponentModel.ReferenceConverter", StringComparison.Ordinal)
-                && !string.Equals(converterType.FullName, "System.Windows.Forms.Design.DataSourceConverter", StringComparison.Ordinal)
-                && converterType != typeof(TypeConverter))
-            {
-                return typeConverter.CanConvertTo(typeof(string));
-            }
+        if (converterType == typeof(TypeConverter) ||
+            string.Equals(converterType.FullName, "System.ComponentModel.ComponentConverter", StringComparison.Ordinal) ||
+            string.Equals(converterType.FullName, "System.ComponentModel.ReferenceConverter", StringComparison.Ordinal) ||
+            string.Equals(converterType.FullName, "System.Windows.Forms.Design.DataSourceConverter", StringComparison.Ordinal))
+        {
+            return false;
         }
 
+        if (typeConverter.CanConvertTo(typeof(string)))
+        {
+            return true;
+        }
+
+        typeConverter = null;
         return false;
     }
 
