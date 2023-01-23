@@ -4,19 +4,6 @@
 
 static class CollectionUtils
 {
-    /// <summary>
-    /// Adds the elements of the specified collection to the specified generic <see cref="IList{T}" />.
-    /// </summary>
-    /// <param name="initial">The list to add to.</param>
-    /// <param name="collection">The collection of elements to add.</param>
-    public static void AddRange<T>(this IList<T> initial, IEnumerable<T> collection)
-    {
-        foreach (var value in collection)
-        {
-            initial.Add(value);
-        }
-    }
-
     public static bool IsDictionaryType(Type type) =>
         typeof(IDictionary).IsAssignableFrom(type) ||
         type.ImplementsGenericDefinition(typeof(IDictionary<,>)) ||

@@ -25,6 +25,14 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
         list = (List<JsonProperty>) Items;
     }
 
+    internal void AddRange(IList<JsonProperty> collection)
+    {
+        foreach (var value in collection)
+        {
+            Add(value);
+        }
+    }
+
     /// <summary>
     /// When implemented in a derived class, extracts the key from the specified element.
     /// </summary>
