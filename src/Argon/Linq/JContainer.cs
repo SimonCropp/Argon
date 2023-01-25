@@ -483,7 +483,7 @@ public abstract partial class JContainer :
         MergeItem(content, settings);
     }
 
-    void ValidateContent(object content)
+    static void ValidateContent(object content)
     {
         if (content.GetType().IsSubclassOf(typeof(JToken)))
         {
