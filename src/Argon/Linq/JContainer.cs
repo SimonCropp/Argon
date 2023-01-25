@@ -485,7 +485,7 @@ public abstract partial class JContainer :
 
     static void ValidateContent(object content)
     {
-        if (content.GetType().IsSubclassOf(typeof(JToken)))
+        if (content is JToken)
         {
             return;
         }
