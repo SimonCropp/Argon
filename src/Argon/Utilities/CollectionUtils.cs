@@ -4,7 +4,7 @@
 
 static class CollectionUtils
 {
-    public static bool IsDictionaryType(Type type) =>
+    public static bool IsDictionary(this Type type) =>
         typeof(IDictionary).IsAssignableFrom(type) ||
         type.ImplementsGenericDefinition(typeof(IDictionary<,>)) ||
         type.ImplementsGenericDefinition(typeof(IReadOnlyDictionary<,>));

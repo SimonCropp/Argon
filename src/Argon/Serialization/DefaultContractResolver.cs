@@ -807,7 +807,7 @@ public class DefaultContractResolver : IContractResolver
             return CreateLinqContract(type);
         }
 
-        if (CollectionUtils.IsDictionaryType(t))
+        if (t.IsDictionary())
         {
             return CreateDictionaryContract(type);
         }
