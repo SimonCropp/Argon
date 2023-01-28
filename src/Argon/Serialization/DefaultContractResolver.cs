@@ -289,10 +289,12 @@ public class DefaultContractResolver : IContractResolver
 
         if (memberType.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
         {
-            var keyType = dictionaryType.GetGenericArguments()[0];
-            var valueType = dictionaryType.GetGenericArguments()[1];
+            var genericArguments = dictionaryType.GetGenericArguments();
+            var keyType = genericArguments[0];
+            var valueType = genericArguments[1];
 
-            if (keyType.IsAssignableFrom(typeof(string)) && valueType.IsAssignableFrom(typeof(JToken)))
+            if (keyType.IsAssignableFrom(typeof(string)) &&
+                valueType.IsAssignableFrom(typeof(JToken)))
             {
                 return true;
             }
@@ -319,22 +321,21 @@ public class DefaultContractResolver : IContractResolver
         var keyType = dictionaryType.GetGenericArguments()[0];
         var valueType = dictionaryType.GetGenericArguments()[1];
 
-        Type createdType;
-
-        // change type to a class if it is the base interface so it can be instantiated if needed
-        if (ReflectionUtils.IsGenericDefinition(type, typeof(IDictionary<,>)))
-        {
-            createdType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
-        }
-        else
-        {
-            createdType = type;
-        }
-
         var getExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(member);
 
         if (extensionDataAttribute.ReadData)
         {
+            Type createdType;
+
+            // change type to a class if it is the base interface so it can be instantiated if needed
+            if (ReflectionUtils.IsGenericDefinition(type, typeof(IDictionary<,>)))
+            {
+                createdType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
+            }
+            else
+            {
+                createdType = type;
+            }
             var setExtensionDataDictionary = BuildSetExtensionDataDictionary(member);
             var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
             var setMethod = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] {keyType}, null)?.SetMethod;
