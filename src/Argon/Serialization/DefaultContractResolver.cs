@@ -245,35 +245,32 @@ public class DefaultContractResolver : IContractResolver
         return contract;
     }
 
-    static List<Type> GetClassHierarchyForType(Type type)
+    static MemberInfo? GetExtensionDataMemberForType(Type type)
     {
-        var ret = new List<Type>();
-
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
         var current = type;
         while (current != null && current != typeof(object))
         {
-            ret.Add(current);
+            foreach (var field in current.GetFields(flags))
+            {
+                if (IsExtensionDataMember(field))
+                {
+                    return field;
+                }
+            }
+
+            foreach (var property in current.GetProperties(flags))
+            {
+                if (IsExtensionDataMember(property))
+                {
+                    return property;
+                }
+            }
+
             current = current.BaseType;
         }
 
-        // Return the class list in order of simple => complex
-        ret.Reverse();
-        return ret;
-    }
-
-    static MemberInfo? GetExtensionDataMemberForType(Type type)
-    {
-        var members = GetClassHierarchyForType(type)
-            .SelectMany(baseType =>
-        {
-            var members = new List<MemberInfo>();
-            members.AddRange(baseType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-            members.AddRange(baseType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-
-            return members;
-        });
-
-        return members.LastOrDefault(IsExtensionDataMember);
+        return null;
     }
 
     static bool IsExtensionDataMember(MemberInfo member)

@@ -838,10 +838,10 @@ public class ExtensionDataTests : TestFixtureBase
     {
         var c = JsonConvert.DeserializeObject<MultipleExtensionDataAttributesTestClass>("{'first':[1],'second':[2]}");
 
-        Assert.Equal(null, c.ExtensionData1);
-        Assert.Equal(2, c.ExtensionData2.Count);
-        Assert.Equal(1, (int) ((JArray) c.ExtensionData2["first"])[0]);
-        Assert.Equal(2, (int) ((JArray) c.ExtensionData2["second"])[0]);
+        Assert.Equal(null, c.ExtensionData2);
+        Assert.Equal(2, c.ExtensionData1.Count);
+        Assert.Equal(1, (int) ((JArray) c.ExtensionData1["first"])[0]);
+        Assert.Equal(2, (int) ((JArray) c.ExtensionData1["second"])[0]);
     }
 
     [Fact]
