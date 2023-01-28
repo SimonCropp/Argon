@@ -973,8 +973,8 @@ public class DefaultContractResolver : IContractResolver
             dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute(member);
         }
 
-        var propertyAttribute = AttributeCache<JsonPropertyAttribute>.GetAttribute(attributeProvider);
-        var requiredAttribute = AttributeCache<JsonRequiredAttribute>.GetAttribute(attributeProvider);
+        var propertyAttribute = JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(attributeProvider);
+        var requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
 
         string mappedName;
         bool hasSpecifiedName;
@@ -1068,9 +1068,9 @@ public class DefaultContractResolver : IContractResolver
         property.HasMemberAttribute = hasMemberAttribute;
 
         var hasJsonIgnoreAttribute =
-            AttributeCache<JsonIgnoreAttribute>.GetAttribute(attributeProvider) != null
+            JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null
             // automatically ignore extension data dictionary property if it is public
-            || AttributeCache<JsonExtensionDataAttribute>.GetAttribute(attributeProvider) != null;
+            || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null;
 
         if (memberSerialization == MemberSerialization.OptIn)
         {
@@ -1079,7 +1079,7 @@ public class DefaultContractResolver : IContractResolver
         }
         else
         {
-            var hasIgnoreDataMemberAttribute = AttributeCache<IgnoreDataMemberAttribute>.GetAttribute(attributeProvider) != null;
+            var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
 
             // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
             property.Ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
@@ -1089,7 +1089,7 @@ public class DefaultContractResolver : IContractResolver
         // the class type might have a converter but the property converter takes precedence
         property.Converter = JsonTypeReflector.GetJsonConverter(attributeProvider);
 
-        var defaultValueAttribute = AttributeCache<DefaultValueAttribute>.GetAttribute(attributeProvider);
+        var defaultValueAttribute = JsonTypeReflector.GetAttribute<DefaultValueAttribute>(attributeProvider);
         if (defaultValueAttribute != null)
         {
             property.DefaultValue = defaultValueAttribute.Value;
