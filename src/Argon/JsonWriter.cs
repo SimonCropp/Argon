@@ -1201,6 +1201,7 @@ public abstract partial class JsonWriter : IDisposable
                     return;
 
                 case PrimitiveTypeCode.Int32Nullable:
+                    // ReSharper disable once MergeConditionalExpression
                     writer.WriteValue(value == null ? null : (int) value);
                     return;
 
