@@ -34,11 +34,7 @@ class ReflectionObject
         var delegateFactory = JsonTypeReflector.ReflectionDelegateFactory;
 
         ObjectConstructor? creatorConstructor = null;
-        if (creator != null)
-        {
-            creatorConstructor = delegateFactory.CreateParameterizedConstructor(creator);
-        }
-        else
+        if (creator == null)
         {
             if (type.HasDefaultConstructor(false))
             {
@@ -46,6 +42,10 @@ class ReflectionObject
 
                 creatorConstructor = _ => ctor();
             }
+        }
+        else
+        {
+            creatorConstructor = delegateFactory.CreateParameterizedConstructor(creator);
         }
 
         var d = new ReflectionObject(creatorConstructor);
