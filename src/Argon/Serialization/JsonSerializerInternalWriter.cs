@@ -937,14 +937,14 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             {
                 foreach (var entry in Items(values).OrderBy(_ => ((string) _.Key, StringComparer.OrdinalIgnoreCase)))
                 {
-                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary);
                 }
             }
             else
             {
                 foreach (var entry in Items(values).OrderBy(_ => _.Key))
                 {
-                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary);
                 }
             }
         }
@@ -952,7 +952,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         {
             foreach (DictionaryEntry entry in values)
             {
-                SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary, initialDepth);
+                SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary);
             }
         }
 
@@ -964,8 +964,9 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
 #pragma warning restore CS8600, CS8602, CS8604
     }
 
-    void SerializeDictionaryItem(JsonWriter writer, JsonDictionaryContract contract, JsonProperty? member, object key, object? value, JsonContract keyContract, object underlyingDictionary, int initialDepth)
+    void SerializeDictionaryItem(JsonWriter writer, JsonDictionaryContract contract, JsonProperty? member, object key, object? value, JsonContract keyContract, object underlyingDictionary)
     {
+        var initialDepth = writer.Top;
         var interceptResult = contract.InterceptSerializeItem(key, value);
         if (interceptResult.ShouldIgnore)
         {
