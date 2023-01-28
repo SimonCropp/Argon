@@ -245,6 +245,22 @@ public class DefaultContractResolver : IContractResolver
         return contract;
     }
 
+    static List<Type> GetClassHierarchyForType(Type type)
+    {
+        var ret = new List<Type>();
+
+        var current = type;
+        while (current != null && current != typeof(object))
+        {
+            ret.Add(current);
+            current = current.BaseType;
+        }
+
+        // Return the class list in order of simple => complex
+        ret.Reverse();
+        return ret;
+    }
+
     static MemberInfo? GetExtensionDataMemberForType(Type type)
     {
         var members = GetClassHierarchyForType(type)
@@ -602,22 +618,6 @@ public class DefaultContractResolver : IContractResolver
             contract.DefaultCreatorNonPublic = !createdType.IsValueType &&
                                                createdType.GetDefaultConstructor() == null;
         }
-    }
-
-    static List<Type> GetClassHierarchyForType(Type type)
-    {
-        var ret = new List<Type>();
-
-        var current = type;
-        while (current != null && current != typeof(object))
-        {
-            ret.Add(current);
-            current = current.BaseType;
-        }
-
-        // Return the class list in order of simple => complex
-        ret.Reverse();
-        return ret;
     }
 
     /// <summary>
