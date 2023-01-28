@@ -526,14 +526,7 @@ public class DefaultContractResolver : IContractResolver
             return null;
         }
 
-        var property = properties.GetClosestMatchProperty(name, type);
-        // must match type as well as name
-        if (property == null || property.PropertyType != type)
-        {
-            return null;
-        }
-
-        return property;
+        return properties.GetClosestMatchProperty(name, type);
     }
 
     /// <summary>
@@ -544,9 +537,10 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>A created <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.</returns>
     protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameterInfo)
     {
-        var property = new JsonProperty(parameterInfo.ParameterType, parameterInfo.Member.DeclaringType!);
+        var declaringType = parameterInfo.Member.DeclaringType!;
+        var property = new JsonProperty(parameterInfo.ParameterType, declaringType);
 
-        SetPropertySettingsFromAttributes(property, parameterInfo, parameterInfo.Name!, parameterInfo.Member.DeclaringType!, MemberSerialization.OptOut, out _);
+        SetPropertySettingsFromAttributes(property, parameterInfo, parameterInfo.Name!, declaringType, MemberSerialization.OptOut, out _);
 
         property.Readable = false;
         property.Writable = true;
