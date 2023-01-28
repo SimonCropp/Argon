@@ -26,7 +26,7 @@ public abstract partial class JsonReader
             await ReadAsync(cancellation).ConfigureAwait(false);
         }
 
-        if (JsonTokenUtils.IsStartToken(TokenType))
+        if (TokenType.IsStartToken())
         {
             var depth = Depth;
 
