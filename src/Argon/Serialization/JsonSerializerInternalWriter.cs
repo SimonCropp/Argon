@@ -266,18 +266,19 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return true;
         }
 
-        var message = "Self referencing loop detected";
-        if (property != null)
-        {
-            message += $" for property '{property.PropertyName}'";
-        }
-
-        message += $" with type '{value.GetType()}'.";
-
         switch (referenceLoopHandling.GetValueOrDefault(Serializer.ReferenceLoopHandling))
         {
             case ReferenceLoopHandling.Error:
+            {
+                var message = "Self referencing loop detected";
+                if (property != null)
+                {
+                    message += $" for property '{property.PropertyName}'";
+                }
+
+                message += $" with type '{value.GetType()}'.";
                 throw JsonSerializationException.Create(null, writer.ContainerPath, message, null);
+            }
             case ReferenceLoopHandling.Ignore:
                 return false;
             case ReferenceLoopHandling.Serialize:
