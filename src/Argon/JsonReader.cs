@@ -186,7 +186,7 @@ public abstract partial class JsonReader : IDisposable
         get
         {
             var depth = stack.Count;
-            if (JsonTokenUtils.IsStartToken(TokenType) || currentPosition.Type == JsonContainerType.None)
+            if (TokenType.IsStartToken() || currentPosition.Type == JsonContainerType.None)
             {
                 return depth;
             }
@@ -845,7 +845,7 @@ public abstract partial class JsonReader : IDisposable
             Read();
         }
 
-        if (JsonTokenUtils.IsStartToken(TokenType))
+        if (TokenType.IsStartToken())
         {
             var depth = Depth;
 
