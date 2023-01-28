@@ -498,11 +498,6 @@ public class DefaultContractResolver : IContractResolver
 
         foreach (var parameterInfo in constructorParameters)
         {
-            if (parameterInfo.Name == null)
-            {
-                continue;
-            }
-
             var matchingMemberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
 
             // ensure that property will have a name from matching property or from parameterInfo
