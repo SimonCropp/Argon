@@ -273,9 +273,9 @@ public class DefaultContractResolver : IContractResolver
             throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(member.DeclaringType!)}'. Member '{member.Name}' must have a getter.");
         }
 
-        var t = member.GetMemberUnderlyingType();
+        var memberType = member.GetMemberUnderlyingType();
 
-        if (t.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
+        if (memberType.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
         {
             var keyType = dictionaryType.GetGenericArguments()[0];
             var valueType = dictionaryType.GetGenericArguments()[1];
