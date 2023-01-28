@@ -526,7 +526,7 @@ public class DefaultContractResolver : IContractResolver
             return null;
         }
 
-        var property = properties.GetClosestMatchProperty(name);
+        var property = properties.GetClosestMatchProperty(name, type);
         // must match type as well as name
         if (property == null || property.PropertyType != type)
         {

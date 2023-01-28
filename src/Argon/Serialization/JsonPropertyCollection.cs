@@ -102,21 +102,51 @@ public class JsonPropertyCollection : KeyedCollection<string, JsonProperty>
 
     /// <summary>
     /// Gets the closest matching <see cref="JsonProperty" /> object.
-    /// First attempts to get an exact case match of <paramref name="propertyName" /> and then
+    /// First attempts to get an exact case match of <paramref name="name" /> and then
     /// a case insensitive match.
     /// </summary>
-    /// <param name="propertyName">Name of the property.</param>
+    /// <param name="name">Name of the property.</param>
     /// <returns>A matching property if found.</returns>
-    public JsonProperty? GetClosestMatchProperty(string propertyName)
+    public JsonProperty? GetClosestMatchProperty(string name)
     {
-        if (TryGetProperty(propertyName, out var propertyByName))
+        if (TryGetProperty(name, out var propertyByName))
         {
             return propertyByName;
         }
 
         foreach (var property in list)
         {
-            if (string.Equals(propertyName, property.PropertyName, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(name, property.PropertyName, StringComparison.OrdinalIgnoreCase))
+            {
+                return property;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Gets the closest matching <see cref="JsonProperty" /> object.
+    /// First attempts to get an exact case match of <paramref name="name" /> and then
+    /// a case insensitive match.
+    /// </summary>
+    /// <param name="name">Name of the property.</param>
+    /// <param name="type">Type of the property.</param>
+    /// <returns>A matching property if found.</returns>
+    public JsonProperty? GetClosestMatchProperty(string name, Type type)
+    {
+        if (TryGetProperty(name, out var propertyByName))
+        {
+            if (type == propertyByName.PropertyType)
+            {
+                return propertyByName;
+            }
+        }
+
+        foreach (var property in list)
+        {
+            if (type == property.PropertyType &&
+                string.Equals(name, property.PropertyName, StringComparison.OrdinalIgnoreCase))
             {
                 return property;
             }
