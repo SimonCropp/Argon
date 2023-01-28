@@ -262,13 +262,6 @@ public class DefaultContractResolver : IContractResolver
 
     static bool IsExtensionDataMember(MemberInfo member)
     {
-        var memberType = member.MemberType;
-        if (memberType != MemberTypes.Property &&
-            memberType != MemberTypes.Field)
-        {
-            return false;
-        }
-
         // last instance of attribute wins on type if there are multiple
         if (!member.IsDefined(typeof(JsonExtensionDataAttribute), false))
         {
