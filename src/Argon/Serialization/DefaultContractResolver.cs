@@ -1199,6 +1199,6 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>Name of the property.</returns>
     public string GetResolvedPropertyName(string propertyName) =>
         // this is a new method rather than changing the visibility of ResolvePropertyName to avoid
-        // a breaking change for anyone who has overidden the method
+        // a breaking change for anyone who has overridden the method
         ResolvePropertyName(propertyName);
 }
