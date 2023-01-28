@@ -420,12 +420,13 @@ public class DefaultContractResolver : IContractResolver
 
     static ConstructorInfo? GetAttributeConstructor(Type type)
     {
-        var en = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true)).GetEnumerator();
-
-        if (en.MoveNext())
+        using var enumerator = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+            .Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true))
+            .GetEnumerator();
+        if (enumerator.MoveNext())
         {
-            var conInfo = en.Current;
-            if (en.MoveNext())
+            var conInfo = enumerator.Current;
+            if (enumerator.MoveNext())
             {
                 throw new JsonException("Multiple constructors with the JsonConstructorAttribute.");
             }
@@ -445,11 +446,11 @@ public class DefaultContractResolver : IContractResolver
     static ConstructorInfo? GetImmutableConstructor(Type type, JsonPropertyCollection memberProperties)
     {
         IEnumerable<ConstructorInfo> constructors = type.GetConstructors();
-        var en = constructors.GetEnumerator();
-        if (en.MoveNext())
+        using var enumerator = constructors.GetEnumerator();
+        if (enumerator.MoveNext())
         {
-            var constructor = en.Current;
-            if (en.MoveNext())
+            var constructor = enumerator.Current;
+            if (enumerator.MoveNext())
             {
                 return null;
             }
