@@ -440,10 +440,12 @@ static class ReflectionUtils
 
     public static List<MemberInfo> GetFieldsAndProperties(this Type type, BindingFlags bindingFlags)
     {
-        var targetMembers = new List<MemberInfo>();
+        var properties = GetProperties(type, bindingFlags);
+        var fields = GetFields(type, bindingFlags);
+        var targetMembers = new List<MemberInfo>(fields.Count + properties.Count);
 
-        targetMembers.AddRange(GetFields(type, bindingFlags));
-        targetMembers.AddRange(GetProperties(type, bindingFlags));
+        targetMembers.AddRange(fields);
+        targetMembers.AddRange(properties);
 
         return targetMembers;
     }
@@ -515,7 +517,7 @@ static class ReflectionUtils
         }
     }
 
-    public static IEnumerable<FieldInfo> GetFields(Type targetType, BindingFlags bindingFlags)
+    static List<FieldInfo> GetFields(Type targetType, BindingFlags bindingFlags)
     {
         var fields = new List<FieldInfo>(targetType.GetFields(bindingFlags));
         // Type.GetFields doesn't return inherited private fields
@@ -540,14 +542,14 @@ static class ReflectionUtils
         while ((targetType = targetType.BaseType!) != null)
         {
             // filter out protected fields
-            var childPrivateFields =
-                targetType.GetFields(nonPublicBindingAttr).Where(f => f.IsPrivate);
+            var childPrivateFields = targetType.GetFields(nonPublicBindingAttr)
+                .Where(f => f.IsPrivate);
 
             initialFields.AddRange(childPrivateFields);
         }
     }
 
-    public static IEnumerable<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingFlags)
+    static List<PropertyInfo> GetProperties(Type targetType, BindingFlags bindingFlags)
     {
         var properties = new List<PropertyInfo>(targetType.GetProperties(bindingFlags));
 

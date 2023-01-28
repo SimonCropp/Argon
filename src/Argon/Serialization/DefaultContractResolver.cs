@@ -88,19 +88,15 @@ public class DefaultContractResolver : IContractResolver
     {
         var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(type);
 
-        // Exclude index properties
-        // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
-        var allMembers = type.GetFieldsAndProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-            .Where(m => m is not PropertyInfo p || !p.IsIndexedProperty());
-
         var serializableMembers = new List<MemberInfo>();
 
+        const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         if (memberSerialization == MemberSerialization.Fields)
         {
-            // serialize all fields
-            foreach (var member in allMembers)
+            // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
+            foreach (var member in type.GetFields(bindingFlags))
             {
-                if (member is FieldInfo {IsStatic: false})
+                if (member is {IsStatic: false})
                 {
                     serializableMembers.Add(member);
                 }
@@ -108,6 +104,9 @@ public class DefaultContractResolver : IContractResolver
         }
         else
         {
+            // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
+            var allMembers = type.GetFieldsAndProperties(bindingFlags)
+                .Where(m => m is not PropertyInfo p || !p.IsIndexedProperty());
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(type);
 
             // Exclude index properties and ByRef types
