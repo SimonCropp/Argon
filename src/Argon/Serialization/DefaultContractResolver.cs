@@ -247,51 +247,53 @@ public class DefaultContractResolver : IContractResolver
 
     static MemberInfo? GetExtensionDataMemberForType(Type type)
     {
-        var members = GetClassHierarchyForType(type).SelectMany(baseType =>
+        var members = GetClassHierarchyForType(type)
+            .SelectMany(baseType =>
         {
-            var m = new List<MemberInfo>();
-            m.AddRange(baseType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-            m.AddRange(baseType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+            var members = new List<MemberInfo>();
+            members.AddRange(baseType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+            members.AddRange(baseType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
 
-            return m;
+            return members;
         });
 
-        var extensionDataMember = members.LastOrDefault(m =>
+        return members.LastOrDefault(IsExtensionDataMember);
+    }
+
+    static bool IsExtensionDataMember(MemberInfo member)
+    {
+        var memberType = member.MemberType;
+        if (memberType != MemberTypes.Property &&
+            memberType != MemberTypes.Field)
         {
-            var memberType = m.MemberType;
-            if (memberType != MemberTypes.Property && memberType != MemberTypes.Field)
+            return false;
+        }
+
+        // last instance of attribute wins on type if there are multiple
+        if (!member.IsDefined(typeof(JsonExtensionDataAttribute), false))
+        {
+            return false;
+        }
+
+        if (!member.CanReadMemberValue(true))
+        {
+            throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(member.DeclaringType!)}'. Member '{member.Name}' must have a getter.");
+        }
+
+        var t = member.GetMemberUnderlyingType();
+
+        if (t.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
+        {
+            var keyType = dictionaryType.GetGenericArguments()[0];
+            var valueType = dictionaryType.GetGenericArguments()[1];
+
+            if (keyType.IsAssignableFrom(typeof(string)) && valueType.IsAssignableFrom(typeof(JToken)))
             {
-                return false;
+                return true;
             }
+        }
 
-            // last instance of attribute wins on type if there are multiple
-            if (!m.IsDefined(typeof(JsonExtensionDataAttribute), false))
-            {
-                return false;
-            }
-
-            if (!m.CanReadMemberValue(true))
-            {
-                throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType!)}'. Member '{m.Name}' must have a getter.");
-            }
-
-            var t = m.GetMemberUnderlyingType();
-
-            if (t.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
-            {
-                var keyType = dictionaryType.GetGenericArguments()[0];
-                var valueType = dictionaryType.GetGenericArguments()[1];
-
-                if (keyType.IsAssignableFrom(typeof(string)) && valueType.IsAssignableFrom(typeof(JToken)))
-                {
-                    return true;
-                }
-            }
-
-            throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(m.DeclaringType!)}'. Member '{m.Name}' type must implement IDictionary<string, JToken>.");
-        });
-
-        return extensionDataMember;
+        throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(member.DeclaringType!)}'. Member '{member.Name}' type must implement IDictionary<string, JToken>.");
     }
 
     static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
