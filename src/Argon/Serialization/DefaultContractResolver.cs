@@ -369,7 +369,7 @@ public class DefaultContractResolver : IContractResolver
         if (extensionDataAttribute.WriteData)
         {
             var enumerableWrapper = typeof(EnumerableDictionaryWrapper<,>).MakeGenericType(keyType, valueType);
-            var constructors = enumerableWrapper.GetConstructors().First();
+            var constructors = enumerableWrapper.GetConstructors()[0];
             var createEnumerableWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
 
             contract.ExtensionDataGetter = o =>
