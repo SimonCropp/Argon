@@ -55,7 +55,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         // hacky but I can't find an API to get the declaring type without GetUnionCases
         var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
 
-        var caseInfo = cases.First();
+        var caseInfo = cases[0];
 
         return (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo);
     }
