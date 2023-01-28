@@ -458,9 +458,9 @@ public class DefaultContractResolver : IContractResolver
             var parameters = constructor.GetParameters();
             if (parameters.Length > 0)
             {
-                foreach (var parameterInfo in parameters)
+                foreach (var parameter in parameters)
                 {
-                    var memberProperty = MatchProperty(memberProperties, parameterInfo.Name, parameterInfo.ParameterType);
+                    var memberProperty = MatchProperty(memberProperties, parameter.Name, parameter.ParameterType);
                     if (memberProperty == null || memberProperty.Writable)
                     {
                         return null;
