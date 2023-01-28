@@ -79,19 +79,16 @@ class ReflectionObject
                     break;
                 case MemberTypes.Method:
                     var method = (MethodInfo) member;
-                    if (method.IsPublic)
+                    var parameters = method.GetParameters();
+                    if (parameters.Length == 0 && method.ReturnType != typeof(void))
                     {
-                        var parameters = method.GetParameters();
-                        if (parameters.Length == 0 && method.ReturnType != typeof(void))
-                        {
-                            var call = delegateFactory.CreateMethodCall<object>(method);
-                            reflectionMember.Getter = target => call(target);
-                        }
-                        else if (parameters.Length == 1 && method.ReturnType == typeof(void))
-                        {
-                            var call = delegateFactory.CreateMethodCall<object>(method);
-                            reflectionMember.Setter = (target, arg) => call(target, arg);
-                        }
+                        var call = delegateFactory.CreateMethodCall<object>(method);
+                        reflectionMember.Getter = target => call(target);
+                    }
+                    else if (parameters.Length == 1 && method.ReturnType == typeof(void))
+                    {
+                        var call = delegateFactory.CreateMethodCall<object>(method);
+                        reflectionMember.Setter = (target, arg) => call(target, arg);
                     }
 
                     break;
