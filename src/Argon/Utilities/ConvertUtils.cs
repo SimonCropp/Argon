@@ -242,22 +242,20 @@ static class ConvertUtils
         NoValidConversion = 3
     }
 
-    public static object Convert(object initialValue, Type targetType)
-    {
-        switch (TryConvertInternal(initialValue, targetType, out var value))
+    public static object Convert(object initialValue, Type targetType) =>
+        TryConvertInternal(initialValue, targetType, out var value) switch
         {
-            case ConvertResult.Success:
-                return value!;
-            case ConvertResult.CannotConvertNull:
-                throw new($"Can not convert null {initialValue.GetType()} into non-nullable {targetType}.");
-            case ConvertResult.NotInstantiableType:
-                throw new ArgumentException($"Target type {targetType} is not a value type or a non-abstract class.", nameof(targetType));
-            case ConvertResult.NoValidConversion:
-                throw new InvalidOperationException($"Can not convert from {initialValue.GetType()} to {targetType}.");
-            default:
-                throw new InvalidOperationException("Unexpected conversion result.");
-        }
-    }
+            ConvertResult.Success =>
+                value!,
+            ConvertResult.CannotConvertNull =>
+                throw new($"Can not convert null {initialValue.GetType()} into non-nullable {targetType}."),
+            ConvertResult.NotInstantiableType =>
+                throw new ArgumentException($"Target type {targetType} is not a value type or a non-abstract class.", nameof(targetType)),
+            ConvertResult.NoValidConversion =>
+                throw new InvalidOperationException($"Can not convert from {initialValue.GetType()} to {targetType}."),
+            _ =>
+                throw new InvalidOperationException("Unexpected conversion result.")
+        };
 
     static bool TryConvert(object initialValue, Type targetType, out object? value)
     {
@@ -505,23 +503,19 @@ static class ConvertUtils
         throw new ArgumentException($"Could not cast or convert from {initialType.ToString() ?? "{null}"} to {targetType}.");
     }
 
-    public static bool IsInteger(object value)
-    {
-        switch (GetTypeCode(value.GetType()))
+    public static bool IsInteger(object value) =>
+        GetTypeCode(value.GetType()) switch
         {
-            case PrimitiveTypeCode.SByte:
-            case PrimitiveTypeCode.Byte:
-            case PrimitiveTypeCode.Int16:
-            case PrimitiveTypeCode.UInt16:
-            case PrimitiveTypeCode.Int32:
-            case PrimitiveTypeCode.UInt32:
-            case PrimitiveTypeCode.Int64:
-            case PrimitiveTypeCode.UInt64:
-                return true;
-            default:
-                return false;
-        }
-    }
+            PrimitiveTypeCode.SByte => true,
+            PrimitiveTypeCode.Byte => true,
+            PrimitiveTypeCode.Int16 => true,
+            PrimitiveTypeCode.UInt16 => true,
+            PrimitiveTypeCode.Int32 => true,
+            PrimitiveTypeCode.UInt32 => true,
+            PrimitiveTypeCode.Int64 => true,
+            PrimitiveTypeCode.UInt64 => true,
+            _ => false
+        };
 
     public static ParseResult Int32TryParse(char[] chars, int start, int length, out int value)
     {
