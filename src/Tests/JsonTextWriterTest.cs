@@ -4,8 +4,6 @@
 
 using TestObjects;
 
-namespace Argon.Tests;
-
 public class JsonTextWriterTest : TestFixtureBase
 {
 #if !RELEASE
