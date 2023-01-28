@@ -58,7 +58,7 @@ class ReflectionObject
                 throw new ArgumentException($"Expected a single member with the name '{memberName}'.");
             }
 
-            var member = members.Single();
+            var member = members[0];
 
             var reflectionMember = new ReflectionMember();
 
