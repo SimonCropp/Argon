@@ -126,7 +126,7 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
 
         if (refParameterMap.Count > 0)
         {
-            var variableExpressions = new List<ParameterExpression>();
+            var variableExpressions = new List<ParameterExpression>(refParameterMap.Count);
             var bodyExpressions = new List<Expression>();
             foreach (var p in refParameterMap)
             {
