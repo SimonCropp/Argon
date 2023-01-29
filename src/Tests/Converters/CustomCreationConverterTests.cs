@@ -11,24 +11,24 @@ public class CustomCreationConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(
             new List<Employee>
-        {
-            new()
             {
-                BirthDate = new(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
-                FirstName = "Maurice",
-                LastName = "Moss",
-                Department = "IT",
-                JobTitle = "Support"
+                new()
+                {
+                    BirthDate = new(1977, 12, 30, 1, 1, 1, DateTimeKind.Utc),
+                    FirstName = "Maurice",
+                    LastName = "Moss",
+                    Department = "IT",
+                    JobTitle = "Support"
+                },
+                new()
+                {
+                    BirthDate = new(1978, 3, 15, 1, 1, 1, DateTimeKind.Utc),
+                    FirstName = "Jen",
+                    LastName = "Barber",
+                    Department = "IT",
+                    JobTitle = "Manager"
+                }
             },
-            new()
-            {
-                BirthDate = new(1978, 3, 15, 1, 1, 1, DateTimeKind.Utc),
-                FirstName = "Jen",
-                LastName = "Barber",
-                Department = "IT",
-                JobTitle = "Manager"
-            }
-        },
             Formatting.Indented);
 
         //[
