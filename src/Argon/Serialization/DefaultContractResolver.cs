@@ -84,49 +84,45 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     /// <param name="type">The type to get serializable members for.</param>
     /// <returns>The serializable members for the type.</returns>
-    protected virtual List<MemberInfo> GetSerializableMembers(Type type)
+    protected virtual IEnumerable<MemberInfo> GetSerializableMembers(Type type)
     {
         var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(type);
 
-        var serializableMembers = new List<MemberInfo>();
 
-        const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         if (memberSerialization == MemberSerialization.Fields)
         {
             // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
-            foreach (var member in type.GetFields(bindingFlags))
-            {
-                if (member is {IsStatic: false})
-                {
-                    serializableMembers.Add(member);
-                }
-            }
+            return type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         }
-        else
+
+        var serializableMembers = new List<MemberInfo>();
+        var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(type);
+
+        // Exclude index properties and ByRef types
+        var defaultMembers = type.GetFieldsAndProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(FilterMembers).ToList();
+
+        // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
+        foreach (var member in type.GetFieldsAndProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
         {
-            // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
-            var allMembers = type.GetFieldsAndProperties(bindingFlags)
-                .Where(m => m is not PropertyInfo p || !p.IsIndexedProperty());
-            var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(type);
-
-            // Exclude index properties and ByRef types
-            var defaultMembers = type.GetFieldsAndProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(FilterMembers).ToList();
-
-            foreach (var member in allMembers)
+            if (!(member is not PropertyInfo p || !p.IsIndexedProperty()))
             {
-                if (ShouldSerialize(member, defaultMembers, dataContractAttribute))
-                {
-                    serializableMembers.Add(member);
-                }
+                continue;
             }
 
-            // don't include TargetSite on non-serializable exceptions
-            // MemberBase is problematic to serialize. Large, self referencing instances, etc
-            if (typeof(Exception).IsAssignableFrom(type))
+            if (!ShouldSerialize(member, defaultMembers, dataContractAttribute))
             {
-                serializableMembers = serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal)).ToList();
+                continue;
             }
+
+            serializableMembers.Add(member);
+        }
+
+        // don't include TargetSite on non-serializable exceptions
+        // MemberBase is problematic to serialize. Large, self referencing instances, etc
+        if (typeof(Exception).IsAssignableFrom(type))
+        {
+            serializableMembers = serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal)).ToList();
         }
 
         return serializableMembers;
