@@ -1259,6 +1259,7 @@ public abstract partial class JsonWriter
                 case PrimitiveTypeCode.Int32:
                     return writer.WriteValueAsync((int) value, cancellation);
                 case PrimitiveTypeCode.Int32Nullable:
+                    // ReSharper disable once MergeConditionalExpression
                     return writer.WriteValueAsync(value == null ? null : (int) value, cancellation);
                 case PrimitiveTypeCode.Byte:
                     return writer.WriteValueAsync((byte) value, cancellation);
