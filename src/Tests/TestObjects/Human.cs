@@ -6,7 +6,7 @@ namespace TestObjects;
 
 public class Human : Animal
 {
-    public override string Name => typeof(Human).Name;
+    public override string Name => nameof(Human);
 
     public string Ethnicity { get; set; }
 }
