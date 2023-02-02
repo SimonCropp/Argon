@@ -1021,7 +1021,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
     }
 
-    static string GetDictionaryPropertyName(object key, JsonContract keyContract, Func<string, string>? keyResolver, out bool escape)
+    protected virtual string GetDictionaryPropertyName(object key, JsonContract keyContract, Func<string, string>? keyResolver, out bool escape)
     {
         var propertyName = GetDictionaryPropertyName(key, keyContract, out escape);
 
@@ -1033,7 +1033,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return keyResolver(propertyName);
     }
 
-    static string GetDictionaryPropertyName(object key, JsonContract contract, out bool escape)
+    protected virtual string GetDictionaryPropertyName(object key, JsonContract contract, out bool escape)
     {
         if (contract.ContractType == JsonContractType.Primitive)
         {
