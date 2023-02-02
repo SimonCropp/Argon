@@ -1033,7 +1033,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         return keyResolver(propertyName);
     }
 
-    static string GetDictionaryPropertyName(object name, JsonContract contract, out bool escape)
+    static string GetDictionaryPropertyName(object key, JsonContract contract, out bool escape)
     {
         if (contract.ContractType == JsonContractType.Primitive)
         {
@@ -1043,7 +1043,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case PrimitiveTypeCode.DateTime:
                 case PrimitiveTypeCode.DateTimeNullable:
                 {
-                    var dt = (DateTime) name;
+                    var dt = (DateTime) key;
 
                     escape = false;
                     var stringWriter = new StringWriter(InvariantCulture);
@@ -1055,13 +1055,13 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 {
                     escape = false;
                     var stringWriter = new StringWriter(InvariantCulture);
-                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) name);
+                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) key);
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.Double:
                 case PrimitiveTypeCode.DoubleNullable:
                 {
-                    var d = (double) name;
+                    var d = (double) key;
 
                     escape = false;
                     return d.ToString("R", InvariantCulture);
@@ -1069,7 +1069,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 case PrimitiveTypeCode.Single:
                 case PrimitiveTypeCode.SingleNullable:
                 {
-                    var f = (float) name;
+                    var f = (float) key;
 
                     escape = false;
                     return f.ToString("R", InvariantCulture);
@@ -1078,24 +1078,24 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
                 {
                     escape = true;
 
-                    if (primitiveContract.IsEnum && EnumUtils.TryToString(primitiveContract.NonNullableUnderlyingType, name, null, out var enumName))
+                    if (primitiveContract.IsEnum && EnumUtils.TryToString(primitiveContract.NonNullableUnderlyingType, key, null, out var enumName))
                     {
                         return enumName;
                     }
 
-                    return Convert.ToString(name, InvariantCulture)!;
+                    return Convert.ToString(key, InvariantCulture)!;
                 }
             }
         }
 
-        if (TryConvertToString(name, name.GetType(), out var propertyName))
+        if (TryConvertToString(key, key.GetType(), out var propertyName))
         {
             escape = true;
             return propertyName;
         }
 
         escape = true;
-        return name.ToString()!;
+        return key.ToString()!;
     }
 
     void HandleError(JsonWriter writer, int initialDepth)
