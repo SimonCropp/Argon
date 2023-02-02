@@ -13,6 +13,7 @@ public delegate InterceptResult InterceptSerializeDictionaryItem(object key, obj
 /// </summary>
 public class JsonDictionaryContract : JsonContainerContract
 {
+    //TODO: should be able to convert the object
     /// <summary>
     /// Gets or sets the dictionary key resolver.
     /// </summary>
