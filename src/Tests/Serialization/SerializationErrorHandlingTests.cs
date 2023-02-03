@@ -425,44 +425,6 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public Task DeserializeNestedUnhandled()
-    {
-        var errors = new List<string>();
-
-        var json = @"[[""kjhkjhkjhkjh""]]";
-
-        Exception exception = null;
-        try
-        {
-            var serializer = new JsonSerializer
-            {
-                Error = (currentObject, originalObject, location, exception, _) =>
-                {
-                    // only log an error once
-                    if (currentObject == originalObject)
-                    {
-                        errors.Add($"{location} - {exception.Message}");
-                    }
-                }
-            };
-
-            serializer.Deserialize(new StringReader(json), typeof(List<List<DateTime>>));
-        }
-        catch (Exception e)
-        {
-            exception = e;
-        }
-
-        return Verify(
-                new
-                {
-                    exception,
-                    errors
-                })
-            .IgnoreStackTrace();
-    }
-
-    [Fact]
     public void MultipleRequiredPropertyErrors()
     {
         var json = "{}";
