@@ -963,6 +963,20 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     }
 
     [Fact]
+    public async Task WriteTokenDirect_BadValueAsync()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        await jsonWriter.WriteTokenAsync(JsonToken.StartArray);
+
+        await ThrowsTask(() => jsonWriter.WriteTokenAsync(JsonToken.Integer, "three"))
+            .UniqueForTargetFrameworkAndVersion()
+            .IgnoreStackTrace();
+    }
+
+    [Fact]
     public async Task TokenTypeOutOfRangeAsync()
     {
         using var jsonWriter = new JsonTextWriter(new StringWriter());

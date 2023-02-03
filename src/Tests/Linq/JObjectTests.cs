@@ -1233,6 +1233,32 @@ public class JObjectTests : TestFixtureBase
     }
 
     [Fact]
+    public Task ParseMultipleProperties()
+    {
+        var json = """
+            {
+                Name: 'Name1',
+                Name: 'Name2'
+            }
+            """;
+
+        return Throws(() => JObject.Parse(json)).IgnoreStackTrace();
+    }
+
+    [Fact]
+    public Task ParseMultipleProperties_EmptySettings()
+    {
+        var json = """
+            {
+                Name: 'Name1',
+                Name: 'Name2'
+            }
+            """;
+
+        return Throws(() => JObject.Parse(json, new())).IgnoreStackTrace();
+    }
+
+    [Fact]
     public void WriteObjectNullDBNullValue()
     {
         var dbNull = DBNull.Value;

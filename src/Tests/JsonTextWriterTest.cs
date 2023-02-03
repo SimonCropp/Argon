@@ -1002,6 +1002,20 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
+    public async Task WriteTokenDirect_BadValue()
+    {
+        var stringBuilder = new StringBuilder();
+        var stringWriter = new StringWriter(stringBuilder);
+
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteToken(JsonToken.StartArray);
+
+        await Throws(() => jsonWriter.WriteToken(JsonToken.Integer, "three"))
+            .UniqueForTargetFrameworkAndVersion()
+            .IgnoreStackTrace();
+    }
+
+    [Fact]
     public void TokenTypeOutOfRange()
     {
         using var jsonWriter = new JsonTextWriter(new StringWriter());
