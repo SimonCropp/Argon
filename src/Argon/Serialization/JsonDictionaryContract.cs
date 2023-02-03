@@ -7,14 +7,14 @@ using System.Collections.Specialized;
 namespace Argon;
 
 public delegate InterceptResult InterceptSerializeDictionaryItem(object key, object? value);
-public delegate string DictionaryKeyResolver(string key);
+//TODO: should defer execution of name
+public delegate string DictionaryKeyResolver(string name, object original);
 
 /// <summary>
 /// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
 /// </summary>
 public class JsonDictionaryContract : JsonContainerContract
 {
-    //TODO: should be able to convert the object
     /// <summary>
     /// Gets or sets the dictionary key resolver.
     /// </summary>

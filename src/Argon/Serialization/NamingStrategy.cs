@@ -62,16 +62,16 @@ public abstract class NamingStrategy
     /// <summary>
     /// Gets the serialized key for a given dictionary key.
     /// </summary>
-    /// <param name="key">The initial dictionary key.</param>
+    /// <param name="name">The initial dictionary key.</param>
     /// <returns>The serialized dictionary key.</returns>
-    public virtual string GetDictionaryKey(string key)
+    public virtual string GetDictionaryKey(string name, object original)
     {
         if (ProcessDictionaryKeys)
         {
-            return ResolvePropertyName(key);
+            return ResolvePropertyName(name);
         }
 
-        return key;
+        return name;
     }
 
     /// <summary>

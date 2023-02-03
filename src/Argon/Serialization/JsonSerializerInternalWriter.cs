@@ -1030,7 +1030,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
             return propertyName;
         }
 
-        return keyResolver(propertyName);
+        return keyResolver(propertyName, key);
     }
 
     static string GetDictionaryPropertyName(object key, JsonContract contract, out bool escape)

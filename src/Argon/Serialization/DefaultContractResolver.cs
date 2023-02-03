@@ -186,7 +186,7 @@ public class DefaultContractResolver : IContractResolver
             if (attribute.NamingStrategyType != null)
             {
                 var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(attribute)!;
-                extensionDataNameResolver = key => namingStrategy.GetDictionaryKey(key);
+                extensionDataNameResolver = (name, original) => namingStrategy.GetDictionaryKey(name, original);
             }
         }
 
@@ -620,7 +620,7 @@ public class DefaultContractResolver : IContractResolver
         else
         {
             var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
-            contract.DictionaryKeyResolver = s => namingStrategy.GetDictionaryKey(s);
+            contract.DictionaryKeyResolver = (name, original) => namingStrategy.GetDictionaryKey(name, original);
         }
 
         var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
@@ -725,11 +725,11 @@ public class DefaultContractResolver : IContractResolver
         if (containerAttribute?.NamingStrategyType != null)
         {
             var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
-            contract.PropertyNameResolver = s => namingStrategy.GetDictionaryKey(s);
+            contract.PropertyNameResolver = name => namingStrategy.GetDictionaryKey(name, name);
         }
         else
         {
-            contract.PropertyNameResolver = ResolveDictionaryKey;
+            contract.PropertyNameResolver = name => ResolveDictionaryKey(name, name);
         }
 
         contract.Properties.AddRange(CreateProperties(type, MemberSerialization.OptOut));
@@ -1153,7 +1153,7 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     /// <param name="extensionDataName">Name of the extension data.</param>
     /// <returns>Resolved name of the extension data.</returns>
-    protected virtual string ResolveExtensionDataName(string extensionDataName)
+    protected virtual string ResolveExtensionDataName(string extensionDataName, object original)
     {
         if (NamingStrategy == null)
         {
@@ -1166,16 +1166,16 @@ public class DefaultContractResolver : IContractResolver
     /// <summary>
     /// Resolves the key of the dictionary. By default <see cref="ResolvePropertyName" /> is used to resolve dictionary keys.
     /// </summary>
-    /// <param name="dictionaryKey">Key of the dictionary.</param>
+    /// <param name="name">Key of the dictionary.</param>
     /// <returns>Resolved key of the dictionary.</returns>
-    protected virtual string ResolveDictionaryKey(string dictionaryKey)
+    protected virtual string ResolveDictionaryKey(string name, object original)
     {
         if (NamingStrategy == null)
         {
-            return ResolvePropertyName(dictionaryKey);
+            return ResolvePropertyName(name);
         }
 
-        return NamingStrategy.GetDictionaryKey(dictionaryKey);
+        return NamingStrategy.GetDictionaryKey(name, original);
     }
 
     /// <summary>
