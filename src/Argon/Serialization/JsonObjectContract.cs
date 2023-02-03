@@ -73,7 +73,7 @@ public class JsonObjectContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the extension data name resolver.
     /// </summary>
-    public Func<string, string>? ExtensionDataNameResolver { get; set; }
+    public DictionaryKeyResolver? ExtensionDataNameResolver { get; set; }
 
     internal bool ExtensionDataIsJToken;
     bool? hasRequiredOrDefaultValueProperties;

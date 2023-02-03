@@ -174,7 +174,7 @@ public class DefaultContractResolver : IContractResolver
         contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType);
         contract.Properties.AddRange(CreateProperties(contract.NonNullableUnderlyingType, contract.MemberSerialization));
 
-        Func<string, string>? extensionDataNameResolver = null;
+        DictionaryKeyResolver? extensionDataNameResolver = null;
 
         var attribute = AttributeCache<JsonObjectAttribute>.GetAttribute(contract.NonNullableUnderlyingType);
         if (attribute != null)
@@ -186,7 +186,7 @@ public class DefaultContractResolver : IContractResolver
             if (attribute.NamingStrategyType != null)
             {
                 var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(attribute)!;
-                extensionDataNameResolver = s => namingStrategy.GetDictionaryKey(s);
+                extensionDataNameResolver = key => namingStrategy.GetDictionaryKey(key);
             }
         }
 

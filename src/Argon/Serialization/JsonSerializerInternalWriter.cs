@@ -1021,7 +1021,7 @@ class JsonSerializerInternalWriter : JsonSerializerInternalBase
         }
     }
 
-    static string GetDictionaryPropertyName(object key, JsonContract keyContract, Func<string, string>? keyResolver, out bool escape)
+    static string GetDictionaryPropertyName(object key, JsonContract keyContract, DictionaryKeyResolver? keyResolver, out bool escape)
     {
         var propertyName = GetDictionaryPropertyName(key, keyContract, out escape);
 
