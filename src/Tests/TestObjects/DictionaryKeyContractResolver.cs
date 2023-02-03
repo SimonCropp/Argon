@@ -12,7 +12,7 @@ public class DictionaryKeyContractResolver : DefaultContractResolver
     protected override string ResolvePropertyName(string propertyName)
     {
 #if NET5_0_OR_GREATER
-            return propertyName.ToUpperInvariant();
+        return propertyName.ToUpperInvariant();
 #else
         return propertyName.ToUpper(InvariantCulture);
 #endif
