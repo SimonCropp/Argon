@@ -509,7 +509,12 @@ static class ReflectionUtils
             case MemberTypes.Property:
                 var property = (PropertyInfo) member;
 
-                var types = property.GetIndexParameters().Select(p => p.ParameterType).ToArray();
+                var indexParameters = property.GetIndexParameters();
+                var types = new Type[indexParameters.Length];
+                for (var index = 0; index < indexParameters.Length; index++)
+                {
+                    types[index] = indexParameters[index].ParameterType;
+                }
 
                 return targetType.GetProperty(property.Name, bindingFlags, null, property.PropertyType, types, null);
             default:
