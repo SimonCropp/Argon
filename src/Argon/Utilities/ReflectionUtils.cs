@@ -718,6 +718,7 @@ static class ReflectionUtils
             case PrimitiveTypeCode.TimeSpanNullable:
             case PrimitiveTypeCode.BigIntegerNullable:
             case PrimitiveTypeCode.String:
+            case PrimitiveTypeCode.Object:
                 return null;
         }
 
