@@ -110,11 +110,8 @@ static class ConvertUtils
         return PrimitiveTypeCode.Object;
     }
 
-    public static TypeInformation GetTypeInformation(IConvertible convertable)
-    {
-        var typeInformation = PrimitiveTypeCodes[(int) convertable.GetTypeCode()];
-        return typeInformation;
-    }
+    public static TypeInformation GetTypeInformation(IConvertible convertable) =>
+        PrimitiveTypeCodes[(int) convertable.GetTypeCode()];
 
     public static bool IsConvertible(this Type type) =>
         typeof(IConvertible).IsAssignableFrom(type);
