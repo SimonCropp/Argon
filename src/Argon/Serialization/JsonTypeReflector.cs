@@ -176,24 +176,26 @@ static class JsonTypeReflector
             {
                 if (parameters != null)
                 {
-                    var paramTypes = parameters.Select(param =>
+                    var paramTypes = new Type[parameters.Length];
+                    for (var index = 0; index < parameters.Length; index++)
                     {
-                        if (param == null)
+                        var parameter = parameters[index];
+                        if (parameter == null)
                         {
                             throw new InvalidOperationException("Cannot pass a null parameter to the constructor.");
                         }
-
-                        return param.GetType();
-                    }).ToArray();
-                    var parameterizedConstructorInfo = type.GetConstructor(paramTypes);
-
-                    if (parameterizedConstructorInfo != null)
-                    {
-                        var parameterizedConstructor = ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructorInfo);
-                        return parameterizedConstructor(parameters);
+                        paramTypes[index] = parameter.GetType();
                     }
 
-                    throw new JsonException($"No matching parameterized constructor found for '{type}'.");
+                    var constructorInfo = type.GetConstructor(paramTypes);
+
+                    if (constructorInfo == null)
+                    {
+                        throw new JsonException($"No matching parameterized constructor found for '{type}'.");
+                    }
+
+                    var constructor = ReflectionDelegateFactory.CreateParameterizedConstructor(constructorInfo);
+                    return constructor(parameters);
                 }
 
                 if (defaultConstructor == null)

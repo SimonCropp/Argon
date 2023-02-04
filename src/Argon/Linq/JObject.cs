@@ -607,7 +607,12 @@ public partial class JObject :
             return true;
         }
 
-        public override IEnumerable<string> GetDynamicMemberNames(JObject instance) =>
-            instance.Properties().Select(p => p.Name);
+        public override IEnumerable<string> GetDynamicMemberNames(JObject instance)
+        {
+            foreach (var property in instance.Properties())
+            {
+                yield return property.Name;
+            }
+        }
     }
 }

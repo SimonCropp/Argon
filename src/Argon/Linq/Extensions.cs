@@ -171,8 +171,16 @@ public static class Extensions
     /// <typeparam name="T">The source collection type.</typeparam>
     /// <returns>An <see cref="IEnumerable{T}" /> that contains the converted values of every token in the source collection.</returns>
     public static IEnumerable<U?> Children<T, U>(this IEnumerable<T> source)
-        where T : JToken =>
-        source.SelectMany(c => c.Children()).Convert<JToken, U>();
+        where T : JToken
+    {
+        foreach (var token in source)
+        {
+            foreach (var child in token.Children())
+            {
+                yield return child.Convert<JToken, U>();
+            }
+        }
+    }
 
     internal static IEnumerable<U?> Convert<T, U>(this IEnumerable<T> source)
         where T : JToken
@@ -188,9 +196,10 @@ public static class Extensions
     {
         if (token == null)
         {
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
+#pragma warning disable CS8653
+            // A default expression introduces a null value for a type parameter.
             return default;
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
+#pragma warning restore CS8653
         }
 
         if (token is U castValue
@@ -216,9 +225,10 @@ public static class Extensions
         {
             if (value.Value == null)
             {
-#pragma warning disable CS8653 // A default expression introduces a null value for a type parameter.
+#pragma warning disable CS8653
+                // A default expression introduces a null value for a type parameter.
                 return default;
-#pragma warning restore CS8653 // A default expression introduces a null value for a type parameter.
+#pragma warning restore CS8653
             }
 
             targetType = Nullable.GetUnderlyingType(targetType)!;
