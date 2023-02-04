@@ -697,6 +697,27 @@ static class ReflectionUtils
                 return new Guid();
             case PrimitiveTypeCode.DateTimeOffset:
                 return new DateTimeOffset();
+            case PrimitiveTypeCode.TimeSpan:
+                return new TimeSpan();
+            case PrimitiveTypeCode.CharNullable:
+            case PrimitiveTypeCode.BooleanNullable:
+            case PrimitiveTypeCode.SByteNullable:
+            case PrimitiveTypeCode.Int16Nullable:
+            case PrimitiveTypeCode.UInt16Nullable:
+            case PrimitiveTypeCode.Int32Nullable:
+            case PrimitiveTypeCode.ByteNullable:
+            case PrimitiveTypeCode.UInt32Nullable:
+            case PrimitiveTypeCode.Int64Nullable:
+            case PrimitiveTypeCode.UInt64Nullable:
+            case PrimitiveTypeCode.SingleNullable:
+            case PrimitiveTypeCode.DoubleNullable:
+            case PrimitiveTypeCode.DateTimeNullable:
+            case PrimitiveTypeCode.DateTimeOffsetNullable:
+            case PrimitiveTypeCode.DecimalNullable:
+            case PrimitiveTypeCode.GuidNullable:
+            case PrimitiveTypeCode.TimeSpanNullable:
+            case PrimitiveTypeCode.BigIntegerNullable:
+                return null;
         }
 
         if (IsNullable(type))
