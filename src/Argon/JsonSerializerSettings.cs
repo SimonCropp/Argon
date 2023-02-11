@@ -168,4 +168,36 @@ public class JsonSerializerSettings
     public JsonSerializerSettings()
     {
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="JsonSerializerSettings"/> class
+    /// using values copied from the passed in <see cref="JsonSerializerSettings"/>.
+    /// </summary>
+    public JsonSerializerSettings(JsonSerializerSettings original)
+    {
+        FloatParseHandling = original.FloatParseHandling;
+        FloatFormatHandling = original.FloatFormatHandling;
+        DefaultValueHandling = original.DefaultValueHandling;
+        Formatting = original.Formatting;
+        maxDepth = original.maxDepth;
+        maxDepthSet = original.maxDepthSet;
+        Error = original.Error;
+        EscapeHandling = original.EscapeHandling;
+        SerializationBinder = original.SerializationBinder;
+        ReferenceResolverProvider = original.ReferenceResolverProvider;
+        EqualityComparer = original.EqualityComparer;
+        ContractResolver = original.ContractResolver;
+        ConstructorHandling = original.ConstructorHandling;
+        TypeNameAssemblyFormatHandling = original.TypeNameAssemblyFormatHandling;
+        MetadataPropertyHandling = original.MetadataPropertyHandling;
+        TypeNameHandling = original.TypeNameHandling;
+        PreserveReferencesHandling = original.PreserveReferencesHandling;
+        Converters = original.Converters.ToList();
+        DefaultValueHandling = original.DefaultValueHandling;
+        NullValueHandling = original.NullValueHandling;
+        ObjectCreationHandling = original.ObjectCreationHandling;
+        MissingMemberHandling = original.MissingMemberHandling;
+        ReferenceLoopHandling = original.ReferenceLoopHandling;
+        CheckAdditionalContent = original.CheckAdditionalContent;
+    }
 }
