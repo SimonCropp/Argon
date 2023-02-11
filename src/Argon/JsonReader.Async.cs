@@ -5,7 +5,20 @@
 namespace Argon;
 
 public abstract partial class JsonReader
+        : IAsyncDisposable
 {
+        ValueTask IAsyncDisposable.DisposeAsync()
+        {
+            try
+            {
+                Dispose(true);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                return ValueTask.FromException(exc);
+            }
+        }
     /// <summary>
     /// Asynchronously reads the next JSON token from the source.
     /// </summary>

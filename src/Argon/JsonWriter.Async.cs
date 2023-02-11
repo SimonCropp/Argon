@@ -7,7 +7,15 @@
 namespace Argon;
 
 public abstract partial class JsonWriter
+        : IAsyncDisposable
 {
+        async ValueTask IAsyncDisposable.DisposeAsync()
+        {
+            if (currentState != State.Closed)
+            {
+                await CloseAsync().ConfigureAwait(false);
+            }
+        }
     internal Task AutoCompleteAsync(JsonToken tokenBeingWritten, CancellationToken cancellation)
     {
         var oldState = currentState;
