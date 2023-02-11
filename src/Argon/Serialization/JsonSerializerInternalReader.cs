@@ -1961,6 +1961,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
                             continue;
                         }
+
+                        if (!reader.Read())
+                        {
+                            throw JsonSerializationException.Create(reader, $"Unexpected end when setting {memberName}'s value.");
+                        }
                     }
                     else
                     {
