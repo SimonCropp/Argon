@@ -35,6 +35,17 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         );
 
     [Fact]
+    public void SerializeDateBeforeEpoch()
+    {
+        var date = new DateTime(1964, 2, 7);
+        var dateSeconds = (long)(date.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds;
+
+        var result = JsonConvert.SerializeObject(date, new UnixDateTimeConverter { AllowPreEpoch = true });
+
+        Assert.Equal(dateSeconds.ToString(InvariantCulture), result);
+    }
+
+    [Fact]
     public void WriteJsonInvalidType()
     {
         var converter = new UnixDateTimeConverter();
@@ -119,6 +130,19 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         );
 
     [Fact]
+    public void DeserializeDateTimeOffsetBeforeEpoch()
+    {
+        var converter = new UnixDateTimeConverter(true);
+        var d = new DateTimeOffset(1969, 2, 1, 20, 6, 18, TimeSpan.Zero);
+
+        var json = JsonConvert.SerializeObject(d, converter);
+
+        var result = JsonConvert.DeserializeObject<DateTimeOffset>(json, converter);
+
+        Assert.Equal(new(1969, 2, 1, 20, 6, 18, TimeSpan.Zero), result);
+    }
+
+    [Fact]
     public void DeserializeIntegerToDateTime()
     {
         var result = JsonConvert.DeserializeObject<DateTime>("1514840476", new UnixDateTimeConverter());
@@ -140,6 +164,14 @@ public class UnixDateTimeConverterTests : TestFixtureBase
             () => JsonConvert.DeserializeObject<DateTime>("-1", new UnixDateTimeConverter()),
             "Cannot convert value that is before Unix epoch of 00:00:00 UTC on 1 January 1970 to System.DateTime. Path '', line 1, position 2."
         );
+
+    [Fact]
+    public void DeserializeNegativeIntegerToDateTimeBeforeEpoch()
+    {
+        var result = JsonConvert.DeserializeObject<DateTime>("-1514840476", new UnixDateTimeConverter(true));
+
+        Assert.Equal(new(1921, 12, 31, 02, 58, 44, DateTimeKind.Utc), result);
+    }
 
     [Fact]
     public void DeserializeInvalidValueType() =>
@@ -220,8 +252,36 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         Assert.Null(obj2.Object2);
         Assert.Equal(new DateTime(2018, 1, 1, 21, 1, 16, DateTimeKind.Utc), obj2.ObjectNotHandled);
     }
-}
 
+    [Fact]
+    public void ConverterObjectWithDatesBeforeEpoch()
+    {
+        var obj1 = new PreEpochUnixConverterObject
+        {
+            Date1 = new(1969, 1, 1, 0, 0, 3, DateTimeKind.Utc),
+            Date2 = new(1969, 1, 1, 0, 0, 3, TimeSpan.Zero)
+        };
+
+        var json = JsonConvert.SerializeObject(obj1, Formatting.Indented);
+        Assert.Equal(@"{
+  ""Date1"": -31535997,
+  ""Date2"": -31535997
+}", json);
+
+        var obj2 = JsonConvert.DeserializeObject<PreEpochUnixConverterObject>(json);
+        Assert.NotNull(obj2);
+
+        Assert.Equal(new(1969, 1, 1, 0, 0, 3, DateTimeKind.Utc), obj2.Date1);
+    }
+}
+public class PreEpochUnixConverterObject
+{
+    [JsonConverter(typeof(UnixDateTimeConverter), true)]
+    public DateTime Date1 { get; set; }
+
+    [JsonConverter (typeof(UnixDateTimeConverter), true)]
+    public DateTimeOffset Date2 { get; set; }
+}
 [JsonArray(ItemConverterType = typeof(UnixDateTimeConverter))]
 public class UnixConverterList<T> : List<T>
 {
