@@ -52,7 +52,9 @@ public class DefaultJsonNameTable : JsonNameTable
         hashCode -= hashCode >> 5;
 
         // make sure index is evaluated before accessing _entries, otherwise potential race condition causing IndexOutOfRangeException
+        var mask = Volatile.Read(ref this.mask);
         var index = hashCode & mask;
+
         var entries = this.entries;
 
         for (var entry = entries[index]; entry != null; entry = entry.Next)
@@ -131,7 +133,7 @@ public class DefaultJsonNameTable : JsonNameTable
         }
 
         this.entries = newEntries;
-        mask = newMask;
+        Volatile.Write(ref mask, newMask);
     }
 
     static bool TextEquals(string str1, char[] str2, int str2Start, int str2Length)
