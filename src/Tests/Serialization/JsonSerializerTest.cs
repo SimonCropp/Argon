@@ -4472,7 +4472,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void Test_Deserialize_Double_Negative()
     {
-        double d = JsonConvert.DeserializeObject<double>("-0.0");
+        var d = JsonConvert.DeserializeObject<double>("-0.0");
 
 #if NETCOREAPP3_1_OR_GREATER
         Assert.Equal("-0", d.ToString());
@@ -4484,7 +4484,7 @@ Path '', line 1, position 1.");
     [Fact]
     public void Test_Deserialize_Double_NegativeNoTrailingZero()
     {
-        double d = JsonConvert.DeserializeObject<double>("-0");
+        var d = JsonConvert.DeserializeObject<double>("-0");
 
 #if NETCOREAPP3_1_OR_GREATER
         Assert.Equal("-0", d.ToString());
