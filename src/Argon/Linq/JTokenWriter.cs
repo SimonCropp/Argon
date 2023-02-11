@@ -130,7 +130,7 @@ public partial class JTokenWriter : JsonWriter
     }
 
     void AddRawValue(object? value, JTokenType type) =>
-        AddJValue(new JValue(value, type));
+        AddJValue(new(value, type));
 
     internal void AddJValue(JValue? value)
     {
@@ -216,7 +216,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(string? value)
     {
         base.WriteValue(value);
-        AddJValue(new JValue(value));
+        AddJValue(new(value));
     }
 
     /// <summary>
@@ -307,7 +307,7 @@ public partial class JTokenWriter : JsonWriter
     {
         base.WriteValue(value);
         var s = value.ToString(InvariantCulture);
-        AddJValue(new JValue(s));
+        AddJValue(new(s));
     }
 
     /// <summary>
@@ -343,7 +343,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(DateTime value)
     {
         base.WriteValue(value);
-        AddJValue(new JValue(value));
+        AddJValue(new(value));
     }
 
     /// <summary>
@@ -352,7 +352,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(DateTimeOffset value)
     {
         base.WriteValue(value);
-        AddJValue(new JValue(value));
+        AddJValue(new(value));
     }
 
     /// <summary>
@@ -361,7 +361,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(byte[]? value)
     {
         base.WriteValue(value);
-        AddJValue(new JValue(value, JTokenType.Bytes));
+        AddJValue(new(value, JTokenType.Bytes));
     }
 
     /// <summary>
@@ -370,7 +370,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(TimeSpan value)
     {
         base.WriteValue(value);
-        AddJValue(new JValue(value));
+        AddJValue(new(value));
     }
 
     /// <summary>
@@ -379,7 +379,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(Guid value)
     {
         base.WriteValue(value);
-        AddJValue(new JValue(value));
+        AddJValue(new(value));
     }
 
     /// <summary>
@@ -388,7 +388,7 @@ public partial class JTokenWriter : JsonWriter
     public override void WriteValue(Uri? value)
     {
         base.WriteValue(value);
-        AddJValue(new JValue(value));
+        AddJValue(new(value));
     }
 
     #endregion
