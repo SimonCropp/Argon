@@ -86,7 +86,8 @@ static class BoxedPrimitives
             {
                 return DecimalZero;
             }
-            else if (scale == 1)
+
+            if (scale == 1)
             {
                 return DecimalZeroWithTrailingZero;
             }
