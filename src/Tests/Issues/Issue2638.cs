@@ -74,7 +74,7 @@ public class Issue2638
 
         static void Test(long value, bool expectSame)
         {
-            var obj = (JObject) JToken.Parse(@"{""x"": XXX, ""y"": XXX}".Replace("XXX", value.ToString(CultureInfo.InvariantCulture)));
+            var obj = (JObject) JToken.Parse(@"{""x"": XXX, ""y"": XXX}".Replace("XXX", value.ToString(InvariantCulture)));
             var x = ((JValue) obj["x"]).Value;
             var y = ((JValue) obj["y"]).Value;
 
