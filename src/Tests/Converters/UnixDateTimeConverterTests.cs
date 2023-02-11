@@ -254,7 +254,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void ConverterObjectWithDatesBeforeEpoch()
+    public async Task ConverterObjectWithDatesBeforeEpoch()
     {
         var obj1 = new PreEpochUnixConverterObject
         {
@@ -263,10 +263,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(obj1, Formatting.Indented);
-        Assert.Equal(@"{
-  ""Date1"": -31535997,
-  ""Date2"": -31535997
-}", json);
+        await Verify(json);
 
         var obj2 = JsonConvert.DeserializeObject<PreEpochUnixConverterObject>(json);
         Assert.NotNull(obj2);
