@@ -699,7 +699,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 throw CreateUnexpectedCharacterException(charBuffer[charPos]);
                             }
 
-                            SetToken(JsonToken.Boolean, isTrue);
+                            SetToken(JsonToken.Boolean, BoxedPrimitives.Get(isTrue));
                             return isTrue;
                         case '/':
                             ParseComment(false);
@@ -1746,7 +1746,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 if (singleDigit)
                 {
                     // digit char values start at 48
-                    numberValue = firstChar - 48;
+                    numberValue = BoxedPrimitives.Get(firstChar - 48);
                 }
                 else if (nonBase10)
                 {
@@ -1756,7 +1756,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     {
                         var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt32(number, 16) : Convert.ToInt32(number, 8);
 
-                        numberValue = integer;
+                        numberValue = BoxedPrimitives.Get(integer);
                     }
                     catch (Exception exception)
                     {
@@ -1768,7 +1768,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     var parseResult = ConvertUtils.Int32TryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var value);
                     if (parseResult == ParseResult.Success)
                     {
-                        numberValue = value;
+                        numberValue = BoxedPrimitives.Get(value);
                     }
                     else if (parseResult == ParseResult.Overflow)
                     {
@@ -1799,7 +1799,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         // decimal.Parse doesn't support parsing hexadecimal values
                         var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
 
-                        numberValue = Convert.ToDecimal(integer);
+                        numberValue = BoxedPrimitives.Get(Convert.ToDecimal(integer));
                     }
                     catch (Exception exception)
                     {
@@ -1811,7 +1811,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     var parseResult = ConvertUtils.DecimalTryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var value);
                     if (parseResult == ParseResult.Success)
                     {
-                        numberValue = value;
+                        numberValue = BoxedPrimitives.Get(value);
                     }
                     else
                     {
@@ -1838,7 +1838,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         // double.Parse doesn't support parsing hexadecimal values
                         var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
 
-                        numberValue = Convert.ToDouble(integer);
+                        numberValue = BoxedPrimitives.Get(Convert.ToDouble(integer));
                     }
                     catch (Exception exception)
                     {
@@ -1851,7 +1851,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                     if (double.TryParse(number, NumberStyles.Float, InvariantCulture, out var value))
                     {
-                        numberValue = value;
+                        numberValue = BoxedPrimitives.Get(value);
                     }
                     else
                     {
@@ -1877,7 +1877,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                     try
                     {
-                        numberValue = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
+                        numberValue = BoxedPrimitives.Get(number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8));
                     }
                     catch (Exception exception)
                     {
@@ -1891,7 +1891,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     var parseResult = ConvertUtils.Int64TryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var value);
                     if (parseResult == ParseResult.Success)
                     {
-                        numberValue = value;
+                        numberValue = BoxedPrimitives.Get(value);
                         numberType = JsonToken.Integer;
                     }
                     else if (parseResult == ParseResult.Overflow)
@@ -1913,7 +1913,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             parseResult = ConvertUtils.DecimalTryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var d);
                             if (parseResult == ParseResult.Success)
                             {
-                                numberValue = d;
+                                numberValue = BoxedPrimitives.Get(d);
                             }
                             else
                             {
@@ -1926,7 +1926,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                             if (double.TryParse(number, NumberStyles.Float, InvariantCulture, out var d))
                             {
-                                numberValue = d;
+                                numberValue = BoxedPrimitives.Get(d);
                             }
                             else
                             {
@@ -2145,7 +2145,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         // or the text ends
         if (MatchValueWithTrailingSeparator(JsonConvert.True))
         {
-            SetToken(JsonToken.Boolean, true);
+            SetToken(JsonToken.Boolean, BoxedPrimitives.BooleanTrue);
         }
         else
         {
@@ -2181,7 +2181,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         if (MatchValueWithTrailingSeparator(JsonConvert.False))
         {
-            SetToken(JsonToken.Boolean, false);
+            SetToken(JsonToken.Boolean, BoxedPrimitives.BooleanFalse);
         }
         else
         {
@@ -2202,7 +2202,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case ReadType.ReadAsDouble:
                     if (FloatParseHandling == FloatParseHandling.Double)
                     {
-                        SetToken(JsonToken.Float, double.NegativeInfinity);
+                        SetToken(JsonToken.Float, BoxedPrimitives.DoubleNegativeInfinity);
                         return double.NegativeInfinity;
                     }
 
@@ -2231,7 +2231,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case ReadType.ReadAsDouble:
                     if (FloatParseHandling == FloatParseHandling.Double)
                     {
-                        SetToken(JsonToken.Float, double.PositiveInfinity);
+                        SetToken(JsonToken.Float, BoxedPrimitives.DoublePositiveInfinity);
                         return double.PositiveInfinity;
                     }
 
@@ -2260,7 +2260,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 case ReadType.ReadAsDouble:
                     if (FloatParseHandling == FloatParseHandling.Double)
                     {
-                        SetToken(JsonToken.Float, double.NaN);
+                        SetToken(JsonToken.Float, BoxedPrimitives.DoubleNaN);
                         return double.NaN;
                     }
 

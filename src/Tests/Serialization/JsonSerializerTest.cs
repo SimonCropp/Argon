@@ -4431,6 +4431,81 @@ Path '', line 1, position 1.");
     }
 
     [Fact]
+    public void Test_Deserialize_Negative()
+    {
+        var d = JsonConvert.DeserializeObject<decimal>("-0.0");
+
+        Assert.Equal("0.0", d.ToString());
+    }
+
+    [Fact]
+    public void Test_Deserialize_NegativeNoTrailingZero()
+    {
+        var d = JsonConvert.DeserializeObject<decimal>("-0");
+
+        Assert.Equal("0", d.ToString());
+    }
+
+    [Fact]
+    public void ParseJsonDecimal()
+    {
+        var json = @"{ ""property"": 0.0 }";
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            FloatParseHandling = FloatParseHandling.Decimal
+        };
+
+        decimal? parsedValue = null;
+
+        while (reader.Read())
+        {
+            if (reader.TokenType == JsonToken.Float)
+            {
+                parsedValue = (decimal)reader.Value;
+                break;
+            }
+        }
+
+        Assert.Equal("0.0", parsedValue.ToString());
+    } 
+
+    [Fact]
+    public void Test_Deserialize_Double_Negative()
+    {
+        double d = JsonConvert.DeserializeObject<double>("-0.0");
+
+#if NETCOREAPP3_1_OR_GREATER
+        Assert.Equal("-0", d.ToString());
+#else
+        Assert.Equal("0", d.ToString());
+#endif
+    }
+
+    [Fact]
+    public void Test_Deserialize_Double_NegativeNoTrailingZero()
+    {
+        double d = JsonConvert.DeserializeObject<double>("-0");
+
+#if NETCOREAPP3_1_OR_GREATER
+        Assert.Equal("-0", d.ToString());
+#else
+        Assert.Equal("0", d.ToString());
+#endif
+    }
+
+    [Fact]
+    public void JValueDouble_ToString()
+    {
+        var d = new JValue(-0.0d);
+
+#if NETCOREAPP3_1_OR_GREATER
+        Assert.Equal("-0", d.ToString());
+#else
+            Assert.Equal("0", d.ToString());
+#endif
+    }
+
+    [Fact]
     public void DeserializeDecimalExact()
     {
         var d = JsonConvert.DeserializeObject<decimal>("123456789876543.21");

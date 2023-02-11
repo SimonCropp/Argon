@@ -33,7 +33,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(long value)
-        : this(value, JTokenType.Integer)
+        : this(BoxedPrimitives.Get(value), JTokenType.Integer)
     {
     }
 
@@ -41,7 +41,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(decimal value)
-        : this(value, JTokenType.Float)
+        : this(BoxedPrimitives.Get(value), JTokenType.Float)
     {
     }
 
@@ -65,7 +65,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(double value)
-        : this(value, JTokenType.Float)
+        : this(BoxedPrimitives.Get(value), JTokenType.Float)
     {
     }
 
@@ -97,7 +97,7 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
     public JValue(bool value)
-        : this(value, JTokenType.Boolean)
+        : this(BoxedPrimitives.Get(value), JTokenType.Boolean)
     {
     }
 

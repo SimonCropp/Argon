@@ -1320,7 +1320,7 @@ public partial class JsonTextReader
                                 throw CreateUnexpectedCharacterException(charBuffer[charPos]);
                             }
 
-                            SetToken(JsonToken.Boolean, isTrue);
+                            SetToken(JsonToken.Boolean, BoxedPrimitives.Get(isTrue));
                             return isTrue;
                         case '/':
                             await ParseCommentAsync(false, cancellation).ConfigureAwait(false);
