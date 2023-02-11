@@ -164,7 +164,6 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args)
     {
-        Expression[] expressions = new Expression[args.Length];
         for (var index = 0; index < args.Length; index++)
         {
             var arg = args[index];
