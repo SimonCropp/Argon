@@ -215,6 +215,12 @@ public partial class JTokenWriter : JsonWriter
     /// </summary>
     public override void WriteValue(string? value)
     {
+        if (value == null)
+        {
+            WriteNull();
+            return;
+        }
+
         base.WriteValue(value);
         AddJValue(new(value));
     }
