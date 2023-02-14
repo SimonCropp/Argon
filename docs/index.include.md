@@ -18,7 +18,7 @@
   * [Error handling during serialization and deserialization.](/docs/SerializationErrorHandling.md)
   * [Srialization Guide](/docs/SerializationGuide.md)
   * [Serialization Settings](/docs/SerializationSettings.md)
-  * [ Serializing Collections](/docs/SerializingCollections.md)
+  * [Serializing Collections](/docs/SerializingCollections.md)
   * [Serializing and Deserializing JSON](/docs/SerializingJSON.md)
   * [Deserializing Partial JSON Fragments](/docs/SerializingJSONFragments.md)
   * [Json](/docs/Json)
