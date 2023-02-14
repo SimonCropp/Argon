@@ -93,7 +93,7 @@ var json = jObject.ToString();
   * [Creating JSON](/docs/CreatingLINQtoJSON.md)
   * [CustomCreationConverter](/docs/CustomCreationConverter.md)
   * [Dates in JSON](/docs/DatesInJSON.md)
-  * [* [Argon is JSON framework for .NET](/docs/readme.md)](/docs/index.include.md)
+  * [Argon is JSON framework for .NET](/docs/readme.md)](/docs/index.include.md)
   * [LINQ to JSON](/docs/LINQtoJSON.md)
   * [Parsing JSON](/docs/ParsingLINQtoJSON.md)
   * [Performance](/docs/Performance.md)
