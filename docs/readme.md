@@ -1,13 +1,11 @@
 # Argon is JSON framework for .NET
 
-  * [Argon is JSON framework for .NET](/docs/readme.md) <!-- include: index. path: /docs/index.include.md -->
-  * [Conditional Property Serialization](/docs/ConditionalProperties.md)
+  * [Conditional Property Serialization](/docs/ConditionalProperties.md) <!-- include: index. path: /docs/index.include.md -->
   * [Serialization using ContractResolver](/docs/ContractResolver.md)
   * [Converting between JSON and XML](/docs/ConvertingJSONandXML.md)
   * [Creating JSON](/docs/CreatingLINQtoJSON.md)
   * [CustomCreationConverter](/docs/CustomCreationConverter.md)
   * [Dates in JSON](/docs/DatesInJSON.md)
-  * [* [Argon is JSON framework for .NET](/docs/readme.md)](/docs/index.include.md)
   * [LINQ to JSON](/docs/LINQtoJSON.md)
   * [Parsing JSON](/docs/ParsingLINQtoJSON.md)
   * [Performance](/docs/Performance.md)
@@ -21,7 +19,7 @@
   * [Error handling during serialization and deserialization.](/docs/SerializationErrorHandling.md)
   * [Srialization Guide](/docs/SerializationGuide.md)
   * [Serialization Settings](/docs/SerializationSettings.md)
-  * [ Serializing Collections](/docs/SerializingCollections.md)
+  * [Serializing Collections](/docs/SerializingCollections.md)
   * [Serializing and Deserializing JSON](/docs/SerializingJSON.md)
   * [Deserializing Partial JSON Fragments](/docs/SerializingJSONFragments.md)
   * [Json](/docs/Json)

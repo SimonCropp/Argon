@@ -1,4 +1,3 @@
-  * [Argon is JSON framework for .NET](/docs/readme.md)
   * [Conditional Property Serialization](/docs/ConditionalProperties.md)
   * [Serialization using ContractResolver](/docs/ContractResolver.md)
   * [Converting between JSON and XML](/docs/ConvertingJSONandXML.md)
