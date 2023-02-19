@@ -88,7 +88,6 @@ public class DefaultContractResolver : IContractResolver
     {
         var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(type);
 
-
         if (memberSerialization == MemberSerialization.Fields)
         {
             // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
