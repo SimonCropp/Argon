@@ -26,18 +26,13 @@ struct JsonPosition
         PropertyName = null;
     }
 
-    int CalculateLength()
-    {
-        switch (Type)
+    int CalculateLength() =>
+        Type switch
         {
-            case JsonContainerType.Object:
-                return PropertyName!.Length + 5;
-            case JsonContainerType.Array:
-                return MathUtils.IntLength((ulong) Position) + 2;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(Type));
-        }
-    }
+            JsonContainerType.Object => PropertyName!.Length + 5,
+            JsonContainerType.Array => MathUtils.IntLength((ulong) Position) + 2,
+            _ => throw new ArgumentOutOfRangeException(nameof(Type))
+        };
 
     void WriteTo(StringBuilder sb, ref StringWriter? writer, ref char[]? buffer)
     {
