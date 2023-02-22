@@ -377,7 +377,7 @@ static class JavaScriptUtils
         return WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, escapeFlags, escapeHandling, client, buffer, cancellation);
     }
 
-    static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, int lastWritePosition, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation)
+    static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, int lastWritePosition, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[]? buffer, CancellationToken cancellation)
     {
         if (escapeHandling == EscapeHandling.None)
         {
