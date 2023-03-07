@@ -19,7 +19,7 @@
     <Using Include="NodaTime.Text" />
     <Using Remove="System.Net.Http" />
     <PackageReference Include="NodaTime" Version="3.1.6" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.87" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.88" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
     <PackageReference Include="IndexRange" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
