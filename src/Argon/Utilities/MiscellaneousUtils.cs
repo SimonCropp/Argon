@@ -116,7 +116,7 @@ static class MiscellaneousUtils
         }
     }
 
-    internal static RegexOptions GetRegexOptions(string optionsText)
+    internal static RegexOptions GetRegexOptions(CharSpan optionsText)
     {
         var options = RegexOptions.None;
 
