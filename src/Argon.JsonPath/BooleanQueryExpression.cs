@@ -151,14 +151,14 @@ class BooleanQueryExpression : QueryExpression
             return false;
         }
 
-        var regexText = (string) pattern.GetValue();
+        var regexText = ((string) pattern.GetValue()).AsSpan();
         var patternOptionDelimiterIndex = regexText.LastIndexOf('/');
 
-        var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
+        var patternText = regexText.Slice(1, patternOptionDelimiterIndex - 1);
         var optionsText = regexText[(patternOptionDelimiterIndex + 1)..];
 
         var timeout = settings.RegexMatchTimeout ?? Regex.InfiniteMatchTimeout;
-        return Regex.IsMatch((string) input.GetValue(), patternText, MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
+        return Regex.IsMatch((string) input.GetValue(), patternText.ToString(), MiscellaneousUtils.GetRegexOptions(optionsText), timeout);
     }
 
     static bool EqualsWithStringCoercion(JValue value, JValue queryValue)
