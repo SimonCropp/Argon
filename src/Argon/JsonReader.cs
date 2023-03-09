@@ -330,7 +330,7 @@ public abstract partial class JsonReader : IDisposable
                     }
                 }
 
-                SetToken(JsonToken.Integer, i, false);
+                SetToken(i);
                 return i;
             case JsonToken.String:
                 var s = (string?) Value;
@@ -344,17 +344,17 @@ public abstract partial class JsonReader : IDisposable
     {
         if (StringUtils.IsNullOrEmpty(s))
         {
-            SetToken(JsonToken.Null, null, false);
+            SetNullToken();
             return null;
         }
 
         if (int.TryParse(s, NumberStyles.Integer, InvariantCulture, out var i))
         {
-            SetToken(JsonToken.Integer, i, false);
+            SetToken(i);
             return i;
         }
 
-        SetToken(JsonToken.String, s, false);
+        SetToken(s);
         throw JsonReaderException.Create(this, $"Could not convert string to integer: {s}.");
     }
 
@@ -401,7 +401,7 @@ public abstract partial class JsonReader : IDisposable
                     }
                 }
 
-                SetToken(JsonToken.String, s, false);
+                SetToken(s);
                 return s;
             }
         }
@@ -431,7 +431,7 @@ public abstract partial class JsonReader : IDisposable
                     throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {TokenType}.");
                 }
 
-                SetToken(JsonToken.Bytes, data, false);
+                SetToken(data);
                 return data;
             }
             case JsonToken.String:
@@ -455,7 +455,7 @@ public abstract partial class JsonReader : IDisposable
                     data = Convert.FromBase64String(s);
                 }
 
-                SetToken(JsonToken.Bytes, data, false);
+                SetToken(data);
                 return data;
             }
             case JsonToken.None:
@@ -466,7 +466,7 @@ public abstract partial class JsonReader : IDisposable
                 if (Value is Guid g2)
                 {
                     var data = g2.ToByteArray();
-                    SetToken(JsonToken.Bytes, data, false);
+                    SetToken(data);
                     return data;
                 }
 
@@ -492,7 +492,7 @@ public abstract partial class JsonReader : IDisposable
             if (ReadArrayElementIntoByteArrayReportDone(buffer))
             {
                 var d = buffer.ToArray();
-                SetToken(JsonToken.Bytes, d, false);
+                SetToken(d);
                 return d;
             }
         }
@@ -547,7 +547,7 @@ public abstract partial class JsonReader : IDisposable
                     d = Convert.ToDouble(v, InvariantCulture);
                 }
 
-                SetToken(JsonToken.Float, d, false);
+                SetToken(d);
 
                 return d;
             case JsonToken.String:
@@ -561,17 +561,17 @@ public abstract partial class JsonReader : IDisposable
     {
         if (StringUtils.IsNullOrEmpty(s))
         {
-            SetToken(JsonToken.Null, null, false);
+            SetNullToken();
             return null;
         }
 
         if (double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands, InvariantCulture, out var d))
         {
-            SetToken(JsonToken.Float, d, false);
+            SetToken(d);
             return d;
         }
 
-        SetToken(JsonToken.String, s, false);
+        SetToken(s);
         throw JsonReaderException.Create(this, $"Could not convert string to double: {s}.");
     }
 
@@ -601,7 +601,7 @@ public abstract partial class JsonReader : IDisposable
                     b = Convert.ToBoolean(Value, InvariantCulture);
                 }
 
-                SetToken(JsonToken.Boolean, b, false);
+                SetToken(b);
                 return b;
             case JsonToken.String:
                 return ReadBooleanString((string?) Value);
@@ -616,17 +616,17 @@ public abstract partial class JsonReader : IDisposable
     {
         if (StringUtils.IsNullOrEmpty(s))
         {
-            SetToken(JsonToken.Null, null, false);
+            SetNullToken();
             return null;
         }
 
         if (bool.TryParse(s, out var b))
         {
-            SetToken(JsonToken.Boolean, b, false);
+            SetToken(b);
             return b;
         }
 
-        SetToken(JsonToken.String, s, false);
+        SetToken(s);
         throw JsonReaderException.Create(this, $"Could not convert string to boolean: {s}.");
     }
 
@@ -669,7 +669,7 @@ public abstract partial class JsonReader : IDisposable
                     }
                 }
 
-                SetToken(JsonToken.Float, d, false);
+                SetToken(d);
                 return d;
             case JsonToken.String:
                 return ReadDecimalString((string?) Value);
@@ -682,24 +682,24 @@ public abstract partial class JsonReader : IDisposable
     {
         if (StringUtils.IsNullOrEmpty(s))
         {
-            SetToken(JsonToken.Null, null, false);
+            SetNullToken();
             return null;
         }
 
         if (decimal.TryParse(s, NumberStyles.Number, InvariantCulture, out var d))
         {
-            SetToken(JsonToken.Float, d, false);
+            SetToken(d);
             return d;
         }
 
         if (ConvertUtils.DecimalTryParse(s.ToCharArray(), 0, s.Length, out d) == ParseResult.Success)
         {
             // This is to handle strings like "96.014e-05" that are not supported by traditional decimal.TryParse
-            SetToken(JsonToken.Float, d, false);
+            SetToken(d);
             return d;
         }
 
-        SetToken(JsonToken.String, s, false);
+        SetToken(s);
         throw JsonReaderException.Create(this, $"Could not convert string to decimal: {s}.");
     }
 
@@ -718,7 +718,7 @@ public abstract partial class JsonReader : IDisposable
             case JsonToken.Date:
                 if (Value is DateTimeOffset offset)
                 {
-                    SetToken(JsonToken.Date, offset.DateTime, false);
+                    SetToken(offset.DateTime);
                 }
 
                 return (DateTime) Value!;
@@ -733,19 +733,19 @@ public abstract partial class JsonReader : IDisposable
     {
         if (StringUtils.IsNullOrEmpty(s))
         {
-            SetToken(JsonToken.Null, null, false);
+            SetNullToken();
             return null;
         }
 
         if (DateTimeUtils.TryParseDateTime(s, out var dt))
         {
-            SetToken(JsonToken.Date, dt, false);
+            SetToken(dt);
             return dt;
         }
 
         if (DateTime.TryParse(s, InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
-            SetToken(JsonToken.Date, dt, false);
+            SetToken(dt);
             return dt;
         }
 
@@ -769,7 +769,7 @@ public abstract partial class JsonReader : IDisposable
             case JsonToken.Date:
                 if (Value is DateTime time)
                 {
-                    SetToken(JsonToken.Date, new DateTimeOffset(time), false);
+                    SetToken(new DateTimeOffset(time));
                 }
 
                 return (DateTimeOffset) Value!;
@@ -785,23 +785,23 @@ public abstract partial class JsonReader : IDisposable
     {
         if (StringUtils.IsNullOrEmpty(s))
         {
-            SetToken(JsonToken.Null, null, false);
+            SetNullToken();
             return null;
         }
 
         if (DateTimeUtils.TryParseDateTimeOffset(s, out var dt))
         {
-            SetToken(JsonToken.Date, dt, false);
+            SetToken(dt);
             return dt;
         }
 
         if (DateTimeOffset.TryParse(s, InvariantCulture, DateTimeStyles.RoundtripKind, out dt))
         {
-            SetToken(JsonToken.Date, dt, false);
+            SetToken(dt);
             return dt;
         }
 
-        SetToken(JsonToken.String, s, false);
+        SetToken(s);
         throw JsonReaderException.Create(this, $"Could not convert string to DateTimeOffset: {s}.");
     }
 
@@ -909,6 +909,124 @@ public abstract partial class JsonReader : IDisposable
                 SetPostValueState(updateIndex);
                 break;
         }
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.None"/> token and value.
+    /// </summary>
+    protected void SetNoneToken()
+    {
+        tokenType = JsonToken.None;
+        value = null;
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Undefined"/> token and value.
+    /// </summary>
+    protected void SetUndefinedToken()
+    {
+        tokenType = JsonToken.Null;
+        value = null;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Null"/> token and value.
+    /// </summary>
+    protected void SetNullToken()
+    {
+        tokenType = JsonToken.Null;
+        value = null;
+        SetPostValueState(false);
+    }
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Date"/> token and value.
+    /// </summary>
+    protected void SetToken(DateTime? value)
+    {
+        tokenType = JsonToken.Date;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Date"/> token and value.
+    /// </summary>
+    protected void SetToken(DateTimeOffset? value)
+    {
+        tokenType = JsonToken.Date;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Boolean"/> token and value.
+    /// </summary>
+    protected void SetToken(bool? value)
+    {
+        tokenType = JsonToken.Boolean;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Float"/> token and value.
+    /// </summary>
+    protected void SetToken(double? value)
+    {
+        tokenType = JsonToken.Float;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Float"/> token and value.
+    /// </summary>
+    protected void SetToken(float? value)
+    {
+        tokenType = JsonToken.Float;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Float"/> token and value.
+    /// </summary>
+    protected void SetToken(decimal? value)
+    {
+        tokenType = JsonToken.Float;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.String"/> token and value.
+    /// </summary>
+    protected void SetToken(string? value)
+    {
+        tokenType = JsonToken.String;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Integer"/> token and value.
+    /// </summary>
+    protected void SetToken(int? value)
+    {
+        tokenType = JsonToken.Integer;
+        this.value = value;
+        SetPostValueState(false);
+    }
+
+    /// <summary>
+    /// Sets to <see cref="JsonToken.Bytes"/> token and value.
+    /// </summary>
+    protected void SetToken(byte[]? value)
+    {
+        tokenType = JsonToken.Bytes;
+        this.value = value;
+        SetPostValueState(false);
     }
 
     internal void SetPostValueState(bool updateIndex)

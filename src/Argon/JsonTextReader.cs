@@ -114,12 +114,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     data = Convert.FromBase64CharArray(stringReference.Chars, stringReference.StartIndex, stringReference.Length);
                 }
 
-                SetToken(JsonToken.Bytes, data, false);
+                SetToken(data);
                 break;
             case ReadType.ReadAsString:
                 var text = stringReference.ToString();
 
-                SetToken(JsonToken.String, text, false);
+                SetToken(text);
                 quoteChar = quote;
                 break;
             case ReadType.ReadAsInt32:
@@ -128,7 +128,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 // caller will convert result
                 break;
             default:
-                SetToken(JsonToken.String, stringReference.ToString(), false);
+                SetToken(stringReference.ToString());
                 quoteChar = quote;
                 break;
         }
@@ -386,7 +386,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case '\0':
                             if (ReadNullChar())
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -403,7 +403,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                     throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {TokenType}.");
                                 }
 
-                                SetToken(JsonToken.Bytes, data, false);
+                                SetToken(data);
                             }
 
                             return data;
@@ -490,7 +490,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case '\0':
                             if (ReadNullChar())
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -652,7 +652,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case '\0':
                             if (ReadNullChar())
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -687,7 +687,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                 b = Convert.ToBoolean(Value, InvariantCulture);
                             }
 
-                            SetToken(JsonToken.Boolean, b, false);
+                            SetToken(b);
                             return b;
                         case 't':
                         case 'f':
@@ -788,7 +788,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                         case '\0':
                             if (ReadNullChar())
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -1951,7 +1951,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
     JsonReaderException ThrowReaderError(string message, Exception? ex = null)
     {
-        SetToken(JsonToken.Undefined, null, false);
+        SetUndefinedToken();
         return JsonReaderException.Create(this, message, ex);
     }
 

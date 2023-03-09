@@ -95,7 +95,7 @@ public abstract partial class JsonReader
             if (ReadArrayElementIntoByteArrayReportDone(buffer))
             {
                 var d = buffer.ToArray();
-                SetToken(JsonToken.Bytes, d, false);
+                SetToken(d);
                 return d;
             }
         }

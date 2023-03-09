@@ -1016,7 +1016,7 @@ public partial class JsonTextReader
                         case '\0':
                             if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -1146,7 +1146,7 @@ public partial class JsonTextReader
                         case '\0':
                             if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -1275,7 +1275,7 @@ public partial class JsonTextReader
                         case '\0':
                             if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -1310,7 +1310,7 @@ public partial class JsonTextReader
                                 b = Convert.ToBoolean(Value, InvariantCulture);
                             }
 
-                            SetToken(JsonToken.Boolean, b, false);
+                            SetToken(b);
                             return b;
                         case 't':
                         case 'f':
@@ -1416,7 +1416,7 @@ public partial class JsonTextReader
                         case '\0':
                             if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
                             {
-                                SetToken(JsonToken.None, null, false);
+                                SetNoneToken();
                                 return null;
                             }
 
@@ -1433,7 +1433,7 @@ public partial class JsonTextReader
                                     throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {TokenType}.");
                                 }
 
-                                SetToken(JsonToken.Bytes, data, false);
+                                SetToken(data);
                             }
 
                             return data;
