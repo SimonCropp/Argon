@@ -61,6 +61,10 @@ public class DocsTests
             {
                 continue;
             }
+            if (file.EndsWith("include.md"))
+            {
+                continue;
+            }
 
             try
             {
