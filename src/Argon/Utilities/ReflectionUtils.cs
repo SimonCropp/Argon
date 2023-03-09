@@ -454,20 +454,14 @@ static class ReflectionUtils
     {
         var assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullyQualifiedTypeName);
 
-        string typeName;
-        string? assemblyName;
-
-        if (assemblyDelimiterIndex != null)
+        if (assemblyDelimiterIndex == null)
         {
-            typeName = fullyQualifiedTypeName.Trim(0, assemblyDelimiterIndex.GetValueOrDefault());
-            assemblyName = fullyQualifiedTypeName.Trim(assemblyDelimiterIndex.GetValueOrDefault() + 1, fullyQualifiedTypeName.Length - assemblyDelimiterIndex.GetValueOrDefault() - 1);
-        }
-        else
-        {
-            typeName = fullyQualifiedTypeName;
-            assemblyName = null;
+            return new(null, fullyQualifiedTypeName);
         }
 
+        var delimiterIndex = assemblyDelimiterIndex.Value;
+        var typeName = fullyQualifiedTypeName.Trim(0, delimiterIndex);
+        var assemblyName = fullyQualifiedTypeName.Trim(delimiterIndex + 1, fullyQualifiedTypeName.Length - delimiterIndex - 1);
         return new(assemblyName, typeName);
     }
 
