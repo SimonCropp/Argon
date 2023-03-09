@@ -66,7 +66,7 @@ class XDocumentWrapper : XContainerWrapper, IXmlDocument
 
     public IXmlElement CreateElement(string qualifiedName, string namespaceUri)
     {
-        var localName = MiscellaneousUtils.GetLocalName(qualifiedName);
+        var localName = XmlUtils.GetLocalName(qualifiedName);
         return new XElementWrapper(new(XName.Get(localName, namespaceUri)));
     }
 
@@ -75,7 +75,7 @@ class XDocumentWrapper : XContainerWrapper, IXmlDocument
 
     public IXmlNode CreateAttribute(string qualifiedName, string namespaceUri, string value)
     {
-        var localName = MiscellaneousUtils.GetLocalName(qualifiedName);
+        var localName = XmlUtils.GetLocalName(qualifiedName);
         return new XAttributeWrapper(new(XName.Get(localName, namespaceUri), value));
     }
 

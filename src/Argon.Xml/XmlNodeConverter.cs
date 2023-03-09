@@ -680,12 +680,12 @@ public class XmlNodeConverter : JsonConverter
             attributeNameValues = ShouldReadInto(reader)
                 ? ReadAttributeElements(reader, manager)
                 : null;
-            elementPrefix = MiscellaneousUtils.GetPrefix(propertyName);
+            elementPrefix = XmlUtils.GetPrefix(propertyName);
 
             if (propertyName.StartsWith('@'))
             {
                 var attributeName = propertyName[1..];
-                var attributePrefix = MiscellaneousUtils.GetPrefix(attributeName);
+                var attributePrefix = XmlUtils.GetPrefix(attributeName);
 
                 AddAttribute(reader, document, currentNode, propertyName, attributeName, manager, attributePrefix);
                 return;
@@ -727,7 +727,7 @@ public class XmlNodeConverter : JsonConverter
             foreach (var nameValue in attributeNameValues)
             {
                 var encoded = XmlConvert.EncodeName(nameValue.Key);
-                var attributePrefix = MiscellaneousUtils.GetPrefix(nameValue.Key);
+                var attributePrefix = XmlUtils.GetPrefix(nameValue.Key);
 
                 var attribute = StringUtils.IsNullOrEmpty(attributePrefix) ? document.CreateAttribute(encoded, nameValue.Value!) : document.CreateAttribute(encoded, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value!);
 
@@ -850,7 +850,7 @@ public class XmlNodeConverter : JsonConverter
 
     void ReadArrayElements(JsonReader reader, IXmlDocument document, string propertyName, IXmlNode currentNode, XmlNamespaceManager manager)
     {
-        var elementPrefix = MiscellaneousUtils.GetPrefix(propertyName);
+        var elementPrefix = XmlUtils.GetPrefix(propertyName);
 
         var nestedArrayElement = CreateElement(propertyName, document, elementPrefix, manager);
 
@@ -1130,7 +1130,7 @@ public class XmlNodeConverter : JsonConverter
 
                         if (count == 1 && WriteArrayAttribute)
                         {
-                            MiscellaneousUtils.GetQualifiedNameParts(propertyName, out var elementPrefix, out var localName);
+                            XmlUtils.GetQualifiedNameParts(propertyName, out var elementPrefix, out var localName);
                             var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
 
                             foreach (var childNode in currentNode.ChildNodes)
