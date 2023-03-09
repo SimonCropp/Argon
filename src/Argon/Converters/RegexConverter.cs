@@ -63,7 +63,7 @@ public class RegexConverter : JsonConverter
 
     static object ReadRegexString(JsonReader reader)
     {
-        var regexText = reader.StringValue;
+        var regexText = reader.StringValue.AsSpan();
 
         if (regexText.Length > 0 && regexText[0] == '/')
         {
@@ -71,12 +71,12 @@ public class RegexConverter : JsonConverter
 
             if (patternOptionDelimiterIndex > 0)
             {
-                var patternText = regexText.Substring(1, patternOptionDelimiterIndex - 1);
+                var patternText = regexText.Slice(1, patternOptionDelimiterIndex - 1);
                 var optionsText = regexText[(patternOptionDelimiterIndex + 1)..];
 
                 var options = MiscellaneousUtils.GetRegexOptions(optionsText);
 
-                return new Regex(patternText, options);
+                return new Regex(patternText.ToString(), options);
             }
         }
 
