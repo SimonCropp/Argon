@@ -1,4 +1,6 @@
-﻿class EncodingConverter :
+﻿namespace Argon;
+
+public class EncodingConverter :
     JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
