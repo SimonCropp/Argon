@@ -20,7 +20,9 @@ public class DefaultContractResolver : IContractResolver
         new EncodingConverter(),
         new PathInfoConverter(),
         new RegexConverter(),
-        new TimeZoneInfoConverter()
+        new EncodingConverter(),
+        new TimeZoneInfoConverter(),
+        new VersionConverter()
     };
 
     readonly DefaultJsonNameTable nameTable = new();

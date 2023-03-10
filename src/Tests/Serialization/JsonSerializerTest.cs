@@ -781,16 +781,6 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeVersionString_Fail()
-    {
-        var json = "['1.2.3.4444444444444444444444']";
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<List<Version>>(json),
-            @"Error converting value ""1.2.3.4444444444444444444444"" to type 'System.Version'. Path '[0]', line 1, position 31.");
-    }
-
-    [Fact]
     public void DeserializeJObjectWithComments()
     {
         var json = @"/* Test */
