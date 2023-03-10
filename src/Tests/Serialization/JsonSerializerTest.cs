@@ -1082,6 +1082,18 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
+    public void SerializeDeserializeTimeZoneInfo()
+    {
+        var info = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+
+        var json = JsonConvert.SerializeObject(info, Formatting.Indented);
+
+        var info2 = JsonConvert.DeserializeObject<TimeZoneInfo>(json);
+
+        Assert.Equal(info.Id, info2.Id);
+    }
+
+    [Fact]
     public void EmbedJValueStringInNewJObject()
     {
         string s = null;
