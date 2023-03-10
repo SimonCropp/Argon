@@ -1087,11 +1087,8 @@ public class JsonSerializerTest : TestFixtureBase
     public void SerializeDeserializeEncoding()
     {
         var encoding = Encoding.UTF8;
-
         var json = JsonConvert.SerializeObject(encoding, Formatting.Indented);
-
         var encoding2 = JsonConvert.DeserializeObject<Encoding>(json);
-
         Assert.Equal(encoding.EncodingName, encoding2.EncodingName);
     }
 

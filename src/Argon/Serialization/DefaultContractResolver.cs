@@ -17,6 +17,7 @@ public class DefaultContractResolver : IContractResolver
         new ExpandoObjectConverter(),
         new KeyValuePairConverter(),
         new DriveInfoConverter(),
+        new EncodingConverter(),
         new PathInfoConverter(),
         new RegexConverter(),
         new EncodingConverter(),
