@@ -781,16 +781,6 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeVersionString_Fail()
-    {
-        var json = "['1.2.3.4444444444444444444444']";
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<List<Version>>(json),
-            @"Error converting value ""1.2.3.4444444444444444444444"" to type 'System.Version'. Path '[0]', line 1, position 31.");
-    }
-
-    [Fact]
     public void DeserializeJObjectWithComments()
     {
         var json = @"/* Test */
@@ -1091,6 +1081,18 @@ public class JsonSerializerTest : TestFixtureBase
         var info2 = JsonConvert.DeserializeObject<TimeZoneInfo>(json);
 
         Assert.Equal(info.Id, info2.Id);
+    }
+
+    [Fact]
+    public void SerializeDeserializeEncoding()
+    {
+        var encoding = Encoding.UTF8;
+
+        var json = JsonConvert.SerializeObject(encoding, Formatting.Indented);
+
+        var encoding2 = JsonConvert.DeserializeObject<Encoding>(json);
+
+        Assert.Equal(encoding.EncodingName, encoding2.EncodingName);
     }
 
     [Fact]

@@ -19,7 +19,9 @@ public class DefaultContractResolver : IContractResolver
         new DriveInfoConverter(),
         new PathInfoConverter(),
         new RegexConverter(),
-        new TimeZoneInfoConverter()
+        new EncodingConverter(),
+        new TimeZoneInfoConverter(),
+        new VersionConverter()
     };
 
     readonly DefaultJsonNameTable nameTable = new();

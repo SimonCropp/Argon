@@ -30,7 +30,7 @@ public class VersionConverterTests : TestFixtureBase
         {
             var versionClass = new VersionClass(version1, version2);
 
-            var json = JsonConvert.SerializeObject(versionClass, Formatting.Indented, new VersionConverter());
+            var json = JsonConvert.SerializeObject(versionClass, Formatting.Indented);
 
             var expectedJson = $@"{{
   ""StringProperty1"": ""StringProperty1"",
@@ -48,7 +48,7 @@ public class VersionConverterTests : TestFixtureBase
             var expectedVersion1 = new Version(version1);
             var expectedVersion2 = new Version(version2);
 
-            var versionClass = JsonConvert.DeserializeObject<VersionClass>(json, new VersionConverter());
+            var versionClass = JsonConvert.DeserializeObject<VersionClass>(json);
 
             Assert.Equal("StringProperty1", versionClass.StringProperty1);
             Assert.Equal(expectedVersion1, versionClass.Version1);
