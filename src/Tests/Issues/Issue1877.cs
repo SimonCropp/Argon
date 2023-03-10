@@ -13,12 +13,16 @@ public class Issue1877
         };
         ((Fubar) f2).Version = new("4.0");
 
-        var s = JsonConvert.SerializeObject(f2);
+        var s = JsonConvert.SerializeObject(f2, new JsonSerializerSettings
+        {
+            Converters = { new VersionConverter() }
+        });
         Assert.Equal(@"{""Version"":""4.0""}", s);
 
         var f3 = JsonConvert.DeserializeObject<Fubar2>(s, new JsonSerializerSettings
         {
-            ObjectCreationHandling = ObjectCreationHandling.Replace
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
+            Converters = { new VersionConverter() }
         });
 
         Assert.Equal(2, f3.Version.Major);
