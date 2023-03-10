@@ -215,7 +215,6 @@ public class DiscriminatedUnionConverter : JsonConverter
         // get the fsharp assembly from the attribute and initialize latebound methods
         var attributes = type.GetCustomAttributes(true);
 
-        var isFSharpType = false;
         foreach (var attribute in attributes)
         {
             var attributeType = attribute.GetType();
@@ -223,14 +222,8 @@ public class DiscriminatedUnionConverter : JsonConverter
             {
                 FSharpUtils.EnsureInitialized(attributeType.Assembly);
 
-                isFSharpType = true;
-                break;
+                return (bool) FSharpUtils.Instance.IsUnion(null, type, null);
             }
-        }
-
-        if (isFSharpType)
-        {
-            return (bool) FSharpUtils.Instance.IsUnion(null, type, null);
         }
 
         return false;
