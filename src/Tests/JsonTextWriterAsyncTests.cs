@@ -822,7 +822,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteTokenAsync()
     {
-        var cancel = CancellationToken.None;
+        var cancel = Cancellation.None;
         var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
         reader.Read();
         reader.Read();
@@ -1532,7 +1532,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public void AsyncMethodsAlreadyCancelled()
     {
-        var source = new CancellationTokenSource();
+        var source = new CancellationSource();
         var token = source.Token;
         source.Cancel();
 
@@ -1613,7 +1613,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public void AsyncMethodsAlreadyCancelledOnTextWriterSubclass()
     {
-        var source = new CancellationTokenSource();
+        var source = new CancellationSource();
         var token = source.Token;
         source.Cancel();
 
@@ -1680,7 +1680,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public void AsyncMethodsAlreadyCancelledOnWriterSubclass()
     {
-        var source = new CancellationTokenSource();
+        var source = new CancellationSource();
         var token = source.Token;
         source.Cancel();
 

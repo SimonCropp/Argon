@@ -1418,7 +1418,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public void AsyncMethodsAlreadyCancelled()
     {
-        var source = new CancellationTokenSource();
+        var source = new CancellationSource();
         var token = source.Token;
         source.Cancel();
 
@@ -1450,7 +1450,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public void AsyncMethodsAlreadyCancelledOnTextReaderSubclass()
     {
-        var source = new CancellationTokenSource();
+        var source = new CancellationSource();
         var token = source.Token;
         source.Cancel();
 
@@ -1468,7 +1468,7 @@ third line", jsonTextReader.Value);
     [Fact]
     public void AsyncMethodsAlreadyCancelledOnReaderSubclass()
     {
-        var source = new CancellationTokenSource();
+        var source = new CancellationSource();
         var token = source.Token;
         source.Cancel();
 
