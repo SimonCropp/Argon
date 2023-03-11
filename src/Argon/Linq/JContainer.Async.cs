@@ -6,7 +6,7 @@ namespace Argon;
 
 public abstract partial class JContainer
 {
-    internal async Task ReadTokenFromAsync(JsonReader reader, JsonLoadSettings? options, CancellationToken cancellation = default)
+    internal async Task ReadTokenFromAsync(JsonReader reader, JsonLoadSettings? options, Cancellation cancellation = default)
     {
         var startDepth = reader.Depth;
 
@@ -23,7 +23,7 @@ public abstract partial class JContainer
         }
     }
 
-    async Task ReadContentFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
+    async Task ReadContentFromAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
     {
         var lineInfo = reader as IJsonLineInfo;
 

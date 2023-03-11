@@ -303,7 +303,7 @@ static class JavaScriptUtils
         return -1;
     }
 
-    public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string s, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation = default)
+    public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string s, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancellation cancellation = default)
     {
         if (cancellation.IsCancellationRequested)
         {
@@ -323,7 +323,7 @@ static class JavaScriptUtils
         return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, escapeFlags, escapeHandling, client, buffer, cancellation);
     }
 
-    static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation)
+    static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string s, char delimiter, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancellation cancellation)
     {
         var task = writer.WriteAsync(delimiter, cancellation);
         if (!task.IsCompletedSuccessfully())
@@ -343,7 +343,7 @@ static class JavaScriptUtils
         return WriteCharAsync(task, writer, delimiter, cancellation);
     }
 
-    static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string s, char delimiter, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation)
+    static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string s, char delimiter, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancellation cancellation)
     {
         await task.ConfigureAwait(false);
 
@@ -355,13 +355,13 @@ static class JavaScriptUtils
         await writer.WriteAsync(delimiter).ConfigureAwait(false);
     }
 
-    public static async Task WriteCharAsync(Task task, TextWriter writer, char c, CancellationToken cancellation)
+    public static async Task WriteCharAsync(Task task, TextWriter writer, char c, Cancellation cancellation)
     {
         await task.ConfigureAwait(false);
         await writer.WriteAsync(c, cancellation).ConfigureAwait(false);
     }
 
-    static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, CancellationToken cancellation)
+    static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancellation cancellation)
     {
         if (escapeHandling == EscapeHandling.None)
         {
@@ -377,7 +377,7 @@ static class JavaScriptUtils
         return WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, i, escapeFlags, escapeHandling, client, buffer, cancellation);
     }
 
-    static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, int lastWritePosition, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[]? buffer, CancellationToken cancellation)
+    static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string s, int lastWritePosition, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[]? buffer, Cancellation cancellation)
     {
         if (escapeHandling == EscapeHandling.None)
         {

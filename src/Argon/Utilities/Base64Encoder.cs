@@ -114,7 +114,7 @@ class Base64Encoder
     void WriteChars(char[] chars, int index, int count) =>
         writer.Write(chars, index, count);
 
-    public async Task EncodeAsync(byte[] buffer, int index, int count, CancellationToken cancellation)
+    public async Task EncodeAsync(byte[] buffer, int index, int count, Cancellation cancellation)
     {
         ValidateEncode(buffer, index, count);
 
@@ -146,10 +146,10 @@ class Base64Encoder
         }
     }
 
-    Task WriteCharsAsync(char[] chars, int index, int count, CancellationToken cancellation) =>
+    Task WriteCharsAsync(char[] chars, int index, int count, Cancellation cancellation) =>
         writer.WriteAsync(chars, index, count, cancellation);
 
-    public Task FlushAsync(CancellationToken cancellation)
+    public Task FlushAsync(Cancellation cancellation)
     {
         if (cancellation.IsCancellationRequested)
         {

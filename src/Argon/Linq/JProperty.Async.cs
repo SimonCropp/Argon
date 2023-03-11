@@ -9,7 +9,7 @@ public partial class JProperty
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
+    public override Task WriteToAsync(JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters)
     {
         var task = writer.WritePropertyNameAsync(Name, cancellation);
         if (task.IsCompletedSuccessfully())
@@ -20,14 +20,14 @@ public partial class JProperty
         return WriteToAsync(task, writer, cancellation, converters);
     }
 
-    async Task WriteToAsync(Task task, JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
+    async Task WriteToAsync(Task task, JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters)
     {
         await task.ConfigureAwait(false);
 
         await WriteValueAsync(writer, cancellation, converters).ConfigureAwait(false);
     }
 
-    Task WriteValueAsync(JsonWriter writer, CancellationToken cancellation, JsonConverter[] converters)
+    Task WriteValueAsync(JsonWriter writer, Cancellation cancellation, JsonConverter[] converters)
     {
         var value = content.token;
         if (value == null)
@@ -46,7 +46,7 @@ public partial class JProperty
     /// A <see cref="Task{TResult}" /> representing the asynchronous creation. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static Task<JProperty> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
+    public new static Task<JProperty> LoadAsync(JsonReader reader, Cancellation cancellation = default) =>
         LoadAsync(reader, null, cancellation);
 
     /// <summary>
@@ -61,7 +61,7 @@ public partial class JProperty
     /// A <see cref="Task{TResult}" /> representing the asynchronous creation. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static async Task<JProperty> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
+    public new static async Task<JProperty> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
     {
         if (reader.TokenType == JsonToken.None)
         {

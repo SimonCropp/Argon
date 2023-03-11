@@ -9,7 +9,7 @@ public partial class JObject
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public override Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
+    public override Task WriteToAsync(JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters)
     {
         var t = writer.WriteStartObjectAsync(cancellation);
         if (!t.IsCompletedSuccessfully())
@@ -31,7 +31,7 @@ public partial class JObject
         // Local functions, params renamed (capitalized) so as not to capture and allocate when calling async
     }
 
-    async Task AwaitProperties(Task task, int i, JsonWriter writer, CancellationToken cancellation, JsonConverter[] converters)
+    async Task AwaitProperties(Task task, int i, JsonWriter writer, Cancellation cancellation, JsonConverter[] converters)
     {
         await task.ConfigureAwait(false);
         for (; i < properties.Count; i++)
@@ -50,7 +50,7 @@ public partial class JObject
     /// A <see cref="Task{TResult}" /> that represents the asynchronous load. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JObject" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static Task<JObject> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
+    public new static Task<JObject> LoadAsync(JsonReader reader, Cancellation cancellation = default) =>
         LoadAsync(reader, null, cancellation);
 
     /// <summary>
@@ -65,7 +65,7 @@ public partial class JObject
     /// A <see cref="Task{TResult}" /> that represents the asynchronous load. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JObject" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static async Task<JObject> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
+    public new static async Task<JObject> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
     {
         if (reader.TokenType == JsonToken.None)
         {

@@ -23,7 +23,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<bool> ReadAsync(CancellationToken cancellation = default)
+    public override Task<bool> ReadAsync(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -33,7 +33,7 @@ public partial class JsonTextReader
         return base.ReadAsync(cancellation);
     }
 
-    Task<bool> DoReadAsync(CancellationToken cancellation)
+    Task<bool> DoReadAsync(Cancellation cancellation)
     {
         while (true)
         {
@@ -70,7 +70,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task<bool> DoReadAsync(Task<bool> task, CancellationToken cancellation)
+    async Task<bool> DoReadAsync(Task<bool> task, Cancellation cancellation)
     {
         var result = await task.ConfigureAwait(false);
         if (result)
@@ -81,7 +81,7 @@ public partial class JsonTextReader
         return await DoReadAsync(cancellation).ConfigureAwait(false);
     }
 
-    async Task<bool> ParsePostValueAsync(bool ignoreComments, CancellationToken cancellation)
+    async Task<bool> ParsePostValueAsync(bool ignoreComments, Cancellation cancellation)
     {
         while (true)
         {
@@ -161,7 +161,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task<bool> ReadFromFinishedAsync(CancellationToken cancellation)
+    async Task<bool> ReadFromFinishedAsync(Cancellation cancellation)
     {
         if (await EnsureCharsAsync(0, false, cancellation).ConfigureAwait(false))
         {
@@ -185,10 +185,10 @@ public partial class JsonTextReader
         return false;
     }
 
-    Task<int> ReadDataAsync(bool append, CancellationToken cancellation) =>
+    Task<int> ReadDataAsync(bool append, Cancellation cancellation) =>
         ReadDataAsync(append, 0, cancellation);
 
-    async Task<int> ReadDataAsync(bool append, int charsRequired, CancellationToken cancellation)
+    async Task<int> ReadDataAsync(bool append, int charsRequired, Cancellation cancellation)
     {
         if (isEndOfFile)
         {
@@ -210,7 +210,7 @@ public partial class JsonTextReader
         return charsRead;
     }
 
-    async Task<bool> ParseValueAsync(CancellationToken cancellation)
+    async Task<bool> ParseValueAsync(Cancellation cancellation)
     {
         while (true)
         {
@@ -333,7 +333,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ReadStringIntoBufferAsync(char quote, CancellationToken cancellation)
+    async Task ReadStringIntoBufferAsync(char quote, Cancellation cancellation)
     {
         var charPos = this.charPos;
         var initialPosition = this.charPos;
@@ -488,7 +488,7 @@ public partial class JsonTextReader
         }
     }
 
-    Task ProcessCarriageReturnAsync(bool append, CancellationToken cancellation)
+    Task ProcessCarriageReturnAsync(bool append, Cancellation cancellation)
     {
         charPos++;
 
@@ -505,10 +505,10 @@ public partial class JsonTextReader
     async Task ProcessCarriageReturnAsync(Task<bool> task) =>
         SetNewLine(await task.ConfigureAwait(false));
 
-    async Task<char> ParseUnicodeAsync(CancellationToken cancellation) =>
+    async Task<char> ParseUnicodeAsync(Cancellation cancellation) =>
         ConvertUnicode(await EnsureCharsAsync(4, true, cancellation).ConfigureAwait(false));
 
-    Task<bool> EnsureCharsAsync(int relativePosition, bool append, CancellationToken cancellation)
+    Task<bool> EnsureCharsAsync(int relativePosition, bool append, Cancellation cancellation)
     {
         if (charPos + relativePosition < charsUsed)
         {
@@ -523,7 +523,7 @@ public partial class JsonTextReader
         return ReadCharsAsync(relativePosition, append, cancellation);
     }
 
-    async Task<bool> ReadCharsAsync(int relativePosition, bool append, CancellationToken cancellation)
+    async Task<bool> ReadCharsAsync(int relativePosition, bool append, Cancellation cancellation)
     {
         var charsRequired = charPos + relativePosition - charsUsed + 1;
 
@@ -545,7 +545,7 @@ public partial class JsonTextReader
         return true;
     }
 
-    async Task<bool> ParseObjectAsync(CancellationToken cancellation)
+    async Task<bool> ParseObjectAsync(Cancellation cancellation)
     {
         while (true)
         {
@@ -602,7 +602,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ParseCommentAsync(bool setToken, CancellationToken cancellation)
+    async Task ParseCommentAsync(bool setToken, Cancellation cancellation)
     {
         // should have already parsed / character before reaching this method
         charPos++;
@@ -698,7 +698,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task EatWhitespaceAsync(CancellationToken cancellation)
+    async Task EatWhitespaceAsync(Cancellation cancellation)
     {
         while (true)
         {
@@ -741,7 +741,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ParseStringAsync(char quote, ReadType readType, CancellationToken cancellation)
+    async Task ParseStringAsync(char quote, ReadType readType, Cancellation cancellation)
     {
         cancellation.ThrowIfCancellationRequested();
         charPos++;
@@ -751,10 +751,10 @@ public partial class JsonTextReader
         ParseReadString(quote, readType);
     }
 
-    async Task<bool> MatchValueAsync(string value, CancellationToken cancellation) =>
+    async Task<bool> MatchValueAsync(string value, Cancellation cancellation) =>
         MatchValue(await EnsureCharsAsync(value.Length - 1, true, cancellation).ConfigureAwait(false), value);
 
-    async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, CancellationToken cancellation)
+    async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, Cancellation cancellation)
     {
         // will match value and then move to the next character, checking that it is a separator character
         if (!await MatchValueAsync(value, cancellation).ConfigureAwait(false))
@@ -770,7 +770,7 @@ public partial class JsonTextReader
         return IsSeparator(charBuffer[charPos]) || charBuffer[charPos] == '\0';
     }
 
-    async Task MatchAndSetAsync(string value, JsonToken newToken, object? tokenValue, CancellationToken cancellation)
+    async Task MatchAndSetAsync(string value, JsonToken newToken, object? tokenValue, Cancellation cancellation)
     {
         if (await MatchValueWithTrailingSeparatorAsync(value, cancellation).ConfigureAwait(false))
         {
@@ -782,25 +782,25 @@ public partial class JsonTextReader
         }
     }
 
-    Task ParseTrueAsync(CancellationToken cancellation) =>
+    Task ParseTrueAsync(Cancellation cancellation) =>
         MatchAndSetAsync(JsonConvert.True, JsonToken.Boolean, true, cancellation);
 
-    Task ParseFalseAsync(CancellationToken cancellation) =>
+    Task ParseFalseAsync(Cancellation cancellation) =>
         MatchAndSetAsync(JsonConvert.False, JsonToken.Boolean, false, cancellation);
 
-    Task ParseNullAsync(CancellationToken cancellation) =>
+    Task ParseNullAsync(Cancellation cancellation) =>
         MatchAndSetAsync(JsonConvert.Null, JsonToken.Null, null, cancellation);
 
-    async Task<object> ParseNumberNaNAsync(ReadType readType, CancellationToken cancellation) =>
+    async Task<object> ParseNumberNaNAsync(ReadType readType, Cancellation cancellation) =>
         ParseNumberNaN(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NaN, cancellation).ConfigureAwait(false));
 
-    async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, CancellationToken cancellation) =>
+    async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, Cancellation cancellation) =>
         ParseNumberPositiveInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.PositiveInfinity, cancellation).ConfigureAwait(false));
 
-    async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, CancellationToken cancellation) =>
+    async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, Cancellation cancellation) =>
         ParseNumberNegativeInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NegativeInfinity, cancellation).ConfigureAwait(false));
 
-    async Task ParseNumberAsync(ReadType readType, CancellationToken cancellation)
+    async Task ParseNumberAsync(ReadType readType, Cancellation cancellation)
     {
         ShiftBufferIfNeeded();
 
@@ -812,10 +812,10 @@ public partial class JsonTextReader
         ParseReadNumber(readType, firstChar, initialPosition);
     }
 
-    Task ParseUndefinedAsync(CancellationToken cancellation) =>
+    Task ParseUndefinedAsync(Cancellation cancellation) =>
         MatchAndSetAsync(JsonConvert.Undefined, JsonToken.Undefined, null, cancellation);
 
-    async Task<bool> ParsePropertyAsync(CancellationToken cancellation)
+    async Task<bool> ParsePropertyAsync(Cancellation cancellation)
     {
         var firstChar = charBuffer[charPos];
         char quoteChar;
@@ -867,7 +867,7 @@ public partial class JsonTextReader
         return true;
     }
 
-    async Task ReadNumberIntoBufferAsync(CancellationToken cancellation)
+    async Task ReadNumberIntoBufferAsync(Cancellation cancellation)
     {
         var charPos = this.charPos;
 
@@ -901,7 +901,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ParseUnquotedPropertyAsync(CancellationToken cancellation)
+    async Task ParseUnquotedPropertyAsync(Cancellation cancellation)
     {
         var initialPosition = charPos;
 
@@ -932,7 +932,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task<bool> ReadNullCharAsync(CancellationToken cancellation)
+    async Task<bool> ReadNullCharAsync(Cancellation cancellation)
     {
         if (charsUsed == charPos)
         {
@@ -950,7 +950,7 @@ public partial class JsonTextReader
         return false;
     }
 
-    async Task HandleNullAsync(CancellationToken cancellation)
+    async Task HandleNullAsync(Cancellation cancellation)
     {
         if (await EnsureCharsAsync(1, true, cancellation).ConfigureAwait(false))
         {
@@ -968,7 +968,7 @@ public partial class JsonTextReader
         throw CreateUnexpectedEndException();
     }
 
-    async Task ReadFinishedAsync(CancellationToken cancellation)
+    async Task ReadFinishedAsync(Cancellation cancellation)
     {
         if (await EnsureCharsAsync(0, false, cancellation).ConfigureAwait(false))
         {
@@ -992,7 +992,7 @@ public partial class JsonTextReader
         SetToken(JsonToken.None);
     }
 
-    async Task<object?> ReadStringValueAsync(ReadType readType, CancellationToken cancellation)
+    async Task<object?> ReadStringValueAsync(ReadType readType, Cancellation cancellation)
     {
         switch (currentState)
         {
@@ -1122,7 +1122,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task<object?> ReadNumberValueAsync(ReadType readType, CancellationToken cancellation)
+    async Task<object?> ReadNumberValueAsync(ReadType readType, Cancellation cancellation)
     {
         switch (currentState)
         {
@@ -1241,7 +1241,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<bool?> ReadAsBooleanAsync(CancellationToken cancellation = default)
+    public override Task<bool?> ReadAsBooleanAsync(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -1251,7 +1251,7 @@ public partial class JsonTextReader
         return base.ReadAsBooleanAsync(cancellation);
     }
 
-    async Task<bool?> DoReadAsBooleanAsync(CancellationToken cancellation)
+    async Task<bool?> DoReadAsBooleanAsync(Cancellation cancellation)
     {
         switch (currentState)
         {
@@ -1380,7 +1380,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<byte[]?> ReadAsBytesAsync(CancellationToken cancellation = default)
+    public override Task<byte[]?> ReadAsBytesAsync(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -1390,7 +1390,7 @@ public partial class JsonTextReader
         return base.ReadAsBytesAsync(cancellation);
     }
 
-    async Task<byte[]?> DoReadAsBytesAsync(CancellationToken cancellation)
+    async Task<byte[]?> DoReadAsBytesAsync(Cancellation cancellation)
     {
         var isWrapped = false;
 
@@ -1497,7 +1497,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ReadIntoWrappedTypeObjectAsync(CancellationToken cancellation)
+    async Task ReadIntoWrappedTypeObjectAsync(Cancellation cancellation)
     {
         await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
         if (Value != null && Value.ToString() == JsonTypeReflector.TypePropertyName)
@@ -1527,7 +1527,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<DateTime?> ReadAsDateTimeAsync(CancellationToken cancellation = default)
+    public override Task<DateTime?> ReadAsDateTimeAsync(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -1537,7 +1537,7 @@ public partial class JsonTextReader
         return base.ReadAsDateTimeAsync(cancellation);
     }
 
-    async Task<DateTime?> DoReadAsDateTimeAsync(CancellationToken cancellation) =>
+    async Task<DateTime?> DoReadAsDateTimeAsync(Cancellation cancellation) =>
         (DateTime?) await ReadStringValueAsync(ReadType.ReadAsDateTime, cancellation).ConfigureAwait(false);
 
     /// <summary>
@@ -1551,7 +1551,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<DateTimeOffset?> ReadAsDateTimeOffsetAsync(CancellationToken cancellation = default)
+    public override Task<DateTimeOffset?> ReadAsDateTimeOffsetAsync(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -1561,7 +1561,7 @@ public partial class JsonTextReader
         return base.ReadAsDateTimeOffsetAsync(cancellation);
     }
 
-    async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(CancellationToken cancellation) =>
+    async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(Cancellation cancellation) =>
         (DateTimeOffset?) await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancellation).ConfigureAwait(false);
 
     /// <summary>
@@ -1575,14 +1575,14 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<decimal?> ReadAsDecimalAsync(CancellationToken cancellation = default) =>
+    public override Task<decimal?> ReadAsDecimalAsync(Cancellation cancellation = default) =>
         safeAsync switch
         {
             true => DoReadAsDecimalAsync(cancellation),
             _ => base.ReadAsDecimalAsync(cancellation)
         };
 
-    async Task<decimal?> DoReadAsDecimalAsync(CancellationToken cancellation) =>
+    async Task<decimal?> DoReadAsDecimalAsync(Cancellation cancellation) =>
         (decimal?) await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancellation).ConfigureAwait(false);
 
     /// <summary>
@@ -1596,7 +1596,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<double?> ReadAsDoubleAsync(CancellationToken cancellation = default)
+    public override Task<double?> ReadAsDoubleAsync(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -1606,7 +1606,7 @@ public partial class JsonTextReader
         return base.ReadAsDoubleAsync(cancellation);
     }
 
-    async Task<double?> DoReadAsDoubleAsync(CancellationToken cancellation) =>
+    async Task<double?> DoReadAsDoubleAsync(Cancellation cancellation) =>
         (double?) await ReadNumberValueAsync(ReadType.ReadAsDouble, cancellation).ConfigureAwait(false);
 
     /// <summary>
@@ -1620,7 +1620,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<int?> ReadAsInt32Async(CancellationToken cancellation = default)
+    public override Task<int?> ReadAsInt32Async(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -1630,7 +1630,7 @@ public partial class JsonTextReader
         return base.ReadAsInt32Async(cancellation);
     }
 
-    async Task<int?> DoReadAsInt32Async(CancellationToken cancellation) =>
+    async Task<int?> DoReadAsInt32Async(Cancellation cancellation) =>
         (int?) await ReadNumberValueAsync(ReadType.ReadAsInt32, cancellation).ConfigureAwait(false);
 
     /// <summary>
@@ -1644,7 +1644,7 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<string?> ReadAsStringAsync(CancellationToken cancellation = default)
+    public override Task<string?> ReadAsStringAsync(Cancellation cancellation = default)
     {
         if (safeAsync)
         {
@@ -1654,6 +1654,6 @@ public partial class JsonTextReader
         return base.ReadAsStringAsync(cancellation);
     }
 
-    async Task<string?> DoReadAsStringAsync(CancellationToken cancellation) =>
+    async Task<string?> DoReadAsStringAsync(Cancellation cancellation) =>
         (string?) await ReadStringValueAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
 }

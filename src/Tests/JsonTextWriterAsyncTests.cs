@@ -1806,10 +1806,10 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
     {
     }
 
-    public override Task WritePropertyNameAsync(string name, CancellationToken cancellation = default) =>
+    public override Task WritePropertyNameAsync(string name, Cancellation cancellation = default) =>
         WritePropertyNameAsync(name, true, cancellation);
 
-    public override async Task WritePropertyNameAsync(string name, bool escape, CancellationToken cancellation = default)
+    public override async Task WritePropertyNameAsync(string name, bool escape, Cancellation cancellation = default)
     {
         await SetWriteStateAsync(JsonToken.PropertyName, name, cancellation);
 
@@ -1828,24 +1828,24 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
         await writer.WriteAsync(':');
     }
 
-    public override async Task WriteNullAsync(CancellationToken cancellation = default)
+    public override async Task WriteNullAsync(Cancellation cancellation = default)
     {
         await SetWriteStateAsync(JsonToken.Null, null, cancellation);
 
         await writer.WriteAsync("NULL!!!");
     }
 
-    public override async Task WriteStartObjectAsync(CancellationToken cancellation = default)
+    public override async Task WriteStartObjectAsync(Cancellation cancellation = default)
     {
         await SetWriteStateAsync(JsonToken.StartObject, null, cancellation);
 
         await writer.WriteAsync("{{{");
     }
 
-    public override Task WriteEndObjectAsync(CancellationToken cancellation = default) =>
+    public override Task WriteEndObjectAsync(Cancellation cancellation = default) =>
         SetWriteStateAsync(JsonToken.EndObject, null, cancellation);
 
-    protected override Task WriteEndAsync(JsonToken token, CancellationToken cancellation)
+    protected override Task WriteEndAsync(JsonToken token, Cancellation cancellation)
     {
         if (token == JsonToken.EndObject)
         {

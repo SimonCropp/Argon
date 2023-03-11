@@ -9,7 +9,7 @@ public abstract partial class JToken
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public virtual Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters) =>
+    public virtual Task WriteToAsync(JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters) =>
         throw new NotImplementedException();
 
     /// <summary>
@@ -29,7 +29,7 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> ReadFromAsync(JsonReader reader, CancellationToken cancellation = default) =>
+    public static Task<JToken> ReadFromAsync(JsonReader reader, Cancellation cancellation = default) =>
         ReadFromAsync(reader, null, cancellation);
 
     /// <summary>
@@ -47,7 +47,7 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static async Task<JToken> ReadFromAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
+    public static async Task<JToken> ReadFromAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
     {
         if (reader.TokenType == JsonToken.None)
         {
@@ -103,7 +103,7 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
+    public static Task<JToken> LoadAsync(JsonReader reader, Cancellation cancellation = default) =>
         LoadAsync(reader, null, cancellation);
 
     /// <summary>
@@ -120,6 +120,6 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default) =>
+    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default) =>
         ReadFromAsync(reader, settings, cancellation);
 }

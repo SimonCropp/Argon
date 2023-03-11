@@ -9,7 +9,7 @@ public partial class JArray
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public override async Task WriteToAsync(JsonWriter writer, CancellationToken cancellation, params JsonConverter[] converters)
+    public override async Task WriteToAsync(JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters)
     {
         await writer.WriteStartArrayAsync(cancellation).ConfigureAwait(false);
 
@@ -29,7 +29,7 @@ public partial class JArray
     /// If this is <c>null</c>, default load settings will be used.
     /// </param>
     /// <returns>A <see cref="Task{TResult}" /> representing the asynchronous load. The <see cref="Task{TResult}.Result" /> property contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
-    public new static Task<JArray> LoadAsync(JsonReader reader, CancellationToken cancellation = default) =>
+    public new static Task<JArray> LoadAsync(JsonReader reader, Cancellation cancellation = default) =>
         LoadAsync(reader, null, cancellation);
 
     /// <summary>
@@ -41,7 +41,7 @@ public partial class JArray
     /// If this is <c>null</c>, default load settings will be used.
     /// </param>
     /// <returns>A <see cref="Task{TResult}" /> representing the asynchronous load. The <see cref="Task{TResult}.Result" /> property contains the JSON that was read from the specified <see cref="JsonReader" />.</returns>
-    public new static async Task<JArray> LoadAsync(JsonReader reader, JsonLoadSettings? settings, CancellationToken cancellation = default)
+    public new static async Task<JArray> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
     {
         if (reader.TokenType == JsonToken.None)
         {
