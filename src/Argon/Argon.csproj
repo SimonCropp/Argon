@@ -17,12 +17,15 @@
     <Using Include="System.Text.RegularExpressions" />
     <PackageReference Include="ProjectDefaults" Version="1.0.89" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
-    <PackageReference Include="IndexRange" Version="1.0.2" PrivateAssets="all" />
     <PackageReference Include="Polyfill" Version="0.5.0" PrivateAssets="All" />
+    <PackageReference Include="System.ValueTuple"
+                      Version="4.5.0"
+                      Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework)=='net461' OR $(TargetFramework)=='netstandard2.0'">
     <PackageReference Include="System.Buffers" Version="4.5.1" />
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
+  
 </Project>
