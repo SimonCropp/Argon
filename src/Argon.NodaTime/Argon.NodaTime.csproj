@@ -20,7 +20,7 @@
     <Using Remove="System.Net.Http" />
     <PackageReference Include="NodaTime" Version="3.1.6" />
     <PackageReference Include="Polyfill" Version="0.7.0" PrivateAssets="All" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.89" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.90" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 
