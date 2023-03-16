@@ -196,16 +196,6 @@ static class StringUtils
     public static bool IsLowSurrogate(char c) =>
         char.IsLowSurrogate(c);
 
-#if !NET5_0_OR_GREATER
-
-    public static bool StartsWith(this string source, char value) =>
-        source.Length > 0 && source[0] == value;
-
-    public static bool EndsWith(this string source, char value) =>
-        source.Length > 0 && source[source.Length - 1] == value;
-
-#endif
-
     public static string Trim(this string s, int start, int length)
     {
         // References: https://referencesource.microsoft.com/#mscorlib/system/string.cs,2691
