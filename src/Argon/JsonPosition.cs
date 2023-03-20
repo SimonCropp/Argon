@@ -44,13 +44,13 @@ struct JsonPosition
                 var propertyName = PropertyName!;
                 if (propertyName.IndexOfAny(specialCharacters) != -1)
                 {
-                    sb.Append(@"['");
+                    sb.Append("['");
 
                     writer ??= new(sb);
 
                     JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
 
-                    sb.Append(@"']");
+                    sb.Append("']");
                 }
                 else
                 {
