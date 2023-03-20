@@ -19,64 +19,64 @@ public class DefaultSerializationBinder :
         var assemblyName = typeNameKey.Value1;
         var typeName = typeNameKey.Value2;
 
-        if (assemblyName != null)
+        if (assemblyName == null)
         {
-            // look, I don't like using obsolete methods as much as you do but this is the only way
-            // Assembly.Load won't check the GAC for a partial name
+            return Type.GetType(typeName)!;
+        }
+
+        // look, I don't like using obsolete methods as much as you do but this is the only way
+        // Assembly.Load won't check the GAC for a partial name
 #pragma warning disable 618,612
-            var assembly = Assembly.LoadWithPartialName(assemblyName);
+        var assembly = Assembly.LoadWithPartialName(assemblyName);
 #pragma warning restore 618,612
 
-            if (assembly == null)
+        if (assembly == null)
+        {
+            // will find assemblies loaded with Assembly.LoadFile outside of the main directory
+            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var a in loadedAssemblies)
             {
-                // will find assemblies loaded with Assembly.LoadFile outside of the main directory
-                var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-                foreach (var a in loadedAssemblies)
+                // check for both full name or partial name match
+                if (a.FullName == assemblyName ||
+                    a.GetName().Name == assemblyName)
                 {
-                    // check for both full name or partial name match
-                    if (a.FullName == assemblyName ||
-                        a.GetName().Name == assemblyName)
-                    {
-                        assembly = a;
-                        break;
-                    }
+                    assembly = a;
+                    break;
                 }
             }
+        }
 
-            if (assembly == null)
-            {
-                throw new JsonSerializationException($"Could not load assembly '{assemblyName}'.");
-            }
+        if (assembly == null)
+        {
+            throw new JsonSerializationException($"Could not load assembly '{assemblyName}'.");
+        }
 
-            var type = assembly.GetType(typeName);
-            if (type != null)
-            {
-                return type;
-            }
-
-            // if generic type, try manually parsing the type arguments for the case of dynamically loaded assemblies
-            // example generic typeName format: System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
-            if (typeName.IndexOf('`') >= 0)
-            {
-                try
-                {
-                    type = GetGenericTypeFromTypeName(typeName, assembly);
-                }
-                catch (Exception exception)
-                {
-                    throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.", exception);
-                }
-            }
-
-            if (type == null)
-            {
-                throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.");
-            }
-
+        var type = assembly.GetType(typeName);
+        if (type != null)
+        {
             return type;
         }
 
-        return Type.GetType(typeName)!;
+        // if generic type, try manually parsing the type arguments for the case of dynamically loaded assemblies
+        // example generic typeName format: System.Collections.Generic.Dictionary`2[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]
+        if (typeName.IndexOf('`') >= 0)
+        {
+            try
+            {
+                type = GetGenericTypeFromTypeName(typeName, assembly);
+            }
+            catch (Exception exception)
+            {
+                throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.", exception);
+            }
+        }
+
+        if (type == null)
+        {
+            throw new JsonSerializationException($"Could not find type '{typeName}' in assembly '{assembly.FullName}'.");
+        }
+
+        return type;
     }
 
     static Type? GetGenericTypeFromTypeName(string typeName, Assembly assembly)
