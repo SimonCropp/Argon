@@ -10,7 +10,7 @@
     <Using Remove="System.Net.Http" />
     <Using Include="Xunit" />
     <PackageReference Include="MarkdownSnippets.MsBuild" Version="24.5.1" Condition="$(TargetFramework) == 'net7.0'" />
-    <PackageReference Include="Polyfill" Version="0.23.0" PrivateAssets="all" />
+    <PackageReference Include="Polyfill" Version="0.24.0" PrivateAssets="all" />
     <PackageReference Include="NodaTime" Version="3.1.6" />
     <PackageReference Include="ProjectDefaults" Version="1.0.90" PrivateAssets="all" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
