@@ -21,22 +21,19 @@ readonly struct StringReference
 
     public override string ToString() =>
         new(Chars, StartIndex, Length);
-}
 
-static class StringReferenceExtensions
-{
-    public static bool StartsWith(this StringReference s, string text)
+    public bool StartsWith(string text)
     {
-        if (text.Length > s.Length)
+        if (text.Length > Length)
         {
             return false;
         }
 
-        var chars = s.Chars;
+        var chars = Chars;
 
         for (var i = 0; i < text.Length; i++)
         {
-            if (text[i] != chars[i + s.StartIndex])
+            if (text[i] != chars[i + StartIndex])
             {
                 return false;
             }
@@ -45,16 +42,16 @@ static class StringReferenceExtensions
         return true;
     }
 
-    public static bool EndsWith(this StringReference s, string text)
+    public bool EndsWith(string text)
     {
-        if (text.Length > s.Length)
+        if (text.Length > Length)
         {
             return false;
         }
 
-        var chars = s.Chars;
+        var chars = Chars;
 
-        var start = s.StartIndex + s.Length - text.Length;
+        var start = StartIndex + Length - text.Length;
         for (var i = 0; i < text.Length; i++)
         {
             if (text[i] != chars[i + start])
