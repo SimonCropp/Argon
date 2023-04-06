@@ -309,16 +309,16 @@ public class DemoTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized("""
             {
               "$id": "1",
-              "$type": "DemoTests+Manager, Tests",
+              "$type": "DemoTests+Manager, ArgonTests",
               "Reportees": [
                 {
                   "$id": "2",
-                  "$type": "DemoTests+Employee, Tests",
+                  "$type": "DemoTests+Employee, ArgonTests",
                   "Name": "Arnie Admin"
                 },
                 {
                   "$id": "3",
-                  "$type": "DemoTests+Manager, Tests",
+                  "$type": "DemoTests+Manager, ArgonTests",
                   "Reportees": [
                     {
                       "$ref": "2"
@@ -338,16 +338,16 @@ public class DemoTests : TestFixtureBase
         var json = """
             {
               '$id': '1',
-              '$type': 'DemoTests+Manager, Tests',
+              '$type': 'DemoTests+Manager, ArgonTests',
               'Reportees': [
                 {
                   '$id': '2',
-                  '$type': 'DemoTests+Employee, Tests',
+                  '$type': 'DemoTests+Employee, ArgonTests',
                   'Name': 'Arnie Admin'
                 },
                 {
                   '$id': '3',
-                  '$type': 'DemoTests+Manager, Tests',
+                  '$type': 'DemoTests+Manager, ArgonTests',
                   'Reportees': [
                     {
                       '$ref': '2'

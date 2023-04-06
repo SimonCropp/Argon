@@ -18,7 +18,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             {
                 'Name': 'James',
                 'Password': 'Password1',
-                '$type': 'MetadataPropertyHandlingTests+User, Tests'
+                '$type': 'MetadataPropertyHandlingTests+User, ArgonTests'
             }
             """;
 
@@ -550,7 +550,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
               "Payload1": 1,
               "Payload2": {'prop1':1,'prop2':[2]},
               "Payload3": [1],
-              "$type": "MetadataPropertyHandlingTests+ItemWithJTokens, Tests"
+              "$type": "MetadataPropertyHandlingTests+ItemWithJTokens, ArgonTests"
             }
             """,
             new JsonSerializerSettings
