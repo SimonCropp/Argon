@@ -25,5 +25,5 @@ catch (JsonException)
     result = "Unable to find result in JSON.";
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/ErrorWhenNoMatchQuery.cs#L10-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorwhennomatchquery' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/ErrorWhenNoMatchQuery.cs#L10-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorwhennomatchquery' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

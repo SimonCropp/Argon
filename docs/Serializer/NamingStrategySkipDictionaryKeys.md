@@ -12,7 +12,7 @@ public class DailyHighScores
     public Dictionary<string, int> UserPoints { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeystypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeystypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategySkipDictionaryKeysUsage -->
@@ -55,5 +55,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L21-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeysusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L21-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeysusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

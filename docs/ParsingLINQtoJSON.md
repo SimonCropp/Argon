@@ -22,7 +22,7 @@ var json = """
 
 var o = JObject.Parse(json);
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L162-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparse' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L162-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparse' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: LinqToJsonCreateParseArray -->
@@ -36,7 +36,7 @@ var json = @"[
 
 var a = JArray.Parse(json);
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L182-L192' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparsearray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L182-L192' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreateparsearray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -51,7 +51,7 @@ using var reader = File.OpenText(@"c:\person.json");
 var o = (JObject) JToken.ReadFrom(new JsonTextReader(reader));
 // do stuff
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L204-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L204-L210' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonreadobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

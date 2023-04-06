@@ -23,7 +23,7 @@ var json = array.ToString();
 //   "2000-05-23T00:00:00"
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L40-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatenormal' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L40-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatenormal' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -86,7 +86,7 @@ Console.WriteLine(rss.ToString());
 //  }
 //}
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L72-L126' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatedeclaratively' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L72-L126' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatedeclaratively' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -119,7 +119,7 @@ var o = JObject.FromObject(new
     }
 });
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L134-L156' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatefromobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L134-L156' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatefromobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

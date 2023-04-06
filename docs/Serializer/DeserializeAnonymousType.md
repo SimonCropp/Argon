@@ -19,5 +19,5 @@ var customer2 = JsonConvert.DeserializeAnonymousType(json2, definition);
 Console.WriteLine(customer2.Name);
 // Mike
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeAnonymousType.cs#L10-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeanonymoustype' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeAnonymousType.cs#L10-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeanonymoustype' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

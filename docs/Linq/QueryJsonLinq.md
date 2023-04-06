@@ -64,5 +64,5 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L73' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

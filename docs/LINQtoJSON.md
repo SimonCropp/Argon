@@ -25,7 +25,7 @@ var allDrives = o["Drives"].Select(t => (string) t).ToList();
 // DVD read/writer
 // 500 gigabyte hard drive
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L12-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L12-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -14,7 +14,7 @@ public class CustomerInvoice
     [JsonExtensionData] IDictionary<string, JToken> _additionalData;
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L9-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L9-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeExtensionDataUsage -->
@@ -40,5 +40,5 @@ var result = JsonConvert.SerializeObject(invoice);
 //   "Hours": 40
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L27-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeExtensionData.cs#L27-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

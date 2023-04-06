@@ -56,7 +56,7 @@ public class TaskController
     public ILogger Logger { get; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L11-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L11-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeWithDependencyInjectionUsage -->
@@ -88,5 +88,5 @@ var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSer
 Console.WriteLine(controller.Repository.GetType().Name);
 // TaskRepository
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L69-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L69-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

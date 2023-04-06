@@ -60,7 +60,7 @@ public class SerializationEventTestObject :
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L95-L140' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L95-L140' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The example object being serialized and deserialized by Json.NET:</para>
@@ -106,5 +106,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/Tests/Documentation/SerializationTests.cs#L145-L185' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L145-L185' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

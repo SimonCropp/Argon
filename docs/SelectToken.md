@@ -54,7 +54,7 @@ var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price")
 var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L444-L488' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L444-L488' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -115,7 +115,7 @@ foreach (var item in pricyProducts)
 // Anvil
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L10-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L10-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -137,7 +137,7 @@ var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("P
 var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
 // 149.95
 ```
-<sup><a href='/src/Tests/Documentation/LinqToJsonTests.cs#L531-L544' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L531-L544' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
