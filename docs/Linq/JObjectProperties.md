@@ -26,5 +26,5 @@ foreach (var property in o)
 // name1 - value1
 // name2 - value2
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/JObjectProperties.cs#L12-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-jobjectproperties' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/JObjectProperties.cs#L12-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-jobjectproperties' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

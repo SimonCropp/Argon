@@ -15,7 +15,7 @@ public class Employee
         Manager != this;
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertytypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeConditionalPropertyUsage -->
@@ -51,5 +51,5 @@ Console.WriteLine(json);
 //   }
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L24-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeConditionalProperty.cs#L24-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeconditionalpropertyusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

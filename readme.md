@@ -31,7 +31,7 @@ var json = JsonConvert.SerializeObject(product);
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Snippets.cs#L37-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L37-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -56,7 +56,7 @@ var movie = JsonConvert.DeserializeObject<Movie>(json);
 var name = movie.Name;
 // Bad Boys
 ```
-<sup><a href='/src/Tests/Documentation/Snippets.cs#L68-L86' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L68-L86' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -83,7 +83,7 @@ var json = jObject.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Snippets.cs#L10-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L10-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
   * [Argon is JSON framework for .NET](/docs/readme.md) <!-- include: index. path: /docs/index.include.md -->

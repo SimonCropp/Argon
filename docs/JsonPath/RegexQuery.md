@@ -28,5 +28,5 @@ foreach (var item in packages)
 
 // Argon
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/RegexQuery.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-regexquery' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/RegexQuery.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-regexquery' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

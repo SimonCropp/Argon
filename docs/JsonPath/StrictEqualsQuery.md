@@ -26,5 +26,5 @@ foreach (var item in strictResults)
 
 // Valid JSON
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-strictequalsqueryusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-strictequalsqueryusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

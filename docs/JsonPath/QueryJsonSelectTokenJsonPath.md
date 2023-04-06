@@ -55,5 +55,5 @@ foreach (var item in pricyProducts)
 // Anvil
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L10-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L10-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

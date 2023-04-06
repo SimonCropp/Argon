@@ -49,5 +49,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L12-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L12-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -13,7 +13,7 @@ public class Customer
     [DefaultValue(" ")] public string FullName => $"{FirstName} {LastName}";
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DefaultValueAttributeIgnore.cs#L9-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvalueattributeignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultValueAttributeIgnore.cs#L9-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvalueattributeignoretypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DefaultValueAttributeIgnoreUsage -->
@@ -38,5 +38,5 @@ var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(customer, Formatting.I
 Console.WriteLine(jsonIgnoreDefaultValues);
 // {}
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DefaultValueAttributeIgnore.cs#L24-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvalueattributeignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultValueAttributeIgnore.cs#L24-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvalueattributeignoreusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

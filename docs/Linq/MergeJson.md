@@ -37,5 +37,5 @@ var json = o1.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/MergeJson.cs#L12-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/MergeJson.cs#L12-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

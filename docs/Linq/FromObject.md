@@ -12,7 +12,7 @@ public class Computer
     public IList<string> Drives { get; set; }
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L9-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/FromObject.cs#L9-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjecttypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: FromObjectUsage -->
@@ -63,5 +63,5 @@ Console.WriteLine(a.ToString());
 //   "SSD"
 // ]
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Linq/FromObject.cs#L23-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/FromObject.cs#L23-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
