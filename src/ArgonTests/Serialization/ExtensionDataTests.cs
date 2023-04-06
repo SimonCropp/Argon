@@ -696,7 +696,7 @@ public class ExtensionDataTests : TestFixtureBase
               "Name": "Name!",
               "Test": 1,
               "Self": {
-                "$type": "TestObjects.WagePerson, Tests",
+                "$type": "TestObjects.WagePerson, ArgonTests",
                 "HourlyWage": 2.0,
                 "Name": null,
                 "BirthDate": "0001-01-01T00:00:00",
@@ -726,7 +726,7 @@ public class ExtensionDataTests : TestFixtureBase
               "Name": "Name!",
               "Test": 1,
               "Self": {
-                "$type": "TestObjects.WagePerson, Tests",
+                "$type": "TestObjects.WagePerson, ArgonTests",
                 "HourlyWage": 2.0,
                 "Name": null,
                 "BirthDate": "0001-01-01T00:00:00",
@@ -772,10 +772,10 @@ public class ExtensionDataTests : TestFixtureBase
 
         XUnitAssert.AreEqualNormalized("""
             {
-              "$type": "ExtensionDataTests+PublicExtensionDataAttributeTestClass, Tests",
+              "$type": "ExtensionDataTests+PublicExtensionDataAttributeTestClass, ArgonTests",
               "Name": "Name!",
               "Test": {
-                "$type": "TestObjects.WagePerson, Tests",
+                "$type": "TestObjects.WagePerson, ArgonTests",
                 "HourlyWage": 2.1,
                 "Name": null,
                 "BirthDate": "0001-01-01T00:00:00",

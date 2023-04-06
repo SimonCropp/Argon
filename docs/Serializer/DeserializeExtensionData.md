@@ -30,7 +30,7 @@ public class DirectoryAccount : IJsonOnDeserialized
         _additionalData = new Dictionary<string, JToken>();
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeExtensionDataUsage -->
@@ -54,5 +54,5 @@ Console.WriteLine(account.Domain);
 Console.WriteLine(account.UserName);
 // johns
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L39-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L39-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

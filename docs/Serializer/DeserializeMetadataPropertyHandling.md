@@ -25,5 +25,5 @@ var u = (User) o;
 Console.WriteLine(u.Name);
 // James
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

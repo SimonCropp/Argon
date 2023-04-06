@@ -49,13 +49,13 @@ public class SerializeTypeNameHandling : TestFixtureBase
 
         Console.WriteLine(jsonTypeNameAll);
         // {
-        //   "$type": "Argon.Samples.Stockholder, Tests",
+        //   "$type": "Argon.Samples.Stockholder, ArgonTests",
         //   "FullName": "Steve Stockholder",
         //   "Businesses": {
-        //     "$type": "System.Collections.Generic.List`1[[Argon.Samples.Business, Tests]], mscorlib",
+        //     "$type": "System.Collections.Generic.List`1[[Argon.Samples.Business, ArgonTests]], mscorlib",
         //     "$values": [
         //       {
-        //         "$type": "Argon.Samples.Hotel, Argon.Tests",
+        //         "$type": "Argon.Samples.Hotel, ArgonTests",
         //         "Stars": 4,
         //         "Name": "Hudson Hotel"
         //       }
@@ -73,7 +73,7 @@ public class SerializeTypeNameHandling : TestFixtureBase
         //   "FullName": "Steve Stockholder",
         //   "Businesses": [
         //     {
-        //       "$type": "Argon.Samples.Hotel, Tests",
+        //       "$type": "Argon.Samples.Hotel, ArgonTests",
         //       "Stars": 4,
         //       "Name": "Hudson Hotel"
         //     }

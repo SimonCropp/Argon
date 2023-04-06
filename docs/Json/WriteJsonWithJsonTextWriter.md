@@ -39,5 +39,5 @@ Console.WriteLine(stringBuilder.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L10-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-writejsonwithjsontextwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L10-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-writejsonwithjsontextwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

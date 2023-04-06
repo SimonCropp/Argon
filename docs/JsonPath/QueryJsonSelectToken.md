@@ -53,5 +53,5 @@ var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 Console.WriteLine(productName);
 // Elbow Grease
 ```
-<sup><a href='/src/Tests/Documentation/Samples/JsonPath/QueryJsonSelectToken.cs#L10-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttoken' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectToken.cs#L10-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttoken' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

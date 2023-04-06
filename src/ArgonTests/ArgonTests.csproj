@@ -4,6 +4,7 @@
     <TargetFrameworks>$(TargetFrameworks);net6.0;net7.0</TargetFrameworks>
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet7'">net7.0</TargetFrameworks>
     <Nullable>disable</Nullable>
+    <RootNamespace>Tests</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Argon.NodaTime\Argon.NodaTime.csproj" />

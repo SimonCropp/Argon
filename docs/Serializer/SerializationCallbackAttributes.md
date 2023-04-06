@@ -48,7 +48,7 @@ public class SerializationEventTestObject :
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializationCallbackAttributesUsage -->
@@ -92,5 +92,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/Tests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L57-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L57-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

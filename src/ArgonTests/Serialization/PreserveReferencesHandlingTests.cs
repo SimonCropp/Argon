@@ -75,14 +75,14 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized($$"""
             {
               "$id": "1",
-              "$type": "PreserveReferencesHandlingTests+Container, Tests",
+              "$type": "PreserveReferencesHandlingTests+Container, ArgonTests",
               "ListA": {
                 "$id": "2",
                 "$type": "{{typeof(List<ContentA>).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
                 "$values": [
                   {
                     "$id": "3",
-                    "$type": "PreserveReferencesHandlingTests+ContentB, Tests",
+                    "$type": "PreserveReferencesHandlingTests+ContentB, ArgonTests",
                     "SomeValue": true
                   }
                 ]
