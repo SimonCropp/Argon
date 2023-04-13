@@ -4,20 +4,6 @@
 
 namespace Argon;
 
-enum ReadType
-{
-    Read,
-    ReadAsInt32,
-    ReadAsInt64,
-    ReadAsBytes,
-    ReadAsString,
-    ReadAsDecimal,
-    ReadAsDateTime,
-    ReadAsDateTimeOffset,
-    ReadAsDouble,
-    ReadAsBoolean
-}
-
 /// <summary>
 /// Represents a reader that provides fast, non-cached, forward-only access to JSON text data.
 /// </summary>
