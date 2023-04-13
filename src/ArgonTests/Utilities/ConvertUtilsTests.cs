@@ -10,9 +10,9 @@ public class ConvertUtilsTests : TestFixtureBase
         var result = ConvertUtils.DecimalTryParse(c, 0, c.Length, out var d);
 
         var result2 = decimal.TryParse(s, NumberStyles.Float, InvariantCulture, out var d2)
-                      && !s.StartsWith(".")
-                      && !s.EndsWith(".")
-                      && !(s.StartsWith("0") && s.Length > 1 && !s.StartsWith("0.") && !s.StartsWith("0e", StringComparison.OrdinalIgnoreCase))
+                      && !s.StartsWith('.')
+                      && !s.EndsWith('.')
+                      && !(s.StartsWith('0') && s.Length > 1 && !s.StartsWith("0.") && !s.StartsWith("0e", StringComparison.OrdinalIgnoreCase))
                       && !(s.StartsWith("-0") && s.Length > 2 && !s.StartsWith("-0.") && !s.StartsWith("-0e", StringComparison.OrdinalIgnoreCase))
                       && s.IndexOf(".e", StringComparison.OrdinalIgnoreCase) == -1;
 
