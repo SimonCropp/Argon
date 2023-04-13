@@ -41,25 +41,4 @@ readonly struct StringReference
 
         return true;
     }
-
-    public bool EndsWith(string text)
-    {
-        if (text.Length > Length)
-        {
-            return false;
-        }
-
-        var chars = Chars;
-
-        var start = StartIndex + Length - text.Length;
-        for (var i = 0; i < text.Length; i++)
-        {
-            if (text[i] != chars[i + start])
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
