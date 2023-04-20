@@ -941,7 +941,7 @@ public class XmlNodeConverterTest : TestFixtureBase
             }
             """);
 
-        Assert.Equal(@"<xs_x0021_:Choice_x0021_ msdata:IsDataSet_x0021_="""" xmlns:xs_x0021_=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata""><?xml-stylesheet href=""classic.xsl"" type=""text/xml""?><![CDATA[<Kiwi>true</Kiwi>]]></xs_x0021_:Choice_x0021_>", node.InnerXml);
+        Assert.Equal("""<xs_x0021_:Choice_x0021_ msdata:IsDataSet_x0021_="" xmlns:xs_x0021_="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"><?xml-stylesheet href="classic.xsl" type="text/xml"?><![CDATA[<Kiwi>true</Kiwi>]]></xs_x0021_:Choice_x0021_>""", node.InnerXml);
 
         var json = SerializeXmlNode(node);
 
@@ -979,7 +979,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void XmlDocumentTypeSerialize()
     {
-        var xml = @"<?xml version=""1.0"" encoding=""utf-8""?><!DOCTYPE STOCKQUOTE PUBLIC ""-//W3C//DTD StockQuote 1.5//EN"" ""http://www.idontexistnopenopewhatnope123.org/dtd/stockquote_1.5.dtd""><STOCKQUOTE ROWCOUNT=""2""><RESULT><ROW><ASK>0</ASK><BID>0</BID><CHANGE>-16.310</CHANGE><COMPANYNAME>Dow Jones</COMPANYNAME><DATETIME>2014-04-17 15:50:37</DATETIME><DIVIDEND>0</DIVIDEND><EPS>0</EPS><EXCHANGE></EXCHANGE><HIGH>16460.490</HIGH><LASTDATETIME>2014-04-17 15:50:37</LASTDATETIME><LASTPRICE>16408.540</LASTPRICE><LOW>16368.140</LOW><OPEN>16424.140</OPEN><PCHANGE>-0.099</PCHANGE><PE>0</PE><PREVIOUSCLOSE>16424.850</PREVIOUSCLOSE><SHARES>0</SHARES><TICKER>DJII</TICKER><TRADES>0</TRADES><VOLUME>136188700</VOLUME><YEARHIGH>11309.000</YEARHIGH><YEARLOW>9302.280</YEARLOW><YIELD>0</YIELD></ROW><ROW><ASK>0</ASK><BID>0</BID><CHANGE>9.290</CHANGE><COMPANYNAME>NASDAQ</COMPANYNAME><DATETIME>2014-04-17 15:40:01</DATETIME><DIVIDEND>0</DIVIDEND><EPS>0</EPS><EXCHANGE></EXCHANGE><HIGH>4110.460</HIGH><LASTDATETIME>2014-04-17 15:40:01</LASTDATETIME><LASTPRICE>4095.520</LASTPRICE><LOW>4064.700</LOW><OPEN>4080.300</OPEN><PCHANGE>0.227</PCHANGE><PE>0</PE><PREVIOUSCLOSE>4086.230</PREVIOUSCLOSE><SHARES>0</SHARES><TICKER>COMP</TICKER><TRADES>0</TRADES><VOLUME>1784210100</VOLUME><YEARHIGH>4371.710</YEARHIGH><YEARLOW>3154.960</YEARLOW><YIELD>0</YIELD></ROW></RESULT><STATUS>Couldn't find ticker: SPIC?</STATUS><STATUSCODE>2</STATUSCODE></STOCKQUOTE>";
+        var xml = """<?xml version="1.0" encoding="utf-8"?><!DOCTYPE STOCKQUOTE PUBLIC "-//W3C//DTD StockQuote 1.5//EN" "http://www.idontexistnopenopewhatnope123.org/dtd/stockquote_1.5.dtd"><STOCKQUOTE ROWCOUNT="2"><RESULT><ROW><ASK>0</ASK><BID>0</BID><CHANGE>-16.310</CHANGE><COMPANYNAME>Dow Jones</COMPANYNAME><DATETIME>2014-04-17 15:50:37</DATETIME><DIVIDEND>0</DIVIDEND><EPS>0</EPS><EXCHANGE></EXCHANGE><HIGH>16460.490</HIGH><LASTDATETIME>2014-04-17 15:50:37</LASTDATETIME><LASTPRICE>16408.540</LASTPRICE><LOW>16368.140</LOW><OPEN>16424.140</OPEN><PCHANGE>-0.099</PCHANGE><PE>0</PE><PREVIOUSCLOSE>16424.850</PREVIOUSCLOSE><SHARES>0</SHARES><TICKER>DJII</TICKER><TRADES>0</TRADES><VOLUME>136188700</VOLUME><YEARHIGH>11309.000</YEARHIGH><YEARLOW>9302.280</YEARLOW><YIELD>0</YIELD></ROW><ROW><ASK>0</ASK><BID>0</BID><CHANGE>9.290</CHANGE><COMPANYNAME>NASDAQ</COMPANYNAME><DATETIME>2014-04-17 15:40:01</DATETIME><DIVIDEND>0</DIVIDEND><EPS>0</EPS><EXCHANGE></EXCHANGE><HIGH>4110.460</HIGH><LASTDATETIME>2014-04-17 15:40:01</LASTDATETIME><LASTPRICE>4095.520</LASTPRICE><LOW>4064.700</LOW><OPEN>4080.300</OPEN><PCHANGE>0.227</PCHANGE><PE>0</PE><PREVIOUSCLOSE>4086.230</PREVIOUSCLOSE><SHARES>0</SHARES><TICKER>COMP</TICKER><TRADES>0</TRADES><VOLUME>1784210100</VOLUME><YEARHIGH>4371.710</YEARHIGH><YEARLOW>3154.960</YEARLOW><YIELD>0</YIELD></ROW></RESULT><STATUS>Couldn't find ticker: SPIC?</STATUS><STATUSCODE>2</STATUSCODE></STOCKQUOTE>""";
 
         var expected = """
             {
@@ -1113,29 +1113,31 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void NamespaceSerializeDeserialize()
     {
-        var xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
-<xs:schema xs:id=""SomeID"" 
-	xmlns="""" 
-	xmlns:xs=""http://www.w3.org/2001/XMLSchema"" 
-	xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"">
-	<xs:element name=""MyDataSet"" msdata:IsDataSet=""true"">
-		<xs:complexType>
-			<xs:choice maxOccurs=""unbounded"">
-				<xs:element name=""customers"" >
-					<xs:complexType >
-						<xs:sequence>
-							<xs:element name=""CustomerID"" type=""xs:integer"" 
-										 minOccurs=""0"" />
-							<xs:element name=""CompanyName"" type=""xs:string"" 
-										 minOccurs=""0"" />
-							<xs:element name=""Phone"" type=""xs:string"" />
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-			</xs:choice>
-		</xs:complexType>
-	</xs:element>
-</xs:schema>";
+        var xml = """
+            <?xml version="1.0" encoding="utf-8" ?>
+            <xs:schema xs:id="SomeID" 
+                xmlns="" 
+                xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+                <xs:element name="MyDataSet" msdata:IsDataSet="true">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded">
+                            <xs:element name="customers" >
+                                <xs:complexType >
+                                    <xs:sequence>
+                                        <xs:element name="CustomerID" type="xs:integer" 
+                                                    minOccurs="0" />
+                                        <xs:element name="CompanyName" type="xs:string" 
+                                                    minOccurs="0" />
+                                        <xs:element name="Phone" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+            </xs:schema>
+            """;
 
         var doc = new XmlDocument();
         doc.LoadXml(xml);
