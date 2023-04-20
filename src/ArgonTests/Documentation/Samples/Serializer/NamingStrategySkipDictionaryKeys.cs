@@ -59,7 +59,8 @@ public class NamingStrategySkipDictionaryKeys : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "date": "2016-06-27T00:00:00Z",
               "game": "Donkey Kong",
@@ -69,6 +70,7 @@ public class NamingStrategySkipDictionaryKeys : TestFixtureBase
                 "JessicaN": 1000
               }
             }
-            """, json);
+            """,
+            json);
     }
 }

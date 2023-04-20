@@ -23,13 +23,15 @@ public class SerializationEventTests : TestFixtureBase
             Assert.Equal(null, obj.Member5);
 
             var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-            XUnitAssert.AreEqualNormalized("""
+            XUnitAssert.AreEqualNormalized(
+                """
                 {
                   "Member1": 11,
                   "Member2": "This value went into the data file during serialization.",
                   "Member4": null
                 }
-                """, json);
+                """,
+                json);
 
             Assert.Equal(11, obj.Member1);
             Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -77,13 +79,15 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Member1": 11,
               "Member2": "This value went into the data file during serialization.",
               "Member4": null
             }
-            """, json);
+            """,
+            json);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -153,7 +157,8 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "1.1": "first",
               "2.222222222": "second",
@@ -161,7 +166,8 @@ public class SerializationEventTests : TestFixtureBase
               "3.14159265358979": "fourth",
               "79228162514264337593543950335": "Inserted on serializing"
             }
-            """, json);
+            """,
+            json);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -188,13 +194,15 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal(null, obj.Member5);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Member1": 11,
               "Member2": "This value went into the data file during serialization.",
               "Member4": null
             }
-            """, json);
+            """,
+            json);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -230,11 +238,13 @@ public class SerializationEventTests : TestFixtureBase
         var obj = new SerializationEventContextSubClassTestObject();
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "TestMember": "Set!"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

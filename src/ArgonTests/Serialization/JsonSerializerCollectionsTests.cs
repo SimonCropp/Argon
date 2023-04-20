@@ -430,7 +430,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "key": [
                 {
@@ -438,7 +439,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
 
         var d2 = JsonConvert.DeserializeObject<CustomConcurrentDictionary>(json);
 
@@ -811,12 +813,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var dic = new CustomReadOnlyDictionary<string, int>(d);
 
         var json = JsonConvert.SerializeObject(dic, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "one": 1,
               "two": 2
             }
-            """, json);
+            """,
+            json);
     }
 
     public class CustomReadOnlyCollection<T> : IReadOnlyCollection<T>
@@ -968,7 +972,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
               }
             ]
-            """, json);
+            """,
+            json);
 
         var result = JsonConvert.DeserializeObject<List<KeyValuePair<string, WagePerson>>>(json);
         Assert.Equal(2, result.Count);
@@ -1056,13 +1061,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(v1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "First": 1,
               "Second": null,
               "Third": 3
             }
-            """, json);
+            """,
+            json);
 
         var v2 = JsonConvert.DeserializeObject<IDictionary<string, int?>>(json);
         Assert.Equal(3, v2.Count);
@@ -1089,7 +1096,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var originalJson = JsonConvert.SerializeObject(go, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Components": {
                 "Key!": {}
@@ -1234,7 +1242,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "NonReadOnlyList": [
                 1
@@ -1267,7 +1276,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 "first": 10
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1481,7 +1491,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(aa, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Before": "Before!",
               "Coordinates": [
@@ -1536,7 +1547,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
               ],
               "After": "After!"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1812,7 +1824,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "$values": [
@@ -1845,7 +1858,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -2015,7 +2029,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(name, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "personsName": "The Idiot in Next To Me",
               "pNumbers": [
@@ -2027,7 +2042,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
 
         var newName = JsonConvert.DeserializeObject<Name>(json);
 
@@ -2249,7 +2265,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 "Sizes": null
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

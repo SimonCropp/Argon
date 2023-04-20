@@ -305,13 +305,15 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "George Michael Bluth",
               "Age": 16,
               "Title": "Mister Manager"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -361,7 +363,8 @@ public class SerializationTests : TestFixtureBase
                 "LastModified": "2009-02-20T12:59:21Z"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -548,7 +551,8 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "name": "Widget",
               "expiryDate": "2010-12-20T18:01:00Z",
@@ -559,7 +563,8 @@ public class SerializationTests : TestFixtureBase
                 "Large"
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -619,7 +624,8 @@ public class SerializationTests : TestFixtureBase
                 "Sizes": null
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -784,7 +790,8 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Bad Boys III",
               "Description": "It's no Bad Boys",
@@ -795,7 +802,8 @@ public class SerializationTests : TestFixtureBase
             }
             """, included);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Bad Boys III",
               "Description": "It's no Bad Boys"
@@ -863,7 +871,8 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Company": "Acme Ltd.",
               "Amount": 50.0,
@@ -874,7 +883,8 @@ public class SerializationTests : TestFixtureBase
             }
             """, included);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Company": "Acme Ltd.",
               "Amount": 50.0
@@ -941,7 +951,8 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "AuthorName": "Brandon Sanderson",
               "AuthorAge": 34,
@@ -949,7 +960,8 @@ public class SerializationTests : TestFixtureBase
             }
             """, startingWithA);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "BookName": "The Gathering Storm",
               "BookPrice": 16.19

@@ -116,7 +116,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WriteEndObjectAsync();
         }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
                 "PropByte": 1,
                 "PropSByte": 2,
@@ -199,7 +200,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             {
               "prop": true
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1420,7 +1422,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await writer.WriteEndObjectAsync();
         Assert.Equal(WriteState.Start, writer.WriteState);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {{{
               "1ytreporP": NULL!!!
             }}}
@@ -1449,7 +1452,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.CloseAsync();
         }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               a: 1
             }
@@ -1479,7 +1483,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.CloseAsync();
         }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "a": b
             }

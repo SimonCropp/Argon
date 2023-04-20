@@ -337,7 +337,8 @@ public class DataTableConverterTests : TestFixtureBase
                 "BytesCol": "SGVsbG8gd29ybGQ="
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     public class TestDataTableConverter : JsonConverter
@@ -480,7 +481,8 @@ public class DataTableConverterTests : TestFixtureBase
 
         var serializedpair = JsonConvert.SerializeObject(pair, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Key": [
                 {
@@ -558,11 +560,13 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Table": null
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<DataTableTestClass>(json);
 

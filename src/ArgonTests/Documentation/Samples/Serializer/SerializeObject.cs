@@ -48,7 +48,8 @@ public class SerializeObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Email": "james@example.com",
               "Active": true,
@@ -58,6 +59,7 @@ public class SerializeObject : TestFixtureBase
                 "Admin"
               ]
             }
-            """, json);
+            """,
+            json);
     }
 }

@@ -99,7 +99,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Include});
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Company": "Acme Ltd.",
               "Amount": 50.0,
@@ -128,7 +129,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Company": "Acme Ltd.",
               "Amount": 50.0,
@@ -143,7 +145,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Company": "Acme Ltd.",
               "Amount": 50.0
@@ -297,35 +300,41 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "IntInclude": 0,
               "IntDefault": 0
             }
-            """, json);
+            """,
+            json);
 
         json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.Ignore
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "IntInclude": 0
             }
-            """, json);
+            """,
+            json);
 
         json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.Include
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "IntInclude": 0,
               "IntDefault": 0
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

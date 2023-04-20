@@ -489,7 +489,8 @@ public class ContractResolverTests : TestFixtureBase
         //   "BookPrice": 16.19
         // }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "AuthorName": "Brandon Sanderson",
               "AuthorAge": 34,
@@ -497,7 +498,8 @@ public class ContractResolverTests : TestFixtureBase
             }
             """, startingWithA);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "BookName": "The Gathering Storm",
               "BookPrice": 16.19

@@ -394,13 +394,15 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "1": "One",
               "2": "II",
               "3": "3"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

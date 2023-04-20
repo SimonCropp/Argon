@@ -74,7 +74,8 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(e, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "extensionData1": [
                 1,
@@ -82,7 +83,8 @@ public class ExtensionDataTests : TestFixtureBase
                 3
               ]
             }
-            """, json);
+            """,
+            json);
 
         var e2 = JsonConvert.DeserializeObject<Example>(json);
 
@@ -118,12 +120,14 @@ public class ExtensionDataTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Name!",
               "Key!": "Value!"
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<ExtensionDataDeserializeWithNonDefaultConstructor>(json);
 
@@ -375,7 +379,8 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "readonly": "Readonly",
               "name": null,
@@ -390,7 +395,8 @@ public class ExtensionDataTests : TestFixtureBase
                 "NotProcessed": true
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -417,7 +423,8 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "readonly": "Readonly",
               "name": null,
@@ -432,7 +439,8 @@ public class ExtensionDataTests : TestFixtureBase
                 "NotProcessed": true
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -455,7 +463,8 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "name": null,
               "testValue1": 1,
@@ -463,7 +472,8 @@ public class ExtensionDataTests : TestFixtureBase
                 "NotProcessed": true
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -637,7 +647,8 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "Name": "Name!",
@@ -646,7 +657,8 @@ public class ExtensionDataTests : TestFixtureBase
                 "$ref": "1"
               }
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<PublicExtensionDataAttributeTestClass>(json, new JsonSerializerSettings
         {
@@ -770,7 +782,8 @@ public class ExtensionDataTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$type": "ExtensionDataTests+PublicExtensionDataAttributeTestClass, ArgonTests",
               "Name": "Name!",
@@ -782,7 +795,8 @@ public class ExtensionDataTests : TestFixtureBase
                 "LastModified": "0001-01-01T00:00:00"
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

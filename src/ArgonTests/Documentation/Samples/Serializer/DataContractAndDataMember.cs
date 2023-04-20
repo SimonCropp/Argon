@@ -42,11 +42,13 @@ public class DataContractAndDataMember : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "ImportantLegalDocuments.docx",
               "Size": 51200
             }
-            """, json);
+            """,
+            json);
     }
 }

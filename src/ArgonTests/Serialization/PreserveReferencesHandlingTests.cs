@@ -148,7 +148,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.All
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "ReadOnlyChild": {
@@ -174,7 +175,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 "$ref": "3"
               }
             }
-            """, json);
+            """,
+            json);
 
         var newP = JsonConvert.DeserializeObject<Parent>(json, new JsonSerializerSettings
         {
@@ -202,7 +204,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "other": {
@@ -213,7 +216,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 "$ref": "1"
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -296,7 +300,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
             new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "$values": [
@@ -322,7 +327,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -432,13 +438,15 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "other": {
                 "blah": null
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -531,7 +539,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
             });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "$type": "CircularReferenceClass",
@@ -550,7 +559,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -629,7 +639,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -689,7 +700,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var value = new ClassWithConditions(condition, condition);
 
         var json = JsonConvert.SerializeObject(value, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Condition1": {
                 "$id": "1",
@@ -699,7 +711,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 "$ref": "1"
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -738,7 +751,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.Objects
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "Name": "c1",
@@ -754,7 +768,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -821,7 +836,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 "$ref": "2"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -876,7 +892,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "One": {
                 "$id": "1",
@@ -895,7 +912,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 "$ref": "2"
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1109,7 +1127,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var data = memoryStream.ToArray();
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "$values": [
@@ -1123,7 +1142,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
 
         memoryStream = new(data);
         IList<MyClass> myClasses2;
@@ -1185,7 +1205,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 "$ref": "1"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1199,13 +1220,15 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "First": 1,
               "Second": 2,
               "Third": 3
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1221,7 +1244,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "First": {
                 "$id": "1",
@@ -1235,7 +1259,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 "$ref": "1"
               }
             }
-            """, json);
+            """,
+            json);
 
         var d = JsonConvert.DeserializeObject<ReferencedDictionary<TestComponentSimple>>(json);
         Assert.Equal(3, d.Count);
@@ -1299,7 +1324,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(o1, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Data": {
                 "Prop1": {
@@ -1319,7 +1345,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 }
               }
             }
-            """, json);
+            """,
+            json);
 
         var o2 = JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json);
 

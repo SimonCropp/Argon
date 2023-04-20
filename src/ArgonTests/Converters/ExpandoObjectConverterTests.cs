@@ -36,7 +36,8 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Before": "Before!",
               "Expando": {
@@ -54,7 +55,8 @@ public class ExpandoObjectConverterTests : TestFixtureBase
               },
               "After": "After!"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -64,13 +66,15 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Before": null,
               "Expando": null,
               "After": null
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

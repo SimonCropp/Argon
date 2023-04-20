@@ -111,7 +111,8 @@ public class LinqToJsonTest : TestFixtureBase
         };
         var output = JObject.FromObject(instance);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Value": 18446744073709551615
             }
@@ -132,7 +133,8 @@ public class LinqToJsonTest : TestFixtureBase
         };
         var output = JObject.FromObject(instance);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Value": 255
             }
@@ -415,7 +417,8 @@ undefined
 
         foreach (JObject friend in items)
         {
-            XUnitAssert.AreEqualNormalized("""
+            XUnitAssert.AreEqualNormalized(
+                """
                 {
                   "name": "value!"
                 }
@@ -647,7 +650,8 @@ undefined
 
         var o = JObject.Parse(json);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "CPU": "Intel",
               "Drives": [
@@ -738,7 +742,8 @@ undefined
 
         Assert.Equal(4, o.Properties().Count());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Test1": "Test1Value",
               "Test2": "Test2Value",
@@ -844,7 +849,8 @@ undefined
         //   ]
         // }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Title": "How to use FromObject - Super effective!",
               "Description": null,
@@ -853,7 +859,8 @@ undefined
                 "LINQ to JSON"
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -917,7 +924,8 @@ undefined
                                             from c in p.Categories
                                             select new JValue(c)))))))));
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "channel": {
                 "title": "James Newton-King",
@@ -1064,14 +1072,16 @@ undefined
 
         var json = stringWriter.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Test1": "2000-10-15T05:05:05Z",
               "Test2": "2000-10-15T05:05:05+11:11",
               "Test3": "Test3Value",
               "Test4": null
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1121,7 +1131,8 @@ undefined
             }
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "channel": {
                 "title": "James Newton-King",
@@ -1200,7 +1211,8 @@ undefined
             }
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "channel": {
                 "title": "James Newton-King",
@@ -1373,7 +1385,8 @@ undefined
         var c1 = new UriGuidTimeSpanTestClass();
         var o = JObject.FromObject(c1);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Guid": "00000000-0000-0000-0000-000000000000",
               "NullableGuid": null,
@@ -1404,7 +1417,8 @@ undefined
         };
         var o = JObject.FromObject(c1);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Guid": "1924129c-f7e0-40f3-9607-9939c531395a",
               "NullableGuid": "9e9f3adf-e017-4f72-91e0-617ebe85967d",
@@ -1527,7 +1541,8 @@ undefined
 
         var json = SerializeWithNoRedundantIdProperties(dic1);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "list1": [
@@ -1550,7 +1565,8 @@ undefined
               },
               "integer": 12345
             }
-            """, json);
+            """,
+            json);
     }
 
     static string SerializeWithNoRedundantIdProperties(object o)

@@ -45,7 +45,8 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "CPU": "Intel",
               "PSU": "500W",

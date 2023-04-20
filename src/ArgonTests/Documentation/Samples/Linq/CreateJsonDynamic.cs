@@ -35,7 +35,8 @@ public class CreateJsonDynamic : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "ProductName": "Elbow Grease",
               "Enabled": true,

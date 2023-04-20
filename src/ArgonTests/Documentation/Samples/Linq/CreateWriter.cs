@@ -36,7 +36,8 @@ public class CreateWriter : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "name1": "value1",
               "name2": "value2",

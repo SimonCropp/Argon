@@ -70,7 +70,8 @@ public class JsonPropertyItemLevelSetting : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Acme Ltd.",
               "Employees": [
@@ -88,6 +89,7 @@ public class JsonPropertyItemLevelSetting : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 }

@@ -840,7 +840,8 @@ public class LinqDynamicTests : TestFixtureBase
         //   "StockValue": 22050.00
         // }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "ProductName": "Elbow Grease (SALE)",
               "Enabled": true,
@@ -848,7 +849,8 @@ public class LinqDynamicTests : TestFixtureBase
               "StockCount": 9000,
               "StockValue": 22050.00
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

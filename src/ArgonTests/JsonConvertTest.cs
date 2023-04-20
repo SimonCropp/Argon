@@ -97,7 +97,8 @@ public class JsonConvertTest : TestFixtureBase
 
             var json = JsonConvert.SerializeObject(new {test = new[] {1, 2, 3}});
 
-            XUnitAssert.AreEqualNormalized("""
+            XUnitAssert.AreEqualNormalized(
+                """
                 {
                   "test": [
                     1,
@@ -105,7 +106,8 @@ public class JsonConvertTest : TestFixtureBase
                     3
                   ]
                 }
-                """, json);
+                """,
+                json);
         }
         finally
         {
@@ -214,7 +216,8 @@ public class JsonConvertTest : TestFixtureBase
             //   "jobTitle": "Web Dude"
             // }
 
-            XUnitAssert.AreEqualNormalized("""
+            XUnitAssert.AreEqualNormalized(
+                """
                 {
                   "firstName": "Eric",
                   "lastName": "Example",
@@ -222,7 +225,8 @@ public class JsonConvertTest : TestFixtureBase
                   "department": "IT",
                   "jobTitle": "Web Dude"
                 }
-                """, json);
+                """,
+                json);
         }
         finally
         {

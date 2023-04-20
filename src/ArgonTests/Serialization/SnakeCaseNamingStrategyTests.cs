@@ -27,13 +27,15 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             ContractResolver = contractResolver
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "name": "Name!",
               "birth_date": "2000-11-20T23:55:44Z",
               "last_modified": "2000-11-20T23:55:44Z"
             }
-            """, json);
+            """,
+            json);
 
         var deserializedPerson = JsonConvert.DeserializeObject<Person>(json, new JsonSerializerSettings
         {
@@ -45,13 +47,15 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
         Assert.Equal(person.Name, deserializedPerson.Name);
 
         json = JsonConvert.SerializeObject(person, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Name!",
               "BirthDate": "2000-11-20T23:55:44Z",
               "LastModified": "2000-11-20T23:55:44Z"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -127,7 +131,8 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
         //  ]
         //}
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "name": "Widget",
               "expiry_date": "2010-12-20T18:01:00Z",
@@ -138,7 +143,8 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
                 "Large"
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -162,7 +168,8 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "explicit": false,
               "text": "Text!",
@@ -170,7 +177,8 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
               "int": 0,
               "child_object": null
             }
-            """, json);
+            """,
+            json);
     }
 
     public class DynamicChildObject
@@ -251,12 +259,14 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "First": "Value1!",
               "Second": "Value2!"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -286,12 +296,14 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
                 ContractResolver = contractResolver
             });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "first": "Value1!",
               "second": "Value2!"
             }
-            """, json);
+            """,
+            json);
     }
 
     public class PropertyAttributeNamingStrategyTestClass
@@ -314,12 +326,14 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "HasNoAttributeNamingStrategy": "Value1!",
               "has_attribute_naming_strategy": "Value2!"
             }
-            """, json);
+            """,
+            json);
     }
 
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -343,13 +357,15 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "prop1": "Value1!",
               "prop2": "Value2!",
               "HasAttributeNamingStrategy": null
             }
-            """, json);
+            """,
+            json);
     }
 
     [JsonDictionary(NamingStrategyType = typeof(SnakeCaseNamingStrategy), NamingStrategyParameters = new object[]
@@ -372,11 +388,13 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "key1": "Value1!",
               "key2": "Value2!"
             }
-            """, json);
+            """,
+            json);
     }
 }

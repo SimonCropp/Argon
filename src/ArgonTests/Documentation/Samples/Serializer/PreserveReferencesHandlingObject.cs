@@ -100,7 +100,8 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "Name": "My Documents",

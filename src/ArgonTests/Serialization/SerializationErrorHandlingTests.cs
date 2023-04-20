@@ -290,7 +290,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 "Member2": "Member3"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -415,13 +416,15 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(person, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "George Michael Bluth",
               "Age": 16,
               "Title": "Mister Manager"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

@@ -35,11 +35,13 @@ public class SerializeRawJson : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "OnLoadFunction": OnLoad,
               "OnUnloadFunction": function(e) { alert(e); }
             }
-            """, json);
+            """,
+            json);
     }
 }

@@ -34,7 +34,8 @@ public class ParseJsonObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "CPU": "Intel",
               "Drives": [

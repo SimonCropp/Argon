@@ -67,6 +67,7 @@ public class SerializeConditionalProperty : TestFixtureBase
                 "Name": "Mike Manager"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 }

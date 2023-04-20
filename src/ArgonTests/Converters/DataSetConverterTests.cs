@@ -421,7 +421,8 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Before": "Before",
               "Set": {
@@ -475,7 +476,8 @@ public class DataSetConverterTests : TestFixtureBase
               ],
               "After": "After"
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<DataSetAndTableTestClass>(json, settings);
 
@@ -500,7 +502,8 @@ public class DataSetConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var json1 = JsonConvert.SerializeObject(ds, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Customers": [
                 {
@@ -519,7 +522,8 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(ds1, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Customers": [
                 {
@@ -527,7 +531,8 @@ public class DataSetConverterTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -563,7 +568,8 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(test, Formatting.Indented, new LowercaseDataTableConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "TableWrapper1": {
                 "DataTableProperty": [
@@ -588,7 +594,8 @@ public class DataSetConverterTests : TestFixtureBase
                 "IntProperty": 0
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     static DataTable CreateDataTable(int cols, string colNamePrefix)

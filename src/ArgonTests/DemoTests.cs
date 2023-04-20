@@ -159,7 +159,8 @@ public class DemoTests : TestFixtureBase
         //   "Date": new Date(1401796800000)
         // }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Serialize All The Things",
               "Date": "2014-06-04T00:00:00Z"
@@ -247,7 +248,8 @@ public class DemoTests : TestFixtureBase
         //   "Name": "Mike Manager"
         // }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Reportees": [
                 {
@@ -264,7 +266,8 @@ public class DemoTests : TestFixtureBase
               ],
               "Name": "Mike Manager"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -306,7 +309,8 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "$type": "DemoTests+Manager, ArgonTests",
@@ -329,7 +333,8 @@ public class DemoTests : TestFixtureBase
               ],
               "Name": "Mike Manager"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -511,7 +516,8 @@ public class DemoTests : TestFixtureBase
         //   ]
         // }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "FirstName": "John",
               "LastName": "Smith",
@@ -521,7 +527,8 @@ public class DemoTests : TestFixtureBase
                 "Admin"
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -571,7 +578,8 @@ public class DemoTests : TestFixtureBase
                 "ReleaseDate": "2017-06-18T00:00:00"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

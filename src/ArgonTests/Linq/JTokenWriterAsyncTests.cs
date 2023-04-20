@@ -235,7 +235,8 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await writer.WriteEndObjectAsync();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Prop1": 1
             }
@@ -317,7 +318,8 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await writer.WriteEndObjectAsync();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "prop1": []
             }

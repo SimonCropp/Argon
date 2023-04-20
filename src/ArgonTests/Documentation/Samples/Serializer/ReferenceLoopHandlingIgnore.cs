@@ -39,13 +39,15 @@ public class ReferenceLoopHandlingIgnore : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Joe User",
               "Manager": {
                 "Name": "Mike Manager"
               }
             }
-            """, json);
+            """,
+            json);
     }
 }

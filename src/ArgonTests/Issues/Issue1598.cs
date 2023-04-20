@@ -27,7 +27,8 @@ public class Issue1598 : TestFixtureBase
                 "Name": "An activity"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -51,7 +52,8 @@ public class Issue1598 : TestFixtureBase
                 "Name": "An activity"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     public class Activity

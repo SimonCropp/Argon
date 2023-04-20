@@ -59,7 +59,8 @@ public class JsonTextWriterTest : TestFixtureBase
             {
               "prop": true
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1446,7 +1447,8 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         Assert.Equal(WriteState.Start, jsonWriter.WriteState);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {{{
               "1ytreporP": NULL!!!
             }}}
@@ -1475,7 +1477,8 @@ public class JsonTextWriterTest : TestFixtureBase
             writer.Close();
         }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               a: 1
             }
@@ -1504,7 +1507,8 @@ public class JsonTextWriterTest : TestFixtureBase
             writer.Close();
         }
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "a": b
             }

@@ -65,7 +65,8 @@ public class CustomContractResolver : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "LastName": "Deepwater-Diver"
             }

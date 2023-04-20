@@ -491,7 +491,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(d, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "result": {
                 "@xp_0:end": "2014-08-15 13:12:11.9184",
@@ -504,7 +505,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "@xmlns:p2": "Test2"
               }
             }
-            """, json);
+            """,
+            json);
 
         var doc = JsonConvert.DeserializeObject<XDocument>(json, settings);
 
@@ -526,7 +528,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(d, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "result": {
                 "@xp_0:end": "2014-08-15 13:12:11.9184",
@@ -539,7 +542,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "@xmlns:p2": "Test2"
               }
             }
-            """, json);
+            """,
+            json);
 
         var doc = JsonConvert.DeserializeObject<XmlDocument>(json, settings);
 
@@ -588,7 +592,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "RequestedBy": "Someone"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -631,7 +636,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "RequestedBy": "Someone"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     public class DecimalContainer
@@ -902,7 +908,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         jsonText = JsonXmlConvert.SerializeXmlNode(element, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "xs:Choice": {
                 "@msdata:IsDataSet": "",
@@ -934,7 +941,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = SerializeXmlNode(node);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "xs!:Choice!": {
                 "@msdata:IsDataSet!": "",
@@ -944,7 +952,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "#cdata-section": "<Kiwi>true</Kiwi>"
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1310,7 +1319,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var jsonText = SerializeXmlNode(doc);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "?xml": {
                 "@version": "1.0",
@@ -1682,11 +1692,13 @@ public class XmlNodeConverterTest : TestFixtureBase
         doc.LoadXml(@"<name>O""Connor</name>"); // i use "" so it will be easier to see the  problem
 
         var json = SerializeXmlNode(doc);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "name": "O\"Connor"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -1764,7 +1776,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         // format
         jsonText = JObject.Parse(jsonText).ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "?xml": {
                 "@version": "1.0",
@@ -1862,7 +1875,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json2 = SerializeXmlNode(doc);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "root!": {
                 "person!": [
@@ -1892,7 +1906,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
             new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "other": {
@@ -1903,7 +1918,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "$ref": "1"
               }
             }
-            """, json);
+            """,
+            json);
 
         var node = DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
@@ -2037,7 +2053,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var newJson = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "1",
               "$values": [
@@ -2084,7 +2101,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var newJson = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": ""
             }
@@ -2230,7 +2248,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var output2 = JsonXmlConvert.SerializeXmlNode(xmlProduct.DocumentElement, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "product": {
                 "Name": "Apple",
@@ -2282,7 +2301,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var output2 = JsonXmlConvert.SerializeXmlNode(xmlProduct.DocumentElement, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Hi",
               "Products": [
@@ -2319,7 +2339,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var output = JsonXmlConvert.SerializeXmlNode(d, Formatting.Indented, true);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": [
                 "Hi",
@@ -2356,7 +2377,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = JsonXmlConvert.SerializeXmlNode(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "?xml": {
                 "@version": "1.0",
@@ -2376,7 +2398,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 }
               }
             }
-            """, json);
+            """,
+            json);
 
         var d2 = JsonXmlConvert.DeserializeXmlNode(json);
 
@@ -2404,7 +2427,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = JsonXmlConvert.SerializeXmlNode(d, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "root": {
                 "Reports": [
@@ -2412,7 +2436,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 ]
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

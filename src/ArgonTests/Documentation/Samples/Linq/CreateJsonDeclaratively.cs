@@ -90,7 +90,8 @@ public class CreateJsonDeclaratively : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "channel": {
                 "title": "James Newton-King",

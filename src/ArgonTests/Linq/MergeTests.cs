@@ -99,12 +99,14 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Property1": 1,
               "Property2": 2
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -123,14 +125,16 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Property1": {
                 "SubProperty1": 1,
                 "SubProperty2": 2
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -150,13 +154,15 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Property1": {
                 "SubProperty1": 1
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -176,7 +182,8 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Property1": {
                 "SubProperty1": 1,
@@ -184,7 +191,8 @@ Parameter name: content",
               },
               "Property2": 2
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -247,7 +255,8 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Array1": [
                 {
@@ -269,7 +278,8 @@ Parameter name: content",
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -300,7 +310,8 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Array1": [
                 {
@@ -320,7 +331,8 @@ Parameter name: content",
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -374,7 +386,8 @@ Parameter name: content",
                 1
               ]
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -408,7 +421,8 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Property1": {
                 "Nested": true
@@ -419,7 +433,8 @@ Parameter name: content",
               ],
               "Property4": true
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -450,14 +465,16 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Array1": [
                 4,
                 5
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -516,7 +533,8 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Array1": [
                 {
@@ -533,7 +551,8 @@ Parameter name: content",
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

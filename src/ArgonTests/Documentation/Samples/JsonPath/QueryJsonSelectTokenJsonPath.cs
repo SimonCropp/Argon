@@ -61,7 +61,8 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "Acme Co",
               "Products": [

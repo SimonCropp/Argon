@@ -54,7 +54,8 @@ public class SerializeDataSet : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Table1": [
                 {
@@ -67,6 +68,7 @@ public class SerializeDataSet : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 }

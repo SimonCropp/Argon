@@ -63,7 +63,8 @@ public class Issue1597 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(o, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Wish": 264,
               "Collect": 7498,
@@ -72,7 +73,8 @@ public class Issue1597 : TestFixtureBase
               "Dropped": 221,
               "2147483647": 2147483647
             }
-            """, json);
+            """,
+            json);
     }
 
     public enum CollectionStatus

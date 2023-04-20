@@ -36,7 +36,8 @@ public class DynamicTests : TestFixtureBase
         Assert.Equal(d.ChildObject, values["ChildObject"]);
 
         var json = JsonConvert.SerializeObject(dynamicObject, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Explicit": true,
               "Decimal": 99.9,
@@ -46,7 +47,8 @@ public class DynamicTests : TestFixtureBase
                 "Integer": 0
               }
             }
-            """, json);
+            """,
+            json);
 
         var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(json);
         XUnitAssert.True(newDynamicObject.Explicit);
@@ -91,7 +93,8 @@ public class DynamicTests : TestFixtureBase
                 "Integer": -2147483648
               }
             }
-            """, json);
+            """,
+            json);
 
         dynamic n = JsonConvert.DeserializeObject(json, null, new JsonSerializerSettings
         {
@@ -227,13 +230,15 @@ public class DynamicTests : TestFixtureBase
             NullValueHandling = NullValueHandling.Ignore
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Explicit": false,
               "Text": "Text!",
               "Int": 2147483647
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -250,7 +255,8 @@ public class DynamicTests : TestFixtureBase
             NullValueHandling = NullValueHandling.Include
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Explicit": false,
               "Text": "Text!",
@@ -258,7 +264,8 @@ public class DynamicTests : TestFixtureBase
               "Int": 2147483647,
               "ChildObject": null
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -277,12 +284,14 @@ public class DynamicTests : TestFixtureBase
             DefaultValueHandling = DefaultValueHandling.Ignore
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Text": "Text!",
               "Int": 2147483647
             }
-            """, json);
+            """,
+            json);
     }
 }
 

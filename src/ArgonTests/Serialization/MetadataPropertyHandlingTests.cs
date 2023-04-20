@@ -230,7 +230,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(child, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "_id": 2,
               "Name": "Isabell",
@@ -240,7 +241,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 "$id": null
               }
             }
-            """, json);
+            """,
+            json);
 
         var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json, new JsonSerializerSettings
         {
@@ -403,7 +405,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 ]
               }
             }
-            """, json);
+            """,
+            json);
 
         var deserialized = JsonConvert.DeserializeObject<TypeNameHandlingTests.TypeNameProperty>(
             json,
@@ -450,7 +453,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "$id": "Id!",
               "$ref": "Ref!",
@@ -458,7 +462,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
               "$values": "Values!",
               "$type": "Type!"
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<MetadataPropertyDisabledTestClass>(
             json,

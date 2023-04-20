@@ -80,7 +80,8 @@ public class CreateJsonAnonymousObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "channel": {
                 "title": "Star Wars",

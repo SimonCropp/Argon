@@ -27,12 +27,14 @@ public class SerializeDictionary : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "James": 9001,
               "Jo": 3474,
               "Jess": 11926
             }
-            """, json);
+            """,
+            json);
     }
 }

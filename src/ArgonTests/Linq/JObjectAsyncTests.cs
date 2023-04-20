@@ -99,7 +99,8 @@ public class JObjectAsyncTests : TestFixtureBase
 
         var o = (JObject) await JToken.ReadFromAsync(reader);
         Assert.NotNull(o);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "code": 0,
               "msg": "No action taken"

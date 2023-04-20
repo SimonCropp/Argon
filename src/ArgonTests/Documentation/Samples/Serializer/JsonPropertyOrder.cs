@@ -53,7 +53,8 @@ public class JsonPropertyOrder : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "FullName": "Aaron Account",
               "EmailAddress": "aaron@example.com",
@@ -62,6 +63,7 @@ public class JsonPropertyOrder : TestFixtureBase
               "Deleted": true,
               "DeletedDate": "2013-01-25T00:00:00"
             }
-            """, json);
+            """,
+            json);
     }
 }

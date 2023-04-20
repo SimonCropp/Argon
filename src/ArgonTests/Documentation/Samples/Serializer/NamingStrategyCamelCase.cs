@@ -44,11 +44,13 @@ public class NamingStrategyCamelCase : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "userName": "jamesn",
               "enabled": true
             }
-            """, json);
+            """,
+            json);
     }
 }

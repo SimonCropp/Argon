@@ -43,7 +43,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Serialize
         });
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Value": {
                 "Value": {
@@ -57,7 +58,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
                 }
               }
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -97,7 +99,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Text": "Text!",
               "Data": [
@@ -117,7 +120,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     public class DictionaryDynamicObject : DynamicObject
@@ -197,7 +201,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "main",
               "Manager": {
@@ -205,7 +210,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
                 "Manager": null
               }
             }
-            """, json);
+            """,
+            json);
     }
 
 

@@ -52,7 +52,8 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Name": "My Documents",
               "Files": [
@@ -60,6 +61,7 @@ public class JsonObjectAttributeOverrideIEnumerable : TestFixtureBase
                 "WiseFinancalAdvice.xlsx"
               ]
             }
-            """, json);
+            """,
+            json);
     }
 }

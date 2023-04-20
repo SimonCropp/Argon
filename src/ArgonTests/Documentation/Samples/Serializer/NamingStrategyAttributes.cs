@@ -41,12 +41,14 @@ public class NamingStrategyAttributes : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "firstName": "Tom",
               "lastName": "Riddle",
               "snake_rating": 10
             }
-            """, json);
+            """,
+            json);
     }
 }

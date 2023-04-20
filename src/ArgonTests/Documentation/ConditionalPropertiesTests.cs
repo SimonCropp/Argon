@@ -99,7 +99,8 @@ public class ConditionalPropertiesTests : TestFixtureBase
                 "Name": "Mike Manager"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -137,6 +138,7 @@ public class ConditionalPropertiesTests : TestFixtureBase
                 "Name": "Mike Manager"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 }

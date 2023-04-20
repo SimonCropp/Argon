@@ -45,7 +45,8 @@ public class MergeJson : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "FirstName": "John",
               "LastName": "Smith",
@@ -55,6 +56,7 @@ public class MergeJson : TestFixtureBase
                 "Admin"
               ]
             }
-            """, json);
+            """,
+            json);
     }
 }

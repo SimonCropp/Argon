@@ -36,7 +36,8 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Cpu": "Intel",
               "Memory": 32,

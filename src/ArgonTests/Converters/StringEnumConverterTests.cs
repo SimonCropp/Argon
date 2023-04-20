@@ -374,13 +374,15 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "StoreColor": 1000,
               "NullableStoreColor1": 1000,
               "NullableStoreColor2": null
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -395,13 +397,15 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "StoreColor": "Red, White",
               "NullableStoreColor1": 0,
               "NullableStoreColor2": "Black, Red, White"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -415,12 +419,14 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Value1": "NegativeTwo",
               "Value2": "Two, Four"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -450,12 +456,14 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(negativeEnumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Value1": "Negative",
               "Value2": -2147483648
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -537,11 +545,13 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Enum": "first, second"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

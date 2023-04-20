@@ -44,11 +44,13 @@ public class JsonConverterAttributeProperty : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "UserName": "domain\\username",
               "Status": "Deleted"
             }
-            """, json);
+            """,
+            json);
     }
 }

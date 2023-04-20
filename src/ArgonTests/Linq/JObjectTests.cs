@@ -18,7 +18,8 @@ public class JObjectTests : TestFixtureBase
 
         string output = o.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "title": null
             }
@@ -84,7 +85,8 @@ public class JObjectTests : TestFixtureBase
             new JProperty("novalue")
         };
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "novalue": null
             }
@@ -512,12 +514,14 @@ public class JObjectTests : TestFixtureBase
 
         var json = o.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "val1": 1,
               "val2": 1
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -583,7 +587,8 @@ public class JObjectTests : TestFixtureBase
 
         var output = o.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "title": null
             }
@@ -668,7 +673,8 @@ public class JObjectTests : TestFixtureBase
             ["o"] = new JValue($@"<div class='s1'>{StringUtils.CarriageReturnLineFeed}</div>")
         };
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "rc": 200,
               "m": "",
@@ -689,7 +695,8 @@ public class JObjectTests : TestFixtureBase
             ["JobTitle"] = new JValue("Support")
         };
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "FirstName": "Maurice",
               "LastName": "Moss",
@@ -708,7 +715,8 @@ public class JObjectTests : TestFixtureBase
             ["JobTitle"] = "Manager"
         };
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "FirstName": "Jen",
               "LastName": "Barber",
@@ -1273,7 +1281,8 @@ public class JObjectTests : TestFixtureBase
 
         var output = o.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "title": null
             }
