@@ -142,7 +142,8 @@ public class Issue1734
         xmlDoc = JsonXmlConvert.DeserializeXNode(JsonWithNamespace, "", true);
 
         xml = xmlDoc.ToString();
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             <ns3:Test_Service xmlns:ns3="http://www.CCKS.org/XRT/Form">
               <ns3:fname>mark</ns3:fname>
               <ns3:lname>joye</ns3:lname>
@@ -176,7 +177,8 @@ public class Issue1734
                 </ns3:contactdetails>
               </ns3:collections>
             </ns3:Test_Service>
-            """, xml);
+            """,
+            xml);
     }
 
     const string JsonWithoutNamespace = """

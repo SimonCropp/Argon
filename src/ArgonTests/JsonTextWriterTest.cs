@@ -1547,7 +1547,8 @@ public class JsonTextWriterTest : TestFixtureBase
 
         jsonWriter.WriteToken(reader, true);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             /*comment*//*hi*/*/{/*comment*/
               "Name": /*comment*/ true/*comment after true*//*comment after comma*/,
               "ExpiryDate": "2014-06-04T00:00:00Z",
@@ -1558,7 +1559,8 @@ public class JsonTextWriterTest : TestFixtureBase
                 /*comment*/
               ]/*comment*/
             }/*comment *//*comment 1 */
-            """, stringWriter.ToString());
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]

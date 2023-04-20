@@ -1252,7 +1252,8 @@ public class JTokenTests : TestFixtureBase
                 "Sixth": "NaN"
               }
             ]
-            """, a2.ToString(Formatting.Indented));
+            """,
+            a2.ToString(Formatting.Indented));
 
         Assert.True(a.DeepEquals(a2));
     }

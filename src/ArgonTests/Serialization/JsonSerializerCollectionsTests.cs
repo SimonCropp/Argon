@@ -566,7 +566,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 6
               ]
             ]
-            """, myOtherArrayAsString);
+            """,
+            myOtherArrayAsString);
 
         var o = JObject.Parse(
             """

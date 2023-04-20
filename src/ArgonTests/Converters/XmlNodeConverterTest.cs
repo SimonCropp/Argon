@@ -2049,7 +2049,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         XmlNode node = JsonXmlConvert.DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             <?xml version="1.0" encoding="utf-16"?>
             <root xmlns:json="http://james.newtonking.com/projects/json" json:id="1">
               <values xmlns="http://james.newtonking.com/projects/json">1</values>
@@ -2058,7 +2059,8 @@ public class XmlNodeConverterTest : TestFixtureBase
               <values xmlns="http://james.newtonking.com/projects/json">4</values>
               <values xmlns="http://james.newtonking.com/projects/json">5</values>
             </root>
-            """, xml);
+            """,
+            xml);
 
         var newJson = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented, true);
 
@@ -2104,10 +2106,12 @@ public class XmlNodeConverterTest : TestFixtureBase
         XmlNode node = JsonXmlConvert.DeserializeXmlNode(json, "root");
         var xml = GetIndentedInnerXml(node);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             <?xml version="1.0" encoding="utf-16"?>
             <root xmlns:json="http://james.newtonking.com/projects/json" json:id="" />
-            """, xml);
+            """,
+            xml);
 
         var newJson = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented, true);
 
@@ -2247,7 +2251,8 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var xmlProduct = JsonXmlConvert.DeserializeXmlNode(output, "product", true);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             <product>
               <Name>Apple</Name>
               <ExpiryDate>2008-12-28T00:00:00Z</ExpiryDate>

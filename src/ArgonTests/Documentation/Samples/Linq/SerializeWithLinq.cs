@@ -82,6 +82,7 @@ public class SerializeWithLinq : TestFixtureBase
                 "BodyHtml": "&lt;h3&gt;Title!&lt;/h3&gt;&lt;p&gt;Content!&lt;/p&gt;"
               }
             ]
-            """, blogPostsArray.ToString());
+            """,
+            blogPostsArray.ToString());
     }
 }

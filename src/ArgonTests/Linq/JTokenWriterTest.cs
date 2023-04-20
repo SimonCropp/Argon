@@ -220,7 +220,8 @@ public class JTokenWriterTest : TestFixtureBase
                 "prop2": 1
               }
             ]
-            """, writer.Token.ToString());
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]

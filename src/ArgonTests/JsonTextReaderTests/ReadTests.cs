@@ -1042,11 +1042,13 @@ third line""";
         Assert.True(jsonTextReader.Read());
         Assert.Equal(JsonToken.String, jsonTextReader.TokenType);
 
-        Assert.Equal("""
+        Assert.Equal(
+            """
             first line
             second line
             third line
-            """, jsonTextReader.Value);
+            """,
+            jsonTextReader.Value);
     }
 
     [Fact]

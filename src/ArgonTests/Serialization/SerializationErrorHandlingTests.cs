@@ -121,7 +121,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializingErrorInChildObject()
     {
-        var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>("""
+        var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(
+            """
             [
               {
                 "Member": "Value1",

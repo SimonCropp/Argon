@@ -113,7 +113,8 @@ public class DataTableConverterTests : TestFixtureBase
 
         var stringName = typeof(string).AssemblyQualifiedName;
 
-        XUnitAssert.AreEqualNormalized($$"""
+        XUnitAssert.AreEqualNormalized(
+            $$"""
             [
               {
                 "TimeSpan": "00:00:00",
@@ -130,7 +131,8 @@ public class DataTableConverterTests : TestFixtureBase
                 "BigInteger": 10000000000000000000000000000000000
               }
             ]
-            """, stringWriter.ToString());
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]

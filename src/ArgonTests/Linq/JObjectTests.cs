@@ -497,7 +497,8 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void Blog() =>
         XUnitAssert.Throws<JsonReaderException>(
-            () => JObject.Parse("""
+            () => JObject.Parse(
+                """
                 {
                     "name": "James",
                     ]!#$THIS IS: BAD JSON![{}}}}]

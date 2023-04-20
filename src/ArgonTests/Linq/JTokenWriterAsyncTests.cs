@@ -217,7 +217,8 @@ public class JTokenWriterAsyncTests : TestFixtureBase
                 "prop2": 1
               }
             ]
-            """, writer.Token.ToString());
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]

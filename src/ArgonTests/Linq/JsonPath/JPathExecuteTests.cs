@@ -1025,7 +1025,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void MultiplePaths()
     {
-        var a = JArray.Parse("""
+        var a = JArray.Parse(
+            """
             [
               {
                 "price": 199,
@@ -1050,7 +1051,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Exists_True()
     {
-        var a = JArray.Parse("""
+        var a = JArray.Parse(
+            """
             [
               {
                 "price": 199,
@@ -1077,7 +1079,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Exists_Null()
     {
-        var a = JArray.Parse("""
+        var a = JArray.Parse(
+            """
             [
               {
                 "price": 199,

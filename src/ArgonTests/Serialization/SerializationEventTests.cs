@@ -41,7 +41,8 @@ public class SerializationEventTests : TestFixtureBase
             var expectedError = $"Error message for member Member6 = Error getting value from 'Member6' on '{obj.GetType().FullName}'.";
             Assert.Equal(expectedError, obj.Member5);
 
-            var o = JObject.Parse("""
+            var o = JObject.Parse(
+                """
                 {
                   "Member1": 11,
                   "Member2": "This value went into the data file during serialization.",

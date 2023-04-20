@@ -671,7 +671,8 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
-        XUnitAssert.AreEqualNormalized($$"""
+        XUnitAssert.AreEqualNormalized(
+            $$"""
             [
               {
                 "$id": "1",

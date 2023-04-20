@@ -424,7 +424,8 @@ undefined
                 {
                   "name": "value!"
                 }
-                """, friend.ToString());
+                """,
+                friend.ToString());
         }
     }
 
@@ -675,12 +676,14 @@ undefined
         Assert.Equal(@"""CPU"": ""Intel""", cpuProperty.ToString());
 
         var drivesProperty = o.Property("Drives");
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             "Drives": [
               "DVD read/writer",
               "500 gigabyte hard drive"
             ]
-            """, drivesProperty.ToString());
+            """,
+            drivesProperty.ToString());
     }
 
     [Fact]
@@ -788,7 +791,8 @@ undefined
                 "0004-05-06T07:08:09Z"
               ]
             ]
-            """, a.ToString());
+            """,
+            a.ToString());
     }
 
     class Post

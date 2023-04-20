@@ -136,7 +136,8 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void DeserializeList()
     {
-        var l = JsonConvert.DeserializeObject<IList<Date>>("""
+        var l = JsonConvert.DeserializeObject<IList<Date>>(
+            """
             [
                 "2000-12-29"
             ]
@@ -149,7 +150,8 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void DeserializeList_Nullable()
     {
-        var l = JsonConvert.DeserializeObject<IList<Date?>>("""
+        var l = JsonConvert.DeserializeObject<IList<Date?>>(
+            """
             [
                 "2000-12-29",
                 null
