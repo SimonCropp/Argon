@@ -54,7 +54,8 @@ public class DataSetConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(dataSet, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Table1": [
                 {
@@ -67,7 +68,8 @@ public class DataSetConverterTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
 
         var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json, settings);
         Assert.NotNull(deserializedDataSet);
@@ -101,11 +103,13 @@ public class DataSetConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Set": null
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<DataSetTestClass>(json);
 
@@ -189,7 +193,8 @@ public class DataSetConverterTests : TestFixtureBase
 
         var deserializedDs = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "FirstTable": [
                 {
@@ -220,7 +225,8 @@ public class DataSetConverterTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
 
         Assert.NotNull(deserializedDs);
     }
@@ -354,7 +360,8 @@ public class DataSetConverterTests : TestFixtureBase
         settings.Converters.Add(new IsoDateTimeConverter());
         var json = JsonConvert.SerializeObject(ds, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "firstTable": [
                 {
@@ -385,7 +392,8 @@ public class DataSetConverterTests : TestFixtureBase
                 }
               ]
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

@@ -222,11 +222,13 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Enum": "@first"
             }
-            """, json);
+            """,
+            json);
 
         c = new()
         {
@@ -234,11 +236,13 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Enum": "Third"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -250,11 +254,13 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Enum": ",third"
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<EnumContainer<NamedEnumWithComma>>(json, new StringEnumConverter());
         Assert.Equal(NamedEnumWithComma.Third, c2.Enum);
@@ -269,11 +275,13 @@ public class StringEnumConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Enum": ","
             }
-            """, json);
+            """,
+            json);
 
         var c2 = JsonConvert.DeserializeObject<EnumContainer<NamedEnumWithComma>>(json, new StringEnumConverter());
         Assert.Equal(NamedEnumWithComma.JustComma, c2.Enum);
@@ -320,13 +328,15 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "StoreColor": "Red",
               "NullableStoreColor1": "White",
               "NullableStoreColor2": null
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -341,13 +351,15 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(enumClass, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "StoreColor": "red",
               "NullableStoreColor1": "darkGoldenrod",
               "NullableStoreColor2": null
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

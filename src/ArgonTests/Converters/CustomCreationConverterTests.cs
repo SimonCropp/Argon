@@ -166,7 +166,8 @@ public class CustomCreationConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(initial, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Id": "00000001-0002-0003-0405-060708090a0b",
               "Year": 2010,
@@ -181,7 +182,8 @@ public class CustomCreationConverterTests : TestFixtureBase
               },
               "NullDecimalRange": null
             }
-            """, json);
+            """,
+            json);
 
         var deserialized = JsonConvert.DeserializeObject<NullInterfaceTestClass>(
             json, new IntRangeConverter(), new DecimalRangeConverter());

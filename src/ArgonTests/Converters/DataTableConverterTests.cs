@@ -513,13 +513,15 @@ public class DataTableConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(dt, settings);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "CustomerID": "432"
               }
             ]
-            """, json);
+            """,
+            json);
     }
 
     [Fact]

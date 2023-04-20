@@ -18,12 +18,14 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new RegexConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Pattern": "abc",
               "Options": 513
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -31,18 +33,30 @@ public class RegexConverterTests : TestFixtureBase
     {
         var regex = new Regex("abc", RegexOptions.IgnoreCase);
 
-        var json = JsonConvert.SerializeObject(regex, Formatting.Indented, new JsonSerializerSettings
-        {
-            Converters = {new RegexConverter(), new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()}},
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        });
+        var json = JsonConvert.SerializeObject(
+            regex,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                Converters =
+                {
+                    new RegexConverter(),
+                    new StringEnumConverter
+                    {
+                        NamingStrategy = new CamelCaseNamingStrategy()
+                    }
+                },
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "pattern": "abc",
               "options": "ignoreCase"
             }
-            """, json);
+            """,
+            json);
     }
 
     [Fact]
@@ -174,14 +188,16 @@ public class RegexConverterTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(new RegexTestClass {Regex = regex}, Formatting.Indented, new RegexConverter());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             {
               "Regex": {
                 "Pattern": "",
                 "Options": 0
               }
             }
-            """, json);
+            """,
+            json);
 
         var newRegex = JsonConvert.DeserializeObject<RegexTestClass>(json, new RegexConverter());
         Assert.Equal("", newRegex.Regex.ToString());

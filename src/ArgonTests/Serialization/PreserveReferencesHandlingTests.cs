@@ -779,7 +779,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             """;
 
         var c1 =
-            JsonConvert.DeserializeObject<CircularReferenceClass>(json, new JsonSerializerSettings
+            JsonConvert.DeserializeObject<CircularReferenceClass>(
+                json,
+                new JsonSerializerSettings
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             });
