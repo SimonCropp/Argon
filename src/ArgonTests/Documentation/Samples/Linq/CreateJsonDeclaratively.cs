@@ -109,6 +109,7 @@ public class CreateJsonDeclaratively : TestFixtureBase
                 ]
               }
             }
-            """, rss.ToString());
+            """,
+            rss.ToString());
     }
 }

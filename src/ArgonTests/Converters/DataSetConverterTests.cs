@@ -511,7 +511,8 @@ public class DataSetConverterTests : TestFixtureBase
                 }
               ]
             }
-            """, json1);
+            """,
+            json1);
 
         var ds1 = new CustomerDataSet();
         var table = ds1.Tables["Customers"];

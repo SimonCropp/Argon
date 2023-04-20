@@ -168,7 +168,8 @@ public class ShouldSerializeTests : TestFixtureBase
         //   }
         // ]
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "Joe Employee",
@@ -327,7 +328,8 @@ public class ShouldSerializeTests : TestFixtureBase
         //  }
         //]
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "Joe Family Details",

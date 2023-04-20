@@ -105,7 +105,8 @@ public class JObjectAsyncTests : TestFixtureBase
               "code": 0,
               "msg": "No action taken"
             }
-            """, o.ToString(Formatting.Indented));
+            """,
+            o.ToString(Formatting.Indented));
     }
 
     [Fact]

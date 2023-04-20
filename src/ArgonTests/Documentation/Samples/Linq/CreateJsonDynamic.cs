@@ -48,7 +48,8 @@ public class CreateJsonDynamic : TestFixtureBase
                 "OnSale"
               ]
             }
-            """, product.ToString());
+            """,
+            product.ToString());
     }
 }
 

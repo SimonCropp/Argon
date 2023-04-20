@@ -44,6 +44,7 @@ public class CreateJsonJTokenWriter : TestFixtureBase
                 2
               ]
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 }

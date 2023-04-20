@@ -109,7 +109,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
               "FollowUpDays": 30,
               "FollowUpEmailAddress": ""
             }
-            """, included);
+            """,
+            included);
     }
 
     [Fact]
@@ -139,7 +140,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
               "FollowUpDays": 30,
               "FollowUpEmailAddress": ""
             }
-            """, included);
+            """,
+            included);
 
         var ignored = JsonConvert.SerializeObject(invoice,
             Formatting.Indented,
@@ -151,7 +153,8 @@ public class DefaultValueHandlingTests : TestFixtureBase
               "Company": "Acme Ltd.",
               "Amount": 50.0
             }
-            """, ignored);
+            """,
+            ignored);
     }
 
     [Fact]

@@ -121,6 +121,7 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
                 }
               ]
             }
-            """, preserveReferenacesObjects);
+            """,
+            preserveReferenacesObjects);
     }
 }

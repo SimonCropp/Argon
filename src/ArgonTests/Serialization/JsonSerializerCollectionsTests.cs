@@ -547,7 +547,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var myOtherArrayAsString = JsonConvert.SerializeObject(myOtherArray, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               [
                 {
@@ -567,7 +568,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             ]
             """, myOtherArrayAsString);
 
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
               "Key": "my value",
               "Value": 0.8
@@ -951,7 +953,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Key": "key1",
@@ -1105,7 +1108,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
               "Id": "Id!",
               "Name": "Name!"
             }
-            """, originalJson);
+            """,
+            originalJson);
 
         var newObject = JsonConvert.DeserializeObject<GameObject>(originalJson);
 
@@ -2250,7 +2254,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         //  }
         //]
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "Product 1",

@@ -100,6 +100,7 @@ public class CreateJsonAnonymousObject : TestFixtureBase
                 ]
               }
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 }

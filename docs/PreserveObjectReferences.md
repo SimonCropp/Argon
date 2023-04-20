@@ -77,7 +77,7 @@ Console.WriteLine(p2.Name);
 var equal = ReferenceEquals(p1, p2);
 // true
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L383-L417' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferenceson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L384-L418' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferenceson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The first Person in the list is serialized with the addition of an object ID. The second Person in JSON is now only a reference to the first.
@@ -105,7 +105,7 @@ public class EmployeeReference
     public EmployeeReference Manager { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L422-L431' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L423-L432' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

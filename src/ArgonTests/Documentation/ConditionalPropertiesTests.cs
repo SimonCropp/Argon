@@ -87,7 +87,8 @@ public class ConditionalPropertiesTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "Joe Employee",
@@ -126,7 +127,8 @@ public class ConditionalPropertiesTests : TestFixtureBase
                 ContractResolver = ShouldSerializeContractResolver.Instance
             });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "Joe Employee",

@@ -70,6 +70,7 @@ public class CustomContractResolver : TestFixtureBase
             {
               "LastName": "Deepwater-Diver"
             }
-            """, startingWithL);
+            """,
+            startingWithL);
     }
 }

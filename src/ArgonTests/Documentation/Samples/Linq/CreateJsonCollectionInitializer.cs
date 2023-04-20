@@ -46,6 +46,7 @@ public class CreateJsonCollectionInitializer : TestFixtureBase
                 "SSD"
               ]
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 }

@@ -57,6 +57,7 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
                 "200 gigabyte hard drive"
               ]
             }
-            """, stringBuilder.ToString());
+            """,
+            stringBuilder.ToString());
     }
 }

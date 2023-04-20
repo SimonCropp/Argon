@@ -61,7 +61,8 @@ public class DataTableConverterTests : TestFixtureBase
         var converter = new DataTableConverter();
         converter.WriteJson(jsonWriter, dt, new());
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "TimeSpan": null,
@@ -74,7 +75,8 @@ public class DataTableConverterTests : TestFixtureBase
                 "BigInteger": null
               }
             ]
-            """, stringWriter.ToString());
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]
@@ -317,7 +319,8 @@ public class DataTableConverterTests : TestFixtureBase
 
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(myTable, settings);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "StringCol": "Item Name",
@@ -492,7 +495,8 @@ public class DataTableConverterTests : TestFixtureBase
               ],
               "Value": 1
             }
-            """, serializedpair);
+            """,
+            serializedpair);
 
         var pair2 = (KeyValuePair<DataTable, int>) JsonConvert.DeserializeObject(serializedpair, typeof(KeyValuePair<DataTable, int>), settings);
 

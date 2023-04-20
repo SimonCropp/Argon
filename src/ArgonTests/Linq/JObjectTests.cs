@@ -23,7 +23,8 @@ public class JObjectTests : TestFixtureBase
             {
               "title": null
             }
-            """, output);
+            """,
+            output);
 
         Assert.Equal(null, v.Value);
         Assert.Null((string) o.title);
@@ -90,7 +91,8 @@ public class JObjectTests : TestFixtureBase
             {
               "novalue": null
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 
     [Fact]
@@ -592,7 +594,8 @@ public class JObjectTests : TestFixtureBase
             {
               "title": null
             }
-            """, output);
+            """,
+            output);
     }
 
     [Fact]
@@ -680,7 +683,8 @@ public class JObjectTests : TestFixtureBase
               "m": "",
               "o": "<div class='s1'>\r\n</div>"
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 
     [Fact]
@@ -704,7 +708,8 @@ public class JObjectTests : TestFixtureBase
               "Department": "IT",
               "JobTitle": "Support"
             }
-            """, moss.ToString());
+            """,
+            moss.ToString());
 
         var jen = new JObject
         {
@@ -724,7 +729,8 @@ public class JObjectTests : TestFixtureBase
               "Department": "IT",
               "JobTitle": "Manager"
             }
-            """, jen.ToString());
+            """,
+            jen.ToString());
     }
 
     [Fact]
@@ -1286,7 +1292,8 @@ public class JObjectTests : TestFixtureBase
             {
               "title": null
             }
-            """, output);
+            """,
+            output);
     }
 
     [Fact]
@@ -1540,7 +1547,8 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void GetValueBlogExample()
     {
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
                 'name': 'Lower',
                 'NAME': 'Upper'

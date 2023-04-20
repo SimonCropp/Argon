@@ -574,7 +574,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(result, settings); // <--- fails here with the cast message
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Country": "6"
@@ -618,7 +619,8 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(result, settings); // <--- fails here with the cast message
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Country": "6"
@@ -919,13 +921,15 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "#cdata-section": "<Kiwi>true</Kiwi>"
               }
             }
-            """, jsonText);
+            """,
+            jsonText);
     }
 
     [Fact]
     public void SerializeNodeTypes_Encoding()
     {
-        var node = DeserializeXmlNode("""
+        var node = DeserializeXmlNode(
+            """
             {
               "xs!:Choice!": {
                 "@msdata:IsDataSet!": "",
@@ -1341,7 +1345,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 ]
               }
             }
-            """, jsonText);
+            """,
+            jsonText);
 
         var newDoc = (XmlDocument) DeserializeXmlNode(jsonText);
 
@@ -1798,7 +1803,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 ]
               }
             }
-            """, jsonText);
+            """,
+            jsonText);
 
         var newDoc = (XmlDocument) DeserializeXmlNode(jsonText);
 
@@ -1893,7 +1899,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 ]
               }
             }
-            """, json2);
+            """,
+            json2);
     }
 
     [Fact]
@@ -2065,7 +2072,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 "5"
               ]
             }
-            """, newJson);
+            """,
+            newJson);
     }
 
     [Fact]
@@ -2106,7 +2114,8 @@ public class XmlNodeConverterTest : TestFixtureBase
             {
               "$id": ""
             }
-            """, newJson);
+            """,
+            newJson);
     }
 
     [Fact]
@@ -2260,7 +2269,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 ]
               }
             }
-            """, output2);
+            """,
+            output2);
     }
 
     public class TestComplexArrayClass
@@ -2355,7 +2365,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 }
               ]
             }
-            """, output);
+            """,
+            output);
     }
 
     [Fact]
@@ -2468,7 +2479,8 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void NullAttributeValue()
     {
-        var node = JsonXmlConvert.DeserializeXmlNode("""
+        var node = JsonXmlConvert.DeserializeXmlNode(
+            """
             {
                 "metrics": {
                     "type": "CPULOAD",

@@ -350,7 +350,8 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "James",
@@ -609,7 +610,8 @@ public class SerializationTests : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "Product 1",
@@ -800,7 +802,8 @@ public class SerializationTests : TestFixtureBase
               "ReleaseDate": null,
               "ReleaseCountries": null
             }
-            """, included);
+            """,
+            included);
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -808,7 +811,8 @@ public class SerializationTests : TestFixtureBase
               "Name": "Bad Boys III",
               "Description": "It's no Bad Boys"
             }
-            """, ignored);
+            """,
+            ignored);
     }
 
     #region ReducingSerializedJsonSizeDefaultValueHandlingObject
@@ -881,7 +885,8 @@ public class SerializationTests : TestFixtureBase
               "FollowUpDays": 30,
               "FollowUpEmailAddress": ""
             }
-            """, included);
+            """,
+            included);
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -889,7 +894,8 @@ public class SerializationTests : TestFixtureBase
               "Company": "Acme Ltd.",
               "Amount": 50.0
             }
-            """, ignored);
+            """,
+            ignored);
     }
 
     #region ReducingSerializedJsonSizeContractResolverObject
@@ -958,7 +964,8 @@ public class SerializationTests : TestFixtureBase
               "AuthorAge": 34,
               "AuthorCountry": "United States of America"
             }
-            """, startingWithA);
+            """,
+            startingWithA);
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -966,7 +973,8 @@ public class SerializationTests : TestFixtureBase
               "BookName": "The Gathering Storm",
               "BookPrice": 16.19
             }
-            """, startingWithB);
+            """,
+            startingWithB);
     }
 
     #region SerializingPartialJsonFragmentsObject

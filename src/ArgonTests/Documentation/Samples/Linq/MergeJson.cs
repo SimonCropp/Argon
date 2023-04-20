@@ -11,7 +11,8 @@ public class MergeJson : TestFixtureBase
     {
         #region MergeJson
 
-        var o1 = JObject.Parse("""
+        var o1 = JObject.Parse(
+            """
             {
               'FirstName': 'John',
               'LastName': 'Smith',
@@ -19,7 +20,8 @@ public class MergeJson : TestFixtureBase
               'Roles': [ 'User' ]
             }
             """);
-        var o2 = JObject.Parse("""
+        var o2 = JObject.Parse(
+            """
             {
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]

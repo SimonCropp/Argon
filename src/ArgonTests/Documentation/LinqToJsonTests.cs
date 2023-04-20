@@ -11,7 +11,8 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region LinqToJsonBasic
 
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
               'CPU': 'Intel',
               'Drives': [
@@ -266,7 +267,8 @@ public class LinqToJsonTests : TestFixtureBase
     [Fact]
     public void LinqToJsonQuerying()
     {
-        var rss = JObject.Parse("""
+        var rss = JObject.Parse(
+            """
             {
               'channel': {
                 'title': 'James Newton-King',
@@ -396,7 +398,8 @@ public class LinqToJsonTests : TestFixtureBase
     [Fact]
     public void SelectTokenSimple()
     {
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
               'Stores': [
                 'Lambton Quay',
@@ -443,7 +446,8 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region SelectTokenComplex
 
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
               'Stores': [
                 'Lambton Quay',
@@ -495,7 +499,8 @@ public class LinqToJsonTests : TestFixtureBase
     [Fact]
     public void SelectTokenLinq()
     {
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
               'Stores': [
                 'Lambton Quay',

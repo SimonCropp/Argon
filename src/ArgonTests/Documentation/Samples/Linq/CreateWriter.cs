@@ -46,6 +46,7 @@ public class CreateWriter : TestFixtureBase
                 2
               ]
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 }

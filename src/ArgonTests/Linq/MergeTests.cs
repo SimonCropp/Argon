@@ -366,7 +366,8 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               1,
               5,
@@ -677,13 +678,15 @@ Parameter name: content",
     [Fact]
     public void Merge_IgnorePropertyCase()
     {
-        var o1 = JObject.Parse("""
+        var o1 = JObject.Parse(
+            """
             {
               'Id': '1',
               'Words': [ 'User' ]
             }
             """);
-        var o2 = JObject.Parse("""
+        var o2 = JObject.Parse(
+            """
             {
                 'Id': '1',
                 'words': [ 'Name' ]

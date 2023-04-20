@@ -9,7 +9,8 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
     {
         #region QueryJsonSelectTokenJsonPath
 
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
               'Stores': [
                 'Lambton Quay',
@@ -72,7 +73,8 @@ public class QueryJsonSelectTokenJsonPath : TestFixtureBase
                 }
               ]
             }
-            """, acme.ToString());
+            """,
+            acme.ToString());
 
         Assert.Equal("Anvil", (string) pricyProducts.ElementAt(0));
         Assert.Equal("Elbow Grease", (string) pricyProducts.ElementAt(1));

@@ -135,7 +135,8 @@ public class JsonSerializerTest : TestFixtureBase
               "P1": true,
               "P2": 44
             }
-            """, strJsonSubclass);
+            """,
+            strJsonSubclass);
 
         //Class implementing interface with hidden members - member of another class.
         var strJsonMainClass = JsonConvert.SerializeObject(myMainClass, Formatting.Indented);
@@ -152,7 +153,8 @@ public class JsonSerializerTest : TestFixtureBase
                 "P2": 44
               }
             }
-            """, strJsonMainClass);
+            """,
+            strJsonMainClass);
     }
 
     public class GenericIEnumerableWithImplicitConversion
@@ -611,7 +613,8 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeNullToJTokenProperty()
     {
-        var otc = JsonConvert.DeserializeObject<NullTestClass>("""
+        var otc = JsonConvert.DeserializeObject<NullTestClass>(
+            """
             {
                 "Value1": null,
                 "Value2": null,
@@ -1127,7 +1130,8 @@ public class JsonSerializerTest : TestFixtureBase
             {
               "title": null
             }
-            """, output);
+            """,
+            output);
     }
 
     // bug: the generic member (T) that hides the base member will not
@@ -4130,7 +4134,8 @@ Path '', line 1, position 1.");
             """,
             json);
 
-        var newC1 = JsonConvert.DeserializeObject<CircularConstructor1>("""
+        var newC1 = JsonConvert.DeserializeObject<CircularConstructor1>(
+            """
             {
               "C2": {
                 "IntProperty": 1,
@@ -5123,7 +5128,8 @@ Path '', line 1, position 1.");
               "virtualMember": "VirtualMember!",
               "nonVirtualMember": "NonVirtualMember!"
             }
-            """, result);
+            """,
+            result);
     }
 
     [Fact]
@@ -5188,7 +5194,8 @@ Path '', line 1, position 1.");
               "virtualMember": "2010-12-31T00:00:00Z",
               "newMemberWithProperty": null
             }
-            """, result);
+            """,
+            result);
     }
 
     [Fact]
@@ -5535,7 +5542,8 @@ Path '', line 1, position 1.");
             """,
             json);
 
-        var c2 = JsonConvert.DeserializeObject<StaticTestClass>("""
+        var c2 = JsonConvert.DeserializeObject<StaticTestClass>(
+            """
             {
               "x": -1,
               "y": -2,
@@ -5801,7 +5809,8 @@ Path '', line 1, position 1.");
                 "$value": "AAECAwQFBgcICQ=="
               }
             }
-            """, jsonString);
+            """,
+            jsonString);
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString);
 
@@ -6854,7 +6863,8 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
@@ -6906,7 +6916,8 @@ This is just junk, though.";
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$id": "1",
@@ -7082,7 +7093,8 @@ This is just junk, though.";
             {
               "Console Writer": "Console"
             }
-            """, text2);
+            """,
+            text2);
 
         var restoredObject = JsonConvert.DeserializeObject<Dictionary<IMyInterface, string>>(text2, options);
         Assert.Equal("ConsoleWriter", restoredObject.First().Key.PrintTest());
@@ -7104,7 +7116,8 @@ This is just junk, though.";
             {
               "Console": "Console Writer"
             }
-            """, text3);
+            """,
+            text3);
 
         var restoredDict2 = JsonConvert.DeserializeObject<Dictionary<string, IMyInterface>>(text3, options);
         Assert.Equal("ConsoleWriter", restoredDict2.First().Value.PrintTest());
@@ -7146,7 +7159,8 @@ This is just junk, though.";
               "Id": "1",
               "X": 2
             }
-            """, s);
+            """,
+            s);
     }
 
     [Fact]

@@ -274,7 +274,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Member": "Value1",
@@ -1026,7 +1027,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errorMessages = new List<string>();
 
-        var reader = new JsonTextReader(new StringReader("""
+        var reader = new JsonTextReader(new StringReader(
+            """
             {
               "string1": "blah",
               "int1": 2147483648,

@@ -55,7 +55,8 @@ public class SerializeConditionalProperty : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Name": "Joe Employee",

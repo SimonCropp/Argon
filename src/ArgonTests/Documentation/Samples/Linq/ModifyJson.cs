@@ -68,6 +68,7 @@ public class ModifyJson : TestFixtureBase
                 ]
               }
             }
-            """, rss.ToString());
+            """,
+            rss.ToString());
     }
 }

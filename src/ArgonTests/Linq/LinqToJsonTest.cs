@@ -116,7 +116,8 @@ public class LinqToJsonTest : TestFixtureBase
             {
               "Value": 18446744073709551615
             }
-            """, output.ToString());
+            """,
+            output.ToString());
     }
 
     public class TestClass_Byte
@@ -138,7 +139,8 @@ public class LinqToJsonTest : TestFixtureBase
             {
               "Value": 255
             }
-            """, output.ToString());
+            """,
+            output.ToString());
     }
 
     [Fact]
@@ -659,7 +661,8 @@ undefined
                 "500 gigabyte hard drive"
               ]
             }
-            """, o.ToString());
+            """,
+            o.ToString());
 
         var list = o.Value<JArray>("Drives");
 
@@ -750,7 +753,8 @@ undefined
               "Test3": "Test3Value",
               "Test4": null
             }
-            """, o.ToString());
+            """,
+            o.ToString());
 
         var a =
             new JArray(
@@ -766,7 +770,8 @@ undefined
             );
 
         Assert.Equal(4, a.Count);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Test1": "Test1Value",
@@ -953,7 +958,8 @@ undefined
                 ]
               }
             }
-            """, rss.ToString());
+            """,
+            rss.ToString());
 
         var postTitles =
             from p in rss["channel"]["item"]
@@ -1160,7 +1166,8 @@ undefined
                 ]
               }
             }
-            """, o.ToString());
+            """,
+            o.ToString());
 
         Assert.IsType(typeof(JObject), o);
         Assert.IsType(typeof(JObject), o["channel"]);
@@ -1240,7 +1247,8 @@ undefined
                 ]
               }
             }
-            """, o.ToString());
+            """,
+            o.ToString());
 
         Assert.IsType(typeof(JObject), o);
         Assert.IsType(typeof(JObject), o["channel"]);
@@ -1394,7 +1402,8 @@ undefined
               "NullableTimeSpan": null,
               "Uri": null
             }
-            """, o.ToString());
+            """,
+            o.ToString());
 
         var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
         Assert.Equal(c1.Guid, c2.Guid);
@@ -1426,7 +1435,8 @@ undefined
               "NullableTimeSpan": "01:00:00",
               "Uri": "http://testuri.com"
             }
-            """, o.ToString());
+            """,
+            o.ToString());
 
         var c2 = o.ToObject<UriGuidTimeSpanTestClass>();
         Assert.Equal(c1.Guid, c2.Guid);

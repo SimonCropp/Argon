@@ -1104,7 +1104,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void WildcardWithProperty()
     {
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
                 "station": 92000041000001, 
                 "containers": [
@@ -1198,7 +1199,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Example()
     {
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
                 "Stores": [
                   "Lambton Quay",
@@ -1444,7 +1446,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void IdentityOperator()
     {
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
                 'Values': [
                     {
@@ -1480,7 +1483,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void QueryWithEscapedPath()
     {
-        var token = JToken.Parse("""
+        var token = JToken.Parse(
+            """
             {
             "Property": [
                   {
@@ -1499,7 +1503,8 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void Equals_FloatWithInt()
     {
-        var token = JToken.Parse("""
+        var token = JToken.Parse(
+            """
             {
               "Values": [
                 {

@@ -144,7 +144,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
                     ]
                 ]
             }
-            """, stringWriter.ToString());
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]
@@ -196,7 +197,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         var json = Encoding.UTF8.GetString(data, 0, data.Length);
 
-        XUnitAssert.EqualsNormalized("""
+        XUnitAssert.EqualsNormalized(
+            """
             {
               "prop": true
             }
@@ -1427,7 +1429,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             {{{
               "1ytreporP": NULL!!!
             }}}
-            """, stringWriter.ToString());
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]

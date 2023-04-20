@@ -23,7 +23,7 @@ public class Car
     [JsonIgnore] public DateTime LastModified { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L710-L723' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizeoptout' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L712-L725' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizeoptout' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If a class has many properties and you only want to serialize a small subset of them, then adding JsonIgnore to all the others will be tedious and error prone. The way to tackle this scenario is to add the `System.Runtime.Serialization.DataContractAttribute` to the class and `System.Runtime.Serialization.DataMemberAttribute` to the properties to serialize. This is opt-in serialization - only the properties you mark up will be serialized, unlike opt-out serialization using JsonIgnoreAttribute.
@@ -46,7 +46,7 @@ public class Computer
     public DateTime NextShipmentDate { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L725-L742' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizeoptin' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L727-L744' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizeoptin' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -72,7 +72,7 @@ public class Movie
     public List<string> ReleaseCountries { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L744-L756' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizenullvaluehandlingobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L746-L758' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizenullvaluehandlingobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReducingSerializedJsonSizeNullValueHandlingExample -->
@@ -106,7 +106,7 @@ var ignored = JsonConvert.SerializeObject(movie,
 //   "Description": "It's no Bad Boys"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L761-L791' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizenullvaluehandlingexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L763-L793' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizenullvaluehandlingexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 NullValueHandling can also be customized on individual properties using the `Argon.JsonPropertyAttribute`. The JsonPropertyAttribute value of NullValueHandling will override the setting on the JsonSerializer for that property.
@@ -138,7 +138,7 @@ public class Invoice
     [DefaultValue("")] public string FollowUpEmailAddress { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L814-L833' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizedefaultvaluehandlingobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L818-L837' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizedefaultvaluehandlingobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReducingSerializedJsonSizeDefaultValueHandlingExample -->
@@ -176,7 +176,7 @@ var ignored = JsonConvert.SerializeObject(invoice,
 //   "Amount": 50.0
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L838-L872' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizedefaultvaluehandlingexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L842-L876' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizedefaultvaluehandlingexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 DefaultValueHandling can also be customized on individual properties using the `Argon.JsonPropertyAttribute`. The JsonPropertyAttribute value of DefaultValueHandling will override the setting on the JsonSerializer for that property.
@@ -211,7 +211,7 @@ public class Book
     public string AuthorCountry { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L895-L919' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L901-L925' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReducingSerializedJsonSizeContractResolverExample -->
@@ -243,7 +243,7 @@ var startingWithB = JsonConvert.SerializeObject(book, Formatting.Indented,
 //   "BookPrice": 16.19
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L924-L952' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L930-L958' title='Snippet source file'>snippet source</a> | <a href='#snippet-reducingserializedjsonsizecontractresolverexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

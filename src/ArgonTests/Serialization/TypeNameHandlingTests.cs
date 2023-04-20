@@ -391,7 +391,8 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "Key": "movie",
@@ -455,7 +456,8 @@ public class TypeNameHandlingTests : TestFixtureBase
               "BirthDate": "0001-01-01T00:00:00",
               "LastModified": "0001-01-01T00:00:00"
             }
-            """, result);
+            """,
+            result);
 
         Assert.True(result.Contains("WagePerson"));
         using var rd = new JsonTextReader(new StringReader(result));
@@ -798,7 +800,8 @@ public class TypeNameHandlingTests : TestFixtureBase
               "Name": "Name!",
               "Manager": null
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 
     [Fact]
@@ -1086,7 +1089,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         //  }
         //]
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$type": "Customer",
@@ -1178,7 +1182,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         //  }
         //]
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$type": "Customer",
@@ -1650,7 +1655,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$type": "TestObjects.TestComponentSimple, ArgonTests",
@@ -1768,7 +1774,8 @@ public class TypeNameHandlingTests : TestFixtureBase
             {
               "MyProperty": 2147483647
             }
-            """, o2.ObjectNotHandled.ToString());
+            """,
+            o2.ObjectNotHandled.ToString());
     }
 
     [Fact]
@@ -2174,7 +2181,8 @@ public class TypeNameHandlingTests : TestFixtureBase
               "$type": "{{dictionaryTypeName}}",
               "k1": "a6e986df-fc2c-4906-a1ef-9492388f7833"
             }
-            """, serializedString);
+            """,
+            serializedString);
 
         var deserializedObject = (Dictionary<string, Guid>) JsonConvert.DeserializeObject(serializedString, settings);
 
@@ -2284,7 +2292,8 @@ public class TypeNameHandlingTests : TestFixtureBase
                 }
               }
             }
-            """, serialized);
+            """,
+            serialized);
 
         var deserialized = JsonConvert.DeserializeObject<DataType>(serialized);
 

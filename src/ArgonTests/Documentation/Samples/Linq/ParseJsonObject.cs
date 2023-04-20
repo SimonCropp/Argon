@@ -43,6 +43,7 @@ public class ParseJsonObject : TestFixtureBase
                 "500 gigabyte hard drive"
               ]
             }
-            """, o.ToString());
+            """,
+            o.ToString());
     }
 }

@@ -1228,7 +1228,8 @@ public class JTokenTests : TestFixtureBase
 
         var a2 = (JArray) a.DeepClone();
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               5,
               [

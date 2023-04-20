@@ -9,7 +9,8 @@ public class QueryJsonSelectToken : TestFixtureBase
     {
         #region QueryJsonSelectToken
 
-        var o = JObject.Parse("""
+        var o = JObject.Parse(
+            """
             {
               'Stores': [
                 'Lambton Quay',

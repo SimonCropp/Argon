@@ -5,7 +5,8 @@ This sample merges LINQ to JSON objects.
 <!-- snippet: MergeJson -->
 <a id='snippet-mergejson'></a>
 ```cs
-var o1 = JObject.Parse("""
+var o1 = JObject.Parse(
+    """
     {
       'FirstName': 'John',
       'LastName': 'Smith',
@@ -13,7 +14,8 @@ var o1 = JObject.Parse("""
       'Roles': [ 'User' ]
     }
     """);
-var o2 = JObject.Parse("""
+var o2 = JObject.Parse(
+    """
     {
       'Enabled': true,
       'Roles': [ 'User', 'Admin' ]
@@ -37,5 +39,5 @@ var json = o1.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/MergeJson.cs#L12-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/MergeJson.cs#L12-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-mergejson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

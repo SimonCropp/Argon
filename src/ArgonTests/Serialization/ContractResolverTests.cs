@@ -496,7 +496,8 @@ public class ContractResolverTests : TestFixtureBase
               "AuthorAge": 34,
               "AuthorCountry": "United States of America"
             }
-            """, startingWithA);
+            """,
+            startingWithA);
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -504,7 +505,8 @@ public class ContractResolverTests : TestFixtureBase
               "BookName": "The Gathering Storm",
               "BookPrice": 16.19
             }
-            """, startingWithB);
+            """,
+            startingWithB);
     }
 
     //TODO:

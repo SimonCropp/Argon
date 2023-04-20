@@ -165,7 +165,8 @@ public class DemoTests : TestFixtureBase
               "Name": "Serialize All The Things",
               "Date": "2014-06-04T00:00:00Z"
             }
-            """, j);
+            """,
+            j);
     }
 
     [Fact]
@@ -484,7 +485,8 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void MergeJson()
     {
-        var o1 = JObject.Parse("""
+        var o1 = JObject.Parse(
+            """
             {
               'FirstName': 'John',
               'LastName': 'Smith',
@@ -492,7 +494,8 @@ public class DemoTests : TestFixtureBase
               'Roles': [ 'User' ]
             }
             """);
-        var o2 = JObject.Parse("""
+        var o2 = JObject.Parse(
+            """
             {
               'Enabled': true,
               'Roles': [ 'User', 'Admin' ]
@@ -565,7 +568,8 @@ public class DemoTests : TestFixtureBase
         //   }
         // ]
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "PackageId": "Argon",

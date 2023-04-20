@@ -96,7 +96,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
               "$type": "{{typeof(Dictionary<string, Guid>).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
               "k1": "5dd2dba0-20c0-49f8-a054-1fa3b0a8d774"
             }
-            """, serializedString);
+            """,
+            serializedString);
 
         var deserializedObject = (Dictionary<string, Guid>) JsonConvert.DeserializeObject(serializedString, settings);
 
@@ -130,7 +131,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 "$value": "AAECAwQFBgcICQ=="
               }
             }
-            """, jsonString);
+            """,
+            jsonString);
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString, new JsonSerializerSettings
         {
@@ -497,7 +499,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void PrimitiveType_MetadataPropertyIgnore()
     {
-        var actual = JsonConvert.DeserializeObject<Item>("""
+        var actual = JsonConvert.DeserializeObject<Item>(
+            """
             {
               "SourceTypeID": "d8220a4b-75b1-4b7a-8112-b7bdae956a45",
               "BrokerID": "951663c4-924e-4c86-a57a-7ed737501dbd",
@@ -526,7 +529,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAhead_JObject_NoParent()
     {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(
+            """
             {
               "Payload": {}
             }
@@ -550,7 +554,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAhead_TypedJValue_NoParent()
     {
-        var actual = (ItemWithJTokens) JsonConvert.DeserializeObject("""
+        var actual = (ItemWithJTokens) JsonConvert.DeserializeObject(
+            """
             {
               "Payload1": 1,
               "Payload2": {'prop1':1,'prop2':[2]},
@@ -580,7 +585,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAhead_JArray_NoParent()
     {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(
+            """
             {
               "Payload": [1]
             }
@@ -602,7 +608,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void PrimitiveType_MetadataPropertyIgnore_WithNoType()
     {
-        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+        var actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(
+            """
             {
               "Payload": {
                 "$type": "System.Single, mscorlib",
@@ -617,7 +624,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         Assert.Equal(5f, actual.Payload);
 
-        actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>("""
+        actual = JsonConvert.DeserializeObject<ItemWithUntypedPayload>(
+            """
             {
               "Payload": {
                 "$type": "System.Single, mscorlib",

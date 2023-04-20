@@ -97,7 +97,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
                 ]
               }
             }
-            """, s);
+            """,
+            s);
 
         var c2 = JsonConvert.DeserializeObject<Container>(s, settings);
 
@@ -624,7 +625,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$id": "1",
@@ -817,7 +819,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(employees, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$id": "1",
@@ -1191,7 +1194,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized("""
+        XUnitAssert.AreEqualNormalized(
+            """
             [
               {
                 "$id": "1",
