@@ -15,7 +15,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var json = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented);
 
-        XmlReader reader = new XmlNodeReader(node);
+        var reader = new XmlNodeReader(node);
         XObject xNode;
         if (node is XmlDocument)
         {
