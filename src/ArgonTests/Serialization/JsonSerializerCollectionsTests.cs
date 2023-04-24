@@ -2584,10 +2584,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         void ExtractGroups()
         {
             Groups = new();
-            if (Person.ContainsKey("groups"))
+            if (Person.TryGetValue("groups", out var groups))
             {
-                var groupsString = Person["groups"];
-                var stringList = groupsString.Split(',');
+                var stringList = groups.Split(',');
 
                 foreach (var group in stringList)
                 {
@@ -2598,9 +2597,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         void ExtractLanguage()
         {
-            if (Person.ContainsKey("language"))
+            if (Person.TryGetValue("language", out var language))
             {
-                switch (Person["language"].Trim())
+                switch (language.Trim())
                 {
                     case "da":
                         Language = ssoLanguage.Danish;
@@ -2664,34 +2663,34 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                     user = casUser;
                 }
 
-                if (eduPerson.ContainsKey("domain"))
+                if (eduPerson.TryGetValue("domain", out var domain))
                 {
-                    Domain = eduPerson["domain"];
+                    Domain = domain;
                 }
 
-                if (eduPerson.ContainsKey("organizationName"))
+                if (eduPerson.TryGetValue("organizationName", out var organizationName))
                 {
-                    OrganizationName = eduPerson["organizationName"];
+                    OrganizationName = organizationName;
                 }
 
-                if (eduPerson.ContainsKey("mail"))
+                if (eduPerson.TryGetValue("mail", out var mail))
                 {
-                    Mail = eduPerson["mail"];
+                    Mail = mail;
                 }
 
-                if (eduPerson.ContainsKey("sn"))
+                if (eduPerson.TryGetValue("sn", out var surname))
                 {
-                    Surname = eduPerson["sn"];
+                    Surname = surname;
                 }
 
-                if (eduPerson.ContainsKey("gn"))
+                if (eduPerson.TryGetValue("gn", out var givenname))
                 {
-                    Givenname = eduPerson["gn"];
+                    Givenname = givenname;
                 }
 
-                if (eduPerson.ContainsKey("cn"))
+                if (eduPerson.TryGetValue("cn", out var commonName))
                 {
-                    CommonName = eduPerson["cn"];
+                    CommonName = commonName;
                 }
 
                 Person = eduPerson;
