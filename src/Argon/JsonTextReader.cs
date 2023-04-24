@@ -1022,12 +1022,12 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             this.charPos = charPos;
                             writeChar = ParseUnicode();
 
-                            if (StringUtils.IsLowSurrogate(writeChar))
+                            if (char.IsLowSurrogate(writeChar))
                             {
                                 // low surrogate with no preceding high surrogate; this char is replaced
                                 writeChar = unicodeReplacementChar;
                             }
-                            else if (StringUtils.IsHighSurrogate(writeChar))
+                            else if (char.IsHighSurrogate(writeChar))
                             {
                                 bool anotherHighSurrogate;
 
@@ -1044,11 +1044,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                                         this.charPos += 2;
                                         writeChar = ParseUnicode();
 
-                                        if (StringUtils.IsLowSurrogate(writeChar))
+                                        if (char.IsLowSurrogate(writeChar))
                                         {
                                             // a valid surrogate pair!
                                         }
-                                        else if (StringUtils.IsHighSurrogate(writeChar))
+                                        else if (char.IsHighSurrogate(writeChar))
                                         {
                                             // another high surrogate; replace current and start check over
                                             highSurrogate = unicodeReplacementChar;

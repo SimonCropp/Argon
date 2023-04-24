@@ -401,12 +401,12 @@ public partial class JsonTextReader
                             this.charPos = charPos;
                             writeChar = await ParseUnicodeAsync(cancellation).ConfigureAwait(false);
 
-                            if (StringUtils.IsLowSurrogate(writeChar))
+                            if (char.IsLowSurrogate(writeChar))
                             {
                                 // low surrogate with no preceding high surrogate; this char is replaced
                                 writeChar = unicodeReplacementChar;
                             }
-                            else if (StringUtils.IsHighSurrogate(writeChar))
+                            else if (char.IsHighSurrogate(writeChar))
                             {
                                 bool anotherHighSurrogate;
 
@@ -423,11 +423,11 @@ public partial class JsonTextReader
                                         this.charPos += 2;
                                         writeChar = await ParseUnicodeAsync(cancellation).ConfigureAwait(false);
 
-                                        if (StringUtils.IsLowSurrogate(writeChar))
+                                        if (char.IsLowSurrogate(writeChar))
                                         {
                                             // a valid surrogate pair!
                                         }
-                                        else if (StringUtils.IsHighSurrogate(writeChar))
+                                        else if (char.IsHighSurrogate(writeChar))
                                         {
                                             // another high surrogate; replace current and start check over
                                             highSurrogate = unicodeReplacementChar;

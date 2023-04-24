@@ -190,12 +190,6 @@ static class StringUtils
         return stringBuilder.ToString();
     }
 
-    public static bool IsHighSurrogate(char c) =>
-        char.IsHighSurrogate(c);
-
-    public static bool IsLowSurrogate(char c) =>
-        char.IsLowSurrogate(c);
-
     public static string Trim(this string s, int start, int length)
     {
         // References: https://referencesource.microsoft.com/#mscorlib/system/string.cs,2691
