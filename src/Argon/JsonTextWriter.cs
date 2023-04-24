@@ -10,7 +10,7 @@ namespace Argon;
 public partial class JsonTextWriter : JsonWriter
 {
     const int indentCharBufferSize = 12;
-    readonly TextWriter writer;
+    TextWriter writer;
     Base64Encoder? base64Encoder;
     char indentChar = ' ';
     int indentation = 2;
