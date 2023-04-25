@@ -498,22 +498,21 @@ static class ReflectionUtils
     {
         const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-        switch (member.MemberType)
+        if (member.MemberType == MemberTypes.Property)
         {
-            case MemberTypes.Property:
-                var property = (PropertyInfo) member;
+            var property = (PropertyInfo) member;
 
-                var indexParameters = property.GetIndexParameters();
-                var types = new Type[indexParameters.Length];
-                for (var index = 0; index < indexParameters.Length; index++)
-                {
-                    types[index] = indexParameters[index].ParameterType;
-                }
+            var indexParameters = property.GetIndexParameters();
+            var types = new Type[indexParameters.Length];
+            for (var index = 0; index < indexParameters.Length; index++)
+            {
+                types[index] = indexParameters[index].ParameterType;
+            }
 
-                return targetType.GetProperty(property.Name, bindingFlags, null, property.PropertyType, types, null);
-            default:
-                return targetType.GetMember(member.Name, member.MemberType, bindingFlags).SingleOrDefault();
+            return targetType.GetProperty(property.Name, bindingFlags, null, property.PropertyType, types, null);
         }
+
+        return targetType.GetMember(member.Name, member.MemberType, bindingFlags).SingleOrDefault();
     }
 
     static List<FieldInfo> GetFields(Type targetType, BindingFlags bindingFlags)
