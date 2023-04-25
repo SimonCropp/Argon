@@ -450,7 +450,7 @@ static class ReflectionUtils
         return targetMembers;
     }
 
-    public static StructMultiKey<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)
+    public static Tuple<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)
     {
         var assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullyQualifiedTypeName);
 

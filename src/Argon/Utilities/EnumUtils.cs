@@ -7,11 +7,11 @@ static class EnumUtils
     const char EnumSeparatorChar = ',';
     const string EnumSeparatorString = ", ";
 
-    static readonly ThreadSafeStore<StructMultiKey<Type, NamingStrategy?>, EnumInfo> ValuesAndNamesPerEnum = new(InitializeValuesAndNames);
+    static readonly ThreadSafeStore<Tuple<Type, NamingStrategy?>, EnumInfo> ValuesAndNamesPerEnum = new(InitializeValuesAndNames);
 
-    static EnumInfo InitializeValuesAndNames(StructMultiKey<Type, NamingStrategy?> key)
+    static EnumInfo InitializeValuesAndNames(Tuple<Type, NamingStrategy?> key)
     {
-        var enumType = key.Value1;
+        var enumType = key.Item1;
         var names = Enum.GetNames(enumType);
         var resolvedNames = new string[names.Length];
         var values = new ulong[names.Length];
@@ -34,9 +34,9 @@ static class EnumUtils
                 throw new InvalidOperationException($"Enum name '{resolvedName}' already exists on enum '{enumType.Name}'.");
             }
 
-            resolvedNames[i] = key.Value2 == null
+            resolvedNames[i] = key.Item2 == null
                 ? resolvedName
-                : key.Value2.GetPropertyName(resolvedName, hasSpecifiedName);
+                : key.Item2.GetPropertyName(resolvedName, hasSpecifiedName);
         }
 
         var isFlags = enumType.IsDefined(typeof(FlagsAttribute), false);

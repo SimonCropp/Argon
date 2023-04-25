@@ -119,12 +119,12 @@ static class ConvertUtils
     public static TimeSpan ParseTimeSpan(string input) =>
         TimeSpan.Parse(input, InvariantCulture);
 
-    static ThreadSafeStore<StructMultiKey<Type, Type>, Func<object?, object?>?> castConverters = new(CreateCastConverter);
+    static ThreadSafeStore<Tuple<Type, Type>, Func<object?, object?>?> castConverters = new(CreateCastConverter);
 
-    static Func<object?, object?>? CreateCastConverter(StructMultiKey<Type, Type> t)
+    static Func<object?, object?>? CreateCastConverter(Tuple<Type, Type> t)
     {
-        var initialType = t.Value1;
-        var targetType = t.Value2;
+        var initialType = t.Item1;
+        var targetType = t.Item2;
         var types = new[] {initialType};
         var castMethodInfo = targetType.GetMethod("op_Implicit", types)
                              ?? targetType.GetMethod("op_Explicit", types);

@@ -11,7 +11,7 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
 {
     static readonly object typeContractCacheLock = new();
     static readonly DefaultJsonNameTable NameTable = new();
-    static Dictionary<StructMultiKey<Type, Type>, JsonContract>? contractCache;
+    static Dictionary<Tuple<Type, Type>, JsonContract>? contractCache;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CamelCasePropertyNamesContractResolver" /> class.
@@ -31,7 +31,7 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
     public override JsonContract ResolveContract(Type type)
     {
         // for backwards compatibility the CamelCasePropertyNamesContractResolver shares contracts between instances
-        var key = new StructMultiKey<Type, Type>(GetType(), type);
+        var key = new Tuple<Type, Type>(GetType(), type);
         var cache = contractCache;
         if (cache == null || !cache.TryGetValue(key, out var contract))
         {
@@ -41,7 +41,7 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
             lock (typeContractCacheLock)
             {
                 cache = contractCache;
-                Dictionary<StructMultiKey<Type, Type>, JsonContract> updatedCache;
+                Dictionary<Tuple<Type, Type>, JsonContract> updatedCache;
                 if (cache == null)
                 {
                     updatedCache = new();
