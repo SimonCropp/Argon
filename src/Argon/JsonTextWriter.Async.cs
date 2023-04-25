@@ -1572,32 +1572,4 @@ public partial class JsonTextWriter
         await WriteRawAsync(json, cancellation).ConfigureAwait(false);
     }
 
-    internal char[] EnsureBuffer(int length, int copyTo)
-    {
-        if (length < 35)
-        {
-            length = 35;
-        }
-
-        var buffer = writeBuffer;
-        if (buffer == null)
-        {
-            return writeBuffer = BufferUtils.RentBuffer(length);
-        }
-
-        if (buffer.Length >= length)
-        {
-            return buffer;
-        }
-
-        var newBuffer = BufferUtils.RentBuffer(length);
-        if (copyTo != 0)
-        {
-            Array.Copy(buffer, newBuffer, copyTo);
-        }
-
-        BufferUtils.ReturnBuffer(buffer);
-        writeBuffer = newBuffer;
-        return newBuffer;
-    }
 }

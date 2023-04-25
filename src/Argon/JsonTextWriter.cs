@@ -670,6 +670,35 @@ public partial class JsonTextWriter : JsonWriter
         // maximum buffer sized used when writing iso date
         writeBuffer ??= BufferUtils.RentBuffer(35);
 
+    internal char[] EnsureBuffer(int length, int copyTo)
+    {
+        if (length < 35)
+        {
+            length = 35;
+        }
+
+        var buffer = writeBuffer;
+        if (buffer == null)
+        {
+            return writeBuffer = BufferUtils.RentBuffer(length);
+        }
+
+        if (buffer.Length >= length)
+        {
+            return buffer;
+        }
+
+        var newBuffer = BufferUtils.RentBuffer(length);
+        if (copyTo != 0)
+        {
+            Array.Copy(buffer, newBuffer, copyTo);
+        }
+
+        BufferUtils.ReturnBuffer(buffer);
+        writeBuffer = newBuffer;
+        return newBuffer;
+    }
+
     void WriteIntegerValue(long value)
     {
         if (value is >= 0 and <= 9)
