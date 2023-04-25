@@ -44,43 +44,6 @@ static class EnumUtils
         return new(isFlags, values, names, resolvedNames);
     }
 
-    public static IList<T> GetFlagsValues<T>(T value) where T : struct
-    {
-        var enumType = typeof(T);
-
-        if (!enumType.IsDefined(typeof(FlagsAttribute), false))
-        {
-            throw new ArgumentException($"Enum type {enumType} is not a set of flags.");
-        }
-
-        var underlyingType = Enum.GetUnderlyingType(value.GetType());
-
-        var num = ToUInt64(value);
-        var enumNameValues = GetEnumValuesAndNames(enumType);
-        var selectedFlagsValues = new List<T>();
-
-        foreach (var enumValue in enumNameValues.Values)
-        {
-            if ((num & enumValue) == enumValue && enumValue != 0)
-            {
-                selectedFlagsValues.Add((T) Convert.ChangeType(enumValue, underlyingType, InvariantCulture));
-            }
-        }
-
-        if (selectedFlagsValues.Count == 0 && enumNameValues.Values.Any(v => v == 0))
-        {
-            selectedFlagsValues.Add(default);
-        }
-
-        return selectedFlagsValues;
-    }
-
-    // Used by Newtonsoft.Json.Schema
-    static CamelCaseNamingStrategy camelCaseNamingStrategy = new();
-
-    public static bool TryToString(Type enumType, object value, bool camelCase, [NotNullWhen(true)] out string? name) =>
-        TryToString(enumType, value, camelCase ? camelCaseNamingStrategy : null, out name);
-
     public static bool TryToString(Type enumType, object value, NamingStrategy? namingStrategy, [NotNullWhen(true)] out string? name)
     {
         var enumInfo = ValuesAndNamesPerEnum.Get(new(enumType, namingStrategy));
