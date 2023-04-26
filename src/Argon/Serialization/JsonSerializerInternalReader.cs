@@ -1151,7 +1151,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         }
 
         if (contract.DefaultCreator != null &&
-            (!contract.DefaultCreatorNonPublic || Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor))
+            (!contract.DefaultCreatorNonPublic ||
+             Serializer.ConstructorHandling.GetValueOrDefault() == ConstructorHandling.AllowNonPublicDefaultConstructor))
         {
             var dictionary = contract.DefaultCreator();
 
