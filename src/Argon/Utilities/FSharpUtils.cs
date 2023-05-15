@@ -2,7 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Reflection;
 
 class FSharpFunction
@@ -36,14 +35,7 @@ static class FSharpUtils
         GetUnionCaseInfoTag = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("Tag")!)!;
         GetUnionCaseInfoDeclaringType = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("DeclaringType")!)!;
         GetUnionCaseInfoFields = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(unionCaseInfo.GetMethod("GetFields")!);
-
-        ofSeq = typeof(ListModule).GetMethod("OfSeq")!;
-
-        mapType = typeof(FSharpMap<,>);
     }
-
-    static MethodInfo ofSeq;
-    static Type mapType;
 
     public static MethodCall<object?, object> PreComputeUnionTagReader { get; }
     public static MethodCall<object?, object> PreComputeUnionReader { get; }
@@ -81,38 +73,6 @@ static class FSharpUtils
         {
             var result = call(target, args);
             return new FSharpFunction(result, invoke);
-        };
-    }
-
-    public static ObjectConstructor CreateSeq(Type type)
-    {
-        var seqType = ofSeq.MakeGenericMethod(type);
-
-        return JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(seqType);
-    }
-
-    public static ObjectConstructor CreateMap(Type keyType, Type valueType)
-    {
-        var creatorDefinition = typeof(FSharpUtils).GetMethod("BuildMapCreator")!;
-
-        var creatorGeneric = creatorDefinition.MakeGenericMethod(keyType, valueType);
-
-        return (ObjectConstructor) creatorGeneric.Invoke(null, null)!;
-    }
-
-    public static ObjectConstructor BuildMapCreator<TKey, TValue>()
-    {
-        var genericMapType = mapType.MakeGenericType(typeof(TKey), typeof(TValue));
-        var ctor = genericMapType.GetConstructor(new[] {typeof(IEnumerable<Tuple<TKey, TValue>>)})!;
-        var ctorDelegate = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(ctor);
-
-        return args =>
-        {
-            // convert dictionary KeyValuePairs to Tuples
-            var values = (IEnumerable<KeyValuePair<TKey, TValue>>) args[0]!;
-            var tupleValues = values.Select(kv => new Tuple<TKey, TValue>(kv.Key, kv.Value));
-
-            return ctorDelegate(tupleValues);
         };
     }
 }
