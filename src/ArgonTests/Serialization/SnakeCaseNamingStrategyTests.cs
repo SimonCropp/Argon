@@ -397,4 +397,33 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             """,
             json);
     }
+
+    [Fact]
+    public void ToSnakeCaseTest()
+    {
+        Assert.Equal("url_value", StringUtils.ToSnakeCase("URLValue"));
+        Assert.Equal("url", StringUtils.ToSnakeCase("URL"));
+        Assert.Equal("id", StringUtils.ToSnakeCase("ID"));
+        Assert.Equal("i", StringUtils.ToSnakeCase("I"));
+        Assert.Equal("", StringUtils.ToSnakeCase(""));
+        Assert.Equal(null, StringUtils.ToSnakeCase(null));
+        Assert.Equal("person", StringUtils.ToSnakeCase("Person"));
+        Assert.Equal("i_phone", StringUtils.ToSnakeCase("iPhone"));
+        Assert.Equal("i_phone", StringUtils.ToSnakeCase("IPhone"));
+        Assert.Equal("i_phone", StringUtils.ToSnakeCase("I Phone"));
+        Assert.Equal("i_phone", StringUtils.ToSnakeCase("I  Phone"));
+        Assert.Equal("i_phone", StringUtils.ToSnakeCase(" IPhone"));
+        Assert.Equal("i_phone", StringUtils.ToSnakeCase(" IPhone "));
+        Assert.Equal("is_cia", StringUtils.ToSnakeCase("IsCIA"));
+        Assert.Equal("vm_q", StringUtils.ToSnakeCase("VmQ"));
+        Assert.Equal("xml2_json", StringUtils.ToSnakeCase("Xml2Json"));
+        Assert.Equal("sn_ak_ec_as_e", StringUtils.ToSnakeCase("SnAkEcAsE"));
+        Assert.Equal("sn_a__k_ec_as_e", StringUtils.ToSnakeCase("SnA__kEcAsE"));
+        Assert.Equal("sn_a__k_ec_as_e", StringUtils.ToSnakeCase("SnA__ kEcAsE"));
+        Assert.Equal("already_snake_case_", StringUtils.ToSnakeCase("already_snake_case_ "));
+        Assert.Equal("is_json_property", StringUtils.ToSnakeCase("IsJSONProperty"));
+        Assert.Equal("shouting_case", StringUtils.ToSnakeCase("SHOUTING_CASE"));
+        Assert.Equal("9999-12-31_t23:59:59.9999999_z", StringUtils.ToSnakeCase("9999-12-31T23:59:59.9999999Z"));
+        Assert.Equal("hi!!_this_is_text._time_to_test.", StringUtils.ToSnakeCase("Hi!! This is text. Time to test."));
+    }
 }

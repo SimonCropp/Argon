@@ -54,4 +54,5 @@ public class CamelCaseNamingStrategy : NamingStrategy
     /// </summary>
     protected override string ResolvePropertyName(string name) =>
         StringUtils.ToCamelCase(name);
+
 }

@@ -96,7 +96,12 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[] {"Small", "Medium", "Large"}
+            Sizes = new[]
+            {
+                "Small",
+                "Medium",
+                "Large"
+            }
         };
 
         var contractResolver = new DefaultContractResolver
@@ -108,7 +113,10 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             JsonConvert.SerializeObject(
                 product,
                 Formatting.Indented,
-                new JsonSerializerSettings {ContractResolver = contractResolver}
+                new JsonSerializerSettings
+                {
+                    ContractResolver = contractResolver
+                }
             );
 
         //{
@@ -177,8 +185,12 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
     {
         var values = new Dictionary<string, string>
         {
-            {"First", "Value1!"},
-            {"Second", "Value2!"}
+            {
+                "First", "Value1!"
+            },
+            {
+                "Second", "Value2!"
+            }
         };
 
         var contractResolver = new DefaultContractResolver
@@ -207,8 +219,12 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
     {
         var values = new Dictionary<string, string>
         {
-            {"First", "Value1!"},
-            {"Second", "Value2!"}
+            {
+                "First", "Value1!"
+            },
+            {
+                "Second", "Value2!"
+            }
         };
 
         var contractResolver = new DefaultContractResolver
@@ -237,7 +253,8 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
 
     public class PropertyAttributeNamingStrategyTestClass
     {
-        [JsonProperty] public string HasNoAttributeNamingStrategy { get; set; }
+        [JsonProperty]
+        public string HasNoAttributeNamingStrategy { get; set; }
 
         [JsonProperty(NamingStrategyType = typeof(KebabCaseNamingStrategy))]
         public string HasAttributeNamingStrategy { get; set; }
@@ -296,7 +313,11 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    [JsonDictionary(NamingStrategyType = typeof(KebabCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true})]
+    [JsonDictionary(NamingStrategyType = typeof(KebabCaseNamingStrategy), NamingStrategyParameters = new object[]
+    {
+        true,
+        true
+    })]
     public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
     {
     }
@@ -320,5 +341,34 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             }
             """,
             json);
+    }
+
+    [Fact]
+    public void ToKebabCaseTest()
+    {
+        Assert.Equal("url-value", StringUtils.ToKebabCase("URLValue"));
+        Assert.Equal("url", StringUtils.ToKebabCase("URL"));
+        Assert.Equal("id", StringUtils.ToKebabCase("ID"));
+        Assert.Equal("i", StringUtils.ToKebabCase("I"));
+        Assert.Equal("", StringUtils.ToKebabCase(""));
+        Assert.Equal(null, StringUtils.ToKebabCase(null));
+        Assert.Equal("person", StringUtils.ToKebabCase("Person"));
+        Assert.Equal("i-phone", StringUtils.ToKebabCase("iPhone"));
+        Assert.Equal("i-phone", StringUtils.ToKebabCase("IPhone"));
+        Assert.Equal("i-phone", StringUtils.ToKebabCase("I Phone"));
+        Assert.Equal("i-phone", StringUtils.ToKebabCase("I  Phone"));
+        Assert.Equal("i-phone", StringUtils.ToKebabCase(" IPhone"));
+        Assert.Equal("i-phone", StringUtils.ToKebabCase(" IPhone "));
+        Assert.Equal("is-cia", StringUtils.ToKebabCase("IsCIA"));
+        Assert.Equal("vm-q", StringUtils.ToKebabCase("VmQ"));
+        Assert.Equal("xml2-json", StringUtils.ToKebabCase("Xml2Json"));
+        Assert.Equal("ke-ba-bc-as-e", StringUtils.ToKebabCase("KeBaBcAsE"));
+        Assert.Equal("ke-b--a-bc-as-e", StringUtils.ToKebabCase("KeB--aBcAsE"));
+        Assert.Equal("ke-b--a-bc-as-e", StringUtils.ToKebabCase("KeB-- aBcAsE"));
+        Assert.Equal("already-kebab-case-", StringUtils.ToKebabCase("already-kebab-case- "));
+        Assert.Equal("is-json-property", StringUtils.ToKebabCase("IsJSONProperty"));
+        Assert.Equal("shouting-case", StringUtils.ToKebabCase("SHOUTING-CASE"));
+        Assert.Equal("9999-12-31-t23:59:59.9999999-z", StringUtils.ToKebabCase("9999-12-31T23:59:59.9999999Z"));
+        Assert.Equal("hi!!-this-is-text.-time-to-test.", StringUtils.ToKebabCase("Hi!! This is text. Time to test."));
     }
 }

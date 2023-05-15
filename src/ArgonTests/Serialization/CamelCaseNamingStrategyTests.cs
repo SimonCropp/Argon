@@ -321,4 +321,37 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
             """,
             json);
     }
+
+    [Fact]
+    public void ToCamelCaseTest()
+    {
+        Assert.Equal("urlValue", StringUtils.ToCamelCase("URLValue"));
+        Assert.Equal("url", StringUtils.ToCamelCase("URL"));
+        Assert.Equal("id", StringUtils.ToCamelCase("ID"));
+        Assert.Equal("i", StringUtils.ToCamelCase("I"));
+        Assert.Equal("", StringUtils.ToCamelCase(""));
+        Assert.Equal(null, StringUtils.ToCamelCase(null));
+        Assert.Equal("person", StringUtils.ToCamelCase("Person"));
+        Assert.Equal("iPhone", StringUtils.ToCamelCase("iPhone"));
+        Assert.Equal("iPhone", StringUtils.ToCamelCase("IPhone"));
+        Assert.Equal("i Phone", StringUtils.ToCamelCase("I Phone"));
+        Assert.Equal("i  Phone", StringUtils.ToCamelCase("I  Phone"));
+        Assert.Equal(" IPhone", StringUtils.ToCamelCase(" IPhone"));
+        Assert.Equal(" IPhone ", StringUtils.ToCamelCase(" IPhone "));
+        Assert.Equal("isCIA", StringUtils.ToCamelCase("IsCIA"));
+        Assert.Equal("vmQ", StringUtils.ToCamelCase("VmQ"));
+        Assert.Equal("xml2Json", StringUtils.ToCamelCase("Xml2Json"));
+        Assert.Equal("snAkEcAsE", StringUtils.ToCamelCase("SnAkEcAsE"));
+        Assert.Equal("snA__kEcAsE", StringUtils.ToCamelCase("SnA__kEcAsE"));
+        Assert.Equal("snA__ kEcAsE", StringUtils.ToCamelCase("SnA__ kEcAsE"));
+        Assert.Equal("already_snake_case_ ", StringUtils.ToCamelCase("already_snake_case_ "));
+        Assert.Equal("isJSONProperty", StringUtils.ToCamelCase("IsJSONProperty"));
+        Assert.Equal("shoutinG_CASE", StringUtils.ToCamelCase("SHOUTING_CASE"));
+        Assert.Equal("9999-12-31T23:59:59.9999999Z", StringUtils.ToCamelCase("9999-12-31T23:59:59.9999999Z"));
+        Assert.Equal("hi!! This is text. Time to test.", StringUtils.ToCamelCase("Hi!! This is text. Time to test."));
+        Assert.Equal("building", StringUtils.ToCamelCase("BUILDING"));
+        Assert.Equal("building Property", StringUtils.ToCamelCase("BUILDING Property"));
+        Assert.Equal("building Property", StringUtils.ToCamelCase("Building Property"));
+        Assert.Equal("building PROPERTY", StringUtils.ToCamelCase("BUILDING PROPERTY"));
+    }
 }
