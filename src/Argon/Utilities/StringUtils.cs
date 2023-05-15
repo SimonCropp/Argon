@@ -9,7 +9,8 @@ static class StringUtils
     public const char LineFeed = '\n';
     public const char Tab = '\t';
 
-    public static bool IsNullOrEmpty([NotNullWhen(false)] string? value) =>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this string? value) =>
         string.IsNullOrEmpty(value);
 
     /// <summary>

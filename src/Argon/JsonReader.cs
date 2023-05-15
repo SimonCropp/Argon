@@ -342,7 +342,7 @@ public abstract partial class JsonReader : IDisposable
 
     internal int? ReadInt32String(string? s)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (s.IsNullOrEmpty())
         {
             SetNullToken();
             return null;
@@ -559,7 +559,7 @@ public abstract partial class JsonReader : IDisposable
 
     internal double? ReadDoubleString(string? s)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (s.IsNullOrEmpty())
         {
             SetNullToken();
             return null;
@@ -614,7 +614,7 @@ public abstract partial class JsonReader : IDisposable
 
     internal bool? ReadBooleanString(string? s)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (s.IsNullOrEmpty())
         {
             SetNullToken();
             return null;
@@ -680,7 +680,7 @@ public abstract partial class JsonReader : IDisposable
 
     internal decimal? ReadDecimalString(string? s)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (s.IsNullOrEmpty())
         {
             SetNullToken();
             return null;
@@ -731,7 +731,7 @@ public abstract partial class JsonReader : IDisposable
 
     internal DateTime? ReadDateTimeString(string? s)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (s.IsNullOrEmpty())
         {
             SetNullToken();
             return null;
@@ -783,7 +783,7 @@ public abstract partial class JsonReader : IDisposable
 
     internal DateTimeOffset? ReadDateTimeOffsetString(string? s)
     {
-        if (StringUtils.IsNullOrEmpty(s))
+        if (s.IsNullOrEmpty())
         {
             SetNullToken();
             return null;

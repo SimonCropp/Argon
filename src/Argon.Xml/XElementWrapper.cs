@@ -54,13 +54,13 @@ class XElementWrapper : XContainerWrapper, IXmlElement
 
     bool HasImplicitNamespaceAttribute(string namespaceUri)
     {
-        if (StringUtils.IsNullOrEmpty(namespaceUri) ||
+        if (namespaceUri.IsNullOrEmpty() ||
             namespaceUri == ParentNode?.NamespaceUri)
         {
             return false;
         }
 
-        if (StringUtils.IsNullOrEmpty(GetPrefixOfNamespace(namespaceUri)))
+        if (GetPrefixOfNamespace(namespaceUri).IsNullOrEmpty())
         {
             var namespaceDeclared = false;
 
@@ -68,7 +68,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
             {
                 foreach (var attribute in Element.Attributes())
                 {
-                    if (attribute.Name.LocalName == "xmlns" && StringUtils.IsNullOrEmpty(attribute.Name.NamespaceName) && attribute.Value == namespaceUri)
+                    if (attribute.Name.LocalName == "xmlns" && attribute.Name.NamespaceName.IsNullOrEmpty() && attribute.Value == namespaceUri)
                     {
                         namespaceDeclared = true;
                     }
