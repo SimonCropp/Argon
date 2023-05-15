@@ -26,9 +26,6 @@ static class FSharpUtils
     {
         var fsharpType = typeof(FSharpType);
 
-        var isUnionMethodInfo = GetMethodWithNonPublicFallback(fsharpType, "IsUnion", BindingFlags.Public | BindingFlags.Static);
-        IsUnion = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(isUnionMethodInfo)!;
-
         var getUnionCasesMethodInfo = GetMethodWithNonPublicFallback(fsharpType, "GetUnionCases", BindingFlags.Public | BindingFlags.Static);
         GetUnionCases = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(getUnionCasesMethodInfo)!;
 
@@ -53,7 +50,6 @@ static class FSharpUtils
     static MethodInfo ofSeq;
     static Type mapType;
 
-    public static MethodCall<object?, object> IsUnion { get; }
     public static MethodCall<object?, object> GetUnionCases { get; }
     public static MethodCall<object?, object> PreComputeUnionTagReader { get; }
     public static MethodCall<object?, object> PreComputeUnionReader { get; }

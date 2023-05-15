@@ -206,26 +206,6 @@ public class DiscriminatedUnionConverter : JsonConverter
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type type)
-    {
-        if (typeof(IEnumerable).IsAssignableFrom(type))
-        {
-            return false;
-        }
-
-        // all fsharp objects have CompilationMappingAttribute
-        // get the fsharp assembly from the attribute and initialize latebound methods
-        var attributes = type.GetCustomAttributes(true);
-
-        foreach (var attribute in attributes)
-        {
-            var attributeType = attribute.GetType();
-            if (attributeType.FullName == "Microsoft.FSharp.Core.CompilationMappingAttribute")
-            {
-                return FSharpType.IsUnion(type, null);
-            }
-        }
-
-        return false;
-    }
+    public override bool CanConvert(Type type) =>
+        FSharpType.IsUnion(type, null);
 }
