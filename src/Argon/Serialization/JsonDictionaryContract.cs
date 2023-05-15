@@ -179,8 +179,6 @@ public class JsonDictionaryContract : JsonContainerContract
         }
     }
 
-    internal IComparer<object>? KeyComparer { get; set; }
-
     internal bool IsSortable { get; set; }
 
     static bool IsSortedDictionary(Type type)
