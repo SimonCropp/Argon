@@ -2,9 +2,60 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Reflection;
 
 namespace Argon;
+
+/// <summary>
+/// Converts a F# discriminated union type to and from JSON.
+/// </summary>
+public class FSharpListConverter : JsonConverter
+{
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        var list = (IEnumerable)value;
+
+        writer.WriteStartArray();
+        foreach (var item in list)
+        {
+            writer.WriteValue(item);
+        }
+        writer.WriteEndArray();
+    }
+
+    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
+    {
+        var genericArgument = type.GetGenericArguments()[0];
+        var toFSharpList = GetType().GetMethod("ToFSharpList")!;
+        return toFSharpList.MakeGenericMethod(genericArgument).Invoke(null, new object[]
+        {
+            reader,
+            serializer
+        });
+    }
+
+    public static FSharpList<T> ToFSharpList<T>(JsonReader reader, JsonSerializer serializer)
+    {
+        var list = new List<T>();
+
+        reader.Read();
+        while (reader.TokenType != JsonToken.EndArray)
+        {
+            var item = serializer.Deserialize<T>(reader);
+
+            list.Add(item);
+
+            reader.Read();
+        }
+
+        return ListModule.OfSeq(list);
+    }
+
+    public override bool CanConvert(Type type) =>
+        type.IsGenericType &&
+        type.GetGenericTypeDefinition() == typeof(FSharpList<>);
+}
 
 /// <summary>
 /// Converts a F# discriminated union type to and from JSON.

@@ -6,12 +6,13 @@ using Microsoft.FSharp.Collections;
 
 public class FSharpTests : TestFixtureBase
 {
+    static FSharpListConverter listConverter = new();
     [Fact]
     public void List()
     {
         var l = ListModule.OfSeq(new List<int> {1, 2, 3});
 
-        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented, listConverter);
 
         XUnitAssert.AreEqualNormalized(@"[
   1,
@@ -19,7 +20,7 @@ public class FSharpTests : TestFixtureBase
   3
 ]", json);
 
-        var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json);
+        var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json, listConverter);
 
         Assert.Equal(l.Length, l2.Length);
         Assert.Equal(l, l2);
@@ -30,7 +31,7 @@ public class FSharpTests : TestFixtureBase
     {
         var l = SetModule.OfSeq(new List<int> {1, 2, 3});
 
-        var json = JsonConvert.SerializeObject(l, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(l, Formatting.Indented, listConverter);
 
         XUnitAssert.AreEqualNormalized(@"[
   1,
@@ -38,7 +39,7 @@ public class FSharpTests : TestFixtureBase
   3
 ]", json);
 
-        var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json);
+        var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json, listConverter);
 
         Assert.Equal(l.Count, l2.Count);
         Assert.Equal(l, l2);
@@ -49,9 +50,9 @@ public class FSharpTests : TestFixtureBase
     {
         var m1 = MapModule.OfSeq(new List<Tuple<string, int>> {Tuple.Create("one", 1), Tuple.Create("II", 2), Tuple.Create("3", 3)});
 
-        var json = JsonConvert.SerializeObject(m1, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(m1, Formatting.Indented, listConverter);
 
-        var m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json);
+        var m2 = JsonConvert.DeserializeObject<FSharpMap<string, int>>(json, listConverter);
 
         Assert.Equal(m1.Count, m2.Count);
         Assert.Equal(1, m2["one"]);
