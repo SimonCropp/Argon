@@ -114,15 +114,11 @@ class FSharpUtils
         var call = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(innerMethodInfo);
         MethodCall<object?, object> invoke = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(invokeFunc)!;
 
-        MethodCall<object?, object> createFunction = (target, args) =>
+        return (target, args) =>
         {
             var result = call(target, args);
-
-            var f = new FSharpFunction(result, invoke);
-            return f;
+            return new FSharpFunction(result, invoke);
         };
-
-        return createFunction;
     }
 
     public ObjectConstructor CreateSeq(Type type)
