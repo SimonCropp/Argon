@@ -66,7 +66,8 @@ public class CamelCaseNamingStrategy : NamingStrategy
 
         for (var i = 0; i < chars.Length; i++)
         {
-            if (i == 1 && !char.IsUpper(chars[i]))
+            var ch = chars[i];
+            if (i == 1 && !char.IsUpper(ch))
             {
                 break;
             }
@@ -84,15 +85,13 @@ public class CamelCaseNamingStrategy : NamingStrategy
                 // but in that case we still want our current character to become lowercase
                 if (char.IsSeparator(chars[i + 1]))
                 {
-                    char c = chars[i];
-                    chars[i] = char.ToLower(c, InvariantCulture);
+                    chars[i] = char.ToLower(ch, InvariantCulture);
                 }
 
                 break;
             }
 
-            char c1 = chars[i];
-            chars[i] = char.ToLower(c1, InvariantCulture);
+            chars[i] = char.ToLower(ch, InvariantCulture);
         }
 
         return new(chars);
