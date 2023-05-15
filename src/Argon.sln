@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.JsonPath", "Argon.Jso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.NodaTime", "Argon.NodaTime\Argon.NodaTime.csproj", "{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.FSharp", "Argon.FSharp\Argon.FSharp.csproj", "{5C3567D2-B8AB-4679-8E44-C5862F56E49B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,12 @@ Global
 		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.DebugNet7|Any CPU.Build.0 = DebugNet7|Any CPU
 		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63A6C5B9-CE2A-4117-AA05-B8EC7A6AA521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3567D2-B8AB-4679-8E44-C5862F56E49B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3567D2-B8AB-4679-8E44-C5862F56E49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3567D2-B8AB-4679-8E44-C5862F56E49B}.DebugNet7|Any CPU.ActiveCfg = DebugNet7|Any CPU
+		{5C3567D2-B8AB-4679-8E44-C5862F56E49B}.DebugNet7|Any CPU.Build.0 = DebugNet7|Any CPU
+		{5C3567D2-B8AB-4679-8E44-C5862F56E49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3567D2-B8AB-4679-8E44-C5862F56E49B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

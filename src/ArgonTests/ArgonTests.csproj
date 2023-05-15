@@ -35,6 +35,7 @@
     <ProjectReference Include="..\Argon.JsonPath\Argon.JsonPath.csproj" />
     <ProjectReference Include="..\Argon.Xml\Argon.Xml.csproj" />
     <ProjectReference Include="..\Argon.DataSets\Argon.DataSets.csproj" />
+    <ProjectReference Include="..\Argon.FSharp\Argon.FSharp.csproj" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
   
