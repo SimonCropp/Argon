@@ -2,6 +2,9 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using Microsoft.FSharp.Collections;
+using Microsoft.FSharp.Reflection;
+
 class FSharpFunction
 {
     readonly object? instance;
@@ -21,9 +24,7 @@ class FSharpUtils
 {
     FSharpUtils(Assembly fsharpCoreAssembly)
     {
-        FSharpCoreAssembly = fsharpCoreAssembly;
-
-        var fsharpType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.FSharpType")!;
+        var fsharpType = typeof(FSharpType);
 
         var isUnionMethodInfo = GetMethodWithNonPublicFallback(fsharpType, "IsUnion", BindingFlags.Public | BindingFlags.Static);
         IsUnion = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(isUnionMethodInfo)!;
@@ -31,23 +32,22 @@ class FSharpUtils
         var getUnionCasesMethodInfo = GetMethodWithNonPublicFallback(fsharpType, "GetUnionCases", BindingFlags.Public | BindingFlags.Static);
         GetUnionCases = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(getUnionCasesMethodInfo)!;
 
-        var fsharpValue = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.FSharpValue")!;
+        var fsharpValue = typeof(FSharpValue);
 
         PreComputeUnionTagReader = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionTagReader");
         PreComputeUnionReader = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionReader");
         PreComputeUnionConstructor = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionConstructor");
 
-        var unionCaseInfo = fsharpCoreAssembly.GetType("Microsoft.FSharp.Reflection.UnionCaseInfo")!;
+        var unionCaseInfo = typeof(UnionCaseInfo);
 
         GetUnionCaseInfoName = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("Name")!)!;
         GetUnionCaseInfoTag = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("Tag")!)!;
         GetUnionCaseInfoDeclaringType = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("DeclaringType")!)!;
         GetUnionCaseInfoFields = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(unionCaseInfo.GetMethod("GetFields")!);
 
-        var listModule = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.ListModule")!;
-        ofSeq = listModule.GetMethod("OfSeq")!;
+        ofSeq = typeof(ListModule).GetMethod("OfSeq")!;
 
-        mapType = fsharpCoreAssembly.GetType("Microsoft.FSharp.Collections.FSharpMap`2")!;
+        mapType = typeof(FSharpMap<,>);
     }
 
     static readonly object Lock = new();
@@ -65,7 +65,6 @@ class FSharpUtils
     MethodInfo ofSeq;
     Type mapType;
 
-    public Assembly FSharpCoreAssembly { get; }
     public MethodCall<object?, object> IsUnion { get; }
     public MethodCall<object?, object> GetUnionCases { get; }
     public MethodCall<object?, object> PreComputeUnionTagReader { get; }
