@@ -88,7 +88,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         var unionType = unionTypeLookupCache.Get(value.GetType());
         var union = unionCache.Get(unionType);
 
-        var tag = (int)union.TagReader.Invoke(value);
+        var tag = union.TagReader.Invoke(value);
         var caseInfo = union.Cases.Single(c => c.Tag == tag);
 
         writer.WriteStartObject();

@@ -23,12 +23,10 @@ static class FSharpUtils
 {
     static FSharpUtils()
     {
-        PreComputeUnionTagReader = CreateFSharpFuncCall("PreComputeUnionTagReader");
         PreComputeUnionReader = CreateFSharpFuncCall("PreComputeUnionReader");
         PreComputeUnionConstructor = CreateFSharpFuncCall("PreComputeUnionConstructor");
     }
 
-    public static MethodCall<object?, object> PreComputeUnionTagReader { get; }
     public static MethodCall<object?, object> PreComputeUnionReader { get; }
     public static MethodCall<object?, object> PreComputeUnionConstructor { get; }
 
