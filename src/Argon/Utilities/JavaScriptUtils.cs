@@ -6,8 +6,8 @@ static class JavaScriptUtils
 {
     internal static readonly bool[] SingleQuoteEscapeFlags = new bool[128];
     internal static readonly bool[] DoubleQuoteEscapeFlags = new bool[128];
-    internal static readonly bool[] HtmlEscapeFlags = new bool[128];
-    internal static readonly bool[] NoEscapeFlags = new bool[128];
+    static readonly bool[] htmlEscapeFlags = new bool[128];
+    static readonly bool[] noEscapeFlags = new bool[128];
 
     const int unicodeTextLength = 6;
 
@@ -34,7 +34,7 @@ static class JavaScriptUtils
 
         foreach (var escapeChar in escapeChars.Union(new[] {'"', '\'', '<', '>', '&'}))
         {
-            HtmlEscapeFlags[escapeChar] = true;
+            htmlEscapeFlags[escapeChar] = true;
         }
     }
 
@@ -44,12 +44,12 @@ static class JavaScriptUtils
     {
         if (escapeHandling == EscapeHandling.None)
         {
-            return NoEscapeFlags;
+            return noEscapeFlags;
         }
 
         if (escapeHandling == EscapeHandling.EscapeHtml)
         {
-            return HtmlEscapeFlags;
+            return htmlEscapeFlags;
         }
 
         if (quoteChar == '"')
@@ -60,7 +60,7 @@ static class JavaScriptUtils
         return SingleQuoteEscapeFlags;
     }
 
-    public static bool ShouldEscapeJavaScriptString(string? s, bool[] escapeFlags)
+    public static bool ShouldEscapeJavaScriptString(string? s)
     {
         if (s == null)
         {
@@ -69,7 +69,7 @@ static class JavaScriptUtils
 
         foreach (var ch in s)
         {
-            if (ch >= escapeFlags.Length || escapeFlags[ch])
+            if (ch >= htmlEscapeFlags.Length || htmlEscapeFlags[ch])
             {
                 return true;
             }

@@ -35,7 +35,7 @@ public class JsonProperty
         set
         {
             propertyName = value;
-            skipPropertyNameEscape = !JavaScriptUtils.ShouldEscapeJavaScriptString(propertyName, JavaScriptUtils.HtmlEscapeFlags);
+            skipPropertyNameEscape = !JavaScriptUtils.ShouldEscapeJavaScriptString(propertyName);
         }
     }
 
