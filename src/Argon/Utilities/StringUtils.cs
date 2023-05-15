@@ -13,31 +13,6 @@ static class StringUtils
     public static bool IsNullOrEmpty([NotNullWhen(false)] this string? value) =>
         string.IsNullOrEmpty(value);
 
-    /// <summary>
-    /// Determines whether the string is all white space. Empty string will return <c>false</c>.
-    /// </summary>
-    /// <param name="s">The string to test whether it is all white space.</param>
-    /// <returns>
-    /// <c>true</c> if the string is all white space; otherwise, <c>false</c>.
-    /// </returns>
-    public static bool IsWhiteSpace(string s)
-    {
-        if (s.Length == 0)
-        {
-            return false;
-        }
-
-        foreach (var ch in s)
-        {
-            if (!char.IsWhiteSpace(ch))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public static StringWriter CreateStringWriter(int capacity)
     {
         var stringBuilder = new StringBuilder(capacity);
