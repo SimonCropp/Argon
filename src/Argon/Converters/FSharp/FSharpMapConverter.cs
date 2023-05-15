@@ -2,6 +2,7 @@
 
 namespace Argon;
 
+// ReSharper disable UnusedMember.Global
 /// <summary>
 /// Converts a F# discriminated union type to and from JSON.
 /// </summary>
