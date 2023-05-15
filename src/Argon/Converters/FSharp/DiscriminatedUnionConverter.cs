@@ -66,8 +66,8 @@ public class DiscriminatedUnionConverter : JsonConverter
         foreach (var unionCaseInfo in FSharpType.GetUnionCases(type, null))
         {
             var unionCase = new UnionCase(
-                (int)FSharpUtils.GetUnionCaseInfoTag(unionCaseInfo),
-                (string)FSharpUtils.GetUnionCaseInfoName(unionCaseInfo),
+                unionCaseInfo.Tag,
+                unionCaseInfo.Name,
                 (PropertyInfo[])FSharpUtils.GetUnionCaseInfoFields(unionCaseInfo)!,
                 (FSharpFunction)FSharpUtils.PreComputeUnionReader(null, unionCaseInfo, null),
                 (FSharpFunction)FSharpUtils.PreComputeUnionConstructor(null, unionCaseInfo, null));

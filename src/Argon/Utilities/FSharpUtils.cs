@@ -23,16 +23,12 @@ static class FSharpUtils
 {
     static FSharpUtils()
     {
-        var fsharpValue = typeof(FSharpValue);
-
-        PreComputeUnionTagReader = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionTagReader");
-        PreComputeUnionReader = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionReader");
-        PreComputeUnionConstructor = CreateFSharpFuncCall(fsharpValue, "PreComputeUnionConstructor");
+        PreComputeUnionTagReader = CreateFSharpFuncCall("PreComputeUnionTagReader");
+        PreComputeUnionReader = CreateFSharpFuncCall("PreComputeUnionReader");
+        PreComputeUnionConstructor = CreateFSharpFuncCall("PreComputeUnionConstructor");
 
         var unionCaseInfo = typeof(UnionCaseInfo);
 
-        GetUnionCaseInfoName = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("Name")!)!;
-        GetUnionCaseInfoTag = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("Tag")!)!;
         GetUnionCaseInfoDeclaringType = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("DeclaringType")!)!;
         GetUnionCaseInfoFields = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(unionCaseInfo.GetMethod("GetFields")!);
     }
@@ -41,8 +37,6 @@ static class FSharpUtils
     public static MethodCall<object?, object> PreComputeUnionReader { get; }
     public static MethodCall<object?, object> PreComputeUnionConstructor { get; }
     public static Func<object, object> GetUnionCaseInfoDeclaringType { get; }
-    public static Func<object, object> GetUnionCaseInfoName { get; }
-    public static Func<object, object> GetUnionCaseInfoTag { get; }
     public static MethodCall<object, object?> GetUnionCaseInfoFields { get; }
 
     static MethodInfo GetMethodWithNonPublicFallback(Type type, string methodName, BindingFlags bindingFlags)
@@ -61,9 +55,9 @@ static class FSharpUtils
         return methodInfo!;
     }
 
-    static MethodCall<object?, object> CreateFSharpFuncCall(Type type, string methodName)
+    static MethodCall<object?, object> CreateFSharpFuncCall(string methodName)
     {
-        var innerMethodInfo = GetMethodWithNonPublicFallback(type, methodName, BindingFlags.Public | BindingFlags.Static);
+        var innerMethodInfo = GetMethodWithNonPublicFallback( typeof(FSharpValue), methodName, BindingFlags.Public | BindingFlags.Static);
         var invokeFunc = innerMethodInfo.ReturnType.GetMethod("Invoke", BindingFlags.Public | BindingFlags.Instance)!;
 
         var call = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(innerMethodInfo);
