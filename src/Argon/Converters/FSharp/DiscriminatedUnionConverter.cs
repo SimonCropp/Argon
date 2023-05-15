@@ -2,6 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using Microsoft.FSharp.Core;
 using Microsoft.FSharp.Reflection;
 
 namespace Argon;
@@ -14,10 +15,10 @@ public class DiscriminatedUnionConverter : JsonConverter
     #region UnionDefinition
     class Union
     {
-        public readonly FSharpFunction TagReader;
+        public readonly FSharpFunc<object, int> TagReader;
         public readonly List<UnionCase> Cases;
 
-        public Union(FSharpFunction tagReader, List<UnionCase> cases)
+        public Union(FSharpFunc<object, int> tagReader, List<UnionCase> cases)
         {
             TagReader = tagReader;
             Cases = cases;
@@ -60,7 +61,7 @@ public class DiscriminatedUnionConverter : JsonConverter
 
     static Union CreateUnion(Type type)
     {
-        var u = new Union((FSharpFunction)FSharpUtils.PreComputeUnionTagReader(null, type, null), new());
+        var u = new Union(FSharpValue.PreComputeUnionTagReader(type, null), new());
 
         foreach (var unionCaseInfo in FSharpType.GetUnionCases(type, null))
         {
