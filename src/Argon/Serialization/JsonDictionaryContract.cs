@@ -139,8 +139,7 @@ public class JsonDictionaryContract : JsonContainerContract
 
             if (!HasParameterizedCreatorInternal && NonNullableUnderlyingType.Name == FSharpUtils.FSharpMapTypeName)
             {
-                FSharpUtils.EnsureInitialized(NonNullableUnderlyingType.Assembly);
-                parameterizedCreator = FSharpUtils.Instance.CreateMap(keyType, valueType);
+                parameterizedCreator = FSharpUtils.CreateMap(keyType, valueType);
             }
         }
 

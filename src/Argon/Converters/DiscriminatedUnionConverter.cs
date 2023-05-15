@@ -53,27 +53,27 @@ public class DiscriminatedUnionConverter : JsonConverter
         // need to get declaring type to avoid duplicate Unions in cache
 
         // hacky but I can't find an API to get the declaring type without GetUnionCases
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
+        var cases = (object[])FSharpUtils.GetUnionCases(null, type, null);
 
         var caseInfo = cases[0];
 
-        return (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo);
+        return (Type)FSharpUtils.GetUnionCaseInfoDeclaringType(caseInfo);
     }
 
     static Union CreateUnion(Type type)
     {
-        var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, type, null), new());
+        var u = new Union((FSharpFunction)FSharpUtils.PreComputeUnionTagReader(null, type, null), new());
 
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
+        var cases = (object[])FSharpUtils.GetUnionCases(null, type, null);
 
         foreach (var unionCaseInfo in cases)
         {
             var unionCase = new UnionCase(
-                (int)FSharpUtils.Instance.GetUnionCaseInfoTag(unionCaseInfo),
-                (string)FSharpUtils.Instance.GetUnionCaseInfoName(unionCaseInfo),
-                (PropertyInfo[])FSharpUtils.Instance.GetUnionCaseInfoFields(unionCaseInfo)!,
-                (FSharpFunction)FSharpUtils.Instance.PreComputeUnionReader(null, unionCaseInfo, null),
-                (FSharpFunction)FSharpUtils.Instance.PreComputeUnionConstructor(null, unionCaseInfo, null));
+                (int)FSharpUtils.GetUnionCaseInfoTag(unionCaseInfo),
+                (string)FSharpUtils.GetUnionCaseInfoName(unionCaseInfo),
+                (PropertyInfo[])FSharpUtils.GetUnionCaseInfoFields(unionCaseInfo)!,
+                (FSharpFunction)FSharpUtils.PreComputeUnionReader(null, unionCaseInfo, null),
+                (FSharpFunction)FSharpUtils.PreComputeUnionConstructor(null, unionCaseInfo, null));
 
             u.Cases.Add(unionCase);
         }
@@ -220,9 +220,7 @@ public class DiscriminatedUnionConverter : JsonConverter
             var attributeType = attribute.GetType();
             if (attributeType.FullName == "Microsoft.FSharp.Core.CompilationMappingAttribute")
             {
-                FSharpUtils.EnsureInitialized(attributeType.Assembly);
-
-                return (bool) FSharpUtils.Instance.IsUnion(null, type, null);
+                return (bool) FSharpUtils.IsUnion(null, type, null);
             }
         }
 

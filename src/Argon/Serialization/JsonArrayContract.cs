@@ -256,8 +256,7 @@ public class JsonArrayContract : JsonContainerContract
     {
         if (!HasParameterizedCreatorInternal && underlyingType.Name == FSharpUtils.FSharpListTypeName)
         {
-            FSharpUtils.EnsureInitialized(underlyingType.Assembly);
-            parameterizedCreator = FSharpUtils.Instance.CreateSeq(CollectionItemType!);
+            parameterizedCreator = FSharpUtils.CreateSeq(CollectionItemType!);
         }
     }
 }
