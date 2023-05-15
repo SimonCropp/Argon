@@ -1427,7 +1427,7 @@ public abstract partial class JsonWriter : IDisposable
 
     internal void InternalWriteWhitespace(string ws)
     {
-        if (!StringUtils.IsWhiteSpace(ws))
+        if (!string.IsNullOrWhiteSpace(ws))
         {
             throw JsonWriterException.Create(this, "Only white space characters should be used.");
         }

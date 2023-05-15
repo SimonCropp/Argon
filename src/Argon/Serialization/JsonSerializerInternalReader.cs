@@ -281,7 +281,11 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     }
 
     static bool CoerceEmptyStringToNull(Type? type, JsonContract? contract, string s) =>
-        StringUtils.IsNullOrEmpty(s) && type != null && type != typeof(string) && type != typeof(object) && contract is {IsNullable: true};
+        s.IsNullOrEmpty() &&
+        type != null &&
+        type != typeof(string) &&
+        type != typeof(object) &&
+        contract is {IsNullable: true};
 
     static string GetExpectedDescription(JsonContract contract)
     {

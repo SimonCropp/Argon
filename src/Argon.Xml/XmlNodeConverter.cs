@@ -123,7 +123,7 @@ public class XmlNodeConverter : JsonConverter
             ? null
             : manager.LookupPrefix(node.NamespaceUri);
 
-        if (StringUtils.IsNullOrEmpty(prefix))
+        if (prefix.IsNullOrEmpty())
         {
             return XmlConvert.DecodeName(node.LocalName);
         }
@@ -456,19 +456,19 @@ public class XmlNodeConverter : JsonConverter
                 writer.WritePropertyName(GetPropertyName(node, manager));
                 writer.WriteStartObject();
 
-                if (!StringUtils.IsNullOrEmpty(declaration.Version))
+                if (!declaration.Version.IsNullOrEmpty())
                 {
                     writer.WritePropertyName("@version");
                     writer.WriteValue(declaration.Version);
                 }
 
-                if (!StringUtils.IsNullOrEmpty(declaration.Encoding))
+                if (!declaration.Encoding.IsNullOrEmpty())
                 {
                     writer.WritePropertyName("@encoding");
                     writer.WriteValue(declaration.Encoding);
                 }
 
-                if (!StringUtils.IsNullOrEmpty(declaration.Standalone))
+                if (!declaration.Standalone.IsNullOrEmpty())
                 {
                     writer.WritePropertyName("@standalone");
                     writer.WriteValue(declaration.Standalone);
@@ -481,25 +481,25 @@ public class XmlNodeConverter : JsonConverter
                 writer.WritePropertyName(GetPropertyName(node, manager));
                 writer.WriteStartObject();
 
-                if (!StringUtils.IsNullOrEmpty(documentType.Name))
+                if (!documentType.Name.IsNullOrEmpty())
                 {
                     writer.WritePropertyName("@name");
                     writer.WriteValue(documentType.Name);
                 }
 
-                if (!StringUtils.IsNullOrEmpty(documentType.Public))
+                if (!documentType.Public.IsNullOrEmpty())
                 {
                     writer.WritePropertyName("@public");
                     writer.WriteValue(documentType.Public);
                 }
 
-                if (!StringUtils.IsNullOrEmpty(documentType.System))
+                if (!documentType.System.IsNullOrEmpty())
                 {
                     writer.WritePropertyName("@system");
                     writer.WriteValue(documentType.System);
                 }
 
-                if (!StringUtils.IsNullOrEmpty(documentType.InternalSubset))
+                if (!documentType.InternalSubset.IsNullOrEmpty())
                 {
                     writer.WritePropertyName("@internalSubset");
                     writer.WriteValue(documentType.InternalSubset);
@@ -584,7 +584,7 @@ public class XmlNodeConverter : JsonConverter
             throw JsonSerializationException.Create(reader, $"Unexpected type when converting XML: {type}");
         }
 
-        if (StringUtils.IsNullOrEmpty(DeserializeRootElementName))
+        if (DeserializeRootElementName.IsNullOrEmpty())
         {
             reader.ReadAndAssert();
             DeserializeNode(reader, document, manager, rootNode);
@@ -630,7 +630,7 @@ public class XmlNodeConverter : JsonConverter
                     return;
                 default:
                     // processing instructions and the xml declaration start with ?
-                    if (!StringUtils.IsNullOrEmpty(propertyName) && propertyName[0] == '?')
+                    if (!propertyName.IsNullOrEmpty() && propertyName[0] == '?')
                     {
                         CreateInstruction(reader, document, currentNode, propertyName);
                         return;
@@ -660,7 +660,7 @@ public class XmlNodeConverter : JsonConverter
 
     void ReadElement(JsonReader reader, IXmlDocument document, IXmlNode currentNode, string propertyName, XmlNamespaceManager manager)
     {
-        if (StringUtils.IsNullOrEmpty(propertyName))
+        if (propertyName.IsNullOrEmpty())
         {
             throw JsonSerializationException.Create(reader, "XmlNodeConverter cannot convert JSON with an empty property name to XML.");
         }
@@ -729,7 +729,7 @@ public class XmlNodeConverter : JsonConverter
                 var encoded = XmlConvert.EncodeName(nameValue.Key);
                 var attributePrefix = XmlUtils.GetPrefix(nameValue.Key);
 
-                var attribute = StringUtils.IsNullOrEmpty(attributePrefix) ? document.CreateAttribute(encoded, nameValue.Value!) : document.CreateAttribute(encoded, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value!);
+                var attribute = attributePrefix.IsNullOrEmpty() ? document.CreateAttribute(encoded, nameValue.Value!) : document.CreateAttribute(encoded, manager.LookupNamespace(attributePrefix) ?? string.Empty, nameValue.Value!);
 
                 element.SetAttributeNode(attribute);
             }
@@ -778,7 +778,7 @@ public class XmlNodeConverter : JsonConverter
         var encodedName = XmlConvert.EncodeName(attributeName);
         var attributeValue = ConvertTokenToXmlValue(reader)!;
 
-        var attribute = StringUtils.IsNullOrEmpty(attributePrefix)
+        var attribute = attributePrefix.IsNullOrEmpty()
             ? document.CreateAttribute(encodedName, attributeValue)
             : document.CreateAttribute(encodedName, manager.LookupNamespace(attributePrefix)!, attributeValue);
 
@@ -926,7 +926,7 @@ public class XmlNodeConverter : JsonConverter
                 case JsonToken.PropertyName:
                     var attributeName = (string) reader.GetValue();
 
-                    if (StringUtils.IsNullOrEmpty(attributeName))
+                    if (attributeName.IsNullOrEmpty())
                     {
                         finished = true;
                         continue;
@@ -1099,9 +1099,9 @@ public class XmlNodeConverter : JsonConverter
     IXmlElement CreateElement(string elementName, IXmlDocument document, string? elementPrefix, XmlNamespaceManager manager)
     {
         var encodeName = EncodeSpecialCharacters ? XmlConvert.EncodeLocalName(elementName) : XmlConvert.EncodeName(elementName);
-        var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
+        var ns = elementPrefix.IsNullOrEmpty() ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
 
-        return StringUtils.IsNullOrEmpty(ns) ? document.CreateElement(encodeName) : document.CreateElement(encodeName, ns);
+        return ns.IsNullOrEmpty() ? document.CreateElement(encodeName) : document.CreateElement(encodeName, ns);
     }
 
     void DeserializeNode(JsonReader reader, IXmlDocument document, XmlNamespaceManager manager, IXmlNode currentNode)
@@ -1131,7 +1131,7 @@ public class XmlNodeConverter : JsonConverter
                         if (count == 1 && WriteArrayAttribute)
                         {
                             XmlUtils.GetQualifiedNameParts(propertyName, out var elementPrefix, out var localName);
-                            var ns = StringUtils.IsNullOrEmpty(elementPrefix) ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
+                            var ns = elementPrefix.IsNullOrEmpty() ? manager.DefaultNamespace : manager.LookupNamespace(elementPrefix);
 
                             foreach (var childNode in currentNode.ChildNodes)
                             {
