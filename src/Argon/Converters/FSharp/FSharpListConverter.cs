@@ -7,7 +7,7 @@ namespace Argon;
 /// </summary>
 public class FSharpListConverter : JsonConverter
 {
-    MethodInfo toFSharpList = typeof(FSharpListConverter).GetMethod("ToFSharpList")!;
+    MethodInfo readList = typeof(FSharpListConverter).GetMethod("ReadList")!;
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
@@ -22,7 +22,7 @@ public class FSharpListConverter : JsonConverter
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
         var genericArgument = type.GetGenericArguments()[0];
-        return toFSharpList.MakeGenericMethod(genericArgument)
+        return readList.MakeGenericMethod(genericArgument)
             .Invoke(
                 null,
                 new object[]
@@ -32,7 +32,7 @@ public class FSharpListConverter : JsonConverter
                 });
     }
 
-    public static FSharpList<T> ToFSharpList<T>(JsonReader reader, JsonSerializer serializer)
+    public static FSharpList<T> ReadList<T>(JsonReader reader, JsonSerializer serializer)
     {
         var list = new List<T>();
 

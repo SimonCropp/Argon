@@ -136,11 +136,6 @@ public class JsonDictionaryContract : JsonContainerContract
                 CreatedType,
                 typeof(KeyValuePair<,>).MakeGenericType(keyType, valueType),
                 typeof(IDictionary<,>).MakeGenericType(keyType, valueType));
-
-            if (!HasParameterizedCreatorInternal && NonNullableUnderlyingType.Name == FSharpUtils.FSharpMapTypeName)
-            {
-                parameterizedCreator = FSharpUtils.CreateMap(keyType, valueType);
-            }
         }
 
         if (!typeof(IDictionary).IsAssignableFrom(CreatedType))
