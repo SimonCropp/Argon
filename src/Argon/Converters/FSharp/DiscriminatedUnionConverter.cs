@@ -55,8 +55,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         // need to get declaring type to avoid duplicate Unions in cache
 
         var caseInfo = FSharpType.GetUnionCases(type, null)[0];
-
-        return (Type)FSharpUtils.GetUnionCaseInfoDeclaringType(caseInfo);
+        return caseInfo.DeclaringType;
     }
 
     static Union CreateUnion(Type type)
@@ -68,7 +67,7 @@ public class DiscriminatedUnionConverter : JsonConverter
             var unionCase = new UnionCase(
                 unionCaseInfo.Tag,
                 unionCaseInfo.Name,
-                (PropertyInfo[])FSharpUtils.GetUnionCaseInfoFields(unionCaseInfo)!,
+                unionCaseInfo.GetFields(),
                 (FSharpFunction)FSharpUtils.PreComputeUnionReader(null, unionCaseInfo, null),
                 (FSharpFunction)FSharpUtils.PreComputeUnionConstructor(null, unionCaseInfo, null));
 

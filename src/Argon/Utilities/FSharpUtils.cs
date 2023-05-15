@@ -26,18 +26,11 @@ static class FSharpUtils
         PreComputeUnionTagReader = CreateFSharpFuncCall("PreComputeUnionTagReader");
         PreComputeUnionReader = CreateFSharpFuncCall("PreComputeUnionReader");
         PreComputeUnionConstructor = CreateFSharpFuncCall("PreComputeUnionConstructor");
-
-        var unionCaseInfo = typeof(UnionCaseInfo);
-
-        GetUnionCaseInfoDeclaringType = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(unionCaseInfo.GetProperty("DeclaringType")!)!;
-        GetUnionCaseInfoFields = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(unionCaseInfo.GetMethod("GetFields")!);
     }
 
     public static MethodCall<object?, object> PreComputeUnionTagReader { get; }
     public static MethodCall<object?, object> PreComputeUnionReader { get; }
     public static MethodCall<object?, object> PreComputeUnionConstructor { get; }
-    public static Func<object, object> GetUnionCaseInfoDeclaringType { get; }
-    public static MethodCall<object, object?> GetUnionCaseInfoFields { get; }
 
     static MethodInfo GetMethodWithNonPublicFallback(Type type, string methodName, BindingFlags bindingFlags)
     {
