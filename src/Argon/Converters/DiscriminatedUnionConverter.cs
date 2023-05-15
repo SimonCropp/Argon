@@ -54,10 +54,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         // this lookup is because cases with fields are derived from union type
         // need to get declaring type to avoid duplicate Unions in cache
 
-        // hacky but I can't find an API to get the declaring type without GetUnionCases
-        var cases = (object[])FSharpUtils.GetUnionCases(null, type, null);
-
-        var caseInfo = cases[0];
+        var caseInfo = FSharpType.GetUnionCases(type, null)[0];
 
         return (Type)FSharpUtils.GetUnionCaseInfoDeclaringType(caseInfo);
     }
