@@ -2,6 +2,8 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using Microsoft.FSharp.Reflection;
+
 namespace Argon;
 
 /// <summary>
@@ -220,7 +222,7 @@ public class DiscriminatedUnionConverter : JsonConverter
             var attributeType = attribute.GetType();
             if (attributeType.FullName == "Microsoft.FSharp.Core.CompilationMappingAttribute")
             {
-                return (bool) FSharpUtils.IsUnion(null, type, null);
+                return FSharpType.IsUnion(type, null);
             }
         }
 
