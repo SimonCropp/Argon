@@ -53,8 +53,6 @@ static class FSharpUtils
     public static Func<object, object> GetUnionCaseInfoTag { get; }
     public static MethodCall<object, object?> GetUnionCaseInfoFields { get; }
 
-    public const string FSharpMapTypeName = "FSharpMap`2";
-
     static MethodInfo GetMethodWithNonPublicFallback(Type type, string methodName, BindingFlags bindingFlags)
     {
         var methodInfo = type.GetMethod(methodName, bindingFlags);
