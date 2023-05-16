@@ -1,6 +1,4 @@
-﻿using Microsoft.FSharp.Collections;
-
-namespace Argon;
+﻿namespace Argon;
 
 // ReSharper disable UnusedMember.Global
 /// <summary>
@@ -8,7 +6,7 @@ namespace Argon;
 /// </summary>
 public class FSharpListConverter : JsonConverter
 {
-    MethodInfo readList = typeof(FSharpListConverter).GetMethod("ReadList")!;
+    static MethodInfo readList = typeof(FSharpListConverter).GetMethod("ReadList")!;
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {

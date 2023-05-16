@@ -2,9 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using Microsoft.FSharp.Core;
-using Microsoft.FSharp.Reflection;
-
 namespace Argon;
 
 /// <summary>
@@ -12,36 +9,6 @@ namespace Argon;
 /// </summary>
 public class DiscriminatedUnionConverter : JsonConverter
 {
-    class Union
-    {
-        public readonly FSharpFunc<object, int> TagReader;
-        public readonly List<UnionCase> Cases;
-
-        public Union(FSharpFunc<object, int> tagReader, List<UnionCase> cases)
-        {
-            TagReader = tagReader;
-            Cases = cases;
-        }
-    }
-
-    class UnionCase
-    {
-        public readonly int Tag;
-        public readonly string Name;
-        public readonly PropertyInfo[] Fields;
-        public readonly FSharpFunc<object, object[]> FieldReader;
-        public readonly FSharpFunc<object[], object> Constructor;
-
-        public UnionCase(int tag, string name, PropertyInfo[] fields, FSharpFunc<object, object[]> fieldReader, FSharpFunc<object[], object> constructor)
-        {
-            Tag = tag;
-            Name = name;
-            Fields = fields;
-            FieldReader = fieldReader;
-            Constructor = constructor;
-        }
-    }
-
     const string casePropertyName = "Case";
     const string fieldsPropertyName = "Fields";
 

@@ -1,6 +1,4 @@
-﻿using Microsoft.FSharp.Collections;
-
-namespace Argon;
+﻿namespace Argon;
 
 // ReSharper disable UnusedMember.Global
 /// <summary>
@@ -8,7 +6,7 @@ namespace Argon;
 /// </summary>
 public class FSharpMapConverter : JsonConverter
 {
-    MethodInfo writeMap = typeof(FSharpMapConverter).GetMethod("WriteMap")!;
+    static MethodInfo writeMap = typeof(FSharpMapConverter).GetMethod("WriteMap")!;
 
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
@@ -41,7 +39,7 @@ public class FSharpMapConverter : JsonConverter
                 });
     }
 
-    MethodInfo readMap = typeof(FSharpMapConverter).GetMethod("ReadMap")!;
+    static MethodInfo readMap = typeof(FSharpMapConverter).GetMethod("ReadMap")!;
 
     public static FSharpMap<T, K> ReadMap<T, K>(JsonReader reader, JsonSerializer serializer)
         where T : notnull
