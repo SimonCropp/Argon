@@ -8,7 +8,7 @@ F# support is shipped in a separate nuget [Argon.FSharp](https://www.nuget.org/p
 ## Converters
 
  * `FSharpListConverter`
- * `FSharpMapConverter
+ * `FSharpMapConverter`
  * `DiscriminatedUnionConverter`
 
 
