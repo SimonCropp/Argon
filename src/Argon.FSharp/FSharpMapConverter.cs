@@ -22,9 +22,9 @@ public class FSharpMapConverter : JsonConverter
                 });
     }
 
-    public static void WriteMap<T,K>(JsonWriter writer, FSharpMap<T,K> value, JsonSerializer serializer)
+    public static void WriteMap<T, K>(JsonWriter writer, FSharpMap<T, K> value, JsonSerializer serializer)
         where T : notnull =>
-        serializer.Serialize(writer, value.ToDictionary(_=>_.Key, _=>_.Value));
+        serializer.Serialize(writer, value.ToDictionary(_ => _.Key, _ => _.Value));
 
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
