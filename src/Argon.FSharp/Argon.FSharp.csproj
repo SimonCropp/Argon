@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Provides serialization support between FSharp and Argon.</Description>
+    <TargetFrameworks>net48;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks Condition="$(Configuration) == 'DebugNet7'">net7.0</TargetFrameworks>
+    <PackageTags>nodatime;json;Argon</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+    <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.FSharp.Core" />
+    <Using Include="Microsoft.FSharp.Reflection" />
+    <Using Include="Microsoft.FSharp.Collections" />    
+    <PackageReference Include="FSharp.Core" Version="7.0.200" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.90" PrivateAssets="all" />
+    <ProjectReference Include="..\Argon\Argon.csproj" />
+  </ItemGroup>
+
+</Project>

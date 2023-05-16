@@ -151,8 +151,6 @@ public class JsonArrayContract : JsonContainerContract
             genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
             parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(CreatedType, CollectionItemType);
 
-            StoreFSharpListCreatorIfNecessary(NonNullableUnderlyingType);
-
             IsReadOnlyOrFixedSize = true;
             canDeserialize = HasParameterizedCreatorInternal;
         }
@@ -166,8 +164,6 @@ public class JsonArrayContract : JsonContainerContract
             }
 
             parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(NonNullableUnderlyingType, CollectionItemType);
-
-            StoreFSharpListCreatorIfNecessary(NonNullableUnderlyingType);
 
             if (NonNullableUnderlyingType.IsGenericType && NonNullableUnderlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
@@ -250,14 +246,5 @@ public class JsonArrayContract : JsonContainerContract
         }
 
         return (IList) genericTemporaryCollectionCreator();
-    }
-
-    void StoreFSharpListCreatorIfNecessary(Type underlyingType)
-    {
-        if (!HasParameterizedCreatorInternal && underlyingType.Name == FSharpUtils.FSharpListTypeName)
-        {
-            FSharpUtils.EnsureInitialized(underlyingType.Assembly);
-            parameterizedCreator = FSharpUtils.Instance.CreateSeq(CollectionItemType!);
-        }
     }
 }

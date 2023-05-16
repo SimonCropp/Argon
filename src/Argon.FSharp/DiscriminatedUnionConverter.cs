@@ -5,42 +5,10 @@
 namespace Argon;
 
 /// <summary>
-/// Converts a F# discriminated union type to and from JSON.
+/// Converts a F# discriminated union.
 /// </summary>
 public class DiscriminatedUnionConverter : JsonConverter
 {
-    #region UnionDefinition
-    class Union
-    {
-        public readonly FSharpFunction TagReader;
-        public readonly List<UnionCase> Cases;
-
-        public Union(FSharpFunction tagReader, List<UnionCase> cases)
-        {
-            TagReader = tagReader;
-            Cases = cases;
-        }
-    }
-
-    class UnionCase
-    {
-        public readonly int Tag;
-        public readonly string Name;
-        public readonly PropertyInfo[] Fields;
-        public readonly FSharpFunction FieldReader;
-        public readonly FSharpFunction Constructor;
-
-        public UnionCase(int tag, string name, PropertyInfo[] fields, FSharpFunction fieldReader, FSharpFunction constructor)
-        {
-            Tag = tag;
-            Name = name;
-            Fields = fields;
-            FieldReader = fieldReader;
-            Constructor = constructor;
-        }
-    }
-    #endregion
-
     const string casePropertyName = "Case";
     const string fieldsPropertyName = "Fields";
 
@@ -52,28 +20,22 @@ public class DiscriminatedUnionConverter : JsonConverter
         // this lookup is because cases with fields are derived from union type
         // need to get declaring type to avoid duplicate Unions in cache
 
-        // hacky but I can't find an API to get the declaring type without GetUnionCases
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
-
-        var caseInfo = cases[0];
-
-        return (Type)FSharpUtils.Instance.GetUnionCaseInfoDeclaringType(caseInfo);
+        var caseInfo = FSharpType.GetUnionCases(type, null)[0];
+        return caseInfo.DeclaringType;
     }
 
     static Union CreateUnion(Type type)
     {
-        var u = new Union((FSharpFunction)FSharpUtils.Instance.PreComputeUnionTagReader(null, type, null), new());
+        var u = new Union(FSharpValue.PreComputeUnionTagReader(type, null), new());
 
-        var cases = (object[])FSharpUtils.Instance.GetUnionCases(null, type, null);
-
-        foreach (var unionCaseInfo in cases)
+        foreach (var unionCaseInfo in FSharpType.GetUnionCases(type, null))
         {
             var unionCase = new UnionCase(
-                (int)FSharpUtils.Instance.GetUnionCaseInfoTag(unionCaseInfo),
-                (string)FSharpUtils.Instance.GetUnionCaseInfoName(unionCaseInfo),
-                (PropertyInfo[])FSharpUtils.Instance.GetUnionCaseInfoFields(unionCaseInfo)!,
-                (FSharpFunction)FSharpUtils.Instance.PreComputeUnionReader(null, unionCaseInfo, null),
-                (FSharpFunction)FSharpUtils.Instance.PreComputeUnionConstructor(null, unionCaseInfo, null));
+                unionCaseInfo.Tag,
+                unionCaseInfo.Name,
+                unionCaseInfo.GetFields(),
+                FSharpValue.PreComputeUnionReader(unionCaseInfo, null),
+                FSharpValue.PreComputeUnionConstructor(unionCaseInfo, null));
 
             u.Cases.Add(unionCase);
         }
@@ -91,7 +53,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         var unionType = unionTypeLookupCache.Get(value.GetType());
         var union = unionCache.Get(unionType);
 
-        var tag = (int)union.TagReader.Invoke(value);
+        var tag = union.TagReader.Invoke(value);
         var caseInfo = union.Cases.Single(c => c.Tag == tag);
 
         writer.WriteStartObject();
@@ -99,7 +61,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         writer.WriteValue(caseInfo.Name);
         if (caseInfo.Fields is {Length: > 0})
         {
-            var fields = (object[])caseInfo.FieldReader.Invoke(value);
+            var fields = caseInfo.FieldReader.Invoke(value);
 
             writer.WritePropertyName(resolver == null ? fieldsPropertyName : resolver.GetResolvedPropertyName(fieldsPropertyName));
             writer.WriteStartArray();
@@ -170,7 +132,7 @@ public class DiscriminatedUnionConverter : JsonConverter
             throw JsonSerializationException.Create(reader, $"No '{casePropertyName}' property with union name found.");
         }
 
-        var typedFieldValues = new object?[caseInfo.Fields.Length];
+        var typedFieldValues = new object[caseInfo.Fields.Length];
 
         if (caseInfo.Fields.Length > 0 && fields == null)
         {
@@ -189,13 +151,11 @@ public class DiscriminatedUnionConverter : JsonConverter
                 var field = fields[i];
                 var fieldProperty = caseInfo.Fields[i];
 
-                typedFieldValues[i] = field.ToObject(fieldProperty.PropertyType, serializer);
+                typedFieldValues[i] = field.ToObject(fieldProperty.PropertyType, serializer)!;
             }
         }
 
-        object[] args = { typedFieldValues };
-
-        return caseInfo.Constructor.Invoke(args);
+        return caseInfo.Constructor.Invoke(typedFieldValues);
     }
 
     /// <summary>
@@ -204,28 +164,6 @@ public class DiscriminatedUnionConverter : JsonConverter
     /// <returns>
     /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type type)
-    {
-        if (typeof(IEnumerable).IsAssignableFrom(type))
-        {
-            return false;
-        }
-
-        // all fsharp objects have CompilationMappingAttribute
-        // get the fsharp assembly from the attribute and initialize latebound methods
-        var attributes = type.GetCustomAttributes(true);
-
-        foreach (var attribute in attributes)
-        {
-            var attributeType = attribute.GetType();
-            if (attributeType.FullName == "Microsoft.FSharp.Core.CompilationMappingAttribute")
-            {
-                FSharpUtils.EnsureInitialized(attributeType.Assembly);
-
-                return (bool) FSharpUtils.Instance.IsUnion(null, type, null);
-            }
-        }
-
-        return false;
-    }
+    public override bool CanConvert(Type type) =>
+        FSharpType.IsUnion(type, null);
 }
