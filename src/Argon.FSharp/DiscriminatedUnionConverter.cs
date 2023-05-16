@@ -30,10 +30,10 @@ public class DiscriminatedUnionConverter : JsonConverter
         public readonly int Tag;
         public readonly string Name;
         public readonly PropertyInfo[] Fields;
-        public readonly FSharpFunction FieldReader;
+        public readonly FSharpFunc<object, object[]> FieldReader;
         public readonly FSharpFunction Constructor;
 
-        public UnionCase(int tag, string name, PropertyInfo[] fields, FSharpFunction fieldReader, FSharpFunction constructor)
+        public UnionCase(int tag, string name, PropertyInfo[] fields, FSharpFunc<object, object[]> fieldReader, FSharpFunction constructor)
         {
             Tag = tag;
             Name = name;
@@ -69,7 +69,7 @@ public class DiscriminatedUnionConverter : JsonConverter
                 unionCaseInfo.Tag,
                 unionCaseInfo.Name,
                 unionCaseInfo.GetFields(),
-                (FSharpFunction)FSharpUtils.PreComputeUnionReader(null, unionCaseInfo, null),
+                FSharpValue.PreComputeUnionReader(unionCaseInfo, null),
                 (FSharpFunction)FSharpUtils.PreComputeUnionConstructor(null, unionCaseInfo, null));
 
             u.Cases.Add(unionCase);
@@ -96,7 +96,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         writer.WriteValue(caseInfo.Name);
         if (caseInfo.Fields is {Length: > 0})
         {
-            var fields = (object[])caseInfo.FieldReader.Invoke(value);
+            var fields = caseInfo.FieldReader.Invoke(value);
 
             writer.WritePropertyName(resolver == null ? fieldsPropertyName : resolver.GetResolvedPropertyName(fieldsPropertyName));
             writer.WriteStartArray();

@@ -4,30 +4,13 @@
 
 using Microsoft.FSharp.Reflection;
 
-class FSharpFunction
-{
-    readonly object? instance;
-    readonly MethodCall<object?, object> invoker;
-
-    public FSharpFunction(object? instance, MethodCall<object?, object> invoker)
-    {
-        this.instance = instance;
-        this.invoker = invoker;
-    }
-
-    public object Invoke(params object[] args) =>
-        invoker(instance, args);
-}
-
 static class FSharpUtils
 {
     static FSharpUtils()
     {
-        PreComputeUnionReader = CreateFSharpFuncCall("PreComputeUnionReader");
         PreComputeUnionConstructor = CreateFSharpFuncCall("PreComputeUnionConstructor");
     }
 
-    public static MethodCall<object?, object> PreComputeUnionReader { get; }
     public static MethodCall<object?, object> PreComputeUnionConstructor { get; }
 
     static MethodInfo GetMethodWithNonPublicFallback(Type type, string methodName, BindingFlags bindingFlags)
