@@ -5,6 +5,7 @@
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.DataSets.svg?label=Argon.DataSets)](https://www.nuget.org/packages/Argon.DataSets/)
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.Xml.svg?label=Argon.Xml)](https://www.nuget.org/packages/Argon.Xml/)
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.JsonPath.svg?label=Argon.JsonPath)](https://www.nuget.org/packages/Argon.JsonPath/)
+[![NuGet Status](https://img.shields.io/nuget/v/Argon.FSharp.svg?label=Argon.FSharp)](https://www.nuget.org/packages/Argon.FSharp/)
 
 
 Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
@@ -93,6 +94,7 @@ var json = jObject.ToString();
   * [Creating JSON](/docs/CreatingLINQtoJSON.md)
   * [CustomCreationConverter](/docs/CustomCreationConverter.md)
   * [Dates in JSON](/docs/DatesInJSON.md)
+  * [F#](/docs/FSharp.md)
   * [LINQ to JSON](/docs/LINQtoJSON.md)
   * [Parsing JSON](/docs/ParsingLINQtoJSON.md)
   * [Performance](/docs/Performance.md)
