@@ -12,7 +12,6 @@ namespace Argon;
 /// </summary>
 public class DiscriminatedUnionConverter : JsonConverter
 {
-    #region UnionDefinition
     class Union
     {
         public readonly FSharpFunc<object, int> TagReader;
@@ -42,7 +41,6 @@ public class DiscriminatedUnionConverter : JsonConverter
             Constructor = constructor;
         }
     }
-    #endregion
 
     const string casePropertyName = "Case";
     const string fieldsPropertyName = "Fields";
