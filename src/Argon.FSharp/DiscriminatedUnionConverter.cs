@@ -8,7 +8,7 @@ using Microsoft.FSharp.Reflection;
 namespace Argon;
 
 /// <summary>
-/// Converts a F# discriminated union type to and from JSON.
+/// Converts a F# discriminated union.
 /// </summary>
 public class DiscriminatedUnionConverter : JsonConverter
 {
@@ -30,9 +30,9 @@ public class DiscriminatedUnionConverter : JsonConverter
         public readonly string Name;
         public readonly PropertyInfo[] Fields;
         public readonly FSharpFunc<object, object[]> FieldReader;
-        public readonly FSharpFunction Constructor;
+        public readonly FSharpFunc<object[], object> Constructor;
 
-        public UnionCase(int tag, string name, PropertyInfo[] fields, FSharpFunc<object, object[]> fieldReader, FSharpFunction constructor)
+        public UnionCase(int tag, string name, PropertyInfo[] fields, FSharpFunc<object, object[]> fieldReader, FSharpFunc<object[], object> constructor)
         {
             Tag = tag;
             Name = name;
@@ -68,7 +68,7 @@ public class DiscriminatedUnionConverter : JsonConverter
                 unionCaseInfo.Name,
                 unionCaseInfo.GetFields(),
                 FSharpValue.PreComputeUnionReader(unionCaseInfo, null),
-                (FSharpFunction)FSharpUtils.PreComputeUnionConstructor(null, unionCaseInfo, null));
+                FSharpValue.PreComputeUnionConstructor(unionCaseInfo, null));
 
             u.Cases.Add(unionCase);
         }
@@ -165,7 +165,7 @@ public class DiscriminatedUnionConverter : JsonConverter
             throw JsonSerializationException.Create(reader, $"No '{casePropertyName}' property with union name found.");
         }
 
-        var typedFieldValues = new object?[caseInfo.Fields.Length];
+        var typedFieldValues = new object[caseInfo.Fields.Length];
 
         if (caseInfo.Fields.Length > 0 && fields == null)
         {
@@ -184,13 +184,11 @@ public class DiscriminatedUnionConverter : JsonConverter
                 var field = fields[i];
                 var fieldProperty = caseInfo.Fields[i];
 
-                typedFieldValues[i] = field.ToObject(fieldProperty.PropertyType, serializer);
+                typedFieldValues[i] = field.ToObject(fieldProperty.PropertyType, serializer)!;
             }
         }
 
-        object[] args = { typedFieldValues };
-
-        return caseInfo.Constructor.Invoke(args);
+        return caseInfo.Constructor.Invoke(typedFieldValues);
     }
 
     /// <summary>

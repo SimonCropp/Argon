@@ -4,7 +4,7 @@ namespace Argon;
 
 // ReSharper disable UnusedMember.Global
 /// <summary>
-/// Converts a F# discriminated union type to and from JSON.
+/// Converts a <see cref="FSharpList{T}"/>.
 /// </summary>
 public class FSharpListConverter : JsonConverter
 {
