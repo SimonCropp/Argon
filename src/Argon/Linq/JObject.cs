@@ -370,11 +370,11 @@ public partial class JObject :
     /// Creates a <see cref="JObject" /> from an object.
     /// </summary>
     /// <param name="o">The object that will be used to create <see cref="JObject" />.</param>
-    /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used to read the object.</param>
+    /// <param name="serializer">The <see cref="JsonSerializer" /> that will be used to read the object.</param>
     /// <returns>A <see cref="JObject" /> with the values of the specified object.</returns>
-    public new static JObject FromObject(object o, JsonSerializer jsonSerializer)
+    public new static JObject FromObject(object o, JsonSerializer serializer)
     {
-        var token = FromObjectInternal(o, jsonSerializer);
+        var token = FromObjectInternal(o, serializer);
 
         if (token.Type != JTokenType.Object)
         {
