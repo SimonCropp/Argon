@@ -12,7 +12,7 @@ public class JsonWriterException : JsonException
     /// <summary>
     /// Gets the path to the JSON where the error occurred.
     /// </summary>
-    public string? Path { get; }
+    public string Path { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonWriterException" /> class
