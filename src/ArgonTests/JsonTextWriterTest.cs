@@ -1051,8 +1051,10 @@ public class JsonTextWriterTest : TestFixtureBase
                 var stringBuilder = new StringBuilder();
                 var stringWriter = new StringWriter(stringBuilder);
 
-                using var jsonWriter = new JsonTextWriter(stringWriter);
-                jsonWriter.QuoteChar = '*';
+                using var jsonWriter = new JsonTextWriter(stringWriter)
+                {
+                    QuoteChar = '*'
+                };
             },
             @"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
 
@@ -1065,14 +1067,14 @@ public class JsonTextWriterTest : TestFixtureBase
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.Indented,
-                   FloatFormatHandling = FloatFormatHandling.Symbol
+                   FloatFormatHandling = FloatFormatHandling.Symbol,
+                   QuoteChar = '\''
                })
         {
             Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
 
             jsonWriter.Indentation = 5;
             jsonWriter.IndentChar = '_';
-            jsonWriter.QuoteChar = '\'';
 
             jsonWriter.WriteStartObject();
 
@@ -1342,8 +1344,10 @@ public class JsonTextWriterTest : TestFixtureBase
     public void WriteEndOnProperty()
     {
         var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.QuoteChar = '\'';
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            QuoteChar = '\''
+        };
 
         jsonWriter.WriteStartObject();
         jsonWriter.WritePropertyName("Blah");
@@ -1356,8 +1360,10 @@ public class JsonTextWriterTest : TestFixtureBase
     public void WriteEndOnProperty_Close()
     {
         var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.QuoteChar = '\'';
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            QuoteChar = '\''
+        };
 
         jsonWriter.WriteStartObject();
         jsonWriter.WritePropertyName("Blah");
@@ -1370,10 +1376,11 @@ public class JsonTextWriterTest : TestFixtureBase
     public void WriteEndOnProperty_Dispose()
     {
         var stringWriter = new StringWriter();
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   QuoteChar = '\''
+               })
         {
-            jsonWriter.QuoteChar = '\'';
-
             jsonWriter.WriteStartObject();
             jsonWriter.WritePropertyName("Blah");
         }

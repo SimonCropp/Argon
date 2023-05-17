@@ -1019,13 +1019,12 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = Formatting.Indented,
-                   FloatFormatHandling = FloatFormatHandling.Symbol
+                   FloatFormatHandling = FloatFormatHandling.Symbol,
+                   QuoteChar = '\'',
+                   Indentation = 5,
+                   IndentChar = '_'
                })
         {
-            jsonWriter.Indentation = 5;
-            jsonWriter.IndentChar = '_';
-            jsonWriter.QuoteChar = '\'';
-
             await jsonWriter.WriteStartObjectAsync();
 
             await jsonWriter.WritePropertyNameAsync("propertyName");
@@ -1213,8 +1212,10 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     public async Task WriteEndOnPropertyAsync()
     {
         var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.QuoteChar = '\'';
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            QuoteChar = '\''
+        };
 
         await jsonWriter.WriteStartObjectAsync();
         await jsonWriter.WritePropertyNameAsync("Blah");
