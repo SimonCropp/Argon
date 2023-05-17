@@ -119,15 +119,15 @@ public class JTokenWriterTest : TestFixtureBase
 
         jsonWriter.WriteValue("DVD read/writer");
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
         jsonWriter.WriteValue(new BigInteger(123));
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
         jsonWriter.WriteValue(Array.Empty<byte>());
         Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        Assert.Equal(a[a.Count - 1], jsonWriter.CurrentToken);
 
         jsonWriter.WriteEnd();
         Assert.Equal(WriteState.Object, jsonWriter.WriteState);
