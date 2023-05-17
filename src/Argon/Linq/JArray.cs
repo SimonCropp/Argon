@@ -150,11 +150,11 @@ public partial class JArray : JContainer, IList<JToken>
     /// Creates a <see cref="JArray" /> from an object.
     /// </summary>
     /// <param name="o">The object that will be used to create <see cref="JArray" />.</param>
-    /// <param name="serializer">The <see cref="JsonSerializer" /> that will be used to read the object.</param>
+    /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used to read the object.</param>
     /// <returns>A <see cref="JArray" /> with the values of the specified object.</returns>
-    public new static JArray FromObject(object o, JsonSerializer serializer)
+    public new static JArray FromObject(object o, JsonSerializer jsonSerializer)
     {
-        var token = FromObjectInternal(o, serializer);
+        var token = FromObjectInternal(o, jsonSerializer);
 
         if (token is JArray array)
         {

@@ -1515,11 +1515,11 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     public JsonReader CreateReader() =>
         new JTokenReader(this);
 
-    internal static JToken FromObjectInternal(object o, JsonSerializer serializer)
+    internal static JToken FromObjectInternal(object o, JsonSerializer jsonSerializer)
     {
-        using var writer = new JTokenWriter();
-        serializer.Serialize(writer, o);
-        return writer.Token!;
+        using var jsonWriter = new JTokenWriter();
+        jsonSerializer.Serialize(jsonWriter, o);
+        return jsonWriter.Token!;
     }
 
     /// <summary>
@@ -1532,10 +1532,10 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Creates a <see cref="JToken" /> from an object using the specified <see cref="JsonSerializer" />.
     /// </summary>
     /// <param name="o">The object that will be used to create <see cref="JToken" />.</param>
-    /// <param name="serializer">The <see cref="JsonSerializer" /> that will be used when reading the object.</param>
+    /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used when reading the object.</param>
     /// <returns>A <see cref="JToken" /> with the value of the specified object.</returns>
-    public static JToken FromObject(object o, JsonSerializer serializer) =>
-        FromObjectInternal(o, serializer);
+    public static JToken FromObject(object o, JsonSerializer jsonSerializer) =>
+        FromObjectInternal(o, jsonSerializer);
 
     /// <summary>
     /// Creates an instance of the specified .NET type from the <see cref="JToken" />.
@@ -1667,28 +1667,28 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// Creates an instance of the specified .NET type from the <see cref="JToken" /> using the specified <see cref="JsonSerializer" />.
     /// </summary>
     /// <typeparam name="T">The object type that the token will be deserialized to.</typeparam>
-    /// <param name="serializer">The <see cref="JsonSerializer" /> that will be used when creating the object.</param>
+    /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used when creating the object.</param>
     /// <returns>The new object created from the JSON value.</returns>
-    public T? ToObject<T>(JsonSerializer serializer) =>
-        (T?) ToObject(typeof(T), serializer);
+    public T? ToObject<T>(JsonSerializer jsonSerializer) =>
+        (T?) ToObject(typeof(T), jsonSerializer);
 
     /// <summary>
     /// Creates an instance of the specified .NET type from the <see cref="JToken" /> using the specified <see cref="JsonSerializer" />.
     /// </summary>
     /// <param name="type">The object type that the token will be deserialized to.</param>
-    /// <param name="serializer">The <see cref="JsonSerializer" /> that will be used when creating the object.</param>
+    /// <param name="jsonSerializer">The <see cref="JsonSerializer" /> that will be used when creating the object.</param>
     /// <returns>The new object created from the JSON value.</returns>
-    public object? ToObject(Type? type, JsonSerializer serializer)
+    public object? ToObject(Type? type, JsonSerializer jsonSerializer)
     {
         using var jsonReader = new JTokenReader(this);
         // Hacky fix to ensure the serializer settings are set onto the new reader.
         // This is required because the serializer won't update settings when used inside of a converter.
-        if (serializer is JsonSerializerProxy proxy)
+        if (jsonSerializer is JsonSerializerProxy proxy)
         {
             proxy.serializer.SetupReader(jsonReader, out _, out _);
         }
 
-        return serializer.TryDeserialize(jsonReader, type);
+        return jsonSerializer.TryDeserialize(jsonReader, type);
     }
 
     /// <summary>

@@ -462,16 +462,16 @@ public static class JsonConvert
         return SerializeObjectInternal(value, type, serializer);
     }
 
-    static string SerializeObjectInternal(object? value, Type? type, JsonSerializer serializer)
+    static string SerializeObjectInternal(object? value, Type? type, JsonSerializer jsonSerializer)
     {
         var builder = new StringBuilder(256);
         var stringWriter = new StringWriter(builder, InvariantCulture);
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
-                   Formatting = serializer.Formatting.GetValueOrDefault()
+                   Formatting = jsonSerializer.Formatting.GetValueOrDefault()
                })
         {
-            serializer.Serialize(jsonWriter, value, type);
+            jsonSerializer.Serialize(jsonWriter, value, type);
         }
 
         return stringWriter.ToString();
