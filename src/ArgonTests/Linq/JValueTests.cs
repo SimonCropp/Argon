@@ -369,9 +369,9 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void WriteFullDecimalPrecision()
     {
-        var writer = new JTokenWriter();
-        new JsonSerializer().Serialize(writer, rate);
-        var json = writer.Token.ToString();
+        var jTokenWriter = new JTokenWriter();
+        new JsonSerializer().Serialize(jTokenWriter, rate);
+        var json = jTokenWriter.Token.ToString();
         XUnitAssert.AreEqualNormalized(
             """
             {
@@ -384,9 +384,9 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void RoundTripDecimal()
     {
-        var writer = new JTokenWriter();
-        new JsonSerializer().Serialize(writer, rate);
-        var rate2 = new JsonSerializer().Deserialize<Rate>(new JTokenReader(writer.Token));
+        var jTokenWriter = new JTokenWriter();
+        new JsonSerializer().Serialize(jTokenWriter, rate);
+        var rate2 = new JsonSerializer().Deserialize<Rate>(new JTokenReader(jTokenWriter.Token));
 
         Assert.Equal(rate.Compoundings, rate2.Compoundings);
     }

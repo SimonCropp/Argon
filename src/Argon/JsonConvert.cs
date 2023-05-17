@@ -730,20 +730,20 @@ public static class JsonConvert
     {
         var serializer = JsonSerializer.CreateDefault(settings);
 
-        using var reader = new JsonTextReader(new StringReader(value));
-        serializer.Populate(reader, target);
+        using var jsonReader = new JsonTextReader(new StringReader(value));
+        serializer.Populate(jsonReader, target);
 
         if (settings is not {CheckAdditionalContent: true})
         {
             return;
         }
 
-        while (reader.Read())
+        while (jsonReader.Read())
         {
-            if (reader.TokenType != JsonToken.Comment)
+            if (jsonReader.TokenType != JsonToken.Comment)
             {
                 throw JsonSerializationException.Create(
-                    reader,
+                    jsonReader,
                     "Additional text found in JSON string after finishing deserializing object.");
             }
         }

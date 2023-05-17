@@ -1680,15 +1680,15 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// <returns>The new object created from the JSON value.</returns>
     public object? ToObject(Type? type, JsonSerializer serializer)
     {
-        using var reader = new JTokenReader(this);
+        using var jsonReader = new JTokenReader(this);
         // Hacky fix to ensure the serializer settings are set onto the new reader.
         // This is required because the serializer won't update settings when used inside of a converter.
         if (serializer is JsonSerializerProxy proxy)
         {
-            proxy.serializer.SetupReader(reader, out _, out _);
+            proxy.serializer.SetupReader(jsonReader, out _, out _);
         }
 
-        return serializer.TryDeserialize(reader, type);
+        return serializer.TryDeserialize(jsonReader, type);
     }
 
     /// <summary>
