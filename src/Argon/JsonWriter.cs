@@ -236,7 +236,7 @@ public abstract partial class JsonWriter : IDisposable
 
         if (stack.Count > 0)
         {
-            currentPosition = stack[stack.Count - 1];
+            currentPosition = stack[^1];
             stack.RemoveAt(stack.Count - 1);
         }
         else
