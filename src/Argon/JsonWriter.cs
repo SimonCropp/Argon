@@ -643,7 +643,7 @@ public abstract partial class JsonWriter : IDisposable
 
         if (newState == State.Error)
         {
-            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten.ToString()} in state {currentState.ToString()} would result in an invalid JSON object.");
+            throw JsonWriterException.Create(this, $"Token {tokenBeingWritten} in state {currentState} would result in an invalid JSON object.");
         }
 
         if (currentState is State.Object or State.Array &&

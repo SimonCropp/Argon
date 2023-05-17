@@ -1719,7 +1719,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     if (!double.TryParse(number, NumberStyles.Float, InvariantCulture, out _))
                     {
-                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid number.");
+                        throw ThrowReaderError($"Input string '{stringReference}' is not a valid number.");
                     }
                 }
 
@@ -1758,11 +1758,11 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else if (parseResult == ParseResult.Overflow)
                     {
-                        throw ThrowReaderError($"JSON integer {stringReference.ToString()} is too large or small for an Int32.");
+                        throw ThrowReaderError($"JSON integer {stringReference} is too large or small for an Int32.");
                     }
                     else
                     {
-                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid integer.");
+                        throw ThrowReaderError($"Input string '{stringReference}' is not a valid integer.");
                     }
                 }
 
@@ -1801,7 +1801,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid decimal.");
+                        throw ThrowReaderError($"Input string '{stringReference}' is not a valid decimal.");
                     }
                 }
 
@@ -1841,7 +1841,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     }
                     else
                     {
-                        throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid double.");
+                        throw ThrowReaderError($"Input string '{stringReference}' is not a valid double.");
                     }
                 }
 
@@ -1886,7 +1886,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
                         if (number.Length > maximumJavascriptIntegerCharacterLength)
                         {
-                            throw ThrowReaderError($"JSON integer {stringReference.ToString()} is too large to parse.");
+                            throw ThrowReaderError($"JSON integer {stringReference} is too large to parse.");
                         }
 
                         numberValue = BigInteger.Parse(number, InvariantCulture);
@@ -1903,7 +1903,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             }
                             else
                             {
-                                throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid decimal.");
+                                throw ThrowReaderError($"Input string '{stringReference}' is not a valid decimal.");
                             }
                         }
                         else
@@ -1916,7 +1916,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             }
                             else
                             {
-                                throw ThrowReaderError($"Input string '{stringReference.ToString()}' is not a valid number.");
+                                throw ThrowReaderError($"Input string '{stringReference}' is not a valid number.");
                             }
                         }
 
