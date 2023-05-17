@@ -57,16 +57,16 @@ public class MissingMemberHandlingTests : TestFixtureBase
         //  ]
         //}
 
-        var jsonSerializer = new JsonSerializer
+        var serializer = new JsonSerializer
         {
             MissingMemberHandling = MissingMemberHandling.Ignore
         };
 
         object deserializedValue;
 
-        using (JsonReader jsonReader = new JsonTextReader(new StringReader(output)))
+        using (JsonReader reader = new JsonTextReader(new StringReader(output)))
         {
-            deserializedValue = jsonSerializer.Deserialize(jsonReader, typeof(ProductShort));
+            deserializedValue = serializer.Deserialize(reader, typeof(ProductShort));
         }
 
         var deserializedProductShort = (ProductShort) deserializedValue;

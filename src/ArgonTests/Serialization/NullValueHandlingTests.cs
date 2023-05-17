@@ -43,25 +43,25 @@ public class NullValueHandlingTests : TestFixtureBase
     {
         var s1 = new Store();
 
-        var jsonSerializer = new JsonSerializer
+        var serializer = new JsonSerializer
         {
             NullValueHandling = NullValueHandling.Ignore
         };
 
         var stringWriter = new StringWriter();
-        jsonSerializer.Serialize(stringWriter, s1);
+        serializer.Serialize(stringWriter, s1);
 
         //JsonConvert.ConvertDateTimeToJavaScriptTicks(s1.Established.DateTime)
 
         Assert.Equal(@"{""Color"":4,""Established"":""2010-01-22T01:01:01Z"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""2000-02-02T23:01:30Z"",""Price"":0.0},{""Name"":""Alien"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0}]}", stringWriter.GetStringBuilder().ToString());
 
-        var s2 = (Store) jsonSerializer.Deserialize(new JsonTextReader(new StringReader("{}")), typeof(Store));
+        var s2 = (Store) serializer.Deserialize(new JsonTextReader(new StringReader("{}")), typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s2.Escape);
 
-        var s3 = (Store) jsonSerializer.Deserialize(new JsonTextReader(new StringReader(@"{""Escape"":null}")), typeof(Store));
+        var s3 = (Store) serializer.Deserialize(new JsonTextReader(new StringReader(@"{""Escape"":null}")), typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s3.Escape);
 
-        var s4 = (Store) jsonSerializer.Deserialize(
+        var s4 = (Store) serializer.Deserialize(
             new JsonTextReader(
                 new StringReader(@"{Color:2,Established:'2010-01-22T01:01:01Z',Width:1.1,Employees:999,RoomsPerFloor:[1,2,3,4,5,6,7,8,9],Open:false,Symbol:""@"",Mottos:[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],Cost:100980.1,Escape:""\r\n\t\f\b?{\\r\\n\""'"",product:[{Name:'Rocket',ExpiryDate:'2000-02-02T23:01:30Z',Price:0},{Name:'Alien',ExpiryDate:'2000-02-02T23:01:30Z',Price:0.0}]}")), typeof(Store));
         Assert.Equal(s1.Established, s3.Established);

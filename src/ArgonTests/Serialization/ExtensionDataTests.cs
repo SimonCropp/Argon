@@ -977,14 +977,14 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void Deserialize_WriteJsonDirectlyToJToken()
     {
-        var jsonSerializer = new JsonSerializer
+        var serializer = new JsonSerializer
         {
             TypeNameHandling = TypeNameHandling.Auto
         };
         var stringWriter = new StringWriter();
-        jsonSerializer.Serialize(stringWriter, new Item());
+        serializer.Serialize(stringWriter, new Item());
         var str = stringWriter.GetStringBuilder().ToString();
-        var deserialize = jsonSerializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
+        var deserialize = serializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
 
         var value = deserialize.ExtensionData["Foo"]["$type"];
         Assert.Equal(JTokenType.String, value.Type);
@@ -1013,14 +1013,14 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void DeserializeWithConstructor_WriteJsonDirectlyToJToken()
     {
-        var jsonSerializer = new JsonSerializer
+        var serializer = new JsonSerializer
         {
             TypeNameHandling = TypeNameHandling.Auto
         };
         var stringWriter = new StringWriter();
-        jsonSerializer.Serialize(stringWriter, new ItemWithConstructor(null));
+        serializer.Serialize(stringWriter, new ItemWithConstructor(null));
         var str = stringWriter.GetStringBuilder().ToString();
-        var deserialize = jsonSerializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
+        var deserialize = serializer.Deserialize<Item>(new JsonTextReader(new StringReader(str)));
 
         var value = deserialize.ExtensionData["Foo"]["$type"];
         Assert.Equal(JTokenType.String, value.Type);

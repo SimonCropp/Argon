@@ -89,7 +89,7 @@ public class ShouldSerializeTests : TestFixtureBase
     static string Serialize(Foo2 f)
     {
         //Code copied from JsonConvert.SerializeObject(), with addition of trace writing
-        var jsonSerializer = JsonSerializer.CreateDefault();
+        var serializer = JsonSerializer.CreateDefault();
 
         var stringBuilder = new StringBuilder(256);
         var stringWriter = new StringWriter(stringBuilder, InvariantCulture);
@@ -98,7 +98,7 @@ public class ShouldSerializeTests : TestFixtureBase
                    Formatting = Formatting.None
                })
         {
-            jsonSerializer.Serialize(jsonWriter, f, typeof(Foo2));
+            serializer.Serialize(jsonWriter, f, typeof(Foo2));
         }
 
         return stringWriter.ToString();

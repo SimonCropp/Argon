@@ -1226,17 +1226,17 @@ public class JsonSerializerTest : TestFixtureBase
         {
             Formatting = Formatting.Indented
         };
-        var jsonSerializer = JsonSerializer.Create(settings);
+        var serializer = JsonSerializer.Create(settings);
         var ms = new MemoryStream();
 
         var streamWriter = new StreamWriter(ms);
-        jsonSerializer.Serialize(streamWriter, dictStore);
+        serializer.Serialize(streamWriter, dictStore);
         streamWriter.Flush();
 
         ms.Seek(0, SeekOrigin.Begin);
 
         var stopWatch = Stopwatch.StartNew();
-        var deserialize = jsonSerializer.Deserialize(new StreamReader(ms), typeof(Dictionary<DictionaryKeyCast, int>));
+        var deserialize = serializer.Deserialize(new StreamReader(ms), typeof(Dictionary<DictionaryKeyCast, int>));
         stopWatch.Stop();
     }
 

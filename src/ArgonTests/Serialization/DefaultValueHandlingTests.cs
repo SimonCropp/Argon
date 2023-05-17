@@ -283,10 +283,10 @@ public class DefaultValueHandlingTests : TestFixtureBase
         var c = new EmitDefaultValueClass();
 
 #if !NET5_0_OR_GREATER
-        var jsonSerializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
+        var serializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
 
         var ms = new MemoryStream();
-        jsonSerializer.WriteObject(ms, c);
+        serializer.WriteObject(ms, c);
 
         Assert.Equal("{}", Encoding.UTF8.GetString(ms.ToArray()));
 #endif

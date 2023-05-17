@@ -424,9 +424,9 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static string SerializeObject(object? value, Type? type, JsonSerializerSettings? settings)
     {
-        var jsonSerializer = JsonSerializer.CreateDefault(settings);
+        var serializer = JsonSerializer.CreateDefault(settings);
 
-        return SerializeObjectInternal(value, type, jsonSerializer);
+        return SerializeObjectInternal(value, type, serializer);
     }
 
     /// <summary>
@@ -456,16 +456,16 @@ public static class JsonConvert
     [DebuggerStepThrough]
     public static string SerializeObject(object? value, Type? type, Formatting formatting, JsonSerializerSettings? settings)
     {
-        var jsonSerializer = JsonSerializer.CreateDefault(settings);
-        jsonSerializer.Formatting = formatting;
+        var serializer = JsonSerializer.CreateDefault(settings);
+        serializer.Formatting = formatting;
 
-        return SerializeObjectInternal(value, type, jsonSerializer);
+        return SerializeObjectInternal(value, type, serializer);
     }
 
     static string SerializeObjectInternal(object? value, Type? type, JsonSerializer jsonSerializer)
     {
-        var stringBuilder = new StringBuilder(256);
-        var stringWriter = new StringWriter(stringBuilder, InvariantCulture);
+        var builder = new StringBuilder(256);
+        var stringWriter = new StringWriter(builder, InvariantCulture);
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
                    Formatting = jsonSerializer.Formatting.GetValueOrDefault()
@@ -696,16 +696,16 @@ public static class JsonConvert
     /// </param>
     public static object? TryDeserializeObject(string value, Type? type, JsonSerializerSettings? settings)
     {
-        var jsonSerializer = JsonSerializer.CreateDefault(settings);
+        var serializer = JsonSerializer.CreateDefault(settings);
 
         // by default DeserializeObject should check for additional content
-        if (!jsonSerializer.IsCheckAdditionalContentSet())
+        if (!serializer.IsCheckAdditionalContentSet())
         {
-            jsonSerializer.CheckAdditionalContent = true;
+            serializer.CheckAdditionalContent = true;
         }
 
         using var reader = new JsonTextReader(new StringReader(value));
-        return jsonSerializer.TryDeserialize(reader, type);
+        return serializer.TryDeserialize(reader, type);
     }
 
     #endregion
@@ -728,10 +728,10 @@ public static class JsonConvert
     /// </param>
     public static void PopulateObject(string value, object target, JsonSerializerSettings? settings)
     {
-        var jsonSerializer = JsonSerializer.CreateDefault(settings);
+        var serializer = JsonSerializer.CreateDefault(settings);
 
         using var jsonReader = new JsonTextReader(new StringReader(value));
-        jsonSerializer.Populate(jsonReader, target);
+        serializer.Populate(jsonReader, target);
 
         if (settings is not {CheckAdditionalContent: true})
         {

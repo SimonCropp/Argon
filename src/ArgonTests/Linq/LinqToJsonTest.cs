@@ -1105,12 +1105,12 @@ undefined
             new(2000, 1, 1, 1, 1, 1, TimeSpan.FromHours(-3.5))
         };
 
-        var jsonSerializer = new JsonSerializer();
+        var serializer = new JsonSerializer();
 
         JTokenWriter jsonWriter;
         using (jsonWriter = new())
         {
-            jsonSerializer.Serialize(jsonWriter, testDates);
+            serializer.Serialize(jsonWriter, testDates);
         }
 
         Assert.Equal(4, jsonWriter.Token.Children().Count());

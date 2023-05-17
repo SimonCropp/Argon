@@ -677,18 +677,18 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                    MaxDepth = maxDepth
                })
         {
-            var jsonSerializer = JsonSerializer.Create(new()
+            var serializer = JsonSerializer.Create(new()
             {
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-            jsonSerializer.Error = (_, _, _, exception, markAsHandled) =>
+            serializer.Error = (_, _, _, exception, markAsHandled) =>
             {
                 errors.Add(exception.Message);
                 markAsHandled();
             };
 
-            var logMessage = jsonSerializer.Deserialize<LogMessage>(jsonTextReader);
+            var logMessage = serializer.Deserialize<LogMessage>(jsonTextReader);
 
             Assert.NotNull(logMessage.Events);
             Assert.Equal(1, logMessage.Events.Count);
@@ -714,18 +714,18 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                    MaxDepth = maxDepth
                })
         {
-            var jsonSerializer = JsonSerializer.Create(new()
+            var serializer = JsonSerializer.Create(new()
             {
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-            jsonSerializer.Error = (_, _, _, exception, markAsHandled) =>
+            serializer.Error = (_, _, _, exception, markAsHandled) =>
             {
                 errors.Add(exception.Message);
                 markAsHandled();
             };
 
-            var events = jsonSerializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
+            var events = serializer.Deserialize<IDictionary<string, LogEvent>>(jsonTextReader);
 
             Assert.NotNull(events);
             Assert.Equal(2, events.Count);
