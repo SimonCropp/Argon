@@ -120,6 +120,8 @@ public class JsonObjectContract : JsonContainerContract
         Properties = new(UnderlyingType);
     }
 
+#pragma warning disable SYSLIB0050
     internal object GetUninitializedObject() =>
         FormatterServices.GetUninitializedObject(NonNullableUnderlyingType);
+#pragma warning restore SYSLIB0050
 }
