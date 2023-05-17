@@ -89,53 +89,53 @@ public class JTokenWriterTest : TestFixtureBase
     [Fact]
     public void CurrentToken()
     {
-        using var jsonWriter = new JTokenWriter();
-        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-        Assert.Equal(null, jsonWriter.CurrentToken);
+        using var writer = new JTokenWriter();
+        Assert.Equal(WriteState.Start, writer.WriteState);
+        Assert.Equal(null, writer.CurrentToken);
 
-        jsonWriter.WriteStartObject();
-        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-        Assert.Equal(jsonWriter.Token, jsonWriter.CurrentToken);
+        writer.WriteStartObject();
+        Assert.Equal(WriteState.Object, writer.WriteState);
+        Assert.Equal(writer.Token, writer.CurrentToken);
 
-        var o = (JObject) jsonWriter.Token;
+        var o = (JObject) writer.Token;
 
-        jsonWriter.WritePropertyName("CPU");
-        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-        Assert.Equal(o.Property("CPU"), jsonWriter.CurrentToken);
+        writer.WritePropertyName("CPU");
+        Assert.Equal(WriteState.Property, writer.WriteState);
+        Assert.Equal(o.Property("CPU"), writer.CurrentToken);
 
-        jsonWriter.WriteValue("Intel");
-        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-        Assert.Equal(o["CPU"], jsonWriter.CurrentToken);
+        writer.WriteValue("Intel");
+        Assert.Equal(WriteState.Object, writer.WriteState);
+        Assert.Equal(o["CPU"], writer.CurrentToken);
 
-        jsonWriter.WritePropertyName("Drives");
-        Assert.Equal(WriteState.Property, jsonWriter.WriteState);
-        Assert.Equal(o.Property("Drives"), jsonWriter.CurrentToken);
+        writer.WritePropertyName("Drives");
+        Assert.Equal(WriteState.Property, writer.WriteState);
+        Assert.Equal(o.Property("Drives"), writer.CurrentToken);
 
-        jsonWriter.WriteStartArray();
-        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(o["Drives"], jsonWriter.CurrentToken);
+        writer.WriteStartArray();
+        Assert.Equal(WriteState.Array, writer.WriteState);
+        Assert.Equal(o["Drives"], writer.CurrentToken);
 
-        var a = (JArray) jsonWriter.CurrentToken;
+        var a = (JArray) writer.CurrentToken;
 
-        jsonWriter.WriteValue("DVD read/writer");
-        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        writer.WriteValue("DVD read/writer");
+        Assert.Equal(WriteState.Array, writer.WriteState);
+        Assert.Equal(a[^1], writer.CurrentToken);
 
-        jsonWriter.WriteValue(new BigInteger(123));
-        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        writer.WriteValue(new BigInteger(123));
+        Assert.Equal(WriteState.Array, writer.WriteState);
+        Assert.Equal(a[^1], writer.CurrentToken);
 
-        jsonWriter.WriteValue(Array.Empty<byte>());
-        Assert.Equal(WriteState.Array, jsonWriter.WriteState);
-        Assert.Equal(a[^1], jsonWriter.CurrentToken);
+        writer.WriteValue(Array.Empty<byte>());
+        Assert.Equal(WriteState.Array, writer.WriteState);
+        Assert.Equal(a[^1], writer.CurrentToken);
 
-        jsonWriter.WriteEnd();
-        Assert.Equal(WriteState.Object, jsonWriter.WriteState);
-        Assert.Equal(a, jsonWriter.CurrentToken);
+        writer.WriteEnd();
+        Assert.Equal(WriteState.Object, writer.WriteState);
+        Assert.Equal(a, writer.CurrentToken);
 
-        jsonWriter.WriteEndObject();
-        Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-        Assert.Equal(o, jsonWriter.CurrentToken);
+        writer.WriteEndObject();
+        Assert.Equal(WriteState.Start, writer.WriteState);
+        Assert.Equal(o, writer.CurrentToken);
     }
 
     [Fact]
@@ -338,19 +338,19 @@ public class JTokenWriterTest : TestFixtureBase
     {
         JToken token;
 
-        using (var jsonWriter = new JTokenWriter())
+        using (var writer = new JTokenWriter())
         {
-            jsonWriter.WriteToken(JsonToken.StartArray);
-            jsonWriter.WriteToken(JsonToken.Integer, 1);
-            jsonWriter.WriteToken(JsonToken.StartObject);
-            jsonWriter.WriteToken(JsonToken.PropertyName, "integer");
-            jsonWriter.WriteToken(JsonToken.Integer, int.MaxValue);
-            jsonWriter.WriteToken(JsonToken.PropertyName, "null-string");
-            jsonWriter.WriteToken(JsonToken.String, null);
-            jsonWriter.WriteToken(JsonToken.EndObject);
-            jsonWriter.WriteToken(JsonToken.EndArray);
+            writer.WriteToken(JsonToken.StartArray);
+            writer.WriteToken(JsonToken.Integer, 1);
+            writer.WriteToken(JsonToken.StartObject);
+            writer.WriteToken(JsonToken.PropertyName, "integer");
+            writer.WriteToken(JsonToken.Integer, int.MaxValue);
+            writer.WriteToken(JsonToken.PropertyName, "null-string");
+            writer.WriteToken(JsonToken.String, null);
+            writer.WriteToken(JsonToken.EndObject);
+            writer.WriteToken(JsonToken.EndArray);
 
-            token = jsonWriter.Token;
+            token = writer.Token;
         }
 
         Assert.Equal(@"[1,{""integer"":2147483647,""null-string"":null}]", token.ToString(Formatting.None));
