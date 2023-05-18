@@ -17,6 +17,7 @@ public class PrivateImplementationBClass : PrivateImplementationAClass, IPrivate
     }
 
     [JsonProperty("OverriddenProperty")]
+    // ReSharper disable once UnusedMember.Local
     string OverriddenPropertyString
     {
         get => OverriddenProperty.ToString();

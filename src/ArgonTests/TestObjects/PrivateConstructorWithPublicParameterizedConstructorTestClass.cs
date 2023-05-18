@@ -2,6 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+// ReSharper disable UnusedMember.Local
 namespace TestObjects;
 
 public class PrivateConstructorWithPublicParameterizedConstructorTestClass

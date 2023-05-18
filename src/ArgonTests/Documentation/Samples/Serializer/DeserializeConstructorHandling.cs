@@ -10,6 +10,7 @@ public class DeserializeConstructorHandling : TestFixtureBase
     {
         public string Url { get; set; }
 
+        // ReSharper disable once UnusedMember.Local
         Website()
         {
         }

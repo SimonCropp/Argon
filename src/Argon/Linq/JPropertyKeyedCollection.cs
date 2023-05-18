@@ -35,17 +35,6 @@ class JPropertyKeyedCollection : Collection<JToken>
         return dictionary.ContainsKey(key);
     }
 
-    bool ContainsItem(JToken item)
-    {
-        if (dictionary == null)
-        {
-            return false;
-        }
-
-        var key = GetKeyForItem(item);
-        return dictionary.TryGetValue(key, out _);
-    }
-
     void EnsureDictionary() =>
         dictionary ??= new(comparer);
 

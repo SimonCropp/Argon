@@ -29,8 +29,6 @@ public class XUnitAssert
         Assert.True(false, message);
     }
 
-    static readonly Regex Regex = new(@"\r\n|\n\r|\n|\r", RegexOptions.CultureInvariant);
-
     public static void AreEqualNormalized(string expected, string actual)
     {
         expected = Normalize(expected);

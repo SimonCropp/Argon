@@ -2608,15 +2608,6 @@ public class JsonSerializerTest : TestFixtureBase
             @"Could not create an instance of type TestObjects.ICo. Type is an interface or abstract class and cannot be instantiated. Path 'co.Name', line 1, position 14.");
     }
 
-    Person GetPerson() =>
-        new()
-        {
-            Name = "Mike Manager",
-            BirthDate = new(1983, 8, 3, 0, 0, 0, DateTimeKind.Utc),
-            Department = "IT",
-            LastModified = new(2009, 2, 15, 0, 0, 0, DateTimeKind.Utc)
-        };
-
     [Fact]
     public void WriteJsonDates()
     {

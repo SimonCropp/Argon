@@ -10,6 +10,7 @@ public class PrivateSetterDerived : PrivateSetterBase
     [JsonProperty]
     public string IDoWork { get; private set; }
 
+    // ReSharper disable once UnusedMember.Local
     PrivateSetterDerived()
     {
     }
