@@ -1,4 +1,4 @@
-﻿namespace Argon;
+namespace Argon;
 
 // ReSharper disable UnusedMember.Global
 /// <summary>
@@ -13,7 +13,7 @@ public class FSharpListConverter : JsonConverter
         writer.WriteStartArray();
         foreach (var item in (IEnumerable)value)
         {
-            writer.WriteValue(item);
+            serializer.Serialize(writer, item);
         }
         writer.WriteEndArray();
     }
