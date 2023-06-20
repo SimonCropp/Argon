@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Provides serialization support between Noda Time and Json.NET.</Description>
@@ -18,7 +18,7 @@
     <Using Include="NodaTime.TimeZones" />
     <Using Include="NodaTime.Text" />
     <PackageReference Include="NodaTime" Version="3.1.9" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.90" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.91" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 
