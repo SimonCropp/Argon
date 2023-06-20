@@ -288,7 +288,7 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndArray();
 
-        XUnitAssert.AreEqualNormalized(@"[]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized("[]", writer.Token.ToString());
     }
 
     [Fact]

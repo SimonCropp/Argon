@@ -27,7 +27,7 @@ public class NullValueHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeNullIntoDateTime()
     {
-        var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:null}", new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+        var c = JsonConvert.DeserializeObject<DateTimeTestClass>("{DateTimeField:null}", new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
         Assert.Equal(c.DateTimeField, default);
     }
 

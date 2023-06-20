@@ -90,7 +90,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WritePropertyNameAsync(@"PropEscaped ""name""", true);
             await writer.WriteNullAsync();
 
-            await writer.WritePropertyNameAsync(@"PropUnescaped", false);
+            await writer.WritePropertyNameAsync("PropUnescaped", false);
             await writer.WriteNullAsync();
 
             await writer.WritePropertyNameAsync("PropArray");
@@ -378,7 +378,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await jsonWriter.WriteStartArrayAsync();
         await XUnitAssert.ThrowsAsync<JsonWriterException>(
             () => jsonWriter.WriteValueAsync(new Version(1, 1, 1, 1)),
-            @"Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
+            "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
     }
 
     [Fact]
@@ -897,9 +897,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         }
 
 #if NET5_0_OR_GREATER
-        Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,5E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", stringBuilder.ToString());
+        Assert.Equal("[0.0,0.0,0.1,1.0,1.000001,1E-06,5E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", stringBuilder.ToString());
 #else
-        Assert.Equal(@"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", stringBuilder.ToString());
+        Assert.Equal("[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN]", stringBuilder.ToString());
 #endif
     }
 

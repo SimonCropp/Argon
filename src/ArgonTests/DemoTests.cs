@@ -602,7 +602,7 @@ public class DemoTests : TestFixtureBase
               }
             ]");
 
-        var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+        var packages = array.SelectTokens("$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
         Console.WriteLine(packages.Count);
         // 1

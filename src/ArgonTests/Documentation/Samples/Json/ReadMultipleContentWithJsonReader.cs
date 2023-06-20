@@ -18,7 +18,7 @@ public class ReadMultipleContentWithJsonReader : TestFixtureBase
     {
         #region ReadMultipleContentWithJsonReaderUsage
 
-        var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+        var json = "{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
         var roles = new List<Role>();
 

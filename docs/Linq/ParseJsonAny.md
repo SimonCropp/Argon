@@ -20,7 +20,7 @@ var t3 = JToken.Parse("null");
 Console.WriteLine(t3.Type);
 // Null
 
-var t4 = JToken.Parse(@"'A string!'");
+var t4 = JToken.Parse("'A string!'");
 
 Console.WriteLine(t4.Type);
 // String

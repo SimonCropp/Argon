@@ -622,7 +622,7 @@ public class StringEnumConverterTests : TestFixtureBase
         catch (JsonSerializationException exception)
         {
             Assert.Equal("Error converting value 123 to type 'StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 15.", exception.Message);
-            Assert.Equal(@"Integer value 123 is not allowed. Path 'Value', line 1, position 15.", exception.InnerException.Message);
+            Assert.Equal("Integer value 123 is not allowed. Path 'Value', line 1, position 15.", exception.InnerException.Message);
 
             return;
         }

@@ -39,10 +39,10 @@ public class JTokenTests : TestFixtureBase
         var v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader(@"""stringvalue""")));
         Assert.Equal("stringvalue", (string) v);
 
-        v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader(@"1")));
+        v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader("1")));
         Assert.Equal(1, (int) v);
 
-        v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader(@"1.1")));
+        v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader("1.1")));
         Assert.Equal(1.1, (double) v);
     }
 

@@ -60,7 +60,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = converter.ReadJson(jsonReader, typeof(string), null, false, null);
 
-        Assert.Equal(@"String!", s);
+        Assert.Equal("String!", s);
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = converter.ReadJson(jsonReader, typeof(string), "Existing!", true, null);
 
-        Assert.Equal(@"String!Existing!", s);
+        Assert.Equal("String!Existing!", s);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         var s = (string) converter.ReadJson(jsonReader, typeof(string), null, null);
 
-        Assert.Equal(@"String!", s);
+        Assert.Equal("String!", s);
     }
 
     [Fact]

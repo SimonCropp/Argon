@@ -294,13 +294,13 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             case JsonContractType.Object:
             case JsonContractType.Dictionary:
             case JsonContractType.Dynamic:
-                return @"JSON object (e.g. {""name"":""value""})";
+                return """JSON object (e.g. {"name":"value"})""";
             case JsonContractType.Array:
-                return @"JSON array (e.g. [1,2,3])";
+                return "JSON array (e.g. [1,2,3])";
             case JsonContractType.Primitive:
-                return @"JSON primitive value (e.g. string, number, boolean, null)";
+                return "JSON primitive value (e.g. string, number, boolean, null)";
             case JsonContractType.String:
-                return @"JSON string value";
+                return "JSON string value";
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -727,7 +727,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
         if (contract is not JsonArrayContract arrayContract)
         {
-            var message = $@"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.{Environment.NewLine}";
+            var message = $"Cannot deserialize the current JSON array (e.g. [1,2,3]) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.{Environment.NewLine}";
             message = string.Format(message, type, GetExpectedDescription(contract));
 
             throw JsonSerializationException.Create(reader, message);
@@ -2170,11 +2170,8 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
 
         if (propertiesPresence != null)
         {
-            foreach (var propertyPresence in propertiesPresence)
+            foreach (var (property, presence) in propertiesPresence)
             {
-                var property = propertyPresence.Key;
-                var presence = propertyPresence.Value;
-
                 EndProcessProperty(newObject, reader, contract, initialDepth, property, presence, true);
             }
         }

@@ -5,7 +5,7 @@ This sample converts LINQ to JSON objects to JSON.
 <!-- snippet: ToString -->
 <a id='snippet-tostring'></a>
 ```cs
-var o = JObject.Parse(@"{'string1':'value','integer2':99,'datetime3':'2000-05-23T00:00:00'}");
+var o = JObject.Parse("{'string1':'value','integer2':99,'datetime3':'2000-05-23T00:00:00'}");
 
 Console.WriteLine(o.ToString());
 // {

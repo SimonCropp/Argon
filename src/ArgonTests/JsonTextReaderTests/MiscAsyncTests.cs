@@ -7,7 +7,7 @@ public class MiscAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadWithSupportMultipleContentCommaDelimitedAsync()
     {
-        var json = @"{ 'name': 'Admin' },{ 'name': 'Publisher' },1,null,[],,'string'";
+        var json = "{ 'name': 'Admin' },{ 'name': 'Publisher' },1,null,[],,'string'";
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.SupportMultipleContent = true;
@@ -418,7 +418,7 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
     [Fact]
     public async Task JustSinglelineCommentAsync()
     {
-        var json = @"//comment";
+        var json = "//comment";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -432,7 +432,7 @@ true//comment after true{StringUtils.CarriageReturn},//comment after comma{Strin
     [Fact]
     public async Task ScientificNotationAsync()
     {
-        var json = @"[0e-10,0E-10,0.25e-5,0.3e10,6.0221418e23]";
+        var json = "[0e-10,0E-10,0.25e-5,0.3e10,6.0221418e23]";
 
         var reader = new JsonTextReader(new StringReader(json));
 

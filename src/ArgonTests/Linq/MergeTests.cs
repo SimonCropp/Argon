@@ -14,7 +14,7 @@ public class MergeTests : TestFixtureBase
             () => a.Merge(new Version()),
             @"Could not determine JSON object type for type System.Version.
 Parameter name: content",
-            @"Could not determine JSON object type for type System.Version. (Parameter 'content')");
+            "Could not determine JSON object type for type System.Version. (Parameter 'content')");
     }
 
     [Fact]

@@ -109,7 +109,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.OverrideCreator);
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<AbstractTestClass>(@"{Value:'Value!'}",
+            () => JsonConvert.DeserializeObject<AbstractTestClass>("{Value:'Value!'}",
                 new JsonSerializerSettings
                 {
                     ContractResolver = resolver
@@ -119,7 +119,7 @@ public class ContractResolverTests : TestFixtureBase
         contract.DefaultCreator = () => new AbstractImplementationTestClass();
 
         var o = JsonConvert.DeserializeObject<AbstractTestClass>(
-            @"{Value:'Value!'}",
+            "{Value:'Value!'}",
             new JsonSerializerSettings
             {
                 ContractResolver = resolver
@@ -139,7 +139,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.False(contract.HasParameterizedCreatorInternal);
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]",
+            () => JsonConvert.DeserializeObject<AbstractListTestClass<int>>("[1,2]",
                 new JsonSerializerSettings
                 {
                     ContractResolver = resolver
@@ -148,7 +148,7 @@ public class ContractResolverTests : TestFixtureBase
 
         contract.DefaultCreator = () => new AbstractImplementationListTestClass<int>();
 
-        var l = JsonConvert.DeserializeObject<AbstractListTestClass<int>>(@"[1,2]",
+        var l = JsonConvert.DeserializeObject<AbstractListTestClass<int>>("[1,2]",
             new JsonSerializerSettings
             {
                 ContractResolver = resolver
@@ -175,7 +175,7 @@ public class ContractResolverTests : TestFixtureBase
         contract.DefaultCreator = () => new CustomList<int>();
 
         var l = JsonConvert.DeserializeObject<IList<int>>(
-            @"[1,2,3]",
+            "[1,2,3]",
             new JsonSerializerSettings
             {
                 ContractResolver = resolver
@@ -203,7 +203,7 @@ public class ContractResolverTests : TestFixtureBase
 
         contract.DefaultCreator = () => new CustomDictionary<string, int>();
 
-        var d = JsonConvert.DeserializeObject<IDictionary<string, int>>(@"{key1:1,key2:2}", new JsonSerializerSettings
+        var d = JsonConvert.DeserializeObject<IDictionary<string, int>>("{key1:1,key2:2}", new JsonSerializerSettings
         {
             ContractResolver = resolver
         });
@@ -225,7 +225,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.False(contract.HasParameterizedCreatorInternal);
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(@"{key1:1,key2:2}",
+            () => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>("{key1:1,key2:2}",
                 new JsonSerializerSettings
                 {
                     ContractResolver = resolver
@@ -235,7 +235,7 @@ public class ContractResolverTests : TestFixtureBase
         contract.DefaultCreator = () => new AbstractImplementationDictionaryTestClass<string, int>();
 
         var d = JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(
-            @"{key1:1,key2:2}",
+            "{key1:1,key2:2}",
             new JsonSerializerSettings
             {
                 ContractResolver = resolver
@@ -295,7 +295,7 @@ public class ContractResolverTests : TestFixtureBase
         reader.Read();
         reader.Read();
 
-        Assert.Equal(@"<b>AddressLine1</b>", reader.Value);
+        Assert.Equal("<b>AddressLine1</b>", reader.Value);
     }
 
     [Fact]

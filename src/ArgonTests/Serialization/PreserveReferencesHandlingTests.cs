@@ -408,7 +408,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var settings = new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All};
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<string[][]>(json, settings),
-            @"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
+            "Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
     }
 
     public class CircularDictionary : Dictionary<string, CircularDictionary>
@@ -426,7 +426,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(circularDictionary, Formatting.Indented),
-            $@"Self referencing loop detected with type '{classRef}'. Path ''.");
+            $"Self referencing loop detected with type '{classRef}'. Path ''.");
     }
 
     [Fact]
@@ -465,7 +465,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<string[][]>(json, settings),
-            @"Unexpected end when reading JSON. Path '$id', line 2, position 8.");
+            "Unexpected end when reading JSON. Path '$id', line 2, position 8.");
     }
 
     public class CircularReferenceClassConverter : JsonConverter

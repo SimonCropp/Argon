@@ -299,7 +299,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParseHexNumber()
     {
-        var json = @"0x20";
+        var json = "0x20";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -311,7 +311,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParseNumbers()
     {
-        var json = @"[0,1,2 , 3]";
+        var json = "[0,1,2 , 3]";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -338,7 +338,7 @@ public class ParseTests : TestFixtureBase
     [Fact]
     public void ParseOctalNumber()
     {
-        var json = @"010";
+        var json = "010";
 
         var reader = new JsonTextReader(new StringReader(json));
 

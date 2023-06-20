@@ -24,7 +24,7 @@ public class Website
 <!-- snippet: DeserializeConstructorHandlingUsage -->
 <a id='snippet-deserializeconstructorhandlingusage'></a>
 ```cs
-var json = @"{'Url':'http://www.google.com'}";
+var json = "{'Url':'http://www.google.com'}";
 
 try
 {

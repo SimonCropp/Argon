@@ -697,8 +697,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         Assert.Equal(3, errors.Count);
         Assert.Equal(@"Unterminated string. Expected delimiter: "". Path 'events[1].code', line 1, position 45.", errors[0]);
-        Assert.Equal(@"Unexpected end when deserializing array. Path 'events[1].code', line 1, position 45.", errors[1]);
-        Assert.Equal(@"Unexpected end when deserializing object. Path 'events[1].code', line 1, position 45.", errors[2]);
+        Assert.Equal("Unexpected end when deserializing array. Path 'events[1].code', line 1, position 45.", errors[1]);
+        Assert.Equal("Unexpected end when deserializing object. Path 'events[1].code', line 1, position 45.", errors[2]);
     }
 
     [Fact]
@@ -734,8 +734,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         }
 
         Assert.Equal(2, errors.Count);
-        Assert.Equal(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[0]);
-        Assert.Equal(@"Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[1]);
+        Assert.Equal("Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[0]);
+        Assert.Equal("Unexpected end when deserializing object. Path 'events2.code', line 1, position 49.", errors[1]);
     }
 
     [Fact]
@@ -772,8 +772,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Equal(123, d.ChildObject.Integer);
 
         Assert.Equal(2, errors.Count);
-        Assert.Equal(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[0]);
-        Assert.Equal(@"Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[1]);
+        Assert.Equal("Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[0]);
+        Assert.Equal("Unexpected end when deserializing object. Path 'ChildObject.Integer', line 6, position 18.", errors[1]);
     }
 
     [Fact]

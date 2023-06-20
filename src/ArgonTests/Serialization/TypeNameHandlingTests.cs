@@ -775,7 +775,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         }
         catch (JsonSerializationException exception)
         {
-            Assert.True(exception.Message.StartsWith($@"Type specified in JSON '{employeeRef}' is not compatible with '{personRef}'."));
+            Assert.True(exception.Message.StartsWith($"Type specified in JSON '{employeeRef}' is not compatible with '{personRef}'."));
         }
     }
 
@@ -1366,14 +1366,14 @@ public class TypeNameHandlingTests : TestFixtureBase
                 "First", new UrlStatus
                 {
                     Status = 404,
-                    Url = @"http://www.bing.com"
+                    Url = "http://www.bing.com"
                 }
             },
             {
                 "Second", new UrlStatus
                 {
                     Status = 400,
-                    Url = @"http://www.google.com"
+                    Url = "http://www.google.com"
                 }
             },
             {
@@ -1382,12 +1382,12 @@ public class TypeNameHandlingTests : TestFixtureBase
                     new()
                     {
                         Status = 300,
-                        Url = @"http://www.yahoo.com"
+                        Url = "http://www.yahoo.com"
                     },
                     new()
                     {
                         Status = 200,
-                        Url = @"http://www.askjeeves.com"
+                        Url = "http://www.askjeeves.com"
                     }
                 }
             }
@@ -1445,7 +1445,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var newCollection = (Dictionary<string, object>) c;
         Assert.Equal(3, newCollection.Count);
-        Assert.Equal(@"http://www.bing.com", ((UrlStatus) newCollection["First"]).Url);
+        Assert.Equal("http://www.bing.com", ((UrlStatus) newCollection["First"]).Url);
 
         var statues = (List<UrlStatus>) newCollection["List"];
         Assert.Equal(2, statues.Count);

@@ -89,19 +89,19 @@ public class JPathParseTests : TestFixtureBase
     public void RootWithBadWhitespace() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("$ .Blah"),
-            @"Unexpected character while parsing path:  ");
+            "Unexpected character while parsing path:  ");
 
     [Fact]
     public void NoFieldNameAfterDot() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("$.Blah."),
-            @"Unexpected end while parsing path.");
+            "Unexpected end while parsing path.");
 
     [Fact]
     public void RootWithBadWhitespace2() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("$. Blah"),
-            @"Unexpected character while parsing path:  ");
+            "Unexpected character while parsing path:  ");
 
     [Fact]
     public void WildcardPropertyWithRoot()
@@ -525,19 +525,19 @@ public class JPathParseTests : TestFixtureBase
     public void NoPathAfterAt() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||@"),
-            @"Path ended with open query.");
+            "Path ended with open query.");
 
     [Fact]
     public void NoPathAfterDot() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||@."),
-            @"Unexpected end while parsing path.");
+            "Unexpected end while parsing path.");
 
     [Fact]
     public void NoPathAfterDot2() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("[?(@.name||@.)]"),
-            @"Unexpected end while parsing path.");
+            "Unexpected end while parsing path.");
 
     [Fact]
     public void FilterWithFloatExp()
@@ -564,13 +564,13 @@ public class JPathParseTests : TestFixtureBase
     public void BadCharactersInIndexer() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("Blah[[0]].Two.Three[1].Four"),
-            @"Unexpected character while parsing path indexer: [");
+            "Unexpected character while parsing path indexer: [");
 
     [Fact]
     public void UnclosedIndexer() =>
         XUnitAssert.Throws<JsonException>(
             () => new JPath("Blah[0"),
-            @"Path ended with open indexer.");
+            "Path ended with open indexer.");
 
     [Fact]
     public void IndexerOnly()

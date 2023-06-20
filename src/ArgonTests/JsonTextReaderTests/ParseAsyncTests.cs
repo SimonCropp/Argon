@@ -292,7 +292,7 @@ public class ParseAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseHexNumberAsync()
     {
-        var json = @"0x20";
+        var json = "0x20";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -304,7 +304,7 @@ public class ParseAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseNumbersAsync()
     {
-        var json = @"[0,1,2 , 3]";
+        var json = "[0,1,2 , 3]";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -330,7 +330,7 @@ public class ParseAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseOctalNumberAsync()
     {
-        var json = @"010";
+        var json = "010";
 
         var reader = new JsonTextReader(new StringReader(json));
 

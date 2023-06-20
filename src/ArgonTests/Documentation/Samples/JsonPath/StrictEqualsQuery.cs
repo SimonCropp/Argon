@@ -21,7 +21,7 @@ public class StrictEqualsQuery : TestFixtureBase
             ]");
 
         // Use === operator. Compared types must be the same to be valid
-        var strictResults = items.SelectTokens(@"$.[?(@.Valid === true)]").ToList();
+        var strictResults = items.SelectTokens("$.[?(@.Valid === true)]").ToList();
 
         foreach (var item in strictResults)
         {

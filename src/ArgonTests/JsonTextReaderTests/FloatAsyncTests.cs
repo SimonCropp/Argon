@@ -220,8 +220,7 @@ public class FloatAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadFloatingPointNumberAsync()
     {
-        var json =
-            @"[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN,0e-10,0.25e-5,0.3e10]";
+        var json = "[0.0,0.0,0.1,1.0,1.000001,1E-06,4.94065645841247E-324,Infinity,-Infinity,NaN,1.7976931348623157E+308,-1.7976931348623157E+308,Infinity,-Infinity,NaN,0e-10,0.25e-5,0.3e10]";
 
         using var jsonReader = new JsonTextReader(new StringReader(json));
         await jsonReader.ReadAsync();

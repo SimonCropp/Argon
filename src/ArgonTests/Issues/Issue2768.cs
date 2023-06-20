@@ -89,7 +89,7 @@ public class Issue2768 : TestFixtureBase
     [Fact]
     public void ParseJsonDecimal_IsBoxedInstanceSame()
     {
-        var json = @"[ 0.0, 0.0 ]";
+        var json = "[ 0.0, 0.0 ]";
 
         var reader = new JsonTextReader(new StringReader(json))
         {

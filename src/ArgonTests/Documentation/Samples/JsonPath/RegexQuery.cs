@@ -23,7 +23,7 @@ public class RegexQuery : TestFixtureBase
             ]");
 
         // Find packages
-        var packages = array.SelectTokens(@"$.[?(@.PackageId =~ /^Argon/)]").ToList();
+        var packages = array.SelectTokens("$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
         foreach (var item in packages)
         {

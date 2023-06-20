@@ -5,7 +5,7 @@ This sample deserializes JSON into a collection.
 <!-- snippet: DeserializeCollection -->
 <a id='snippet-deserializecollection'></a>
 ```cs
-var json = @"['Starcraft','Halo','Legend of Zelda']";
+var json = "['Starcraft','Halo','Legend of Zelda']";
 
 var videogames = JsonConvert.DeserializeObject<List<string>>(json);
 

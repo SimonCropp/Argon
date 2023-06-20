@@ -174,7 +174,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass {TestField1 = 21, TestProperty1 = "TestProperty1Value"},
             Formatting.None, new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
-        Assert.Equal(@"{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
@@ -343,7 +343,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeWithIgnore()
     {
-        var json = @"{'Value':null,'IntValue1':1,'IntValue2':0,'IntValue3':null}";
+        var json = "{'Value':null,'IntValue1':1,'IntValue2':0,'IntValue3':null}";
 
         var o = JsonConvert.DeserializeObject<DefaultValueHandlingDeserializeHolder>(json, new JsonSerializerSettings
         {
@@ -359,7 +359,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeWithPopulate()
     {
-        var json = @"{}";
+        var json = "{}";
 
         var o = JsonConvert.DeserializeObject<DefaultValueHandlingDeserializePopulate>(json, new JsonSerializerSettings
         {

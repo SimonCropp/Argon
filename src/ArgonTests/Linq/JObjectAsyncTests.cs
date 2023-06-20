@@ -9,7 +9,7 @@ public class JObjectAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadWithSupportMultipleContentAsync()
     {
-        var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+        var json = "{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
         var roles = new List<JObject>();
 

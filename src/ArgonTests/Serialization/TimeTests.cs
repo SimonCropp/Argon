@@ -149,7 +149,7 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void DeserializeNullable_Null()
     {
-        var t = JsonConvert.TryDeserializeObject<Time?>(@"null");
+        var t = JsonConvert.TryDeserializeObject<Time?>("null");
 
         Assert.Equal(null, t);
     }

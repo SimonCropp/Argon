@@ -392,10 +392,10 @@ public class DataTableConverterTests : TestFixtureBase
 
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(table, settings);
-        Assert.Equal(@"["
-                     + @"{""item"":""shirt"",""price"":49.99},"
-                     + @"{""item"":""pants"",""price"":54.99},"
-                     + @"{""item"":""shoes"",""price"":null}]", json);
+        Assert.Equal("["
+                     + """{"item":"shirt","price":49.99},"""
+                     + """{"item":"pants","price":54.99},"""
+                     + """{"item":"shoes","price":null}]""", json);
     }
 
     [Fact]
@@ -415,7 +415,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(table, Formatting.None, settings);
-        Assert.Equal(@"["
+        Assert.Equal("["
                      + @"{""item"":""shirt"",""price"":49.99},"
                      + @"{""item"":""pants"",""price"":54.99},"
                      + @"{""item"":""shoes""}]", json);
@@ -427,7 +427,7 @@ public class DataTableConverterTests : TestFixtureBase
         var settings = new JsonSerializerSettings();
 
         settings.AddDataSetConverters();
-        const string json = @"["
+        const string json = "["
                             + @"{""item"":""shirt"",""price"":49.99},"
                             + @"{""item"":""pants"",""price"":54.99},"
                             + @"{""item"":""shoes""}]";
@@ -443,7 +443,7 @@ public class DataTableConverterTests : TestFixtureBase
     [Fact]
     public void DerializeDataTableWithExplicitNull()
     {
-        const string json = @"["
+        const string json = "["
                             + @"{""item"":""shirt"",""price"":49.99},"
                             + @"{""item"":""pants"",""price"":54.99},"
                             + @"{""item"":""shoes"",""price"":null}]";
@@ -590,7 +590,7 @@ public class DataTableConverterTests : TestFixtureBase
                 Formatting = Formatting.Indented
             });
 
-        XUnitAssert.AreEqualNormalized(@"null", json);
+        XUnitAssert.AreEqualNormalized("null", json);
     }
 
     [Fact]

@@ -33,7 +33,7 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void ReadWithSupportMultipleContent()
     {
-        var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+        var json = "{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
         IList<JObject> roles = new List<JObject>();
 
@@ -366,7 +366,7 @@ public class JObjectTests : TestFixtureBase
                 var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], 1);
             },
-            @"arrayIndex is equal to or greater than the length of array.");
+            "arrayIndex is equal to or greater than the length of array.");
 
     [Fact]
     public void GenericCollectionCopyToInsufficientArrayCapacity() =>
@@ -388,7 +388,7 @@ public class JObjectTests : TestFixtureBase
 
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[3], 1);
             },
-            @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
+            "The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
 
     [Fact]
     public void FromObjectRaw()
@@ -674,7 +674,7 @@ public class JObjectTests : TestFixtureBase
         {
             ["rc"] = new JValue(200),
             ["m"] = new JValue(""),
-            ["o"] = new JValue($@"<div class='s1'>{StringUtils.CarriageReturnLineFeed}</div>")
+            ["o"] = new JValue($"<div class='s1'>{StringUtils.CarriageReturnLineFeed}</div>")
         };
 
         XUnitAssert.AreEqualNormalized(
@@ -963,7 +963,7 @@ public class JObjectTests : TestFixtureBase
 
                 l[0] = new JValue(true);
             },
-            @"Can not add Argon.JValue to Argon.JObject.");
+            "Can not add Argon.JValue to Argon.JObject.");
 
     [Fact]
     public void GenericListJTokenContains()
@@ -1510,14 +1510,14 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void ToListOnEmptyObject()
     {
-        var o = JObject.Parse(@"{}");
+        var o = JObject.Parse("{}");
         var l1 = o.ToList<JToken>();
         Assert.Equal(0, l1.Count);
 
         var l2 = o.ToList<KeyValuePair<string, JToken>>();
         Assert.Equal(0, l2.Count);
 
-        o = JObject.Parse(@"{'hi':null}");
+        o = JObject.Parse("{'hi':null}");
 
         l1 = o.ToList<JToken>();
         Assert.Equal(1, l1.Count);

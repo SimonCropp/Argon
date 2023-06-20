@@ -114,14 +114,13 @@ public partial class JObject :
             return;
         }
 
-        foreach (var contentItem in o)
+        foreach (var (key, itemValue) in o)
         {
-            var existingProperty = PropertyOrNull(contentItem.Key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
+            var existingProperty = PropertyOrNull(key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
 
-            var itemValue = contentItem.Value;
             if (existingProperty == null)
             {
-                Add(contentItem.Key, itemValue);
+                Add(key, itemValue);
                 continue;
             }
 

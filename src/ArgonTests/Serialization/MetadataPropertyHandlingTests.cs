@@ -72,7 +72,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         };
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<string[][]>(json, settings),
-            @"Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
+            "Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
     }
 
     [Fact]
@@ -484,7 +484,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
     [Fact]
     public void MetadataPropertyHandlingIgnore_EmptyObject()
     {
-        var json = @"{}";
+        var json = "{}";
 
         var c = JsonConvert.DeserializeObject<MetadataPropertyDisabledTestClass>(
             json,

@@ -9,7 +9,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         var data = "Hello world"u8.ToArray();
 
-        var json = $@"['{Convert.ToBase64String(data)}' '{Convert.ToBase64String(data)}']";
+        var json = $"['{Convert.ToBase64String(data)}' '{Convert.ToBase64String(data)}']";
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
@@ -203,7 +203,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void UnexpectedEndTokenWhenParsingOddEndToken()
     {
-        var reader = new JsonTextReader(new StringReader(@"{}}"));
+        var reader = new JsonTextReader(new StringReader("{}}"));
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
@@ -251,7 +251,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void MatchWithInsufficientCharacters()
     {
-        var reader = new JsonTextReader(new StringReader(@"nul"));
+        var reader = new JsonTextReader(new StringReader("nul"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -261,7 +261,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void MatchWithWrongCharacters()
     {
-        var reader = new JsonTextReader(new StringReader(@"nulz"));
+        var reader = new JsonTextReader(new StringReader("nulz"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -271,7 +271,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void MatchWithNoTrailingSeparator()
     {
-        var reader = new JsonTextReader(new StringReader(@"nullz"));
+        var reader = new JsonTextReader(new StringReader("nullz"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -281,7 +281,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void UnclosedComment()
     {
-        var reader = new JsonTextReader(new StringReader(@"/* sdf"));
+        var reader = new JsonTextReader(new StringReader("/* sdf"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -291,7 +291,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void BadCommentStart()
     {
-        var reader = new JsonTextReader(new StringReader(@"/sdf"));
+        var reader = new JsonTextReader(new StringReader("/sdf"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.Read(),
@@ -382,7 +382,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ParseAdditionalContent_WhitespaceThenText()
     {
-        var json = @"'hi' a";
+        var json = "'hi' a";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -409,7 +409,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadBadCharInArray()
     {
-        var reader = new JsonTextReader(new StringReader(@"[}"));
+        var reader = new JsonTextReader(new StringReader("[}"));
 
         reader.Read();
 
@@ -421,7 +421,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsBytesNoContentWrappedObject()
     {
-        var reader = new JsonTextReader(new StringReader(@"{"));
+        var reader = new JsonTextReader(new StringReader("{"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -431,7 +431,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadBytesEmptyWrappedObject()
     {
-        var reader = new JsonTextReader(new StringReader(@"{}"));
+        var reader = new JsonTextReader(new StringReader("{}"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -621,7 +621,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsString_Null_AdditionalBadData()
     {
-        var json = @"nullllll";
+        var json = "nullllll";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -633,7 +633,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsBoolean_AdditionalBadData()
     {
-        var json = @"falseeeee";
+        var json = "falseeeee";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -645,7 +645,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsString_AdditionalBadData()
     {
-        var json = @"falseeeee";
+        var json = "falseeeee";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -657,7 +657,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsBoolean_UnexpectedEnd()
     {
-        var json = @"tru";
+        var json = "tru";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -669,7 +669,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsBoolean_BadData()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -681,7 +681,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsString_BadData()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -693,7 +693,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsDouble_BadData()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -705,7 +705,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsDouble_Boolean()
     {
-        var json = @"true";
+        var json = "true";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -717,7 +717,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsBytes_BadData()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -729,7 +729,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsBytesIntegerArrayWithNoEnd()
     {
-        var reader = new JsonTextReader(new StringReader(@"[1"));
+        var reader = new JsonTextReader(new StringReader("[1"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -739,7 +739,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsBytesArrayWithBadContent()
     {
-        var reader = new JsonTextReader(new StringReader(@"[1.0]"));
+        var reader = new JsonTextReader(new StringReader("[1.0]"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -788,7 +788,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadBytesWithBadCharacter()
     {
-        var reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader("true"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -801,7 +801,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        var reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
+        var reader = new JsonTextReader(new StringReader($"'{Convert.ToBase64String(helloWorldData)}"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBytes(),
@@ -811,7 +811,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTime_BadData()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -822,7 +822,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTime_Boolean()
     {
-        var json = @"true";
+        var json = "true";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -834,7 +834,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadInt32WithBadCharacter()
     {
-        var reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader("true"));
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsInt32(),
@@ -883,7 +883,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsString_UnexpectedEnd()
     {
-        var json = @"tru";
+        var json = "tru";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -895,7 +895,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadAsString_Null_UnexpectedEnd()
     {
-        var json = @"nul";
+        var json = "nul";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -968,7 +968,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ErrorReadingComment()
     {
-        var json = @"/";
+        var json = "/";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -1078,7 +1078,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void UnexpectedEndWhenParsingUnquotedProperty()
     {
-        JsonReader reader = new JsonTextReader(new StringReader(@"{aww"));
+        JsonReader reader = new JsonTextReader(new StringReader("{aww"));
         Assert.True(reader.Read());
 
         XUnitAssert.Throws<JsonReaderException>(

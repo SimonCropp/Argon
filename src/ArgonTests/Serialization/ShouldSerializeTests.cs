@@ -398,7 +398,7 @@ public class ShouldSerializeTests : TestFixtureBase
     [Fact]
     public void ShouldDeserialize_True()
     {
-        var json = @"{'HasName':true,'Name':'Name!'}";
+        var json = "{'HasName':true,'Name':'Name!'}";
 
         var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
         {
@@ -413,7 +413,7 @@ public class ShouldSerializeTests : TestFixtureBase
     [Fact]
     public void ShouldDeserialize_False()
     {
-        var json = @"{'HasName':false,'Name':'Name!'}";
+        var json = "{'HasName':false,'Name':'Name!'}";
 
         var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(
             json,

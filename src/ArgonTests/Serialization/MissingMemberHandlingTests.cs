@@ -31,7 +31,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error}),
-            @"Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
+            "Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     {
         var serializer = new JsonSerializer {MissingMemberHandling = MissingMemberHandling.Ignore};
 
-        var response = @"{PreProperty:1, DateProperty:'2000-12-05T05:07:59-10:00', PostProperty:2}";
+        var response = "{PreProperty:1, DateProperty:'2000-12-05T05:07:59-10:00', PostProperty:2}";
 
         var myClass = (MyClass) serializer.Deserialize(new StringReader(response), typeof(MyClass));
 
@@ -121,7 +121,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     [Fact]
     public void MissingJson()
     {
-        var json = @"{}";
+        var json = "{}";
 
         JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings
         {

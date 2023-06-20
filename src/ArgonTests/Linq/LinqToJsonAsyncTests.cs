@@ -119,7 +119,7 @@ undefined
     [Fact]
     public async Task StartingEndArrayAndReadFromAsync()
     {
-        var textReader = new StringReader(@"[]");
+        var textReader = new StringReader("[]");
 
         var jsonReader = new JsonTextReader(textReader);
         await jsonReader.ReadAsync();
@@ -127,6 +127,6 @@ undefined
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => JToken.ReadFromAsync(jsonReader),
-            @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+            "Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 }

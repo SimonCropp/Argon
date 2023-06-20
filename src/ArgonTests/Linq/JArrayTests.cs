@@ -103,7 +103,7 @@ Parameter name: arrayIndex",
 
         XUnitAssert.Throws<ArgumentException>(
             () => ((ICollection<JToken>) j).CopyTo(new JToken[1], 1),
-            @"arrayIndex is equal to or greater than the length of array.");
+            "arrayIndex is equal to or greater than the length of array.");
     }
 
     [Fact]
@@ -118,7 +118,7 @@ Parameter name: arrayIndex",
 
         XUnitAssert.Throws<ArgumentException>(
             () => ((ICollection<JToken>) j).CopyTo(new JToken[3], 1),
-            @"The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
+            "The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
     }
 
     [Fact]

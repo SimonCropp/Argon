@@ -16,7 +16,7 @@ public class Role
 <!-- snippet: ReadMultipleContentWithJsonReaderUsage -->
 <a id='snippet-readmultiplecontentwithjsonreaderusage'></a>
 ```cs
-var json = @"{ 'name': 'Admin' }{ 'name': 'Publisher' }";
+var json = "{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
 var roles = new List<Role>();
 

@@ -9,7 +9,7 @@ public class DeserializeCollection : TestFixtureBase
     {
         #region DeserializeCollection
 
-        var json = @"['Starcraft','Halo','Legend of Zelda']";
+        var json = "['Starcraft','Halo','Legend of Zelda']";
 
         var videogames = JsonConvert.DeserializeObject<List<string>>(json);
 

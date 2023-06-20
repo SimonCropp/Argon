@@ -75,10 +75,12 @@ public class XUnitAssert
                 }
             }
 
-            throw new($@"Unexpected exception message.
-Expected one of:
- * {string.Join(Environment.NewLine + " * ", possibleMessages)}
-Got: {exception.Message}{Environment.NewLine}{Environment.NewLine}{exception}");
+            throw new($"""
+                       Unexpected exception message.
+                       Expected one of:
+                        * {string.Join(Environment.NewLine + " * ", possibleMessages)}
+                       Got: {exception.Message}{Environment.NewLine}{Environment.NewLine}{exception}
+                       """);
         }
         catch (Exception exception)
         {

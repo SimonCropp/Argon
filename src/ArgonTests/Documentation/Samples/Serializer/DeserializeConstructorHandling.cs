@@ -26,7 +26,7 @@ public class DeserializeConstructorHandling : TestFixtureBase
     {
         #region DeserializeConstructorHandlingUsage
 
-        var json = @"{'Url':'http://www.google.com'}";
+        var json = "{'Url':'http://www.google.com'}";
 
         try
         {

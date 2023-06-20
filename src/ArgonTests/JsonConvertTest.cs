@@ -60,7 +60,7 @@ public class JsonConvertTest : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var json = @"";
+                var json = "";
 
                 var o = new PopulateTestObject();
                 JsonConvert.PopulateObject(json, o);
@@ -73,7 +73,7 @@ public class JsonConvertTest : TestFixtureBase
         var ex = XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var json = @"// file header";
+                var json = "// file header";
 
                 var o = new PopulateTestObject();
                 JsonConvert.PopulateObject(json, o);
@@ -283,19 +283,19 @@ public class JsonConvertTest : TestFixtureBase
             serializer.Formatting = Formatting.None;
             serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
+            Assert.Equal("[1,2,3]", stringWriter.ToString());
 
             stringWriter = new();
             serializer = new();
             serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
+            Assert.Equal("[1,2,3]", stringWriter.ToString());
 
             stringWriter = new();
             serializer = JsonSerializer.Create();
             serializer.Serialize(stringWriter, l);
 
-            Assert.Equal(@"[1,2,3]", stringWriter.ToString());
+            Assert.Equal("[1,2,3]", stringWriter.ToString());
         }
         finally
         {

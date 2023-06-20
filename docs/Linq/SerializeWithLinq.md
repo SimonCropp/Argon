@@ -28,7 +28,7 @@ var blogPosts = new List<BlogPost>
         AuthorName = "James Newton-King",
         AuthorTwitter = "JamesNK",
         PostedDate = new(2013, 1, 23, 19, 30, 0),
-        Body = @"<h3>Title!</h3><p>Content!</p>"
+        Body = "<h3>Title!</h3><p>Content!</p>"
     }
 };
 

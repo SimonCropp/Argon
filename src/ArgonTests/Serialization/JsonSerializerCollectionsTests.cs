@@ -49,7 +49,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         queue1.Enqueue(1);
 
         var output = JsonConvert.SerializeObject(queue1);
-        Assert.Equal(@"[1]", output);
+        Assert.Equal("[1]", output);
 
         var queue2 = JsonConvert.DeserializeObject<ConcurrentQueue<int>>(output);
         Assert.True(queue2.TryDequeue(out var i));
@@ -65,7 +65,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         };
 
         var output = JsonConvert.SerializeObject(bag1);
-        Assert.Equal(@"[1]", output);
+        Assert.Equal("[1]", output);
 
         var bag2 = JsonConvert.DeserializeObject<ConcurrentBag<int>>(output);
         Assert.True(bag2.TryTake(out var i));
@@ -79,7 +79,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         stack1.Push(1);
 
         var output = JsonConvert.SerializeObject(stack1);
-        Assert.Equal(@"[1]", output);
+        Assert.Equal("[1]", output);
 
         var stack2 = JsonConvert.DeserializeObject<ConcurrentStack<int>>(output);
         Assert.True(stack2.TryPop(out var i));
@@ -264,7 +264,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void CollectionJsonConstructorNonGeneric()
     {
-        var json = @"[1,2,3]";
+        var json = "[1,2,3]";
         var l = JsonConvert.DeserializeObject<TestCollectionNonGeneric>(json);
 
         Assert.Equal(3, l.Count);
@@ -377,7 +377,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DictionaryJsonConstructorNonGeneric()
     {
-        var json = @"{'zero':0,'one':1,'two':2}";
+        var json = "{'zero':0,'one':1,'two':2}";
         var d = JsonConvert.DeserializeObject<TestDictionaryNonGeneric>(json);
 
         Assert.Equal(3, d.Count);
@@ -1159,7 +1159,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeNullToNonNullableKeyValuePairArray()
     {
-        var json = @"[ null ]";
+        var json = "[ null ]";
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json),

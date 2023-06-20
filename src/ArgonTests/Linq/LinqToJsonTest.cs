@@ -331,7 +331,7 @@ undefined
     [Fact]
     public void StartingEndArrayAndReadFrom()
     {
-        var textReader = new StringReader(@"[]");
+        var textReader = new StringReader("[]");
 
         var jsonReader = new JsonTextReader(textReader);
         jsonReader.Read();
@@ -339,7 +339,7 @@ undefined
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JToken.ReadFrom(jsonReader),
-            @"Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+            "Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
     }
 
     [Fact]
@@ -509,7 +509,7 @@ undefined
     [Fact]
     public void CreateLongArray()
     {
-        var json = @"[0,1,2,3,4,5,6,7,8,9]";
+        var json = "[0,1,2,3,4,5,6,7,8,9]";
 
         var a = JArray.Parse(json);
         var list = a.Values<int>().ToList();
@@ -720,19 +720,19 @@ undefined
         var o = JObject.Parse(json);
 
         Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
-        Assert.Equal(@"1.1", ((JValue) o.Property("Width").Value).ToString(InvariantCulture));
+        Assert.Equal("1.1", ((JValue) o.Property("Width").Value).ToString(InvariantCulture));
         Assert.Equal(@"""Open"": false", o.Property("Open").ToString());
-        Assert.Equal(@"False", o.Property("Open").Value.ToString());
+        Assert.Equal("False", o.Property("Open").Value.ToString());
 
-        json = @"[null,undefined]";
+        json = "[null,undefined]";
 
         var a = JArray.Parse(json);
         XUnitAssert.AreEqualNormalized(@"[
   null,
   undefined
 ]", a.ToString());
-        Assert.Equal(@"", a.Children().ElementAt(0).ToString());
-        Assert.Equal(@"", a.Children().ElementAt(1).ToString());
+        Assert.Equal("", a.Children().ElementAt(0).ToString());
+        Assert.Equal("", a.Children().ElementAt(1).ToString());
     }
 
     [Fact]
@@ -1457,11 +1457,11 @@ undefined
     [Fact]
     public void ParseWithPrecendingComments()
     {
-        var json = @"/* blah */ {'hi':'hi!'}";
+        var json = "/* blah */ {'hi':'hi!'}";
         var o = JObject.Parse(json);
         Assert.Equal("hi!", (string) o["hi"]);
 
-        json = @"/* blah */ ['hi!']";
+        json = "/* blah */ ['hi!']";
         var a = JArray.Parse(json);
         Assert.Equal("hi!", (string) a[0]);
     }

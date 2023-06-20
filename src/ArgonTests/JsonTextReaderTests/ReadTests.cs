@@ -186,7 +186,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsBooleanNoContent()
     {
-        var reader = new JsonTextReader(new StringReader(@""));
+        var reader = new JsonTextReader(new StringReader(""));
 
         Assert.Null(reader.ReadAsBoolean());
         Assert.Equal(JsonToken.None, reader.TokenType);
@@ -195,7 +195,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsBytesIntegerArrayWithComments()
     {
-        var reader = new JsonTextReader(new StringReader(@"[/*hi*/1/*hi*/,2/*hi*/]"));
+        var reader = new JsonTextReader(new StringReader("[/*hi*/1/*hi*/,2/*hi*/]"));
 
         var data = reader.ReadAsBytes();
         Assert.Equal(2, data.Length);
@@ -322,7 +322,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadOctalNumber()
     {
-        var s = new StringReader(@"[0372, 0xFA, 0XFA]");
+        var s = new StringReader("[0372, 0xFA, 0XFA]");
         var jsonReader = new JsonTextReader(s);
 
         Assert.True(jsonReader.Read());
@@ -349,7 +349,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadOctalNumberAsInt64()
     {
-        var s = new StringReader(@"[0372, 0xFA, 0XFA]");
+        var s = new StringReader("[0372, 0xFA, 0XFA]");
         var jsonReader = new JsonTextReader(s);
 
         Assert.True(jsonReader.Read());
@@ -379,7 +379,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadOctalNumberAsInt32()
     {
-        var s = new StringReader(@"[0372, 0xFA, 0XFA]");
+        var s = new StringReader("[0372, 0xFA, 0XFA]");
         var jsonReader = new JsonTextReader(s);
 
         Assert.True(jsonReader.Read());
@@ -409,7 +409,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDecimalNoContent()
     {
-        var reader = new JsonTextReader(new StringReader(@""));
+        var reader = new JsonTextReader(new StringReader(""));
 
         Assert.Null(reader.ReadAsDecimal());
         Assert.Equal(JsonToken.None, reader.TokenType);
@@ -418,7 +418,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsBytesNoContent()
     {
-        var reader = new JsonTextReader(new StringReader(@""));
+        var reader = new JsonTextReader(new StringReader(""));
 
         Assert.Null(reader.ReadAsBytes());
         Assert.Equal(JsonToken.None, reader.TokenType);
@@ -427,7 +427,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetNoContent()
     {
-        var reader = new JsonTextReader(new StringReader(@""));
+        var reader = new JsonTextReader(new StringReader(""));
 
         Assert.Null(reader.ReadAsDateTimeOffset());
         Assert.Equal(JsonToken.None, reader.TokenType);
@@ -769,7 +769,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadValue_EmptyString_Position()
     {
-        var json = @"['','','','','','','']";
+        var json = "['','','','','','','']";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -1027,7 +1027,7 @@ public class ReadTests : TestFixtureBase
         jsonTextReader.Read();
         jsonTextReader.Read();
 
-        Assert.Equal(@"Forest's Bakery And Cafe", jsonTextReader.Value);
+        Assert.Equal("Forest's Bakery And Cafe", jsonTextReader.Value);
     }
 
     [Fact]
@@ -1109,7 +1109,7 @@ third line""";
 
         Assert.True(jsonTextReader.Read());
         Assert.Equal(JsonToken.String, jsonTextReader.TokenType);
-        Assert.Equal(@"/Date(9467082_PIE_340000-0631)/", jsonTextReader.Value);
+        Assert.Equal("/Date(9467082_PIE_340000-0631)/", jsonTextReader.Value);
 
         Assert.True(jsonTextReader.Read());
         Assert.Equal(JsonToken.EndObject, jsonTextReader.TokenType);
@@ -1290,7 +1290,7 @@ third line""";
     [Fact]
     public void ReadBytesNoStartWithUnexpectedEnd()
     {
-        var reader = new JsonTextReader(new StringReader(@"[  "));
+        var reader = new JsonTextReader(new StringReader("[  "));
         Assert.True(reader.Read());
 
         Assert.Null(reader.ReadAsBytes());
@@ -1315,7 +1315,7 @@ third line""";
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        var reader = new JsonTextReader(new StringReader($@"[1,'{Convert.ToBase64String(helloWorldData)}']"));
+        var reader = new JsonTextReader(new StringReader($"[1,'{Convert.ToBase64String(helloWorldData)}']"));
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);
         Assert.True(reader.Read());
@@ -1335,7 +1335,7 @@ third line""";
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        var reader = new JsonTextReader(new StringReader($@"{{num:1,data:'{Convert.ToBase64String(helloWorldData)}'}}"));
+        var reader = new JsonTextReader(new StringReader($"{{num:1,data:'{Convert.ToBase64String(helloWorldData)}'}}"));
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
         Assert.True(reader.Read());

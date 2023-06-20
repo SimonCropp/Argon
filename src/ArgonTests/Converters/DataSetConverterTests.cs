@@ -124,7 +124,7 @@ public class DataSetConverterTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"null", json);
+        XUnitAssert.AreEqualNormalized("null", json);
     }
 
     [Fact]

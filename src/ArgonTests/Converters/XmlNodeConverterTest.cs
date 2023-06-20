@@ -409,7 +409,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var doc = JsonXmlConvert.DeserializeXNode(json1);
 
-        Assert.Equal(@"<_x0024_>test</_x0024_>", doc.ToString());
+        Assert.Equal("<_x0024_>test</_x0024_>", doc.ToString());
 
         var json2 = JsonXmlConvert.SerializeXNode(doc);
 
@@ -425,7 +425,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         Console.WriteLine(doc.ToString());
 
-        Assert.Equal(@"<_x0024_JELLY>test</_x0024_JELLY>", doc.ToString());
+        Assert.Equal("<_x0024_JELLY>test</_x0024_JELLY>", doc.ToString());
 
         var json2 = JsonXmlConvert.SerializeXNode(doc);
 
@@ -895,11 +895,11 @@ public class XmlNodeConverterTest : TestFixtureBase
         var element = doc.CreateElement("xs", "Choice", "http://www.w3.org/2001/XMLSchema");
         element.SetAttributeNode(doc.CreateAttribute("msdata", "IsDataSet", "urn:schemas-microsoft-com:xml-msdata"));
 
-        var aa = doc.CreateAttribute(@"xmlns", "xs", "http://www.w3.org/2000/xmlns/");
+        var aa = doc.CreateAttribute("xmlns", "xs", "http://www.w3.org/2000/xmlns/");
         aa.Value = "http://www.w3.org/2001/XMLSchema";
         element.SetAttributeNode(aa);
 
-        aa = doc.CreateAttribute(@"xmlns", "msdata", "http://www.w3.org/2000/xmlns/");
+        aa = doc.CreateAttribute("xmlns", "msdata", "http://www.w3.org/2000/xmlns/");
         aa.Value = "urn:schemas-microsoft-com:xml-msdata";
         element.SetAttributeNode(aa);
 
@@ -1201,7 +1201,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void FailOnIncomplete()
     {
-        var json = @"{'Row' : ";
+        var json = "{'Row' : ";
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonXmlConvert.DeserializeXmlNode(json, "ROOT"),
@@ -1372,7 +1372,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var newDoc = JsonXmlConvert.DeserializeXmlNode(@"[1]");
+                var newDoc = JsonXmlConvert.DeserializeXmlNode("[1]");
             },
             "XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.");
 
@@ -1381,7 +1381,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var newDoc = JsonXmlConvert.DeserializeXmlNode(@"{Prop1:1,Prop2:2}");
+                var newDoc = JsonXmlConvert.DeserializeXmlNode("{Prop1:1,Prop2:2}");
             },
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Prop2', line 1, position 15.");
 
@@ -1537,11 +1537,11 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var newDoc = JsonXmlConvert.DeserializeXmlNode(json, "myRoot");
 
-        Assert.Equal(@"<myRoot><count>773840</count><photos>773840</photos></myRoot>", newDoc.InnerXml);
+        Assert.Equal("<myRoot><count>773840</count><photos>773840</photos></myRoot>", newDoc.InnerXml);
 
         var newXDoc = JsonXmlConvert.DeserializeXNode(json, "myRoot");
 
-        Assert.Equal(@"<myRoot><count>773840</count><photos>773840</photos></myRoot>", newXDoc.ToString(SaveOptions.DisableFormatting));
+        Assert.Equal("<myRoot><count>773840</count><photos>773840</photos></myRoot>", newXDoc.ToString(SaveOptions.DisableFormatting));
     }
 
     [Fact]
@@ -1684,11 +1684,11 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var newDoc = JsonXmlConvert.DeserializeXmlNode(json, "myRoot");
 
-        Assert.Equal(@"<myRoot><available_sizes><available_sizes><available_sizes>113</available_sizes><available_sizes>150</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-150x150.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>189</available_sizes><available_sizes>250</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-250x250.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>341</available_sizes><available_sizes>450</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-450x450.jpg</available_sizes></available_sizes></myRoot>", newDoc.InnerXml);
+        Assert.Equal("<myRoot><available_sizes><available_sizes><available_sizes>113</available_sizes><available_sizes>150</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-150x150.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>189</available_sizes><available_sizes>250</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-250x250.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>341</available_sizes><available_sizes>450</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-450x450.jpg</available_sizes></available_sizes></myRoot>", newDoc.InnerXml);
 
         var newXDoc = JsonXmlConvert.DeserializeXNode(json, "myRoot");
 
-        Assert.Equal(@"<myRoot><available_sizes><available_sizes><available_sizes>113</available_sizes><available_sizes>150</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-150x150.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>189</available_sizes><available_sizes>250</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-250x250.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>341</available_sizes><available_sizes>450</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-450x450.jpg</available_sizes></available_sizes></myRoot>", newXDoc.ToString(SaveOptions.DisableFormatting));
+        Assert.Equal("<myRoot><available_sizes><available_sizes><available_sizes>113</available_sizes><available_sizes>150</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-150x150.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>189</available_sizes><available_sizes>250</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-250x250.jpg</available_sizes></available_sizes><available_sizes><available_sizes><available_sizes>341</available_sizes><available_sizes>450</available_sizes></available_sizes><available_sizes>assets/images/resized/0001/1070/11070v1-max-450x450.jpg</available_sizes></available_sizes></myRoot>", newXDoc.ToString(SaveOptions.DisableFormatting));
     }
 
     [Fact]
@@ -2467,7 +2467,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         using var reader = obj.CreateReader();
         var value = (XmlDocument) serializer.Deserialize(reader, typeof(XmlDocument));
 
-        Assert.Equal(@"<root><Int16>1</Int16><Float>2</Float><Int32>3</Int32></root>", value.InnerXml);
+        Assert.Equal("<root><Int16>1</Int16><Float>2</Float><Int32>3</Int32></root>", value.InnerXml);
     }
 
     [Fact]
@@ -2544,7 +2544,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
 
-        XUnitAssert.AreEqualNormalized(@"<root><uri>http://localhost/</uri><time_span>00:01:00</time_span><bytes>SGVsbG8gd29ybGQ=</bytes></root>", document.OuterXml);
+        XUnitAssert.AreEqualNormalized("<root><uri>http://localhost/</uri><time_span>00:01:00</time_span><bytes>SGVsbG8gd29ybGQ=</bytes></root>", document.OuterXml);
     }
 
     static void JsonBodyToSoapXml(Stream json, Stream xml)
@@ -3215,7 +3215,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeEmptyNodeAndOmitRoot()
     {
-        var xmlString = @"<myemptynode />";
+        var xmlString = "<myemptynode />";
 
         var xml = new XmlDocument();
         xml.LoadXml(xmlString);
@@ -3232,13 +3232,13 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = JsonXmlConvert.SerializeXNode(d);
 
-        Assert.Equal(@"{}", json);
+        Assert.Equal("{}", json);
     }
 
     [Fact]
     public void Deserialize_XDocument_NoRoot()
     {
-        var d = JsonXmlConvert.DeserializeXNode(@"{}");
+        var d = JsonXmlConvert.DeserializeXNode("{}");
 
         Assert.Equal(null, d.Root);
         Assert.Equal(null, d.Declaration);
@@ -3271,7 +3271,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeEmptyNodeAndOmitRoot_XElement()
     {
-        var xmlString = @"<myemptynode />";
+        var xmlString = "<myemptynode />";
 
         var xml = XElement.Parse(xmlString);
 

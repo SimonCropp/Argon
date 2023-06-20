@@ -27,10 +27,10 @@ public class JTokenAsyncTests : TestFixtureBase
         var v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
         Assert.Equal("stringvalue", (string) v);
 
-        v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1")));
+        v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader("1")));
         Assert.Equal(1, (int) v);
 
-        v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"1.1")));
+        v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader("1.1")));
         Assert.Equal(1.1, (double) v);
     }
 

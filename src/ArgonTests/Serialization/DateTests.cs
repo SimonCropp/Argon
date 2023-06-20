@@ -120,7 +120,7 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void DeserializeNullable_Null()
     {
-        var d = JsonConvert.TryDeserializeObject<Date?>(@"null");
+        var d = JsonConvert.TryDeserializeObject<Date?>("null");
 
         Assert.Equal(null, d);
     }

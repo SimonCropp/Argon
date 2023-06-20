@@ -7,13 +7,13 @@ This sample deserializes JSON into an anonymous type.
 ```cs
 var definition = new {Name = ""};
 
-var json1 = @"{'Name':'James'}";
+var json1 = "{'Name':'James'}";
 var customer1 = JsonConvert.DeserializeAnonymousType(json1, definition);
 
 Console.WriteLine(customer1.Name);
 // James
 
-var json2 = @"{'Name':'Mike'}";
+var json2 = "{'Name':'Mike'}";
 var customer2 = JsonConvert.DeserializeAnonymousType(json2, definition);
 
 Console.WriteLine(customer2.Name);

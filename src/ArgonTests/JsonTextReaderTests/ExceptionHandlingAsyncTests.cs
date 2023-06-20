@@ -9,7 +9,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     {
         var data = "Hello world"u8.ToArray();
 
-        var json = $@"['{Convert.ToBase64String(data)}' '{Convert.ToBase64String(data)}']";
+        var json = $"['{Convert.ToBase64String(data)}' '{Convert.ToBase64String(data)}']";
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(await reader.ReadAsync());
@@ -201,7 +201,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task UnexpectedEndTokenWhenParsingOddEndTokenAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"{}}"));
+        var reader = new JsonTextReader(new StringReader("{}}"));
         Assert.True(await reader.ReadAsync());
         Assert.True(await reader.ReadAsync());
 
@@ -249,7 +249,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task MatchWithInsufficientCharactersAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"nul"));
+        var reader = new JsonTextReader(new StringReader("nul"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsync(),
@@ -259,7 +259,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task MatchWithWrongCharactersAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"nulz"));
+        var reader = new JsonTextReader(new StringReader("nulz"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Error parsing null value. Path '', line 1, position 3.");
     }
@@ -267,7 +267,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task MatchWithNoTrailingSeparatorAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"nullz"));
+        var reader = new JsonTextReader(new StringReader("nullz"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Error parsing null value. Path '', line 1, position 4.");
     }
@@ -275,7 +275,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task UnclosedCommentAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"/* sdf"));
+        var reader = new JsonTextReader(new StringReader("/* sdf"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Unexpected end while parsing comment. Path '', line 1, position 6.");
     }
@@ -283,7 +283,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task BadCommentStartAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"/sdf"));
+        var reader = new JsonTextReader(new StringReader("/sdf"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Error parsing comment. Expected: *, got s. Path '', line 1, position 1.");
     }
@@ -368,7 +368,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ParseAdditionalContent_WhitespaceThenTextAsync()
     {
-        var json = @"'hi' a";
+        var json = "'hi' a";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -393,7 +393,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadBadCharInArrayAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"[}"));
+        var reader = new JsonTextReader(new StringReader("[}"));
 
         await reader.ReadAsync();
 
@@ -403,7 +403,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBytesNoContentWrappedObjectAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"{"));
+        var reader = new JsonTextReader(new StringReader("{"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -413,7 +413,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadBytesEmptyWrappedObjectAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"{}"));
+        var reader = new JsonTextReader(new StringReader("{}"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -593,7 +593,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsString_Null_AdditionalBadDataAsync()
     {
-        var json = @"nullllll";
+        var json = "nullllll";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -605,7 +605,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBoolean_AdditionalBadDataAsync()
     {
-        var json = @"falseeeee";
+        var json = "falseeeee";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -617,7 +617,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsString_AdditionalBadDataAsync()
     {
-        var json = @"falseeeee";
+        var json = "falseeeee";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -629,7 +629,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBoolean_UnexpectedEndAsync()
     {
-        var json = @"tru";
+        var json = "tru";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -641,7 +641,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBoolean_BadDataAsync()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -653,7 +653,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsString_BadDataAsync()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -665,7 +665,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDouble_BadDataAsync()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -677,7 +677,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDouble_BooleanAsync()
     {
-        var json = @"true";
+        var json = "true";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -689,7 +689,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBytes_BadDataAsync()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -701,7 +701,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBytesIntegerArrayWithNoEndAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"[1"));
+        var reader = new JsonTextReader(new StringReader("[1"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -711,7 +711,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsBytesArrayWithBadContentAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"[1.0]"));
+        var reader = new JsonTextReader(new StringReader("[1.0]"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -760,7 +760,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadBytesWithBadCharacterAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader("true"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -773,7 +773,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
         var helloWorld = "Hello world!";
         var helloWorldData = Encoding.UTF8.GetBytes(helloWorld);
 
-        var reader = new JsonTextReader(new StringReader($@"'{Convert.ToBase64String(helloWorldData)}"));
+        var reader = new JsonTextReader(new StringReader($"'{Convert.ToBase64String(helloWorldData)}"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsBytesAsync(),
@@ -783,7 +783,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTime_BadDataAsync()
     {
-        var json = @"pie";
+        var json = "pie";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -795,7 +795,7 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTime_BooleanAsync()
     {
-        var json = @"true";
+        var json = "true";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -818,7 +818,7 @@ new Date()"));
     [Fact]
     public async Task ReadInt32WithBadCharacterAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"true"));
+        var reader = new JsonTextReader(new StringReader("true"));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsInt32Async(),
@@ -867,7 +867,7 @@ new Date()"));
     [Fact]
     public async Task ReadAsString_UnexpectedEndAsync()
     {
-        var json = @"tru";
+        var json = "tru";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -879,7 +879,7 @@ new Date()"));
     [Fact]
     public async Task ReadAsString_Null_UnexpectedEndAsync()
     {
-        var json = @"nul";
+        var json = "nul";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -952,7 +952,7 @@ new Date()"));
     [Fact]
     public async Task ErrorReadingCommentAsync()
     {
-        var json = @"/";
+        var json = "/";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -1066,7 +1066,7 @@ new Date()"));
     [Fact]
     public async Task UnexpectedEndWhenParsingUnquotedPropertyAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"{aww"));
+        var reader = new JsonTextReader(new StringReader("{aww"));
         Assert.True(await reader.ReadAsync());
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Unexpected end while parsing unquoted property name. Path '', line 1, position 4.");
