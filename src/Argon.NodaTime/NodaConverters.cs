@@ -22,7 +22,7 @@ public static class NodaConverters
     /// </summary>
     public static JsonConverter LocalDateConverter { get; }
         = new NodaPatternConverter<LocalDate>(
-            LocalDatePattern.Iso, CreateIsoValidator<LocalDate>(x => x.Calendar));
+            LocalDatePattern.Iso, CreateIsoValidator<LocalDate>(_ => _.Calendar));
 
     /// <summary>
     /// Converter for local dates and times, using the ISO-8601 date/time pattern, extended as required to accommodate nanoseconds.
@@ -30,7 +30,7 @@ public static class NodaConverters
     /// </summary>
     public static JsonConverter LocalDateTimeConverter { get; }
         = new NodaPatternConverter<LocalDateTime>(
-            LocalDateTimePattern.ExtendedIso, CreateIsoValidator<LocalDateTime>(x => x.Calendar));
+            LocalDateTimePattern.ExtendedIso, CreateIsoValidator<LocalDateTime>(_ => _.Calendar));
 
     /// <summary>
     /// Converter for local times, using the ISO-8601 time pattern, extended as required to accommodate nanoseconds.
@@ -76,14 +76,14 @@ public static class NodaConverters
     /// </summary>
     public static JsonConverter OffsetDateTimeConverter { get; } =
         new NodaPatternConverter<OffsetDateTime>(
-            OffsetDateTimePattern.Rfc3339, CreateIsoValidator<OffsetDateTime>(x => x.Calendar));
+            OffsetDateTimePattern.Rfc3339, CreateIsoValidator<OffsetDateTime>(_ => _.Calendar));
 
     /// <summary>
     /// Converter for offset dates.
     /// </summary>
     public static JsonConverter OffsetDateConverter { get; } =
         new NodaPatternConverter<OffsetDate>(
-            OffsetDatePattern.GeneralIso, CreateIsoValidator<OffsetDate>(x => x.Calendar));
+            OffsetDatePattern.GeneralIso, CreateIsoValidator<OffsetDate>(_ => _.Calendar));
 
     /// <summary>
     /// Converter for offset times.
@@ -99,7 +99,7 @@ public static class NodaConverters
     public static JsonConverter CreateZonedDateTimeConverter(IDateTimeZoneProvider provider) =>
         new NodaPatternConverter<ZonedDateTime>(
             ZonedDateTimePattern.CreateWithInvariantCulture("uuuu'-'MM'-'dd'T'HH':'mm':'ss;FFFFFFFFFo<G> z", provider),
-            CreateIsoValidator<ZonedDateTime>(x => x.Calendar));
+            CreateIsoValidator<ZonedDateTime>(_ => _.Calendar));
 
     /// <summary>
     /// Creates a converter for time zones, using the given provider.

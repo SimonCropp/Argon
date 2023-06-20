@@ -21,7 +21,7 @@ public class ThisGenericTest<T> where T : IKeyValueId
 
     public T this[int id]
     {
-        get => dict1.Values.FirstOrDefault(x => x.Id == id);
+        get => dict1.Values.FirstOrDefault(_ => _.Id == id);
         set
         {
             var item = this[id];
