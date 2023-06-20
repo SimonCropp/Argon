@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net7.0</TargetFrameworks>
@@ -7,7 +7,7 @@
     <Configurations>Debug;Release;DebugNet7</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ProjectDefaults" Version="1.0.90" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.91" PrivateAssets="all" />
     <None Remove="BenchmarkDotNet.Artifacts\**" />
     <ProjectReference Include="..\ArgonTests\ArgonTests.csproj" />
   </ItemGroup>
