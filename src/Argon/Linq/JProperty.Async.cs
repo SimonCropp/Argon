@@ -9,33 +9,33 @@ public partial class JProperty
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public override Task WriteToAsync(JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters)
+    public override Task WriteToAsync(JsonWriter writer, Cancel cancel, params JsonConverter[] converters)
     {
-        var task = writer.WritePropertyNameAsync(Name, cancellation);
+        var task = writer.WritePropertyNameAsync(Name, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return WriteValueAsync(writer, cancellation, converters);
+            return WriteValueAsync(writer, cancel, converters);
         }
 
-        return WriteToAsync(task, writer, cancellation, converters);
+        return WriteToAsync(task, writer, cancel, converters);
     }
 
-    async Task WriteToAsync(Task task, JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters)
+    async Task WriteToAsync(Task task, JsonWriter writer, Cancel cancel, params JsonConverter[] converters)
     {
         await task.ConfigureAwait(false);
 
-        await WriteValueAsync(writer, cancellation, converters).ConfigureAwait(false);
+        await WriteValueAsync(writer, cancel, converters).ConfigureAwait(false);
     }
 
-    Task WriteValueAsync(JsonWriter writer, Cancellation cancellation, JsonConverter[] converters)
+    Task WriteValueAsync(JsonWriter writer, Cancel cancel, JsonConverter[] converters)
     {
         var value = content.token;
         if (value == null)
         {
-            return writer.WriteNullAsync(cancellation);
+            return writer.WriteNullAsync(cancel);
         }
 
-        return value.WriteToAsync(writer, cancellation, converters);
+        return value.WriteToAsync(writer, cancel, converters);
     }
 
     /// <summary>
@@ -46,8 +46,8 @@ public partial class JProperty
     /// A <see cref="Task{TResult}" /> representing the asynchronous creation. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static Task<JProperty> LoadAsync(JsonReader reader, Cancellation cancellation = default) =>
-        LoadAsync(reader, null, cancellation);
+    public new static Task<JProperty> LoadAsync(JsonReader reader, Cancel cancel = default) =>
+        LoadAsync(reader, null, cancel);
 
     /// <summary>
     /// Asynchronously loads a <see cref="JProperty" /> from a <see cref="JsonReader" />.
@@ -61,17 +61,17 @@ public partial class JProperty
     /// A <see cref="Task{TResult}" /> representing the asynchronous creation. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JProperty" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static async Task<JProperty> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
+    public new static async Task<JProperty> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancel cancel = default)
     {
         if (reader.TokenType == JsonToken.None)
         {
-            if (!await reader.ReadAsync(cancellation).ConfigureAwait(false))
+            if (!await reader.ReadAsync(cancel).ConfigureAwait(false))
             {
                 throw JsonReaderException.Create(reader, "Error reading JProperty from JsonReader.");
             }
         }
 
-        await reader.MoveToContentAsync(cancellation).ConfigureAwait(false);
+        await reader.MoveToContentAsync(cancel).ConfigureAwait(false);
 
         if (reader.TokenType != JsonToken.PropertyName)
         {
@@ -81,7 +81,7 @@ public partial class JProperty
         var p = new JProperty((string) reader.Value!);
         p.SetLineInfo(reader as IJsonLineInfo, settings);
 
-        await p.ReadTokenFromAsync(reader, settings, cancellation).ConfigureAwait(false);
+        await p.ReadTokenFromAsync(reader, settings, cancel).ConfigureAwait(false);
 
         return p;
     }

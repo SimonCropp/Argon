@@ -14,11 +14,11 @@ public partial class JRaw
     /// A <see cref="Task{TResult}" /> representing the asynchronous creation. The <see cref="Task{TResult}.Result" />
     /// property returns an instance of <see cref="JRaw" /> with the content of the reader's current token.
     /// </returns>
-    public static async Task<JRaw> CreateAsync(JsonReader reader, Cancellation cancellation = default)
+    public static async Task<JRaw> CreateAsync(JsonReader reader, Cancel cancel = default)
     {
         using var stringWriter = new StringWriter(InvariantCulture);
         using var jsonWriter = new JsonTextWriter(stringWriter);
-        await jsonWriter.WriteTokenSyncReadingAsync(reader, cancellation).ConfigureAwait(false);
+        await jsonWriter.WriteTokenSyncReadingAsync(reader, cancel).ConfigureAwait(false);
 
         return new(stringWriter.ToString());
     }

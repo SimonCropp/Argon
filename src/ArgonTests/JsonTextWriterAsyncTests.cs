@@ -826,7 +826,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public async Task WriteTokenAsync()
     {
-        var cancel = Cancellation.None;
+        var cancel = Cancel.None;
         var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
         reader.Read();
         reader.Read();
@@ -1541,7 +1541,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public void AsyncMethodsAlreadyCancelled()
     {
-        var source = new CancellationSource();
+        var source = new CancelSource();
         var token = source.Token;
         source.Cancel();
 
@@ -1622,7 +1622,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public void AsyncMethodsAlreadyCancelledOnTextWriterSubclass()
     {
-        var source = new CancellationSource();
+        var source = new CancelSource();
         var token = source.Token;
         source.Cancel();
 
@@ -1689,7 +1689,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     [Fact]
     public void AsyncMethodsAlreadyCancelledOnWriterSubclass()
     {
-        var source = new CancellationSource();
+        var source = new CancelSource();
         var token = source.Token;
         source.Cancel();
 
@@ -1815,12 +1815,12 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
     {
     }
 
-    public override Task WritePropertyNameAsync(string name, Cancellation cancellation = default) =>
-        WritePropertyNameAsync(name, true, cancellation);
+    public override Task WritePropertyNameAsync(string name, Cancel cancel = default) =>
+        WritePropertyNameAsync(name, true, cancel);
 
-    public override async Task WritePropertyNameAsync(string name, bool escape, Cancellation cancellation = default)
+    public override async Task WritePropertyNameAsync(string name, bool escape, Cancel cancel = default)
     {
-        await SetWriteStateAsync(JsonToken.PropertyName, name, cancellation);
+        await SetWriteStateAsync(JsonToken.PropertyName, name, cancel);
 
         if (QuoteName)
         {
@@ -1837,30 +1837,30 @@ public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
         await writer.WriteAsync(':');
     }
 
-    public override async Task WriteNullAsync(Cancellation cancellation = default)
+    public override async Task WriteNullAsync(Cancel cancel = default)
     {
-        await SetWriteStateAsync(JsonToken.Null, null, cancellation);
+        await SetWriteStateAsync(JsonToken.Null, null, cancel);
 
         await writer.WriteAsync("NULL!!!");
     }
 
-    public override async Task WriteStartObjectAsync(Cancellation cancellation = default)
+    public override async Task WriteStartObjectAsync(Cancel cancel = default)
     {
-        await SetWriteStateAsync(JsonToken.StartObject, null, cancellation);
+        await SetWriteStateAsync(JsonToken.StartObject, null, cancel);
 
         await writer.WriteAsync("{{{");
     }
 
-    public override Task WriteEndObjectAsync(Cancellation cancellation = default) =>
-        SetWriteStateAsync(JsonToken.EndObject, null, cancellation);
+    public override Task WriteEndObjectAsync(Cancel cancel = default) =>
+        SetWriteStateAsync(JsonToken.EndObject, null, cancel);
 
-    protected override Task WriteEndAsync(JsonToken token, Cancellation cancellation)
+    protected override Task WriteEndAsync(JsonToken token, Cancel cancel)
     {
         if (token == JsonToken.EndObject)
         {
             return writer.WriteAsync("}}}");
         }
 
-        return base.WriteEndAsync(token, cancellation);
+        return base.WriteEndAsync(token, cancel);
     }
 }

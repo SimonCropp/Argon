@@ -23,17 +23,17 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<bool> ReadAsync(Cancellation cancellation = default)
+    public override Task<bool> ReadAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsync(cancellation);
+            return DoReadAsync(cancel);
         }
 
-        return base.ReadAsync(cancellation);
+        return base.ReadAsync(cancel);
     }
 
-    Task<bool> DoReadAsync(Cancellation cancellation)
+    Task<bool> DoReadAsync(Cancel cancel)
     {
         while (true)
         {
@@ -43,12 +43,12 @@ public partial class JsonTextReader
                 case State.Property:
                 case State.Array:
                 case State.ArrayStart:
-                    return ParseValueAsync(cancellation);
+                    return ParseValueAsync(cancel);
                 case State.Object:
                 case State.ObjectStart:
-                    return ParseObjectAsync(cancellation);
+                    return ParseObjectAsync(cancel);
                 case State.PostValue:
-                    var task = ParsePostValueAsync(false, cancellation);
+                    var task = ParsePostValueAsync(false, cancel);
                     if (task.IsCompletedSuccessfully())
                     {
                         if (task.Result)
@@ -58,19 +58,19 @@ public partial class JsonTextReader
                     }
                     else
                     {
-                        return DoReadAsync(task, cancellation);
+                        return DoReadAsync(task, cancel);
                     }
 
                     break;
                 case State.Finished:
-                    return ReadFromFinishedAsync(cancellation);
+                    return ReadFromFinishedAsync(cancel);
                 default:
                     throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
             }
         }
     }
 
-    async Task<bool> DoReadAsync(Task<bool> task, Cancellation cancellation)
+    async Task<bool> DoReadAsync(Task<bool> task, Cancel cancel)
     {
         var result = await task.ConfigureAwait(false);
         if (result)
@@ -78,10 +78,10 @@ public partial class JsonTextReader
             return true;
         }
 
-        return await DoReadAsync(cancellation).ConfigureAwait(false);
+        return await DoReadAsync(cancel).ConfigureAwait(false);
     }
 
-    async Task<bool> ParsePostValueAsync(bool ignoreComments, Cancellation cancellation)
+    async Task<bool> ParsePostValueAsync(bool ignoreComments, Cancel cancel)
     {
         while (true)
         {
@@ -92,7 +92,7 @@ public partial class JsonTextReader
                 case '\0':
                     if (charsUsed == charPos)
                     {
-                        if (await ReadDataAsync(false, cancellation).ConfigureAwait(false) == 0)
+                        if (await ReadDataAsync(false, cancel).ConfigureAwait(false) == 0)
                         {
                             currentState = State.Finished;
                             return false;
@@ -113,7 +113,7 @@ public partial class JsonTextReader
                     SetToken(JsonToken.EndArray);
                     return true;
                 case '/':
-                    await ParseCommentAsync(!ignoreComments, cancellation).ConfigureAwait(false);
+                    await ParseCommentAsync(!ignoreComments, cancel).ConfigureAwait(false);
                     if (!ignoreComments)
                     {
                         return true;
@@ -133,7 +133,7 @@ public partial class JsonTextReader
                     charPos++;
                     break;
                 case StringUtils.CarriageReturn:
-                    await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                    await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                     break;
                 case StringUtils.LineFeed:
                     ProcessLineFeed();
@@ -161,11 +161,11 @@ public partial class JsonTextReader
         }
     }
 
-    async Task<bool> ReadFromFinishedAsync(Cancellation cancellation)
+    async Task<bool> ReadFromFinishedAsync(Cancel cancel)
     {
-        if (await EnsureCharsAsync(0, false, cancellation).ConfigureAwait(false))
+        if (await EnsureCharsAsync(0, false, cancel).ConfigureAwait(false))
         {
-            await EatWhitespaceAsync(cancellation).ConfigureAwait(false);
+            await EatWhitespaceAsync(cancel).ConfigureAwait(false);
             if (isEndOfFile)
             {
                 SetToken(JsonToken.None);
@@ -174,7 +174,7 @@ public partial class JsonTextReader
 
             if (charBuffer[charPos] == '/')
             {
-                await ParseCommentAsync(true, cancellation).ConfigureAwait(false);
+                await ParseCommentAsync(true, cancel).ConfigureAwait(false);
                 return true;
             }
 
@@ -185,10 +185,10 @@ public partial class JsonTextReader
         return false;
     }
 
-    Task<int> ReadDataAsync(bool append, Cancellation cancellation) =>
-        ReadDataAsync(append, 0, cancellation);
+    Task<int> ReadDataAsync(bool append, Cancel cancel) =>
+        ReadDataAsync(append, 0, cancel);
 
-    async Task<int> ReadDataAsync(bool append, int charsRequired, Cancellation cancellation)
+    async Task<int> ReadDataAsync(bool append, int charsRequired, Cancel cancel)
     {
         if (isEndOfFile)
         {
@@ -197,7 +197,7 @@ public partial class JsonTextReader
 
         PrepareBufferForReadData(append, charsRequired);
 
-        var charsRead = await reader.ReadAsync(charBuffer, charsUsed, charBuffer.Length - charsUsed - 1, cancellation).ConfigureAwait(false);
+        var charsRead = await reader.ReadAsync(charBuffer, charsUsed, charBuffer.Length - charsUsed - 1, cancel).ConfigureAwait(false);
 
         charsUsed += charsRead;
 
@@ -210,7 +210,7 @@ public partial class JsonTextReader
         return charsRead;
     }
 
-    async Task<bool> ParseValueAsync(Cancellation cancellation)
+    async Task<bool> ParseValueAsync(Cancel cancel)
     {
         while (true)
         {
@@ -221,7 +221,7 @@ public partial class JsonTextReader
                 case '\0':
                     if (charsUsed == charPos)
                     {
-                        if (await ReadDataAsync(false, cancellation).ConfigureAwait(false) == 0)
+                        if (await ReadDataAsync(false, cancel).ConfigureAwait(false) == 0)
                         {
                             return false;
                         }
@@ -234,21 +234,21 @@ public partial class JsonTextReader
                     break;
                 case '"':
                 case '\'':
-                    await ParseStringAsync(currentChar, ReadType.Read, cancellation).ConfigureAwait(false);
+                    await ParseStringAsync(currentChar, ReadType.Read, cancel).ConfigureAwait(false);
                     return true;
                 case 't':
-                    await ParseTrueAsync(cancellation).ConfigureAwait(false);
+                    await ParseTrueAsync(cancel).ConfigureAwait(false);
                     return true;
                 case 'f':
-                    await ParseFalseAsync(cancellation).ConfigureAwait(false);
+                    await ParseFalseAsync(cancel).ConfigureAwait(false);
                     return true;
                 case 'n':
-                    if (await EnsureCharsAsync(1, true, cancellation).ConfigureAwait(false))
+                    if (await EnsureCharsAsync(1, true, cancel).ConfigureAwait(false))
                     {
                         switch (charBuffer[charPos + 1])
                         {
                             case 'u':
-                                await ParseNullAsync(cancellation).ConfigureAwait(false);
+                                await ParseNullAsync(cancel).ConfigureAwait(false);
                                 break;
                             default:
                                 throw CreateUnexpectedCharacterException(charBuffer[charPos]);
@@ -262,27 +262,27 @@ public partial class JsonTextReader
 
                     return true;
                 case 'N':
-                    await ParseNumberNaNAsync(ReadType.Read, cancellation).ConfigureAwait(false);
+                    await ParseNumberNaNAsync(ReadType.Read, cancel).ConfigureAwait(false);
                     return true;
                 case 'I':
-                    await ParseNumberPositiveInfinityAsync(ReadType.Read, cancellation).ConfigureAwait(false);
+                    await ParseNumberPositiveInfinityAsync(ReadType.Read, cancel).ConfigureAwait(false);
                     return true;
                 case '-':
-                    if (await EnsureCharsAsync(1, true, cancellation).ConfigureAwait(false) && charBuffer[charPos + 1] == 'I')
+                    if (await EnsureCharsAsync(1, true, cancel).ConfigureAwait(false) && charBuffer[charPos + 1] == 'I')
                     {
-                        await ParseNumberNegativeInfinityAsync(ReadType.Read, cancellation).ConfigureAwait(false);
+                        await ParseNumberNegativeInfinityAsync(ReadType.Read, cancel).ConfigureAwait(false);
                     }
                     else
                     {
-                        await ParseNumberAsync(ReadType.Read, cancellation).ConfigureAwait(false);
+                        await ParseNumberAsync(ReadType.Read, cancel).ConfigureAwait(false);
                     }
 
                     return true;
                 case '/':
-                    await ParseCommentAsync(true, cancellation).ConfigureAwait(false);
+                    await ParseCommentAsync(true, cancel).ConfigureAwait(false);
                     return true;
                 case 'u':
-                    await ParseUndefinedAsync(cancellation).ConfigureAwait(false);
+                    await ParseUndefinedAsync(cancel).ConfigureAwait(false);
                     return true;
                 case '{':
                     charPos++;
@@ -303,7 +303,7 @@ public partial class JsonTextReader
                     SetToken(JsonToken.Undefined);
                     return true;
                 case StringUtils.CarriageReturn:
-                    await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                    await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                     break;
                 case StringUtils.LineFeed:
                     ProcessLineFeed();
@@ -324,7 +324,7 @@ public partial class JsonTextReader
 
                     if (char.IsNumber(currentChar) || currentChar is '-' or '.')
                     {
-                        await ParseNumberAsync(ReadType.Read, cancellation).ConfigureAwait(false);
+                        await ParseNumberAsync(ReadType.Read, cancel).ConfigureAwait(false);
                         return true;
                     }
 
@@ -333,7 +333,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ReadStringIntoBufferAsync(char quote, Cancellation cancellation)
+    async Task ReadStringIntoBufferAsync(char quote, Cancel cancel)
     {
         var charPos = this.charPos;
         var initialPosition = this.charPos;
@@ -349,7 +349,7 @@ public partial class JsonTextReader
                     {
                         charPos--;
 
-                        if (await ReadDataAsync(true, cancellation).ConfigureAwait(false) == 0)
+                        if (await ReadDataAsync(true, cancel).ConfigureAwait(false) == 0)
                         {
                             this.charPos = charPos;
                             throw JsonReaderException.Create(this, $"Unterminated string. Expected delimiter: {quote}.");
@@ -359,7 +359,7 @@ public partial class JsonTextReader
                     break;
                 case '\\':
                     this.charPos = charPos;
-                    if (!await EnsureCharsAsync(0, true, cancellation).ConfigureAwait(false))
+                    if (!await EnsureCharsAsync(0, true, cancel).ConfigureAwait(false))
                     {
                         throw JsonReaderException.Create(this, $"Unterminated string. Expected delimiter: {quote}.");
                     }
@@ -399,7 +399,7 @@ public partial class JsonTextReader
                             break;
                         case 'u':
                             this.charPos = charPos;
-                            writeChar = await ParseUnicodeAsync(cancellation).ConfigureAwait(false);
+                            writeChar = await ParseUnicodeAsync(cancel).ConfigureAwait(false);
 
                             if (char.IsLowSurrogate(writeChar))
                             {
@@ -416,12 +416,12 @@ public partial class JsonTextReader
                                     anotherHighSurrogate = false;
 
                                     // potential start of a surrogate pair
-                                    if (await EnsureCharsAsync(2, true, cancellation).ConfigureAwait(false) && charBuffer[this.charPos] == '\\' && charBuffer[this.charPos + 1] == 'u')
+                                    if (await EnsureCharsAsync(2, true, cancel).ConfigureAwait(false) && charBuffer[this.charPos] == '\\' && charBuffer[this.charPos + 1] == 'u')
                                     {
                                         var highSurrogate = writeChar;
 
                                         this.charPos += 2;
-                                        writeChar = await ParseUnicodeAsync(cancellation).ConfigureAwait(false);
+                                        writeChar = await ParseUnicodeAsync(cancel).ConfigureAwait(false);
 
                                         if (char.IsLowSurrogate(writeChar))
                                         {
@@ -467,7 +467,7 @@ public partial class JsonTextReader
                     break;
                 case StringUtils.CarriageReturn:
                     this.charPos = charPos - 1;
-                    await ProcessCarriageReturnAsync(true, cancellation).ConfigureAwait(false);
+                    await ProcessCarriageReturnAsync(true, cancel).ConfigureAwait(false);
                     charPos = this.charPos;
                     break;
                 case StringUtils.LineFeed:
@@ -488,11 +488,11 @@ public partial class JsonTextReader
         }
     }
 
-    Task ProcessCarriageReturnAsync(bool append, Cancellation cancellation)
+    Task ProcessCarriageReturnAsync(bool append, Cancel cancel)
     {
         charPos++;
 
-        var task = EnsureCharsAsync(1, append, cancellation);
+        var task = EnsureCharsAsync(1, append, cancel);
         if (task.IsCompletedSuccessfully())
         {
             SetNewLine(task.Result);
@@ -505,10 +505,10 @@ public partial class JsonTextReader
     async Task ProcessCarriageReturnAsync(Task<bool> task) =>
         SetNewLine(await task.ConfigureAwait(false));
 
-    async Task<char> ParseUnicodeAsync(Cancellation cancellation) =>
-        ConvertUnicode(await EnsureCharsAsync(4, true, cancellation).ConfigureAwait(false));
+    async Task<char> ParseUnicodeAsync(Cancel cancel) =>
+        ConvertUnicode(await EnsureCharsAsync(4, true, cancel).ConfigureAwait(false));
 
-    Task<bool> EnsureCharsAsync(int relativePosition, bool append, Cancellation cancellation)
+    Task<bool> EnsureCharsAsync(int relativePosition, bool append, Cancel cancel)
     {
         if (charPos + relativePosition < charsUsed)
         {
@@ -520,10 +520,10 @@ public partial class JsonTextReader
             return AsyncUtils.False;
         }
 
-        return ReadCharsAsync(relativePosition, append, cancellation);
+        return ReadCharsAsync(relativePosition, append, cancel);
     }
 
-    async Task<bool> ReadCharsAsync(int relativePosition, bool append, Cancellation cancellation)
+    async Task<bool> ReadCharsAsync(int relativePosition, bool append, Cancel cancel)
     {
         var charsRequired = charPos + relativePosition - charsUsed + 1;
 
@@ -531,7 +531,7 @@ public partial class JsonTextReader
         // repeat read until the required text is returned or the reader is out of content
         do
         {
-            var charsRead = await ReadDataAsync(append, charsRequired, cancellation).ConfigureAwait(false);
+            var charsRead = await ReadDataAsync(append, charsRequired, cancel).ConfigureAwait(false);
 
             // no more content
             if (charsRead == 0)
@@ -545,7 +545,7 @@ public partial class JsonTextReader
         return true;
     }
 
-    async Task<bool> ParseObjectAsync(Cancellation cancellation)
+    async Task<bool> ParseObjectAsync(Cancel cancel)
     {
         while (true)
         {
@@ -556,7 +556,7 @@ public partial class JsonTextReader
                 case '\0':
                     if (charsUsed == charPos)
                     {
-                        if (await ReadDataAsync(false, cancellation).ConfigureAwait(false) == 0)
+                        if (await ReadDataAsync(false, cancel).ConfigureAwait(false) == 0)
                         {
                             return false;
                         }
@@ -572,10 +572,10 @@ public partial class JsonTextReader
                     charPos++;
                     return true;
                 case '/':
-                    await ParseCommentAsync(true, cancellation).ConfigureAwait(false);
+                    await ParseCommentAsync(true, cancel).ConfigureAwait(false);
                     return true;
                 case StringUtils.CarriageReturn:
-                    await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                    await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                     break;
                 case StringUtils.LineFeed:
                     ProcessLineFeed();
@@ -594,7 +594,7 @@ public partial class JsonTextReader
                     }
                     else
                     {
-                        return await ParsePropertyAsync(cancellation).ConfigureAwait(false);
+                        return await ParsePropertyAsync(cancel).ConfigureAwait(false);
                     }
 
                     break;
@@ -602,12 +602,12 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ParseCommentAsync(bool setToken, Cancellation cancellation)
+    async Task ParseCommentAsync(bool setToken, Cancel cancel)
     {
         // should have already parsed / character before reaching this method
         charPos++;
 
-        if (!await EnsureCharsAsync(1, false, cancellation).ConfigureAwait(false))
+        if (!await EnsureCharsAsync(1, false, cancel).ConfigureAwait(false))
         {
             throw JsonReaderException.Create(this, "Unexpected end while parsing comment.");
         }
@@ -638,7 +638,7 @@ public partial class JsonTextReader
                 case '\0':
                     if (charsUsed == charPos)
                     {
-                        if (await ReadDataAsync(true, cancellation).ConfigureAwait(false) == 0)
+                        if (await ReadDataAsync(true, cancel).ConfigureAwait(false) == 0)
                         {
                             if (!singlelineComment)
                             {
@@ -660,7 +660,7 @@ public partial class JsonTextReader
 
                     if (!singlelineComment)
                     {
-                        if (await EnsureCharsAsync(0, true, cancellation).ConfigureAwait(false))
+                        if (await EnsureCharsAsync(0, true, cancel).ConfigureAwait(false))
                         {
                             if (charBuffer[charPos] == '/')
                             {
@@ -680,7 +680,7 @@ public partial class JsonTextReader
                         return;
                     }
 
-                    await ProcessCarriageReturnAsync(true, cancellation).ConfigureAwait(false);
+                    await ProcessCarriageReturnAsync(true, cancel).ConfigureAwait(false);
                     break;
                 case StringUtils.LineFeed:
                     if (singlelineComment)
@@ -698,7 +698,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task EatWhitespaceAsync(Cancellation cancellation)
+    async Task EatWhitespaceAsync(Cancel cancel)
     {
         while (true)
         {
@@ -709,7 +709,7 @@ public partial class JsonTextReader
                 case '\0':
                     if (charsUsed == charPos)
                     {
-                        if (await ReadDataAsync(false, cancellation).ConfigureAwait(false) == 0)
+                        if (await ReadDataAsync(false, cancel).ConfigureAwait(false) == 0)
                         {
                             return;
                         }
@@ -721,7 +721,7 @@ public partial class JsonTextReader
 
                     break;
                 case StringUtils.CarriageReturn:
-                    await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                    await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                     break;
                 case StringUtils.LineFeed:
                     ProcessLineFeed();
@@ -741,28 +741,28 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ParseStringAsync(char quote, ReadType readType, Cancellation cancellation)
+    async Task ParseStringAsync(char quote, ReadType readType, Cancel cancel)
     {
-        cancellation.ThrowIfCancellationRequested();
+        cancel.ThrowIfCancellationRequested();
         charPos++;
 
         ShiftBufferIfNeeded();
-        await ReadStringIntoBufferAsync(quote, cancellation).ConfigureAwait(false);
+        await ReadStringIntoBufferAsync(quote, cancel).ConfigureAwait(false);
         ParseReadString(quote, readType);
     }
 
-    async Task<bool> MatchValueAsync(string value, Cancellation cancellation) =>
-        MatchValue(await EnsureCharsAsync(value.Length - 1, true, cancellation).ConfigureAwait(false), value);
+    async Task<bool> MatchValueAsync(string value, Cancel cancel) =>
+        MatchValue(await EnsureCharsAsync(value.Length - 1, true, cancel).ConfigureAwait(false), value);
 
-    async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, Cancellation cancellation)
+    async Task<bool> MatchValueWithTrailingSeparatorAsync(string value, Cancel cancel)
     {
         // will match value and then move to the next character, checking that it is a separator character
-        if (!await MatchValueAsync(value, cancellation).ConfigureAwait(false))
+        if (!await MatchValueAsync(value, cancel).ConfigureAwait(false))
         {
             return false;
         }
 
-        if (!await EnsureCharsAsync(0, false, cancellation).ConfigureAwait(false))
+        if (!await EnsureCharsAsync(0, false, cancel).ConfigureAwait(false))
         {
             return true;
         }
@@ -770,9 +770,9 @@ public partial class JsonTextReader
         return IsSeparator(charBuffer[charPos]) || charBuffer[charPos] == '\0';
     }
 
-    async Task MatchAndSetAsync(string value, JsonToken newToken, object? tokenValue, Cancellation cancellation)
+    async Task MatchAndSetAsync(string value, JsonToken newToken, object? tokenValue, Cancel cancel)
     {
-        if (await MatchValueWithTrailingSeparatorAsync(value, cancellation).ConfigureAwait(false))
+        if (await MatchValueWithTrailingSeparatorAsync(value, cancel).ConfigureAwait(false))
         {
             SetToken(newToken, tokenValue);
         }
@@ -782,40 +782,40 @@ public partial class JsonTextReader
         }
     }
 
-    Task ParseTrueAsync(Cancellation cancellation) =>
-        MatchAndSetAsync(JsonConvert.True, JsonToken.Boolean, true, cancellation);
+    Task ParseTrueAsync(Cancel cancel) =>
+        MatchAndSetAsync(JsonConvert.True, JsonToken.Boolean, true, cancel);
 
-    Task ParseFalseAsync(Cancellation cancellation) =>
-        MatchAndSetAsync(JsonConvert.False, JsonToken.Boolean, false, cancellation);
+    Task ParseFalseAsync(Cancel cancel) =>
+        MatchAndSetAsync(JsonConvert.False, JsonToken.Boolean, false, cancel);
 
-    Task ParseNullAsync(Cancellation cancellation) =>
-        MatchAndSetAsync(JsonConvert.Null, JsonToken.Null, null, cancellation);
+    Task ParseNullAsync(Cancel cancel) =>
+        MatchAndSetAsync(JsonConvert.Null, JsonToken.Null, null, cancel);
 
-    async Task<object> ParseNumberNaNAsync(ReadType readType, Cancellation cancellation) =>
-        ParseNumberNaN(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NaN, cancellation).ConfigureAwait(false));
+    async Task<object> ParseNumberNaNAsync(ReadType readType, Cancel cancel) =>
+        ParseNumberNaN(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NaN, cancel).ConfigureAwait(false));
 
-    async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, Cancellation cancellation) =>
-        ParseNumberPositiveInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.PositiveInfinity, cancellation).ConfigureAwait(false));
+    async Task<object> ParseNumberPositiveInfinityAsync(ReadType readType, Cancel cancel) =>
+        ParseNumberPositiveInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.PositiveInfinity, cancel).ConfigureAwait(false));
 
-    async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, Cancellation cancellation) =>
-        ParseNumberNegativeInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NegativeInfinity, cancellation).ConfigureAwait(false));
+    async Task<object> ParseNumberNegativeInfinityAsync(ReadType readType, Cancel cancel) =>
+        ParseNumberNegativeInfinity(readType, await MatchValueWithTrailingSeparatorAsync(JsonConvert.NegativeInfinity, cancel).ConfigureAwait(false));
 
-    async Task ParseNumberAsync(ReadType readType, Cancellation cancellation)
+    async Task ParseNumberAsync(ReadType readType, Cancel cancel)
     {
         ShiftBufferIfNeeded();
 
         var firstChar = charBuffer[charPos];
         var initialPosition = charPos;
 
-        await ReadNumberIntoBufferAsync(cancellation).ConfigureAwait(false);
+        await ReadNumberIntoBufferAsync(cancel).ConfigureAwait(false);
 
         ParseReadNumber(readType, firstChar, initialPosition);
     }
 
-    Task ParseUndefinedAsync(Cancellation cancellation) =>
-        MatchAndSetAsync(JsonConvert.Undefined, JsonToken.Undefined, null, cancellation);
+    Task ParseUndefinedAsync(Cancel cancel) =>
+        MatchAndSetAsync(JsonConvert.Undefined, JsonToken.Undefined, null, cancel);
 
-    async Task<bool> ParsePropertyAsync(Cancellation cancellation)
+    async Task<bool> ParsePropertyAsync(Cancel cancel)
     {
         var firstChar = charBuffer[charPos];
         char quoteChar;
@@ -825,13 +825,13 @@ public partial class JsonTextReader
             charPos++;
             quoteChar = firstChar;
             ShiftBufferIfNeeded();
-            await ReadStringIntoBufferAsync(quoteChar, cancellation).ConfigureAwait(false);
+            await ReadStringIntoBufferAsync(quoteChar, cancel).ConfigureAwait(false);
         }
         else if (ValidIdentifierChar(firstChar))
         {
             quoteChar = '\0';
             ShiftBufferIfNeeded();
-            await ParseUnquotedPropertyAsync(cancellation).ConfigureAwait(false);
+            await ParseUnquotedPropertyAsync(cancel).ConfigureAwait(false);
         }
         else
         {
@@ -851,7 +851,7 @@ public partial class JsonTextReader
             propertyName = stringReference.ToString();
         }
 
-        await EatWhitespaceAsync(cancellation).ConfigureAwait(false);
+        await EatWhitespaceAsync(cancel).ConfigureAwait(false);
 
         if (charBuffer[charPos] != ':')
         {
@@ -867,7 +867,7 @@ public partial class JsonTextReader
         return true;
     }
 
-    async Task ReadNumberIntoBufferAsync(Cancellation cancellation)
+    async Task ReadNumberIntoBufferAsync(Cancel cancel)
     {
         var charPos = this.charPos;
 
@@ -880,7 +880,7 @@ public partial class JsonTextReader
 
                 if (charsUsed == charPos)
                 {
-                    if (await ReadDataAsync(true, cancellation).ConfigureAwait(false) == 0)
+                    if (await ReadDataAsync(true, cancel).ConfigureAwait(false) == 0)
                     {
                         return;
                     }
@@ -901,7 +901,7 @@ public partial class JsonTextReader
         }
     }
 
-    async Task ParseUnquotedPropertyAsync(Cancellation cancellation)
+    async Task ParseUnquotedPropertyAsync(Cancel cancel)
     {
         var initialPosition = charPos;
 
@@ -913,7 +913,7 @@ public partial class JsonTextReader
             {
                 if (charsUsed == charPos)
                 {
-                    if (await ReadDataAsync(true, cancellation).ConfigureAwait(false) == 0)
+                    if (await ReadDataAsync(true, cancel).ConfigureAwait(false) == 0)
                     {
                         throw JsonReaderException.Create(this, "Unexpected end while parsing unquoted property name.");
                     }
@@ -932,11 +932,11 @@ public partial class JsonTextReader
         }
     }
 
-    async Task<bool> ReadNullCharAsync(Cancellation cancellation)
+    async Task<bool> ReadNullCharAsync(Cancel cancel)
     {
         if (charsUsed == charPos)
         {
-            if (await ReadDataAsync(false, cancellation).ConfigureAwait(false) == 0)
+            if (await ReadDataAsync(false, cancel).ConfigureAwait(false) == 0)
             {
                 isEndOfFile = true;
                 return true;
@@ -950,13 +950,13 @@ public partial class JsonTextReader
         return false;
     }
 
-    async Task HandleNullAsync(Cancellation cancellation)
+    async Task HandleNullAsync(Cancel cancel)
     {
-        if (await EnsureCharsAsync(1, true, cancellation).ConfigureAwait(false))
+        if (await EnsureCharsAsync(1, true, cancel).ConfigureAwait(false))
         {
             if (charBuffer[charPos + 1] == 'u')
             {
-                await ParseNullAsync(cancellation).ConfigureAwait(false);
+                await ParseNullAsync(cancel).ConfigureAwait(false);
                 return;
             }
 
@@ -968,11 +968,11 @@ public partial class JsonTextReader
         throw CreateUnexpectedEndException();
     }
 
-    async Task ReadFinishedAsync(Cancellation cancellation)
+    async Task ReadFinishedAsync(Cancel cancel)
     {
-        if (await EnsureCharsAsync(0, false, cancellation).ConfigureAwait(false))
+        if (await EnsureCharsAsync(0, false, cancel).ConfigureAwait(false))
         {
-            await EatWhitespaceAsync(cancellation).ConfigureAwait(false);
+            await EatWhitespaceAsync(cancel).ConfigureAwait(false);
             if (isEndOfFile)
             {
                 SetToken(JsonToken.None);
@@ -981,7 +981,7 @@ public partial class JsonTextReader
 
             if (charBuffer[charPos] == '/')
             {
-                await ParseCommentAsync(false, cancellation).ConfigureAwait(false);
+                await ParseCommentAsync(false, cancel).ConfigureAwait(false);
             }
             else
             {
@@ -992,12 +992,12 @@ public partial class JsonTextReader
         SetToken(JsonToken.None);
     }
 
-    async Task<object?> ReadStringValueAsync(ReadType readType, Cancellation cancellation)
+    async Task<object?> ReadStringValueAsync(ReadType readType, Cancel cancel)
     {
         switch (currentState)
         {
             case State.PostValue:
-                if (await ParsePostValueAsync(true, cancellation).ConfigureAwait(false))
+                if (await ParsePostValueAsync(true, cancel).ConfigureAwait(false))
                 {
                     return null;
                 }
@@ -1014,7 +1014,7 @@ public partial class JsonTextReader
                     switch (currentChar)
                     {
                         case '\0':
-                            if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
+                            if (await ReadNullCharAsync(cancel).ConfigureAwait(false))
                             {
                                 SetNoneToken();
                                 return null;
@@ -1023,15 +1023,15 @@ public partial class JsonTextReader
                             break;
                         case '"':
                         case '\'':
-                            await ParseStringAsync(currentChar, readType, cancellation).ConfigureAwait(false);
+                            await ParseStringAsync(currentChar, readType, cancel).ConfigureAwait(false);
                             return FinishReadQuotedStringValue(readType);
                         case '-':
-                            if (await EnsureCharsAsync(1, true, cancellation).ConfigureAwait(false) && charBuffer[charPos + 1] == 'I')
+                            if (await EnsureCharsAsync(1, true, cancel).ConfigureAwait(false) && charBuffer[charPos + 1] == 'I')
                             {
                                 return ParseNumberNegativeInfinity(readType);
                             }
 
-                            await ParseNumberAsync(readType, cancellation).ConfigureAwait(false);
+                            await ParseNumberAsync(readType, cancel).ConfigureAwait(false);
                             return Value;
                         case '.':
                         case '0':
@@ -1050,7 +1050,7 @@ public partial class JsonTextReader
                                 throw CreateUnexpectedCharacterException(currentChar);
                             }
 
-                            await ParseNumberAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
+                            await ParseNumberAsync(ReadType.ReadAsString, cancel).ConfigureAwait(false);
                             return Value;
                         case 't':
                         case 'f':
@@ -1061,7 +1061,7 @@ public partial class JsonTextReader
                             }
 
                             var expected = currentChar == 't' ? JsonConvert.True : JsonConvert.False;
-                            if (!await MatchValueWithTrailingSeparatorAsync(expected, cancellation).ConfigureAwait(false))
+                            if (!await MatchValueWithTrailingSeparatorAsync(expected, cancel).ConfigureAwait(false))
                             {
                                 throw CreateUnexpectedCharacterException(charBuffer[charPos]);
                             }
@@ -1069,14 +1069,14 @@ public partial class JsonTextReader
                             SetToken(JsonToken.String, expected);
                             return expected;
                         case 'I':
-                            return await ParseNumberPositiveInfinityAsync(readType, cancellation).ConfigureAwait(false);
+                            return await ParseNumberPositiveInfinityAsync(readType, cancel).ConfigureAwait(false);
                         case 'N':
-                            return await ParseNumberNaNAsync(readType, cancellation).ConfigureAwait(false);
+                            return await ParseNumberNaNAsync(readType, cancel).ConfigureAwait(false);
                         case 'n':
-                            await HandleNullAsync(cancellation).ConfigureAwait(false);
+                            await HandleNullAsync(cancel).ConfigureAwait(false);
                             return null;
                         case '/':
-                            await ParseCommentAsync(false, cancellation).ConfigureAwait(false);
+                            await ParseCommentAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case ',':
                             ProcessValueComma();
@@ -1091,7 +1091,7 @@ public partial class JsonTextReader
 
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
-                            await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                            await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case StringUtils.LineFeed:
                             ProcessLineFeed();
@@ -1115,19 +1115,19 @@ public partial class JsonTextReader
                     }
                 }
             case State.Finished:
-                await ReadFinishedAsync(cancellation).ConfigureAwait(false);
+                await ReadFinishedAsync(cancel).ConfigureAwait(false);
                 return null;
             default:
                 throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
         }
     }
 
-    async Task<object?> ReadNumberValueAsync(ReadType readType, Cancellation cancellation)
+    async Task<object?> ReadNumberValueAsync(ReadType readType, Cancel cancel)
     {
         switch (currentState)
         {
             case State.PostValue:
-                if (await ParsePostValueAsync(true, cancellation).ConfigureAwait(false))
+                if (await ParsePostValueAsync(true, cancel).ConfigureAwait(false))
                 {
                     return null;
                 }
@@ -1144,7 +1144,7 @@ public partial class JsonTextReader
                     switch (currentChar)
                     {
                         case '\0':
-                            if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
+                            if (await ReadNullCharAsync(cancel).ConfigureAwait(false))
                             {
                                 SetNoneToken();
                                 return null;
@@ -1153,22 +1153,22 @@ public partial class JsonTextReader
                             break;
                         case '"':
                         case '\'':
-                            await ParseStringAsync(currentChar, readType, cancellation).ConfigureAwait(false);
+                            await ParseStringAsync(currentChar, readType, cancel).ConfigureAwait(false);
                             return FinishReadQuotedNumber(readType);
                         case 'n':
-                            await HandleNullAsync(cancellation).ConfigureAwait(false);
+                            await HandleNullAsync(cancel).ConfigureAwait(false);
                             return null;
                         case 'N':
-                            return await ParseNumberNaNAsync(readType, cancellation).ConfigureAwait(false);
+                            return await ParseNumberNaNAsync(readType, cancel).ConfigureAwait(false);
                         case 'I':
-                            return await ParseNumberPositiveInfinityAsync(readType, cancellation).ConfigureAwait(false);
+                            return await ParseNumberPositiveInfinityAsync(readType, cancel).ConfigureAwait(false);
                         case '-':
-                            if (await EnsureCharsAsync(1, true, cancellation).ConfigureAwait(false) && charBuffer[charPos + 1] == 'I')
+                            if (await EnsureCharsAsync(1, true, cancel).ConfigureAwait(false) && charBuffer[charPos + 1] == 'I')
                             {
-                                return await ParseNumberNegativeInfinityAsync(readType, cancellation).ConfigureAwait(false);
+                                return await ParseNumberNegativeInfinityAsync(readType, cancel).ConfigureAwait(false);
                             }
 
-                            await ParseNumberAsync(readType, cancellation).ConfigureAwait(false);
+                            await ParseNumberAsync(readType, cancel).ConfigureAwait(false);
                             return Value;
                         case '.':
                         case '0':
@@ -1181,10 +1181,10 @@ public partial class JsonTextReader
                         case '7':
                         case '8':
                         case '9':
-                            await ParseNumberAsync(readType, cancellation).ConfigureAwait(false);
+                            await ParseNumberAsync(readType, cancel).ConfigureAwait(false);
                             return Value;
                         case '/':
-                            await ParseCommentAsync(false, cancellation).ConfigureAwait(false);
+                            await ParseCommentAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case ',':
                             ProcessValueComma();
@@ -1199,7 +1199,7 @@ public partial class JsonTextReader
 
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
-                            await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                            await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case StringUtils.LineFeed:
                             ProcessLineFeed();
@@ -1223,7 +1223,7 @@ public partial class JsonTextReader
                     }
                 }
             case State.Finished:
-                await ReadFinishedAsync(cancellation).ConfigureAwait(false);
+                await ReadFinishedAsync(cancel).ConfigureAwait(false);
                 return null;
             default:
                 throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
@@ -1241,22 +1241,22 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<bool?> ReadAsBooleanAsync(Cancellation cancellation = default)
+    public override Task<bool?> ReadAsBooleanAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsBooleanAsync(cancellation);
+            return DoReadAsBooleanAsync(cancel);
         }
 
-        return base.ReadAsBooleanAsync(cancellation);
+        return base.ReadAsBooleanAsync(cancel);
     }
 
-    async Task<bool?> DoReadAsBooleanAsync(Cancellation cancellation)
+    async Task<bool?> DoReadAsBooleanAsync(Cancel cancel)
     {
         switch (currentState)
         {
             case State.PostValue:
-                if (await ParsePostValueAsync(true, cancellation).ConfigureAwait(false))
+                if (await ParsePostValueAsync(true, cancel).ConfigureAwait(false))
                 {
                     return null;
                 }
@@ -1273,7 +1273,7 @@ public partial class JsonTextReader
                     switch (currentChar)
                     {
                         case '\0':
-                            if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
+                            if (await ReadNullCharAsync(cancel).ConfigureAwait(false))
                             {
                                 SetNoneToken();
                                 return null;
@@ -1282,10 +1282,10 @@ public partial class JsonTextReader
                             break;
                         case '"':
                         case '\'':
-                            await ParseStringAsync(currentChar, ReadType.Read, cancellation).ConfigureAwait(false);
+                            await ParseStringAsync(currentChar, ReadType.Read, cancel).ConfigureAwait(false);
                             return ReadBooleanString(stringReference.ToString());
                         case 'n':
-                            await HandleNullAsync(cancellation).ConfigureAwait(false);
+                            await HandleNullAsync(cancel).ConfigureAwait(false);
                             return null;
                         case '-':
                         case '.':
@@ -1299,7 +1299,7 @@ public partial class JsonTextReader
                         case '7':
                         case '8':
                         case '9':
-                            await ParseNumberAsync(ReadType.Read, cancellation).ConfigureAwait(false);
+                            await ParseNumberAsync(ReadType.Read, cancel).ConfigureAwait(false);
                             bool b;
                             if (Value is BigInteger i)
                             {
@@ -1315,7 +1315,7 @@ public partial class JsonTextReader
                         case 't':
                         case 'f':
                             var isTrue = currentChar == 't';
-                            if (!await MatchValueWithTrailingSeparatorAsync(isTrue ? JsonConvert.True : JsonConvert.False, cancellation).ConfigureAwait(false))
+                            if (!await MatchValueWithTrailingSeparatorAsync(isTrue ? JsonConvert.True : JsonConvert.False, cancel).ConfigureAwait(false))
                             {
                                 throw CreateUnexpectedCharacterException(charBuffer[charPos]);
                             }
@@ -1323,7 +1323,7 @@ public partial class JsonTextReader
                             SetToken(JsonToken.Boolean, BoxedPrimitives.Get(isTrue));
                             return isTrue;
                         case '/':
-                            await ParseCommentAsync(false, cancellation).ConfigureAwait(false);
+                            await ParseCommentAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case ',':
                             ProcessValueComma();
@@ -1338,7 +1338,7 @@ public partial class JsonTextReader
 
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
-                            await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                            await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case StringUtils.LineFeed:
                             ProcessLineFeed();
@@ -1362,7 +1362,7 @@ public partial class JsonTextReader
                     }
                 }
             case State.Finished:
-                await ReadFinishedAsync(cancellation).ConfigureAwait(false);
+                await ReadFinishedAsync(cancel).ConfigureAwait(false);
                 return null;
             default:
                 throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
@@ -1380,24 +1380,24 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<byte[]?> ReadAsBytesAsync(Cancellation cancellation = default)
+    public override Task<byte[]?> ReadAsBytesAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsBytesAsync(cancellation);
+            return DoReadAsBytesAsync(cancel);
         }
 
-        return base.ReadAsBytesAsync(cancellation);
+        return base.ReadAsBytesAsync(cancel);
     }
 
-    async Task<byte[]?> DoReadAsBytesAsync(Cancellation cancellation)
+    async Task<byte[]?> DoReadAsBytesAsync(Cancel cancel)
     {
         var isWrapped = false;
 
         switch (currentState)
         {
             case State.PostValue:
-                if (await ParsePostValueAsync(true, cancellation).ConfigureAwait(false))
+                if (await ParsePostValueAsync(true, cancel).ConfigureAwait(false))
                 {
                     return null;
                 }
@@ -1414,7 +1414,7 @@ public partial class JsonTextReader
                     switch (currentChar)
                     {
                         case '\0':
-                            if (await ReadNullCharAsync(cancellation).ConfigureAwait(false))
+                            if (await ReadNullCharAsync(cancel).ConfigureAwait(false))
                             {
                                 SetNoneToken();
                                 return null;
@@ -1423,11 +1423,11 @@ public partial class JsonTextReader
                             break;
                         case '"':
                         case '\'':
-                            await ParseStringAsync(currentChar, ReadType.ReadAsBytes, cancellation).ConfigureAwait(false);
+                            await ParseStringAsync(currentChar, ReadType.ReadAsBytes, cancel).ConfigureAwait(false);
                             var data = (byte[]?) Value;
                             if (isWrapped)
                             {
-                                await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
+                                await ReaderReadAndAssertAsync(cancel).ConfigureAwait(false);
                                 if (TokenType != JsonToken.EndObject)
                                 {
                                     throw JsonReaderException.Create(this, $"Error reading bytes. Unexpected token: {TokenType}.");
@@ -1440,18 +1440,18 @@ public partial class JsonTextReader
                         case '{':
                             charPos++;
                             SetToken(JsonToken.StartObject);
-                            await ReadIntoWrappedTypeObjectAsync(cancellation).ConfigureAwait(false);
+                            await ReadIntoWrappedTypeObjectAsync(cancel).ConfigureAwait(false);
                             isWrapped = true;
                             break;
                         case '[':
                             charPos++;
                             SetToken(JsonToken.StartArray);
-                            return await ReadArrayIntoByteArrayAsync(cancellation).ConfigureAwait(false);
+                            return await ReadArrayIntoByteArrayAsync(cancel).ConfigureAwait(false);
                         case 'n':
-                            await HandleNullAsync(cancellation).ConfigureAwait(false);
+                            await HandleNullAsync(cancel).ConfigureAwait(false);
                             return null;
                         case '/':
-                            await ParseCommentAsync(false, cancellation).ConfigureAwait(false);
+                            await ParseCommentAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case ',':
                             ProcessValueComma();
@@ -1466,7 +1466,7 @@ public partial class JsonTextReader
 
                             throw CreateUnexpectedCharacterException(currentChar);
                         case StringUtils.CarriageReturn:
-                            await ProcessCarriageReturnAsync(false, cancellation).ConfigureAwait(false);
+                            await ProcessCarriageReturnAsync(false, cancel).ConfigureAwait(false);
                             break;
                         case StringUtils.LineFeed:
                             ProcessLineFeed();
@@ -1490,22 +1490,22 @@ public partial class JsonTextReader
                     }
                 }
             case State.Finished:
-                await ReadFinishedAsync(cancellation).ConfigureAwait(false);
+                await ReadFinishedAsync(cancel).ConfigureAwait(false);
                 return null;
             default:
                 throw JsonReaderException.Create(this, $"Unexpected state: {CurrentState}.");
         }
     }
 
-    async Task ReadIntoWrappedTypeObjectAsync(Cancellation cancellation)
+    async Task ReadIntoWrappedTypeObjectAsync(Cancel cancel)
     {
-        await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
+        await ReaderReadAndAssertAsync(cancel).ConfigureAwait(false);
         if (Value != null && Value.ToString() == JsonTypeReflector.TypePropertyName)
         {
-            await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
+            await ReaderReadAndAssertAsync(cancel).ConfigureAwait(false);
             if (Value != null && Value.ToString()!.StartsWith("System.Byte[]", StringComparison.Ordinal))
             {
-                await ReaderReadAndAssertAsync(cancellation).ConfigureAwait(false);
+                await ReaderReadAndAssertAsync(cancel).ConfigureAwait(false);
                 if (Value.ToString() == JsonTypeReflector.ValuePropertyName)
                 {
                     return;
@@ -1527,18 +1527,18 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<DateTime?> ReadAsDateTimeAsync(Cancellation cancellation = default)
+    public override Task<DateTime?> ReadAsDateTimeAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsDateTimeAsync(cancellation);
+            return DoReadAsDateTimeAsync(cancel);
         }
 
-        return base.ReadAsDateTimeAsync(cancellation);
+        return base.ReadAsDateTimeAsync(cancel);
     }
 
-    async Task<DateTime?> DoReadAsDateTimeAsync(Cancellation cancellation) =>
-        (DateTime?) await ReadStringValueAsync(ReadType.ReadAsDateTime, cancellation).ConfigureAwait(false);
+    async Task<DateTime?> DoReadAsDateTimeAsync(Cancel cancel) =>
+        (DateTime?) await ReadStringValueAsync(ReadType.ReadAsDateTime, cancel).ConfigureAwait(false);
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />.
@@ -1551,18 +1551,18 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<DateTimeOffset?> ReadAsDateTimeOffsetAsync(Cancellation cancellation = default)
+    public override Task<DateTimeOffset?> ReadAsDateTimeOffsetAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsDateTimeOffsetAsync(cancellation);
+            return DoReadAsDateTimeOffsetAsync(cancel);
         }
 
-        return base.ReadAsDateTimeOffsetAsync(cancellation);
+        return base.ReadAsDateTimeOffsetAsync(cancel);
     }
 
-    async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(Cancellation cancellation) =>
-        (DateTimeOffset?) await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancellation).ConfigureAwait(false);
+    async Task<DateTimeOffset?> DoReadAsDateTimeOffsetAsync(Cancel cancel) =>
+        (DateTimeOffset?) await ReadStringValueAsync(ReadType.ReadAsDateTimeOffset, cancel).ConfigureAwait(false);
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="decimal" />.
@@ -1575,15 +1575,15 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<decimal?> ReadAsDecimalAsync(Cancellation cancellation = default) =>
+    public override Task<decimal?> ReadAsDecimalAsync(Cancel cancel = default) =>
         safeAsync switch
         {
-            true => DoReadAsDecimalAsync(cancellation),
-            _ => base.ReadAsDecimalAsync(cancellation)
+            true => DoReadAsDecimalAsync(cancel),
+            _ => base.ReadAsDecimalAsync(cancel)
         };
 
-    async Task<decimal?> DoReadAsDecimalAsync(Cancellation cancellation) =>
-        (decimal?) await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancellation).ConfigureAwait(false);
+    async Task<decimal?> DoReadAsDecimalAsync(Cancel cancel) =>
+        (decimal?) await ReadNumberValueAsync(ReadType.ReadAsDecimal, cancel).ConfigureAwait(false);
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="double" />.
@@ -1596,18 +1596,18 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<double?> ReadAsDoubleAsync(Cancellation cancellation = default)
+    public override Task<double?> ReadAsDoubleAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsDoubleAsync(cancellation);
+            return DoReadAsDoubleAsync(cancel);
         }
 
-        return base.ReadAsDoubleAsync(cancellation);
+        return base.ReadAsDoubleAsync(cancel);
     }
 
-    async Task<double?> DoReadAsDoubleAsync(Cancellation cancellation) =>
-        (double?) await ReadNumberValueAsync(ReadType.ReadAsDouble, cancellation).ConfigureAwait(false);
+    async Task<double?> DoReadAsDoubleAsync(Cancel cancel) =>
+        (double?) await ReadNumberValueAsync(ReadType.ReadAsDouble, cancel).ConfigureAwait(false);
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="int" />.
@@ -1620,18 +1620,18 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<int?> ReadAsInt32Async(Cancellation cancellation = default)
+    public override Task<int?> ReadAsInt32Async(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsInt32Async(cancellation);
+            return DoReadAsInt32Async(cancel);
         }
 
-        return base.ReadAsInt32Async(cancellation);
+        return base.ReadAsInt32Async(cancel);
     }
 
-    async Task<int?> DoReadAsInt32Async(Cancellation cancellation) =>
-        (int?) await ReadNumberValueAsync(ReadType.ReadAsInt32, cancellation).ConfigureAwait(false);
+    async Task<int?> DoReadAsInt32Async(Cancel cancel) =>
+        (int?) await ReadNumberValueAsync(ReadType.ReadAsInt32, cancel).ConfigureAwait(false);
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="string" />.
@@ -1644,16 +1644,16 @@ public partial class JsonTextReader
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task<string?> ReadAsStringAsync(Cancellation cancellation = default)
+    public override Task<string?> ReadAsStringAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoReadAsStringAsync(cancellation);
+            return DoReadAsStringAsync(cancel);
         }
 
-        return base.ReadAsStringAsync(cancellation);
+        return base.ReadAsStringAsync(cancel);
     }
 
-    async Task<string?> DoReadAsStringAsync(Cancellation cancellation) =>
-        (string?) await ReadStringValueAsync(ReadType.ReadAsString, cancellation).ConfigureAwait(false);
+    async Task<string?> DoReadAsStringAsync(Cancel cancel) =>
+        (string?) await ReadStringValueAsync(ReadType.ReadAsString, cancel).ConfigureAwait(false);
 }

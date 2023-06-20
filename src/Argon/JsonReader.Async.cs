@@ -30,32 +30,32 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns <c>true</c> if the next token was read successfully; <c>false</c> if there are no more tokens to read.
     /// </returns>
-    public virtual Task<bool> ReadAsync(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<bool>() ?? Read().ToAsync();
+    public virtual Task<bool> ReadAsync(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<bool>() ?? Read().ToAsync();
 
     /// <summary>
     /// Asynchronously skips the children of the current token.
     /// </summary>
-    public async Task SkipAsync(Cancellation cancellation = default)
+    public async Task SkipAsync(Cancel cancel = default)
     {
         if (TokenType == JsonToken.PropertyName)
         {
-            await ReadAsync(cancellation).ConfigureAwait(false);
+            await ReadAsync(cancel).ConfigureAwait(false);
         }
 
         if (TokenType.IsStartToken())
         {
             var depth = Depth;
 
-            while (await ReadAsync(cancellation).ConfigureAwait(false) && depth < Depth)
+            while (await ReadAsync(cancel).ConfigureAwait(false) && depth < Depth)
             {
             }
         }
     }
 
-    internal async Task ReaderReadAndAssertAsync(Cancellation cancellation)
+    internal async Task ReaderReadAndAssertAsync(Cancel cancel)
     {
-        if (!await ReadAsync(cancellation).ConfigureAwait(false))
+        if (!await ReadAsync(cancel).ConfigureAwait(false))
         {
             throw CreateUnexpectedEndException();
         }
@@ -68,8 +68,8 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="Nullable{T}" /> of <see cref="bool" />. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<bool?> ReadAsBooleanAsync(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<bool?>() ?? Task.FromResult(ReadAsBoolean());
+    public virtual Task<bool?> ReadAsBooleanAsync(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<bool?>() ?? Task.FromResult(ReadAsBoolean());
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="byte" />[].
@@ -78,16 +78,16 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="byte" />[]. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<byte[]?> ReadAsBytesAsync(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<byte[]?>() ?? Task.FromResult(ReadAsBytes());
+    public virtual Task<byte[]?> ReadAsBytesAsync(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<byte[]?>() ?? Task.FromResult(ReadAsBytes());
 
-    internal async Task<byte[]?> ReadArrayIntoByteArrayAsync(Cancellation cancellation)
+    internal async Task<byte[]?> ReadArrayIntoByteArrayAsync(Cancel cancel)
     {
         var buffer = new List<byte>();
 
         while (true)
         {
-            if (!await ReadAsync(cancellation).ConfigureAwait(false))
+            if (!await ReadAsync(cancel).ConfigureAwait(false))
             {
                 SetToken(JsonToken.None);
             }
@@ -108,8 +108,8 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="Nullable{T}" /> of <see cref="DateTime" />. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<DateTime?> ReadAsDateTimeAsync(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<DateTime?>() ?? Task.FromResult(ReadAsDateTime());
+    public virtual Task<DateTime?> ReadAsDateTimeAsync(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<DateTime?>() ?? Task.FromResult(ReadAsDateTime());
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />.
@@ -118,8 +118,8 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="Nullable{T}" /> of <see cref="DateTimeOffset" />. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<DateTimeOffset?> ReadAsDateTimeOffsetAsync(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<DateTimeOffset?>() ?? Task.FromResult(ReadAsDateTimeOffset());
+    public virtual Task<DateTimeOffset?> ReadAsDateTimeOffsetAsync(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<DateTimeOffset?>() ?? Task.FromResult(ReadAsDateTimeOffset());
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="decimal" />.
@@ -128,8 +128,8 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="Nullable{T}" /> of <see cref="decimal" />. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<decimal?> ReadAsDecimalAsync(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<decimal?>() ?? Task.FromResult(ReadAsDecimal());
+    public virtual Task<decimal?> ReadAsDecimalAsync(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<decimal?>() ?? Task.FromResult(ReadAsDecimal());
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="Nullable{T}" /> of <see cref="double" />.
@@ -138,7 +138,7 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="Nullable{T}" /> of <see cref="double" />. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<double?> ReadAsDoubleAsync(Cancellation cancellation = default) =>
+    public virtual Task<double?> ReadAsDoubleAsync(Cancel cancel = default) =>
         Task.FromResult(ReadAsDouble());
 
     /// <summary>
@@ -148,8 +148,8 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="Nullable{T}" /> of <see cref="int" />. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<int?> ReadAsInt32Async(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<int?>() ?? Task.FromResult(ReadAsInt32());
+    public virtual Task<int?> ReadAsInt32Async(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<int?>() ?? Task.FromResult(ReadAsInt32());
 
     /// <summary>
     /// Asynchronously reads the next JSON token from the source as a <see cref="string" />.
@@ -158,29 +158,30 @@ public abstract partial class JsonReader
     /// A <see cref="Task{TResult}" /> that represents the asynchronous read. The <see cref="Task{TResult}.Result" />
     /// property returns the <see cref="string" />. This result will be <c>null</c> at the end of an array.
     /// </returns>
-    public virtual Task<string?> ReadAsStringAsync(Cancellation cancellation = default) =>
-        cancellation.CancelIfRequestedAsync<string?>() ?? Task.FromResult(ReadAsString());
+    public virtual Task<string?> ReadAsStringAsync(Cancel cancel = default) =>
+        cancel.CancelIfRequestedAsync<string?>() ?? Task.FromResult(ReadAsString());
 
-    internal async Task<bool> ReadAndMoveToContentAsync(Cancellation cancellation) =>
-        await ReadAsync(cancellation).ConfigureAwait(false) && await MoveToContentAsync(cancellation).ConfigureAwait(false);
+    internal async Task<bool> ReadAndMoveToContentAsync(Cancel cancel) =>
+        await ReadAsync(cancel).ConfigureAwait(false) &&
+        await MoveToContentAsync(cancel).ConfigureAwait(false);
 
-    internal Task<bool> MoveToContentAsync(Cancellation cancellation)
+    internal Task<bool> MoveToContentAsync(Cancel cancel)
     {
         switch (TokenType)
         {
             case JsonToken.None:
             case JsonToken.Comment:
-                return MoveToContentFromNonContentAsync(cancellation);
+                return MoveToContentFromNonContentAsync(cancel);
             default:
                 return AsyncUtils.True;
         }
     }
 
-    async Task<bool> MoveToContentFromNonContentAsync(Cancellation cancellation)
+    async Task<bool> MoveToContentFromNonContentAsync(Cancel cancel)
     {
         while (true)
         {
-            if (!await ReadAsync(cancellation).ConfigureAwait(false))
+            if (!await ReadAsync(cancel).ConfigureAwait(false))
             {
                 return false;
             }

@@ -17,18 +17,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task FlushAsync(Cancellation cancellation = default)
+    public override Task FlushAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoFlushAsync(cancellation);
+            return DoFlushAsync(cancel);
         }
 
-        return base.FlushAsync(cancellation);
+        return base.FlushAsync(cancel);
     }
 
-    Task DoFlushAsync(Cancellation cancellation) =>
-        cancellation.CancelIfRequestedAsync() ?? writer.FlushAsync();
+    Task DoFlushAsync(Cancel cancel) =>
+        cancel.CancelIfRequestedAsync() ?? writer.FlushAsync();
 
     /// <summary>
     /// Asynchronously writes the JSON value delimiter.
@@ -37,18 +37,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    protected override Task WriteValueDelimiterAsync(Cancellation cancellation)
+    protected override Task WriteValueDelimiterAsync(Cancel cancel)
     {
         if (safeAsync)
         {
-            return DoWriteValueDelimiterAsync(cancellation);
+            return DoWriteValueDelimiterAsync(cancel);
         }
 
-        return base.WriteValueDelimiterAsync(cancellation);
+        return base.WriteValueDelimiterAsync(cancel);
     }
 
-    Task DoWriteValueDelimiterAsync(Cancellation cancellation) =>
-        writer.WriteAsync(',', cancellation);
+    Task DoWriteValueDelimiterAsync(Cancel cancel) =>
+        writer.WriteAsync(',', cancel);
 
     /// <summary>
     /// Asynchronously writes the specified end token.
@@ -58,24 +58,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    protected override Task WriteEndAsync(JsonToken token, Cancellation cancellation)
+    protected override Task WriteEndAsync(JsonToken token, Cancel cancel)
     {
         if (safeAsync)
         {
-            return DoWriteEndAsync(token, cancellation);
+            return DoWriteEndAsync(token, cancel);
         }
 
-        return base.WriteEndAsync(token, cancellation);
+        return base.WriteEndAsync(token, cancel);
     }
 
-    Task DoWriteEndAsync(JsonToken token, Cancellation cancellation)
+    Task DoWriteEndAsync(JsonToken token, Cancel cancel)
     {
         switch (token)
         {
             case JsonToken.EndObject:
-                return writer.WriteAsync('}', cancellation);
+                return writer.WriteAsync('}', cancel);
             case JsonToken.EndArray:
-                return writer.WriteAsync(']', cancellation);
+                return writer.WriteAsync(']', cancel);
             default:
                 throw JsonWriterException.Create(this, $"Invalid JsonToken: {token}");
         }
@@ -89,26 +89,26 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task CloseAsync(Cancellation cancellation = default)
+    public override Task CloseAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoCloseAsync(cancellation);
+            return DoCloseAsync(cancel);
         }
 
-        return base.CloseAsync(cancellation);
+        return base.CloseAsync(cancel);
     }
 
-    async Task DoCloseAsync(Cancellation cancellation)
+    async Task DoCloseAsync(Cancel cancel)
     {
         if (Top == 0) // otherwise will happen in calls to WriteEndAsync
         {
-            cancellation.ThrowIfCancellationRequested();
+            cancel.ThrowIfCancellationRequested();
         }
 
         while (Top > 0)
         {
-            await WriteEndAsync(cancellation).ConfigureAwait(false);
+            await WriteEndAsync(cancel).ConfigureAwait(false);
         }
 
         await CloseBufferAndWriterAsync().ConfigureAwait(false);
@@ -148,14 +148,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteEndAsync(Cancellation cancellation = default)
+    public override Task WriteEndAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteEndInternalAsync(cancellation);
+            return WriteEndInternalAsync(cancel);
         }
 
-        return base.WriteEndAsync(cancellation);
+        return base.WriteEndAsync(cancel);
     }
 
     /// <summary>
@@ -165,17 +165,17 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    protected override Task WriteIndentAsync(Cancellation cancellation)
+    protected override Task WriteIndentAsync(Cancel cancel)
     {
         if (safeAsync)
         {
-            return DoWriteIndentAsync(cancellation);
+            return DoWriteIndentAsync(cancel);
         }
 
-        return base.WriteIndentAsync(cancellation);
+        return base.WriteIndentAsync(cancel);
     }
 
-    Task DoWriteIndentAsync(Cancellation cancellation)
+    Task DoWriteIndentAsync(Cancel cancel)
     {
         // levels of indentation multiplied by the indent count
         var currentIndentCount = Top * indentation;
@@ -185,39 +185,39 @@ public partial class JsonTextWriter
 
         if (currentIndentCount <= indentCharBufferSize)
         {
-            return writer.WriteAsync(indentChars, 0, newLineLen + currentIndentCount, cancellation);
+            return writer.WriteAsync(indentChars, 0, newLineLen + currentIndentCount, cancel);
         }
 
-        return WriteIndentAsync(currentIndentCount, newLineLen, cancellation);
+        return WriteIndentAsync(currentIndentCount, newLineLen, cancel);
     }
 
-    async Task WriteIndentAsync(int currentIndentCount, int newLineLen, Cancellation cancellation)
+    async Task WriteIndentAsync(int currentIndentCount, int newLineLen, Cancel cancel)
     {
         MiscellaneousUtils.Assert(indentChars != null);
 
-        await writer.WriteAsync(indentChars, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize), cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(indentChars, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize), cancel).ConfigureAwait(false);
 
         while ((currentIndentCount -= indentCharBufferSize) > 0)
         {
-            await writer.WriteAsync(indentChars, newLineLen, Math.Min(currentIndentCount, indentCharBufferSize), cancellation).ConfigureAwait(false);
+            await writer.WriteAsync(indentChars, newLineLen, Math.Min(currentIndentCount, indentCharBufferSize), cancel).ConfigureAwait(false);
         }
     }
 
-    Task WriteValueInternalAsync(JsonToken token, string value, Cancellation cancellation)
+    Task WriteValueInternalAsync(JsonToken token, string value, Cancel cancel)
     {
-        var task = InternalWriteValueAsync(token, cancellation);
+        var task = InternalWriteValueAsync(token, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return writer.WriteAsync(value, cancellation);
+            return writer.WriteAsync(value, cancel);
         }
 
-        return WriteValueInternalAsync(task, value, cancellation);
+        return WriteValueInternalAsync(task, value, cancel);
     }
 
-    async Task WriteValueInternalAsync(Task task, string value, Cancellation cancellation)
+    async Task WriteValueInternalAsync(Task task, string value, Cancel cancel)
     {
         await task.ConfigureAwait(false);
-        await writer.WriteAsync(value, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(value, cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -227,18 +227,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    protected override Task WriteIndentSpaceAsync(Cancellation cancellation)
+    protected override Task WriteIndentSpaceAsync(Cancel cancel)
     {
         if (safeAsync)
         {
-            return DoWriteIndentSpaceAsync(cancellation);
+            return DoWriteIndentSpaceAsync(cancel);
         }
 
-        return base.WriteIndentSpaceAsync(cancellation);
+        return base.WriteIndentSpaceAsync(cancel);
     }
 
-    Task DoWriteIndentSpaceAsync(Cancellation cancellation) =>
-        writer.WriteAsync(' ', cancellation);
+    Task DoWriteIndentSpaceAsync(Cancel cancel) =>
+        writer.WriteAsync(' ', cancel);
 
     /// <summary>
     /// Asynchronously writes raw JSON without changing the writer's state.
@@ -247,18 +247,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteRawAsync(string? json, Cancellation cancellation = default)
+    public override Task WriteRawAsync(string? json, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteRawAsync(json, cancellation);
+            return DoWriteRawAsync(json, cancel);
         }
 
-        return base.WriteRawAsync(json, cancellation);
+        return base.WriteRawAsync(json, cancel);
     }
 
-    Task DoWriteRawAsync(string? json, Cancellation cancellation) =>
-        writer.WriteAsync(json, cancellation);
+    Task DoWriteRawAsync(string? json, Cancel cancel) =>
+        writer.WriteAsync(json, cancel);
 
     /// <summary>
     /// Asynchronously writes a null value.
@@ -267,48 +267,48 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteNullAsync(Cancellation cancellation = default)
+    public override Task WriteNullAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return base.WriteNullAsync(cancellation);
+        return base.WriteNullAsync(cancel);
     }
 
-    Task DoWriteNullAsync(Cancellation cancellation) =>
-        WriteValueInternalAsync(JsonToken.Null, JsonConvert.Null, cancellation);
+    Task DoWriteNullAsync(Cancel cancel) =>
+        WriteValueInternalAsync(JsonToken.Null, JsonConvert.Null, cancel);
 
-    Task WriteDigitsAsync(ulong uvalue, bool negative, Cancellation cancellation)
+    Task WriteDigitsAsync(ulong uvalue, bool negative, Cancel cancel)
     {
         if ((uvalue <= 9) & !negative)
         {
-            return writer.WriteAsync((char) ('0' + uvalue), cancellation);
+            return writer.WriteAsync((char) ('0' + uvalue), cancel);
         }
 
         var length = WriteNumberToBuffer(uvalue, negative);
-        return writer.WriteAsync(writeBuffer!, 0, length, cancellation);
+        return writer.WriteAsync(writeBuffer!, 0, length, cancel);
     }
 
-    Task WriteIntegerValueAsync(ulong uvalue, bool negative, Cancellation cancellation)
+    Task WriteIntegerValueAsync(ulong uvalue, bool negative, Cancel cancel)
     {
-        var task = InternalWriteValueAsync(JsonToken.Integer, cancellation);
+        var task = InternalWriteValueAsync(JsonToken.Integer, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return WriteDigitsAsync(uvalue, negative, cancellation);
+            return WriteDigitsAsync(uvalue, negative, cancel);
         }
 
-        return WriteIntegerValueAsync(task, uvalue, negative, cancellation);
+        return WriteIntegerValueAsync(task, uvalue, negative, cancel);
     }
 
-    async Task WriteIntegerValueAsync(Task task, ulong uvalue, bool negative, Cancellation cancellation)
+    async Task WriteIntegerValueAsync(Task task, ulong uvalue, bool negative, Cancel cancel)
     {
         await task.ConfigureAwait(false);
-        await WriteDigitsAsync(uvalue, negative, cancellation).ConfigureAwait(false);
+        await WriteDigitsAsync(uvalue, negative, cancel).ConfigureAwait(false);
     }
 
-    Task WriteIntegerValueAsync(long value, Cancellation cancellation)
+    Task WriteIntegerValueAsync(long value, Cancel cancel)
     {
         var negative = value < 0;
         if (negative)
@@ -316,14 +316,14 @@ public partial class JsonTextWriter
             value = -value;
         }
 
-        return WriteIntegerValueAsync((ulong) value, negative, cancellation);
+        return WriteIntegerValueAsync((ulong) value, negative, cancel);
     }
 
-    Task WriteIntegerValueAsync(ulong uvalue, Cancellation cancellation) =>
-        WriteIntegerValueAsync(uvalue, false, cancellation);
+    Task WriteIntegerValueAsync(ulong uvalue, Cancel cancel) =>
+        WriteIntegerValueAsync(uvalue, false, cancel);
 
-    Task WriteEscapedStringAsync(string value, bool quote, Cancellation cancellation) =>
-        JavaScriptUtils.WriteEscapedJavaScriptStringAsync(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, this, writeBuffer!, cancellation);
+    Task WriteEscapedStringAsync(string value, bool quote, Cancel cancel) =>
+        JavaScriptUtils.WriteEscapedJavaScriptStringAsync(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, this, writeBuffer!, cancel);
 
     /// <summary>
     /// Asynchronously writes the property name of a name/value pair of a JSON object.
@@ -332,38 +332,38 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WritePropertyNameAsync(string name, Cancellation cancellation = default)
+    public override Task WritePropertyNameAsync(string name, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWritePropertyNameAsync(name, cancellation);
+            return DoWritePropertyNameAsync(name, cancel);
         }
 
-        return base.WritePropertyNameAsync(name, cancellation);
+        return base.WritePropertyNameAsync(name, cancel);
     }
 
-    Task DoWritePropertyNameAsync(string name, Cancellation cancellation)
+    Task DoWritePropertyNameAsync(string name, Cancel cancel)
     {
-        var task = InternalWritePropertyNameAsync(name, cancellation);
+        var task = InternalWritePropertyNameAsync(name, cancel);
         if (!task.IsCompletedSuccessfully())
         {
-            return DoWritePropertyNameAsync(task, name, cancellation);
+            return DoWritePropertyNameAsync(task, name, cancel);
         }
 
-        task = WriteEscapedStringAsync(name, QuoteName, cancellation);
+        task = WriteEscapedStringAsync(name, QuoteName, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return writer.WriteAsync(':', cancellation);
+            return writer.WriteAsync(':', cancel);
         }
 
-        return JavaScriptUtils.WriteCharAsync(task, writer, ':', cancellation);
+        return JavaScriptUtils.WriteCharAsync(task, writer, ':', cancel);
     }
 
-    async Task DoWritePropertyNameAsync(Task task, string name, Cancellation cancellation)
+    async Task DoWritePropertyNameAsync(Task task, string name, Cancel cancel)
     {
         await task.ConfigureAwait(false);
 
-        await WriteEscapedStringAsync(name, QuoteName, cancellation).ConfigureAwait(false);
+        await WriteEscapedStringAsync(name, QuoteName, cancel).ConfigureAwait(false);
 
         await writer.WriteAsync(':').ConfigureAwait(false);
     }
@@ -376,23 +376,23 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WritePropertyNameAsync(string name, bool escape, Cancellation cancellation = default)
+    public override Task WritePropertyNameAsync(string name, bool escape, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWritePropertyNameAsync(name, escape, cancellation);
+            return DoWritePropertyNameAsync(name, escape, cancel);
         }
 
-        return base.WritePropertyNameAsync(name, escape, cancellation);
+        return base.WritePropertyNameAsync(name, escape, cancel);
     }
 
-    async Task DoWritePropertyNameAsync(string name, bool escape, Cancellation cancellation)
+    async Task DoWritePropertyNameAsync(string name, bool escape, Cancel cancel)
     {
-        await InternalWritePropertyNameAsync(name, cancellation).ConfigureAwait(false);
+        await InternalWritePropertyNameAsync(name, cancel).ConfigureAwait(false);
 
         if (escape)
         {
-            await WriteEscapedStringAsync(name, QuoteName, cancellation).ConfigureAwait(false);
+            await WriteEscapedStringAsync(name, QuoteName, cancel).ConfigureAwait(false);
         }
         else
         {
@@ -401,7 +401,7 @@ public partial class JsonTextWriter
                 await writer.WriteAsync(quoteChar).ConfigureAwait(false);
             }
 
-            await writer.WriteAsync(name, cancellation).ConfigureAwait(false);
+            await writer.WriteAsync(name, cancel).ConfigureAwait(false);
 
             if (QuoteName)
             {
@@ -419,32 +419,32 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteStartArrayAsync(Cancellation cancellation = default)
+    public override Task WriteStartArrayAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteStartArrayAsync(cancellation);
+            return DoWriteStartArrayAsync(cancel);
         }
 
-        return base.WriteStartArrayAsync(cancellation);
+        return base.WriteStartArrayAsync(cancel);
     }
 
-    Task DoWriteStartArrayAsync(Cancellation cancellation)
+    Task DoWriteStartArrayAsync(Cancel cancel)
     {
-        var task = InternalWriteStartAsync(JsonToken.StartArray, JsonContainerType.Array, cancellation);
+        var task = InternalWriteStartAsync(JsonToken.StartArray, JsonContainerType.Array, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return writer.WriteAsync('[', cancellation);
+            return writer.WriteAsync('[', cancel);
         }
 
-        return DoWriteStartArrayAsync(task, cancellation);
+        return DoWriteStartArrayAsync(task, cancel);
     }
 
-    async Task DoWriteStartArrayAsync(Task task, Cancellation cancellation)
+    async Task DoWriteStartArrayAsync(Task task, Cancel cancel)
     {
         await task.ConfigureAwait(false);
 
-        await writer.WriteAsync('[', cancellation).ConfigureAwait(false);
+        await writer.WriteAsync('[', cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -454,32 +454,32 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteStartObjectAsync(Cancellation cancellation = default)
+    public override Task WriteStartObjectAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteStartObjectAsync(cancellation);
+            return DoWriteStartObjectAsync(cancel);
         }
 
-        return base.WriteStartObjectAsync(cancellation);
+        return base.WriteStartObjectAsync(cancel);
     }
 
-    Task DoWriteStartObjectAsync(Cancellation cancellation)
+    Task DoWriteStartObjectAsync(Cancel cancel)
     {
-        var task = InternalWriteStartAsync(JsonToken.StartObject, JsonContainerType.Object, cancellation);
+        var task = InternalWriteStartAsync(JsonToken.StartObject, JsonContainerType.Object, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return writer.WriteAsync('{', cancellation);
+            return writer.WriteAsync('{', cancel);
         }
 
-        return DoWriteStartObjectAsync(task, cancellation);
+        return DoWriteStartObjectAsync(task, cancel);
     }
 
-    async Task DoWriteStartObjectAsync(Task task, Cancellation cancellation)
+    async Task DoWriteStartObjectAsync(Task task, Cancel cancel)
     {
         await task.ConfigureAwait(false);
 
-        await writer.WriteAsync('{', cancellation).ConfigureAwait(false);
+        await writer.WriteAsync('{', cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -489,31 +489,31 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteUndefinedAsync(Cancellation cancellation = default)
+    public override Task WriteUndefinedAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteUndefinedAsync(cancellation);
+            return DoWriteUndefinedAsync(cancel);
         }
 
-        return base.WriteUndefinedAsync(cancellation);
+        return base.WriteUndefinedAsync(cancel);
     }
 
-    Task DoWriteUndefinedAsync(Cancellation cancellation)
+    Task DoWriteUndefinedAsync(Cancel cancel)
     {
-        var task = InternalWriteValueAsync(JsonToken.Undefined, cancellation);
+        var task = InternalWriteValueAsync(JsonToken.Undefined, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return writer.WriteAsync(JsonConvert.Undefined, cancellation);
+            return writer.WriteAsync(JsonConvert.Undefined, cancel);
         }
 
-        return DoWriteUndefinedAsync(task, cancellation);
+        return DoWriteUndefinedAsync(task, cancel);
     }
 
-    async Task DoWriteUndefinedAsync(Task task, Cancellation cancellation)
+    async Task DoWriteUndefinedAsync(Task task, Cancel cancel)
     {
         await task.ConfigureAwait(false);
-        await writer.WriteAsync(JsonConvert.Undefined, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(JsonConvert.Undefined, cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -523,20 +523,20 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteWhitespaceAsync(string ws, Cancellation cancellation = default)
+    public override Task WriteWhitespaceAsync(string ws, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteWhitespaceAsync(ws, cancellation);
+            return DoWriteWhitespaceAsync(ws, cancel);
         }
 
-        return base.WriteWhitespaceAsync(ws, cancellation);
+        return base.WriteWhitespaceAsync(ws, cancel);
     }
 
-    Task DoWriteWhitespaceAsync(string ws, Cancellation cancellation)
+    Task DoWriteWhitespaceAsync(string ws, Cancel cancel)
     {
         InternalWriteWhitespace(ws);
-        return writer.WriteAsync(ws, cancellation);
+        return writer.WriteAsync(ws, cancel);
     }
 
     /// <summary>
@@ -546,18 +546,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(bool value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(bool value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(bool value, Cancellation cancellation) =>
-        WriteValueInternalAsync(JsonToken.Boolean, JsonConvert.ToString(value), cancellation);
+    Task DoWriteValueAsync(bool value, Cancel cancel) =>
+        WriteValueInternalAsync(JsonToken.Boolean, JsonConvert.ToString(value), cancel);
 
     /// <summary>
     /// Asynchronously writes a <see cref="bool" /> value.
@@ -566,24 +566,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(bool? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(bool? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(bool? value, Cancellation cancellation)
+    Task DoWriteValueAsync(bool? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -593,14 +593,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(byte value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(byte value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -611,24 +611,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(byte? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(byte? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(byte? value, Cancellation cancellation)
+    Task DoWriteValueAsync(byte? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -638,25 +638,25 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(byte[]? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(byte[]? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return value == null ? WriteNullAsync(cancellation) : WriteValueNonNullAsync(value, cancellation);
+            return value == null ? WriteNullAsync(cancel) : WriteValueNonNullAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    async Task WriteValueNonNullAsync(byte[] value, Cancellation cancellation)
+    async Task WriteValueNonNullAsync(byte[] value, Cancel cancel)
     {
-        await InternalWriteValueAsync(JsonToken.Bytes, cancellation).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.Bytes, cancel).ConfigureAwait(false);
         if (QuoteValue)
         {
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
         }
-        await Base64Encoder.EncodeAsync(value, 0, value.Length, cancellation).ConfigureAwait(false);
-        await Base64Encoder.FlushAsync(cancellation).ConfigureAwait(false);
+        await Base64Encoder.EncodeAsync(value, 0, value.Length, cancel).ConfigureAwait(false);
+        await Base64Encoder.FlushAsync(cancel).ConfigureAwait(false);
         if (QuoteValue)
         {
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
@@ -670,18 +670,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(char value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(char value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(char value, Cancellation cancellation) =>
-        WriteValueInternalAsync(JsonToken.String, JsonConvert.ToString(value), cancellation);
+    Task DoWriteValueAsync(char value, Cancel cancel) =>
+        WriteValueInternalAsync(JsonToken.String, JsonConvert.ToString(value), cancel);
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="char" /> value.
@@ -690,24 +690,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(char? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(char? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(char? value, Cancellation cancellation)
+    Task DoWriteValueAsync(char? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -717,23 +717,23 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(DateTime value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(DateTime value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    async Task DoWriteValueAsync(DateTime value, Cancellation cancellation)
+    async Task DoWriteValueAsync(DateTime value, Cancel cancel)
     {
-        await InternalWriteValueAsync(JsonToken.Date, cancellation).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.Date, cancel).ConfigureAwait(false);
 
         var length = WriteValueToBuffer(value);
 
-        await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(writeBuffer!, 0, length, cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -743,24 +743,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(DateTime? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(DateTime? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(DateTime? value, Cancellation cancellation)
+    Task DoWriteValueAsync(DateTime? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -770,23 +770,23 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(DateTimeOffset value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(DateTimeOffset value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    async Task DoWriteValueAsync(DateTimeOffset value, Cancellation cancellation)
+    async Task DoWriteValueAsync(DateTimeOffset value, Cancel cancel)
     {
-        await InternalWriteValueAsync(JsonToken.Date, cancellation).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.Date, cancel).ConfigureAwait(false);
 
         var length = WriteValueToBuffer(value);
 
-        await writer.WriteAsync(writeBuffer!, 0, length, cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(writeBuffer!, 0, length, cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -796,24 +796,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(DateTimeOffset? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(DateTimeOffset? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(DateTimeOffset? value, Cancellation cancellation)
+    Task DoWriteValueAsync(DateTimeOffset? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -823,18 +823,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(decimal value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(decimal value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(decimal value, Cancellation cancellation) =>
-        WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value), cancellation);
+    Task DoWriteValueAsync(decimal value, Cancel cancel) =>
+        WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value), cancel);
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="decimal" /> value.
@@ -843,24 +843,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(decimal? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(decimal? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(decimal? value, Cancellation cancellation)
+    Task DoWriteValueAsync(decimal? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -870,20 +870,20 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(double value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(double value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteValueAsync(value, false, cancellation);
+            return WriteValueAsync(value, false, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task WriteValueAsync(double value, bool nullable, Cancellation cancellation)
+    Task WriteValueAsync(double value, bool nullable, Cancel cancel)
     {
         var convertedValue = JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable);
-        return WriteValueInternalAsync(JsonToken.Float, convertedValue, cancellation);
+        return WriteValueInternalAsync(JsonToken.Float, convertedValue, cancel);
     }
 
     /// <summary>
@@ -893,19 +893,19 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(double? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(double? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
             if (value.HasValue)
             {
-                return WriteValueAsync(value.GetValueOrDefault(), true, cancellation);
+                return WriteValueAsync(value.GetValueOrDefault(), true, cancel);
             }
 
-            return WriteNullAsync(cancellation);
+            return WriteNullAsync(cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -915,18 +915,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(float value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(float value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteValueAsync(value, false, cancellation);
+            return WriteValueAsync(value, false, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task WriteValueAsync(float value, bool nullable, Cancellation cancellation) =>
-        WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancellation);
+    Task WriteValueAsync(float value, bool nullable, Cancel cancel) =>
+        WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancel);
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="float" /> value.
@@ -935,19 +935,19 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(float? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(float? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
             if (value.HasValue)
             {
-                return WriteValueAsync(value.GetValueOrDefault(), true, cancellation);
+                return WriteValueAsync(value.GetValueOrDefault(), true, cancel);
             }
 
-            return WriteNullAsync(cancellation);
+            return WriteNullAsync(cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -957,26 +957,26 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(Guid value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(Guid value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    async Task DoWriteValueAsync(Guid value, Cancellation cancellation)
+    async Task DoWriteValueAsync(Guid value, Cancel cancel)
     {
-        await InternalWriteValueAsync(JsonToken.String, cancellation).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.String, cancel).ConfigureAwait(false);
 
         if (QuoteValue)
         {
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
         }
 
-        await writer.WriteAsync(value.ToString("D", InvariantCulture), cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(value.ToString("D", InvariantCulture), cancel).ConfigureAwait(false);
         if (QuoteValue)
         {
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
@@ -990,24 +990,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(Guid? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(Guid? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(Guid? value, Cancellation cancellation)
+    Task DoWriteValueAsync(Guid? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+        return DoWriteValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -1017,14 +1017,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(int value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(int value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1034,24 +1034,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(int? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(int? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(int? value, Cancellation cancellation)
+    Task DoWriteValueAsync(int? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -1061,14 +1061,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(long value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(long value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1078,21 +1078,21 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(long? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(long? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(long? value, Cancellation cancellation) =>
-        value == null ? DoWriteNullAsync(cancellation) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+    Task DoWriteValueAsync(long? value, Cancel cancel) =>
+        value == null ? DoWriteNullAsync(cancel) : WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
 
-    internal Task WriteValueAsync(BigInteger value, Cancellation cancellation) =>
-        WriteValueInternalAsync(JsonToken.Integer, value.ToString(InvariantCulture), cancellation);
+    internal Task WriteValueAsync(BigInteger value, Cancel cancel) =>
+        WriteValueInternalAsync(JsonToken.Integer, value.ToString(InvariantCulture), cancel);
 
     /// <summary>
     /// Asynchronously writes a <see cref="object" /> value.
@@ -1101,24 +1101,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(object? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(object? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
             if (value == null)
             {
-                return WriteNullAsync(cancellation);
+                return WriteNullAsync(cancel);
             }
 
             if (value is BigInteger i)
             {
-                return WriteValueAsync(i, cancellation);
+                return WriteValueAsync(i, cancel);
             }
 
-            return WriteValueAsync(this, ConvertUtils.GetTypeCode(value.GetType()), value, cancellation);
+            return WriteValueAsync(this, ConvertUtils.GetTypeCode(value.GetType()), value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1128,14 +1128,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(sbyte value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(sbyte value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1145,24 +1145,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(sbyte? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(sbyte? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(sbyte? value, Cancellation cancellation)
+    Task DoWriteValueAsync(sbyte? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -1172,14 +1172,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(short value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(short value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1189,24 +1189,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(short? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(short? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(short? value, Cancellation cancellation)
+    Task DoWriteValueAsync(short? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -1216,43 +1216,43 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(string? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(string? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(string? value, Cancellation cancellation)
+    Task DoWriteValueAsync(string? value, Cancel cancel)
     {
-        var task = InternalWriteValueAsync(JsonToken.String, cancellation);
+        var task = InternalWriteValueAsync(JsonToken.String, cancel);
         if (task.IsCompletedSuccessfully())
         {
             if (value == null)
             {
-                return writer.WriteAsync(JsonConvert.Null, cancellation);
+                return writer.WriteAsync(JsonConvert.Null, cancel);
             }
 
-            return WriteEscapedStringAsync(value, QuoteValue, cancellation);
+            return WriteEscapedStringAsync(value, QuoteValue, cancel);
         }
 
-        return DoWriteValueAsync(task, value, cancellation);
+        return DoWriteValueAsync(task, value, cancel);
     }
 
-    async Task DoWriteValueAsync(Task task, string? value, Cancellation cancellation)
+    async Task DoWriteValueAsync(Task task, string? value, Cancel cancel)
     {
         await task.ConfigureAwait(false);
 
         if (value == null)
         {
-            await writer.WriteAsync(JsonConvert.Null, cancellation).ConfigureAwait(false);
+            await writer.WriteAsync(JsonConvert.Null, cancel).ConfigureAwait(false);
             return;
         }
 
-        await WriteEscapedStringAsync(value, QuoteValue, cancellation).ConfigureAwait(false);
+        await WriteEscapedStringAsync(value, QuoteValue, cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1262,28 +1262,28 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(TimeSpan value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(TimeSpan value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    async Task DoWriteValueAsync(TimeSpan value, Cancellation cancellation)
+    async Task DoWriteValueAsync(TimeSpan value, Cancel cancel)
     {
-        await InternalWriteValueAsync(JsonToken.String, cancellation).ConfigureAwait(false);
+        await InternalWriteValueAsync(JsonToken.String, cancel).ConfigureAwait(false);
         if (QuoteValue)
         {
-            await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
+            await writer.WriteAsync(quoteChar, cancel).ConfigureAwait(false);
         }
 
-        await writer.WriteAsync(value.ToString(null, InvariantCulture), cancellation).ConfigureAwait(false);
+        await writer.WriteAsync(value.ToString(null, InvariantCulture), cancel).ConfigureAwait(false);
         if (QuoteValue)
         {
-            await writer.WriteAsync(quoteChar, cancellation).ConfigureAwait(false);
+            await writer.WriteAsync(quoteChar, cancel).ConfigureAwait(false);
         }
     }
 
@@ -1294,18 +1294,18 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(TimeSpan? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(TimeSpan? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(TimeSpan? value, Cancellation cancellation) =>
-        value == null ? DoWriteNullAsync(cancellation) : DoWriteValueAsync(value.GetValueOrDefault(), cancellation);
+    Task DoWriteValueAsync(TimeSpan? value, Cancel cancel) =>
+        value == null ? DoWriteNullAsync(cancel) : DoWriteValueAsync(value.GetValueOrDefault(), cancel);
 
     /// <summary>
     /// Asynchronously writes a <see cref="uint" /> value.
@@ -1314,14 +1314,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(uint value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(uint value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1331,24 +1331,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(uint? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(uint? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(uint? value, Cancellation cancellation)
+    Task DoWriteValueAsync(uint? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -1358,14 +1358,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(ulong value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(ulong value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1375,24 +1375,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(ulong? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(ulong? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(ulong? value, Cancellation cancellation)
+    Task DoWriteValueAsync(ulong? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -1402,36 +1402,36 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(Uri? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(Uri? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
             if (value == null)
             {
-                return WriteNullAsync(cancellation);
+                return WriteNullAsync(cancel);
             }
 
-            return WriteValueNotNullAsync(value, cancellation);
+            return WriteValueNotNullAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task WriteValueNotNullAsync(Uri value, Cancellation cancellation)
+    Task WriteValueNotNullAsync(Uri value, Cancel cancel)
     {
-        var task = InternalWriteValueAsync(JsonToken.String, cancellation);
+        var task = InternalWriteValueAsync(JsonToken.String, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return WriteEscapedStringAsync(value.OriginalString, QuoteValue, cancellation);
+            return WriteEscapedStringAsync(value.OriginalString, QuoteValue, cancel);
         }
 
-        return WriteValueNotNullAsync(task, value, cancellation);
+        return WriteValueNotNullAsync(task, value, cancel);
     }
 
-    async Task WriteValueNotNullAsync(Task task, Uri value, Cancellation cancellation)
+    async Task WriteValueNotNullAsync(Task task, Uri value, Cancel cancel)
     {
         await task.ConfigureAwait(false);
-        await WriteEscapedStringAsync(value.OriginalString, QuoteValue, cancellation).ConfigureAwait(false);
+        await WriteEscapedStringAsync(value.OriginalString, QuoteValue, cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1441,14 +1441,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(ushort value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(ushort value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return WriteIntegerValueAsync(value, cancellation);
+            return WriteIntegerValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
     /// <summary>
@@ -1458,24 +1458,24 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteValueAsync(ushort? value, Cancellation cancellation = default)
+    public override Task WriteValueAsync(ushort? value, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteValueAsync(value, cancellation);
+            return DoWriteValueAsync(value, cancel);
         }
 
-        return base.WriteValueAsync(value, cancellation);
+        return base.WriteValueAsync(value, cancel);
     }
 
-    Task DoWriteValueAsync(ushort? value, Cancellation cancellation)
+    Task DoWriteValueAsync(ushort? value, Cancel cancel)
     {
         if (value == null)
         {
-            return DoWriteNullAsync(cancellation);
+            return DoWriteNullAsync(cancel);
         }
 
-        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancellation);
+        return WriteIntegerValueAsync(value.GetValueOrDefault(), cancel);
     }
 
     /// <summary>
@@ -1485,22 +1485,22 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteCommentAsync(string? text, Cancellation cancellation = default)
+    public override Task WriteCommentAsync(string? text, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteCommentAsync(text, cancellation);
+            return DoWriteCommentAsync(text, cancel);
         }
 
-        return base.WriteCommentAsync(text, cancellation);
+        return base.WriteCommentAsync(text, cancel);
     }
 
-    async Task DoWriteCommentAsync(string? text, Cancellation cancellation)
+    async Task DoWriteCommentAsync(string? text, Cancel cancel)
     {
-        await InternalWriteCommentAsync(cancellation).ConfigureAwait(false);
-        await writer.WriteAsync("/*", cancellation).ConfigureAwait(false);
-        await writer.WriteAsync(text ?? string.Empty, cancellation).ConfigureAwait(false);
-        await writer.WriteAsync("*/", cancellation).ConfigureAwait(false);
+        await InternalWriteCommentAsync(cancel).ConfigureAwait(false);
+        await writer.WriteAsync("/*", cancel).ConfigureAwait(false);
+        await writer.WriteAsync(text ?? string.Empty, cancel).ConfigureAwait(false);
+        await writer.WriteAsync("*/", cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1510,14 +1510,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteEndArrayAsync(Cancellation cancellation = default)
+    public override Task WriteEndArrayAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return InternalWriteEndAsync(JsonContainerType.Array, cancellation);
+            return InternalWriteEndAsync(JsonContainerType.Array, cancel);
         }
 
-        return base.WriteEndArrayAsync(cancellation);
+        return base.WriteEndArrayAsync(cancel);
     }
 
     /// <summary>
@@ -1527,14 +1527,14 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteEndObjectAsync(Cancellation cancellation = default)
+    public override Task WriteEndObjectAsync(Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return InternalWriteEndAsync(JsonContainerType.Object, cancellation);
+            return InternalWriteEndAsync(JsonContainerType.Object, cancel);
         }
 
-        return base.WriteEndObjectAsync(cancellation);
+        return base.WriteEndObjectAsync(cancel);
     }
 
     /// <summary>
@@ -1544,32 +1544,32 @@ public partial class JsonTextWriter
     /// Derived classes must override this method to get asynchronous behaviour. Otherwise it will
     /// execute synchronously, returning an already-completed task.
     /// </remarks>
-    public override Task WriteRawValueAsync(string? json, Cancellation cancellation = default)
+    public override Task WriteRawValueAsync(string? json, Cancel cancel = default)
     {
         if (safeAsync)
         {
-            return DoWriteRawValueAsync(json, cancellation);
+            return DoWriteRawValueAsync(json, cancel);
         }
 
-        return base.WriteRawValueAsync(json, cancellation);
+        return base.WriteRawValueAsync(json, cancel);
     }
 
-    Task DoWriteRawValueAsync(string? json, Cancellation cancellation)
+    Task DoWriteRawValueAsync(string? json, Cancel cancel)
     {
         UpdateScopeWithFinishedValue();
-        var task = AutoCompleteAsync(JsonToken.Undefined, cancellation);
+        var task = AutoCompleteAsync(JsonToken.Undefined, cancel);
         if (task.IsCompletedSuccessfully())
         {
-            return WriteRawAsync(json, cancellation);
+            return WriteRawAsync(json, cancel);
         }
 
-        return DoWriteRawValueAsync(task, json, cancellation);
+        return DoWriteRawValueAsync(task, json, cancel);
     }
 
-    async Task DoWriteRawValueAsync(Task task, string? json, Cancellation cancellation)
+    async Task DoWriteRawValueAsync(Task task, string? json, Cancel cancel)
     {
         await task.ConfigureAwait(false);
-        await WriteRawAsync(json, cancellation).ConfigureAwait(false);
+        await WriteRawAsync(json, cancel).ConfigureAwait(false);
     }
 
 }

@@ -28,8 +28,8 @@ public class Issue1569 : TestFixtureBase
         public override void Flush() =>
             throw new NotSupportedException();
 
-        public override Task FlushAsync(Cancellation cancellation) =>
-            innerStream.FlushAsync(cancellation);
+        public override Task FlushAsync(Cancel cancel) =>
+            innerStream.FlushAsync(cancel);
 
         public override long Seek(long offset, SeekOrigin origin) =>
             innerStream.Seek(offset, origin);
@@ -40,14 +40,14 @@ public class Issue1569 : TestFixtureBase
         public override int Read(byte[] buffer, int offset, int count) =>
             throw new NotSupportedException();
 
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, Cancellation cancellation) =>
-            innerStream.ReadAsync(buffer, offset, count, cancellation);
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, Cancel cancel) =>
+            innerStream.ReadAsync(buffer, offset, count, cancel);
 
         public override void Write(byte[] buffer, int offset, int count) =>
             throw new NotSupportedException();
 
-        public override Task WriteAsync(byte[] buffer, int offset, int count, Cancellation cancellation) =>
-            innerStream.WriteAsync(buffer, offset, count, cancellation);
+        public override Task WriteAsync(byte[] buffer, int offset, int count, Cancel cancel) =>
+            innerStream.WriteAsync(buffer, offset, count, cancel);
 
         public override bool CanRead => innerStream.CanRead;
         public override bool CanSeek => innerStream.CanSeek;

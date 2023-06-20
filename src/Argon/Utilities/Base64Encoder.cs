@@ -114,7 +114,7 @@ class Base64Encoder
     void WriteChars(char[] chars, int index, int count) =>
         writer.Write(chars, index, count);
 
-    public async Task EncodeAsync(byte[] buffer, int index, int count, Cancellation cancellation)
+    public async Task EncodeAsync(byte[] buffer, int index, int count, Cancel cancel)
     {
         ValidateEncode(buffer, index, count);
 
@@ -126,7 +126,7 @@ class Base64Encoder
             }
 
             var num2 = Convert.ToBase64CharArray(leftOverBytes!, 0, 3, charsLine, 0);
-            await WriteCharsAsync(charsLine, 0, num2, cancellation).ConfigureAwait(false);
+            await WriteCharsAsync(charsLine, 0, num2, cancel).ConfigureAwait(false);
         }
 
         StoreLeftOverBytes(buffer, index, ref count);
@@ -141,26 +141,26 @@ class Base64Encoder
             }
 
             var num6 = Convert.ToBase64CharArray(buffer, index, length, charsLine, 0);
-            await WriteCharsAsync(charsLine, 0, num6, cancellation).ConfigureAwait(false);
+            await WriteCharsAsync(charsLine, 0, num6, cancel).ConfigureAwait(false);
             index += length;
         }
     }
 
-    Task WriteCharsAsync(char[] chars, int index, int count, Cancellation cancellation) =>
-        writer.WriteAsync(chars, index, count, cancellation);
+    Task WriteCharsAsync(char[] chars, int index, int count, Cancel cancel) =>
+        writer.WriteAsync(chars, index, count, cancel);
 
-    public Task FlushAsync(Cancellation cancellation)
+    public Task FlushAsync(Cancel cancel)
     {
-        if (cancellation.IsCancellationRequested)
+        if (cancel.IsCancellationRequested)
         {
-            return cancellation.FromCanceled();
+            return cancel.FromCanceled();
         }
 
         if (leftOverBytesCount > 0)
         {
             var count = Convert.ToBase64CharArray(leftOverBytes!, 0, leftOverBytesCount, charsLine, 0);
             leftOverBytesCount = 0;
-            return WriteCharsAsync(charsLine, 0, count, cancellation);
+            return WriteCharsAsync(charsLine, 0, count, cancel);
         }
 
         return Task.CompletedTask;

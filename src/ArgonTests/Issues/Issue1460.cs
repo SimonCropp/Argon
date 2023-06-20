@@ -19,7 +19,7 @@ public class Issue1460 : TestFixtureBase
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter);
-        await JsonWriter.WriteValueAsync(jsonWriter, PrimitiveTypeCode.Object, null, Cancellation.None);
+        await JsonWriter.WriteValueAsync(jsonWriter, PrimitiveTypeCode.Object, null, Cancel.None);
 
         Assert.Equal("null", stringWriter.ToString());
     }

@@ -9,37 +9,37 @@ public partial class JObject
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public override Task WriteToAsync(JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters)
+    public override Task WriteToAsync(JsonWriter writer, Cancel cancel, params JsonConverter[] converters)
     {
-        var t = writer.WriteStartObjectAsync(cancellation);
+        var t = writer.WriteStartObjectAsync(cancel);
         if (!t.IsCompletedSuccessfully())
         {
-            return AwaitProperties(t, 0, writer, cancellation, converters);
+            return AwaitProperties(t, 0, writer, cancel, converters);
         }
 
         for (var i = 0; i < properties.Count; i++)
         {
-            t = properties[i].WriteToAsync(writer, cancellation, converters);
+            t = properties[i].WriteToAsync(writer, cancel, converters);
             if (!t.IsCompletedSuccessfully())
             {
-                return AwaitProperties(t, i + 1, writer, cancellation, converters);
+                return AwaitProperties(t, i + 1, writer, cancel, converters);
             }
         }
 
-        return writer.WriteEndObjectAsync(cancellation);
+        return writer.WriteEndObjectAsync(cancel);
 
         // Local functions, params renamed (capitalized) so as not to capture and allocate when calling async
     }
 
-    async Task AwaitProperties(Task task, int i, JsonWriter writer, Cancellation cancellation, JsonConverter[] converters)
+    async Task AwaitProperties(Task task, int i, JsonWriter writer, Cancel cancel, JsonConverter[] converters)
     {
         await task.ConfigureAwait(false);
         for (; i < properties.Count; i++)
         {
-            await properties[i].WriteToAsync(writer, cancellation, converters).ConfigureAwait(false);
+            await properties[i].WriteToAsync(writer, cancel, converters).ConfigureAwait(false);
         }
 
-        await writer.WriteEndObjectAsync(cancellation).ConfigureAwait(false);
+        await writer.WriteEndObjectAsync(cancel).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -50,8 +50,8 @@ public partial class JObject
     /// A <see cref="Task{TResult}" /> that represents the asynchronous load. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JObject" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static Task<JObject> LoadAsync(JsonReader reader, Cancellation cancellation = default) =>
-        LoadAsync(reader, null, cancellation);
+    public new static Task<JObject> LoadAsync(JsonReader reader, Cancel cancel = default) =>
+        LoadAsync(reader, null, cancel);
 
     /// <summary>
     /// Asynchronously loads a <see cref="JObject" /> from a <see cref="JsonReader" />.
@@ -65,17 +65,17 @@ public partial class JObject
     /// A <see cref="Task{TResult}" /> that represents the asynchronous load. The <see cref="Task{TResult}.Result" />
     /// property returns a <see cref="JObject" /> that contains the JSON that was read from the specified <see cref="JsonReader" />.
     /// </returns>
-    public new static async Task<JObject> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
+    public new static async Task<JObject> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancel cancel = default)
     {
         if (reader.TokenType == JsonToken.None)
         {
-            if (!await reader.ReadAsync(cancellation).ConfigureAwait(false))
+            if (!await reader.ReadAsync(cancel).ConfigureAwait(false))
             {
                 throw JsonReaderException.Create(reader, "Error reading JObject from JsonReader.");
             }
         }
 
-        await reader.MoveToContentAsync(cancellation).ConfigureAwait(false);
+        await reader.MoveToContentAsync(cancel).ConfigureAwait(false);
 
         if (reader.TokenType != JsonToken.StartObject)
         {
@@ -85,7 +85,7 @@ public partial class JObject
         var o = new JObject();
         o.SetLineInfo(reader as IJsonLineInfo, settings);
 
-        await o.ReadTokenFromAsync(reader, settings, cancellation).ConfigureAwait(false);
+        await o.ReadTokenFromAsync(reader, settings, cancel).ConfigureAwait(false);
 
         return o;
     }

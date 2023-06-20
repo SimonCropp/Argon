@@ -8,7 +8,7 @@ public partial class JTokenWriter
 {
     // This is the only method that can benefit from Task-based asynchronicity, and that only when
     // the reader provides it.
-    internal override Task WriteTokenAsync(JsonReader reader, bool writeChildren, bool writeComments, Cancellation cancellation)
+    internal override Task WriteTokenAsync(JsonReader reader, bool writeChildren, bool writeComments, Cancel cancel)
     {
         // Since JTokenReader is a common target (and with an optimised path) and since it can't
         // read truly async, catch that case.
@@ -18,6 +18,6 @@ public partial class JTokenWriter
             return Task.CompletedTask;
         }
 
-        return WriteTokenSyncReadingAsync(reader, cancellation);
+        return WriteTokenSyncReadingAsync(reader, cancel);
     }
 }

@@ -63,10 +63,10 @@ public class Issue2694 : TestFixtureBase
             }
         }
 
-        public override Task FlushAsync(Cancellation cancellation)
+        public override Task FlushAsync(Cancel cancel)
         {
             _unflushedContentLength = 0;
-            return _innerStream.FlushAsync(cancellation);
+            return _innerStream.FlushAsync(cancel);
         }
 
         public override long Seek(long offset, SeekOrigin origin) =>
@@ -78,16 +78,16 @@ public class Issue2694 : TestFixtureBase
         public override int Read(byte[] buffer, int offset, int count) =>
             throw new NotSupportedException();
 
-        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, Cancellation cancellation) =>
-            _innerStream.ReadAsync(buffer, offset, count, cancellation);
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, Cancel cancel) =>
+            _innerStream.ReadAsync(buffer, offset, count, cancel);
 
         public override void Write(byte[] buffer, int offset, int count) =>
             throw new NotSupportedException();
 
-        public override Task WriteAsync(byte[] buffer, int offset, int count, Cancellation cancellation)
+        public override Task WriteAsync(byte[] buffer, int offset, int count, Cancel cancel)
         {
             _unflushedContentLength += count;
-            return _innerStream.WriteAsync(buffer, offset, count, cancellation);
+            return _innerStream.WriteAsync(buffer, offset, count, cancel);
         }
 
         public override bool CanRead => _innerStream.CanRead;

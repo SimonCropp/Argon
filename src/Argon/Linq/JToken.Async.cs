@@ -9,7 +9,7 @@ public abstract partial class JToken
     /// <summary>
     /// Writes this token to a <see cref="JsonWriter" /> asynchronously.
     /// </summary>
-    public virtual Task WriteToAsync(JsonWriter writer, Cancellation cancellation, params JsonConverter[] converters) =>
+    public virtual Task WriteToAsync(JsonWriter writer, Cancel cancel, params JsonConverter[] converters) =>
         throw new NotImplementedException();
 
     /// <summary>
@@ -29,8 +29,8 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> ReadFromAsync(JsonReader reader, Cancellation cancellation = default) =>
-        ReadFromAsync(reader, null, cancellation);
+    public static Task<JToken> ReadFromAsync(JsonReader reader, Cancel cancel = default) =>
+        ReadFromAsync(reader, null, cancel);
 
     /// <summary>
     /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
@@ -47,11 +47,11 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static async Task<JToken> ReadFromAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default)
+    public static async Task<JToken> ReadFromAsync(JsonReader reader, JsonLoadSettings? settings, Cancel cancel = default)
     {
         if (reader.TokenType == JsonToken.None)
         {
-            if (!await (settings is {CommentHandling: CommentHandling.Ignore} ? reader.ReadAndMoveToContentAsync(cancellation) : reader.ReadAsync(cancellation)).ConfigureAwait(false))
+            if (!await (settings is {CommentHandling: CommentHandling.Ignore} ? reader.ReadAndMoveToContentAsync(cancel) : reader.ReadAsync(cancel)).ConfigureAwait(false))
             {
                 throw JsonReaderException.Create(reader, "Error reading JToken from JsonReader.");
             }
@@ -62,11 +62,11 @@ public abstract partial class JToken
         switch (reader.TokenType)
         {
             case JsonToken.StartObject:
-                return await JObject.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
+                return await JObject.LoadAsync(reader, settings, cancel).ConfigureAwait(false);
             case JsonToken.StartArray:
-                return await JArray.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
+                return await JArray.LoadAsync(reader, settings, cancel).ConfigureAwait(false);
             case JsonToken.PropertyName:
-                return await JProperty.LoadAsync(reader, settings, cancellation).ConfigureAwait(false);
+                return await JProperty.LoadAsync(reader, settings, cancel).ConfigureAwait(false);
             case JsonToken.String:
             case JsonToken.Integer:
             case JsonToken.Float:
@@ -103,8 +103,8 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, Cancellation cancellation = default) =>
-        LoadAsync(reader, null, cancellation);
+    public static Task<JToken> LoadAsync(JsonReader reader, Cancel cancel = default) =>
+        LoadAsync(reader, null, cancel);
 
     /// <summary>
     /// Asynchronously creates a <see cref="JToken" /> from a <see cref="JsonReader" />.
@@ -120,6 +120,6 @@ public abstract partial class JToken
     /// that were read from the reader. The runtime type of the token is determined
     /// by the token type of the first token encountered in the reader.
     /// </returns>
-    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancellation cancellation = default) =>
-        ReadFromAsync(reader, settings, cancellation);
+    public static Task<JToken> LoadAsync(JsonReader reader, JsonLoadSettings? settings, Cancel cancel = default) =>
+        ReadFromAsync(reader, settings, cancel);
 }
