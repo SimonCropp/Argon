@@ -423,8 +423,6 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var doc = JsonXmlConvert.DeserializeXNode(json1);
 
-        Console.WriteLine(doc.ToString());
-
         Assert.Equal("<_x0024_JELLY>test</_x0024_JELLY>", doc.ToString());
 
         var json2 = JsonXmlConvert.SerializeXNode(doc);
@@ -2024,8 +2022,6 @@ public class XmlNodeConverterTest : TestFixtureBase
 </root>", xml);
 
         var newJson = JsonXmlConvert.SerializeXmlNode(node, Formatting.Indented, true);
-
-        Console.WriteLine(newJson);
 
         XUnitAssert.AreEqualNormalized(json, newJson);
     }
