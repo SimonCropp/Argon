@@ -14,7 +14,7 @@
     <PackageReference Include="ProjectDefaults" Version="1.0.91" PrivateAssets="all" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="FSharp.Core" Version="7.0.400" />
-    <PackageReference Include="Verify.Xunit" Version="20.6.0" />
+    <PackageReference Include="Verify.Xunit" Version="20.7.0" />
     <PackageReference Include="Xunit" Version="2.5.0" />
     <PackageReference Include="BenchmarkDotNet" Version="0.13.7" />
     <PackageReference Include="Moq" Version="4.20.69" />
