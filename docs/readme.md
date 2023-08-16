@@ -1,6 +1,6 @@
 # Argon is JSON framework for .NET
 
-  * [Argon is JSON framework for .NET](/docs/readme.md) <!-- include: index. path: /docs/index.include.md -->
+  * [Argon is JSON framework for .NET](/docs/readme.md)<!-- include: index. path: /docs/index.include.md -->
   * [Conditional Property Serialization](/docs/ConditionalProperties.md)
   * [Serialization using ContractResolver](/docs/ContractResolver.md)
   * [Converting between JSON and XML](/docs/ConvertingJSONandXML.md)
@@ -133,4 +133,4 @@
   * [Xml](/docs/Xml)
     * [Convert JSON to XML](/docs/Xml/ConvertJsonToXml.md)
     * [Convert XML to JSON](/docs/Xml/ConvertXmlToJson.md)
-    * [Convert XML to JSON and force array](/docs/Xml/ConvertXmlToJsonForceArray.md) <!-- endInclude -->
+    * [Convert XML to JSON and force array](/docs/Xml/ConvertXmlToJsonForceArray.md)<!-- endInclude -->
