@@ -232,12 +232,9 @@ public class ExtensionDataTests : TestFixtureBase
         public bool GetOnly => true;
 
         public readonly string Readonly = "Readonly";
-        public IList<int> Ints { get; set; }
+        public IList<int> Ints { get; set; } = new List<int> {0};
 
         [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData { get; set; }
-
-        public ExtensionDataTestClass() =>
-            Ints = new List<int> {0};
     }
 
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true, true})]
