@@ -10,8 +10,6 @@ namespace Argon;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface)]
 public sealed class JsonObjectAttribute : JsonContainerAttribute
 {
-    internal MissingMemberHandling? missingMemberHandling;
-
     // yuck. can't set nullable properties on an attribute in C#
     // have to use this approach to get an unset default state
     internal Required? itemRequired;
@@ -21,15 +19,6 @@ public sealed class JsonObjectAttribute : JsonContainerAttribute
     /// Gets or sets the member serialization.
     /// </summary>
     public MemberSerialization MemberSerialization { get; set; } = MemberSerialization.OptOut;
-
-    /// <summary>
-    /// Gets or sets the missing member handling used when deserializing this object.
-    /// </summary>
-    public MissingMemberHandling MissingMemberHandling
-    {
-        get => missingMemberHandling ?? default;
-        set => missingMemberHandling = value;
-    }
 
     /// <summary>
     /// Gets or sets how the object's properties with null values are handled during serialization and deserialization.
