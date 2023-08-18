@@ -126,10 +126,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
     public class DictionaryDynamicObject : DynamicObject
     {
-        public IDictionary<string, object> Values { get; }
-
-        public DictionaryDynamicObject() =>
-            Values = new Dictionary<string, object>();
+        public IDictionary<string, object> Values { get; } = new Dictionary<string, object>();
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {

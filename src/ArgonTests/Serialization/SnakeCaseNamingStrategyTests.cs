@@ -196,10 +196,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         public DynamicChildObject ChildObject { get; set; }
 
-        internal Dictionary<string, object> Members { get; }
-
-        public TestDynamicObject() =>
-            Members = new();
+        internal Dictionary<string, object> Members { get; } = new();
 
         public override IEnumerable<string> GetDynamicMemberNames() =>
             Members.Keys.Union(new[]

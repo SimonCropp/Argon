@@ -225,33 +225,25 @@ public class DefaultValueHandlingTests : TestFixtureBase
     {
         [JsonProperty(PropertyName = "userId")]
         [DefaultValue(-1)]
-        public long GlobalId { get; set; }
+        public long GlobalId { get; set; } = -1;
 
         [JsonProperty(PropertyName = "age")]
         [DefaultValue(0)]
-        public int Age { get; set; }
+        public int Age { get; set; } = 0;
 
         [JsonProperty(PropertyName = "amount")]
         [DefaultValue(0.0)]
-        public decimal Amount { get; set; }
+        public decimal Amount { get; set; } = 0.0m;
 
         [JsonProperty(PropertyName = "floatUserId")]
         [DefaultValue(-1.0d)]
-        public float FloatGlobalId { get; set; }
+        public float FloatGlobalId { get; set; } = -1.0f;
 
         [JsonProperty(PropertyName = "firstName")]
         public string Firstname { get; set; }
 
         [JsonProperty(PropertyName = "lastName")]
         public string Lastname { get; set; }
-
-        public NetworkUser()
-        {
-            GlobalId = -1;
-            FloatGlobalId = -1.0f;
-            Amount = 0.0m;
-            Age = 0;
-        }
     }
 
     [Fact]
@@ -479,42 +471,28 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
     public class DefaultValueHandlingDeserializeHolder
     {
-        public DefaultValueHandlingDeserializeHolder()
+        [DefaultValue(1)] public int IntValue1 { get; set; } = int.MaxValue;
+
+        public int IntValue2 { get; set; } = int.MinValue;
+
+        [DefaultValue(null)] public int IntValue3 { get; set; } = int.MaxValue;
+
+        public DefaultValueHandlingDeserialize ClassValue { get; set; } = new()
         {
-            ClassValue = new()
-            {
-                Derp = "Derp!"
-            };
-            IntValue1 = int.MaxValue;
-            IntValue2 = int.MinValue;
-            IntValue3 = int.MaxValue;
-        }
-
-        [DefaultValue(1)] public int IntValue1 { get; set; }
-
-        public int IntValue2 { get; set; }
-
-        [DefaultValue(null)] public int IntValue3 { get; set; }
-
-        public DefaultValueHandlingDeserialize ClassValue { get; set; }
+            Derp = "Derp!"
+        };
     }
 
     public class DefaultValueHandlingDeserializePopulate
     {
-        public DefaultValueHandlingDeserializePopulate()
+        [DefaultValue(1)] public int IntValue1 { get; set; } = int.MaxValue;
+
+        public int IntValue2 { get; set; } = int.MinValue;
+
+        public DefaultValueHandlingDeserialize ClassValue { get; set; } = new()
         {
-            ClassValue = new()
-            {
-                Derp = "Derp!"
-            };
-            IntValue1 = int.MaxValue;
-            IntValue2 = int.MinValue;
-        }
-
-        [DefaultValue(1)] public int IntValue1 { get; set; }
-
-        public int IntValue2 { get; set; }
-        public DefaultValueHandlingDeserialize ClassValue { get; set; }
+            Derp = "Derp!"
+        };
     }
 
     public struct DefaultStruct

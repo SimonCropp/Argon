@@ -16,10 +16,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [JsonConverter(typeof(ListConverter))]
     public class ContentA : List<object>
     {
-        public ContentB B { get; set; }
-
-        public ContentA() =>
-            B = new();
+        public ContentB B { get; set; } = new();
     }
 
     public class ListConverter : JsonConverter
@@ -39,14 +36,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
     public class Container
     {
-        public List<ContentA> ListA { get; set; }
-        public List<ContentA> ListB { get; set; }
-
-        public Container()
-        {
-            ListA = new();
-            ListB = new();
-        }
+        public List<ContentA> ListA { get; set; } = new();
+        public List<ContentA> ListB { get; set; } = new();
     }
 
     [Fact]

@@ -833,20 +833,14 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class SendHttpRequest : ICorrelatedMessage
     {
-        public SendHttpRequest()
-        {
-            RequestEncoding = "UTF-8";
-            Method = "GET";
-        }
-
-        public string Method { get; set; }
+        public string Method { get; set; } = "GET";
         public Dictionary<string, string> Headers { get; set; }
         public string Url { get; set; }
         public Dictionary<string, string> RequestData;
         public string RequestBodyText { get; set; }
         public string User { get; set; }
         public string Passwd { get; set; }
-        public string RequestEncoding { get; set; }
+        public string RequestEncoding { get; set; } = "UTF-8";
         public string CorrelationId { get; set; }
     }
 
@@ -2441,11 +2435,8 @@ public class TypeNameHandlingTests : TestFixtureBase
 
     public class DataType
     {
-        public DataType() =>
-            Rows = new();
-
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto, TypeNameHandling = TypeNameHandling.Auto)]
-        public Dictionary<string, IEnumerable<IMyInterfaceType>> Rows { get; }
+        public Dictionary<string, IEnumerable<IMyInterfaceType>> Rows { get; } = new();
     }
 
     public interface IMyInterfaceType
@@ -2582,10 +2573,7 @@ public class TypeNameHandlingTests : TestFixtureBase
     public class GroupingInfo
     {
         [DataMember]
-        public ApplicationItemKeys ItemIdentifier { get; set; }
-
-        public GroupingInfo() =>
-            ItemIdentifier = new();
+        public ApplicationItemKeys ItemIdentifier { get; set; } = new();
     }
 
     [DataContract]

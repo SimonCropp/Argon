@@ -936,10 +936,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         }
 
-        public RootSomethingElse RootSomethingElse { get; set; }
-
-        public Something() =>
-            RootSomethingElse = new();
+        public RootSomethingElse RootSomethingElse { get; set; } = new();
     }
 
     /// <summary>

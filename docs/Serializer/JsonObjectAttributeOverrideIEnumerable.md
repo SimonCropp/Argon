@@ -9,10 +9,7 @@ This sample uses `Argon.JsonObjectAttribute` to serialize a class that implement
 public class Directory : IEnumerable<string>
 {
     public string Name { get; set; }
-    public IList<string> Files { get; set; }
-
-    public Directory() =>
-        Files = new List<string>();
+    public IList<string> Files { get; set; } = new List<string>();
 
     public IEnumerator<string> GetEnumerator() =>
         Files.GetEnumerator();
@@ -21,7 +18,7 @@ public class Directory : IEnumerable<string>
         GetEnumerator();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L7-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerabletypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerabletypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonObjectAttributeOverrideIEnumerableUsage -->
@@ -48,5 +45,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L30-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerableusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L27-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerableusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
