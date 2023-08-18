@@ -27,25 +27,25 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 
     public virtual void Add(T item)
     {
-        if (genericCollection != null)
+        if (genericCollection == null)
         {
-            genericCollection.Add(item);
+            list!.Add(item);
         }
         else
         {
-            list!.Add(item);
+            genericCollection.Add(item);
         }
     }
 
     public virtual void Clear()
     {
-        if (genericCollection != null)
+        if (genericCollection == null)
         {
-            genericCollection.Clear();
+            list!.Clear();
         }
         else
         {
-            list!.Clear();
+            genericCollection.Clear();
         }
     }
 

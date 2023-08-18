@@ -173,14 +173,14 @@ public class XmlJsonWriter : JsonWriter
 
     void WriteValueElement(JTokenType type)
     {
-        if (propertyName != null)
+        if (propertyName == null)
         {
-            WriteValueElement(propertyName, type);
-            propertyName = null;
+            WriteValueElement("Item", type);
         }
         else
         {
-            WriteValueElement("Item", type);
+            WriteValueElement(propertyName, type);
+            propertyName = null;
         }
     }
 

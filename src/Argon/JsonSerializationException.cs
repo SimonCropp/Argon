@@ -72,7 +72,8 @@ public class JsonSerializationException : JsonException
 
         int lineNumber;
         int linePosition;
-        if (lineInfo != null && lineInfo.HasLineInfo())
+        if (lineInfo != null &&
+            lineInfo.HasLineInfo())
         {
             lineNumber = lineInfo.LineNumber;
             linePosition = lineInfo.LinePosition;

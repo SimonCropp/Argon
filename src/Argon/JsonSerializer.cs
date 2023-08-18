@@ -511,17 +511,19 @@ public class JsonSerializer
         out FloatParseHandling? previousFloatParseHandling,
         out int? previousMaxDepth)
     {
-        if (FloatParseHandling != null && reader.FloatParseHandling != FloatParseHandling)
+        if (FloatParseHandling == null ||
+            reader.FloatParseHandling == FloatParseHandling)
+        {
+            previousFloatParseHandling = null;
+        }
+        else
         {
             previousFloatParseHandling = reader.FloatParseHandling;
             reader.FloatParseHandling = FloatParseHandling.GetValueOrDefault();
         }
-        else
-        {
-            previousFloatParseHandling = null;
-        }
 
-        if (maxDepthSet && reader.MaxDepth != maxDepth)
+        if (maxDepthSet &&
+            reader.MaxDepth != maxDepth)
         {
             previousMaxDepth = reader.MaxDepth;
             reader.MaxDepth = maxDepth;
@@ -556,7 +558,9 @@ public class JsonSerializer
             reader.MaxDepth = previousMaxDepth;
         }
 
-        if (reader is JsonTextReader {PropertyNameTable: { }} textReader && contractResolver is DefaultContractResolver resolver && textReader.PropertyNameTable == resolver.GetNameTable())
+        if (reader is JsonTextReader {PropertyNameTable: not null} textReader &&
+            contractResolver is DefaultContractResolver resolver &&
+            textReader.PropertyNameTable == resolver.GetNameTable())
         {
             textReader.PropertyNameTable = null;
         }

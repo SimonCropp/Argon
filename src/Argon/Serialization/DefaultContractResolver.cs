@@ -725,14 +725,14 @@ public class DefaultContractResolver : IContractResolver
         InitializeContract(contract);
 
         var containerAttribute = type.GetAttribute<JsonContainerAttribute>();
-        if (containerAttribute?.NamingStrategyType != null)
+        if (containerAttribute?.NamingStrategyType == null)
         {
-            var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
-            contract.PropertyNameResolver = name => namingStrategy.GetDictionaryKey(name, name);
+            contract.PropertyNameResolver = name => ResolveDictionaryKey(name, name);
         }
         else
         {
-            contract.PropertyNameResolver = name => ResolveDictionaryKey(name, name);
+            var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
+            contract.PropertyNameResolver = name => namingStrategy.GetDictionaryKey(name, name);
         }
 
         contract.Properties.AddRange(CreateProperties(type, MemberSerialization.OptOut));
@@ -963,7 +963,8 @@ public class DefaultContractResolver : IContractResolver
         var member = attributeProvider as MemberInfo;
 
         DataMemberAttribute? dataMemberAttribute;
-        if (dataContractAttribute == null || member == null)
+        if (dataContractAttribute == null ||
+            member == null)
         {
             dataMemberAttribute = null;
         }

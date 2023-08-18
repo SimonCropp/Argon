@@ -1031,7 +1031,8 @@ public abstract partial class JsonReader : IDisposable
 
     internal void SetPostValueState(bool updateIndex)
     {
-        if (Peek() != JsonContainerType.None || SupportMultipleContent)
+        if (Peek() != JsonContainerType.None ||
+            SupportMultipleContent)
         {
             currentState = State.PostValue;
         }
@@ -1063,7 +1064,8 @@ public abstract partial class JsonReader : IDisposable
             throw JsonReaderException.Create(this, $"JsonToken {endToken} is not valid for closing JsonType {currentObject}.");
         }
 
-        if (Peek() != JsonContainerType.None || SupportMultipleContent)
+        if (Peek() != JsonContainerType.None ||
+            SupportMultipleContent)
         {
             currentState = State.PostValue;
         }

@@ -108,15 +108,15 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
             call = Expression.Call(readParameter, (MethodInfo) method, argsExpression);
         }
 
-        if (method is MethodInfo m)
+        if (method is MethodInfo methodInfo)
         {
-            if (m.ReturnType != typeof(void))
+            if (methodInfo.ReturnType == typeof(void))
             {
-                call = EnsureCastExpression(call, type);
+                call = Expression.Block(call, Expression.Constant(null));
             }
             else
             {
-                call = Expression.Block(call, Expression.Constant(null));
+                call = EnsureCastExpression(call, type);
             }
         }
         else

@@ -51,7 +51,8 @@ static class ILGeneratorExtensions
 
     public static void CallMethod(this ILGenerator generator, MethodInfo methodInfo)
     {
-        if (methodInfo.IsFinal || !methodInfo.IsVirtual)
+        if (methodInfo.IsFinal ||
+            !methodInfo.IsVirtual)
         {
             generator.Emit(OpCodes.Call, methodInfo);
         }

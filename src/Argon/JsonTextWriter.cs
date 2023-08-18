@@ -281,10 +281,10 @@ public partial class JsonTextWriter : JsonWriter
     /// </summary>
     public override void WriteValue(object? value)
     {
-        if (value is BigInteger i)
+        if (value is BigInteger bigInteger)
         {
             InternalWriteValue(JsonToken.Integer);
-            WriteValueInternal(i.ToString(InvariantCulture));
+            WriteValueInternal(bigInteger.ToString(InvariantCulture));
         }
         else
         {

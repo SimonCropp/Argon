@@ -18,7 +18,8 @@
     {
         var colonPosition = qualifiedName.IndexOf(':');
 
-        if (colonPosition is -1 or 0 || qualifiedName.Length - 1 == colonPosition)
+        if (colonPosition is -1 or 0 ||
+            qualifiedName.Length - 1 == colonPosition)
         {
             prefix = null;
             localName = qualifiedName;

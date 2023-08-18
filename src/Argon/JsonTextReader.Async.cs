@@ -840,15 +840,15 @@ public partial class JsonTextReader
 
         string propertyName;
 
-        if (PropertyNameTable != null)
+        if (PropertyNameTable == null)
+        {
+            propertyName = stringReference.ToString();
+        }
+        else
         {
             propertyName = PropertyNameTable.Get(stringReference.Chars, stringReference.StartIndex, stringReference.Length)
                            // no match in name table
                            ?? stringReference.ToString();
-        }
-        else
-        {
-            propertyName = stringReference.ToString();
         }
 
         await EatWhitespaceAsync(cancel).ConfigureAwait(false);
