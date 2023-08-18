@@ -28,50 +28,12 @@ public abstract class JsonContainerAttribute : Attribute
     /// </example>
     public object[]? ItemConverterParameters { get; set; }
 
-    /// <summary>
-    /// Gets or sets the <see cref="Type" /> of the <see cref="NamingStrategy" />.
-    /// </summary>
-    public Type? NamingStrategyType
-    {
-        get => namingStrategyType;
-        set
-        {
-            namingStrategyType = value;
-            NamingStrategyInstance = null;
-        }
-    }
-
-    /// <summary>
-    /// The parameter list to use when constructing the <see cref="NamingStrategy" /> described by <see cref="NamingStrategyType" />.
-    /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="NamingStrategy" /> that exactly matches the number,
-    /// order, and type of these parameters.
-    /// </summary>
-    /// <example>
-    /// <code>
-    /// [JsonContainer(NamingStrategyType = typeof(MyNamingStrategy), NamingStrategyParameters = new object[] { 123, "Four" })]
-    /// </code>
-    /// </example>
-    public object[]? NamingStrategyParameters
-    {
-        get => namingStrategyParameters;
-        set
-        {
-            namingStrategyParameters = value;
-            NamingStrategyInstance = null;
-        }
-    }
-
-    internal NamingStrategy? NamingStrategyInstance { get; set; }
-
     // yuck. can't set nullable properties on an attribute in C#
     // have to use this approach to get an unset default state
     internal bool? isReference;
     internal bool? itemIsReference;
     internal ReferenceLoopHandling? itemReferenceLoopHandling;
     internal TypeNameHandling? itemTypeNameHandling;
-    Type? namingStrategyType;
-    object[]? namingStrategyParameters;
 
     /// <summary>
     /// Gets or sets a value that indicates whether to preserve object references.

@@ -149,21 +149,6 @@ static class JsonTypeReflector
         return (NamingStrategy) converterCreator(args);
     }
 
-    public static NamingStrategy? GetContainerNamingStrategy(JsonContainerAttribute containerAttribute)
-    {
-        if (containerAttribute.NamingStrategyInstance == null)
-        {
-            if (containerAttribute.NamingStrategyType == null)
-            {
-                return null;
-            }
-
-            containerAttribute.NamingStrategyInstance = CreateNamingStrategyInstance(containerAttribute.NamingStrategyType, containerAttribute.NamingStrategyParameters);
-        }
-
-        return containerAttribute.NamingStrategyInstance;
-    }
-
     static Func<object[]?, object> GetCreator(Type type)
     {
         var defaultConstructor = type.HasDefaultConstructor(false)

@@ -185,12 +185,6 @@ public class DefaultContractResolver : IContractResolver
             contract.ItemRequired = attribute.itemRequired;
             contract.ItemNullValueHandling = attribute.itemNullValueHandling;
             contract.MissingMemberHandling = attribute.missingMemberHandling;
-
-            if (attribute.NamingStrategyType != null)
-            {
-                var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(attribute)!;
-                extensionDataNameResolver = (name, original) => namingStrategy.GetDictionaryKey(name, original);
-            }
         }
 
         extensionDataNameResolver ??= ResolveExtensionDataName;
@@ -615,16 +609,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonDictionaryContract(type);
         InitializeContract(contract);
 
-        var containerAttribute = type.GetAttribute<JsonContainerAttribute>();
-        if (containerAttribute?.NamingStrategyType == null)
-        {
-            contract.DictionaryKeyResolver = ResolveDictionaryKey;
-        }
-        else
-        {
-            var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
-            contract.DictionaryKeyResolver = (name, original) => namingStrategy.GetDictionaryKey(name, original);
-        }
+        contract.DictionaryKeyResolver = ResolveDictionaryKey;
 
         var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
 
@@ -724,16 +709,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonDynamicContract(type);
         InitializeContract(contract);
 
-        var containerAttribute = type.GetAttribute<JsonContainerAttribute>();
-        if (containerAttribute?.NamingStrategyType == null)
-        {
-            contract.PropertyNameResolver = name => ResolveDictionaryKey(name, name);
-        }
-        else
-        {
-            var namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute)!;
-            contract.PropertyNameResolver = name => namingStrategy.GetDictionaryKey(name, name);
-        }
+        contract.PropertyNameResolver = name => ResolveDictionaryKey(name, name);
 
         contract.Properties.AddRange(CreateProperties(type, MemberSerialization.OptOut));
 
@@ -994,16 +970,10 @@ public class DefaultContractResolver : IContractResolver
             hasSpecifiedName = false;
         }
 
-        var containerAttribute = declaringType.GetAttribute<JsonContainerAttribute>();
-
         NamingStrategy? namingStrategy;
         if (propertyAttribute?.NamingStrategyType != null)
         {
             namingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(propertyAttribute.NamingStrategyType, propertyAttribute.NamingStrategyParameters);
-        }
-        else if (containerAttribute?.NamingStrategyType != null)
-        {
-            namingStrategy = JsonTypeReflector.GetContainerNamingStrategy(containerAttribute);
         }
         else
         {
