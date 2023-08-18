@@ -125,7 +125,7 @@ public class DefaultContractResolver : IContractResolver
         // MemberBase is problematic to serialize. Large, self referencing instances, etc
         if (typeof(Exception).IsAssignableFrom(type))
         {
-            serializableMembers = serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal)).ToList();
+            return serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal));
         }
 
         return serializableMembers;
