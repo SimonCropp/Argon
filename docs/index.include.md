@@ -102,7 +102,6 @@
     * [JsonPropertyAttribute property setting](/docs/Serializer/JsonPropertyPropertyLevelSetting.md)
     * [JsonPropertyAttribute required](/docs/Serializer/JsonPropertyRequired.md)
     * [MaxDepth setting](/docs/Serializer/MaxDepth.md)
-    * [JsonObjectAttribute NamingStrategy setting](/docs/Serializer/NamingStrategyAttributes.md)
     * [Camel case property names](/docs/Serializer/NamingStrategyCamelCase.md)
     * [Configure CamelCaseNamingStrategy](/docs/Serializer/NamingStrategySkipDictionaryKeys.md)
     * [Configure NamingStrategy property name serialization](/docs/Serializer/NamingStrategySkipSpecifiedNames.md)

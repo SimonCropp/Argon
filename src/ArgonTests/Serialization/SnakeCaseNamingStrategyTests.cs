@@ -333,7 +333,6 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ContainerAttributeNamingStrategyTestClass
     {
         public string Prop1 { get; set; }
@@ -352,7 +351,16 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             Prop2 = "Value2!"
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(
+            c,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                }
+            });
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -365,11 +373,6 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    [JsonDictionary(NamingStrategyType = typeof(SnakeCaseNamingStrategy), NamingStrategyParameters = new object[]
-    {
-        true,
-        true
-    })]
     public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
     {
     }
@@ -383,7 +386,15 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             ["Key2"] = "Value2!"
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(
+            c,
+            Formatting.Indented, new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy(true, true)
+                }
+            });
 
         XUnitAssert.AreEqualNormalized(
             """

@@ -234,7 +234,6 @@ public class ExtensionDataTests : TestFixtureBase
         [JsonExtensionData] internal IDictionary<string, JToken> ExtensionData { get; set; }
     }
 
-    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true, true})]
     public class ExtensionDataWithNamingStrategyTestClass
     {
         public string Name { get; set; }
@@ -452,9 +451,15 @@ public class ExtensionDataTests : TestFixtureBase
             }
         };
 
-        var json = JsonConvert.SerializeObject(c, new JsonSerializerSettings
+        var json = JsonConvert.SerializeObject(
+            c,
+            new JsonSerializerSettings
         {
-            Formatting = Formatting.Indented
+            Formatting = Formatting.Indented,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy(true,true,true)
+            }
         });
 
         XUnitAssert.AreEqualNormalized(

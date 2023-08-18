@@ -264,64 +264,6 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-    public class ContainerAttributeNamingStrategyTestClass
-    {
-        public string Prop1 { get; set; }
-        public string Prop2 { get; set; }
-
-        [JsonProperty(NamingStrategyType = typeof(DefaultNamingStrategy))]
-        public string HasAttributeNamingStrategy { get; set; }
-    }
-
-    [Fact]
-    public void JsonObjectAttribute_NamingStrategyType()
-    {
-        var c = new ContainerAttributeNamingStrategyTestClass
-        {
-            Prop1 = "Value1!",
-            Prop2 = "Value2!"
-        };
-
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "prop1": "Value1!",
-              "prop2": "Value2!",
-              "HasAttributeNamingStrategy": null
-            }
-            """,
-            json);
-    }
-
-    [JsonDictionary(NamingStrategyType = typeof(CamelCaseNamingStrategy), NamingStrategyParameters = new object[] {true, true})]
-    public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
-    {
-    }
-
-    [Fact]
-    public void JsonDictionaryAttribute_NamingStrategyType()
-    {
-        var c = new DictionaryAttributeNamingStrategyTestClass
-        {
-            ["Key1"] = "Value1!",
-            ["Key2"] = "Value2!"
-        };
-
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "key1": "Value1!",
-              "key2": "Value2!"
-            }
-            """,
-            json);
-    }
-
     [Fact]
     public void ToCamelCaseTest()
     {

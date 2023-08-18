@@ -281,7 +281,6 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    [JsonObject(NamingStrategyType = typeof(KebabCaseNamingStrategy))]
     public class ContainerAttributeNamingStrategyTestClass
     {
         public string Prop1 { get; set; }
@@ -300,7 +299,17 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             Prop2 = "Value2!"
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(
+            c,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new KebabCaseNamingStrategy()
+                }
+            }
+        );
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -313,11 +322,6 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    [JsonDictionary(NamingStrategyType = typeof(KebabCaseNamingStrategy), NamingStrategyParameters = new object[]
-    {
-        true,
-        true
-    })]
     public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
     {
     }
@@ -331,7 +335,16 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             ["Key2"] = "Value2!"
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(
+            c,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new KebabCaseNamingStrategy(true, true)
+                }
+            });
 
         XUnitAssert.AreEqualNormalized(
             """
