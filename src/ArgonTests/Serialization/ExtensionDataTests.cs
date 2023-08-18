@@ -60,10 +60,7 @@ public class ExtensionDataTests : TestFixtureBase
 
     public class Example
     {
-        public Example() =>
-            Data = new CustomDictionary();
-
-        [JsonExtensionData] public IDictionary<string, object> Data { get; }
+        [JsonExtensionData] public IDictionary<string, object> Data { get; } = new CustomDictionary();
     }
 
     [Fact]
