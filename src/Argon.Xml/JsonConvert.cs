@@ -53,7 +53,9 @@ public static class JsonXmlConvert
     /// </summary>
     /// <param name="value">The JSON string.</param>
     /// <returns>The deserialized <see cref="XmlNode" />.</returns>
-    public static XmlDocument? DeserializeXmlNode(string value) =>
+    public static XmlDocument? DeserializeXmlNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]
+        string value) =>
         DeserializeXmlNode(value, null);
 
     /// <summary>
@@ -62,7 +64,10 @@ public static class JsonXmlConvert
     /// <param name="value">The JSON string.</param>
     /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
     /// <returns>The deserialized <see cref="XmlNode" />.</returns>
-    public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName) =>
+    public static XmlDocument? DeserializeXmlNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]
+        string value,
+        string? deserializeRootElementName) =>
         DeserializeXmlNode(value, deserializeRootElementName, false);
 
     /// <summary>
@@ -76,7 +81,10 @@ public static class JsonXmlConvert
     /// This attribute helps preserve arrays when converting the written XML back to JSON.
     /// </param>
     /// <returns>The deserialized <see cref="XmlNode" />.</returns>
-    public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName, bool writeArrayAttribute) =>
+    public static XmlDocument? DeserializeXmlNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]
+        string value,
+        string? deserializeRootElementName, bool writeArrayAttribute) =>
         DeserializeXmlNode(value, deserializeRootElementName, writeArrayAttribute, false);
 
     /// <summary>
@@ -96,7 +104,12 @@ public static class JsonXmlConvert
     /// as part of the XML element name.
     /// </param>
     /// <returns>The deserialized <see cref="XmlNode" />.</returns>
-    public static XmlDocument? DeserializeXmlNode(string value, string? deserializeRootElementName, bool writeArrayAttribute, bool encodeSpecialCharacters)
+    public static XmlDocument? DeserializeXmlNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]
+        string value,
+        string? deserializeRootElementName,
+        bool writeArrayAttribute,
+        bool encodeSpecialCharacters)
     {
         var converter = new XmlNodeConverter
         {
@@ -142,7 +155,9 @@ public static class JsonXmlConvert
     /// </summary>
     /// <param name="value">The JSON string.</param>
     /// <returns>The deserialized <see cref="XNode" />.</returns>
-    public static XDocument? DeserializeXNode(string value) =>
+    public static XDocument? DeserializeXNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]
+        string value) =>
         DeserializeXNode(value, null);
 
     /// <summary>
@@ -151,7 +166,9 @@ public static class JsonXmlConvert
     /// <param name="value">The JSON string.</param>
     /// <param name="deserializeRootElementName">The name of the root element to append when deserializing.</param>
     /// <returns>The deserialized <see cref="XNode" />.</returns>
-    public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName) =>
+    public static XDocument? DeserializeXNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]string value,
+        string? deserializeRootElementName) =>
         DeserializeXNode(value, deserializeRootElementName, false);
 
     /// <summary>
@@ -165,7 +182,11 @@ public static class JsonXmlConvert
     /// This attribute helps preserve arrays when converting the written XML back to JSON.
     /// </param>
     /// <returns>The deserialized <see cref="XNode" />.</returns>
-    public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName, bool writeArrayAttribute) =>
+    public static XDocument? DeserializeXNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]
+        string value,
+        string? deserializeRootElementName,
+        bool writeArrayAttribute) =>
         DeserializeXNode(value, deserializeRootElementName, writeArrayAttribute, false);
 
     /// <summary>
@@ -185,7 +206,12 @@ public static class JsonXmlConvert
     /// as part of the XML element name.
     /// </param>
     /// <returns>The deserialized <see cref="XNode" />.</returns>
-    public static XDocument? DeserializeXNode(string value, string? deserializeRootElementName, bool writeArrayAttribute, bool encodeSpecialCharacters)
+    public static XDocument? DeserializeXNode(
+        [StringSyntax(StringSyntaxAttribute.Json)]
+        string value,
+        string? deserializeRootElementName,
+        bool writeArrayAttribute,
+        bool encodeSpecialCharacters)
     {
         var converter = new XmlNodeConverter
         {
