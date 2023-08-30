@@ -331,6 +331,7 @@ static class ReflectionUtils
         {
             MemberTypes.Field => ((FieldInfo) member).FieldType,
             MemberTypes.Property => ((PropertyInfo) member).PropertyType,
+            // ReSharper disable once RedundantSuppressNullableWarningExpression
             MemberTypes.Event => ((EventInfo) member).EventHandlerType!,
             MemberTypes.Method => ((MethodInfo) member).ReturnType,
             _ => throw new ArgumentException("MemberInfo must be of type FieldInfo, PropertyInfo, EventInfo or MethodInfo", nameof(member))
