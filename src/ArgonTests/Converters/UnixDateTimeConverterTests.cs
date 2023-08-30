@@ -129,7 +129,11 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeInvalidStringToDateTimeOffset() =>
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<DateTimeOffset>(@"""PIE""", new UnixDateTimeConverter()),
+            () => JsonConvert.DeserializeObject<DateTimeOffset>(
+                """
+                "PIE"
+                """,
+                new UnixDateTimeConverter()),
             "Cannot convert invalid value to System.DateTimeOffset. Path '', line 1, position 5."
         );
 
@@ -194,10 +198,14 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l1, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  1514840476,
-  3
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1514840476,
+              3
+            ]
+            """,
+            json);
 
         var l2 = JsonConvert.DeserializeObject<UnixConverterList<object>>(json);
         Assert.NotNull(l2);
