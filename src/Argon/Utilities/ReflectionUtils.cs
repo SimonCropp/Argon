@@ -159,7 +159,7 @@ static class ReflectionUtils
         }
 
         return type.GetConstructors(bindingFlags)
-            .SingleOrDefault(c => !c.GetParameters().Any());
+            .SingleOrDefault(_ => _.GetParameters().Length == 0);
     }
 
     public static bool IsNullable(this Type type) =>
