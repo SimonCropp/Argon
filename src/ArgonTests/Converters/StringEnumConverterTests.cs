@@ -148,13 +148,20 @@ public class StringEnumConverterTests : TestFixtureBase
     public void Serialize_CamelCaseFromAttribute()
     {
         var json = JsonConvert.SerializeObject(CamelCaseEnumNew.CamelCase);
-        Assert.Equal(@"""camelCase""", json);
+        Assert.Equal(
+            """
+            "camelCase"
+            """,
+            json);
     }
 
     [Fact]
     public void Deserialize_CamelCaseFromAttribute()
     {
-        var e = JsonConvert.DeserializeObject<CamelCaseEnumNew>(@"""camelCase""");
+        var e = JsonConvert.DeserializeObject<CamelCaseEnumNew>(
+            """
+            "camelCase"
+            """);
         Assert.Equal(CamelCaseEnumNew.CamelCase, e);
     }
 
@@ -162,13 +169,20 @@ public class StringEnumConverterTests : TestFixtureBase
     public void Serialize_SnakeCaseFromAttribute()
     {
         var json = JsonConvert.SerializeObject(SnakeCaseEnumNew.SnakeCase);
-        Assert.Equal(@"""snake_case""", json);
+        Assert.Equal(
+            """
+            "snake_case"
+            """,
+            json);
     }
 
     [Fact]
     public void Deserialize_SnakeCaseFromAttribute()
     {
-        var e = JsonConvert.DeserializeObject<SnakeCaseEnumNew>(@"""snake_case""");
+        var e = JsonConvert.DeserializeObject<SnakeCaseEnumNew>(
+            """
+            "snake_case"
+            """);
         Assert.Equal(SnakeCaseEnumNew.SnakeCase, e);
     }
 
@@ -177,7 +191,10 @@ public class StringEnumConverterTests : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var e = JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(@"""9""");
+                var e = JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(
+                    """
+                    "9"
+                    """);
             });
 
     [Fact]
@@ -186,7 +203,10 @@ public class StringEnumConverterTests : TestFixtureBase
         var ex = XUnitAssert.Throws<JsonException>(
             () =>
             {
-                JsonConvert.DeserializeObject<NullArgumentInAttribute>(@"""9""");
+                JsonConvert.DeserializeObject<NullArgumentInAttribute>(
+                    """
+                    "9"
+                    """);
             });
 
         Assert.Equal("Cannot pass a null parameter to the constructor.", ex.InnerException.Message);
@@ -195,7 +215,10 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void Deserialize_AllowIntegerValuesAttribute()
     {
-        var e = JsonConvert.DeserializeObject<AllowIntegerValuesEnum>(@"""9""");
+        var e = JsonConvert.DeserializeObject<AllowIntegerValuesEnum>(
+            """
+            "9"
+            """);
         Assert.Equal(9, (int) e);
     }
 
@@ -290,7 +313,9 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void NamedEnumCommaCaseInsensitiveTest()
     {
-        var c2 = JsonConvert.DeserializeObject<EnumContainer<NamedEnumWithComma>>(@"{""Enum"":"",THIRD""}", new StringEnumConverter());
+        var c2 = JsonConvert.DeserializeObject<EnumContainer<NamedEnumWithComma>>(
+            """{"Enum":",THIRD"}""",
+            new StringEnumConverter());
         Assert.Equal(NamedEnumWithComma.Third, c2.Enum);
     }
 
@@ -594,7 +619,7 @@ public class StringEnumConverterTests : TestFixtureBase
                 serializer.Converters.Add(new StringEnumConverter());
                 serializer.Deserialize<Bucket>(new JsonTextReader(new StringReader(json)));
             },
-            @"Error converting value ""Three"" to type 'StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.");
+            """Error converting value "Three" to type 'StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.""");
     }
 
     public class Bucket
@@ -646,14 +671,17 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json1 = JsonConvert.SerializeObject(lfoo, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""Bat, baz"",
-  ""foo_bar"",
-  ""Bat"",
-  ""baz"",
-  ""foo_bar, baz"",
-  2147483647
-]", json1);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "Bat, baz",
+              "foo_bar",
+              "Bat",
+              "baz",
+              "foo_bar, baz",
+              2147483647
+            ]
+            """, json1);
 
         var foos = JsonConvert.DeserializeObject<List<Foo>>(json1);
 
@@ -669,11 +697,14 @@ public class StringEnumConverterTests : TestFixtureBase
 
         var json2 = JsonConvert.SerializeObject(lbar, Formatting.Indented, new StringEnumConverter {NamingStrategy = new CamelCaseNamingStrategy()});
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""foo_bar"",
-  ""Bat"",
-  ""baz""
-]", json2);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "foo_bar",
+              "Bat",
+              "baz"
+            ]
+            """, json2);
 
         var bars = JsonConvert.DeserializeObject<List<Bar>>(json2);
 
@@ -687,7 +718,7 @@ public class StringEnumConverterTests : TestFixtureBase
     public void DuplicateNameEnumTest() =>
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<DuplicateNameEnum>("'foo_bar'", new StringEnumConverter()),
-            @"Error converting value ""foo_bar"" to type 'DuplicateNameEnum'. Path '', line 1, position 9.");
+            """Error converting value "foo_bar" to type 'DuplicateNameEnum'. Path '', line 1, position 9.""");
 
     // Define other methods and classes here
     [Flags]
@@ -724,10 +755,12 @@ public class StringEnumConverterTests : TestFixtureBase
                     Value2 = DuplicateNameEnum2.foo_bar_NOT_USED
                 });
 
-                var xml = @"<DuplicateEnumNameTestClass xmlns=""http://schemas.datacontract.org/2004/07/Converters"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"">
-    <Value>foo_bar</Value>
-    <Value2>foo_bar</Value2>
-</DuplicateEnumNameTestClass>";
+                var xml = """
+                          <DuplicateEnumNameTestClass xmlns="http://schemas.datacontract.org/2004/07/Converters" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+                              <Value>foo_bar</Value>
+                              <Value2>foo_bar</Value2>
+                          </DuplicateEnumNameTestClass>
+                          """;
 
                 var o = (DuplicateEnumNameTestClass) s.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
 
@@ -853,20 +886,36 @@ public class StringEnumConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(EnumWithDifferentCases.M, new StringEnumConverter());
 
-        Assert.Equal(@"""M""", json);
+        Assert.Equal(
+            """
+            "M"
+            """,
+            json);
 
         json = JsonConvert.SerializeObject(EnumWithDifferentCases.m, new StringEnumConverter());
 
-        Assert.Equal(@"""m""", json);
+        Assert.Equal(
+            """
+            "m"
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeEnumWithDifferentCases()
     {
-        var e = JsonConvert.DeserializeObject<EnumWithDifferentCases>(@"""M""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumWithDifferentCases>(
+            """
+            "M"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumWithDifferentCases.M, e);
 
-        e = JsonConvert.DeserializeObject<EnumWithDifferentCases>(@"""m""", new StringEnumConverter());
+        e = JsonConvert.DeserializeObject<EnumWithDifferentCases>(
+            """
+            "m"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumWithDifferentCases.m, e);
     }
 
@@ -879,35 +928,54 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeEnumCaseIncensitive_ByEnumMemberValue_UpperCase()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(@"""FIRST_VALUE""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
+            """
+            "FIRST_VALUE"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumMemberDoesNotMatchName.First, e);
     }
 
     [Fact]
     public void DeserializeEnumCaseIncensitive_ByEnumMemberValue_MixedCase()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(@"""First_Value""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
+            """
+            "First_Value"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumMemberDoesNotMatchName.First, e);
     }
 
     [Fact]
     public void DeserializeEnumCaseIncensitive_ByName_LowerCase()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(@"""first""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
+            """
+            "first"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumMemberDoesNotMatchName.First, e);
     }
 
     [Fact]
     public void DeserializeEnumCaseIncensitive_ByName_UperCase()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(@"""FIRST""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
+            """
+            "FIRST"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumMemberDoesNotMatchName.First, e);
     }
 
     [Fact]
     public void DeserializeEnumCaseIncensitive_FromAttribute()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(@"""FIRST_VALUE""");
+        var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
+            """
+            "FIRST_VALUE"
+            """);
         Assert.Equal(EnumMemberDoesNotMatchName.First, e);
     }
 
@@ -921,14 +989,22 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeEnumMemberWithDifferentCasing_ByEnumMemberValue_First()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberWithDiffrentCases>(@"""first_value""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumMemberWithDiffrentCases>(
+            """
+            "first_value"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumMemberWithDiffrentCases.First, e);
     }
 
     [Fact]
     public void DeserializeEnumMemberWithDifferentCasing_ByEnumMemberValue_Second()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberWithDiffrentCases>(@"""second_value""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumMemberWithDiffrentCases>(
+            """
+            "second_value"
+            """,
+            new StringEnumConverter());
         Assert.Equal(EnumMemberWithDiffrentCases.first, e);
     }
 
@@ -944,21 +1020,37 @@ public class StringEnumConverterTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(EnumMemberWithDifferentCases.Month, new StringEnumConverter());
 
-        Assert.Equal(@"""M""", json);
+        Assert.Equal(
+            """
+            "M"
+            """,
+            json);
 
         json = JsonConvert.SerializeObject(EnumMemberWithDifferentCases.Minute, new StringEnumConverter());
 
-        Assert.Equal(@"""m""", json);
+        Assert.Equal(
+            """
+            "m"
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeEnumMemberWithDifferentCases()
     {
-        var e = JsonConvert.DeserializeObject<EnumMemberWithDifferentCases>(@"""M""", new StringEnumConverter());
+        var e = JsonConvert.DeserializeObject<EnumMemberWithDifferentCases>(
+            """
+            "M"
+            """,
+            new StringEnumConverter());
 
         Assert.Equal(EnumMemberWithDifferentCases.Month, e);
 
-        e = JsonConvert.DeserializeObject<EnumMemberWithDifferentCases>(@"""m""", new StringEnumConverter());
+        e = JsonConvert.DeserializeObject<EnumMemberWithDifferentCases>(
+            """
+            "m"
+            """,
+            new StringEnumConverter());
 
         Assert.Equal(EnumMemberWithDifferentCases.Minute, e);
     }

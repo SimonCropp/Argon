@@ -270,15 +270,19 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             Formatting.Indented,
             new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
 
-        XUnitAssert.AreEqualNormalized(@"[
-  null,
-  [
-    null
-  ],
-  [
-    []
-  ]
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              null,
+              [
+                null
+              ],
+              [
+                []
+              ]
+            ]
+            """,
+            json);
     }
 
     [Fact]
@@ -1165,11 +1169,15 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1,
+              2,
+              3
+            ]
+            """,
+            json);
     }
 
     [Fact]

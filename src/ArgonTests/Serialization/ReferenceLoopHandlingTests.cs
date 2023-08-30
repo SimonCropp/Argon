@@ -172,7 +172,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         };
 
         var c = JsonConvert.SerializeObject(parent, settings);
-        Assert.Equal(@"{""child"":{""name"":""child""},""name"":""parent""}", c);
+        Assert.Equal("""{"child":{"name":"child"},"name":"parent"}""", c);
     }
 
     [Fact]

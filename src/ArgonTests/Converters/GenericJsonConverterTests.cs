@@ -22,7 +22,11 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, (object) "String!", null);
 
-        Assert.Equal(@"""String!""", stringWriter.ToString());
+        Assert.Equal(
+            """
+            "String!"
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]
@@ -34,7 +38,11 @@ public class GenericJsonConverterTests : TestFixtureBase
         var converter = new TestGenericConverter();
         converter.WriteJson(jsonWriter, "String!", null);
 
-        Assert.Equal(@"""String!""", stringWriter.ToString());
+        Assert.Equal(
+            """
+            "String!"
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]

@@ -60,7 +60,10 @@ static class MiscellaneousUtils
 
         if (value is string s)
         {
-            return $@"""{s}""";
+            return
+                $"""
+                 "{s}"
+                 """;
         }
 
         return value.ToString()!;

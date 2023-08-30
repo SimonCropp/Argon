@@ -113,7 +113,7 @@ public class CustomCreationConverterTests : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(myClass); // <-- Exception here
 
-        const string expected = @"{""Value"":""Foo"",""Thing"":{""Number"":456}}";
+        const string expected = """{"Value":"Foo","Thing":{"Number":456}}""";
         Assert.Equal(expected, json);
     }
 

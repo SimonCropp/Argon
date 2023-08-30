@@ -506,7 +506,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
                 return CreateDynamic(reader, dynamicContract, member, id);
         }
 
-        var message = $@"Cannot deserialize the current JSON object (e.g. {{{{""name"":""value""}}}}) into type '{{0}}' because the type requires a {{1}} to deserialize correctly.{Environment.NewLine}To fix this error either change the JSON to a {{1}} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{Environment.NewLine}";
+        var message = $$$"""Cannot deserialize the current JSON object (e.g. {{"name":"value"}}) into type '{0}' because the type requires a {1} to deserialize correctly.{{{Environment.NewLine}}}To fix this error either change the JSON to a {1} or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{{{Environment.NewLine}}}""";
         message = string.Format(message, resolvedObjectType, GetExpectedDescription(contract));
 
         throw JsonSerializationException.Create(reader, message);

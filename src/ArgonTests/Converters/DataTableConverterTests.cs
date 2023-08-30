@@ -12,7 +12,7 @@ public class DataTableConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeEmptyNestedArray()
     {
-        var jsonString2 = @"[{""col1"": []}]";
+        var jsonString2 = """[{"col1": []}]""";
 
         var settings = new JsonSerializerSettings();
 
@@ -372,7 +372,11 @@ public class DataTableConverterTests : TestFixtureBase
         var t1 = new DataTable("Custom");
 
         var json = JsonConvert.SerializeObject(t1, Formatting.Indented, new TestDataTableConverter());
-        Assert.Equal(@"""Custom""", json);
+        Assert.Equal(
+            """
+            "Custom"
+            """,
+            json);
 
         var t2 = JsonConvert.DeserializeObject<DataTable>(json, new TestDataTableConverter());
         Assert.Equal(t1.TableName, t2.TableName);
@@ -416,9 +420,10 @@ public class DataTableConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var json = JsonConvert.SerializeObject(table, Formatting.None, settings);
         Assert.Equal("["
-                     + @"{""item"":""shirt"",""price"":49.99},"
-                     + @"{""item"":""pants"",""price"":54.99},"
-                     + @"{""item"":""shoes""}]", json);
+                     + """{"item":"shirt","price":49.99},"""
+                     + """{"item":"pants","price":54.99},"""
+                     + """{"item":"shoes"}]""",
+            json);
     }
 
     [Fact]
@@ -428,9 +433,9 @@ public class DataTableConverterTests : TestFixtureBase
 
         settings.AddDataSetConverters();
         const string json = "["
-                            + @"{""item"":""shirt"",""price"":49.99},"
-                            + @"{""item"":""pants"",""price"":54.99},"
-                            + @"{""item"":""shoes""}]";
+                            + """{"item":"shirt","price":49.99},"""
+                            + """{"item":"pants","price":54.99},"""
+                            + """{"item":"shoes"}]""";
         var table = JsonConvert.DeserializeObject<DataTable>(json, settings);
         Assert.Equal("shirt", table.Rows[0]["item"]);
         Assert.Equal("pants", table.Rows[1]["item"]);
@@ -444,9 +449,9 @@ public class DataTableConverterTests : TestFixtureBase
     public void DerializeDataTableWithExplicitNull()
     {
         const string json = "["
-                            + @"{""item"":""shirt"",""price"":49.99},"
-                            + @"{""item"":""pants"",""price"":54.99},"
-                            + @"{""item"":""shoes"",""price"":null}]";
+                            + """{"item":"shirt","price":49.99},"""
+                            + """{"item":"pants","price":54.99},"""
+                            + """{"item":"shoes","price":null}]""";
         var settings = new JsonSerializerSettings();
 
         settings.AddDataSetConverters();

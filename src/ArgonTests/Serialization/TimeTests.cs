@@ -32,7 +32,11 @@ public class TimeTests : TestFixtureBase
         var t = new Time(23, 59, 59);
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-        Assert.Equal(@"""23:59:59""", json);
+        Assert.Equal(
+            """
+            "23:59:59"
+            """,
+            json);
     }
 
     [Fact]
@@ -41,7 +45,11 @@ public class TimeTests : TestFixtureBase
         var t = new Time(23, 59, 59, 999);
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-        Assert.Equal(@"""23:59:59.999""", json);
+        Assert.Equal(
+            """
+            "23:59:59.999"
+            """,
+            json);
     }
 
     [Fact]
@@ -50,7 +58,11 @@ public class TimeTests : TestFixtureBase
         Time t = default;
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-        Assert.Equal(@"""00:00:00""", json);
+        Assert.Equal(
+            """
+            "00:00:00"
+            """,
+            json);
     }
 
     [Fact]
@@ -59,7 +71,11 @@ public class TimeTests : TestFixtureBase
         var t = Time.MaxValue;
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-        Assert.Equal(@"""23:59:59.9999999""", json);
+        Assert.Equal(
+            """
+            "23:59:59.9999999"
+            """,
+            json);
     }
 
     [Fact]
@@ -68,7 +84,11 @@ public class TimeTests : TestFixtureBase
         var t = Time.MinValue;
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-        Assert.Equal(@"""00:00:00""", json);
+        Assert.Equal(
+            """
+            "00:00:00"
+            """,
+            json);
     }
 
     [Fact]
@@ -86,7 +106,11 @@ public class TimeTests : TestFixtureBase
         Time? t = new Time(23, 59, 59, 999);
         var json = JsonConvert.SerializeObject(t, Formatting.Indented);
 
-        Assert.Equal(@"""23:59:59.999""", json);
+        Assert.Equal(
+            """
+            "23:59:59.999"
+            """,
+            json);
     }
 
     [Fact]
@@ -117,7 +141,10 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void Deserialize()
     {
-        var t = JsonConvert.DeserializeObject<Time>(@"""23:59:59""");
+        var t = JsonConvert.DeserializeObject<Time>(
+            """
+            "23:59:59"
+            """);
 
         Assert.Equal(new(23, 59, 59), t);
     }
@@ -125,7 +152,10 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void DeserializeDefault()
     {
-        var t = JsonConvert.DeserializeObject<Time>(@"""00:00:00""");
+        var t = JsonConvert.DeserializeObject<Time>(
+            """
+            "00:00:00"
+            """);
 
         Assert.Equal(default, t);
     }
@@ -133,7 +163,10 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void DeserializeMaxValue()
     {
-        var t = JsonConvert.DeserializeObject<Time>(@"""23:59:59.9999999""");
+        var t = JsonConvert.DeserializeObject<Time>(
+            """
+            "23:59:59.9999999"
+            """);
 
         Assert.Equal(Time.MaxValue, t);
     }
@@ -141,7 +174,10 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void DeserializeMinValue()
     {
-        var t = JsonConvert.DeserializeObject<Time>(@"""00:00:00""");
+        var t = JsonConvert.DeserializeObject<Time>(
+            """
+            "00:00:00"
+            """);
 
         Assert.Equal(Time.MinValue, t);
     }
@@ -157,7 +193,10 @@ public class TimeTests : TestFixtureBase
     [Fact]
     public void DeserializeNullable_Value()
     {
-        var t = JsonConvert.DeserializeObject<Time?>(@"""23:59:59""");
+        var t = JsonConvert.DeserializeObject<Time?>(
+            """
+            "23:59:59"
+            """);
 
         Assert.Equal(new Time(23, 59, 59), t);
     }

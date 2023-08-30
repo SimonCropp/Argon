@@ -79,7 +79,7 @@ public class UnixDateTimeConverterTests : TestFixtureBase
 
         var result = JsonConvert.SerializeObject(t, converter);
 
-        Assert.Equal(@"{""PreField"":null,""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":null}", result);
+        Assert.Equal("""{"PreField":null,"DateTimeField":null,"DateTimeOffsetField":null,"PostField":null}""", result);
 
         t = new()
         {
@@ -88,14 +88,14 @@ public class UnixDateTimeConverterTests : TestFixtureBase
         };
 
         result = JsonConvert.SerializeObject(t, converter);
-        Assert.Equal(@"{""PreField"":null,""DateTimeField"":1514840476,""DateTimeOffsetField"":2750778,""PostField"":null}", result);
+        Assert.Equal("""{"PreField":null,"DateTimeField":1514840476,"DateTimeOffsetField":2750778,"PostField":null}""", result);
     }
 
     [Fact]
     public void DeserializeNullToNonNullable() =>
         XUnitAssert.Throws<Exception>(
             () => JsonConvert.DeserializeObject<DateTimeTestClass>(
-                @"{""PreField"":""Pre"",""DateTimeField"":null,""DateTimeOffsetField"":null,""PostField"":""Post""}",
+                """{"PreField":"Pre","DateTimeField":null,"DateTimeOffsetField":null,"PostField":"Post"}""",
                 new UnixDateTimeConverter()
             ),
             "Cannot convert null value to System.DateTime. Path 'DateTimeField', line 1, position 38."
@@ -117,7 +117,11 @@ public class UnixDateTimeConverterTests : TestFixtureBase
     [Fact]
     public void DeserializeStringToDateTimeOffset()
     {
-        var result = JsonConvert.DeserializeObject<DateTimeOffset>(@"""1514840476""", new UnixDateTimeConverter());
+        var result = JsonConvert.DeserializeObject<DateTimeOffset>(
+            """
+            "1514840476"
+            """,
+            new UnixDateTimeConverter());
 
         Assert.Equal(new(2018, 1, 1, 21, 1, 16, TimeSpan.Zero), result);
     }

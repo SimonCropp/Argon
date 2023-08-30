@@ -11,7 +11,7 @@ public class PopulateTests : TestFixtureBase
     {
         var p = new Person();
 
-        JsonConvert.PopulateObject(@"{""Name"":""James""}", p);
+        JsonConvert.PopulateObject("""{"Name":"James"}""", p);
 
         Assert.Equal("James", p.Name);
     }
@@ -24,7 +24,7 @@ public class PopulateTests : TestFixtureBase
             new() {Name = "Initial"}
         };
 
-        JsonConvert.PopulateObject(@"[{""Name"":""James""}, null]", people);
+        JsonConvert.PopulateObject("""[{"Name":"James"}, null]""", people);
 
         Assert.Equal(3, people.Count);
         Assert.Equal("Initial", people[0].Name);
@@ -104,7 +104,7 @@ public class PopulateTests : TestFixtureBase
         var p = new List<Person>();
 
         var serializer = new JsonSerializer();
-        serializer.Populate(new StringReader(@"[{""Name"":""James""},{""Name"":""Jim""}]"), p);
+        serializer.Populate(new StringReader("""[{"Name":"James"},{"Name":"Jim"}]"""), p);
 
         Assert.Equal(2, p.Count);
         Assert.Equal("James", p[0].Name);
@@ -117,7 +117,7 @@ public class PopulateTests : TestFixtureBase
         var p = new Dictionary<string, string>();
 
         var serializer = new JsonSerializer();
-        serializer.Populate(new StringReader(@"{""Name"":""James""}"), p);
+        serializer.Populate(new StringReader("""{"Name":"James"}"""), p);
 
         Assert.Equal(1, p.Count);
         Assert.Equal("James", p["Name"]);

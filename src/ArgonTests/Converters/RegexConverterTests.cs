@@ -213,7 +213,7 @@ public class RegexConverterTests : TestFixtureBase
     public void DeserializeNullRegex()
     {
         var json = JsonConvert.SerializeObject(new SimpleClassWithRegex {RegProp = null});
-        Assert.Equal(@"{""RegProp"":null}", json);
+        Assert.Equal("""{"RegProp":null}""", json);
 
         var obj = JsonConvert.DeserializeObject<SimpleClassWithRegex>(json);
         Assert.Equal(null, obj.RegProp);

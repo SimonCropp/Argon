@@ -417,7 +417,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         var stringBuilder = new StringBuilder();
         for (var i = 0; i < 3; i++)
         {
-            stringBuilder.Append(@"{""$value"":");
+            stringBuilder.Append("""{"$value":""");
         }
 
         XUnitAssert.Throws<JsonSerializationException>(
@@ -516,7 +516,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Auto
         });
 
-        XUnitAssert.AreEqualNormalized(@"{""$type"":""TestObjects.WagePerson, ArgonTests"",""HourlyWage"":0.0,""Name"":null,""BirthDate"":""0001-01-01T00:00:00"",""LastModified"":""0001-01-01T00:00:00""}", json);
+        XUnitAssert.AreEqualNormalized("""{"$type":"TestObjects.WagePerson, ArgonTests","HourlyWage":0.0,"Name":null,"BirthDate":"0001-01-01T00:00:00","LastModified":"0001-01-01T00:00:00"}""", json);
     }
 
     public class Wrapper
@@ -1625,11 +1625,15 @@ public class TypeNameHandlingTests : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1,
+              2,
+              3
+            ]
+            """,
+            json);
     }
 
     [Fact]

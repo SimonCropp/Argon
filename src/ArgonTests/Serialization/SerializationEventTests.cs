@@ -120,13 +120,17 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal(null, obj.Member4);
 
         var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  -1.0,
-  1.1,
-  2.222222222,
-  2147483647.0,
-  3.14159265358979
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              -1.0,
+              1.1,
+              2.222222222,
+              2147483647.0,
+              3.14159265358979
+            ]
+            """,
+            json);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value was reset after serialization.", obj.Member2);
@@ -290,14 +294,18 @@ public class SerializationEventTests : TestFixtureBase
 
         var e = c.GetEvents();
 
-        XUnitAssert.AreEqualNormalized(@"OnDeserializing
-OnDeserializing_Derived
-OnDeserialized
-OnDeserialized_Derived
-OnSerializing
-OnSerializing_Derived
-OnSerialized
-OnSerialized_Derived", string.Join(Environment.NewLine, e.ToArray()));
+        XUnitAssert.AreEqualNormalized(
+            """
+            OnDeserializing
+            OnDeserializing_Derived
+            OnDeserialized
+            OnDeserialized_Derived
+            OnSerializing
+            OnSerializing_Derived
+            OnSerialized
+            OnSerialized_Derived
+            """,
+            string.Join(Environment.NewLine, e.ToArray()));
     }
 
     [Fact]

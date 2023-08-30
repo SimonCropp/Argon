@@ -11,15 +11,16 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<Exception>();
 
-        var a2 = JsonConvert.DeserializeObject<AAA>(@"{""MyTest"":{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}}", new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            Error = (_, _, _, exception, markAsHandled) =>
+        var a2 = JsonConvert.DeserializeObject<AAA>(
+            """{"MyTest":{"$type":"<Namespace>.JsonTest+MyTest2, <Assembly>"}}""", new JsonSerializerSettings
             {
-                errors.Add(exception);
-                markAsHandled();
-            }
-        });
+                TypeNameHandling = TypeNameHandling.Auto,
+                Error = (_, _, _, exception, markAsHandled) =>
+                {
+                    errors.Add(exception);
+                    markAsHandled();
+                }
+            });
 
         Assert.NotNull(a2);
         Assert.Equal(1, errors.Count);
@@ -31,15 +32,17 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<Exception>();
 
-        var a2 = (JObject) JsonConvert.TryDeserializeObject(@"{""$type"":""<Namespace>.JsonTest+MyTest2, <Assembly>""}", new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto,
-            Error = (_, _, _, exception, markAsHandled) =>
+        var a2 = (JObject) JsonConvert.TryDeserializeObject(
+            """{"$type":"<Namespace>.JsonTest+MyTest2, <Assembly>"}""",
+            new JsonSerializerSettings
             {
-                errors.Add(exception);
-                markAsHandled();
-            }
-        });
+                TypeNameHandling = TypeNameHandling.Auto,
+                Error = (_, _, _, exception, markAsHandled) =>
+                {
+                    errors.Add(exception);
+                    markAsHandled();
+                }
+            });
 
         Assert.Null(a2);
         Assert.Equal(1, errors.Count);
@@ -90,19 +93,19 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public void ErrorDeserializingListHandled()
     {
         var json = """
-            [
-              {
-                "Name": "Jim",
-                "BirthDate": "2013-08-14T00:00:00.000",
-                "LastModified": "2013-08-14T00:00:00.000"
-              },
-              {
-                "Name": "Jim",
-                "BirthDate": "2013-08-14T00:00:00.000",
-                "LastModified": "2013-08-14T00:00:00.000"
-              }
-            ]
-            """;
+                   [
+                     {
+                       "Name": "Jim",
+                       "BirthDate": "2013-08-14T00:00:00.000",
+                       "LastModified": "2013-08-14T00:00:00.000"
+                     },
+                     {
+                       "Name": "Jim",
+                       "BirthDate": "2013-08-14T00:00:00.000",
+                       "LastModified": "2013-08-14T00:00:00.000"
+                     }
+                   ]
+                   """;
 
         var possibleMsgs = new[]
         {
@@ -744,13 +747,13 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var errors = new List<string>();
 
         var json = """
-            {
-              "Explicit": true,
-              "Decimal": 99.9,
-              "Int": 1,
-              "ChildObject": {
-                "Integer": 123
-            """;
+                   {
+                     "Explicit": true,
+                     "Decimal": 99.9,
+                     "Int": 1,
+                     "ChildObject": {
+                       "Integer": 123
+                   """;
 
         var newDynamicObject = JsonConvert.DeserializeObject<TestDynamicObject>(
             json,
@@ -1068,11 +1071,11 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public void HandleErrorInDictionaryObject()
     {
         var json = """
-            {
-                model1: { String1: 's1', Int1: 'x' },
-                model2: { String1: 's2', Int1: 2 }
-            }
-            """;
+                   {
+                       model1: { String1: 's1', Int1: 'x' },
+                       model2: { String1: 's2', Int1: 2 }
+                   }
+                   """;
         var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
 
         Assert.Equal(1, dictionary.Count);
