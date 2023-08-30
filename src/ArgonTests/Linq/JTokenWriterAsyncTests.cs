@@ -146,8 +146,12 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await writer.WriteCommentAsync("fail");
         await writer.WriteEndArrayAsync();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  /*fail*/]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              /*fail*/]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -164,9 +168,13 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         Assert.Equal(new BigInteger(123), i.Value);
         Assert.Equal(JTokenType.Integer, i.Type);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  123
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              123
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -180,10 +188,14 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await writer.WriteEndArrayAsync();
 
         // this is a bug. See non-async equivalent test.
-        XUnitAssert.AreEqualNormalized(@"[
-  fail,
-  fail
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              fail,
+              fail
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -261,9 +273,13 @@ public class JTokenWriterAsyncTests : TestFixtureBase
 
         await writer.WriteEndArrayAsync();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  1
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -298,10 +314,14 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         await writer.WriteRawValueAsync("fail");
         await writer.WriteEndArrayAsync();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  fail,
-  fail
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              fail,
+              fail
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]

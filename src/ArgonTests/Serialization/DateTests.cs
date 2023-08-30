@@ -12,7 +12,11 @@ public class DateTests : TestFixtureBase
         var d = new Date(2000, 12, 29);
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        Assert.Equal(@"""2000-12-29""", json);
+        Assert.Equal(
+            """
+            "2000-12-29"
+            """,
+            json);
     }
 
     [Fact]
@@ -21,7 +25,11 @@ public class DateTests : TestFixtureBase
         Date d = default;
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        Assert.Equal(@"""0001-01-01""", json);
+        Assert.Equal(
+            """
+            "0001-01-01"
+            """,
+            json);
     }
 
     [Fact]
@@ -30,7 +38,11 @@ public class DateTests : TestFixtureBase
         var d = Date.MaxValue;
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        Assert.Equal(@"""9999-12-31""", json);
+        Assert.Equal(
+            """
+            "9999-12-31"
+            """,
+            json);
     }
 
     [Fact]
@@ -39,7 +51,11 @@ public class DateTests : TestFixtureBase
         var d = Date.MinValue;
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        Assert.Equal(@"""0001-01-01""", json);
+        Assert.Equal(
+            """
+            "0001-01-01"
+            """,
+            json);
     }
 
     [Fact]
@@ -57,7 +73,11 @@ public class DateTests : TestFixtureBase
         Date? d = new Date(2000, 12, 29);
         var json = JsonConvert.SerializeObject(d, Formatting.Indented);
 
-        Assert.Equal(@"""2000-12-29""", json);
+        Assert.Equal(
+            """
+            "2000-12-29"
+            """,
+            json);
     }
 
     [Fact]
@@ -88,7 +108,10 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void Deserialize()
     {
-        var d = JsonConvert.DeserializeObject<Date>(@"""2000-12-29""");
+        var d = JsonConvert.DeserializeObject<Date>(
+            """
+            "2000-12-29"
+            """);
 
         Assert.Equal(new(2000, 12, 29), d);
     }
@@ -96,7 +119,10 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void DeserializeDefault()
     {
-        var d = JsonConvert.DeserializeObject<Date>(@"""0001-01-01""");
+        var d = JsonConvert.DeserializeObject<Date>(
+            """
+            "0001-01-01"
+            """);
 
         Assert.Equal(default, d);
     }
@@ -104,7 +130,10 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void DeserializeMaxValue()
     {
-        var d = JsonConvert.DeserializeObject<Date>(@"""9999-12-31""");
+        var d = JsonConvert.DeserializeObject<Date>(
+            """
+            "9999-12-31"
+            """);
 
         Assert.Equal(Date.MaxValue, d);
     }
@@ -112,7 +141,10 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void DeserializeMinValue()
     {
-        var d = JsonConvert.DeserializeObject<Date>(@"""0001-01-01""");
+        var d = JsonConvert.DeserializeObject<Date>(
+            """
+            "0001-01-01"
+            """);
 
         Assert.Equal(Date.MinValue, d);
     }
@@ -128,7 +160,10 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void DeserializeNullable_Value()
     {
-        var d = JsonConvert.DeserializeObject<Date?>(@"""2000-12-29""");
+        var d = JsonConvert.DeserializeObject<Date?>(
+            """
+            "2000-12-29"
+            """);
 
         Assert.Equal(new Date(2000, 12, 29), d);
     }

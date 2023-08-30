@@ -220,12 +220,15 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void CommentsAndReadFrom()
     {
-        var textReader = new StringReader(@"[
-    // hi
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            [
+                // hi
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray) JToken.ReadFrom(jsonReader, new()
@@ -241,12 +244,15 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void CommentsAndReadFrom_IgnoreComments()
     {
-        var textReader = new StringReader(@"[
-    // hi
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            [
+                // hi
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray) JToken.ReadFrom(jsonReader);
@@ -259,13 +265,15 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void StartingCommentAndReadFrom()
     {
-        var textReader = new StringReader(@"
-// hi
-[
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            // hi
+            [
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var v = (JValue) JToken.ReadFrom(jsonReader, new()
@@ -277,20 +285,22 @@ public class LinqToJsonTest : TestFixtureBase
 
         IJsonLineInfo lineInfo = v;
         XUnitAssert.True(lineInfo.HasLineInfo());
-        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(1, lineInfo.LineNumber);
         Assert.Equal(5, lineInfo.LinePosition);
     }
 
     [Fact]
     public void StartingCommentAndReadFrom_IgnoreComments()
     {
-        var textReader = new StringReader(@"
-// hi
-[
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            // hi
+            [
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray) JToken.ReadFrom(jsonReader, new()
@@ -302,20 +312,22 @@ public class LinqToJsonTest : TestFixtureBase
 
         IJsonLineInfo lineInfo = a;
         XUnitAssert.True(lineInfo.HasLineInfo());
-        Assert.Equal(3, lineInfo.LineNumber);
+        Assert.Equal(2, lineInfo.LineNumber);
         Assert.Equal(1, lineInfo.LinePosition);
     }
 
     [Fact]
     public void StartingUndefinedAndReadFrom()
     {
-        var textReader = new StringReader(@"
-undefined
-[
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            undefined
+            [
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var v = (JValue) JToken.ReadFrom(jsonReader);
@@ -324,7 +336,7 @@ undefined
 
         IJsonLineInfo lineInfo = v;
         XUnitAssert.True(lineInfo.HasLineInfo());
-        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(1, lineInfo.LineNumber);
         Assert.Equal(9, lineInfo.LinePosition);
     }
 
@@ -667,13 +679,20 @@ undefined
 
         var list = o.Value<JArray>("Drives");
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""DVD read/writer"",
-  ""500 gigabyte hard drive""
-]", list.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "DVD read/writer",
+              "500 gigabyte hard drive"
+            ]
+            """, list.ToString());
 
         var cpuProperty = o.Property("CPU");
-        Assert.Equal(@"""CPU"": ""Intel""", cpuProperty.ToString());
+        Assert.Equal(
+            """
+            "CPU": "Intel"
+            """,
+            cpuProperty.ToString());
 
         var drivesProperty = o.Property("Drives");
         XUnitAssert.AreEqualNormalized(
@@ -719,18 +738,30 @@ undefined
 
         var o = JObject.Parse(json);
 
-        Assert.Equal(@"""Width"": 1.1", o.Property("Width").ToString());
+        Assert.Equal(
+            """
+            "Width": 1.1
+            """,
+            o.Property("Width").ToString());
         Assert.Equal("1.1", ((JValue) o.Property("Width").Value).ToString(InvariantCulture));
-        Assert.Equal(@"""Open"": false", o.Property("Open").ToString());
+        Assert.Equal(
+            """
+            "Open": false
+            """,
+            o.Property("Open").ToString());
         Assert.Equal("False", o.Property("Open").Value.ToString());
 
         json = "[null,undefined]";
 
         var a = JArray.Parse(json);
-        XUnitAssert.AreEqualNormalized(@"[
-  null,
-  undefined
-]", a.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              null,
+              undefined
+            ]
+            """,
+            a.ToString());
         Assert.Equal("", a.Children().ElementAt(0).ToString());
         Assert.Equal("", a.Children().ElementAt(1).ToString());
     }
@@ -875,7 +906,9 @@ undefined
     [Fact]
     public void QueryingExample()
     {
-        var posts = JArray.Parse(@"[
+        var posts = JArray.Parse(
+            """
+            [
               {
                 'Title': 'JSON Serializer Basics',
                 'Date': '2013-12-21T00:00:00',
@@ -888,7 +921,8 @@ undefined
                   'LINQ to JSON'
                 ]
               }
-            ]");
+            ]
+            """);
 
         var serializerBasics = posts
             .Single(p => (string) p["Title"] == "JSON Serializer Basics");
@@ -1061,7 +1095,7 @@ undefined
                 var a = new JArray();
                 Assert.Equal(null, a["purple"]);
             },
-            @"Accessed JArray values with invalid key value: ""purple"". Int32 array index expected.");
+            """Accessed JArray values with invalid key value: "purple". Int32 array index expected.""");
 
     [Fact]
     public void ToStringJsonConverter()
@@ -1325,58 +1359,60 @@ undefined
     [Fact]
     public void ChildrenExtension()
     {
-        var json = @"[
-                        {
-                          ""title"": ""James Newton-King"",
-                          ""link"": ""http://james.newtonking.com"",
-                          ""description"": ""James Newton-King's blog."",
-                          ""item"": [
-                            {
-                              ""title"": ""Json.NET 1.3 + New license + Now on CodePlex"",
-                              ""description"": ""Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex"",
-                              ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-                              ""category"": [
-                                ""Json.NET"",
-                                ""CodePlex""
-                              ]
-                            },
-                            {
-                              ""title"": ""LINQ to JSON beta"",
-                              ""description"": ""Announcing LINQ to JSON"",
-                              ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-                              ""category"": [
-                                ""Json.NET"",
-                                ""LINQ""
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          ""title"": ""James Newton-King"",
-                          ""link"": ""http://james.newtonking.com"",
-                          ""description"": ""James Newton-King's blog."",
-                          ""item"": [
-                            {
-                              ""title"": ""Json.NET 1.3 + New license + Now on CodePlex"",
-                              ""description"": ""Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex"",
-                              ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-                              ""category"": [
-                                ""Json.NET"",
-                                ""CodePlex""
-                              ]
-                            },
-                            {
-                              ""title"": ""LINQ to JSON beta"",
-                              ""description"": ""Announcing LINQ to JSON"",
-                              ""link"": ""http://james.newtonking.com/projects/json-net.aspx"",
-                              ""category"": [
-                                ""Json.NET"",
-                                ""LINQ""
-                              ]
-                            }
-                          ]
-                        }
-                      ]";
+        var json = """
+                   [
+                       {
+                         "title": "James Newton-King",
+                         "link": "http://james.newtonking.com",
+                         "description": "James Newton-King's blog.",
+                         "item": [
+                           {
+                             "title": "Json.NET 1.3 + New license + Now on CodePlex",
+                             "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+                             "link": "http://james.newtonking.com/projects/json-net.aspx",
+                             "category": [
+                               "Json.NET",
+                               "CodePlex"
+                             ]
+                           },
+                           {
+                             "title": "LINQ to JSON beta",
+                             "description": "Announcing LINQ to JSON",
+                             "link": "http://james.newtonking.com/projects/json-net.aspx",
+                             "category": [
+                               "Json.NET",
+                               "LINQ"
+                             ]
+                           }
+                         ]
+                       },
+                       {
+                         "title": "James Newton-King",
+                         "link": "http://james.newtonking.com",
+                         "description": "James Newton-King's blog.",
+                         "item": [
+                           {
+                             "title": "Json.NET 1.3 + New license + Now on CodePlex",
+                             "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+                             "link": "http://james.newtonking.com/projects/json-net.aspx",
+                             "category": [
+                               "Json.NET",
+                               "CodePlex"
+                             ]
+                           },
+                           {
+                             "title": "LINQ to JSON beta",
+                             "description": "Announcing LINQ to JSON",
+                             "link": "http://james.newtonking.com/projects/json-net.aspx",
+                             "category": [
+                               "Json.NET",
+                               "LINQ"
+                             ]
+                           }
+                         ]
+                       }
+                     ]
+                   """;
 
         var o = JArray.Parse(json);
 

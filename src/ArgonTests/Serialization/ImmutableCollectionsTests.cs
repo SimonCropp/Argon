@@ -19,21 +19,27 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  ""One"",
-  ""II"",
-  ""3""
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "One",
+              "II",
+              "3"
+            ]
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeList()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
 
@@ -46,11 +52,13 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeListInterface()
     {
-        var json = @"[
-        'Volibear',
-        'Teemo',
-        'Katarina'
-      ]";
+        var json = """
+                   [
+                           'Volibear',
+                           'Teemo',
+                           'Katarina'
+                         ]
+                   """;
 
         // what sorcery is this?!
         var champions = JsonConvert.DeserializeObject<IImmutableList<string>>(json);
@@ -76,21 +84,27 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  ""One"",
-  ""II"",
-  ""3""
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "One",
+              "II",
+              "3"
+            ]
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeArray()
     {
-        var json = @"[
-          ""One"",
-          ""II"",
-          ""3""
-        ]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableArray<string>>(json);
 
@@ -122,21 +136,27 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  ""One"",
-  ""II"",
-  ""3""
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "One",
+              "II",
+              "3"
+            ]
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeQueue()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableQueue<string>>(json);
 
@@ -149,11 +169,13 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeQueueInterface()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<IImmutableQueue<string>>(json);
 
@@ -178,21 +200,27 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  ""3"",
-  ""II"",
-  ""One""
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "3",
+              "II",
+              "One"
+            ]
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeStack()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableStack<string>>(json);
 
@@ -205,11 +233,13 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeStackInterface()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<IImmutableStack<string>>(json);
 
@@ -245,11 +275,13 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeHashSet()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
 
@@ -262,11 +294,13 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeHashSetInterface()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<IImmutableSet<string>>(json);
 
@@ -293,21 +327,27 @@ public class ImmutableCollectionsTests : TestFixtureBase
         });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  ""3"",
-  ""II"",
-  ""One""
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "3",
+              "II",
+              "One"
+            ]
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeSortedSet()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableSortedSet<string>>(json);
 

@@ -147,8 +147,12 @@ public class JTokenWriterTest : TestFixtureBase
         writer.WriteComment("fail");
         writer.WriteEndArray();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  /*fail*/]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              /*fail*/]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -165,9 +169,13 @@ public class JTokenWriterTest : TestFixtureBase
         Assert.Equal(new BigInteger(123), i.Value);
         Assert.Equal(JTokenType.Integer, i.Type);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  123
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              123
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -183,10 +191,14 @@ public class JTokenWriterTest : TestFixtureBase
         // this is a bug. write raw shouldn't be autocompleting like this
         // hard to fix without introducing Raw and RawValue token types
         // meh
-        XUnitAssert.AreEqualNormalized(@"[
-  fail,
-  fail
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              fail,
+              fail
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -264,9 +276,13 @@ public class JTokenWriterTest : TestFixtureBase
 
         writer.WriteEndArray();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  1
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -301,10 +317,14 @@ public class JTokenWriterTest : TestFixtureBase
         writer.WriteRawValue("fail");
         writer.WriteEndArray();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  fail,
-  fail
-]", writer.Token.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              fail,
+              fail
+            ]
+            """,
+            writer.Token.ToString());
     }
 
     [Fact]
@@ -353,6 +373,6 @@ public class JTokenWriterTest : TestFixtureBase
             token = jsonWriter.Token;
         }
 
-        Assert.Equal(@"[1,{""integer"":2147483647,""null-string"":null}]", token.ToString(Formatting.None));
+        Assert.Equal("""[1,{"integer":2147483647,"null-string":null}]""", token.ToString(Formatting.None));
     }
 }

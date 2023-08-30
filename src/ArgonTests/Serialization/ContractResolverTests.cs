@@ -262,7 +262,7 @@ public class ContractResolverTests : TestFixtureBase
                 }
             });
 
-        Assert.Equal(@"{""AddressLine1-'-\""-"":""value!""}", json);
+        Assert.Equal("""{"AddressLine1-'-\"-":"value!"}""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.Read();
@@ -289,7 +289,7 @@ public class ContractResolverTests : TestFixtureBase
                 EscapeHandling = EscapeHandling.EscapeHtml
             });
 
-        Assert.Equal(@"{""\u003cb\u003eAddressLine1\u003c/b\u003e"":""value!""}", json);
+        Assert.Equal("""{"\u003cb\u003eAddressLine1\u003c/b\u003e":"value!"}""", json);
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.Read();

@@ -162,15 +162,15 @@ public class DefaultValueHandlingTests : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass(),
             Formatting.None, new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
-        Assert.Equal(@"{""TestField1"":0,""TestProperty1"":null}", json);
+        Assert.Equal("""{"TestField1":0,"TestProperty1":null}""", json);
 
         json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass {TestField1 = int.MinValue, TestProperty1 = "NotDefault"},
             Formatting.None, new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
-        Assert.Equal(@"{""TestField1"":-2147483648,""TestProperty1"":""NotDefault""}", json);
+        Assert.Equal("""{"TestField1":-2147483648,"TestProperty1":"NotDefault"}""", json);
 
         json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass {TestField1 = 21, TestProperty1 = "NotDefault"},
             Formatting.None, new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
-        Assert.Equal(@"{""TestProperty1"":""NotDefault""}", json);
+        Assert.Equal("""{"TestProperty1":"NotDefault"}""", json);
 
         json = JsonConvert.SerializeObject(new DefaultValueAttributeTestClass {TestField1 = 21, TestProperty1 = "TestProperty1Value"},
             Formatting.None, new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore});
@@ -256,7 +256,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(user, Formatting.None, new JsonSerializerSettings {DefaultValueHandling = DefaultValueHandling.Ignore, NullValueHandling = NullValueHandling.Ignore});
 
-        Assert.Equal(@"{""firstName"":""blub""}", json);
+        Assert.Equal("""{"firstName":"blub"}""", json);
     }
 
     [Fact]
@@ -444,7 +444,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     [Fact]
     public void DontSetPropertiesDefaultValueUsedInConstructor()
     {
-        var json = @"{""ExportFormat"":0}";
+        var json = """{"ExportFormat":0}""";
 
         var o = JsonConvert.DeserializeObject<FieldExportFormat>(json, new JsonSerializerSettings
         {

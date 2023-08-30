@@ -12,8 +12,10 @@ public class MergeTests : TestFixtureBase
 
         XUnitAssert.Throws<ArgumentException>(
             () => a.Merge(new Version()),
-            @"Could not determine JSON object type for type System.Version.
-Parameter name: content",
+            """
+            Could not determine JSON object type for type System.Version.
+            Parameter name: content
+            """,
             "Could not determine JSON object type for type System.Version. (Parameter 'content')");
     }
 
@@ -500,10 +502,14 @@ Parameter name: content",
 
         var json = left.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  4,
-  5
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              4,
+              5
+            ]
+            """,
+            json);
     }
 
     [Fact]

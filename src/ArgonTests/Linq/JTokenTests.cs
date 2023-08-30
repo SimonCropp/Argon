@@ -1128,9 +1128,13 @@ public class JTokenTests : TestFixtureBase
 
         var json = a.ToString(Formatting.Indented, new IsoDateTimeConverter());
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""2009-02-15T00:00:00Z""
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "2009-02-15T00:00:00Z"
+            ]
+            """,
+            json);
 
         json = JsonConvert.SerializeObject(a, new IsoDateTimeConverter());
 
@@ -1372,8 +1376,10 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void Parse_ExcessiveContentJustComments()
     {
-        var json = @"{'prop':[1,2,3]}/*comment*/
-//Another comment.";
+        var json = """
+                   {'prop':[1,2,3]}/*comment*/
+                   //Another comment.
+                   """;
 
         var o = JToken.Parse(json);
 
@@ -1386,9 +1392,11 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void Parse_ExcessiveContent()
     {
-        var json = @"{'prop':[1,2,3]}/*comment*/
-//Another comment.
-{}";
+        var json = """
+                   {'prop':[1,2,3]}/*comment*/
+                   //Another comment.
+                   {}
+                   """;
 
         XUnitAssert.Throws<JsonReaderException>(() => JToken.Parse(json),
             "Additional text encountered after finished reading JSON content: {. Path '', line 3, position 0.");

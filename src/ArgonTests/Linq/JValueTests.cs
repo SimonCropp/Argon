@@ -579,11 +579,15 @@ public class JValueTests : TestFixtureBase
             new JValue(1.1f)
         );
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""2013-02-01T01:02:03.004+01:00"",
-  5,
-  1.1
-]", a.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "2013-02-01T01:02:03.004+01:00",
+              5,
+              1.1
+            ]
+            """,
+            a.ToString());
     }
 
     [Fact]
@@ -594,10 +598,14 @@ public class JValueTests : TestFixtureBase
             new JValue(new Uri("http://james.newtonking.com/install?v=7.0.1"))
         );
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""http://james.newtonking.com"",
-  ""http://james.newtonking.com/install?v=7.0.1""
-]", a.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "http://james.newtonking.com",
+              "http://james.newtonking.com/install?v=7.0.1"
+            ]
+            """,
+            a.ToString());
     }
 
     public class ReadOnlyStringConverter : JsonConverter

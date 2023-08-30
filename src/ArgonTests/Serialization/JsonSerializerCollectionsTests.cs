@@ -95,7 +95,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         };
 
         var output = JsonConvert.SerializeObject(dic1);
-        Assert.Equal(@"{""1"":2147483647}", output);
+        Assert.Equal("""{"1":2147483647}""", output);
 
         var dic2 = JsonConvert.DeserializeObject<ConcurrentDictionary<int, int>>(output);
         Assert.True(dic2.TryGetValue(1, out var i));
@@ -112,7 +112,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         };
         var output = JsonConvert.SerializeObject(dictionary);
-        Assert.Equal(@"{""1"":1}", output);
+        Assert.Equal("""{"1":1}""", output);
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<double, int>>(output);
         Assert.Equal(1d, deserializedValue.First().Key);
@@ -128,7 +128,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         };
         var output = JsonConvert.SerializeObject(dictionary);
-        Assert.Equal(@"{""1.7976931348623157E+308"":1}", output);
+        Assert.Equal("""{"1.7976931348623157E+308":1}""", output);
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<double, int>>(output);
         Assert.Equal(double.MaxValue, deserializedValue.First().Key);
@@ -147,7 +147,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 #if !(NET5_0_OR_GREATER)
         Assert.Equal(@"{""3.40282347E+38"":1}", output);
 #else
-        Assert.Equal(@"{""3.4028235E+38"":1}", output);
+        Assert.Equal("""{"3.4028235E+38":1}""", output);
 #endif
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<float, int>>(output);
@@ -470,11 +470,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""2"",
-  ""3"",
-  ""4""
-]", output);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "2",
+              "3",
+              "4"
+            ]
+            """,
+            output);
     }
 
     [Fact]
@@ -507,23 +511,26 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         // Now lets try and serialize the Array
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  [
-    ""1_2"",
-    ""1_3"",
-    ""1_4""
-  ],
-  [
-    ""2_2"",
-    ""2_3"",
-    ""2_4""
-  ],
-  [
-    ""3_2"",
-    ""3_3"",
-    ""3_4""
-  ]
-]", output);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              [
+                "1_2",
+                "1_3",
+                "1_4"
+              ],
+              [
+                "2_2",
+                "2_3",
+                "2_4"
+              ],
+              [
+                "3_2",
+                "3_3",
+                "3_4"
+              ]
+            ]
+            """, output);
     }
 
     [Fact]
@@ -605,11 +612,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeIEnumerableFromConstructor()
     {
-        var json = @"[
-  1,
-  2,
-  null
-]";
+        var json = """
+                   [
+                     1,
+                     2,
+                     null
+                   ]
+                   """;
 
         var result = JsonConvert.DeserializeObject<EnumerableClass<int?>>(json);
 
@@ -636,11 +645,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeIEnumerableFromConstructor_Failure()
     {
-        var json = @"[
-  ""One"",
-  ""II"",
-  ""3""
-]";
+        var json = """
+                   [
+                     "One",
+                     "II",
+                     "3"
+                   ]
+                   """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<EnumerableClassFailure<string>>(json),
@@ -695,7 +706,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeNonIsoDateDictionaryKey()
     {
-        var d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>(@"{""04/28/2013 00:00:00"":""test""}");
+        var d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>("""{"04/28/2013 00:00:00":"test"}""");
 
         Assert.Equal(1, d.Count);
 
@@ -855,11 +866,15 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var list = new CustomReadOnlyCollection<int>(l);
 
         var json = JsonConvert.SerializeObject(list, Formatting.Indented);
-        XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1,
+              2,
+              3
+            ]
+            """,
+            json);
     }
 
     [Fact]
@@ -867,7 +882,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         const string s = @"host\user";
         var serialized = JsonConvert.SerializeObject(s);
-        Assert.Equal(@"""host\\user""", serialized);
+        Assert.Equal(
+            """
+            "host\\user"
+            """,
+            serialized);
 
         var d1 = new Dictionary<int, object>
         {
@@ -875,7 +894,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 5, s
             }
         };
-        Assert.Equal(@"{""5"":""host\\user""}", JsonConvert.SerializeObject(d1));
+        Assert.Equal("""{"5":"host\\user"}""", JsonConvert.SerializeObject(d1));
 
         var d2 = new Dictionary<string, object>
         {
@@ -883,7 +902,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 s, 5
             }
         };
-        Assert.Equal(@"{""host\\user"":5}", JsonConvert.SerializeObject(d2));
+        Assert.Equal("""{"host\\user":5}""", JsonConvert.SerializeObject(d2));
     }
 
     public class GenericListTestClass
@@ -919,7 +938,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(list);
 
-        Assert.Equal(@"[{""Key"":""key1"",""Value"":""value1""},{""Key"":""key2"",""Value"":""value2""}]", json);
+        Assert.Equal("""[{"Key":"key1","Value":"value1"},{"Key":"key2","Value":"value2"}]""", json);
 
         var result = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(json);
         Assert.Equal(2, result.Count);
@@ -1122,7 +1141,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeKeyValuePairArray()
     {
-        var json = @"[ { ""Value"": [ ""1"", ""2"" ], ""Key"": ""aaa"", ""BadContent"": [ 0 ] }, { ""Value"": [ ""3"", ""4"" ], ""Key"": ""bbb"" } ]";
+        var json = """[ { "Value": [ "1", "2" ], "Key": "aaa", "BadContent": [ 0 ] }, { "Value": [ "3", "4" ], "Key": "bbb" } ]""";
 
         var values = JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json);
 
@@ -1140,7 +1159,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeNullableKeyValuePairArray()
     {
-        var json = @"[ { ""Value"": [ ""1"", ""2"" ], ""Key"": ""aaa"", ""BadContent"": [ 0 ] }, null, { ""Value"": [ ""3"", ""4"" ], ""Key"": ""bbb"" } ]";
+        var json = """[ { "Value": [ "1", "2" ], "Key": "aaa", "BadContent": [ 0 ] }, null, { "Value": [ "3", "4" ], "Key": "bbb" } ]""";
 
         var values = JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>?>>(json);
 
@@ -1366,7 +1385,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(aa);
 
-        Assert.Equal(@"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2],[2,1],[2,2]],""After"":""After!""}", json);
+        Assert.Equal("""{"Before":"Before!","Coordinates":[[1,1],[1,2],[2,1],[2,2]],"After":"After!"}""", json);
     }
 
     [Fact]
@@ -1431,7 +1450,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(aa);
 
-        Assert.Equal(@"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}", json);
+        Assert.Equal("""{"Before":"Before!","Coordinates":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],"After":"After!"}""", json);
     }
 
     [Fact]
@@ -1630,7 +1649,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeArray2D()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2],[2,1],[2,2]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[1,1],[1,2],[2,1],[2,2]],"After":"After!"}""";
 
         var aa = JsonConvert.DeserializeObject<Array2D>(json);
 
@@ -1649,7 +1668,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeArray2D_WithTooManyItems()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1,2,3],[2,1],[2,2]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[1,1],[1,2,3],[2,1],[2,2]],"After":"After!"}""";
 
         XUnitAssert.Throws<Exception>(
             () => JsonConvert.DeserializeObject<Array2D>(json),
@@ -1659,7 +1678,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeArray2D_WithTooFewItems()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[1,1],[1],[2,1],[2,2]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[1,1],[1],[2,1],[2,2]],"After":"After!"}""";
 
         XUnitAssert.Throws<Exception>(
             () => JsonConvert.DeserializeObject<Array2D>(json),
@@ -1669,7 +1688,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeArray3D()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],"After":"After!"}""";
 
         var aa = JsonConvert.DeserializeObject<Array3D>(json);
 
@@ -1689,7 +1708,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeArray3D_WithTooManyItems()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[[1,1,1],[1,1,2,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],"After":"After!"}""";
 
         XUnitAssert.Throws<Exception>(
             () => JsonConvert.DeserializeObject<Array3D>(json),
@@ -1699,7 +1718,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeArray3D_WithBadItems()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],{}]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],{}]],"After":"After!"}""";
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<Array3D>(json),
@@ -1709,7 +1728,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeArray3D_WithTooFewItems()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[[1,1,1],[1,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[[1,1,1],[1,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],"After":"After!"}""";
 
         XUnitAssert.Throws<Exception>(
             () => JsonConvert.DeserializeObject<Array3D>(json),
@@ -1728,13 +1747,13 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(aa);
 
-        Assert.Equal(@"{""Before"":""Before!"",""Coordinates"":[],""After"":""After!""}", json);
+        Assert.Equal("""{"Before":"Before!","Coordinates":[],"After":"After!"}""", json);
     }
 
     [Fact]
     public void DeserializeEmpty3DArray()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[],"After":"After!"}""";
 
         var aa = JsonConvert.DeserializeObject<Array3D>(json);
 
@@ -1752,7 +1771,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeIncomplete3DArray()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[/*hi*/[/*hi*/[1/*hi*/,/*hi*/1/*hi*/,1]/*hi*/,/*hi*/[1,1";
+        var json = """{"Before":"Before!","Coordinates":[/*hi*/[/*hi*/[1/*hi*/,/*hi*/1/*hi*/,1]/*hi*/,/*hi*/[1,1""";
 
         XUnitAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<Array3D>(json));
     }
@@ -1760,7 +1779,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeIncompleteNotTopLevel3DArray()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[/*hi*/[/*hi*/";
+        var json = """{"Before":"Before!","Coordinates":[/*hi*/[/*hi*/""";
 
         XUnitAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<Array3D>(json));
     }
@@ -1768,7 +1787,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeNull3DArray()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":null,""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":null,"After":"After!"}""";
 
         var aa = JsonConvert.DeserializeObject<Array3D>(json);
 
@@ -1784,7 +1803,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeSemiEmpty3DArray()
     {
-        var json = @"{""Before"":""Before!"",""Coordinates"":[[]],""After"":""After!""}";
+        var json = """{"Before":"Before!","Coordinates":[[]],"After":"After!"}""";
 
         var aa = JsonConvert.DeserializeObject<Array3D>(json);
 
@@ -1897,77 +1916,80 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized($@"{{
-  ""$type"": ""{typeof(List<Event1[,]>).GetTypeName(0, DefaultSerializationBinder.Instance)}"",
-  ""$values"": [
-    {{
-      ""$type"": ""TestObjects.Event1[,], ArgonTests"",
-      ""$values"": [
-        [
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }},
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }}
-        ],
-        [
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }},
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }}
-        ]
-      ]
-    }},
-    {{
-      ""$type"": ""TestObjects.Event1[,], ArgonTests"",
-      ""$values"": [
-        [
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }},
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }}
-        ],
-        [
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }},
-          {{
-            ""$type"": ""TestObjects.Event1, ArgonTests"",
-            ""EventName"": ""EventName!"",
-            ""Venue"": null,
-            ""Performances"": null
-          }}
-        ]
-      ]
-    }}
-  ]
-}}", json);
+        XUnitAssert.AreEqualNormalized(
+            $$"""
+              {
+                "$type": "{{typeof(List<Event1[,]>).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
+                "$values": [
+                  {
+                    "$type": "TestObjects.Event1[,], ArgonTests",
+                    "$values": [
+                      [
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        },
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        }
+                      ],
+                      [
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        },
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "$type": "TestObjects.Event1[,], ArgonTests",
+                    "$values": [
+                      [
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        },
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        }
+                      ],
+                      [
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        },
+                        {
+                          "$type": "TestObjects.Event1, ArgonTests",
+                          "EventName": "EventName!",
+                          "Venue": null,
+                          "Performances": null
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+              """, json);
 
         var values2 = (IList<Event1[,]>) JsonConvert.DeserializeObject(json, new JsonSerializerSettings
         {
@@ -1981,7 +2003,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void PrimitiveValuesInObjectArray()
     {
-        var json = @"{""action"":""Router"",""method"":""Navigate"",""data"":[""dashboard"",null],""type"":""rpc"",""tid"":2}";
+        var json = """{"action":"Router","method":"Navigate","data":["dashboard",null],"type":"rpc","tid":2}""";
 
         var o = JsonConvert.DeserializeObject<ObjectArrayPropertyTest>(json);
 
@@ -1995,7 +2017,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void ComplexValuesInObjectArray()
     {
-        var json = @"{""action"":""Router"",""method"":""Navigate"",""data"":[""dashboard"",[""id"", 1, ""teststring"", ""test""],{""one"":1}],""type"":""rpc"",""tid"":2}";
+        var json = """{"action":"Router","method":"Navigate","data":["dashboard",["id", 1, "teststring", "test"],{"one":1}],"type":"rpc","tid":2}""";
 
         var o = JsonConvert.DeserializeObject<ObjectArrayPropertyTest>(json);
 
@@ -2013,7 +2035,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeArrayAsArrayList()
     {
-        var jsonText = @"[3, ""somestring"",[1,2,3],{}]";
+        var jsonText = """[3, "somestring",[1,2,3],{}]""";
         var o = JsonConvert.DeserializeObject<ArrayList>(jsonText);
 
         Assert.Equal(4, o.Count);
@@ -2128,7 +2150,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         serializer.Serialize(stringWriter, collection);
 
-        Assert.Equal(@"[{""Name"":""Test1"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test2"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null},{""Name"":""Test3"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0,""Sizes"":null}]",
+        Assert.Equal("""[{"Name":"Test1","ExpiryDate":"2000-01-01T00:00:00Z","Price":0.0,"Sizes":null},{"Name":"Test2","ExpiryDate":"2000-01-01T00:00:00Z","Price":0.0,"Sizes":null},{"Name":"Test3","ExpiryDate":"2000-01-01T00:00:00Z","Price":0.0,"Sizes":null}]""",
             stringWriter.GetStringBuilder().ToString());
 
         var collectionNew = (ProductCollection) serializer.Deserialize(new JsonTextReader(new StringReader(stringWriter.GetStringBuilder().ToString())), typeof(ProductCollection));
@@ -2149,7 +2171,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             selectList = foo1
         });
-        Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
+        Assert.Equal("""{"selectList":[{"Value":"Hello"}]}""", json);
 
         var foo2 = new GenericClass<NonGenericItem, string>();
         foo2.Items.Add(new()
@@ -2161,7 +2183,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             selectList = foo2
         });
-        Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
+        Assert.Equal("""{"selectList":[{"Value":"Hello"}]}""", json);
 
         var foo3 = new NonGenericClass();
         foo3.Items.Add(new NonGenericItem
@@ -2173,7 +2195,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             selectList = foo3
         });
-        Assert.Equal(@"{""selectList"":[{""Value"":""Hello""}]}", json);
+        Assert.Equal("""{"selectList":[{"Value":"Hello"}]}""", json);
     }
 
     [Fact]
@@ -2278,20 +2300,22 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeGenericList()
     {
-        var json = @"[
-        {
-          ""Name"": ""Product 1"",
-          ""ExpiryDate"": ""2013-08-14T04:38:31.000+0000"",
-          ""Price"": 99.95,
-          ""Sizes"": null
-        },
-        {
-          ""Name"": ""Product 2"",
-          ""ExpiryDate"": ""2013-08-14T04:38:31.000+0000"",
-          ""Price"": 12.50,
-          ""Sizes"": null
-        }
-      ]";
+        var json = """
+                   [
+                       {
+                         "Name": "Product 1",
+                         "ExpiryDate": "2013-08-14T04:38:31.000+0000",
+                         "Price": 99.95,
+                         "Sizes": null
+                       },
+                       {
+                         "Name": "Product 2",
+                         "ExpiryDate": "2013-08-14T04:38:31.000+0000",
+                         "Price": 12.50,
+                         "Sizes": null
+                       }
+                   ]
+                   """;
 
         var products = JsonConvert.DeserializeObject<List<Product>>(json);
 
@@ -2314,18 +2338,22 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3,
-  2147483647
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1,
+              2,
+              3,
+              2147483647
+            ]
+            """,
+            json);
     }
 
     [Fact]
     public void EmptyStringInHashtableIsDeserialized()
     {
-        var externalJson = @"{""$type"":""System.Collections.Hashtable, mscorlib"",""testkey"":""""}";
+        var externalJson = """{"$type":"System.Collections.Hashtable, mscorlib","testkey":""}""";
 
         var settings = new JsonSerializerSettings
         {
@@ -2365,7 +2393,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void NonDefaultConstructor_DuplicateKeyInDictionary_Replace()
     {
-        var json = @"{ ""user"":""bpan"", ""Person"":{ ""groups"":""replaced!"", ""domain"":""adm"", ""mail"":""bpan@sdu.dk"", ""sn"":""Pan"", ""gn"":""Benzhi"", ""cn"":""Benzhi Pan"", ""eo"":""BQHLJaVTMr0eWsi1jaIut4Ls/pSuMeNEmsWfWsfKo="", ""guid"":""9A38CE8E5B288942A8DA415CF5E687"", ""employeenumber"":""2674"", ""omk1"":""930"", ""language"":""da"" }, ""XMLResponce"":""<?xml version='1.0' encoding='iso-8859-1' ?>\n<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n\t<cas:authenticationSuccess>\n\t\t<cas:user>bpan</cas:user>\n\t\t<norEduPerson>\n\t\t\t<groups>FNC-PRI-APP-SUNDB-EDOR-A,FNC-RI-APP-SUB-EDITOR-B</groups>\n\t\t\t<domain>adm</domain>\n\t\t\t<mail>bpan@sdu.dk</mail>\n\t\t\t<sn>Pan</sn>\n\t\t\t<gn>Benzhi</gn>\n\t\t\t<cn>Benzhi Pan</cn>\n\t\t\t<eo>BQHLJaVTMr0eWsi1jaIut4Lsfr/pSuMeNEmsWfWsfKo=</eo>\n\t\t\t<guid>9A38CE8E5B288942A8DA415C2C687</guid>\n\t\t\t<employeenumber>274</employeenumber>\n\t\t\t<omk1>930</omk1>\n\t\t\t<language>da</language>\n\t\t</norEduPerson>\n\t</cas:authenticationSuccess>\n</cas:serviceResponse>\n"", ""Language"":1, ""Groups"":[ ""FNC-PRI-APP-SNDB-EDOR-A"", ""FNC-PI-APP-SUNDB-EDOR-B"" ], ""Domain"":""adm"", ""Mail"":""bpan@sdu.dk"", ""Surname"":""Pan"", ""Givenname"":""Benzhi"", ""CommonName"":""Benzhi Pan"", ""OrganizationName"":null }";
+        var json = """{ "user":"bpan", "Person":{ "groups":"replaced!", "domain":"adm", "mail":"bpan@sdu.dk", "sn":"Pan", "gn":"Benzhi", "cn":"Benzhi Pan", "eo":"BQHLJaVTMr0eWsi1jaIut4Ls/pSuMeNEmsWfWsfKo=", "guid":"9A38CE8E5B288942A8DA415CF5E687", "employeenumber":"2674", "omk1":"930", "language":"da" }, "XMLResponce":"<?xml version='1.0' encoding='iso-8859-1' ?>\n<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n\t<cas:authenticationSuccess>\n\t\t<cas:user>bpan</cas:user>\n\t\t<norEduPerson>\n\t\t\t<groups>FNC-PRI-APP-SUNDB-EDOR-A,FNC-RI-APP-SUB-EDITOR-B</groups>\n\t\t\t<domain>adm</domain>\n\t\t\t<mail>bpan@sdu.dk</mail>\n\t\t\t<sn>Pan</sn>\n\t\t\t<gn>Benzhi</gn>\n\t\t\t<cn>Benzhi Pan</cn>\n\t\t\t<eo>BQHLJaVTMr0eWsi1jaIut4Lsfr/pSuMeNEmsWfWsfKo=</eo>\n\t\t\t<guid>9A38CE8E5B288942A8DA415C2C687</guid>\n\t\t\t<employeenumber>274</employeenumber>\n\t\t\t<omk1>930</omk1>\n\t\t\t<language>da</language>\n\t\t</norEduPerson>\n\t</cas:authenticationSuccess>\n</cas:serviceResponse>\n", "Language":1, "Groups":[ "FNC-PRI-APP-SNDB-EDOR-A", "FNC-PI-APP-SUNDB-EDOR-B" ], "Domain":"adm", "Mail":"bpan@sdu.dk", "Surname":"Pan", "Givenname":"Benzhi", "CommonName":"Benzhi Pan", "OrganizationName":null }""";
 
         var result = JsonConvert.DeserializeObject<CASResponce>(json);
 
@@ -2375,7 +2403,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void GenericIListAndOverrideConstructor()
     {
-        var deserialized = JsonConvert.DeserializeObject<MyClass>(@"[""apple"", ""monkey"", ""goose""]");
+        var deserialized = JsonConvert.DeserializeObject<MyClass>("""["apple", "monkey", "goose"]""");
 
         Assert.Equal("apple", deserialized[0]);
         Assert.Equal("monkey", deserialized[1]);
@@ -2396,14 +2424,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeEmptyEnumerable_NoItems()
     {
-        var c = JsonConvert.DeserializeObject<ValuesClass>(@"{""Values"":[]}");
+        var c = JsonConvert.DeserializeObject<ValuesClass>("""{"Values":[]}""");
         Assert.Equal(0, c.Values.Count());
     }
 
     [Fact]
     public void DeserializeEmptyEnumerable_HasItems()
     {
-        var c = JsonConvert.DeserializeObject<ValuesClass>(@"{""Values"":[""hello""]}");
+        var c = JsonConvert.DeserializeObject<ValuesClass>("""{"Values":["hello"]}""");
         Assert.Equal(1, c.Values.Count());
         Assert.Equal("hello", c.Values.ElementAt(0));
     }
@@ -2416,7 +2444,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeConstructorWithReadonlyArrayProperty()
     {
-        var json = @"{""Endpoint"":""http://localhost"",""Name"":""account1"",""Dimensions"":[{""Key"":""Endpoint"",""Value"":""http://localhost""},{""Key"":""Name"",""Value"":""account1""}]}";
+        var json = """{"Endpoint":"http://localhost","Name":"account1","Dimensions":[{"Key":"Endpoint","Value":"http://localhost"},{"Key":"Name","Value":"account1"}]}""";
 
         var values = JsonConvert.DeserializeObject<AccountInfo>(json);
         Assert.Equal("http://localhost", values.Endpoint);

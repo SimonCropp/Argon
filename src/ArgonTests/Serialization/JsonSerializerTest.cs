@@ -30,7 +30,7 @@ public class JsonSerializerTest : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(c);
 
-        Assert.Equal(@"{""strprop"":""test""}", json);
+        Assert.Equal("""{"strprop":"test"}""", json);
 
         var c2 = JsonConvert.DeserializeObject<ListSourceTest>(json);
 
@@ -219,21 +219,24 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeBooleans()
     {
-        var l = JsonConvert.DeserializeObject<IList<bool>>(@"[
-  1,
-  0,
-  1.1,
-  0.0,
-  0.000000000001,
-  9999999999,
-  -9999999999,
-  9999999999999999999999999999999999999999999999999999999999999999999999,
-  -9999999999999999999999999999999999999999999999999999999999999999999999,
-  'true',
-  'TRUE',
-  'false',
-  'FALSE'
-]");
+        var l = JsonConvert.DeserializeObject<IList<bool>>(
+            """
+            [
+              1,
+              0,
+              1.1,
+              0.0,
+              0.000000000001,
+              9999999999,
+              -9999999999,
+              9999999999999999999999999999999999999999999999999999999999999999999999,
+              -9999999999999999999999999999999999999999999999999999999999999999999999,
+              'true',
+              'TRUE',
+              'false',
+              'FALSE'
+            ]
+            """);
 
         var i = 0;
         XUnitAssert.True(l[i++]);
@@ -254,23 +257,26 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeNullableBooleans()
     {
-        var l = JsonConvert.DeserializeObject<IList<bool?>>(@"[
-  1,
-  0,
-  1.1,
-  0.0,
-  0.000000000001,
-  9999999999,
-  -9999999999,
-  9999999999999999999999999999999999999999999999999999999999999999999999,
-  -9999999999999999999999999999999999999999999999999999999999999999999999,
-  'true',
-  'TRUE',
-  'false',
-  'FALSE',
-  '',
-  null
-]");
+        var l = JsonConvert.DeserializeObject<IList<bool?>>(
+            """
+            [
+              1,
+              0,
+              1.1,
+              0.0,
+              0.000000000001,
+              9999999999,
+              -9999999999,
+              9999999999999999999999999999999999999999999999999999999999999999999999,
+              -9999999999999999999999999999999999999999999999999999999999999999999999,
+              'true',
+              'TRUE',
+              'false',
+              'FALSE',
+              '',
+              null
+            ]
+            """);
 
         var i = 0;
         XUnitAssert.True(l[i++]);
@@ -301,7 +307,7 @@ public class JsonSerializerTest : TestFixtureBase
         });
         var json = JsonConvert.SerializeObject(foo1);
 
-        XUnitAssert.AreEqualNormalized(@"{""Bars"":[""A"",""B"",""C""]}", json);
+        XUnitAssert.AreEqualNormalized("""{"Bars":["A","B","C"]}""", json);
 
         var foo2 = JsonConvert.DeserializeObject<FooRequired>(json);
         Assert.Equal(foo1.Bars.Count, foo2.Bars.Count);
@@ -467,10 +473,10 @@ public class JsonSerializerTest : TestFixtureBase
             "Required property 'Name' not found in JSON. Path '', line 1, position 2.");
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<RequiredPropertyTestClass>(@"{""Name"":null}"),
+            () => JsonConvert.DeserializeObject<RequiredPropertyTestClass>("""{"Name":null}"""),
             "Required property 'Name' expects a value but got null. Path '', line 1, position 13.");
 
-        var c3 = JsonConvert.DeserializeObject<RequiredPropertyTestClass>(@"{""Name"":""Name!""}");
+        var c3 = JsonConvert.DeserializeObject<RequiredPropertyTestClass>("""{"Name":"Name!"}""");
 
         Assert.Equal("Name!", c3.Name);
     }
@@ -488,13 +494,13 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c2);
 
-        Assert.Equal(@"{""Name"":""Name!""}", json);
+        Assert.Equal("""{"Name":"Name!"}""", json);
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<RequiredPropertyConstructorTestClass>("{}"),
             "Required property 'Name' not found in JSON. Path '', line 1, position 2.");
 
-        var c3 = JsonConvert.DeserializeObject<RequiredPropertyConstructorTestClass>(@"{""Name"":""Name!""}");
+        var c3 = JsonConvert.DeserializeObject<RequiredPropertyConstructorTestClass>("""{"Name":"Name!"}""");
 
         Assert.Equal("Name!", c3.Name);
     }
@@ -686,24 +692,28 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void NewProperty()
     {
-        Assert.Equal(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClass
+        Assert.Equal(
+            """{"IsTransient":true}""",
+            JsonConvert.SerializeObject(new ChildClass
         {
             IsTransient = true
         }));
 
-        var childClass = JsonConvert.DeserializeObject<ChildClass>(@"{""IsTransient"":true}");
+        var childClass = JsonConvert.DeserializeObject<ChildClass>("""{"IsTransient":true}""");
         XUnitAssert.True(childClass.IsTransient);
     }
 
     [Fact]
     public void NewPropertyVirtual()
     {
-        Assert.Equal(@"{""IsTransient"":true}", JsonConvert.SerializeObject(new ChildClassVirtual
+        Assert.Equal(
+            """{"IsTransient":true}""",
+            JsonConvert.SerializeObject(new ChildClassVirtual
         {
             IsTransient = true
         }));
 
-        var childClass = JsonConvert.DeserializeObject<ChildClassVirtual>(@"{""IsTransient"":true}");
+        var childClass = JsonConvert.DeserializeObject<ChildClassVirtual>("""{"IsTransient":true}""");
         XUnitAssert.True(childClass.IsTransient);
     }
 
@@ -794,16 +804,18 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeJObjectWithComments()
     {
-        var json = @"/* Test */
-            {
-                /*Test*/""A"":/* Test */true/* Test */,
-                /* Test */""B"":/* Test */false/* Test */,
-                /* Test */""C"":/* Test */[
-                    /* Test */
-                    1/* Test */
-                ]/* Test */
-            }
-            /* Test */";
+        var json = """
+                   /* Test */
+                               {
+                                   /*Test*/"A":/* Test */true/* Test */,
+                                   /* Test */"B":/* Test */false/* Test */,
+                                   /* Test */"C":/* Test */[
+                                       /* Test */
+                                       1/* Test */
+                                   ]/* Test */
+                               }
+                               /* Test */
+                   """;
         var o = (JObject) JsonConvert.DeserializeObject(json);
         Assert.Equal(3, o.Count);
         XUnitAssert.True((bool) o["A"]);
@@ -818,7 +830,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(0, o.Count);
         Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
 
-        json = @"{""A"": true/* Test */}";
+        json = """{"A": true/* Test */}""";
         o = (JObject) JsonConvert.DeserializeObject(json);
         Assert.Equal(1, o.Count);
         XUnitAssert.True((bool) o["A"]);
@@ -831,7 +843,7 @@ public class JsonSerializerTest : TestFixtureBase
         var o = JsonConvert.DeserializeObject<CommentTestObject>("{/* Test */}");
         Assert.Equal(null, o.A);
 
-        o = JsonConvert.DeserializeObject<CommentTestObject>(@"{""A"": true/* Test */}");
+        o = JsonConvert.DeserializeObject<CommentTestObject>("""{"A": true/* Test */}""");
         XUnitAssert.True(o.A);
     }
 
@@ -1146,14 +1158,14 @@ public class JsonSerializerTest : TestFixtureBase
             foo = "value"
         };
         var json = JsonConvert.SerializeObject(original);
-        var expectedJson = @"{""foo"":""value""}";
+        var expectedJson = """{"foo":"value"}""";
         Assert.Equal(expectedJson, json); // passes
     }
 
     [Fact]
     public void BaseClassDeserializesAsExpected()
     {
-        var json = @"{""foo"":""value""}";
+        var json = """{"foo":"value"}""";
         var deserialized = JsonConvert.DeserializeObject<Foo1>(json);
         Assert.Equal("value", deserialized.foo); // passes
     }
@@ -1169,14 +1181,14 @@ public class JsonSerializerTest : TestFixtureBase
             }
         };
         var json = JsonConvert.SerializeObject(original);
-        var expectedJson = @"{""foo"":{""bar"":""value""}}";
+        var expectedJson = """{"foo":{"bar":"value"}}""";
         Assert.Equal(expectedJson, json); // passes
     }
 
     [Fact]
     public void DerivedClassHidingBasePropertyDeserializesAsExpected()
     {
-        var json = @"{""foo"":{""bar"":""value""}}";
+        var json = """{"foo":{"bar":"value"}}""";
         var deserialized = JsonConvert.DeserializeObject<FooBar1>(json);
         Assert.NotNull(deserialized.foo); // passes
         Assert.Equal("value", deserialized.foo.bar); // passes
@@ -1197,14 +1209,14 @@ public class JsonSerializerTest : TestFixtureBase
             }
         };
         var json = JsonConvert.SerializeObject(original);
-        var expectedJson = @"{""foo"":{""bar"":""value""},""foo2"":{""bar"":""value2""}}";
+        var expectedJson = """{"foo":{"bar":"value"},"foo2":{"bar":"value2"}}""";
         Assert.Equal(expectedJson, json);
     }
 
     [Fact]
     public void DerivedGenericClassHidingBasePropertyDeserializesAsExpected()
     {
-        var json = @"{""foo"":{""bar"":""value""},""foo2"":{""bar"":""value2""}}";
+        var json = """{"foo":{"bar":"value"},"foo2":{"bar":"value2"}}""";
         var deserialized = JsonConvert.DeserializeObject<Foo1<Bar1>>(json);
         Assert.NotNull(deserialized.foo2); // passes (bug only occurs for generics that /hide/ another property)
         Assert.Equal("value2", deserialized.foo2.bar); // also passes, with no issue
@@ -1251,7 +1263,7 @@ public class JsonSerializerTest : TestFixtureBase
         };
 
         var result = JsonConvert.SerializeObject(cc);
-        Assert.Equal(@"{""NewMember"":""NewMember!"",""virtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
+        Assert.Equal("""{"NewMember":"NewMember!","virtualMember":"VirtualMember!","nonVirtualMember":"NonVirtualMember!"}""", result);
     }
 
     [Fact]
@@ -1481,7 +1493,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void JsonConvertSerializer()
     {
-        var value = @"{""Name"":""Orange"", ""Price"":3.99, ""ExpiryDate"":""01/24/2010 12:00:00""}";
+        var value = """{"Name":"Orange", "Price":3.99, "ExpiryDate":"01/24/2010 12:00:00"}""";
 
         var p = JsonConvert.DeserializeObject(value, typeof(Product)) as Product;
 
@@ -1520,7 +1532,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void HashtableDeserialization()
     {
-        var value = @"{""Name"":""Orange"", ""Price"":3.99, ""ExpiryDate"":""01/24/2010 12:00:00""}";
+        var value = """{"Name":"Orange", "Price":3.99, "ExpiryDate":"01/24/2010 12:00:00"}""";
 
         var p = JsonConvert.DeserializeObject(value, typeof(Hashtable)) as Hashtable;
 
@@ -1530,14 +1542,18 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void TypedHashtableDeserialization()
     {
-        var value = @"{""Name"":""Orange"", ""Hash"":{""ExpiryDate"":""01/24/2010 12:00:00"",""UntypedArray"":[""01/24/2010 12:00:00""]}}";
+        var value = """{"Name":"Orange", "Hash":{"ExpiryDate":"01/24/2010 12:00:00","UntypedArray":["01/24/2010 12:00:00"]}}""";
 
         var p = JsonConvert.DeserializeObject(value, typeof(TypedSubHashtable)) as TypedSubHashtable;
 
         Assert.Equal("01/24/2010 12:00:00", p.Hash["ExpiryDate"].ToString());
-        XUnitAssert.AreEqualNormalized(@"[
-  ""01/24/2010 12:00:00""
-]", p.Hash["UntypedArray"].ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "01/24/2010 12:00:00"
+            ]
+            """,
+            p.Hash["UntypedArray"].ToString());
     }
 
     [Fact]

@@ -21,7 +21,7 @@ var json = JsonConvert.SerializeObject(target, Formatting.Indented, FSharpConver
 
 var result = JsonConvert.DeserializeObject<Target>(json, FSharpConverters.Instances);
 ```
-<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L87-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-fsharpconvertersinstances' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L95-L101' title='Snippet source file'>snippet source</a> | <a href='#snippet-fsharpconvertersinstances' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -33,5 +33,5 @@ var result = JsonConvert.DeserializeObject<Target>(json, FSharpConverters.Instan
 var settings = new JsonSerializerSettings();
 settings.AddFSharpConverters();
 ```
-<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L100-L105' title='Snippet source file'>snippet source</a> | <a href='#snippet-addfsharpconverters' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L108-L113' title='Snippet source file'>snippet source</a> | <a href='#snippet-addfsharpconverters' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

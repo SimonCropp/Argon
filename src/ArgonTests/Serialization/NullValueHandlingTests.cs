@@ -34,7 +34,12 @@ public class NullValueHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializeEmptyStringIntoDateTimeWithEmptyStringDefaultValue()
     {
-        var c = JsonConvert.DeserializeObject<DateTimeTestClass>(@"{DateTimeField:""""}", new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+        var c = JsonConvert.DeserializeObject<DateTimeTestClass>(
+            """{DateTimeField:""}""",
+            new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
         Assert.Equal(c.DateTimeField, default);
     }
 
@@ -53,7 +58,9 @@ public class NullValueHandlingTests : TestFixtureBase
 
         //JsonConvert.ConvertDateTimeToJavaScriptTicks(s1.Established.DateTime)
 
-        Assert.Equal(@"{""Color"":4,""Established"":""2010-01-22T01:01:01Z"",""Width"":1.1,""Employees"":999,""RoomsPerFloor"":[1,2,3,4,5,6,7,8,9],""Open"":false,""Symbol"":""@"",""Mottos"":[""Hello World"",""öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~"",null,"" ""],""Cost"":100980.1,""Escape"":""\r\n\t\f\b?{\\r\\n\""'"",""product"":[{""Name"":""Rocket"",""ExpiryDate"":""2000-02-02T23:01:30Z"",""Price"":0.0},{""Name"":""Alien"",""ExpiryDate"":""2000-01-01T00:00:00Z"",""Price"":0.0}]}", stringWriter.GetStringBuilder().ToString());
+        Assert.Equal(
+            """{"Color":4,"Established":"2010-01-22T01:01:01Z","Width":1.1,"Employees":999,"RoomsPerFloor":[1,2,3,4,5,6,7,8,9],"Open":false,"Symbol":"@","Mottos":["Hello World","öäüÖÄÜ\\'{new Date(12345);}[222]_µ@²³~",null," "],"Cost":100980.1,"Escape":"\r\n\t\f\b?{\\r\\n\"'","product":[{"Name":"Rocket","ExpiryDate":"2000-02-02T23:01:30Z","Price":0.0},{"Name":"Alien","ExpiryDate":"2000-01-01T00:00:00Z","Price":0.0}]}""",
+            stringWriter.GetStringBuilder().ToString());
 
         var s2 = (Store) serializer.Deserialize(new JsonTextReader(new StringReader("{}")), typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s2.Escape);

@@ -8,12 +8,15 @@ public class LinqToJsonAsyncTests : TestFixtureBase
     [Fact]
     public async Task CommentsAndReadFromAsync()
     {
-        var textReader = new StringReader(@"[
-    // hi
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            [
+                // hi
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray) await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
@@ -29,12 +32,15 @@ public class LinqToJsonAsyncTests : TestFixtureBase
     [Fact]
     public async Task CommentsAndReadFrom_IgnoreCommentsAsync()
     {
-        var textReader = new StringReader(@"[
-    // hi
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            [
+                // hi
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray) await JToken.ReadFromAsync(jsonReader);
@@ -47,13 +53,15 @@ public class LinqToJsonAsyncTests : TestFixtureBase
     [Fact]
     public async Task StartingCommentAndReadFromAsync()
     {
-        var textReader = new StringReader(@"
-// hi
-[
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            // hi
+            [
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var v = (JValue) await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
@@ -65,20 +73,22 @@ public class LinqToJsonAsyncTests : TestFixtureBase
 
         IJsonLineInfo lineInfo = v;
         XUnitAssert.True(lineInfo.HasLineInfo());
-        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(1, lineInfo.LineNumber);
         Assert.Equal(5, lineInfo.LinePosition);
     }
 
     [Fact]
     public async Task StartingCommentAndReadFrom_IgnoreCommentsAsync()
     {
-        var textReader = new StringReader(@"
-// hi
-[
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            // hi
+            [
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var a = (JArray) await JToken.ReadFromAsync(jsonReader, new JsonLoadSettings
@@ -90,20 +100,22 @@ public class LinqToJsonAsyncTests : TestFixtureBase
 
         IJsonLineInfo lineInfo = a;
         XUnitAssert.True(lineInfo.HasLineInfo());
-        Assert.Equal(3, lineInfo.LineNumber);
+        Assert.Equal(2, lineInfo.LineNumber);
         Assert.Equal(1, lineInfo.LinePosition);
     }
 
     [Fact]
     public async Task StartingUndefinedAndReadFromAsync()
     {
-        var textReader = new StringReader(@"
-undefined
-[
-    1,
-    2,
-    3
-]");
+        var textReader = new StringReader(
+            """
+            undefined
+            [
+                1,
+                2,
+                3
+            ]
+            """);
 
         var jsonReader = new JsonTextReader(textReader);
         var v = (JValue) await JToken.ReadFromAsync(jsonReader);
@@ -112,7 +124,7 @@ undefined
 
         IJsonLineInfo lineInfo = v;
         XUnitAssert.True(lineInfo.HasLineInfo());
-        Assert.Equal(2, lineInfo.LineNumber);
+        Assert.Equal(1, lineInfo.LineNumber);
         Assert.Equal(9, lineInfo.LinePosition);
     }
 

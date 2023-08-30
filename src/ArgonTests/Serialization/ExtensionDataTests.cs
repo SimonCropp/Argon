@@ -151,7 +151,7 @@ public class ExtensionDataTests : TestFixtureBase
 
         var result = JsonConvert.SerializeObject(invoice);
 
-        Assert.Equal(@"{""TaxRate"":0.125,""a"":null}", result);
+        Assert.Equal("""{"TaxRate":0.125,"a":null}""", result);
     }
 
     [Fact]
@@ -213,7 +213,7 @@ public class ExtensionDataTests : TestFixtureBase
         //   'Hours': 40
         // }
 
-        Assert.Equal(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
+        Assert.Equal("""{"TaxRate":0.15,"HourlyRate":150,"Hours":40}""", result);
     }
 
     public class ExtensionDataTestClass
@@ -498,7 +498,7 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void PopulateWithExtensionData()
     {
-        var jsonStirng = @"{ ""ForJson"" : 33 , ""extra1"" : 11, ""extra2"" : 22 }";
+        var jsonStirng = """{ "ForJson" : 33 , "extra1" : 11, "extra2" : 22 }""";
 
         var c = new MyClass();
 
@@ -590,7 +590,7 @@ public class ExtensionDataTests : TestFixtureBase
             }
         });
 
-        Assert.Equal(@"{""Name"":""Name!"",""Test"":1}", json);
+        Assert.Equal("""{"Name":"Name!","Test":1}""", json);
     }
 
     [Fact]
@@ -601,7 +601,7 @@ public class ExtensionDataTests : TestFixtureBase
             Name = "Name!"
         });
 
-        Assert.Equal(@"{""Name"":""Name!""}", json);
+        Assert.Equal("""{"Name":"Name!"}""", json);
     }
 
     [Fact]
@@ -616,13 +616,14 @@ public class ExtensionDataTests : TestFixtureBase
             }
         });
 
-        Assert.Equal(@"{""Name"":""Name!""}", json);
+        Assert.Equal("""{"Name":"Name!"}""", json);
     }
 
     [Fact]
     public void DeserializeNoReadPublicExtensionData()
     {
-        var c = JsonConvert.DeserializeObject<PublicNoReadExtensionDataAttributeTestClass>(@"{""Name"":""Name!"",""Test"":1}");
+        var c = JsonConvert.DeserializeObject<PublicNoReadExtensionDataAttributeTestClass>(
+            """{"Name":"Name!","Test":1}""");
 
         Assert.Equal(null, c.ExtensionData);
     }
@@ -879,7 +880,7 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void DeserializeNullableProperty()
     {
-        var json = @"{ ""LastActivityDate"":null, ""CustomField1"":""Testing"" }";
+        var json = """{ "LastActivityDate":null, "CustomField1":"Testing" }""";
 
         var c = JsonConvert.DeserializeObject<TestClass>(json);
 
@@ -909,7 +910,7 @@ public class ExtensionDataTests : TestFixtureBase
         {
             Name = "documentName"
         });
-        Assert.Equal(@"{""_name"":""documentName"",""Property1"":123}", json);
+        Assert.Equal("""{"_name":"documentName","Property1":123}""", json);
     }
 
     [Fact]
@@ -919,7 +920,7 @@ public class ExtensionDataTests : TestFixtureBase
         {
             Name = "documentName"
         });
-        Assert.Equal(@"{""_name"":""documentName""}", json);
+        Assert.Equal("""{"_name":"documentName"}""", json);
     }
 
     [Fact]
@@ -935,7 +936,7 @@ public class ExtensionDataTests : TestFixtureBase
     {
         try
         {
-            JsonConvert.DeserializeObject<DocNoSetter>(@"{""_name"":""documentName"",""Property1"":123}");
+            JsonConvert.DeserializeObject<DocNoSetter>("""{"_name":"documentName","Property1":123}""");
         }
         catch (JsonSerializationException exception)
         {

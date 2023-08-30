@@ -24,11 +24,15 @@ public class FSharpTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented, converters);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1,
+              2,
+              3
+            ]
+            """,
+            json);
 
         var l2 = JsonConvert.DeserializeObject<FSharpList<int>>(json, converters);
 
@@ -48,11 +52,15 @@ public class FSharpTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented, converters);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              1,
+              2,
+              3
+            ]
+            """,
+            json);
 
         var l2 = JsonConvert.DeserializeObject<FSharpSet<int>>(json, converters);
 

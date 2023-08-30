@@ -102,9 +102,9 @@ public class MissingMemberHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void MissingMemeber()
+    public void MissingMember()
     {
-        var json = @"{""Missing"":1}";
+        var json = """{"Missing":1}""";
 
         var settings = new JsonSerializerSettings
         {
@@ -132,7 +132,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     [Fact]
     public void MissingErrorAttribute()
     {
-        var json = @"{""Missing"":1}";
+        var json = """{"Missing":1}""";
 
         var settings = new JsonSerializerSettings
         {
@@ -178,7 +178,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         var p = new Person();
 
-        JsonConvert.PopulateObject(@"{nameERROR:{""first"":""hi""}}", p, settings);
+        JsonConvert.PopulateObject("""{nameERROR:{"first":"hi"}}""", p, settings);
 
         Assert.Equal(1, errors.Count);
         Assert.Equal("Could not find member 'nameERROR' on object of type 'Person'. Path 'nameERROR', line 1, position 11.", errors[0]);
@@ -204,7 +204,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         var p = new Person();
 
-        JsonConvert.PopulateObject(@"{name:{""firstERROR"":""hi""}}", p, settings);
+        JsonConvert.PopulateObject("""{name:{"firstERROR":"hi"}}""", p, settings);
 
         Assert.Equal(1, errors.Count);
         Assert.Equal("Could not find member 'firstERROR' on object of type 'Name'. Path 'name.firstERROR', line 1, position 20.", errors[0]);

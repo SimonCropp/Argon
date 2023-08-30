@@ -10,7 +10,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void UsePrivateConstructorIfThereAreMultipleConstructorsWithParametersAndNothingToFallbackTo()
     {
-        var json = @"{Name:""Name!""}";
+        var json = """{Name:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json);
 
@@ -20,7 +20,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPrivateConstructorAndAllowNonPublic()
     {
-        var json = @"{Name:""Name!""}";
+        var json = """{Name:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PrivateConstructorTestClass>(json,
             new JsonSerializerSettings
@@ -36,7 +36,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         XUnitAssert.Throws<Exception>(
             () =>
             {
-                var json = @"{Name:""Name!""}";
+                var json = """{Name:"Name!"}""";
 
                 var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
             });
@@ -44,7 +44,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPrivateConstructorPlusParameterizedAndAllowNonPublic()
     {
-        var json = @"{Name:""Name!""}";
+        var json = """{Name:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json,
             new JsonSerializerSettings
@@ -59,7 +59,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPublicParameterizedConstructor()
     {
-        var json = @"{Name:""Name!""}";
+        var json = """{Name:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorTestClass>(json);
         Assert.NotNull(c);
@@ -69,7 +69,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPublicParameterizedConstructorWhenParameterIsNotAProperty()
     {
-        var json = @"{nameParameter:""Name!""}";
+        var json = """{nameParameter:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithNonPropertyParameterTestClass>(json);
         Assert.NotNull(c);
@@ -79,7 +79,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverter()
     {
-        var json = @"{nameParameter:""Name!""}";
+        var json = """{nameParameter:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterTestClass>(json, new NameContainerConverter());
         Assert.NotNull(c);
@@ -89,7 +89,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithParameterAttribute()
     {
-        var json = @"{nameParameter:""Name!""}";
+        var json = """{nameParameter:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass>(json);
         Assert.NotNull(c);
@@ -99,7 +99,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPublicParameterizedConstructorWhenParameterRequiresAConverterWithPropertyAttribute()
     {
-        var json = @"{name:""Name!""}";
+        var json = """{name:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass>(json);
         Assert.NotNull(c);
@@ -109,7 +109,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void SuccessWithPublicParameterizedConstructorWhenParameterNameConflictsWithPropertyName()
     {
-        var json = @"{name:""1""}";
+        var json = """{name:"1"}""";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflict>(json);
         Assert.NotNull(c);
@@ -119,7 +119,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     [Fact]
     public void PublicParameterizedConstructorWithPropertyNameConflictWithAttribute()
     {
-        var json = @"{name:""1""}";
+        var json = """{name:"1"}""";
 
         var c = JsonConvert.DeserializeObject<PublicParameterizedConstructorWithPropertyNameConflictWithAttribute>(json);
         Assert.NotNull(c);
