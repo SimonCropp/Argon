@@ -143,12 +143,6 @@ static class JsonTypeReflector
         return (JsonConverter) converterCreator(args);
     }
 
-    public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
-    {
-        var converterCreator = creatorCache.Get(namingStrategyType);
-        return (NamingStrategy) converterCreator(args);
-    }
-
     static Func<object[]?, object> GetCreator(Type type)
     {
         var defaultConstructor = type.HasDefaultConstructor(false)
