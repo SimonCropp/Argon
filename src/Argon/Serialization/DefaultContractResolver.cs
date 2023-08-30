@@ -842,7 +842,6 @@ public class DefaultContractResolver : IContractResolver
     /// Creates properties for the given <see cref="JsonContract" />.
     /// </summary>
     /// <param name="type">The type to create properties for.</param>
-    /// ///
     /// <param name="memberSerialization">The member serialization mode for the type.</param>
     /// <returns>Properties for the given <see cref="JsonContract" />.</returns>
     protected virtual IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)

@@ -364,7 +364,6 @@ static class ReflectionUtils
     /// Determines whether the specified MemberInfo can be read.
     /// </summary>
     /// <param name="member">The MemberInfo to determine whether can be read.</param>
-    /// ///
     /// <param name="nonPublic">if set to <c>true</c> then allow the member to be gotten non-publicly.</param>
     /// <returns>
     /// <c>true</c> if the specified MemberInfo can be read; otherwise, <c>false</c>.
