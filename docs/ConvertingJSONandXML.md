@@ -28,17 +28,19 @@ The JsonConvert has two helper methods for converting between JSON and XML. The 
 <!-- snippet: SerializeXmlNode -->
 <a id='snippet-serializexmlnode'></a>
 ```cs
-var xml = @"<?xml version='1.0' standalone='no'?>
-    <root>
-      <person id='1'>
-        <name>Alan</name>
-        <url>http://www.google.com</url>
-      </person>
-      <person id='2'>
-        <name>Louis</name>
-        <url>http://www.yahoo.com</url>
-      </person>
-    </root>";
+var xml = """
+          <?xml version='1.0' standalone='no'?>
+          <root>
+            <person id='1'>
+              <name>Alan</name>
+              <url>http://www.google.com</url>
+            </person>
+            <person id='2'>
+              <name>Louis</name>
+              <url>http://www.yahoo.com</url>
+            </person>
+          </root>
+          """;
 
 var doc = new XmlDocument();
 doc.LoadXml(xml);
@@ -65,7 +67,7 @@ var jsonText = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L14-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L14-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Because multiple nodes with the same name at the same level are grouped together into an array, the conversion process can produce different JSON depending on the number of nodes. For example, if some XML for a user has a single `<Role>` node, then that role will be text against a JSON `"Role"` property, but if the user has multiple `<Role>` nodes, then the role values will be placed in a JSON array.
@@ -75,11 +77,13 @@ To fix this situation a custom XML attribute can be added to force a JSON array 
 <!-- snippet: ForceJsonArray -->
 <a id='snippet-forcejsonarray'></a>
 ```cs
-var xml = @"<person id='1'>
-			  <name>Alan</name>
-			  <url>http://www.google.com</url>
-			  <role>Admin1</role>
-			</person>";
+var xml = """
+          <person id='1'>
+            <name>Alan</name>
+            <url>http://www.google.com</url>
+            <role>Admin1</role>
+          </person>
+          """;
 
 var doc = new XmlDocument();
 doc.LoadXml(xml);
@@ -94,11 +98,13 @@ var json = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 
-xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
-			  <name>Alan</name>
-			  <url>http://www.google.com</url>
-			  <role json:Array='true'>Admin</role>
-			</person>";
+xml = """
+      <person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
+        <name>Alan</name>
+        <url>http://www.google.com</url>
+        <role json:Array='true'>Admin</role>
+      </person>
+      """;
 
 doc = new();
 doc.LoadXml(xml);
@@ -115,7 +121,7 @@ json = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L103-L145' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L105-L151' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -164,5 +170,5 @@ var doc = JsonXmlConvert.DeserializeXmlNode(json);
 //   </person>
 // </root>
 ```
-<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L59-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L61-L99' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

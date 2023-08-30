@@ -13,17 +13,19 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
     {
         #region SerializeXmlNode
 
-        var xml = @"<?xml version='1.0' standalone='no'?>
-            <root>
-              <person id='1'>
-                <name>Alan</name>
-                <url>http://www.google.com</url>
-              </person>
-              <person id='2'>
-                <name>Louis</name>
-                <url>http://www.yahoo.com</url>
-              </person>
-            </root>";
+        var xml = """
+                  <?xml version='1.0' standalone='no'?>
+                  <root>
+                    <person id='1'>
+                      <name>Alan</name>
+                      <url>http://www.google.com</url>
+                    </person>
+                    <person id='2'>
+                      <name>Louis</name>
+                      <url>http://www.yahoo.com</url>
+                    </person>
+                  </root>
+                  """;
 
         var doc = new XmlDocument();
         doc.LoadXml(xml);
@@ -102,11 +104,13 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
     {
         #region ForceJsonArray
 
-        var xml = @"<person id='1'>
-			  <name>Alan</name>
-			  <url>http://www.google.com</url>
-			  <role>Admin1</role>
-			</person>";
+        var xml = """
+                  <person id='1'>
+                    <name>Alan</name>
+                    <url>http://www.google.com</url>
+                    <role>Admin1</role>
+                  </person>
+                  """;
 
         var doc = new XmlDocument();
         doc.LoadXml(xml);
@@ -121,11 +125,13 @@ public class ConvertingJsonAndXmlTests : TestFixtureBase
         //  }
         //}
 
-        xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
-			  <name>Alan</name>
-			  <url>http://www.google.com</url>
-			  <role json:Array='true'>Admin</role>
-			</person>";
+        xml = """
+              <person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
+                <name>Alan</name>
+                <url>http://www.google.com</url>
+                <role json:Array='true'>Admin</role>
+              </person>
+              """;
 
         doc = new();
         doc.LoadXml(xml);

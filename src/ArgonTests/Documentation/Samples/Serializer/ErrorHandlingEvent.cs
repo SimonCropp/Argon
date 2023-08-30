@@ -11,7 +11,9 @@ public class ErrorHandlingEvent : TestFixtureBase
 
         var errors = new List<string>();
 
-        var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
+        var c = JsonConvert.DeserializeObject<List<DateTime>>(
+            """
+            [
               '2009-09-09T00:00:00Z',
               'I am not a date and will error!',
               [
@@ -20,7 +22,8 @@ public class ErrorHandlingEvent : TestFixtureBase
               '1977-02-20T00:00:00Z',
               null,
               '2000-12-01T00:00:00Z'
-            ]",
+            ]
+            """,
             new JsonSerializerSettings
             {
                 Error = (currentObject, originalObject, location, exception, markAsHandled) =>

@@ -9,18 +9,20 @@ public class RegexQuery : TestFixtureBase
     {
         #region RegexQuery
 
-        var array = JArray.Parse(@"[
-              {
-                'PackageId': 'Argon',
-                'Version': '11.0.1',
-                'ReleaseDate': '2018-02-17T00:00:00'
-              },
-              {
-                'PackageId': 'NUnit',
-                'Version': '3.9.0',
-                'ReleaseDate': '2017-11-10T00:00:00'
-              }
-            ]");
+        var array = JArray.Parse("""
+                                 [
+                                   {
+                                     'PackageId': 'Argon',
+                                     'Version': '11.0.1',
+                                     'ReleaseDate': '2018-02-17T00:00:00'
+                                   },
+                                   {
+                                     'PackageId': 'NUnit',
+                                     'Version': '3.9.0',
+                                     'ReleaseDate': '2017-11-10T00:00:00'
+                                   }
+                                 ]
+                                 """);
 
         // Find packages
         var packages = array.SelectTokens("$.[?(@.PackageId =~ /^Argon/)]").ToList();

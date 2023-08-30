@@ -23,6 +23,6 @@ public class SerializeCollection : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(@"[""Starcraft"",""Halo"",""Legend of Zelda""]", json);
+        Assert.Equal("""["Starcraft","Halo","Legend of Zelda"]""", json);
     }
 }

@@ -2561,7 +2561,9 @@ public class XmlNodeConverterTest : TestFixtureBase
             }
             """);
 
-        XUnitAssert.AreEqualNormalized(@"<metrics value=""""><type>CPULOAD</type></metrics>", node.OuterXml);
+        XUnitAssert.AreEqualNormalized(
+            """<metrics value=""><type>CPULOAD</type></metrics>""",
+            node.OuterXml);
     }
 
     [Fact]
@@ -2585,7 +2587,9 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
 
-        XUnitAssert.AreEqualNormalized(@"<root uri=""http://localhost/"" time_span=""00:01:00"" bytes=""SGVsbG8gd29ybGQ="" />", document.OuterXml);
+        XUnitAssert.AreEqualNormalized(
+            """<root uri="http://localhost/" time_span="00:01:00" bytes="SGVsbG8gd29ybGQ=" />""",
+            document.OuterXml);
     }
 
     [Fact]
@@ -2631,38 +2635,40 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DeserializeXNodeDefaultNamespace()
     {
-        var xaml = @"<Grid xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" xmlns:toolkit=""clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"" Style=""{StaticResource trimFormGrid}"" x:Name=""TrimObjectForm"">
-  <Grid.ColumnDefinitions>
-    <ColumnDefinition Width=""63*"" />
-    <ColumnDefinition Width=""320*"" />
-  </Grid.ColumnDefinitions>
-  <Grid.RowDefinitions xmlns="""">
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-  </Grid.RowDefinitions>
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordTypedTitle"" Grid.Column=""1"" Grid.Row=""0"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordExternalReference"" Grid.Column=""1"" Grid.Row=""1"" xmlns="""" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateCreated"" Grid.Column=""1"" Grid.Row=""2"" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateDue, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateDue"" Grid.Column=""1"" Grid.Row=""3"" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Author, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAuthor"" Grid.Column=""1"" Grid.Row=""4"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Container, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordContainer"" Grid.Column=""1"" Grid.Row=""5"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordIsEnclosed"" Grid.Column=""1"" Grid.Row=""6"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Assignee, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAssignee"" Grid.Column=""1"" Grid.Row=""7"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Title (Free Text Part)"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""0"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""External ID"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""1"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Created"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""2"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Due"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""3"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Author"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""4"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Container"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""5"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Enclosed?"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""6"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Assignee"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""7"" xmlns="""" />
-</Grid>";
+        var xaml = """
+                   <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" Style="{StaticResource trimFormGrid}" x:Name="TrimObjectForm">
+                     <Grid.ColumnDefinitions>
+                       <ColumnDefinition Width="63*" />
+                       <ColumnDefinition Width="320*" />
+                     </Grid.ColumnDefinitions>
+                     <Grid.RowDefinitions xmlns="">
+                       <RowDefinition />
+                       <RowDefinition />
+                       <RowDefinition />
+                       <RowDefinition />
+                       <RowDefinition />
+                       <RowDefinition />
+                       <RowDefinition />
+                       <RowDefinition />
+                     </Grid.RowDefinitions>
+                     <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}" Name="RecordTypedTitle" Grid.Column="1" Grid.Row="0" xmlns="" />
+                     <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}" Name="RecordExternalReference" Grid.Column="1" Grid.Row="1" xmlns="" />
+                     <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateCreated" Grid.Column="1" Grid.Row="2" />
+                     <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateDue, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateDue" Grid.Column="1" Grid.Row="3" />
+                     <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Author, Converter={StaticResource trimPropertyConverter}}" Name="RecordAuthor" Grid.Column="1" Grid.Row="4" xmlns="" />
+                     <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Container, Converter={StaticResource trimPropertyConverter}}" Name="RecordContainer" Grid.Column="1" Grid.Row="5" xmlns="" />
+                     <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}" Name="RecordIsEnclosed" Grid.Column="1" Grid.Row="6" xmlns="" />
+                     <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Assignee, Converter={StaticResource trimPropertyConverter}}" Name="RecordAssignee" Grid.Column="1" Grid.Row="7" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="Title (Free Text Part)" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="0" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="External ID" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="1" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="Date Created" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="2" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="Date Due" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="3" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="Author" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="4" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="Container" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="5" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="Enclosed?" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="6" xmlns="" />
+                     <TextBlock Grid.Column="0" Text="Assignee" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="7" xmlns="" />
+                   </Grid>
+                   """;
 
         var json = JsonXmlConvert.SerializeXNode(XDocument.Parse(xaml), Formatting.Indented);
 
@@ -2831,38 +2837,40 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var xaml2 = node.ToString();
 
-        var expectedXaml = @"<Grid xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" xmlns:toolkit=""clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"" Style=""{StaticResource trimFormGrid}"" x:Name=""TrimObjectForm"">
-  <Grid.ColumnDefinitions>
-    <ColumnDefinition Width=""63*"" />
-    <ColumnDefinition Width=""320*"" />
-  </Grid.ColumnDefinitions>
-  <Grid.RowDefinitions xmlns="""">
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-  </Grid.RowDefinitions>
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordTypedTitle"" Grid.Column=""1"" Grid.Row=""0"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordExternalReference"" Grid.Column=""1"" Grid.Row=""1"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Author, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAuthor"" Grid.Column=""1"" Grid.Row=""4"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Container, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordContainer"" Grid.Column=""1"" Grid.Row=""5"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordIsEnclosed"" Grid.Column=""1"" Grid.Row=""6"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Assignee, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAssignee"" Grid.Column=""1"" Grid.Row=""7"" xmlns="""" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateCreated"" Grid.Column=""1"" Grid.Row=""2"" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateDue, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateDue"" Grid.Column=""1"" Grid.Row=""3"" />
-  <TextBlock Grid.Column=""0"" Text=""Title (Free Text Part)"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""0"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""External ID"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""1"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Created"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""2"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Due"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""3"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Author"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""4"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Container"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""5"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Enclosed?"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""6"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Assignee"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""7"" xmlns="""" />
-</Grid>";
+        var expectedXaml = """
+                           <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" Style="{StaticResource trimFormGrid}" x:Name="TrimObjectForm">
+                             <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="63*" />
+                               <ColumnDefinition Width="320*" />
+                             </Grid.ColumnDefinitions>
+                             <Grid.RowDefinitions xmlns="">
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                             </Grid.RowDefinitions>
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}" Name="RecordTypedTitle" Grid.Column="1" Grid.Row="0" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}" Name="RecordExternalReference" Grid.Column="1" Grid.Row="1" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Author, Converter={StaticResource trimPropertyConverter}}" Name="RecordAuthor" Grid.Column="1" Grid.Row="4" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Container, Converter={StaticResource trimPropertyConverter}}" Name="RecordContainer" Grid.Column="1" Grid.Row="5" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}" Name="RecordIsEnclosed" Grid.Column="1" Grid.Row="6" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Assignee, Converter={StaticResource trimPropertyConverter}}" Name="RecordAssignee" Grid.Column="1" Grid.Row="7" xmlns="" />
+                             <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateCreated" Grid.Column="1" Grid.Row="2" />
+                             <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateDue, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateDue" Grid.Column="1" Grid.Row="3" />
+                             <TextBlock Grid.Column="0" Text="Title (Free Text Part)" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="0" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="External ID" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="1" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Date Created" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="2" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Date Due" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="3" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Author" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="4" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Container" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="5" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Enclosed?" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="6" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Assignee" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="7" xmlns="" />
+                           </Grid>
+                           """;
 
         XUnitAssert.AreEqualNormalized(expectedXaml, xaml2);
     }
@@ -3084,38 +3092,40 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var xaml2 = stringWriter.ToString();
 
-        var expectedXaml = @"<Grid xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" xmlns:toolkit=""clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"" Style=""{StaticResource trimFormGrid}"" x:Name=""TrimObjectForm"">
-  <Grid.ColumnDefinitions>
-    <ColumnDefinition Width=""63*"" />
-    <ColumnDefinition Width=""320*"" />
-  </Grid.ColumnDefinitions>
-  <Grid.RowDefinitions xmlns="""">
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-    <RowDefinition />
-  </Grid.RowDefinitions>
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordTypedTitle"" Grid.Column=""1"" Grid.Row=""0"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordExternalReference"" Grid.Column=""1"" Grid.Row=""1"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Author, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAuthor"" Grid.Column=""1"" Grid.Row=""4"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Container, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordContainer"" Grid.Column=""1"" Grid.Row=""5"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordIsEnclosed"" Grid.Column=""1"" Grid.Row=""6"" xmlns="""" />
-  <TextBox Style=""{StaticResource trimFormGrid_TB}"" Text=""{Binding Assignee, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordAssignee"" Grid.Column=""1"" Grid.Row=""7"" xmlns="""" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateCreated"" Grid.Column=""1"" Grid.Row=""2"" />
-  <toolkit:DatePicker Style=""{StaticResource trimFormGrid_DP}"" Value=""{Binding DateDue, Converter={StaticResource trimPropertyConverter}}"" Name=""RecordDateDue"" Grid.Column=""1"" Grid.Row=""3"" />
-  <TextBlock Grid.Column=""0"" Text=""Title (Free Text Part)"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""0"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""External ID"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""1"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Created"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""2"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Date Due"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""3"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Author"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""4"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Container"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""5"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Enclosed?"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""6"" xmlns="""" />
-  <TextBlock Grid.Column=""0"" Text=""Assignee"" Style=""{StaticResource trimFormGrid_LBL}"" Grid.Row=""7"" xmlns="""" />
-</Grid>";
+        var expectedXaml = """
+                           <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" Style="{StaticResource trimFormGrid}" x:Name="TrimObjectForm">
+                             <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="63*" />
+                               <ColumnDefinition Width="320*" />
+                             </Grid.ColumnDefinitions>
+                             <Grid.RowDefinitions xmlns="">
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                               <RowDefinition />
+                             </Grid.RowDefinitions>
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding TypedTitle, Converter={StaticResource trimPropertyConverter}}" Name="RecordTypedTitle" Grid.Column="1" Grid.Row="0" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding ExternalReference, Converter={StaticResource trimPropertyConverter}}" Name="RecordExternalReference" Grid.Column="1" Grid.Row="1" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Author, Converter={StaticResource trimPropertyConverter}}" Name="RecordAuthor" Grid.Column="1" Grid.Row="4" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Container, Converter={StaticResource trimPropertyConverter}}" Name="RecordContainer" Grid.Column="1" Grid.Row="5" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding IsEnclosed, Converter={StaticResource trimPropertyConverter}}" Name="RecordIsEnclosed" Grid.Column="1" Grid.Row="6" xmlns="" />
+                             <TextBox Style="{StaticResource trimFormGrid_TB}" Text="{Binding Assignee, Converter={StaticResource trimPropertyConverter}}" Name="RecordAssignee" Grid.Column="1" Grid.Row="7" xmlns="" />
+                             <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateCreated, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateCreated" Grid.Column="1" Grid.Row="2" />
+                             <toolkit:DatePicker Style="{StaticResource trimFormGrid_DP}" Value="{Binding DateDue, Converter={StaticResource trimPropertyConverter}}" Name="RecordDateDue" Grid.Column="1" Grid.Row="3" />
+                             <TextBlock Grid.Column="0" Text="Title (Free Text Part)" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="0" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="External ID" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="1" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Date Created" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="2" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Date Due" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="3" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Author" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="4" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Container" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="5" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Enclosed?" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="6" xmlns="" />
+                             <TextBlock Grid.Column="0" Text="Assignee" Style="{StaticResource trimFormGrid_LBL}" Grid.Row="7" xmlns="" />
+                           </Grid>
+                           """;
 
         XUnitAssert.AreEqualNormalized(expectedXaml, xaml2);
     }
@@ -3123,21 +3133,23 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void DeserializeAttributePropertyNotAtStart()
     {
-        var json = @"{""item"": {""@action"": ""update"", ""@itemid"": ""1"", ""elements"": [{""@action"": ""none"", ""@id"": ""2""},{""@action"": ""none"", ""@id"": ""3""}],""@description"": ""temp""}}";
+        var json = """{"item": {"@action": "update", "@itemid": "1", "elements": [{"@action": "none", "@id": "2"},{"@action": "none", "@id": "3"}],"@description": "temp"}}""";
 
         var xmldoc = JsonXmlConvert.DeserializeXmlNode(json);
 
-        Assert.Equal(@"<item action=""update"" itemid=""1"" description=""temp""><elements action=""none"" id=""2"" /><elements action=""none"" id=""3"" /></item>", xmldoc.InnerXml);
+        Assert.Equal("""<item action="update" itemid="1" description="temp"><elements action="none" id="2" /><elements action="none" id="3" /></item>""", xmldoc.InnerXml);
     }
 
     [Fact]
     public void SerializingXmlNamespaceScope()
     {
-        var xmlString = @"<root xmlns=""http://www.example.com/ns"">
-  <a/>
-  <bns:b xmlns:bns=""http://www.example.com/ns""/>
-  <c/>
-</root>";
+        var xmlString = """
+                        <root xmlns="http://www.example.com/ns">
+                          <a/>
+                          <bns:b xmlns:bns="http://www.example.com/ns"/>
+                          <c/>
+                        </root>
+                        """;
 
         var xml = XElement.Parse(xmlString);
 
@@ -3145,13 +3157,13 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json1 = JsonConvert.SerializeObject(xml, settings);
 
-        Assert.Equal(@"{""root"":{""@xmlns"":""http://www.example.com/ns"",""a"":null,""bns:b"":{""@xmlns:bns"":""http://www.example.com/ns""},""c"":null}}", json1);
+        Assert.Equal("""{"root":{"@xmlns":"http://www.example.com/ns","a":null,"bns:b":{"@xmlns:bns":"http://www.example.com/ns"},"c":null}}""", json1);
         var xml1 = new XmlDocument();
         xml1.LoadXml(xmlString);
 
         var json2 = JsonConvert.SerializeObject(xml1, settings);
 
-        Assert.Equal(@"{""root"":{""@xmlns"":""http://www.example.com/ns"",""a"":null,""bns:b"":{""@xmlns:bns"":""http://www.example.com/ns""},""c"":null}}", json2);
+        Assert.Equal("""{"root":{"@xmlns":"http://www.example.com/ns","a":null,"bns:b":{"@xmlns:bns":"http://www.example.com/ns"},"c":null}}""", json2);
     }
 
     public class NullableXml
@@ -3180,11 +3192,13 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());
-        var xmlString = @"<root>
-                              <b xmlns='http://www.example.com/ns'>Asd</b>
-                              <c>AAA</c>
-                              <test>adad</test>
-                              </root>";
+        var xmlString = """
+                        <root>
+                        <b xmlns='http://www.example.com/ns'>Asd</b>
+                        <c>AAA</c>
+                        <test>adad</test>
+                        </root>
+                        """;
 
         var xml = XElement.Parse(xmlString);
 
@@ -3203,11 +3217,13 @@ public class XmlNodeConverterTest : TestFixtureBase
             Formatting = Formatting.Indented
         };
         settings.Converters.Add(new XmlNodeConverter());
-        var xmlString = @"<root>
-                              <b xmlns='http://www.example.com/ns'>Asd</b>
-                              <c>AAA</c>
-                              <test>adad</test>
-                              </root>";
+        var xmlString = """
+                        <root>
+                        <b xmlns='http://www.example.com/ns'>Asd</b>
+                        <c>AAA</c>
+                        <test>adad</test>
+                        </root>
+                        """;
 
         var xml = new XmlDocument();
         xml.LoadXml(xmlString);
@@ -3215,7 +3231,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var json = JsonXmlConvert.SerializeXmlNode(xml);
         var xmlBack = JsonConvert.DeserializeObject<XmlDocument>(json, settings);
 
-        Assert.Equal(@"<root><b xmlns=""http://www.example.com/ns"">Asd</b><c>AAA</c><test>adad</test></root>", xmlBack.OuterXml);
+        Assert.Equal("""<root><b xmlns="http://www.example.com/ns">Asd</b><c>AAA</c><test>adad</test></root>""", xmlBack.OuterXml);
     }
 
     [Fact]
@@ -3229,7 +3245,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json2 = JsonXmlConvert.SerializeXmlNode(node);
 
-        Assert.Equal(@"{""DocumentId"":""13779965364495889899""}", json2);
+        Assert.Equal("""{"DocumentId":"13779965364495889899"}""", json2);
     }
 
     [Fact]
@@ -3319,13 +3335,13 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var json = JsonXmlConvert.SerializeXNode(d);
 
-        Assert.Equal(@"{""?xml"":{""@version"":""Version!"",""@encoding"":""Encoding!"",""@standalone"":""Standalone!""}}", json);
+        Assert.Equal("""{"?xml":{"@version":"Version!","@encoding":"Encoding!","@standalone":"Standalone!"}}""", json);
     }
 
     [Fact]
     public void Deserialize_XDocument_NoRootWithDeclaration()
     {
-        var d = JsonXmlConvert.DeserializeXNode(@"{""?xml"":{""@version"":""Version!"",""@encoding"":""Encoding!"",""@standalone"":""Standalone!""}}");
+        var d = JsonXmlConvert.DeserializeXNode("""{"?xml":{"@version":"Version!","@encoding":"Encoding!","@standalone":"Standalone!"}}""");
 
         Assert.Equal(null, d.Root);
         Assert.Equal("Version!", d.Declaration.Version);
@@ -3349,60 +3365,60 @@ public class XmlNodeConverterTest : TestFixtureBase
     public void SerializeElementExplicitAttributeNamespace()
     {
         var original = XElement.Parse("<MyElement xmlns=\"http://example.com\" />");
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", original.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", original.ToString());
 
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(original, settings);
-        Assert.Equal(@"{""MyElement"":{""@xmlns"":""http://example.com""}}", json);
+        Assert.Equal("""{"MyElement":{"@xmlns":"http://example.com"}}""", json);
 
         var deserialized = JsonConvert.DeserializeObject<XElement>(json, settings);
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", deserialized.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", deserialized.ToString());
     }
 
     [Fact]
     public void SerializeElementImplicitAttributeNamespace()
     {
         var original = new XElement("{http://example.com}MyElement");
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", original.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", original.ToString());
 
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(original, settings);
-        Assert.Equal(@"{""MyElement"":{""@xmlns"":""http://example.com""}}", json);
+        Assert.Equal("""{"MyElement":{"@xmlns":"http://example.com"}}""", json);
 
         var deserialized = JsonConvert.DeserializeObject<XElement>(json, settings);
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", deserialized.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", deserialized.ToString());
     }
 
     [Fact]
     public void SerializeDocumentExplicitAttributeNamespace()
     {
         var original = XDocument.Parse("<MyElement xmlns=\"http://example.com\" />");
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", original.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", original.ToString());
 
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(original, settings);
-        Assert.Equal(@"{""MyElement"":{""@xmlns"":""http://example.com""}}", json);
+        Assert.Equal("""{"MyElement":{"@xmlns":"http://example.com"}}""", json);
 
         var deserialized = JsonConvert.DeserializeObject<XDocument>(json, settings);
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", deserialized.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", deserialized.ToString());
     }
 
     [Fact]
     public void SerializeDocumentImplicitAttributeNamespace()
     {
         var original = new XDocument(new XElement("{http://example.com}MyElement"));
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", original.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", original.ToString());
 
         var settings = new JsonSerializerSettings();
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(original, settings);
-        Assert.Equal(@"{""MyElement"":{""@xmlns"":""http://example.com""}}", json);
+        Assert.Equal("""{"MyElement":{"@xmlns":"http://example.com"}}""", json);
 
         var deserialized = JsonConvert.DeserializeObject<XDocument>(json, settings);
-        Assert.Equal(@"<MyElement xmlns=""http://example.com"" />", deserialized.ToString());
+        Assert.Equal("""<MyElement xmlns="http://example.com" />""", deserialized.ToString());
     }
 
     public class Model
@@ -3436,7 +3452,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         {
             serializer.Serialize(jsonWriter, model);
 
-            Assert.Equal(@"{""Document"":{""Value"":{""@foo"":""bar"",""#text"":""2001-01-01T11:11:11""}}}", json.ToString());
+            Assert.Equal("""{"Document":{"Value":{"@foo":"bar","#text":"2001-01-01T11:11:11"}}}""", json.ToString());
         }
 
         using (var stringReader = new StringReader(json.ToString()))
@@ -3444,9 +3460,13 @@ public class XmlNodeConverterTest : TestFixtureBase
         {
             var document = (XDocument) serializer.Deserialize(jsonReader, typeof(XDocument));
 
-            XUnitAssert.AreEqualNormalized(@"<Document>
-  <Value foo=""bar"">2001-01-01T11:11:11</Value>
-</Document>", document.ToString());
+            XUnitAssert.AreEqualNormalized(
+                """
+                <Document>
+                  <Value foo="bar">2001-01-01T11:11:11</Value>
+                </Document>
+                """,
+                document.ToString());
         }
     }
 }

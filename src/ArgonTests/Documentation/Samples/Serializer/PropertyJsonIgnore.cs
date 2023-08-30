@@ -35,6 +35,6 @@ public class PropertyJsonIgnore : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(@"{""FullName"":""Joe User"",""EmailAddress"":""joe@example.com""}", json);
+        Assert.Equal("""{"FullName":"Joe User","EmailAddress":"joe@example.com"}""", json);
     }
 }

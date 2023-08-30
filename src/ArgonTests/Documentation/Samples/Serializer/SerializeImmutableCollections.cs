@@ -27,10 +27,14 @@ public class SerializeImmutableCollections : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""One"",
-  ""II"",
-  ""3""
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "One",
+              "II",
+              "3"
+            ]
+            """,
+            json);
     }
 }

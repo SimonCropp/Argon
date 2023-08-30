@@ -182,11 +182,13 @@ public class LinqToJsonTests : TestFixtureBase
     {
         #region LinqToJsonCreateParseArray
 
-        var json = @"[
-              'Small',
-              'Medium',
-              'Large'
-            ]";
+        var json = """
+                   [
+                     'Small',
+                     'Medium',
+                     'Large'
+                   ]
+                   """;
 
         var a = JArray.Parse(json);
 

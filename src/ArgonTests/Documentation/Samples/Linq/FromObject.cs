@@ -69,9 +69,13 @@ public class FromObject : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""DVD"",
-  ""SSD""
-]", a.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "DVD",
+              "SSD"
+            ]
+            """,
+            a.ToString());
     }
 }

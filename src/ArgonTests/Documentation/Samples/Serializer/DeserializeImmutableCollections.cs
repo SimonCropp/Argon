@@ -11,11 +11,13 @@ public class DeserializeImmutableCollections : TestFixtureBase
     {
         #region DeserializeImmutableCollections
 
-        var json = @"[
-              'One',
-              'II',
-              '3'
-            ]";
+        var json = """
+                   [
+                     'One',
+                     'II',
+                     '3'
+                   ]
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableList<string>>(json);
 

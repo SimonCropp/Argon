@@ -7,7 +7,9 @@ This sample uses the `Argon.JsonSerializerSettings.Error` event to ignore the ex
 ```cs
 var errors = new List<string>();
 
-var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
+var c = JsonConvert.DeserializeObject<List<DateTime>>(
+    """
+    [
       '2009-09-09T00:00:00Z',
       'I am not a date and will error!',
       [
@@ -16,7 +18,8 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
       '1977-02-20T00:00:00Z',
       null,
       '2000-12-01T00:00:00Z'
-    ]",
+    ]
+    """,
     new JsonSerializerSettings
     {
         Error = (currentObject, originalObject, location, exception, markAsHandled) =>
@@ -35,5 +38,5 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
 // Unexpected token parsing date. Expected String, got StartArray.
 // Cannot convert null value to System.DateTime.
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L10-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingeventusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L10-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingeventusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

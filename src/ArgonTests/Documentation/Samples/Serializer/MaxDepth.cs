@@ -9,15 +9,17 @@ public class MaxDepth : TestFixtureBase
     {
         #region MaxDepth
 
-        var json = @"[
-              [
-                [
-                  '1',
-                  'Two',
-                  'III'
-                ]
-              ]
-            ]";
+        var json = """
+                   [
+                     [
+                       [
+                         '1',
+                         'Two',
+                         'III'
+                       ]
+                     ]
+                   ]
+                   """;
 
         try
         {

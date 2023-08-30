@@ -9,14 +9,17 @@ public class ErrorWhenNoMatchQuery : TestFixtureBase
     {
         #region ErrorWhenNoMatchQuery
 
-        var items = JArray.Parse(@"[
+        var items = JArray.Parse(
+            """
+            [
               {
                 'Name': 'John Doe',
               },
               {
                 'Name': 'Jane Doe',
               }
-            ]");
+            ]
+            """);
 
         // A true value for errorWhenNoMatch will result in an error if the queried value is missing
         string result;

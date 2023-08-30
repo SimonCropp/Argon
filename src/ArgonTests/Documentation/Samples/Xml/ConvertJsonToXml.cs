@@ -46,16 +46,20 @@ public class ConvertJsonToXml : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"<Root Id=""1"">
-  <Email>james@example.com</Email>
-  <Active>true</Active>
-  <CreatedDate>2013-01-20T00:00:00Z</CreatedDate>
-  <Roles>User</Roles>
-  <Roles>Admin</Roles>
-  <Team Id=""2"">
-    <Name>Software Developers</Name>
-    <Description>Creators of fine software products and services.</Description>
-  </Team>
-</Root>", node.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            <Root Id="1">
+              <Email>james@example.com</Email>
+              <Active>true</Active>
+              <CreatedDate>2013-01-20T00:00:00Z</CreatedDate>
+              <Roles>User</Roles>
+              <Roles>Admin</Roles>
+              <Team Id="2">
+                <Name>Software Developers</Name>
+                <Description>Creators of fine software products and services.</Description>
+              </Team>
+            </Root>
+            """,
+            node.ToString());
     }
 }

@@ -48,6 +48,6 @@ public class SerializeExtensionData : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(@"{""TaxRate"":0.15,""HourlyRate"":150,""Hours"":40}", result);
+        Assert.Equal("""{"TaxRate":0.15,"HourlyRate":150,"Hours":40}""", result);
     }
 }

@@ -11,11 +11,13 @@ public class ParseJsonArray : TestFixtureBase
     {
         #region ParseJsonArray
 
-        var json = @"[
-              'Small',
-              'Medium',
-              'Large'
-            ]";
+        var json = """
+                   [
+                     'Small',
+                     'Medium',
+                     'Large'
+                   ]
+                   """;
 
         var a = JArray.Parse(json);
 
@@ -28,10 +30,14 @@ public class ParseJsonArray : TestFixtureBase
 
         #endregion
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""Small"",
-  ""Medium"",
-  ""Large""
-]", a.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "Small",
+              "Medium",
+              "Large"
+            ]
+            """,
+            a.ToString());
     }
 }

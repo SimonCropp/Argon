@@ -227,28 +227,30 @@ public class CustomJsonReader : TestFixtureBase
     {
         #region CustomJsonReaderUsage
 
-        var xml = @"<Root type=""Object"">
-              <Null type=""Null"" />
-              <String type=""String"">This is a string!</String>
-              <Char type=""String"">!</Char>
-              <Integer type=""Integer"">123</Integer>
-              <DateTime type=""Date"">2001-02-22T20:59:59Z</DateTime>
-              <DateTimeOffset type=""Date"">2001-02-22T20:59:59+12:00</DateTimeOffset>
-              <Float type=""Float"">1.1</Float>
-              <Double type=""Float"">3.14</Double>
-              <Decimal type=""Float"">19.95</Decimal>
-              <Guid type=""Guid"">d66eab59-3715-4b35-9e06-fa61c1216eaa</Guid>
-              <Uri type=""Uri"">http://james.newtonking.com</Uri>
-              <Array type=""Array"">
-                <Item type=""Integer"">1</Item>
-                <Item type=""Bytes"">SGVsbG8gd29ybGQh</Item>
-                <Item type=""Boolean"">True</Item>
-              </Array>
-              <Object type=""Object"">
-                <String type=""String"">This is a string!</String>
-                <Null type=""Null"" />
-              </Object>
-            </Root>";
+        var xml = """
+                  <Root type="Object">
+                    <Null type="Null" />
+                    <String type="String">This is a string!</String>
+                    <Char type="String">!</Char>
+                    <Integer type="Integer">123</Integer>
+                    <DateTime type="Date">2001-02-22T20:59:59Z</DateTime>
+                    <DateTimeOffset type="Date">2001-02-22T20:59:59+12:00</DateTimeOffset>
+                    <Float type="Float">1.1</Float>
+                    <Double type="Float">3.14</Double>
+                    <Decimal type="Float">19.95</Decimal>
+                    <Guid type="Guid">d66eab59-3715-4b35-9e06-fa61c1216eaa</Guid>
+                    <Uri type="Uri">http://james.newtonking.com</Uri>
+                    <Array type="Array">
+                      <Item type="Integer">1</Item>
+                      <Item type="Bytes">SGVsbG8gd29ybGQh</Item>
+                      <Item type="Boolean">True</Item>
+                    </Array>
+                    <Object type="Object">
+                      <String type="String">This is a string!</String>
+                      <Null type="Null" />
+                    </Object>
+                  </Root>
+                  """;
 
         var sr = new StringReader(xml);
 

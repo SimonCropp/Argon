@@ -5,16 +5,18 @@ This sample loads JSON and then queries values from it using `Argon.JToken.Selec
 <!-- snippet: StrictEqualsQueryUsage -->
 <a id='snippet-strictequalsqueryusage'></a>
 ```cs
-var items = JArray.Parse(@"[
-      {
-        'Name': 'Valid JSON',
-        'Valid': true
-      },
-      {
-        'Name': 'Invalid JSON',
-        'Valid': 'true'
-      }
-    ]");
+var items = JArray.Parse("""
+                         [
+                           {
+                             'Name': 'Valid JSON',
+                             'Valid': true
+                           },
+                           {
+                             'Name': 'Invalid JSON',
+                             'Valid': 'true'
+                           }
+                         ]
+                         """);
 
 // Use === operator. Compared types must be the same to be valid
 var strictResults = items.SelectTokens("$.[?(@.Valid === true)]").ToList();
@@ -26,5 +28,5 @@ foreach (var item in strictResults)
 
 // Valid JSON
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-strictequalsqueryusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-strictequalsqueryusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -9,16 +9,18 @@ public class StrictEqualsQuery : TestFixtureBase
     {
         #region StrictEqualsQueryUsage
 
-        var items = JArray.Parse(@"[
-              {
-                'Name': 'Valid JSON',
-                'Valid': true
-              },
-              {
-                'Name': 'Invalid JSON',
-                'Valid': 'true'
-              }
-            ]");
+        var items = JArray.Parse("""
+                                 [
+                                   {
+                                     'Name': 'Valid JSON',
+                                     'Valid': true
+                                   },
+                                   {
+                                     'Name': 'Invalid JSON',
+                                     'Valid': 'true'
+                                   }
+                                 ]
+                                 """);
 
         // Use === operator. Compared types must be the same to be valid
         var strictResults = items.SelectTokens("$.[?(@.Valid === true)]").ToList();

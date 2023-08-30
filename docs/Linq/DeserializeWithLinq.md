@@ -20,18 +20,20 @@ public class BlogPost
 <!-- snippet: DeserializeWithLinqUsage -->
 <a id='snippet-deserializewithlinqusage'></a>
 ```cs
-var json = @"[
-      {
-        'Title': 'Json.NET is awesome!',
-        'Author': {
-          'Name': 'James Newton-King',
-          'Twitter': '@JamesNK',
-          'Picture': '/jamesnk.png'
-        },
-        'Date': '2013-01-23T19:30:00',
-        'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
-      }
-    ]";
+var json = """
+           [
+             {
+               'Title': 'Json.NET is awesome!',
+               'Author': {
+                 'Name': 'James Newton-King',
+                 'Twitter': '@JamesNK',
+                 'Picture': '/jamesnk.png'
+               },
+               'Date': '2013-01-23T19:30:00',
+               'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
+             }
+           ]
+           """;
 
 var blogPostArray = JArray.Parse(json);
 
@@ -48,5 +50,5 @@ Console.WriteLine(blogPosts[0].Body);
 // <h3>Title!</h3>
 // <p>Content!</p>
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L25-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L25-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

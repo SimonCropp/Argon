@@ -40,6 +40,8 @@ public class SerializeUnindentedJson : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(@"{""Email"":""james@example.com"",""Active"":true,""CreatedDate"":""2013-01-20T00:00:00Z"",""Roles"":[""User"",""Admin""]}", json);
+        Assert.Equal(
+            """{"Email":"james@example.com","Active":true,"CreatedDate":"2013-01-20T00:00:00Z","Roles":["User","Admin"]}""",
+            json);
     }
 }

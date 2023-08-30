@@ -49,7 +49,11 @@ public class DemoTests : TestFixtureBase
         Assert.Equal(0, r2.Green);
         Assert.Equal(0, r2.Blue);
 
-        Assert.Equal(@"""#FF0000""", json);
+        Assert.Equal(
+            """
+            "#FF0000"
+            """,
+            json);
     }
 
     public class PersonDemo
@@ -589,18 +593,21 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void JsonPathRegex()
     {
-        var array = JArray.Parse(@"[
+        var array = JArray.Parse(
+            """
+            [
               {
-                ""PackageId"": ""Argon"",
-                ""Version"": ""11.0.1"",
-                ""ReleaseDate"": ""2018-02-17T00:00:00""
+                "PackageId": "Argon",
+                "Version": "11.0.1",
+                "ReleaseDate": "2018-02-17T00:00:00"
               },
               {
-                ""PackageId"": ""NUnit"",
-                ""Version"": ""3.9.0"",
-                ""ReleaseDate"": ""2017-11-10T00:00:00""
+                "PackageId": "NUnit",
+                "Version": "3.9.0",
+                "ReleaseDate": "2017-11-10T00:00:00"
               }
-            ]");
+            ]
+            """);
 
         var packages = array.SelectTokens("$.[?(@.PackageId =~ /^Argon/)]").ToList();
 
