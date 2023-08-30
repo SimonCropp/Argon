@@ -186,16 +186,19 @@ public class SerializationTests : TestFixtureBase
 
         var errors = new List<string>();
 
-        var c = JsonConvert.DeserializeObject<List<DateTime>>(@"[
-                  '2009-09-09T00:00:00Z',
-                  'I am not a date and will error!',
-                  [
-                    1
-                  ],
-                  '1977-02-20T00:00:00Z',
-                  null,
-                  '2000-12-01T00:00:00Z'
-                ]",
+        var c = JsonConvert.DeserializeObject<List<DateTime>>(
+            """
+            [
+              '2009-09-09T00:00:00Z',
+              'I am not a date and will error!',
+              [
+                1
+              ],
+              '1977-02-20T00:00:00Z',
+              null,
+              '2000-12-01T00:00:00Z'
+            ]
+            """,
             new JsonSerializerSettings
             {
                 Error = (currentObject, originalObject, location, exception, markAsHandled) =>
@@ -627,20 +630,22 @@ public class SerializationTests : TestFixtureBase
     {
         #region SerializingCollectionsDeserializing
 
-        var json = @"[
-              {
-                'Name': 'Product 1',
-                'ExpiryDate': '2000-12-29T00:00Z',
-                'Price': 99.95,
-                'Sizes': null
-              },
-              {
-                'Name': 'Product 2',
-                'ExpiryDate': '2009-07-31T00:00Z',
-                'Price': 12.50,
-                'Sizes': null
-              }
-            ]";
+        var json = """
+                   [
+                     {
+                       'Name': 'Product 1',
+                       'ExpiryDate': '2000-12-29T00:00Z',
+                       'Price': 99.95,
+                       'Sizes': null
+                     },
+                     {
+                       'Name': 'Product 2',
+                       'ExpiryDate': '2009-07-31T00:00Z',
+                       'Price': 12.50,
+                       'Sizes': null
+                     }
+                   ]
+                   """;
 
         var products = JsonConvert.DeserializeObject<List<Product>>(json);
 
@@ -662,7 +667,7 @@ public class SerializationTests : TestFixtureBase
     {
         #region SerializingCollectionsDeserializingDictionaries
 
-        var json = @"{""key1"":""value1"",""key2"":""value2""}";
+        var json = """{"key1":"value1","key2":"value2"}""";
 
         var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 

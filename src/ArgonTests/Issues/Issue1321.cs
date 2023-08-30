@@ -10,7 +10,7 @@ public class Issue1321 : TestFixtureBase
             () =>
             {
                 JsonConvert.DeserializeObject(
-                    @"[""1"",",
+                    """["1",""",
                     new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None, MaxDepth = 1024});
             },
             "Unexpected end when reading token. Path ''.");
@@ -22,7 +22,7 @@ public class Issue1321 : TestFixtureBase
 
         var writer = a.CreateWriter();
 
-        var reader = new JsonTextReader(new StringReader(@"[""1"","));
+        var reader = new JsonTextReader(new StringReader("""["1","""));
 
         XUnitAssert.Throws<JsonWriterException>(
             () => writer.WriteToken(reader),
@@ -36,7 +36,7 @@ public class Issue1321 : TestFixtureBase
 
         var writer = a.CreateWriter();
 
-        var reader = new JsonTextReader(new StringReader(@"[""1"","));
+        var reader = new JsonTextReader(new StringReader("""["1","""));
 
         await XUnitAssert.ThrowsAsync<JsonWriterException>(
             () => writer.WriteTokenAsync(reader),
@@ -50,7 +50,7 @@ public class Issue1321 : TestFixtureBase
 
         var writer = a.CreateWriter();
 
-        var reader = new JsonTextReader(new StringReader(@"[""1"","));
+        var reader = new JsonTextReader(new StringReader("""["1","""));
         reader.Read();
 
         XUnitAssert.Throws<JsonWriterException>(
@@ -65,7 +65,7 @@ public class Issue1321 : TestFixtureBase
 
         var writer = a.CreateWriter();
 
-        var reader = new JsonTextReader(new StringReader(@"[""1"","));
+        var reader = new JsonTextReader(new StringReader("""["1","""));
         await reader.ReadAsync();
 
         await XUnitAssert.ThrowsAsync<JsonWriterException>(
@@ -80,7 +80,7 @@ public class Issue1321 : TestFixtureBase
 
         var writer = a.CreateWriter();
 
-        var reader = new JsonTextReader(new StringReader(@"[[""1"","));
+        var reader = new JsonTextReader(new StringReader("""[["1","""));
         reader.Read();
         reader.Read();
 
@@ -96,7 +96,7 @@ public class Issue1321 : TestFixtureBase
 
         var writer = a.CreateWriter();
 
-        var reader = new JsonTextReader(new StringReader(@"[[""1"","));
+        var reader = new JsonTextReader(new StringReader("""[["1","""));
         await reader.ReadAsync();
         await reader.ReadAsync();
 
@@ -112,7 +112,7 @@ public class Issue1321 : TestFixtureBase
         var jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.WriteStartArray();
 
-        var reader = new JsonTextReader(new StringReader(@"[[""1"","));
+        var reader = new JsonTextReader(new StringReader("""[["1","""));
         reader.Read();
         reader.Read();
 
@@ -128,7 +128,7 @@ public class Issue1321 : TestFixtureBase
         var jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.WriteStartArray();
 
-        var reader = new JsonTextReader(new StringReader(@"[[""1"","));
+        var reader = new JsonTextReader(new StringReader("""[["1","""));
         await reader.ReadAsync();
         await reader.ReadAsync();
 

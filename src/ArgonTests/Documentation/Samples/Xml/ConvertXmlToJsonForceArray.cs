@@ -11,11 +11,13 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
     {
         #region ConvertXmlToJsonForceArray
 
-        var xml = @"<person id='1'>
-              <name>Alan</name>
-              <url>http://www.google.com</url>
-              <role>Admin1</role>
-            </person>";
+        var xml = """
+                  <person id='1'>
+                    <name>Alan</name>
+                    <url>http://www.google.com</url>
+                    <role>Admin1</role>
+                  </person>
+                  """;
 
         var doc = new XmlDocument();
         doc.LoadXml(xml);
@@ -32,11 +34,13 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
         //   }
         // }
 
-        xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
-              <name>Alan</name>
-              <url>http://www.google.com</url>
-              <role json:Array='true'>Admin</role>
-            </person>";
+        xml = """
+              <person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
+                <name>Alan</name>
+                <url>http://www.google.com</url>
+                <role json:Array='true'>Admin</role>
+              </person>
+              """;
 
         doc = new();
         doc.LoadXml(xml);
@@ -57,6 +61,6 @@ public class ConvertXmlToJsonForceArray : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(@"{""person"":{""@id"":""1"",""name"":""Alan"",""url"":""http://www.google.com"",""role"":[""Admin""]}}", json);
+        Assert.Equal("""{"person":{"@id":"1","name":"Alan","url":"http://www.google.com","role":["Admin"]}}""", json);
     }
 }
