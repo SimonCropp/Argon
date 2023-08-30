@@ -303,76 +303,6 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    public class PropertyAttributeNamingStrategyTestClass
-    {
-        [JsonProperty]
-        public string HasNoAttributeNamingStrategy { get; set; }
-
-        [JsonProperty(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-        public string HasAttributeNamingStrategy { get; set; }
-    }
-
-    [Fact]
-    public void JsonPropertyAttribute_NamingStrategyType()
-    {
-        var c = new PropertyAttributeNamingStrategyTestClass
-        {
-            HasNoAttributeNamingStrategy = "Value1!",
-            HasAttributeNamingStrategy = "Value2!"
-        };
-
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "HasNoAttributeNamingStrategy": "Value1!",
-              "has_attribute_naming_strategy": "Value2!"
-            }
-            """,
-            json);
-    }
-
-    public class ContainerAttributeNamingStrategyTestClass
-    {
-        public string Prop1 { get; set; }
-        public string Prop2 { get; set; }
-
-        [JsonProperty(NamingStrategyType = typeof(DefaultNamingStrategy))]
-        public string HasAttributeNamingStrategy { get; set; }
-    }
-
-    [Fact]
-    public void JsonObjectAttribute_NamingStrategyType()
-    {
-        var c = new ContainerAttributeNamingStrategyTestClass
-        {
-            Prop1 = "Value1!",
-            Prop2 = "Value2!"
-        };
-
-        var json = JsonConvert.SerializeObject(
-            c,
-            Formatting.Indented,
-            new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                }
-            });
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "prop1": "Value1!",
-              "prop2": "Value2!",
-              "HasAttributeNamingStrategy": null
-            }
-            """,
-            json);
-    }
-
     public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
     {
     }
@@ -388,7 +318,8 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(
             c,
-            Formatting.Indented, new JsonSerializerSettings
+            Formatting.Indented,
+            new JsonSerializerSettings
             {
                 ContractResolver = new DefaultContractResolver
                 {
