@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <LangVersion>11.0</LangVersion>
+    <LangVersion>preview</LangVersion>
     <Version>0.7.2</Version>
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <Copyright>Copyright © James Newton-King 2008, Copyright © Simon Cropp 2022</Copyright>
