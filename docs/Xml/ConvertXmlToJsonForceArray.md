@@ -5,11 +5,13 @@ This sample reads the `json:Array='true'` attribute in the XML and places its va
 <!-- snippet: ConvertXmlToJsonForceArray -->
 <a id='snippet-convertxmltojsonforcearray'></a>
 ```cs
-var xml = @"<person id='1'>
-      <name>Alan</name>
-      <url>http://www.google.com</url>
-      <role>Admin1</role>
-    </person>";
+var xml = """
+          <person id='1'>
+            <name>Alan</name>
+            <url>http://www.google.com</url>
+            <role>Admin1</role>
+          </person>
+          """;
 
 var doc = new XmlDocument();
 doc.LoadXml(xml);
@@ -26,11 +28,13 @@ Console.WriteLine(json);
 //   }
 // }
 
-xml = @"<person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
-      <name>Alan</name>
-      <url>http://www.google.com</url>
-      <role json:Array='true'>Admin</role>
-    </person>";
+xml = """
+      <person xmlns:json='http://james.newtonking.com/projects/json' id='1'>
+        <name>Alan</name>
+        <url>http://www.google.com</url>
+        <role json:Array='true'>Admin</role>
+      </person>
+      """;
 
 doc = new();
 doc.LoadXml(xml);
@@ -49,5 +53,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L12-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L12-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
