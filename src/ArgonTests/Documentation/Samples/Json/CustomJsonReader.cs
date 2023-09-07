@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using System.Xml;
+// ReSharper disable UnusedVariable
 
 #region CustomJsonReaderTypes
 

@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 // ReSharper disable UnusedVariable
+// ReSharper disable PossibleMultipleEnumeration
 namespace Argon.Tests.Documentation;
 
 public class LinqToJsonTests : TestFixtureBase

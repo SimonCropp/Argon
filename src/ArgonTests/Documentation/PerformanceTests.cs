@@ -2,6 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+// ReSharper disable UnusedVariable
 namespace Argon.Tests.Documentation;
 
 #region JsonConverterAttribute
@@ -9,11 +10,8 @@ namespace Argon.Tests.Documentation;
 [JsonConverter(typeof(PersonConverter))]
 public class Person
 {
-    public Person() =>
-        Likes = new List<string>();
-
     public string Name { get; set; }
-    public IList<string> Likes { get; }
+    public IList<string> Likes { get; } = new List<string>();
 }
 
 #endregion

@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.Net;
 using TestObjects;
+// ReSharper disable UnusedVariable
 
 public class TypeNameHandlingTests : TestFixtureBase
 {

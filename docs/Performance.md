@@ -32,7 +32,7 @@ JsonConvert.SerializeObject(person, new JsonSerializerSettings
     Formatting = Formatting.Indented
 });
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L55-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-reusecontractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L53-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-reusecontractresolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -55,7 +55,7 @@ var json = client.GetStringAsync("http://www.test.com/large.json").Result;
 
 var p = JsonConvert.DeserializeObject<Person>(json);
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L106-L116' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L104-L114' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestring' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeStream -->
@@ -69,7 +69,7 @@ var serializer = new JsonSerializer();
 // json size doesn't matter because only a small piece is read at a time from the stream
 var p = serializer.Deserialize<Person>(reader);
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L121-L131' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L119-L129' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -85,14 +85,11 @@ There are a couple of ways to continue to use JsonConverters without any overhea
 [JsonConverter(typeof(PersonConverter))]
 public class Person
 {
-    public Person() =>
-        Likes = new List<string>();
-
     public string Name { get; set; }
-    public IList<string> Likes { get; }
+    public IList<string> Likes { get; } = new List<string>();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L7-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by creating a `Argon.IContractResolver`.
@@ -156,7 +153,7 @@ public static string ToJson(this Person p)
     return stringWriter.ToString();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L137-L167' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L135-L165' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If performance is important, then this is the best choice. More about using JsonReader/JsonWriter here: [ReadingWritingJSON]

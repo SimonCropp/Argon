@@ -631,10 +631,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class EnumerableClassFailure<T> : IEnumerable<T>
     {
-        readonly IList<T> values;
-
-        public EnumerableClassFailure() =>
-            values = new List<T>();
+        readonly IList<T> values = new List<T>();
 
         public IEnumerator<T> GetEnumerator() =>
             values.GetEnumerator();
@@ -908,10 +905,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class GenericListTestClass
     {
-        public List<string> GenericList { get; set; }
-
-        public GenericListTestClass() =>
-            GenericList = new();
+        public List<string> GenericList { get; set; } = new();
     }
 
     [Fact]
@@ -1143,76 +1137,64 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class PopulateReadOnlyTestClass
     {
-        public IList<int> NonReadOnlyList { get; set; }
-        public IDictionary<string, int> NonReadOnlyDictionary { get; set; }
-
-        public IList<int> Array { get; set; }
-
-        public IList<int> List { get; set; }
-        public IDictionary<string, int> Dictionary { get; set; }
-
-        public IReadOnlyCollection<int> IReadOnlyCollection { get; set; }
-        public ReadOnlyCollection<int> ReadOnlyCollection { get; set; }
-        public IReadOnlyList<int> IReadOnlyList { get; set; }
-
-        public IReadOnlyDictionary<string, int> IReadOnlyDictionary { get; set; }
-        public ReadOnlyDictionary<string, int> ReadOnlyDictionary { get; set; }
-
-        public PopulateReadOnlyTestClass()
+        public IList<int> NonReadOnlyList { get; set; } = new List<int>
         {
-            NonReadOnlyList = new List<int>
-            {
-                1
-            };
-            NonReadOnlyDictionary = new Dictionary<string, int>
-            {
-                {
-                    "first", 2
-                }
-            };
+            1
+        };
 
-            Array = new[]
+        public IDictionary<string, int> NonReadOnlyDictionary { get; set; } = new Dictionary<string, int>
+        {
             {
-                3
-            };
+                "first", 2
+            }
+        };
 
-            List = new ReadOnlyCollection<int>(new[]
-            {
-                4
-            });
-            Dictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
-            {
-                {
-                    "first", 5
-                }
-            });
+        public IList<int> Array { get; set; } = new[]
+        {
+            3
+        };
 
-            IReadOnlyCollection = new ReadOnlyCollection<int>(new[]
-            {
-                6
-            });
-            ReadOnlyCollection = new(new[]
-            {
-                7
-            });
-            IReadOnlyList = new ReadOnlyCollection<int>(new[]
-            {
-                8
-            });
+        public IList<int> List { get; set; } = new ReadOnlyCollection<int>(new[]
+        {
+            4
+        });
 
-            IReadOnlyDictionary = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
+        public IDictionary<string, int> Dictionary { get; set; } = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
+        {
             {
-                {
-                    "first", 9
-                }
-            });
-            ReadOnlyDictionary = new(new Dictionary<string, int>
+                "first", 5
+            }
+        });
+
+        public IReadOnlyCollection<int> IReadOnlyCollection { get; set; } = new ReadOnlyCollection<int>(new[]
+        {
+            6
+        });
+
+        public ReadOnlyCollection<int> ReadOnlyCollection { get; set; } = new(new[]
+        {
+            7
+        });
+
+        public IReadOnlyList<int> IReadOnlyList { get; set; } = new ReadOnlyCollection<int>(new[]
+        {
+            8
+        });
+
+        public IReadOnlyDictionary<string, int> IReadOnlyDictionary { get; set; } = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
+        {
+            {
+                "first", 9
+            }
+        });
+
+        public ReadOnlyDictionary<string, int> ReadOnlyDictionary { get; set; } =
+            new(new Dictionary<string, int>
             {
                 {
                     "first", 10
                 }
             });
-        }
     }
 
     [Fact]
@@ -1264,39 +1246,39 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void PopulateReadOnlyCollections()
     {
         var json = """
-            {
-              "NonReadOnlyList": [
-                11
-              ],
-              "NonReadOnlyDictionary": {
-                "first": 12
-              },
-              "Array": [
-                13
-              ],
-              "List": [
-                14
-              ],
-              "Dictionary": {
-                "first": 15
-              },
-              "IReadOnlyCollection": [
-                16
-              ],
-              "ReadOnlyCollection": [
-                17
-              ],
-              "IReadOnlyList": [
-                18
-              ],
-              "IReadOnlyDictionary": {
-                "first": 19
-              },
-              "ReadOnlyDictionary": {
-                "first": 20
-              }
-            }
-            """;
+                   {
+                     "NonReadOnlyList": [
+                       11
+                     ],
+                     "NonReadOnlyDictionary": {
+                       "first": 12
+                     },
+                     "Array": [
+                       13
+                     ],
+                     "List": [
+                       14
+                     ],
+                     "Dictionary": {
+                       "first": 15
+                     },
+                     "IReadOnlyCollection": [
+                       16
+                     ],
+                     "ReadOnlyCollection": [
+                       17
+                     ],
+                     "IReadOnlyList": [
+                       18
+                     ],
+                     "IReadOnlyDictionary": {
+                       "first": 19
+                     },
+                     "ReadOnlyDictionary": {
+                       "first": 20
+                     }
+                   }
+                   """;
 
         var c2 = JsonConvert.DeserializeObject<PopulateReadOnlyTestClass>(json);
 
@@ -1535,61 +1517,61 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void DeserializeArray3DWithConverter()
     {
         var json = """
-            {
-              "Before": "Before!",
-              "Coordinates": [
-                [
-                  [
-                    1.0,
-                    1.0,
-                    1.0
-                  ],
-                  [
-                    1.0,
-                    1.0,
-                    2.0
-                  ]
-                ],
-                [
-                  [
-                    1.0,
-                    2.0,
-                    1.0
-                  ],
-                  [
-                    1.0,
-                    2.0,
-                    2.0
-                  ]
-                ],
-                [
-                  [
-                    2.0,
-                    1.0,
-                    1.0
-                  ],
-                  [
-                    2.0,
-                    1.0,
-                    2.0
-                  ]
-                ],
-                [
-                  [
-                    2.0,
-                    2.0,
-                    1.0
-                  ],
-                  [
-                    2.0,
-                    2.0,
-                    2.0
-                  ]
-                ]
-              ],
-              "After": "After!"
-            }
-            """;
+                   {
+                     "Before": "Before!",
+                     "Coordinates": [
+                       [
+                         [
+                           1.0,
+                           1.0,
+                           1.0
+                         ],
+                         [
+                           1.0,
+                           1.0,
+                           2.0
+                         ]
+                       ],
+                       [
+                         [
+                           1.0,
+                           2.0,
+                           1.0
+                         ],
+                         [
+                           1.0,
+                           2.0,
+                           2.0
+                         ]
+                       ],
+                       [
+                         [
+                           2.0,
+                           1.0,
+                           1.0
+                         ],
+                         [
+                           2.0,
+                           1.0,
+                           2.0
+                         ]
+                       ],
+                       [
+                         [
+                           2.0,
+                           2.0,
+                           1.0
+                         ],
+                         [
+                           2.0,
+                           2.0,
+                           2.0
+                         ]
+                       ]
+                     ],
+                     "After": "After!"
+                   }
+                   """;
 
         var aa = JsonConvert.DeserializeObject<Array3DWithConverter>(json);
 
@@ -2068,7 +2050,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             string Property { get; set; }
         }
 
-        public interface ITestInterface : IFirstInterface, ISecondInterface
+        public interface ITestInterface : IFirstInterface,
+            ISecondInterface
         {
         }
 

@@ -217,7 +217,7 @@ public class XmlJsonReader : JsonReader
     }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L7-L221' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L8-L222' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonReaderUsage -->
@@ -278,5 +278,5 @@ using (var reader = new XmlJsonReader(xmlReader))
     //}
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L228-L285' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L229-L286' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

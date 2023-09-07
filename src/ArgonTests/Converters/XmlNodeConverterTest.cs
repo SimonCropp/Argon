@@ -1599,7 +1599,7 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var newDoc = JsonXmlConvert.DeserializeXmlNode(json, "myRoot");
 
-        var xml = IndentXml(newDoc.InnerXml);
+        IndentXml(newDoc.InnerXml);
 
         XUnitAssert.AreEqualNormalized(
             """

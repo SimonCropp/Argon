@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 // ReSharper disable UnusedVariable
+// ReSharper disable UnusedParameter.Local
 public class ErrorHandlingEvent : TestFixtureBase
 {
     [Fact]

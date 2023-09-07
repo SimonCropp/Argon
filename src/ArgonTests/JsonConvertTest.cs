@@ -8,6 +8,7 @@ using TestObjects;
 using Formatting = Argon.Formatting;
 // ReSharper disable UnusedVariable
 // ReSharper disable UnusedParameter.Local
+// ReSharper disable NotAccessedVariable
 
 public class JsonConvertTest : TestFixtureBase
 {

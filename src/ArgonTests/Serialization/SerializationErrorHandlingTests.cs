@@ -4,6 +4,7 @@
 
 using TestObjects;
 // ReSharper disable UnusedParameter.Local
+// ReSharper disable UnusedVariable
 
 public class SerializationErrorHandlingTests : TestFixtureBase
 {
