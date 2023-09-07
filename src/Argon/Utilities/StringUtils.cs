@@ -29,17 +29,39 @@ static class StringUtils
         buffer[5] = MathUtils.IntToHex(c & '\x000f');
     }
 
-    public static TSource ForgivingCaseSensitiveFind<TSource>(this IEnumerable<TSource> source, Func<TSource, string> valueSelector, string testValue)
+    public static JsonProperty? ForgivingCaseSensitiveFind(this JsonPropertyCollection source, string testValue)
     {
-        var caseInsensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.OrdinalIgnoreCase));
-        if (caseInsensitiveResults.Count() <= 1)
+        if (source.Count == 0)
         {
-            return caseInsensitiveResults.SingleOrDefault()!;
+            return null;
+        }
+
+        var caseInsensitiveResults = source.Where(_ => string.Equals(_.PropertyName, testValue, StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+        if (caseInsensitiveResults.Length == 0)
+        {
+            return null;
+        }
+
+        if (caseInsensitiveResults.Length == 1)
+        {
+            return caseInsensitiveResults[0];
         }
 
         // multiple results returned. now filter using case sensitivity
-        var caseSensitiveResults = source.Where(s => string.Equals(valueSelector(s), testValue, StringComparison.Ordinal));
-        return caseSensitiveResults.SingleOrDefault()!;
+        var caseSensitiveResults = source.Where(_ => string.Equals(_.PropertyName, testValue, StringComparison.Ordinal))
+            .ToArray();
+        if (caseSensitiveResults.Length == 0)
+        {
+            return null;
+        }
+
+        if (caseSensitiveResults.Length == 1)
+        {
+            return caseSensitiveResults[0];
+        }
+
+        throw new("Multiple matches found for testValue");
     }
 
     public static string ToSnakeCase(string s) =>

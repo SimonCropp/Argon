@@ -1756,7 +1756,7 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
             var constructorProperty = context.ConstructorProperty;
             if (constructorProperty == null && context.Property != null)
             {
-                constructorProperty = contract.CreatorParameters.ForgivingCaseSensitiveFind(p => p.PropertyName!, context.Property.UnderlyingName!);
+                constructorProperty = contract.CreatorParameters.ForgivingCaseSensitiveFind(context.Property.UnderlyingName!);
             }
 
             if (constructorProperty is {Ignored: false})
