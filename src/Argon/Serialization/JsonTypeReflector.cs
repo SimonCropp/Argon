@@ -136,14 +136,14 @@ static class JsonTypeReflector
     /// </param>
     public static JsonConverter CreateJsonConverterInstance(Type converterType, object[]? args)
     {
-        var converterCreator = creatorCache.Get(converterType);
-        return (JsonConverter) converterCreator(args);
+        var creator = creatorCache.Get(converterType);
+        return (JsonConverter) creator(args);
     }
 
     public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
     {
-        var converterCreator = creatorCache.Get(namingStrategyType);
-        return (NamingStrategy) converterCreator(args);
+        var creator = creatorCache.Get(namingStrategyType);
+        return (NamingStrategy) creator(args);
     }
 
     static Func<object[]?, object> GetCreator(Type type)
