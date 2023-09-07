@@ -1119,8 +1119,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void EmbedJValueStringInNewJObject()
     {
-        string s = null;
-        var v = new JValue(s);
+        var v = new JValue((string)null);
         var o = JObject.FromObject(new
         {
             title = v
@@ -3535,7 +3534,7 @@ public class JsonSerializerTest : TestFixtureBase
         protected override JsonDictionaryContract CreateDictionaryContract(Type type)
         {
             var contract = base.CreateDictionaryContract(type);
-            contract.InterceptSerializeItem = (key, value) =>
+            contract.InterceptSerializeItem = (key, _) =>
             {
                 if (key is string itemAsString)
                 {
@@ -3580,7 +3579,7 @@ public class JsonSerializerTest : TestFixtureBase
         protected override JsonDictionaryContract CreateDictionaryContract(Type type)
         {
             var contract = base.CreateDictionaryContract(type);
-            contract.InterceptSerializeItem = (key, value) =>
+            contract.InterceptSerializeItem = (key, _) =>
             {
                 if (key is string itemAsString)
                 {
@@ -4597,11 +4596,15 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeNullableArray()
     {
-        var d = (double?[]) JsonConvert.DeserializeObject(@"[
-  2.4,
-  4.3,
-  null
-]", typeof(double?[]));
+        var d = (double?[]) JsonConvert.DeserializeObject(
+            """
+            [
+              2.4,
+              4.3,
+              null
+            ]
+            """,
+            typeof(double?[]));
 
         Assert.Equal(3, d.Length);
         Assert.Equal(2.4, d[0]);
@@ -4621,11 +4624,15 @@ public class JsonSerializerTest : TestFixtureBase
             },
             Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  ""One"",
-  ""2"",
-  ""III""
-]", jsonText);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              "One",
+              "2",
+              "III"
+            ]
+            """,
+            jsonText);
 
         var d = JsonConvert.DeserializeObject<HashSet<string>>(jsonText);
 
@@ -4642,7 +4649,7 @@ public class JsonSerializerTest : TestFixtureBase
         serializer1.Converters.Add(new IsoDateTimeConverter());
         serializer1.NullValueHandling = NullValueHandling.Ignore;
 
-        var json = @"[{""Prop1"":""""},{""Prop1"":""""}]";
+        var json = """[{"Prop1":""},{"Prop1":""}]""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -4817,7 +4824,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void ParseJsonDecimal()
     {
-        var json = @"{ ""property"": 0.0 }";
+        var json = """{ "property": 0.0 }""";
         var reader = new JsonTextReader(new StringReader(json))
         {
             FloatParseHandling = FloatParseHandling.Decimal
@@ -5111,16 +5118,18 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void CommentTestClassTest()
     {
-        var json = @"{""indexed"":true, ""startYear"":1939, ""values"":
-                            [  3000,  /* 1940-1949 */
-                               3000,   3600,   3600,   3600,   3600,   4200,   4200,   4200,   4200,   4800,  /* 1950-1959 */
-                               4800,   4800,   4800,   4800,   4800,   4800,   6600,   6600,   7800,   7800,  /* 1960-1969 */
-                               7800,   7800,   9000,  10800,  13200,  14100,  15300,  16500,  17700,  22900,  /* 1970-1979 */
-                              25900,  29700,  32400,  35700,  37800,  39600,  42000,  43800,  45000,  48000,  /* 1980-1989 */
-                              51300,  53400,  55500,  57600,  60600,  61200,  62700,  65400,  68400,  72600,  /* 1990-1999 */
-                              76200,  80400,  84900,  87000,  87900,  90000,  94200,  97500, 102000, 106800,  /* 2000-2009 */
-                             106800, 106800]  /* 2010-2011 */
-                                }";
+        var json = """
+                   {"indexed":true, "startYear":1939, "values":
+                       [  3000,  /* 1940-1949 */
+                          3000,   3600,   3600,   3600,   3600,   4200,   4200,   4200,   4200,   4800,  /* 1950-1959 */
+                          4800,   4800,   4800,   4800,   4800,   4800,   6600,   6600,   7800,   7800,  /* 1960-1969 */
+                          7800,   7800,   9000,  10800,  13200,  14100,  15300,  16500,  17700,  22900,  /* 1970-1979 */
+                         25900,  29700,  32400,  35700,  37800,  39600,  42000,  43800,  45000,  48000,  /* 1980-1989 */
+                         51300,  53400,  55500,  57600,  60600,  61200,  62700,  65400,  68400,  72600,  /* 1990-1999 */
+                         76200,  80400,  84900,  87000,  87900,  90000,  94200,  97500, 102000, 106800,  /* 2000-2009 */
+                        106800, 106800]  /* 2010-2011 */
+                   }
+                   """;
 
         var commentTestClass = JsonConvert.DeserializeObject<CommentTestClass>(json);
 
@@ -5132,7 +5141,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void PopulationBehaviourForOmittedPropertiesIsTheSameForParameterisedConstructorAsForDefaultConstructor()
     {
-        var json = @"{A:""Test""}";
+        var json = """{A:"Test"}""";
 
         var withoutParameterisedConstructor = JsonConvert.DeserializeObject<DTOWithoutParameterisedConstructor>(json);
         var withParameterisedConstructor = JsonConvert.DeserializeObject<DTOWithParameterisedConstructor>(json);
@@ -5183,7 +5192,9 @@ public class JsonSerializerTest : TestFixtureBase
 
         var xml = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
 
-        Assert.Equal(@"<ChildDataContract xmlns=""http://schemas.datacontract.org/2004/07/TestObjects"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil=""true""/></ChildDataContract>", xml);
+        Assert.Equal(
+            """<ChildDataContract xmlns="http://schemas.datacontract.org/2004/07/TestObjects" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil="true"/></ChildDataContract>""",
+            xml);
     }
 
     [Fact]
@@ -5196,7 +5207,9 @@ public class JsonSerializerTest : TestFixtureBase
         };
 
         var result = JsonConvert.SerializeObject(cc);
-        Assert.Equal(@"{""virtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
+        Assert.Equal(
+            """{"virtualMember":"VirtualMember!","nonVirtualMember":"NonVirtualMember!"}""",
+            result);
     }
 
     [Fact]
@@ -5209,7 +5222,9 @@ public class JsonSerializerTest : TestFixtureBase
         };
 
         var result = JsonConvert.SerializeObject(cc);
-        Assert.Equal(@"{""differentVirtualMember"":""VirtualMember!"",""nonVirtualMember"":""NonVirtualMember!""}", result);
+        Assert.Equal(
+            """{"differentVirtualMember":"VirtualMember!","nonVirtualMember":"NonVirtualMember!"}""",
+            result);
     }
 
     [Fact]
@@ -5495,7 +5510,7 @@ public class JsonSerializerTest : TestFixtureBase
         jsonWriter.Flush();
 
         var result = stringWriter.ToString();
-        Assert.Equal(@"{""p"":1}", result);
+        Assert.Equal("""{"p":1}""", result);
     }
 
     [Fact]
@@ -5655,7 +5670,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(b);
 
-        Assert.Equal(@"{""no"":true}", json);
+        Assert.Equal("""{"no":true}""", json);
 
         var b2 = JsonConvert.DeserializeObject<Bb>(json);
 
@@ -5665,12 +5680,14 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeNullInt()
     {
-        var json = @"[
-  1,
-  2,
-  3,
-  null
-]";
+        var json = """
+                   [
+                     1,
+                     2,
+                     3,
+                     null
+                   ]
+                   """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<List<int>>(json),
@@ -5729,13 +5746,13 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(widget);
 
-        Assert.Equal(@"{""Id"":{""Value"":""id""}}", json);
+        Assert.Equal("""{"Id":{"Value":"id"}}""", json);
     }
 
     [Fact]
     public void DeserializeNullableWidgetStruct()
     {
-        var json = @"{""Id"":{""Value"":""id""}}";
+        var json = """{"Id":{"Value":"id"}}""";
 
         var w = JsonConvert.DeserializeObject<Widget>(json);
 
@@ -5779,12 +5796,12 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeNullableGuid()
     {
-        var json = @"{""Id"":null}";
+        var json = """{"Id":null}""";
         var c = JsonConvert.DeserializeObject<NullableGuid>(json);
 
         Assert.Equal(null, c.Id);
 
-        json = @"{""Id"":""d8220a4b-75b1-4b7a-8112-b7bdae956a45""}";
+        json = """{"Id":"d8220a4b-75b1-4b7a-8112-b7bdae956a45"}""";
         c = JsonConvert.DeserializeObject<NullableGuid>(json);
 
         Assert.Equal(new Guid("d8220a4b-75b1-4b7a-8112-b7bdae956a45"), c.Id);
@@ -5886,7 +5903,7 @@ public class JsonSerializerTest : TestFixtureBase
             NullableEnum = null
         });
 
-        Assert.Equal(@"{""Id"":7,""NullableEnum"":null}", json);
+        Assert.Equal("""{"Id":7,"NullableEnum":null}""", json);
 
         var e = JsonConvert.DeserializeObject<WithEnums>(json);
 
@@ -5898,7 +5915,7 @@ public class JsonSerializerTest : TestFixtureBase
             NullableEnum = MyEnum.Value2
         });
 
-        Assert.Equal(@"{""Id"":7,""NullableEnum"":1}", json);
+        Assert.Equal("""{"Id":7,"NullableEnum":1}""", json);
 
         e = JsonConvert.DeserializeObject<WithEnums>(json);
 
@@ -5916,9 +5933,9 @@ public class JsonSerializerTest : TestFixtureBase
             }
         });
 
-        Assert.Equal(@"{""Id"":""1234""}", json);
+        Assert.Equal("""{"Id":"1234"}""", json);
 
-        var w = JsonConvert.DeserializeObject<Widget1>(@"{""Id"":""1234""}");
+        var w = JsonConvert.DeserializeObject<Widget1>("""{"Id":"1234"}""");
 
         Assert.Equal(new WidgetId1
         {
@@ -5998,7 +6015,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeIsoDatesWithIsoConverter()
     {
         var jsonIsoText =
-            @"{""Value"":""2012-02-25T19:55:50.6095676+13:00""}";
+            """{"Value":"2012-02-25T19:55:50.6095676+13:00"}""";
 
         var c = JsonConvert.DeserializeObject<DateTimeWrapper>(jsonIsoText, new IsoDateTimeConverter());
         Assert.Equal(DateTimeKind.Local, c.Value.Kind);
@@ -6085,7 +6102,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var values = new List<MultipleItemsClass>();
 
-        var reader = new JsonTextReader(new StringReader(@"{ ""name"": ""bar"" }{ ""name"": ""baz"" }"));
+        var reader = new JsonTextReader(new StringReader("""{ "name": "bar" }{ "name": "baz" }"""));
         reader.SupportMultipleContent = true;
 
         while (true)
@@ -6220,7 +6237,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(c);
 
-        Assert.Equal(@"{""Data"":["":::ONE:::"","":::TWO:::"","":::THREE:::""]}", json);
+        Assert.Equal("""{"Data":[":::ONE:::",":::TWO:::",":::THREE:::"]}""", json);
     }
 
     [Fact]
@@ -6421,12 +6438,14 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void CheckAdditionalContentJustMultipleComments()
     {
-        var json = @"{one:1} // This is just a comment
-/* This is just a comment
-over multiple
-lines.*/
+        var json = """
+                   {one:1} // This is just a comment
+                   /* This is just a comment
+                   over multiple
+                   lines.*/
 
-// This is just another comment.";
+                   // This is just another comment.
+                   """;
 
         var settings = new JsonSerializerSettings
         {
@@ -6442,13 +6461,15 @@ lines.*/
     [Fact]
     public void CheckAdditionalContentCommentsThenAnotherObject()
     {
-        var json = @"{one:1} // This is just a comment
-/* This is just a comment
-over multiple
-lines.*/
+        var json = """
+                   {one:1} // This is just a comment
+                   /* This is just a comment
+                   over multiple
+                   lines.*/
 
-// This is just another comment. But here comes an empty object.
-{}";
+                   // This is just another comment. But here comes an empty object.
+                   {}
+                   """;
 
         var settings = new JsonSerializerSettings
         {
@@ -6481,7 +6502,7 @@ lines.*/
     [Fact]
     public void AdditionalContentAfterFinishCheckNotRequested()
     {
-        var json = @"{ ""MyProperty"":{""Key"":""Value""}} A bunch of junk at the end of the json";
+        var json = """{ "MyProperty":{"Key":"Value"}} A bunch of junk at the end of the json""";
 
         var serializer = new JsonSerializer();
 
@@ -6494,9 +6515,11 @@ lines.*/
     [Fact]
     public void AdditionalContentAfterCommentsCheckNotRequested()
     {
-        var json = @"{ ""MyProperty"":{""Key"":""Value""}} /*this is a comment */
-// this is also a comment
-This is just junk, though.";
+        var json = """
+                   { "MyProperty":{"Key":"Value"}} /*this is a comment */
+                   // this is also a comment
+                   This is just junk, though.
+                   """;
 
         var serializer = new JsonSerializer();
 
@@ -6509,9 +6532,11 @@ This is just junk, though.";
     [Fact]
     public void AdditionalContentAfterComments()
     {
-        var json = @"[{ ""MyProperty"":{""Key"":""Value""}} /*this is a comment */
-// this is also a comment
-,{}";
+        var json = """
+                   [{ "MyProperty":{"Key":"Value"}} /*this is a comment */
+                   // this is also a comment
+                   ,{}
+                   """;
 
         var serializer = new JsonSerializer
         {
@@ -6529,18 +6554,24 @@ This is just junk, though.";
     [Fact]
     public void DeserializeRelativeUri()
     {
-        var uris = JsonConvert.DeserializeObject<IList<Uri>>(@"[""http://localhost/path?query#hash""]");
+        var uris = JsonConvert.DeserializeObject<IList<Uri>>("""["http://localhost/path?query#hash"]""");
         Assert.Equal(1, uris.Count);
         Assert.Equal(new("http://localhost/path?query#hash"), uris[0]);
 
-        var uri = JsonConvert.DeserializeObject<Uri>(@"""http://localhost/path?query#hash""");
+        var uri = JsonConvert.DeserializeObject<Uri>(
+            """
+            "http://localhost/path?query#hash"
+            """);
         Assert.NotNull(uri);
 
         var i1 = new Uri("http://localhost/path?query#hash", UriKind.RelativeOrAbsolute);
         var i2 = new Uri("http://localhost/path?query#hash");
         Assert.Equal(i1, i2);
 
-        uri = JsonConvert.DeserializeObject<Uri>(@"""/path?query#hash""");
+        uri = JsonConvert.DeserializeObject<Uri>(
+            """
+            "/path?query#hash"
+            """);
         Assert.NotNull(uri);
         Assert.Equal(new("/path?query#hash", UriKind.RelativeOrAbsolute), uri);
     }
@@ -6548,7 +6579,7 @@ This is just junk, though.";
     [Fact]
     public void DeserializeDictionaryItemConverter()
     {
-        var actual = JsonConvert.DeserializeObject<ItemConverterTestClass>(@"{ ""MyProperty"":{""Key"":""Y""}}");
+        var actual = JsonConvert.DeserializeObject<ItemConverterTestClass>("""{ "MyProperty":{"Key":"Y"}}""");
         Assert.Equal("X", actual.MyProperty["Key"]);
     }
 
@@ -6614,9 +6645,7 @@ This is just junk, though.";
     [Fact]
     public void DeserializeReadOnlyListWithBigInteger()
     {
-        var json = @"[
-        9000000000000000000000000000000000000000000000000
-      ]";
+        var json = "[9000000000000000000000000000000000000000000000000]";
 
         var l = JsonConvert.DeserializeObject<IReadOnlyList<BigInteger>>(json);
 
@@ -6629,9 +6658,7 @@ This is just junk, though.";
     [Fact]
     public void DeserializeReadOnlyListWithInt()
     {
-        var json = @"[
-        900
-      ]";
+        var json = "[900]";
 
         var l = JsonConvert.DeserializeObject<IReadOnlyList<int>>(json);
 
@@ -6644,10 +6671,7 @@ This is just junk, though.";
     [Fact]
     public void DeserializeReadOnlyListWithNullableType()
     {
-        var json = @"[
-        1,
-        null
-      ]";
+        var json = "[1,null]";
 
         var l = JsonConvert.DeserializeObject<IReadOnlyList<int?>>(json);
 
@@ -6660,7 +6684,7 @@ This is just junk, though.";
     {
         var tuple = new MyTuple<int>(500);
         var json = JsonConvert.SerializeObject(tuple);
-        Assert.Equal(@"{""m_Item1"":500}", json);
+        Assert.Equal("""{"m_Item1":500}""", json);
 
         MyTuple<int> obj = null;
 
@@ -6709,7 +6733,7 @@ This is just junk, though.";
     {
         var tuple = Tuple.Create(500, 20);
         var json = JsonConvert.SerializeObject(tuple);
-        Assert.Equal(@"{""Item1"":500,""Item2"":20}", json);
+        Assert.Equal("""{"Item1":500,"Item2":20}""", json);
 
         var tuple2 = JsonConvert.DeserializeObject<Tuple<int, int>>(json);
         Assert.Equal(500, tuple2.Item1);
@@ -6774,11 +6798,13 @@ This is just junk, though.";
     [Fact]
     public void ReadStringFloatingPointSymbols()
     {
-        var json = @"[
-  ""NaN"",
-  ""Infinity"",
-  ""-Infinity""
-]";
+        var json = """
+                   [
+                     "NaN",
+                     "Infinity",
+                     "-Infinity"
+                   ]
+                   """;
 
         var floats = JsonConvert.DeserializeObject<IList<float>>(json);
         Assert.Equal(float.NaN, floats[0]);
@@ -6849,20 +6875,26 @@ This is just junk, though.";
     {
         var i = BigInteger.Parse("123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990");
 
-        var json = JsonConvert.SerializeObject(new[]
-        {
-            i
-        }, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(
+            new[]
+            {
+                i
+            },
+            Formatting.Indented);
 
-        XUnitAssert.AreEqualNormalized(@"[
-  123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              123456789999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999990
+            ]
+            """,
+            json);
     }
 
     [Fact]
     public void DeserializeWithConstructor()
     {
-        const string json = @"{""something_else"":""my value""}";
+        const string json = """{"something_else":"my value"}""";
         var foo = JsonConvert.DeserializeObject<FooConstructor>(json);
         Assert.Equal("my value", foo.Bar);
     }
@@ -7002,7 +7034,7 @@ This is just junk, though.";
             }
         );
 
-        Assert.Equal(@"{""1, 2"":""3, 4""}", json);
+        Assert.Equal("""{"1, 2":"3, 4"}""", json);
 
         var d = JsonConvert.DeserializeObject<Dictionary<TypeConverterSize, TypeConverterSize>>(json);
 
@@ -7106,7 +7138,11 @@ This is just junk, though.";
         // Therefore we need dynamic handling of type information if the type is not serialized with the type converter directly
         //
         var text1 = JsonConvert.SerializeObject(consoleWriter, Formatting.Indented, options);
-        Assert.Equal(@"""Console Writer""", text1);
+        Assert.Equal(
+            """
+            "Console Writer"
+            """,
+            text1);
 
         var restoredWriter = JsonConvert.DeserializeObject<IMyInterface>(text1, options);
         Assert.Equal("ConsoleWriter", restoredWriter.PrintTest());
@@ -7172,7 +7208,7 @@ This is just junk, though.";
         };
         var json = JsonConvert.SerializeObject(product);
 
-        Assert.Equal(@"{""pa_info"":{""s"":""d""}}", json);
+        Assert.Equal("""{"pa_info":{"s":"d"}}""", json);
         var deserializedProduct = JsonConvert.DeserializeObject<ParticipantEntity>(json);
     }
 
@@ -7201,7 +7237,7 @@ This is just junk, though.";
     [Fact]
     public void DuplicatePropertiesInNestedObject()
     {
-        var content = @"{""result"":{""time"":1408188592,""time"":1408188593},""error"":null,""id"":""1""}";
+        var content = """{"result":{"time":1408188592,"time":1408188593},"error":null,"id":"1"}""";
         var o = JsonConvert.DeserializeObject<JObject>(content);
         var time = (int) o["result"]["time"];
 
@@ -7376,7 +7412,7 @@ This is just junk, though.";
     [Fact]
     public void ParametrizedConstructor_IncompleteJson()
     {
-        var s = @"{""text"":""s"",""cursorPosition"":189,""dataSource"":""json_northwind"",";
+        var s = """{"text":"s","cursorPosition":189,"dataSource":"json_northwind",""";
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<CompletionDataRequest>(s),

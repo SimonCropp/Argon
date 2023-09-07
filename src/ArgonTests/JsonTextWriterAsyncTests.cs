@@ -851,8 +851,10 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     {
         var cancel = Cancel.None;
         var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
+        // ReSharper disable MethodHasAsyncOverloadWithCancellation
         reader.Read();
         reader.Read();
+        // ReSharper restore MethodHasAsyncOverloadWithCancellation
 
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter);

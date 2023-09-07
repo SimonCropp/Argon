@@ -15,7 +15,7 @@ public class Issue1593 : TestFixtureBase
 
     class BaseModel
     {
-        public BaseModel() =>
+        protected BaseModel() =>
             Extra = new();
 
         [JsonExtensionData]

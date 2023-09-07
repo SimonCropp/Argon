@@ -28,12 +28,15 @@ public class DataTableConverter : JsonConverter
             {
                 var columnValue = row[column];
 
-                if (serializer.NullValueHandling == NullValueHandling.Ignore && (columnValue == null || columnValue == DBNull.Value))
+                if (serializer.NullValueHandling == NullValueHandling.Ignore &&
+                    (columnValue == null ||
+                     columnValue == DBNull.Value))
                 {
                     continue;
                 }
 
-                writer.WritePropertyName(resolver == null ? column.ColumnName : resolver.GetResolvedPropertyName(column.ColumnName));
+                writer.WritePropertyName(
+                    resolver == null ? column.ColumnName : resolver.GetResolvedPropertyName(column.ColumnName));
                 serializer.Serialize(writer, columnValue);
             }
 

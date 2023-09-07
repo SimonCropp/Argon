@@ -62,7 +62,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
             Shape.NewCircle(7.5)
         };
 
-        var json = JsonConvert.SerializeObject(values, Formatting.Indented, unionConverter);
+        JsonConvert.SerializeObject(values, Formatting.Indented, unionConverter);
 
         var ts = new Stopwatch();
         ts.Start();

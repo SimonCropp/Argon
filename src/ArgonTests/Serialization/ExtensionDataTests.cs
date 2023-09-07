@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using TestObjects;
+// ReSharper disable UnusedParameter.Local
 
 public class ExtensionDataTests : TestFixtureBase
 {
