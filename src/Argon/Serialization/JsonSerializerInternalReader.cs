@@ -6,18 +6,14 @@
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
-class JsonSerializerInternalReader : JsonSerializerInternalBase
+class JsonSerializerInternalReader(JsonSerializer serializer) :
+    JsonSerializerInternalBase(serializer)
 {
-    internal enum PropertyPresence
+    enum PropertyPresence
     {
         None = 0,
         Null = 1,
         Value = 2
-    }
-
-    public JsonSerializerInternalReader(JsonSerializer serializer)
-        : base(serializer)
-    {
     }
 
     JsonContract? GetContractSafe(Type? type)
@@ -1627,17 +1623,14 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
         return newObject;
     }
 
-    class CreatorPropertyContext
+    class CreatorPropertyContext(string name)
     {
-        public readonly string Name;
+        public readonly string Name = name;
         public JsonProperty? Property;
         public JsonProperty? ConstructorProperty;
         public PropertyPresence? Presence;
         public object? Value;
         public bool Used;
-
-        public CreatorPropertyContext(string name) =>
-            Name = name;
     }
 
     object CreateObjectUsingCreatorWithParameters(JsonReader reader, JsonObjectContract contract, JsonProperty? containerProperty, ObjectConstructor creator, string? id)

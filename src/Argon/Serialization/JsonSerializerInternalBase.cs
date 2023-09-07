@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-abstract class JsonSerializerInternalBase
+abstract class JsonSerializerInternalBase(JsonSerializer serializer)
 {
     class ReferenceEqualsEqualityComparer : IEqualityComparer<object>
     {
@@ -17,11 +17,8 @@ abstract class JsonSerializerInternalBase
     ErrorContext? currentErrorContext;
     BidirectionalDictionary<string, object>? mappings;
 
-    internal readonly JsonSerializer Serializer;
+    internal readonly JsonSerializer Serializer = serializer;
     protected JsonSerializerProxy? InternalSerializer;
-
-    protected JsonSerializerInternalBase(JsonSerializer serializer) =>
-        Serializer = serializer;
 
     protected static bool HasFlag(DefaultValueHandling? value, DefaultValueHandling flag)
     {

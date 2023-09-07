@@ -5,7 +5,8 @@
 // ReSharper disable NullableWarningSuppressionIsUsed
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
-class JsonSerializerInternalWriter : JsonSerializerInternalBase
+class JsonSerializerInternalWriter :
+    JsonSerializerInternalBase
 {
     Type? rootType;
     int rootLevel;
