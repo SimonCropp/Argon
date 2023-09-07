@@ -63,7 +63,7 @@
   {
     TokenType: PropertyName,
     LineNumber: 2,
-    LinePosition: 19,
+    LinePosition: 11,
     Path: ExpiryDate,
     Depth: 1,
     Value: ExpiryDate
@@ -71,7 +71,7 @@
   {
     TokenType: String,
     LineNumber: 2,
-    LinePosition: 41,
+    LinePosition: 33,
     Path: ExpiryDate,
     Depth: 1,
     Value: DateTimeOffset_1
@@ -79,7 +79,7 @@
   {
     TokenType: PropertyName,
     LineNumber: 3,
-    LinePosition: 14,
+    LinePosition: 6,
     Path: Price,
     Depth: 1,
     Value: Price
@@ -87,7 +87,7 @@
   {
     TokenType: Float,
     LineNumber: 3,
-    LinePosition: 19,
+    LinePosition: 11,
     Path: Price,
     Depth: 1,
     Value: 3.99
@@ -95,7 +95,7 @@
   {
     TokenType: PropertyName,
     LineNumber: 4,
-    LinePosition: 14,
+    LinePosition: 6,
     Path: Sizes,
     Depth: 1,
     Value: Sizes
@@ -103,7 +103,7 @@
   {
     TokenType: Comment,
     LineNumber: 4,
-    LinePosition: 25,
+    LinePosition: 17,
     Path: Sizes,
     Depth: 1,
     Value: comment
@@ -111,14 +111,14 @@
   {
     TokenType: StartArray,
     LineNumber: 4,
-    LinePosition: 26,
+    LinePosition: 18,
     Path: Sizes,
     Depth: 1
   },
   {
     TokenType: Comment,
     LineNumber: 4,
-    LinePosition: 37,
+    LinePosition: 29,
     Path: Sizes,
     Depth: 2,
     Value: comment
@@ -126,7 +126,7 @@
   {
     TokenType: String,
     LineNumber: 5,
-    LinePosition: 17,
+    LinePosition: 9,
     Path: Sizes[0],
     Depth: 2,
     Value: Small
@@ -134,7 +134,7 @@
   {
     TokenType: Comment,
     LineNumber: 5,
-    LinePosition: 28,
+    LinePosition: 20,
     Path: Sizes[0],
     Depth: 2,
     Value: comment
@@ -142,14 +142,14 @@
   {
     TokenType: EndArray,
     LineNumber: 5,
-    LinePosition: 29,
+    LinePosition: 21,
     Path: Sizes,
     Depth: 1
   },
   {
     TokenType: Comment,
     LineNumber: 5,
-    LinePosition: 40,
+    LinePosition: 32,
     Path: Sizes,
     Depth: 1,
     Value: comment
@@ -157,13 +157,13 @@
   {
     TokenType: EndObject,
     LineNumber: 5,
-    LinePosition: 41,
+    LinePosition: 33,
     Path: 
   },
   {
     TokenType: Comment,
     LineNumber: 5,
-    LinePosition: 52,
+    LinePosition: 44,
     Path: ,
     Value: comment
   }

@@ -14,7 +14,7 @@ public class Issue1619 : TestFixtureBase
         };
 
         var json = JsonConvert.SerializeObject(value, new DirectoryInfoJsonConverter());
-        Assert.Equal(@"{""Bar"":""c:\\temp""}", json);
+        Assert.Equal("""{"Bar":"c:\\temp"}""", json);
     }
 #endif
 

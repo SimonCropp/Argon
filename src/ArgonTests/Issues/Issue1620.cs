@@ -14,7 +14,11 @@ public class Issue1620 : TestFixtureBase
         var foo = mock.Object;
 
         var json = JsonConvert.SerializeObject(foo, new JsonSerializerSettings { Converters = { new FooConverter() } });
-        Assert.Equal(@"""foo""", json);
+        Assert.Equal(
+            """
+            "foo"
+            """,
+            json);
     }
 
     [Fact]

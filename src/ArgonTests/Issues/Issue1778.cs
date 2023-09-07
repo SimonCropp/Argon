@@ -7,7 +7,7 @@ public class Issue1778 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
+        var reader = new JsonTextReader(new StringReader("""{"enddate":-1}"""));
         reader.Read();
         reader.Read();
 
@@ -19,7 +19,7 @@ public class Issue1778 : TestFixtureBase
     [Fact]
     public async Task Test_Async()
     {
-        var reader = new JsonTextReader(new StringReader(@"{""enddate"":-1}"));
+        var reader = new JsonTextReader(new StringReader("""{"enddate":-1}"""));
         reader.Read();
         reader.Read();
 

@@ -483,12 +483,12 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void GenericValueCast()
     {
-        var json = @"{""foo"":true}";
+        var json = """{"foo":true}""";
         var o = (JObject) JsonConvert.DeserializeObject(json);
         var value = o.Value<bool?>("foo");
         XUnitAssert.True(value);
 
-        json = @"{""foo"":null}";
+        json = """{"foo":null}""";
         o = (JObject) JsonConvert.DeserializeObject(json);
         value = o.Value<bool?>("foo");
         Assert.Equal(null, value);
@@ -1304,8 +1304,8 @@ public class JObjectTests : TestFixtureBase
             {
                 var json = """
                     {
-                      "responseData": {}, 
-                      "responseDetails": null, 
+                      "responseData": {},
+                      "responseDetails": null,
                       "responseStatus": 200
                     }
                     """;
@@ -1323,8 +1323,8 @@ public class JObjectTests : TestFixtureBase
             {
                 var json = """
                     {
-                      "responseData": {}, 
-                      "responseDetails": null, 
+                      "responseData": {},
+                      "responseDetails": null,
                       "responseStatus": 200
                     }
                     """;
@@ -1647,7 +1647,7 @@ public class JObjectTests : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(p, settings);
 
-        Assert.Equal(@"{""foo"":""bar"",""name"":""Daniel Wertheim"",""birthDate"":""0001-01-01T00:00:00"",""lastModified"":""0001-01-01T00:00:00""}", json);
+        Assert.Equal("""{"foo":"bar","name":"Daniel Wertheim","birthDate":"0001-01-01T00:00:00","lastModified":"0001-01-01T00:00:00"}""", json);
     }
 
     [Fact]
@@ -1669,8 +1669,10 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void Parse_ExcessiveContentJustComments()
     {
-        var json = @"{'prop':[1,2,3]}/*comment*/
-//Another comment.";
+        var json = """
+                   {'prop':[1,2,3]}/*comment*/
+                   //Another comment.
+                   """;
 
         var o = JObject.Parse(json);
 
@@ -1683,9 +1685,11 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void Parse_ExcessiveContent()
     {
-        var json = @"{'prop':[1,2,3]}/*comment*/
-//Another comment.
-[]";
+        var json = """
+                   {'prop':[1,2,3]}/*comment*/
+                   //Another comment.
+                   []
+                   """;
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse(json),

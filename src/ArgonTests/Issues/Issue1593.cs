@@ -10,7 +10,7 @@ public class Issue1593 : TestFixtureBase
     public void Test()
     {
         var json = JsonConvert.SerializeObject(CreateModel());
-        Assert.Equal(@"{""Specific"":2,""A"":1}", json);
+        Assert.Equal("""{"Specific":2,"A":1}""", json);
     }
 
     class BaseModel

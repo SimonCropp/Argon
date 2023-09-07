@@ -24,7 +24,12 @@ public class JTokenAsyncTests : TestFixtureBase
         Assert.Equal("pie", p.Name);
         XUnitAssert.True((bool) p.Value);
 
-        var v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader(@"""stringvalue""")));
+        var v = (JValue) await JToken.ReadFromAsync(
+            new JsonTextReader(
+                new StringReader(
+                    """
+                    "stringvalue"
+                    """)));
         Assert.Equal("stringvalue", (string) v);
 
         v = (JValue) await JToken.ReadFromAsync(new JsonTextReader(new StringReader("1")));

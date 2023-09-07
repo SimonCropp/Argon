@@ -7,8 +7,10 @@ public class Issue1962
     [Fact]
     public void Test_Default()
     {
-        var json = @"// comment
-[ 1, 2, 42 ]";
+        var json = """
+                   // comment
+                   [ 1, 2, 42 ]
+                   """;
         var token = JToken.Parse(json);
 
         Assert.Equal(JTokenType.Comment, token.Type);

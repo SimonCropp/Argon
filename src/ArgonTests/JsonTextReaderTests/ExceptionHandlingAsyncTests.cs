@@ -807,8 +807,12 @@ public class ExceptionHandlingAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDecimalBadContent_SecondLineAsync()
     {
-        var reader = new JsonTextReader(new StringReader(@"
-new Date()"));
+        var reader = new JsonTextReader(
+            new StringReader(
+                """
+
+                new Date()
+                """));
 
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
             () => reader.ReadAsDecimalAsync(),

@@ -96,7 +96,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTimeOffsetBadStringAsync()
     {
-        var json = @"{""Offset"":""blablahbla""}";
+        var json = """{"Offset":"blablahbla"}""";
 
         var o = JObject.Parse(json);
 
@@ -116,7 +116,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTimeOffsetBooleanAsync()
     {
-        var json = @"{""Offset"":true}";
+        var json = """{"Offset":true}""";
 
         var o = JObject.Parse(json);
 
@@ -136,7 +136,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDateTimeOffsetStringAsync()
     {
-        var json = @"{""Offset"":""2012-01-24T03:50Z""}";
+        var json = """{"Offset":"2012-01-24T03:50Z"}""";
 
         var o = JObject.Parse(json);
 
@@ -311,7 +311,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDecimalIntAsync()
     {
-        var json = @"{""Name"":1}";
+        var json = """{"Name":1}""";
 
         var o = JObject.Parse(json);
 
@@ -332,7 +332,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsInt32IntAsync()
     {
-        var json = @"{""Name"":1}";
+        var json = """{"Name":1}""";
 
         var o = JObject.Parse(json);
 
@@ -356,7 +356,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsInt32BadStringAsync()
     {
-        var json = @"{""Name"":""hi""}";
+        var json = """{"Name":"hi"}""";
 
         var o = JObject.Parse(json);
 
@@ -376,7 +376,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsInt32BooleanAsync()
     {
-        var json = @"{""Name"":true}";
+        var json = """{"Name":true}""";
 
         var o = JObject.Parse(json);
 
@@ -396,7 +396,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDecimalStringAsync()
     {
-        var json = @"{""Name"":""1.1""}";
+        var json = """{"Name":"1.1"}""";
 
         var o = JObject.Parse(json);
 
@@ -417,7 +417,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDecimalBadStringAsync()
     {
-        var json = @"{""Name"":""blah""}";
+        var json = """{"Name":"blah"}""";
 
         var o = JObject.Parse(json);
 
@@ -437,7 +437,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDecimalBooleanAsync()
     {
-        var json = @"{""Name"":true}";
+        var json = """{"Name":true}""";
 
         var o = JObject.Parse(json);
 
@@ -457,7 +457,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
     [Fact]
     public async Task ReadAsDecimalNullAsync()
     {
-        var json = @"{""Name"":null}";
+        var json = """{"Name":null}""";
 
         var o = JObject.Parse(json);
 

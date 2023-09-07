@@ -53,11 +53,13 @@ public class FloatTests : TestFixtureBase
     [Fact]
     public void Float_NaNAndInifinity_ReadAsDouble()
     {
-        const string testJson = @"[
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        const string testJson = """
+                                [
+                                  NaN,
+                                  Infinity,
+                                  -Infinity
+                                ]
+                                """;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
@@ -82,11 +84,13 @@ public class FloatTests : TestFixtureBase
     [Fact]
     public void Float_NaNAndInifinity_ReadAsString()
     {
-        const string testJson = @"[
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        const string testJson = """
+                                [
+                                  NaN,
+                                  Infinity,
+                                  -Infinity
+                                ]
+                                """;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 

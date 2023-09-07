@@ -3,14 +3,15 @@
 // as found in the license.md file.
 
 using TestCase = Xunit.InlineDataAttribute;
+// ReSharper disable UnusedVariable
 
 public class JTokenTests : TestFixtureBase
 {
     [Fact]
     public void DeepEqualsObjectOrder()
     {
-        var ob1 = @"{""key1"":""1"",""key2"":""2""}";
-        var ob2 = @"{""key2"":""2"",""key1"":""1""}";
+        var ob1 = """{"key1":"1","key2":"2"}""";
+        var ob2 = """{"key2":"2","key1":"1"}""";
 
         var j1 = JObject.Parse(ob1);
         var j2 = JObject.Parse(ob2);
@@ -36,7 +37,12 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal("pie", p.Name);
         XUnitAssert.True((bool) p.Value);
 
-        var v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader(@"""stringvalue""")));
+        var v = (JValue) JToken.ReadFrom(
+            new JsonTextReader(
+                new StringReader(
+                    """
+                    "stringvalue"
+                    """)));
         Assert.Equal("stringvalue", (string) v);
 
         v = (JValue) JToken.ReadFrom(new JsonTextReader(new StringReader("1")));

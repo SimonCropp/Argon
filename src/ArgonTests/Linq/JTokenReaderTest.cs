@@ -33,7 +33,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ErrorTokenIndex()
     {
-        var json = JObject.Parse(@"{""IntList"":[1, ""two""]}");
+        var json = JObject.Parse("""{"IntList":[1, "two"]}""");
 
         XUnitAssert.Throws<Exception>(
             () =>
@@ -134,7 +134,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetBadString()
     {
-        var json = @"{""Offset"":""blablahbla""}";
+        var json = """{"Offset":"blablahbla"}""";
 
         var o = JObject.Parse(json);
 
@@ -154,7 +154,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetBoolean()
     {
-        var json = @"{""Offset"":true}";
+        var json = """{"Offset":true}""";
 
         var o = JObject.Parse(json);
 
@@ -174,7 +174,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetString()
     {
-        var json = @"{""Offset"":""2012-01-24T03:50Z""}";
+        var json = """{"Offset":"2012-01-24T03:50Z"}""";
 
         var o = JObject.Parse(json);
 
@@ -468,7 +468,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDecimalInt()
     {
-        var json = @"{""Name"":1}";
+        var json = """{"Name":1}""";
 
         var o = JObject.Parse(json);
 
@@ -489,7 +489,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsInt32Int()
     {
-        var json = @"{""Name"":1}";
+        var json = """{"Name":1}""";
 
         var o = JObject.Parse(json);
 
@@ -513,7 +513,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsInt32BadString()
     {
-        var json = @"{""Name"":""hi""}";
+        var json = """{"Name":"hi"}""";
 
         var o = JObject.Parse(json);
 
@@ -533,7 +533,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsInt32Boolean()
     {
-        var json = @"{""Name"":true}";
+        var json = """{"Name":true}""";
 
         var o = JObject.Parse(json);
 
@@ -553,7 +553,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDecimalString()
     {
-        var json = @"{""Name"":""1.1""}";
+        var json = """{"Name":"1.1"}""";
 
         var o = JObject.Parse(json);
 
@@ -574,7 +574,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDecimalBadString()
     {
-        var json = @"{""Name"":""blah""}";
+        var json = """{"Name":"blah"}""";
 
         var o = JObject.Parse(json);
 
@@ -594,7 +594,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDecimalBoolean()
     {
-        var json = @"{""Name"":true}";
+        var json = """{"Name":true}""";
 
         var o = JObject.Parse(json);
 
@@ -614,7 +614,7 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadAsDecimalNull()
     {
-        var json = @"{""Name"":null}";
+        var json = """{"Name":null}""";
 
         var o = JObject.Parse(json);
 

@@ -171,15 +171,15 @@
   {
     TokenType: Comment,
     LineNumber: 14,
-    LinePosition: 11,
+    LinePosition: 10,
     Path: ,
-    Value: comment 
+    Value: comment
   },
   {
     TokenType: Comment,
     LineNumber: 15,
-    LinePosition: 12,
+    LinePosition: 11,
     Path: ,
-    Value: comment 1 
+    Value: comment 1
   }
 ]

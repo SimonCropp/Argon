@@ -1110,7 +1110,7 @@ public class JPathExecuteTests : TestFixtureBase
         var o = JObject.Parse(
             """
             {
-                "station": 92000041000001, 
+                "station": 92000041000001,
                 "containers": [
                     {
                         "id": 1,
@@ -1127,13 +1127,13 @@ public class JPathExecuteTests : TestFixtureBase
                             {
                                 "id": "92000020100005",
                                 "text": "Yard 13"
-                            } 
+                            }
                         ]
-                    }, 
+                    },
                     {
                         "id": "92000020100011",
                         "text": "TSP-1"
-                    }, 
+                    },
                     {
                         "id":"92000020100007",
                         "text": "Passenger 15"
@@ -1321,45 +1321,47 @@ public class JPathExecuteTests : TestFixtureBase
     [Fact]
     public void RootInFilter()
     {
-        var json = @"[
-   {
-      ""store"" : {
-         ""book"" : [
-            {
-               ""category"" : ""reference"",
-               ""author"" : ""Nigel Rees"",
-               ""title"" : ""Sayings of the Century"",
-               ""price"" : 8.95
-            },
-            {
-               ""category"" : ""fiction"",
-               ""author"" : ""Evelyn Waugh"",
-               ""title"" : ""Sword of Honour"",
-               ""price"" : 12.99
-            },
-            {
-               ""category"" : ""fiction"",
-               ""author"" : ""Herman Melville"",
-               ""title"" : ""Moby Dick"",
-               ""isbn"" : ""0-553-21311-3"",
-               ""price"" : 8.99
-            },
-            {
-               ""category"" : ""fiction"",
-               ""author"" : ""J. R. R. Tolkien"",
-               ""title"" : ""The Lord of the Rings"",
-               ""isbn"" : ""0-395-19395-8"",
-               ""price"" : 22.99
-            }
-         ],
-         ""bicycle"" : {
-            ""color"" : ""red"",
-            ""price"" : 19.95
-         }
-      },
-      ""expensive"" : 10
-   }
-]";
+        var json = """
+                   [
+                      {
+                         "store" : {
+                            "book" : [
+                               {
+                                  "category" : "reference",
+                                  "author" : "Nigel Rees",
+                                  "title" : "Sayings of the Century",
+                                  "price" : 8.95
+                               },
+                               {
+                                  "category" : "fiction",
+                                  "author" : "Evelyn Waugh",
+                                  "title" : "Sword of Honour",
+                                  "price" : 12.99
+                               },
+                               {
+                                  "category" : "fiction",
+                                  "author" : "Herman Melville",
+                                  "title" : "Moby Dick",
+                                  "isbn" : "0-553-21311-3",
+                                  "price" : 8.99
+                               },
+                               {
+                                  "category" : "fiction",
+                                  "author" : "J. R. R. Tolkien",
+                                  "title" : "The Lord of the Rings",
+                                  "isbn" : "0-395-19395-8",
+                                  "price" : 22.99
+                               }
+                            ],
+                            "bicycle" : {
+                               "color" : "red",
+                               "price" : 19.95
+                            }
+                         },
+                         "expensive" : 10
+                      }
+                   ]
+                   """;
 
         var a = JArray.Parse(json);
 
@@ -1456,7 +1458,7 @@ public class JPathExecuteTests : TestFixtureBase
                     {
                         'Coercible': 1,
                         'Name': 'Number'
-                    }, 
+                    },
                     {
                         'Coercible': '1',
                         'Name': 'String'
@@ -1524,13 +1526,15 @@ public class JPathExecuteTests : TestFixtureBase
     [TestCaseSource(nameof(StrictMatchWithInverseTestData))]
     public static void EqualsStrict(string value1, string value2, bool matchStrict)
     {
-        var completeJson = $@"{{
-  ""Values"": [
-    {{
-      ""Property"": {value1}
-    }}
-  ]
-}}";
+        var completeJson = $$"""
+                             {
+                               "Values": [
+                                 {
+                                   "Property": {{value1}}
+                                 }
+                               ]
+                             }
+                             """;
         var completeEqualsStrictPath = $"$.Values[?(@.Property === {value2})]";
         var completeNotEqualsStrictPath = $"$.Values[?(@.Property !== {value2})]";
 

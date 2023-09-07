@@ -91,8 +91,10 @@ public class JArrayTests : TestFixtureBase
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => ((ICollection<JToken>) j).CopyTo(new JToken[1], -1),
-            @"arrayIndex is less than 0.
-Parameter name: arrayIndex",
+            """
+            arrayIndex is less than 0.
+            Parameter name: arrayIndex
+            """,
             "arrayIndex is less than 0. (Parameter 'arrayIndex')");
     }
 
@@ -195,8 +197,10 @@ Parameter name: arrayIndex",
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => j.RemoveAt(0),
-            @"Index is equal to or greater than Count.
-Parameter name: index",
+            """
+            Index is equal to or greater than Count.
+            Parameter name: index
+            """,
             "Index is equal to or greater than Count. (Parameter 'index')");
     }
 
@@ -207,8 +211,10 @@ Parameter name: index",
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => j.RemoveAt(-1),
-            @"Index is less than 0.
-Parameter name: index",
+            """
+            Index is less than 0.
+            Parameter name: index
+            """,
             "Index is less than 0. (Parameter 'index')");
     }
 
@@ -291,8 +297,10 @@ Parameter name: index",
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => j.Insert(-1, new JValue(1)),
-            @"Index was out of range. Must be non-negative and less than the size of the collection.
-Parameter name: index",
+            """
+            Index was out of range. Must be non-negative and less than the size of the collection.
+            Parameter name: index
+            """,
             "Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')");
     }
 
@@ -303,8 +311,10 @@ Parameter name: index",
 
         XUnitAssert.Throws<ArgumentOutOfRangeException>(
             () => j.Insert(2, new JValue(1)),
-            @"Index must be within the bounds of the List.
-Parameter name: index",
+            """
+            Index must be within the bounds of the List.
+            Parameter name: index
+            """,
             "Index must be within the bounds of the List. (Parameter 'index')");
     }
 
@@ -334,7 +344,7 @@ Parameter name: index",
     [Fact]
     public void Parse_ShouldThrowOnUnexpectedToken()
     {
-        var json = @"{""prop"":""value""}";
+        var json = """{"prop":"value"}""";
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JArray.Parse(json),
@@ -374,26 +384,30 @@ Parameter name: index",
 
         var result = $"myOptions = {optionValues}";
 
-        XUnitAssert.AreEqualNormalized(@"myOptions = {
-  ""options"": [
-    {
-      ""text"": ""Zero text"",
-      ""value"": ""0""
-    },
-    {
-      ""text"": ""First"",
-      ""value"": ""1""
-    },
-    {
-      ""text"": ""Second"",
-      ""value"": ""2""
-    },
-    {
-      ""text"": ""Third"",
-      ""value"": ""3""
-    }
-  ]
-}", result);
+        XUnitAssert.AreEqualNormalized(
+            """
+            myOptions = {
+              "options": [
+                {
+                  "text": "Zero text",
+                  "value": "0"
+                },
+                {
+                  "text": "First",
+                  "value": "1"
+                },
+                {
+                  "text": "Second",
+                  "value": "2"
+                },
+                {
+                  "text": "Third",
+                  "value": "3"
+                }
+              ]
+            }
+            """,
+            result);
     }
 
     [Fact]
@@ -431,7 +445,7 @@ Parameter name: index",
                     ["badvalue"] = new JValue(3)
                 };
             },
-            @"Set JArray values with invalid key value: ""badvalue"". Int32 array index expected.");
+            """Set JArray values with invalid key value: "badvalue". Int32 array index expected.""");
 
     [Fact]
     public void SetValue()
@@ -481,11 +495,13 @@ Parameter name: index",
     [Fact]
     public void ParseAdditionalContent()
     {
-        var json = @"[
-""Small"",
-""Medium"",
-""Large""
-], 987987";
+        var json = """
+                   [
+                   "Small",
+                   "Medium",
+                   "Large"
+                   ], 987987
+                   """;
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JArray.Parse(json),
@@ -495,13 +511,13 @@ Parameter name: index",
     [Fact]
     public void ToListOnEmptyArray()
     {
-        var json = @"{""decks"":[]}";
+        var json = """{"decks":[]}""";
 
         var decks = (JArray) JObject.Parse(json)["decks"];
         var l = decks.ToList();
         Assert.Equal(0, l.Count);
 
-        json = @"{""decks"":[1]}";
+        json = """{"decks":[1]}""";
 
         decks = (JArray) JObject.Parse(json)["decks"];
         l = decks.ToList();
@@ -545,8 +561,10 @@ Parameter name: index",
     [Fact]
     public void Parse_ExcessiveContentJustComments()
     {
-        var json = @"[1,2,3]/*comment*/
-//Another comment.";
+        var json = """
+                   [1,2,3]/*comment*/
+                   //Another comment.
+                   """;
 
         var a = JArray.Parse(json);
 
@@ -559,9 +577,11 @@ Parameter name: index",
     [Fact]
     public void Parse_ExcessiveContent()
     {
-        var json = @"[1,2,3]/*comment*/
-//Another comment.
-[]";
+        var json = """
+                   [1,2,3]/*comment*/
+                   //Another comment.
+                   []
+                   """;
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JArray.Parse(json),

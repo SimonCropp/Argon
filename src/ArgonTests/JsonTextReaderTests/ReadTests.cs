@@ -79,25 +79,27 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsBoolean()
     {
-        var json = @"[
-  1,
-  0,
-  1.1,
-  0.0,
-  0.000000000001,
-  9999999999,
-  -9999999999,
-  9999999999999999999999999999999999999999999999999999999999999999999999,
-  -9999999999999999999999999999999999999999999999999999999999999999999999,
-  'true',
-  'TRUE',
-  'false',
-  'FALSE',
-  // comment!
-  /* comment! */
-  '',
-  null
-]";
+        var json = """
+                   [
+                     1,
+                     0,
+                     1.1,
+                     0.0,
+                     0.000000000001,
+                     9999999999,
+                     -9999999999,
+                     9999999999999999999999999999999999999999999999999999999999999999999999,
+                     -9999999999999999999999999999999999999999999999999999999999999999999999,
+                     'true',
+                     'TRUE',
+                     'false',
+                     'FALSE',
+                     // comment!
+                     /* comment! */
+                     '',
+                     null
+                   ]
+                   """;
 
         var reader = new JsonTextReader(new StringReader(json), 10);
 
@@ -174,7 +176,9 @@ public class ReadTests : TestFixtureBase
     {
         var data = "Hello world"u8.ToArray();
 
-        var json = $@"""{Convert.ToBase64String(data)}""";
+        var json = $"""
+                    "{Convert.ToBase64String(data)}"
+                    """;
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -206,7 +210,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadUnicode()
     {
-        var json = @"{""Message"":""Hi,I\u0092ve send you smth""}";
+        var json = """{"Message":"Hi,I\u0092ve send you smth"}""";
 
         var reader = new JsonTextReader(new StringReader(json), 5);
 
@@ -230,7 +234,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadHexidecimalWithAllLetters()
     {
-        var json = @"{""text"":0xabcdef12345}";
+        var json = """{"text":0xabcdef12345}""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -309,7 +313,10 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadSingleBytes()
     {
-        var s = new StringReader(@"""SGVsbG8gd29ybGQu""");
+        var s = new StringReader(
+            """
+            "SGVsbG8gd29ybGQu"
+            """);
         var reader = new JsonTextReader(s);
 
         var data = reader.ReadAsBytes();
@@ -480,7 +487,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetBadString()
     {
-        var json = @"{""Offset"":""blablahbla""}";
+        var json = """{"Offset":"blablahbla"}""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -542,7 +549,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDateTimeOffsetIsoDate()
     {
-        var json = @"{""Offset"":""2011-08-01T21:25Z""}";
+        var json = """{"Offset":"2011-08-01T21:25Z"}""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -564,7 +571,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDecimalInt()
     {
-        var json = @"{""Name"":1}";
+        var json = """{"Name":1}""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -583,7 +590,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsIntDecimal()
     {
-        var json = @"{""Name"": 1.1}";
+        var json = """{"Name": 1.1}""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -601,7 +608,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadAsDecimal()
     {
-        var json = @"{""decimal"":-7.92281625142643E+28}";
+        var json = """{"decimal":-7.92281625142643E+28}""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -623,18 +630,20 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadBufferOnControlChar()
     {
-        var json = @"[
-  {
-    Name: 'Jim',
-    BirthDate: '2000-01-01T00:00:00',
-    LastModified: '2000-01-01T00:00:00'
-  },
-  {
-    Name: 'Jim',
-    BirthDate: '2000-01-01T00:00:00',
-    LastModified: '2000-01-01T00:00:00'
-  }
-]";
+        var json = """
+                   [
+                     {
+                       Name: 'Jim',
+                       BirthDate: '2000-01-01T00:00:00',
+                       LastModified: '2000-01-01T00:00:00'
+                     },
+                     {
+                       Name: 'Jim',
+                       BirthDate: '2000-01-01T00:00:00',
+                       LastModified: '2000-01-01T00:00:00'
+                     }
+                   ]
+                   """;
 
         var reader = new JsonTextReader(new StringReader(json), 5);
 
@@ -650,16 +659,18 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadBufferOnEndComment()
     {
-        var json = @"/*comment*/ { /*comment*/
-        Name: /*comment*/ 'Apple' /*comment*/, /*comment*/
-        ExpiryDate: '2013-08-14T04:38:31.000+01',
-        Price: 3.99,
-        Sizes: /*comment*/ [ /*comment*/
-          'Small', /*comment*/
-          'Medium' /*comment*/,
-          /*comment*/ 'Large'
-        /*comment*/ ] /*comment*/
-      } /*comment*/";
+        var json = """
+                   /*comment*/ { /*comment*/
+                     Name: /*comment*/ 'Apple' /*comment*/, /*comment*/
+                     ExpiryDate: '2013-08-14T04:38:31.000+01',
+                     Price: 3.99,
+                     Sizes: /*comment*/ [ /*comment*/
+                       'Small', /*comment*/
+                       'Medium' /*comment*/,
+                       /*comment*/ 'Large'
+                     /*comment*/ ] /*comment*/
+                   } /*comment*/
+                   """;
 
         var reader = new JsonTextReader(new StringReader(json), 5);
 
@@ -802,7 +813,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadValueComments()
     {
-        var json = @"/*comment*/[/*comment*/1/*comment*/,2,/*comment*//*comment*/""three""/*comment*/,""four""/*comment*/,null,/*comment*/null,3.99,1.1/*comment*/,''/*comment*/]/*comment*/";
+        var json = """/*comment*/[/*comment*/1/*comment*/,2,/*comment*//*comment*/"three"/*comment*/,"four"/*comment*/,null,/*comment*/null,3.99,1.1/*comment*/,''/*comment*/]/*comment*/""";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -852,11 +863,13 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public async Task ReadContentDelimitedByComments()
     {
-        var json = @"/*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
-        ExpiryDate:'2014-06-04T00:00:00Z',
-        Price: 3.99,
-        Sizes:/*comment*/[/*comment*/
-          'Small'/*comment*/]/*comment*/}/*comment*/";
+        var json = """
+                   /*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
+                   ExpiryDate:'2014-06-04T00:00:00Z',
+                   Price: 3.99,
+                   Sizes:/*comment*/[/*comment*/
+                     'Small'/*comment*/]/*comment*/}/*comment*/
+                   """;
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
         await reader.VerifyReaderState();
@@ -865,12 +878,14 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadNullIntLineNumberAndPosition()
     {
-        var json = @"[
-  1,
-  2,
-  3,
-  null
-]";
+        var json = """
+                   [
+                     1,
+                     2,
+                     3,
+                     null
+                   ]
+                   """;
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
@@ -1020,7 +1035,7 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadSingleQuoteInsideDoubleQuoteString()
     {
-        var json = @"{""NameOfStore"":""Forest's Bakery And Cafe""}";
+        var json = """{"NameOfStore":"Forest's Bakery And Cafe"}""";
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
         jsonTextReader.Read();
@@ -1433,19 +1448,19 @@ third line""";
     [Fact]
     public void ThrowOnDuplicateKeysDeserializing()
     {
-        var json = @"
-                {
-                    ""a"": 1,
-                    ""b"": [
-                        {
-                            ""c"": {
-                                ""d"": 1,
-                                ""d"": ""2""
-                            }
-                        }
-                    ]
-                }
-            ";
+        var json = """
+                     {
+                       "a": 1,
+                       "b": [
+                         {
+                           "c": {
+                             "d": 1,
+                             "d": "2"
+                           }
+                         }
+                       ]
+                     }
+                   """;
 
         var settings = new JsonLoadSettings();
 

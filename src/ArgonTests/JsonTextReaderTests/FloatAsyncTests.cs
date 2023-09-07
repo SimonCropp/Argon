@@ -51,11 +51,13 @@ public class FloatAsyncTests : TestFixtureBase
     [Fact]
     public async Task Float_NaNAndInifinity_ReadAsDoubleAsync()
     {
-        const string testJson = @"[
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        const string testJson = """
+                                [
+                                  NaN,
+                                  Infinity,
+                                  -Infinity
+                                ]
+                                """;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
@@ -80,11 +82,13 @@ public class FloatAsyncTests : TestFixtureBase
     [Fact]
     public async Task Float_NaNAndInifinity_ReadAsStringAsync()
     {
-        const string testJson = @"[
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        const string testJson = """
+                                [
+                                  NaN,
+                                  Infinity,
+                                  -Infinity
+                                ]
+                                """;
 
         var reader = new JsonTextReader(new StringReader(testJson));
 
@@ -189,11 +193,13 @@ public class FloatAsyncTests : TestFixtureBase
     [Fact]
     public async Task FloatingPointNonFiniteNumbersAsync()
     {
-        var input = @"[
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        var input = """
+                    [
+                      NaN,
+                      Infinity,
+                      -Infinity
+                    ]
+                    """;
 
         var sr = new StringReader(input);
 

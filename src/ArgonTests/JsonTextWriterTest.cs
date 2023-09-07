@@ -23,9 +23,12 @@ public class JsonTextWriterTest : TestFixtureBase
 
         var result = o.ToString();
 
-        XUnitAssert.AreEqualNormalized(@"{
-  ""BodyHtml"": ""<h3>Title!</h3>\r\n                                                                                                    <p>Content!</p>""
-}", result);
+        XUnitAssert.AreEqualNormalized(
+            """
+            {
+              "BodyHtml": "<h3>Title!</h3>\r\n                                                                                                    <p>Content!</p>"
+            }
+            """, result);
     }
 #endif
 
@@ -81,7 +84,9 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{name:""value""}", stringBuilder.ToString());
+        Assert.Equal(
+            """{name:"value"}""",
+            stringBuilder.ToString());
     }
 
     [Fact]
@@ -102,7 +107,9 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name"":value}", stringBuilder.ToString());
+        Assert.Equal(
+            """{"name":value}""",
+            stringBuilder.ToString());
     }
 
     [Fact]
@@ -123,7 +130,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name""€"":""张""""}", stringBuilder.ToString());
+        Assert.Equal("""{"name"€":"张""}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -144,7 +151,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name\""€"":""\""€""}", stringBuilder.ToString());
+        Assert.Equal("""{"name\"€":"\"€"}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -165,7 +172,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name\u0022€"":""\u0022€""}", stringBuilder.ToString());
+        Assert.Equal("""{"name\u0022€":"\u0022€"}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -186,7 +193,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name\""\u20ac"":""\""\u20ac""}", stringBuilder.ToString());
+        Assert.Equal("""{"name\"\u20ac":"\"\u20ac"}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -207,7 +214,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name""€"":""张""""}", stringBuilder.ToString());
+        Assert.Equal("""{"name"€":"张""}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -228,7 +235,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name\""€"":""\""€""}", stringBuilder.ToString());
+        Assert.Equal("""{"name\"€":"\"€"}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -249,7 +256,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name\u0022€"":""\u0022€""}", stringBuilder.ToString());
+        Assert.Equal("""{"name\u0022€":"\u0022€"}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -270,7 +277,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteEndObject();
         jsonWriter.Flush();
 
-        Assert.Equal(@"{""name\""\u20ac"":""\""\u20ac""}", stringBuilder.ToString());
+        Assert.Equal("""{"name\"\u20ac":"\"\u20ac"}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -326,7 +333,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteEndArray();
         }
 
-        var expected = @"[""@"",""\r\n\t\f\b?{\\r\\n\""'"",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,""This is a string."",null,undefined]";
+        var expected = """["@","\r\n\t\f\b?{\\r\\n\"'",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,"This is a string.",null,undefined]""";
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -374,7 +381,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
         var json = stringWriter.ToString();
 
-        var expected = @"[null,""c"",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,""1970-01-01T00:00:00Z"",null,""1970-01-01T00:00:00+00:00""]";
+        var expected = """[null,"c",null,true,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1.1,null,1.1,null,1.1,null,"1970-01-01T00:00:00Z",null,"1970-01-01T00:00:00+00:00"]""";
 
         Assert.Equal(expected, json);
     }
@@ -393,7 +400,7 @@ public class JsonTextWriterTest : TestFixtureBase
         }
 
         var json = stringWriter.ToString();
-        var expected = @"[""c""]";
+        var expected = """["c"]""";
 
         Assert.Equal(expected, json);
     }
@@ -420,14 +427,17 @@ public class JsonTextWriterTest : TestFixtureBase
         using (var jsonWriter = new JsonTextWriter(stringWriter))
         {
             jsonWriter.WriteStartArray();
-            jsonWriter.WriteValue(@"""These pretzels are making me thirsty!""");
+            jsonWriter.WriteValue(
+                """
+                "These pretzels are making me thirsty!"
+                """);
             jsonWriter.WriteValue("Jeff's house was burninated.");
             jsonWriter.WriteValue("1. You don't talk about fight club.\r\n2. You don't talk about fight club.");
             jsonWriter.WriteValue("35% of\t statistics\n are made\r up.");
             jsonWriter.WriteEndArray();
         }
 
-        var expected = @"[""\""These pretzels are making me thirsty!\"""",""Jeff's house was burninated."",""1. You don't talk about fight club.\r\n2. You don't talk about fight club."",""35% of\t statistics\n are made\r up.""]";
+        var expected = """["\"These pretzels are making me thirsty!\"","Jeff's house was burninated.","1. You don't talk about fight club.\r\n2. You don't talk about fight club.","35% of\t statistics\n are made\r up."]""";
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -639,14 +649,16 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.Flush();
         }
 
-        var expected = @"[
-  NaN,
-  Infinity,
-  -Infinity,
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        var expected = """
+                       [
+                         NaN,
+                         Infinity,
+                         -Infinity,
+                         NaN,
+                         Infinity,
+                         -Infinity
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -682,20 +694,22 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.Flush();
         }
 
-        var expected = @"[
-  0.0,
-  0.0,
-  0.0,
-  0.0,
-  0.0,
-  0.0,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null
-]";
+        var expected = """
+                       [
+                         0.0,
+                         0.0,
+                         0.0,
+                         0.0,
+                         0.0,
+                         0.0,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -725,14 +739,16 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.Flush();
         }
 
-        var expected = @"[
-  ""NaN"",
-  ""Infinity"",
-  ""-Infinity"",
-  ""NaN"",
-  ""Infinity"",
-  ""-Infinity""
-]";
+        var expected = """
+                       [
+                         "NaN",
+                         "Infinity",
+                         "-Infinity",
+                         "NaN",
+                         "Infinity",
+                         "-Infinity"
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -763,14 +779,16 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.Flush();
         }
 
-        var expected = @"[
-  'NaN',
-  'Infinity',
-  '-Infinity',
-  'NaN',
-  'Infinity',
-  '-Infinity'
-]";
+        var expected = """
+                       [
+                         'NaN',
+                         'Infinity',
+                         '-Infinity',
+                         'NaN',
+                         'Infinity',
+                         '-Infinity'
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -795,9 +813,11 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteEndArray();
         }
 
-        var expected = @"[1,2,3,4,5]  [
-  NaN
-]";
+        var expected = """
+                       [1,2,3,4,5]  [
+                         NaN
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -824,10 +844,12 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteEndArray();
         }
 
-        var expected = @"[
-  NaN,[1,2,3,4,5],[1,2,3,4,5],
-  NaN
-]";
+        var expected = """
+                       [
+                         NaN,[1,2,3,4,5],[1,2,3,4,5],
+                         NaN
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -845,11 +867,14 @@ public class JsonTextWriterTest : TestFixtureBase
                })
         {
             jsonWriter.WriteStartObject();
-            jsonWriter.WriteRaw(@"""PropertyName"":[1,2,3,4,5]");
+            jsonWriter.WriteRaw(
+                """
+                "PropertyName":[1,2,3,4,5]
+                """);
             jsonWriter.WriteEnd();
         }
 
-        var expected = @"{""PropertyName"":[1,2,3,4,5]}";
+        var expected = """{"PropertyName":[1,2,3,4,5]}""";
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -893,7 +918,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteEndObject();
         }
 
-        Assert.Equal(@"{""d0"":[1,2],""d1"":[1,2],""d2"":[1,2]}", stringBuilder.ToString());
+        Assert.Equal("""{"d0":[1,2],"d1":[1,2],"d2":[1,2]}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -963,21 +988,24 @@ public class JsonTextWriterTest : TestFixtureBase
 
         Console.WriteLine(stringBuilder.ToString());
 
-        XUnitAssert.AreEqualNormalized(@"[
-  2147483647,
-  -2147483648,
-  0,
-  0,
-  9,
-  9,
-  9223372036854775807,
-  -9223372036854775808,
-  18446744073709551615,
-  0,
-  4294967294,
-  4294967295,
-  4294967296
-]", stringBuilder.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              2147483647,
+              -2147483648,
+              0,
+              0,
+              9,
+              9,
+              9223372036854775807,
+              -9223372036854775808,
+              18446744073709551615,
+              0,
+              4294967294,
+              4294967295,
+              4294967296
+            ]
+            """, stringBuilder.ToString());
     }
 
     [Fact]
@@ -999,7 +1027,7 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteToken(JsonToken.EndArray);
         }
 
-        Assert.Equal(@"[1,{""integer"":2147483647,""null-string"":null}]", stringBuilder.ToString());
+        Assert.Equal("""[1,{"integer":2147483647,"null-string":null}]""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -1074,7 +1102,9 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteValue(data);
         }
 
-        var expected = @"""SGVsbG8gd29ybGQu""";
+        var expected = """
+                       "SGVsbG8gd29ybGQu"
+                       """;
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -1107,13 +1137,15 @@ public class JsonTextWriterTest : TestFixtureBase
             jsonWriter.WriteEndArray();
         }
 
-        var expected = @"[
-  ""SGVsbG8gd29ybGQu"",
-  ""SGVsbG8gd29ybGQu"",
-  ""SGVsbG8gd29ybGQu"",
-  null,
-  null
-]";
+        var expected = """
+                       [
+                         "SGVsbG8gd29ybGQu",
+                         "SGVsbG8gd29ybGQu",
+                         "SGVsbG8gd29ybGQu",
+                         null,
+                         null
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -1211,13 +1243,17 @@ public class JsonTextWriterTest : TestFixtureBase
             EscapeHandling = EscapeHandling.EscapeHtml
         };
 
-        var script = @"<script type=""text/javascript"">alert('hi');</script>";
+        var script = """<script type="text/javascript">alert('hi');</script>""";
 
         jsonWriter.WriteValue(script);
 
         var json = stringWriter.ToString();
 
-        Assert.Equal(@"""\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e""", json);
+        Assert.Equal(
+            """
+            "\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e"
+            """,
+            json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -1240,7 +1276,11 @@ public class JsonTextWriterTest : TestFixtureBase
         var json = stringWriter.ToString();
 
         Assert.Equal(8, json.Length);
-        Assert.Equal(@"""\u5f20""", json);
+        Assert.Equal(
+            """
+            "\u5f20"
+            """,
+            json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -1276,7 +1316,11 @@ public class JsonTextWriterTest : TestFixtureBase
         var json = stringWriter.ToString();
 
         Assert.Equal(3, json.Length);
-        Assert.Equal(@"""张""", json);
+        Assert.Equal(
+            """
+            "张"
+            """,
+            json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -1383,14 +1427,17 @@ public class JsonTextWriterTest : TestFixtureBase
 
         jsonWriter.WriteEnd();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  '2000-01-01T01:01:01Z',
-  '2000-01-01T01:01:01+00:00',
-  'AQID',
-  '00:00:00',
-  'http://www.google.com/',
-  '00000000-0000-0000-0000-000000000000'
-]", stringWriter.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              '2000-01-01T01:01:01Z',
+              '2000-01-01T01:01:01+00:00',
+              'AQID',
+              '00:00:00',
+              'http://www.google.com/',
+              '00000000-0000-0000-0000-000000000000'
+            ]
+            """, stringWriter.ToString());
     }
 
     [Fact]
@@ -1483,7 +1530,7 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void WriteComments()
+    public Task WriteComments()
     {
         var json = $$"""
             //comment*//*hi*/
@@ -1495,11 +1542,11 @@ public class JsonTextWriterTest : TestFixtureBase
                     Price: 3.99,
                     Sizes: //comment
             [//comment
-            
+
                       "Small"//comment
             ]//comment
-            }//comment 
-            //comment 1 
+            }//comment
+            //comment 1
             """;
 
         var reader = new JsonTextReader(new StringReader(json));
@@ -1510,20 +1557,7 @@ public class JsonTextWriterTest : TestFixtureBase
 
         jsonWriter.WriteToken(reader, true);
 
-        XUnitAssert.AreEqualNormalized(
-            """
-            /*comment*//*hi*/*/{/*comment*/
-              "Name": /*comment*/ true/*comment after true*//*comment after comma*/,
-              "ExpiryDate": "2014-06-04T00:00:00Z",
-              "Price": 3.99,
-              "Sizes": /*comment*/ [
-                /*comment*/
-                "Small"
-                /*comment*/
-              ]/*comment*/
-            }/*comment *//*comment 1 */
-            """,
-            stringWriter.ToString());
+        return Verify(stringWriter.ToString());
     }
 
     [Fact]

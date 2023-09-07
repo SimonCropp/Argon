@@ -14,7 +14,7 @@ public class Issue1877
         ((Fubar) f2).Version = new("4.0");
 
         var s = JsonConvert.SerializeObject(f2);
-        Assert.Equal(@"{""Version"":""4.0""}", s);
+        Assert.Equal("""{"Version":"4.0"}""", s);
 
         var f3 = JsonConvert.DeserializeObject<Fubar2>(s, new JsonSerializerSettings
         {

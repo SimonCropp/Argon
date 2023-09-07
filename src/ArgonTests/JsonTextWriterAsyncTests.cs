@@ -86,7 +86,11 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WritePropertyNameAsync("PropUndefined");
             await writer.WriteUndefinedAsync();
 
-            await writer.WritePropertyNameAsync(@"PropEscaped ""name""", true);
+            await writer.WritePropertyNameAsync(
+                """
+                PropEscaped "name"
+                """,
+                true);
             await writer.WriteNullAsync();
 
             await writer.WritePropertyNameAsync("PropUnescaped", false);
@@ -225,7 +229,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await writer.WriteEndObjectAsync();
         await writer.FlushAsync();
 
-        Assert.Equal(@"{name:""value""}", stringBuilder.ToString());
+        Assert.Equal("""{name:"value"}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -302,7 +306,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndArrayAsync();
         }
 
-        var expected = @"[""@"",""\r\n\t\f\b?{\\r\\n\""'"",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,""This is a string."",null,undefined]";
+        var expected = """["@","\r\n\t\f\b?{\\r\\n\"'",true,10,10.99,0.99,1E-18,0.000000000000000001,null,null,"This is a string.",null,undefined]""";
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -366,7 +370,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         }
 
         var json = stringWriter.ToString();
-        var expected = @"[""c""]";
+        var expected = """["c"]""";
 
         Assert.Equal(expected, json);
     }
@@ -391,14 +395,17 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         using (var jsonWriter = new JsonTextWriter(stringWriter))
         {
             await jsonWriter.WriteStartArrayAsync();
-            await jsonWriter.WriteValueAsync(@"""These pretzels are making me thirsty!""");
+            await jsonWriter.WriteValueAsync(
+                """
+                "These pretzels are making me thirsty!"
+                """);
             await jsonWriter.WriteValueAsync("Jeff's house was burninated.");
             await jsonWriter.WriteValueAsync("1. You don't talk about fight club.\r\n2. You don't talk about fight club.");
             await jsonWriter.WriteValueAsync("35% of\t statistics\n are made\r up.");
             await jsonWriter.WriteEndArrayAsync();
         }
 
-        var expected = @"[""\""These pretzels are making me thirsty!\"""",""Jeff's house was burninated."",""1. You don't talk about fight club.\r\n2. You don't talk about fight club."",""35% of\t statistics\n are made\r up.""]";
+        var expected = """["\"These pretzels are making me thirsty!\"","Jeff's house was burninated.","1. You don't talk about fight club.\r\n2. You don't talk about fight club.","35% of\t statistics\n are made\r up."]""";
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -609,14 +616,16 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.FlushAsync();
         }
 
-        var expected = @"[
-  NaN,
-  Infinity,
-  -Infinity,
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        var expected = """
+                       [
+                         NaN,
+                         Infinity,
+                         -Infinity,
+                         NaN,
+                         Infinity,
+                         -Infinity
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -652,20 +661,22 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.FlushAsync();
         }
 
-        var expected = @"[
-  0.0,
-  0.0,
-  0.0,
-  0.0,
-  0.0,
-  0.0,
-  null,
-  null,
-  null,
-  null,
-  null,
-  null
-]";
+        var expected = """
+                       [
+                         0.0,
+                         0.0,
+                         0.0,
+                         0.0,
+                         0.0,
+                         0.0,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -695,14 +706,16 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.FlushAsync();
         }
 
-        var expected = @"[
-  ""NaN"",
-  ""Infinity"",
-  ""-Infinity"",
-  ""NaN"",
-  ""Infinity"",
-  ""-Infinity""
-]";
+        var expected = """
+                       [
+                         "NaN",
+                         "Infinity",
+                         "-Infinity",
+                         "NaN",
+                         "Infinity",
+                         "-Infinity"
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -733,14 +746,16 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.FlushAsync();
         }
 
-        var expected = @"[
-  'NaN',
-  'Infinity',
-  '-Infinity',
-  'NaN',
-  'Infinity',
-  '-Infinity'
-]";
+        var expected = """
+                       [
+                         'NaN',
+                         'Infinity',
+                         '-Infinity',
+                         'NaN',
+                         'Infinity',
+                         '-Infinity'
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -765,9 +780,11 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndArrayAsync();
         }
 
-        var expected = @"[1,2,3,4,5]  [
-  NaN
-]";
+        var expected = """
+                       [1,2,3,4,5]  [
+                         NaN
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -793,10 +810,12 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndArrayAsync();
         }
 
-        var expected = @"[
-  NaN,[1,2,3,4,5],[1,2,3,4,5],
-  NaN
-]";
+        var expected = """
+                       [
+                         NaN,[1,2,3,4,5],[1,2,3,4,5],
+                         NaN
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -814,11 +833,14 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
                })
         {
             await jsonWriter.WriteStartObjectAsync();
-            await jsonWriter.WriteRawAsync(@"""PropertyName"":[1,2,3,4,5]");
+            await jsonWriter.WriteRawAsync(
+                """
+                "PropertyName":[1,2,3,4,5]
+                """);
             await jsonWriter.WriteEndAsync();
         }
 
-        var expected = @"{""PropertyName"":[1,2,3,4,5]}";
+        var expected = """{"PropertyName":[1,2,3,4,5]}""";
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -863,7 +885,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndObjectAsync();
         }
 
-        Assert.Equal(@"{""d0"":[1,2],""d1"":[1,2],""d2"":[1,2]}", stringBuilder.ToString());
+        Assert.Equal("""{"d0":[1,2],"d1":[1,2],"d2":[1,2]}""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -933,18 +955,21 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         Console.WriteLine(stringBuilder.ToString());
 
-        XUnitAssert.AreEqualNormalized(@"[
-  2147483647,
-  -2147483648,
-  0,
-  0,
-  9,
-  9,
-  9223372036854775807,
-  -9223372036854775808,
-  18446744073709551615,
-  0
-]", stringBuilder.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              2147483647,
+              -2147483648,
+              0,
+              0,
+              9,
+              9,
+              9223372036854775807,
+              -9223372036854775808,
+              18446744073709551615,
+              0
+            ]
+            """, stringBuilder.ToString());
     }
 
     [Fact]
@@ -964,7 +989,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteTokenAsync(JsonToken.EndArray);
         }
 
-        Assert.Equal(@"[1,{""string"":2147483647}]", stringBuilder.ToString());
+        Assert.Equal("""[1,{"string":2147483647}]""", stringBuilder.ToString());
     }
 
     [Fact]
@@ -1028,7 +1053,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteValueAsync(data);
         }
 
-        var expected = @"""SGVsbG8gd29ybGQu""";
+        var expected = """
+                       "SGVsbG8gd29ybGQu"
+                       """;
         var result = stringBuilder.ToString();
 
         Assert.Equal(expected, result);
@@ -1063,13 +1090,15 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await jsonWriter.WriteEndArrayAsync();
         }
 
-        var expected = @"[
-  ""SGVsbG8gd29ybGQu"",
-  ""SGVsbG8gd29ybGQu"",
-  ""SGVsbG8gd29ybGQu"",
-  null,
-  null
-]";
+        var expected = """
+                       [
+                         "SGVsbG8gd29ybGQu",
+                         "SGVsbG8gd29ybGQu",
+                         "SGVsbG8gd29ybGQu",
+                         null,
+                         null
+                       ]
+                       """;
         var result = stringBuilder.ToString();
 
         XUnitAssert.AreEqualNormalized(expected, result);
@@ -1084,13 +1113,17 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             EscapeHandling = EscapeHandling.EscapeHtml
         };
 
-        var script = @"<script type=""text/javascript"">alert('hi');</script>";
+        var script = """<script type="text/javascript">alert('hi');</script>""";
 
         await jsonWriter.WriteValueAsync(script);
 
         var json = stringWriter.ToString();
 
-        Assert.Equal(@"""\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e""", json);
+        Assert.Equal(
+            """
+            "\u003cscript type=\u0022text/javascript\u0022\u003ealert(\u0027hi\u0027);\u003c/script\u003e"
+            """,
+            json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -1113,7 +1146,11 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var json = stringWriter.ToString();
 
         Assert.Equal(8, json.Length);
-        Assert.Equal(@"""\u5f20""", json);
+        Assert.Equal(
+            """
+            "\u5f20"
+            """,
+            json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -1149,7 +1186,11 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         var json = stringWriter.ToString();
 
         Assert.Equal(3, json.Length);
-        Assert.Equal(@"""张""", json);
+        Assert.Equal(
+            """
+            "张"
+            """,
+            json);
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -1207,14 +1248,17 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         await jsonWriter.WriteEndAsync();
 
-        XUnitAssert.AreEqualNormalized(@"[
-  '2000-01-01T01:01:01Z',
-  '2000-01-01T01:01:01+00:00',
-  'AQID',
-  '00:00:00',
-  'http://www.google.com/',
-  '00000000-0000-0000-0000-000000000000'
-]", stringWriter.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              '2000-01-01T01:01:01Z',
+              '2000-01-01T01:01:01+00:00',
+              'AQID',
+              '00:00:00',
+              'http://www.google.com/',
+              '00000000-0000-0000-0000-000000000000'
+            ]
+            """, stringWriter.ToString());
     }
 
     [Fact]
@@ -1470,11 +1514,11 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
                     Price: 3.99,
                     Sizes: //comment
             [//comment
-            
+
                       "Small"//comment
             ]//comment
-            }//comment 
-            //comment 1 
+            }//comment
+            //comment 1
             """;
 
         var reader = new JsonTextReader(new StringReader(json));
@@ -1487,16 +1531,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         await jsonWriter.WriteTokenAsync(reader, true);
 
-        XUnitAssert.AreEqualNormalized(@"/*comment*//*hi*/*/{/*comment*/
-  ""Name"": /*comment*/ true/*comment after true*//*comment after comma*/,
-  ""ExpiryDate"": ""2014-06-04T00:00:00Z"",
-  ""Price"": 3.99,
-  ""Sizes"": /*comment*/ [
-    /*comment*/
-    ""Small""
-    /*comment*/
-  ]/*comment*/
-}/*comment *//*comment 1 */", stringWriter.ToString());
+        await Verify(stringWriter.ToString());
     }
 
     [Fact]
