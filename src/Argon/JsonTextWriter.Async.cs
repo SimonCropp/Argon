@@ -180,9 +180,6 @@ public partial class JsonTextWriter
         // levels of indentation multiplied by the indent count
         var currentIndentCount = Top * indentation;
 
-        SetIndentChars();
-        MiscellaneousUtils.Assert(indentChars != null);
-
         if (currentIndentCount <= indentCharBufferSize)
         {
             return writer.WriteAsync(indentChars, 0, newLine.Length + currentIndentCount, cancel);
@@ -193,8 +190,6 @@ public partial class JsonTextWriter
 
     async Task WriteIndentAsync(int currentIndentCount, int newLineLen, Cancel cancel)
     {
-        MiscellaneousUtils.Assert(indentChars != null);
-
         await writer.WriteAsync(indentChars, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize), cancel).ConfigureAwait(false);
 
         while ((currentIndentCount -= indentCharBufferSize) > 0)

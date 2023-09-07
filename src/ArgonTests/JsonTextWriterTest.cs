@@ -41,7 +41,6 @@ public class JsonTextWriterTest : TestFixtureBase
         using (var jsonWriter = new JsonTextWriter(streamWriter)
                {
                    CloseOutput = true,
-                   Indentation = 2,
                    Formatting = Formatting.Indented
                })
         {
@@ -1057,49 +1056,6 @@ public class JsonTextWriterTest : TestFixtureBase
                 };
             },
             @"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
-
-    [Fact]
-    public void Indentation()
-    {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
-
-        using (var jsonWriter = new JsonTextWriter(stringWriter)
-               {
-                   Formatting = Formatting.Indented,
-                   FloatFormatHandling = FloatFormatHandling.Symbol,
-                   QuoteChar = '\''
-               })
-        {
-            Assert.Equal(Formatting.Indented, jsonWriter.Formatting);
-
-            jsonWriter.Indentation = 5;
-            jsonWriter.IndentChar = '_';
-
-            jsonWriter.WriteStartObject();
-
-            jsonWriter.WritePropertyName("propertyName");
-            jsonWriter.WriteValue(double.NaN);
-
-            jsonWriter.IndentChar = '?';
-            jsonWriter.Indentation = 6;
-
-            jsonWriter.WritePropertyName("prop2");
-            jsonWriter.WriteValue(123);
-
-            jsonWriter.WriteEndObject();
-        }
-
-        var expected = """
-            {
-            _____'propertyName': NaN,
-            ??????'prop2': 123
-            }
-            """;
-        var result = stringBuilder.ToString();
-
-        XUnitAssert.AreEqualNormalized(expected, result);
-    }
 
     [Fact]
     public void WriteSingleBytes()
