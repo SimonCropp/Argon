@@ -17,7 +17,7 @@ public partial class JsonTextWriter : JsonWriter
     char quoteChar = '"';
     bool[]? charEscapeFlags;
     char[]? writeBuffer;
-    char[]? indentChars;
+    char[] indentChars;
     string newLine;
 
     Base64Encoder Base64Encoder => base64Encoder ??= new(writer);
@@ -61,6 +61,7 @@ public partial class JsonTextWriter : JsonWriter
         UpdateCharEscapeFlags();
 
         safeAsync = GetType() == typeof(JsonTextWriter);
+        indentChars = (newLine + new string(indentChar, indentCharBufferSize)).ToCharArray();
     }
 
     /// <summary>
@@ -189,37 +190,11 @@ public partial class JsonTextWriter : JsonWriter
         // levels of indentation multiplied by the indent count
         var currentIndentCount = Top * indentation;
 
-        SetIndentChars();
-
-        writer.Write(indentChars!, 0, newLine.Length + Math.Min(currentIndentCount, indentCharBufferSize));
+        writer.Write(indentChars, 0, newLine.Length + Math.Min(currentIndentCount, indentCharBufferSize));
 
         while ((currentIndentCount -= indentCharBufferSize) > 0)
         {
-            writer.Write(indentChars!, newLine.Length, Math.Min(currentIndentCount, indentCharBufferSize));
-        }
-    }
-
-    void SetIndentChars()
-    {
-        // Set _indentChars to be a newline followed by IndentCharBufferSize indent characters.
-        var match = indentChars != null && indentChars.Length == indentCharBufferSize + newLine.Length;
-        if (match)
-        {
-            for (var i = 0; i != newLine.Length; ++i)
-            {
-                if (newLine[i] != indentChars![i])
-                {
-                    match = false;
-                    break;
-                }
-            }
-        }
-
-        if (!match)
-        {
-            // If we're here, either _indentChars hasn't been set yet, or _writer.NewLine
-            // has been changed, or _indentChar has been changed.
-            indentChars = (newLine + new string(indentChar, indentCharBufferSize)).ToCharArray();
+            writer.Write(indentChars, newLine.Length, Math.Min(currentIndentCount, indentCharBufferSize));
         }
     }
 
