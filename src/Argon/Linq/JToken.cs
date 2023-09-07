@@ -267,7 +267,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
     /// </summary>
     /// <typeparam name="T">The type to filter the child tokens on.</typeparam>
     /// <returns>A <see cref="JEnumerable{T}" /> containing the child tokens of this <see cref="JToken" />, in document order.</returns>
-    public JEnumerable<T> Children<T>() where T : JToken =>
+    public JEnumerable<T> Children<T>()
+        where T : JToken =>
         new(Children().OfType<T>());
 
     /// <summary>

@@ -105,7 +105,8 @@ public abstract partial class JContainer :
     /// <returns>
     /// A <see cref="IEnumerable{T}" /> containing the child values of this <see cref="JToken" />, in document order.
     /// </returns>
-    public override IEnumerable<T?> Values<T>() where T : default =>
+    public override IEnumerable<T?> Values<T>()
+        where T : default =>
         ChildrenTokens.Convert<JToken, T>();
 
     /// <summary>

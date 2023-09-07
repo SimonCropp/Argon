@@ -115,18 +115,15 @@ static class JsonTypeReflector
 
     public static JsonConverter? GetJsonConverter(ICustomAttributeProvider attributeProvider)
     {
-        var converterAttribute = AttributeCache<JsonConverterAttribute>.GetAttribute(attributeProvider);
+        var attribute = AttributeCache<JsonConverterAttribute>.GetAttribute(attributeProvider);
 
-        if (converterAttribute != null)
+        if (attribute == null)
         {
-            var creator = creatorCache.Get(converterAttribute.ConverterType);
-            if (creator != null)
-            {
-                return (JsonConverter) creator(converterAttribute.ConverterParameters);
-            }
+            return null;
         }
 
-        return null;
+        var creator = creatorCache.Get(attribute.ConverterType);
+        return (JsonConverter) creator(attribute.ConverterParameters);
     }
 
     /// <summary>
@@ -197,7 +194,8 @@ static class JsonTypeReflector
         };
     }
 
-    public static T? GetAttribute<T>(this Type type) where T : Attribute
+    public static T? GetAttribute<T>(this Type type)
+        where T : Attribute
     {
         var attribute = type.GetCustomAttribute<T>(true);
         if (attribute != null)
@@ -217,7 +215,8 @@ static class JsonTypeReflector
         return null;
     }
 
-    public static T? GetAttribute<T>(this MemberInfo member) where T : Attribute
+    public static T? GetAttribute<T>(this MemberInfo member)
+        where T : Attribute
     {
         var attribute = member.GetCustomAttribute<T>(true);
         if (attribute != null)
@@ -245,7 +244,8 @@ static class JsonTypeReflector
         return null;
     }
 
-    public static T? GetAttribute<T>(ICustomAttributeProvider provider) where T : Attribute
+    public static T? GetAttribute<T>(ICustomAttributeProvider provider)
+        where T : Attribute
     {
         if (provider is Type type)
         {
