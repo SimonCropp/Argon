@@ -190,25 +190,6 @@ public class DemoTests : TestFixtureBase
         Assert.Equal("Serialize All The Things", s.Name);
     }
 
-    [Fact]
-    public void DeserializationBasics2()
-    {
-        var s = new Session
-        {
-            Date = new(2014, 6, 4)
-        };
-
-        var j = """
-            {
-              'Name': 'Serialize All The Things'
-            }
-            """;
-
-        JsonConvert.PopulateObject(j, s);
-        // Name = Serialize All The Things
-        // Date = Tuesday, 3 June 2014
-    }
-
     public class City
     {
         public string Name { get; set; }

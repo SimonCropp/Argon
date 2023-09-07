@@ -495,20 +495,6 @@ public class ExtensionDataTests : TestFixtureBase
         }
     }
 
-    [Fact]
-    public void PopulateWithExtensionData()
-    {
-        var jsonStirng = """{ "ForJson" : 33 , "extra1" : 11, "extra2" : 22 }""";
-
-        var c = new MyClass();
-
-        JsonConvert.PopulateObject(jsonStirng, c);
-
-        Assert.Equal(2, c.ExtraInfoJson.Count);
-        Assert.Equal(11, (int) c.ExtraInfoJson["extra1"]);
-        Assert.Equal(22, (int) c.ExtraInfoJson["extra2"]);
-    }
-
     public class MultipleExtensionDataAttributesTestClass
     {
         public string Name { get; set; }

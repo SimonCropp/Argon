@@ -641,28 +641,4 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         Assert.True(actual.Payload is JObject);
     }
-
-    [Fact]
-    public void DeserializeCircularReferencesWithConverter()
-    {
-        var json = """
-            {
-              "$id": "1",
-              "$type": "CircularReferenceClass"
-            }
-            """;
-
-        var c = new MetadataPropertyDisabledTestClass();
-
-        JsonConvert.PopulateObject(
-            json,
-            c,
-            new()
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.Ignore
-            });
-
-        Assert.Equal("1", c.Id);
-        Assert.Equal("CircularReferenceClass", c.Type);
-    }
 }

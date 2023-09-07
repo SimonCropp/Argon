@@ -1024,50 +1024,6 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void IntegerToLarge_ReadNextValue()
-    {
-        var errorMessages = new List<string>();
-
-        var reader = new JsonTextReader(new StringReader(
-            """
-            {
-              "string1": "blah",
-              "int1": 2147483648,
-              "string2": "also blah",
-              "int2": 2147483648,
-              "string3": "more blah",
-              "dateTime1": "200NOTDATE",
-              "string4": "even more blah"
-            }
-            """));
-        var settings = new JsonSerializerSettings
-        {
-            Error = (_, _, _, exception, markAsHanded) =>
-            {
-                errorMessages.Add(exception.Message);
-                markAsHanded();
-            }
-        };
-        var serializer = JsonSerializer.Create(settings);
-
-        var data = new DataModel();
-        serializer.Populate(reader, data);
-
-        Assert.Equal("blah", data.String1);
-        Assert.Equal(0, data.Int1);
-        Assert.Equal("also blah", data.String2);
-        Assert.Equal(0, data.Int2);
-        Assert.Equal("more blah", data.String3);
-        Assert.Equal(default, data.DateTime1);
-        Assert.Equal("even more blah", data.String4);
-
-        //Assert.AreEqual(2, errorMessages.Count);
-        Assert.Equal("JSON integer 2147483648 is too large or small for an Int32. Path 'int1', line 3, position 20.", errorMessages[0]);
-        Assert.Equal("JSON integer 2147483648 is too large or small for an Int32. Path 'int2', line 5, position 20.", errorMessages[1]);
-        Assert.Equal("Could not convert string to DateTime: 200NOTDATE. Path 'dateTime1', line 7, position 27.", errorMessages[2]);
-    }
-
-    [Fact]
     public void HandleErrorInDictionaryObject()
     {
         var json = """

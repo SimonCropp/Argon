@@ -1007,51 +1007,6 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void StringListAppenderConverterTest()
-    {
-        var p = new Movie
-        {
-            ReleaseCountries = new()
-            {
-                "Existing"
-            }
-        };
-
-        JsonConvert.PopulateObject("{'ReleaseCountries':['Appended']}", p,
-            new()
-            {
-                Converters = new()
-                {
-                    new StringListAppenderConverter()
-                }
-            });
-
-        Assert.Equal(2, p.ReleaseCountries.Count);
-        Assert.Equal("Existing", p.ReleaseCountries[0]);
-        Assert.Equal("Appended", p.ReleaseCountries[1]);
-    }
-
-    [Fact]
-    public void StringAppenderConverterTest()
-    {
-        var p = new Movie
-        {
-            Name = "Existing,"
-        };
-
-        JsonConvert.PopulateObject("{'Name':'Appended'}", p,
-            new()
-            {
-                Converters = new()
-                {
-                    new StringAppenderConverter()
-                }
-            });
-
-        Assert.Equal("Existing,Appended", p.Name);
-    }
-
-    [Fact]
     public void DeserializeIDictionary()
     {
         var dictionary = JsonConvert.DeserializeObject<IDictionary>("{'name':'value!'}");
