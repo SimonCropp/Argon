@@ -52,7 +52,6 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         using (var writer = new JsonTextWriter(stringWriter))
         {
-            writer.Indentation = 4;
             writer.Formatting = Formatting.Indented;
 
             await writer.WriteStartObjectAsync();
@@ -119,30 +118,30 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         XUnitAssert.AreEqualNormalized(
             """
             {
-                "PropByte": 1,
-                "PropSByte": 2,
-                "PropShort": 3,
-                "PropUInt": 4,
-                "PropUShort": 5,
-                "PropUri": "http://localhost/",
-                "PropRaw": 'raw string',
-                "PropObjectNull": null,
-                "PropObjectBigInteger": 123456789012345678901234567890,
-                "PropUndefined": undefined,
-                "PropEscaped \"name\"": null,
-                "PropUnescaped": null,
-                "PropArray": [
-                    "string!"
-                ],
-                "PropNested": [
+              "PropByte": 1,
+              "PropSByte": 2,
+              "PropShort": 3,
+              "PropUInt": 4,
+              "PropUShort": 5,
+              "PropUri": "http://localhost/",
+              "PropRaw": 'raw string',
+              "PropObjectNull": null,
+              "PropObjectBigInteger": 123456789012345678901234567890,
+              "PropUndefined": undefined,
+              "PropEscaped \"name\"": null,
+              "PropUnescaped": null,
+              "PropArray": [
+                "string!"
+              ],
+              "PropNested": [
+                [
+                  [
                     [
-                        [
-                            [
-                                []
-                            ]
-                        ]
+                      []
                     ]
+                  ]
                 ]
+              ]
             }
             """,
             stringWriter.ToString());
@@ -155,7 +154,6 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
 
         using (var writer = new JsonTextWriter(stringWriter))
         {
-            writer.Indentation = 4;
             writer.Formatting = Formatting.Indented;
 
             await writer.WriteStartArrayAsync();
@@ -167,11 +165,15 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
             await writer.WriteEndArrayAsync();
         }
 
-        XUnitAssert.AreEqualNormalized(@"[
-    {
-        ""IncompleteProp"": null
-    }
-]", stringWriter.ToString());
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              {
+                "IncompleteProp": null
+              }
+            ]
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]
@@ -183,7 +185,6 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         using (var jsonWriter = new JsonTextWriter(streamWriter)
                {
                    CloseOutput = true,
-                   Indentation = 2,
                    Formatting = Formatting.Indented
                })
         {
@@ -1008,46 +1009,6 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await XUnitAssert.ThrowsAsync<JsonWriterException>(
             () => jsonWriter.WriteEndArrayAsync(),
             "No token to close. Path ''.");
-    }
-
-    [Fact]
-    public async Task IndentationAsync()
-    {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
-
-        using (var jsonWriter = new JsonTextWriter(stringWriter)
-               {
-                   Formatting = Formatting.Indented,
-                   FloatFormatHandling = FloatFormatHandling.Symbol,
-                   QuoteChar = '\'',
-                   Indentation = 5,
-                   IndentChar = '_'
-               })
-        {
-            await jsonWriter.WriteStartObjectAsync();
-
-            await jsonWriter.WritePropertyNameAsync("propertyName");
-            await jsonWriter.WriteValueAsync(double.NaN);
-
-            jsonWriter.IndentChar = '?';
-            jsonWriter.Indentation = 6;
-
-            await jsonWriter.WritePropertyNameAsync("prop2");
-            await jsonWriter.WriteValueAsync(123);
-
-            await jsonWriter.WriteEndObjectAsync();
-        }
-
-        var expected = """
-            {
-            _____'propertyName': NaN,
-            ??????'prop2': 123
-            }
-            """;
-        var result = stringBuilder.ToString();
-
-        XUnitAssert.AreEqualNormalized(expected, result);
     }
 
     [Fact]

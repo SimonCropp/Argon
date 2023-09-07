@@ -12,8 +12,8 @@ public partial class JsonTextWriter : JsonWriter
     const int indentCharBufferSize = 12;
     TextWriter writer;
     Base64Encoder? base64Encoder;
-    char indentChar = ' ';
-    int indentation = 2;
+    const char indentChar = ' ';
+    const int indentation = 2;
     char quoteChar = '"';
     bool[]? charEscapeFlags;
     char[]? writeBuffer;
@@ -21,23 +21,6 @@ public partial class JsonTextWriter : JsonWriter
     string newLine;
 
     Base64Encoder Base64Encoder => base64Encoder ??= new(writer);
-
-    /// <summary>
-    /// Gets or sets how many <see cref="JsonTextWriter.IndentChar" />s to write for each level in the hierarchy when <see cref="JsonWriter.Formatting" /> is set to <see cref="Formatting.Indented" />.
-    /// </summary>
-    public int Indentation
-    {
-        get => indentation;
-        set
-        {
-            if (value < 0)
-            {
-                throw new ArgumentException("Indentation value must be greater than 0.");
-            }
-
-            indentation = value;
-        }
-    }
 
     /// <summary>
     /// Gets or sets which character to use to quote attribute values.
@@ -54,22 +37,6 @@ public partial class JsonTextWriter : JsonWriter
 
             quoteChar = value;
             UpdateCharEscapeFlags();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets which character to use for indenting when <see cref="JsonWriter.Formatting" /> is set to <see cref="Formatting.Indented" />.
-    /// </summary>
-    public char IndentChar
-    {
-        get => indentChar;
-        set
-        {
-            if (value != indentChar)
-            {
-                indentChar = value;
-                indentChars = null;
-            }
         }
     }
 
