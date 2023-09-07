@@ -272,6 +272,7 @@ public partial class JProperty : JContainer
     }
 
     internal override int GetDeepHashCode() =>
+        // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         Name.GetHashCode() ^ (Value?.GetDeepHashCode() ?? 0);
 
     /// <summary>

@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Maps a JSON property to a .NET member or constructor parameter.
 /// </summary>
-public class JsonProperty
+public class JsonProperty(Type propertyType, Type declaringType)
 {
     internal Required? required;
     internal bool hasExplicitDefaultValue;
@@ -16,12 +16,6 @@ public class JsonProperty
     bool hasGeneratedDefaultValue;
     string? propertyName;
     internal bool skipPropertyNameEscape;
-
-    public JsonProperty(Type propertyType, Type declaringType)
-    {
-        PropertyType = propertyType;
-        DeclaringType = declaringType;
-    }
 
     // use to cache contract during deserialization
     internal JsonContract? PropertyContract { get; set; }
@@ -42,7 +36,7 @@ public class JsonProperty
     /// <summary>
     /// Gets or sets the type that declared this property.
     /// </summary>
-    public Type DeclaringType { get; }
+    public Type DeclaringType { get; } = declaringType;
 
     /// <summary>
     /// Gets or sets the order of serialization of a member.
@@ -62,7 +56,7 @@ public class JsonProperty
     /// <summary>
     /// Gets or sets the type of the property.
     /// </summary>
-    public Type PropertyType { get; set; }
+    public Type PropertyType { get; set; } = propertyType;
 
     /// <summary>
     /// Gets or sets the <see cref="JsonConverter" /> for the property.

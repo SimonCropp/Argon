@@ -57,6 +57,7 @@ public class DefaultJsonNameTable : JsonNameTable
 
         var entries = this.entries;
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         for (var entry = entries[index]; entry != null; entry = entry.Next)
         {
             if (entry.HashCode == hashCode && TextEquals(entry.Value, key, start, length))
@@ -90,6 +91,7 @@ public class DefaultJsonNameTable : JsonNameTable
         hashCode -= hashCode >> 17;
         hashCode -= hashCode >> 11;
         hashCode -= hashCode >> 5;
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         for (var entry = entries[hashCode & mask]; entry != null; entry = entry.Next)
         {
             if (entry.HashCode == hashCode && entry.Value.Equals(key, StringComparison.Ordinal))

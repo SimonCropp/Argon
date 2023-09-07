@@ -80,6 +80,7 @@ class JPropertyKeyedCollection() :
         {
             AddKey(keyForItem, item);
 
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (keyAtIndex != null)
             {
                 RemoveKey(keyAtIndex);
@@ -176,10 +177,12 @@ class JPropertyKeyedCollection() :
             var p1 = (JProperty) keyAndProperty.Value;
             var p2 = (JProperty) secondValue;
 
+            // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (p1.Value == null)
             {
                 return p2.Value == null;
             }
+            // ReSharper restore ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
             if (!p1.Value.DeepEquals(p2.Value))
             {
