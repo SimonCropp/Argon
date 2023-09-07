@@ -11,7 +11,7 @@ public partial class JsonTextWriter : JsonWriter
 {
     const int indentCharBufferSize = 12;
     TextWriter writer;
-    Base64Encoder? base64Encoder;
+    Base64Encoder base64Encoder;
     const char indentChar = ' ';
     const int indentation = 2;
     char quoteChar = '"';
@@ -19,8 +19,6 @@ public partial class JsonTextWriter : JsonWriter
     char[]? writeBuffer;
     char[] indentChars;
     string newLine;
-
-    Base64Encoder Base64Encoder => base64Encoder ??= new(writer);
 
     /// <summary>
     /// Gets or sets which character to use to quote attribute values.
@@ -56,6 +54,7 @@ public partial class JsonTextWriter : JsonWriter
     public JsonTextWriter(TextWriter textWriter)
     {
         writer = textWriter;
+        base64Encoder = new(textWriter);
         newLine = writer.NewLine;
 
         UpdateCharEscapeFlags();
@@ -481,8 +480,8 @@ public partial class JsonTextWriter : JsonWriter
                 writer.Write(quoteChar);
             }
 
-            Base64Encoder.Encode(value, 0, value.Length);
-            Base64Encoder.Flush();
+            base64Encoder.Encode(value, 0, value.Length);
+            base64Encoder.Flush();
             if (QuoteValue)
             {
                 writer.Write(quoteChar);
