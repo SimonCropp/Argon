@@ -20,64 +20,6 @@ class JsonSerializerInternalReader : JsonSerializerInternalBase
     {
     }
 
-    public void Populate(JsonReader reader, object target)
-    {
-        var type = target.GetType();
-
-        var contract = Serializer.ResolveContract(type);
-
-        if (!reader.MoveToContent())
-        {
-            throw JsonSerializationException.Create(reader, "No JSON content found.");
-        }
-
-        if (reader.TokenType == JsonToken.StartArray)
-        {
-            if (contract.ContractType == JsonContractType.Array)
-            {
-                var arrayContract = (JsonArrayContract) contract;
-
-                PopulateList(arrayContract.ShouldCreateWrapper ? arrayContract.CreateWrapper(target) : (IList) target, reader, arrayContract, null, null);
-            }
-            else
-            {
-                throw JsonSerializationException.Create(reader, $"Cannot populate JSON array onto type '{type}'.");
-            }
-        }
-        else if (reader.TokenType == JsonToken.StartObject)
-        {
-            reader.ReadAndAssert();
-
-            string? id = null;
-            if (Serializer.MetadataPropertyHandling != MetadataPropertyHandling.Ignore
-                && reader.TokenType == JsonToken.PropertyName
-                && string.Equals((string) reader.GetValue(), JsonTypeReflector.IdPropertyName, StringComparison.Ordinal))
-            {
-                reader.ReadAndAssert();
-                id = reader.Value?.ToString();
-                reader.ReadAndAssert();
-            }
-
-            if (contract.ContractType == JsonContractType.Dictionary)
-            {
-                var dictionaryContract = (JsonDictionaryContract) contract;
-                PopulateDictionary(dictionaryContract.ShouldCreateWrapper ? dictionaryContract.CreateWrapper(target) : (IDictionary) target, reader, dictionaryContract, null, id);
-            }
-            else if (contract.ContractType == JsonContractType.Object)
-            {
-                PopulateObject(target, reader, (JsonObjectContract) contract, null, id);
-            }
-            else
-            {
-                throw JsonSerializationException.Create(reader, $"Cannot populate JSON object onto type '{type}'.");
-            }
-        }
-        else
-        {
-            throw JsonSerializationException.Create(reader, $"Unexpected initial token '{reader.TokenType}' when populating object. Expected JSON object or array.");
-        }
-    }
-
     JsonContract? GetContractSafe(Type? type)
     {
         if (type == null)

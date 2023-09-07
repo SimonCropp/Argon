@@ -166,17 +166,6 @@ class JsonSerializerProxy : JsonSerializer
         return serializerReader.Deserialize(reader, type, false);
     }
 
-    internal override void PopulateInternal(JsonReader reader, object target)
-    {
-        if (serializerReader == null)
-        {
-            serializer.Populate(reader, target);
-            return;
-        }
-
-        serializerReader.Populate(reader, target);
-    }
-
     internal override void SerializeInternal(JsonWriter jsonWriter, object? value, Type? rootType)
     {
         if (serializerWriter == null)

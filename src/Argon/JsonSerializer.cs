@@ -383,37 +383,6 @@ public class JsonSerializer
     }
 
     /// <summary>
-    /// Populates the JSON values onto the target object.
-    /// </summary>
-    /// <param name="reader">The <see cref="TextReader" /> that contains the JSON structure to read values from.</param>
-    [DebuggerStepThrough]
-    public void Populate(TextReader reader, object target) =>
-        Populate(new JsonTextReader(reader), target);
-
-    /// <summary>
-    /// Populates the JSON values onto the target object.
-    /// </summary>
-    [DebuggerStepThrough]
-    public void Populate(JsonReader reader, object target) =>
-        PopulateInternal(reader, target);
-
-    internal virtual void PopulateInternal(JsonReader reader, object target)
-    {
-        SetupReader(
-            reader,
-            out var previousFloatParseHandling,
-            out var previousMaxDepth);
-
-        var serializerReader = new JsonSerializerInternalReader(this);
-        serializerReader.Populate(reader, target);
-
-        ResetReader(
-            reader,
-            previousFloatParseHandling,
-            previousMaxDepth);
-    }
-
-    /// <summary>
     /// Deserializes the JSON structure contained by the specified <see cref="JsonReader" />.
     /// </summary>
     /// <returns>The <see cref="Object" /> being deserialized.</returns>
