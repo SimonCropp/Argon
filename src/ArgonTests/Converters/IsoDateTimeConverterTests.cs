@@ -149,7 +149,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
             PostField = "Post"
         };
         var json = JsonConvert.SerializeObject(c, new IsoDateTimeConverter {DateTimeStyles = DateTimeStyles.AssumeUniversal});
-        Assert.Equal(@"{""PreField"":""Pre"",""DateTimeField"":""2008-12-12T12:12:12Z"",""DateTimeOffsetField"":""2008-12-12T12:12:12+00:00"",""PostField"":""Post""}", json);
+        Assert.Equal("""{"PreField":"Pre","DateTimeField":"2008-12-12T12:12:12Z","DateTimeOffsetField":"2008-12-12T12:12:12+00:00","PostField":"Post"}""", json);
 
         //test the other edge case too
         c.DateTimeField = null;
