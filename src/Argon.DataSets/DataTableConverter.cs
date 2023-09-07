@@ -29,8 +29,7 @@ public class DataTableConverter : JsonConverter
                 var columnValue = row[column];
 
                 if (serializer.NullValueHandling == NullValueHandling.Ignore &&
-                    (columnValue == null ||
-                     columnValue == DBNull.Value))
+                    columnValue == DBNull.Value)
                 {
                     continue;
                 }

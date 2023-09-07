@@ -1321,11 +1321,9 @@ public class ReadAsyncTests : TestFixtureBase
 
         var json = $"{newLinesText}{{{newLinesText}'{newLinesText}name1{newLinesText}'{newLinesText}:{newLinesText}[{newLinesText}'2014-06-04T00:00:00Z'{newLinesText},{newLinesText}1.1111{newLinesText}]{newLinesText},{newLinesText}name2{newLinesText}:{newLinesText}{{{newLinesText}}}{newLinesText}}}{newLinesText}";
 
-        var count = 0;
         var sr = new StringReader(newLinesText);
         while (sr.ReadLine() != null)
         {
-            count++;
         }
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
