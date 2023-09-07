@@ -2,19 +2,15 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-class Base64Encoder
+class Base64Encoder(TextWriter writer)
 {
     const int Base64LineSize = 76;
     const int LineSizeInBytes = 57;
 
     readonly char[] charsLine = new char[Base64LineSize];
-    readonly TextWriter writer;
 
     byte[]? leftOverBytes;
     int leftOverBytesCount;
-
-    public Base64Encoder(TextWriter writer) =>
-        this.writer = writer;
 
     static void ValidateEncode(byte[] buffer, int index, int count)
     {

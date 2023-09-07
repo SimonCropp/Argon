@@ -862,17 +862,11 @@ public class JsonConvertTest : TestFixtureBase
         public string Four { get; set; }
     }
 
-    public class ClobberingJsonConverter : JsonConverter
+    public class ClobberingJsonConverter(string clobberValueString, int clobberValueInt) : JsonConverter
     {
-        public string ClobberValueString { get; }
+        public string ClobberValueString { get; } = clobberValueString;
 
-        public int ClobberValueInt { get; }
-
-        public ClobberingJsonConverter(string clobberValueString, int clobberValueInt)
-        {
-            ClobberValueString = clobberValueString;
-            ClobberValueInt = clobberValueInt;
-        }
+        public int ClobberValueInt { get; } = clobberValueInt;
 
         public ClobberingJsonConverter(string clobberValueString)
             : this(clobberValueString, 1337)
@@ -1208,11 +1202,8 @@ public class JsonConvertTest : TestFixtureBase
         public double Gain { get; set; }
     }
 
-    public class RoundingJsonConverter : JsonConverter
+    public class RoundingJsonConverter(int precision, MidpointRounding rounding) : JsonConverter
     {
-        int precision;
-        MidpointRounding rounding;
-
         public RoundingJsonConverter()
             : this(2)
         {
@@ -1221,12 +1212,6 @@ public class JsonConvertTest : TestFixtureBase
         public RoundingJsonConverter(int precision)
             : this(precision, MidpointRounding.AwayFromZero)
         {
-        }
-
-        public RoundingJsonConverter(int precision, MidpointRounding rounding)
-        {
-            this.precision = precision;
-            this.rounding = rounding;
         }
 
         public override bool CanRead => false;

@@ -391,13 +391,9 @@ public class DefaultContractResolver : IContractResolver
 
     // leave as class instead of struct
     // will be always return as an interface and boxed
-    class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue> : IEnumerable<KeyValuePair<object, object>>
+    class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue>(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
+        : IEnumerable<KeyValuePair<object, object>>
     {
-        readonly IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
-
-        public EnumerableDictionaryWrapper(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e) =>
-            this.e = e;
-
         public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
         {
             foreach (var item in e)

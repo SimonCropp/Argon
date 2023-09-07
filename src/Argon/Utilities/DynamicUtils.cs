@@ -97,14 +97,9 @@ static class DynamicUtils
     }
 }
 
-class NoThrowGetBinderMember : GetMemberBinder
+class NoThrowGetBinderMember(GetMemberBinder innerBinder) :
+    GetMemberBinder(innerBinder.Name, innerBinder.IgnoreCase)
 {
-    readonly GetMemberBinder innerBinder;
-
-    public NoThrowGetBinderMember(GetMemberBinder innerBinder)
-        : base(innerBinder.Name, innerBinder.IgnoreCase) =>
-        this.innerBinder = innerBinder;
-
     public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
     {
         var retMetaObject = innerBinder.Bind(target, Array.Empty<DynamicMetaObject>());
@@ -117,14 +112,9 @@ class NoThrowGetBinderMember : GetMemberBinder
     }
 }
 
-class NoThrowSetBinderMember : SetMemberBinder
+class NoThrowSetBinderMember(SetMemberBinder innerBinder) :
+    SetMemberBinder(innerBinder.Name, innerBinder.IgnoreCase)
 {
-    readonly SetMemberBinder innerBinder;
-
-    public NoThrowSetBinderMember(SetMemberBinder innerBinder)
-        : base(innerBinder.Name, innerBinder.IgnoreCase) =>
-        this.innerBinder = innerBinder;
-
     public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject? errorSuggestion)
     {
         var retMetaObject = innerBinder.Bind(target, new[] {value});
