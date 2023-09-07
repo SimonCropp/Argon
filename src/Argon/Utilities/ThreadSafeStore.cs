@@ -2,16 +2,10 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-class ThreadSafeStore<TKey, TValue> where TKey : notnull
+class ThreadSafeStore<TKey, TValue>(Func<TKey, TValue> creator)
+    where TKey : notnull
 {
-    readonly ConcurrentDictionary<TKey, TValue> concurrentStore;
-    readonly Func<TKey, TValue> creator;
-
-    public ThreadSafeStore(Func<TKey, TValue> creator)
-    {
-        this.creator = creator;
-        concurrentStore = new();
-    }
+    ConcurrentDictionary<TKey, TValue> concurrentStore = new();
 
     public TValue Get(TKey key) =>
         concurrentStore.GetOrAdd(key, creator);
