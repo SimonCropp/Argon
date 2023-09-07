@@ -1402,7 +1402,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             throw JsonReaderException.Create(this, $"Invalid property identifier character: {charBuffer[charPos]}.");
         }
 
-        string? propertyName;
+        string propertyName;
 
         if (PropertyNameTable == null)
         {
@@ -1424,7 +1424,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
 
         charPos++;
 
-        SetToken(JsonToken.PropertyName, propertyName);
+        SetPropertyToken(propertyName);
         this.quoteChar = quoteChar;
         ClearRecentString();
 

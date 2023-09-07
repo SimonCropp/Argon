@@ -868,6 +868,17 @@ public abstract partial class JsonReader : IDisposable
         SetToken(newToken, value, true);
 
     /// <summary>
+    /// Sets the property token and value.
+    /// </summary>
+    protected void SetPropertyToken(string value)
+    {
+        tokenType = JsonToken.PropertyName;
+        this.value = value;
+        currentState = State.Property;
+        currentPosition.PropertyName = value;
+    }
+
+    /// <summary>
     /// Sets the current token and value.
     /// </summary>
     /// <param name="updateIndex">A flag indicating whether the position index inside an array should be updated.</param>
