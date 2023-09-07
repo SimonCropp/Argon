@@ -2,15 +2,12 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-class JPropertyKeyedCollection : Collection<JToken>
+class JPropertyKeyedCollection() :
+    Collection<JToken>(new List<JToken>())
 {
     static readonly IEqualityComparer<string> comparer = StringComparer.Ordinal;
 
     Dictionary<string, JToken>? dictionary;
-
-    public JPropertyKeyedCollection() : base(new List<JToken>())
-    {
-    }
 
     void AddKey(string key, JToken item)
     {

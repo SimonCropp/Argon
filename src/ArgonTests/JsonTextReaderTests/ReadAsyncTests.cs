@@ -1454,13 +1454,8 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.True(reader.ReadAsStringAsync(token).IsCanceled);
     }
 
-    class NoOverridesDerivedJsonTextAsync : JsonTextReader
-    {
-        public NoOverridesDerivedJsonTextAsync()
-            : base(new StreamReader(Stream.Null))
-        {
-        }
-    }
+    class NoOverridesDerivedJsonTextAsync() :
+        JsonTextReader(new StreamReader(Stream.Null));
 
     class MinimalOverridesDerivedJsonReader : JsonReader
     {

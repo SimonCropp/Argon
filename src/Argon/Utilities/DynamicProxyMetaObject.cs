@@ -162,19 +162,12 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
     static Expression[] NoArgs => Array.Empty<Expression>();
 
-    static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args)
-    {
-        for (var index = 0; index < args.Length; index++)
-        {
-            var arg = args[index];
-        }
-
-        return args.Select(arg =>
+    static IEnumerable<Expression> GetArgs(params DynamicMetaObject[] args) =>
+        args.Select(arg =>
         {
             var exp = arg.Expression;
             return exp.Type.IsValueType ? Expression.Convert(exp, typeof(object)) : exp;
         });
-    }
 
     static Expression[] GetArgArray(DynamicMetaObject[] args) =>
         new[] {Expression.NewArrayInit(typeof(object), GetArgs(args))};

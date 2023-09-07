@@ -10,14 +10,11 @@ using OriginalStreamWriter = System.IO.StreamWriter;
 
 namespace Argon.Tests.Documentation;
 
-public class SerializationTests : TestFixtureBase
+public class SerializationTests :
+    TestFixtureBase
 {
-    public class StreamWriter : OriginalStreamWriter
-    {
-        public StreamWriter(string path) : base(Path.GetFileName(path))
-        {
-        }
-    }
+    public class StreamWriter(string path) :
+        OriginalStreamWriter(Path.GetFileName(path));
 
     [Fact]
     public void SerializeObject()
@@ -115,8 +112,8 @@ public class SerializationTests : TestFixtureBase
         [JsonIgnore]
         public string Member3 { get; set; } = "This is a nonserialized value";
 
-        // This field is set to null, but populated after deserialization.
-        public string Member4 { get; set; } = null;
+        // This field is null, but populated after deserialization.
+        public string Member4 { get; set; }
 
         public virtual void OnSerializing() =>
             Member2 = "This value went into the data file during serialization.";
@@ -811,17 +808,13 @@ public class SerializationTests : TestFixtureBase
 
     #region ReducingSerializedJsonSizeContractResolverObject
 
-    public class DynamicContractResolver : DefaultContractResolver
+    public class DynamicContractResolver(char startingWithChar) :
+        DefaultContractResolver
     {
-        readonly char _startingWithChar;
-
-        public DynamicContractResolver(char startingWithChar) =>
-            _startingWithChar = startingWithChar;
-
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization serialization) =>
             // only serializer properties that start with the specified character
             base.CreateProperties(type, serialization)
-                .Where(p => p.PropertyName.StartsWith(_startingWithChar.ToString())).ToList();
+                .Where(p => p.PropertyName.StartsWith(startingWithChar.ToString())).ToList();
     }
 
     public class Book

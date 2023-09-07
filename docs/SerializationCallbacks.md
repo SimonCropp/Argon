@@ -36,8 +36,8 @@ public class SerializationEventTestObject :
     [JsonIgnore]
     public string Member3 { get; set; } = "This is a nonserialized value";
 
-    // This field is set to null, but populated after deserialization.
-    public string Member4 { get; set; } = null;
+    // This field is null, but populated after deserialization.
+    public string Member4 { get; set; }
 
     public virtual void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
@@ -52,7 +52,7 @@ public class SerializationEventTestObject :
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L97-L134' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L94-L131' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The example object being serialized and deserialized by Json.NET:</para>
@@ -98,5 +98,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L139-L179' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L136-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
