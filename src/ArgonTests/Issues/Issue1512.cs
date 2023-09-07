@@ -9,11 +9,13 @@ public class Issue1512 : TestFixtureBase
     [Fact]
     public void Test_Constructor()
     {
-        var json = @"[
-                            {
-                                ""Inners"": [""hi"",""bye""]
-                            }
-                        ]";
+        var json = """
+                   [
+                     {
+                       "Inners": ["hi","bye"]
+                     }
+                   ]
+                   """;
         var result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
 
         Assert.Equal(1, result.Length);
@@ -25,11 +27,13 @@ public class Issue1512 : TestFixtureBase
     [Fact]
     public void Test_Property()
     {
-        var json = @"[
-                            {
-                                ""Inners"": [""hi"",""bye""]
-                            }
-                        ]";
+        var json = """
+                   [
+                     {
+                       "Inners": ["hi","bye"]
+                     }
+                   ]
+                   """;
         var result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
 
         Assert.Equal(1, result.Length);

@@ -14,7 +14,7 @@ public class SearchResult
     public string Url { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L889-L898' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L891-L900' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializingPartialJsonFragmentsExample -->
@@ -96,7 +96,7 @@ foreach (var result in results)
 // Content = Self: Zoolander. Socialite <b>Paris Hilton</b>...
 // Url = http://www.imdb.com/name/nm0385296/
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L903-L981' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L905-L983' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

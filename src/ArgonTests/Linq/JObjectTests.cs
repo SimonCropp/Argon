@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using TestObjects;
+// ReSharper disable UnusedVariable
 
 public class JObjectTests : TestFixtureBase
 {
@@ -475,7 +476,7 @@ public class JObjectTests : TestFixtureBase
         XUnitAssert.Throws<JsonReaderException>(
             () =>
             {
-                var json = @"[""prop""]";
+                var json = """["prop"]""";
                 JObject.Parse(json);
             },
             "Error reading JObject from JsonReader. Current JsonReader item is not an object: StartArray. Path '', line 1, position 1.");

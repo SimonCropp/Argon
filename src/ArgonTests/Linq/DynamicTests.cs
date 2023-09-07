@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using System.Dynamic;
+// ReSharper disable UnusedVariable
 
 public class LinqDynamicTests : TestFixtureBase
 {
@@ -672,6 +673,7 @@ public class LinqDynamicTests : TestFixtureBase
             new JProperty("ChildValue", "blah blah"),
             new JProperty("Hello Joe", null));
 
+        // ReSharper disable once NotAccessedVariable
         dynamic d = o;
 
         var memberNames = o.GetDynamicMemberNames().ToList();
@@ -785,6 +787,7 @@ public class LinqDynamicTests : TestFixtureBase
 
         dynamic newValue = JsonConvert.DeserializeObject<DynamicDictionary>(json);
 
+        // ReSharper disable once UnusedVariable
         string role = newValue.Roles[0];
         // Admin
     }

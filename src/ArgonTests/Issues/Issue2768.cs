@@ -33,7 +33,7 @@ public class Issue2768 : TestFixtureBase
     [Fact]
     public void Test_Deserialize_Negative()
     {
-        decimal d = JsonConvert.DeserializeObject<decimal>("-0.0");
+        var d = JsonConvert.DeserializeObject<decimal>("-0.0");
 
         Assert.Equal("0.0", d.ToString());
     }
@@ -65,7 +65,7 @@ public class Issue2768 : TestFixtureBase
     [Fact]
     public void ParseJsonDecimal()
     {
-        var json = @"{ ""property"": 0.0 }";
+        var json = """{ "property": 0.0 }""";
 
         var reader = new JsonTextReader(new StringReader(json))
         {

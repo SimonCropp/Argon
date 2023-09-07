@@ -4,6 +4,8 @@
 
 using Microsoft.CSharp.RuntimeBinder;
 using TestObjects;
+// ReSharper disable UnusedVariable
+// ReSharper disable PossibleMultipleEnumeration
 
 public class LinqToJsonTest : TestFixtureBase
 {
@@ -557,12 +559,12 @@ public class LinqToJsonTest : TestFixtureBase
                             unescapedUrl : "http://www.google.com/",
                             url : "http://www.google.com/",
                             visibleUrl : "www.google.com",
-                            cacheUrl : 
+                            cacheUrl :
             "http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com",
                             title : "Google",
                             titleNoFormatting : "Google",
-                            content : "Enables users to search the Web, Usenet, and 
-            images. Features include PageRank,   caching and translation of 
+                            content : "Enables users to search the Web, Usenet, and
+            images. Features include PageRank,   caching and translation of
             results, and an option to find similar pages."
                         },
                         {
@@ -570,42 +572,42 @@ public class LinqToJsonTest : TestFixtureBase
                             unescapedUrl : "http://news.google.com/",
                             url : "http://news.google.com/",
                             visibleUrl : "news.google.com",
-                            cacheUrl : 
+                            cacheUrl :
             "http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com",
                             title : "Google News",
                             titleNoFormatting : "Google News",
                             content : "Aggregated headlines and a search engine of many of the world's news sources."
                         },
-                        
+
                         {
                             GsearchResultClass:"GwebSearch",
                             unescapedUrl : "http://groups.google.com/",
                             url : "http://groups.google.com/",
                             visibleUrl : "groups.google.com",
-                            cacheUrl : 
+                            cacheUrl :
             "http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com",
                             title : "Google Groups",
                             titleNoFormatting : "Google Groups",
-                            content : "Enables users to search and browse the Usenet 
-            archives which consist of over 700   million messages, and post new 
+                            content : "Enables users to search and browse the Usenet
+            archives which consist of over 700   million messages, and post new
             comments."
                         },
-                        
+
                         {
                             GsearchResultClass:"GwebSearch",
                             unescapedUrl : "http://maps.google.com/",
                             url : "http://maps.google.com/",
                             visibleUrl : "maps.google.com",
-                            cacheUrl : 
+                            cacheUrl :
             "http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com",
                             title : "Google Maps",
                             titleNoFormatting : "Google Maps",
-                            content : "Provides directions, interactive maps, and 
-            satellite/aerial imagery of the United   States. Can also search by 
+                            content : "Provides directions, interactive maps, and
+            satellite/aerial imagery of the United   States. Can also search by
             keyword such as type of business."
                         }
                     ],
-                    
+
                 adResults:
                     [
                         {
@@ -712,7 +714,7 @@ public class LinqToJsonTest : TestFixtureBase
             {
                 Color:2,
                 Width:1.1,
-                Employees:999, 
+                Employees:999,
                 RoomsPerFloor:[1,2,3,4,5,6,7,8,9],
                 Open:false,
                 Symbol:'@',

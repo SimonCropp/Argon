@@ -172,9 +172,9 @@ public class XmlNodeConverterTest : TestFixtureBase
      * }
      * }
      * }";
-     * 
+     *
      * XmlDocument xmlNode = JsonXmlConvert.DeserializeXmlNode(initialJson, "root", false, true);
-     * 
+     *
      * StringAssert.AreEqual(@"
      * <root>
      * <_x003F_xml>
@@ -210,9 +210,9 @@ public class XmlNodeConverterTest : TestFixtureBase
      * </span>
      * </root>
      * ", IndentXml(xmlNode.OuterXml));
-     * 
+     *
      * string json = JsonXmlConvert.SerializeXmlNode(xmlNode, Formatting.Indented, true);
-     * 
+     *
      * Xunit.Assert.Equal(initialJson, json);
      * }
      * *
@@ -324,9 +324,9 @@ public class XmlNodeConverterTest : TestFixtureBase
      * }
      * }
      * }";
-     * 
+     *
      * XDocument xmlNode = JsonXmlConvert.DeserializeXNode(initialJson, "root", false, true);
-     * 
+     *
      * StringAssert.AreEqual(@"
      * <root>
      * <_x003F_xml>
@@ -362,12 +362,12 @@ public class XmlNodeConverterTest : TestFixtureBase
      * </span>
      * </root>
      * ", xmlNode.ToString());
-     * 
+     *
      * string json = JsonXmlConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
-     * 
+     *
      * Xunit.Assert.Equal(initialJson, json);
      * }
-     * 
+     *
      * [Fact]
      * public void XNode_MetadataArray_EncodeSpecialCharacters()
      * {
@@ -381,9 +381,9 @@ public class XmlNodeConverterTest : TestFixtureBase
      * ""5""
      * ]
      * }";
-     * 
+     *
      * XDocument xmlNode = JsonXmlConvert.DeserializeXNode(initialJson, "root", false, true);
-     * 
+     *
      * StringAssert.AreEqual(@"
      * <root>
      * <_x0024_id>1</_x0024_id>
@@ -394,12 +394,12 @@ public class XmlNodeConverterTest : TestFixtureBase
      * <_x0024_values>5</_x0024_values>
      * </root>
      * ", xmlNode.ToString());
-     * 
+     *
      * string json = JsonXmlConvert.SerializeXNode(xmlNode, Formatting.Indented, true);
-     * 
+     *
      * Xunit.Assert.Equal(initialJson, json);
      * }
-     * 
+     *
      * *
      */
     [Fact]
@@ -1141,9 +1141,9 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var xml = """
             <?xml version="1.0" encoding="utf-8" ?>
-            <xs:schema xs:id="SomeID" 
-                xmlns="" 
-                xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+            <xs:schema xs:id="SomeID"
+                xmlns=""
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
                 <xs:element name="MyDataSet" msdata:IsDataSet="true">
                     <xs:complexType>
@@ -1151,9 +1151,9 @@ public class XmlNodeConverterTest : TestFixtureBase
                             <xs:element name="customers" >
                                 <xs:complexType >
                                     <xs:sequence>
-                                        <xs:element name="CustomerID" type="xs:integer" 
+                                        <xs:element name="CustomerID" type="xs:integer"
                                                     minOccurs="0" />
-                                        <xs:element name="CompanyName" type="xs:string" 
+                                        <xs:element name="CompanyName" type="xs:string"
                                                     minOccurs="0" />
                                         <xs:element name="Phone" type="xs:string" />
                                     </xs:sequence>
@@ -1404,7 +1404,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var newDoc = JsonXmlConvert.DeserializeXmlNode("[1]");
+                JsonXmlConvert.DeserializeXmlNode("[1]");
             },
             "XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.");
 
@@ -1413,7 +1413,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var newDoc = JsonXmlConvert.DeserializeXmlNode("{Prop1:1,Prop2:2}");
+                JsonXmlConvert.DeserializeXmlNode("{Prop1:1,Prop2:2}");
             },
             "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Prop2', line 1, position 15.");
 

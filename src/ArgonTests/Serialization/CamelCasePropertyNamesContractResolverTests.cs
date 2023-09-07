@@ -91,6 +91,7 @@ public class CamelCasePropertyNamesContractResolverTests : TestFixtureBase
 
         Assert.Equal(int.MinValue, (int) p.Value);
 
+        // ReSharper disable once UnusedVariable
         var json = o.ToString();
     }
 

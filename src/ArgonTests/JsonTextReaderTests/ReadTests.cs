@@ -1048,9 +1048,11 @@ public class ReadTests : TestFixtureBase
     [Fact]
     public void ReadMultilineString()
     {
-        var json = @"""first line
-second line
-third line""";
+        var json = """
+                   "first line
+                   second line
+                   third line"
+                   """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 

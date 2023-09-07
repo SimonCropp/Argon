@@ -7,11 +7,12 @@ public class Issue2708 : TestFixtureBase
     [Fact]
     public void Test()
     {
-        string json = @"
-{
-  ""Name"": ""MyName"",
-  ""ChildClassProp"": ""MyValue"",
-}";
+        var json = """
+                   {
+                     "Name": "MyName",
+                     "ChildClassProp": "MyValue",
+                   }
+                   """;
 
         var record = JsonConvert.DeserializeObject<MyRecord>(json);
         Assert.Equal(null, record.Name); // Not set because doesn't have DataMember

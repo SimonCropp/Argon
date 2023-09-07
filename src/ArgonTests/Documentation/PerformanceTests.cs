@@ -55,7 +55,7 @@ public class PerformanceTests : TestFixtureBase
         #region ReuseContractResolver
 
         // BAD - a new contract resolver is created each time, forcing slow reflection to be used
-        var json1 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
+        JsonConvert.SerializeObject(person, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             ContractResolver = new DefaultContractResolver
@@ -65,14 +65,14 @@ public class PerformanceTests : TestFixtureBase
         });
 
         // GOOD - reuse the contract resolver from a shared location
-        var json2 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
+        JsonConvert.SerializeObject(person, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented,
             ContractResolver = AppSettings.SnakeCaseContractResolver
         });
 
         // GOOD - an internal contract resolver is used
-        var json3 = JsonConvert.SerializeObject(person, new JsonSerializerSettings
+        JsonConvert.SerializeObject(person, new JsonSerializerSettings
         {
             Formatting = Formatting.Indented
         });

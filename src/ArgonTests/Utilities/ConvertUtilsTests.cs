@@ -218,11 +218,11 @@ public class ConvertUtilsTests : TestFixtureBase
     [Fact]
     public void HexParseError()
     {
-        Assert.False(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out var value));
-        Assert.False(ConvertUtils.TryHexTextToInt("000g".ToCharArray(), 0, 4, out value));
-        Assert.False(ConvertUtils.TryHexTextToInt(" ssd".ToCharArray(), 0, 4, out value));
-        Assert.False(ConvertUtils.TryHexTextToInt("000:".ToCharArray(), 0, 4, out value));
-        Assert.False(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out value));
+        Assert.False(ConvertUtils.TryHexTextToInt("-100".ToCharArray(), 0, 4, out _));
+        Assert.False(ConvertUtils.TryHexTextToInt("000g".ToCharArray(), 0, 4, out _));
+        Assert.False(ConvertUtils.TryHexTextToInt(" ssd".ToCharArray(), 0, 4, out _));
+        Assert.False(ConvertUtils.TryHexTextToInt("000:".ToCharArray(), 0, 4, out _));
+        Assert.False(ConvertUtils.TryHexTextToInt("000G".ToCharArray(), 0, 4, out _));
     }
 
     static void HexParseSame(string text)

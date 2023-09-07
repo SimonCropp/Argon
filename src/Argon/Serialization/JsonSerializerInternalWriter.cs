@@ -923,8 +923,6 @@ class JsonSerializerInternalWriter :
 
         var keyContract = contract.KeyContract ??= Serializer.ContractResolver.ResolveContract(contract.DictionaryKeyType ?? typeof(object));
 
-        var initialDepth = writer.Top;
-
         static IEnumerable<DictionaryEntry> Items(IDictionary values)
         {
             foreach (DictionaryEntry entry in values)

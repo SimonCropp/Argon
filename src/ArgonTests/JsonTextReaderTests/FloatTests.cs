@@ -197,11 +197,13 @@ public class FloatTests : TestFixtureBase
     [Fact]
     public void FloatingPointNonFiniteNumbers()
     {
-        var input = @"[
-  NaN,
-  Infinity,
-  -Infinity
-]";
+        var input = """
+                    [
+                      NaN,
+                      Infinity,
+                      -Infinity
+                    ]
+                    """;
 
         var sr = new StringReader(input);
 

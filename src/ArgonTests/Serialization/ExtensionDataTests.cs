@@ -912,7 +912,7 @@ public class ExtensionDataTests : TestFixtureBase
     [Fact]
     public void DeserializeExtensionData_NoSetterAndNoExtensionData()
     {
-        var doc = JsonConvert.DeserializeObject<DocNoSetter>(@"{""_name"":""documentName""}");
+        var doc = JsonConvert.DeserializeObject<DocNoSetter>("""{"_name":"documentName"}""");
 
         Assert.Equal("documentName", doc.Name);
     }

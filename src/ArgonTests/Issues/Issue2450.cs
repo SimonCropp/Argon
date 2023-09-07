@@ -26,13 +26,13 @@ public class Issue2450
         });
 
         var json = JsonConvert.SerializeObject(d);
-        Assert.Equal(@"{""prop1"":1,""prop2"":2}", json);
+        Assert.Equal("""{"prop1":1,"prop2":2}""", json);
     }
 
     [Fact]
     public void Test_Deserialize()
     {
-        var json = @"{""prop1"":1,""prop2"":2}";
+        var json = """{"prop1":1,"prop2":2}""";
 
         var d = JsonConvert.DeserializeObject<Dict?>(json);
         Assert.Equal((long)1, d.Value["prop1"]);

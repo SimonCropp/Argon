@@ -4,6 +4,7 @@
 
 using System.Text.RegularExpressions;
 using TestObjects;
+// ReSharper disable PossibleMultipleEnumeration
 
 public class DynamicContractResolver : DefaultContractResolver
 {

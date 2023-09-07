@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Xml.Linq;
 using TestObjects;
+// ReSharper disable UnusedParameter.Local
 
 public class JsonSerializerCollectionsTests : TestFixtureBase
 {

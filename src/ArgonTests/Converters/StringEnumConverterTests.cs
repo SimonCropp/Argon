@@ -191,7 +191,7 @@ public class StringEnumConverterTests : TestFixtureBase
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
-                var e = JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(
+                JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(
                     """
                     "9"
                     """);

@@ -17,11 +17,17 @@ F# support is shipped in a separate nuget [Argon.FSharp](https://www.nuget.org/p
 <!-- snippet: FSharpConvertersInstances -->
 <a id='snippet-fsharpconvertersinstances'></a>
 ```cs
-var json = JsonConvert.SerializeObject(target, Formatting.Indented, FSharpConverters.Instances);
+var json = JsonConvert.SerializeObject(
+    target,
+    Formatting.Indented,
+    FSharpConverters.Instances);
 
-var result = JsonConvert.DeserializeObject<Target>(json, FSharpConverters.Instances);
+var result = JsonConvert.DeserializeObject<Target>(
+                 json,
+                 FSharpConverters.Instances) ??
+             throw new ArgumentNullException("JsonConvert.DeserializeObject<Target>(json, FSharpConverters.Instances)");
 ```
-<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L95-L101' title='Snippet source file'>snippet source</a> | <a href='#snippet-fsharpconvertersinstances' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L96-L108' title='Snippet source file'>snippet source</a> | <a href='#snippet-fsharpconvertersinstances' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -33,5 +39,5 @@ var result = JsonConvert.DeserializeObject<Target>(json, FSharpConverters.Instan
 var settings = new JsonSerializerSettings();
 settings.AddFSharpConverters();
 ```
-<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L108-L113' title='Snippet source file'>snippet source</a> | <a href='#snippet-addfsharpconverters' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L115-L120' title='Snippet source file'>snippet source</a> | <a href='#snippet-addfsharpconverters' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

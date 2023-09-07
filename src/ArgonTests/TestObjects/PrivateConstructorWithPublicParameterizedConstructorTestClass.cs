@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 // ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
 namespace TestObjects;
 
 public class PrivateConstructorWithPublicParameterizedConstructorTestClass

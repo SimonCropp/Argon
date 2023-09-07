@@ -7,17 +7,18 @@ public class Issue2156
     [Fact]
     public void Test()
     {
-        var json = @"
-            {
-                ""root"": {
-                    ""a"": {
-                        ""name"": ""John"",
-                        ""b"": {
-                            ""name"": ""Sarah""
-                        }
-                    }
-                }
-            }";
+        var json = """
+                   {
+                     "root": {
+                       "a": {
+                         "name": "John",
+                         "b": {
+                           "name": "Sarah"
+                         }
+                       }
+                     }
+                   }
+                   """;
 
         var token = JToken.Parse(json);
 

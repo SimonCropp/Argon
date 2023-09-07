@@ -3,6 +3,8 @@
 // as found in the license.md file.
 
 using System.Xml;
+// ReSharper disable UnusedVariable
+// ReSharper disable NotAccessedVariable
 
 namespace Argon.Tests.Documentation;
 

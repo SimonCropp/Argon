@@ -27,7 +27,7 @@ public class Issue2694 : TestFixtureBase
             await writer.WriteStartObjectAsync();
         }
 
-        string json = Encoding.UTF8.GetString(ms.ToArray());
+        var json = Encoding.UTF8.GetString(ms.ToArray());
         Assert.Equal("{}", json);
     }
 

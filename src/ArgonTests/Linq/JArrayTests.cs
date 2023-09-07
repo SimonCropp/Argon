@@ -4,6 +4,7 @@
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
+// ReSharper disable UnusedVariable
 public class JArrayTests : TestFixtureBase
 {
     [Fact]

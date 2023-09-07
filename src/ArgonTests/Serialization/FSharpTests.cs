@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using Microsoft.FSharp.Collections;
+// ReSharper disable UnusedVariable
 
 public class FSharpTests : TestFixtureBase
 {
@@ -94,9 +95,15 @@ public class FSharpTests : TestFixtureBase
     {
         #region FSharpConvertersInstances
 
-        var json = JsonConvert.SerializeObject(target, Formatting.Indented, FSharpConverters.Instances);
+        var json = JsonConvert.SerializeObject(
+            target,
+            Formatting.Indented,
+            FSharpConverters.Instances);
 
-        var result = JsonConvert.DeserializeObject<Target>(json, FSharpConverters.Instances);
+        var result = JsonConvert.DeserializeObject<Target>(
+                         json,
+                         FSharpConverters.Instances) ??
+                     throw new ArgumentNullException("JsonConvert.DeserializeObject<Target>(json, FSharpConverters.Instances)");
 
         #endregion
     }

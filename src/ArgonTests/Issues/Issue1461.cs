@@ -28,7 +28,7 @@ public class Issue1461 : TestFixtureBase
         stream.Position = 0;
 
         var reader = new StreamReader(stream);
-        Assert.Equal(@"{""Id"":""test""}", reader.ReadToEnd());
+        Assert.Equal("""{"Id":"test"}""", reader.ReadToEnd());
     }
 
     class TestObject

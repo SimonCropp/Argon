@@ -38,7 +38,7 @@ public class ConstructorHandlingTests : TestFixtureBase
             {
                 var json = """{Name:"Name!"}""";
 
-                var c = JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
+                JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
             });
 
     [Fact]

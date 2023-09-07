@@ -21,12 +21,12 @@ public class Snippets
         };
 
         var json = jObject.ToString();
-// {
-//   "MyArray": [
-//     "Manual text",
-//     "2000-05-23T00:00:00"
-//   ]
-// }
+        // {
+        //   "MyArray": [
+        //     "Manual text",
+        //     "2000-05-23T00:00:00"
+        //   ]
+        // }
 
         #endregion
     }
@@ -44,13 +44,13 @@ public class Snippets
         };
 
         var json = JsonConvert.SerializeObject(product);
-// {
-//   "Name": "Apple",
-//   "Expiry": "2008-12-28T00:00:00",
-//   "Sizes": [
-//     "Small"
-//   ]
-// }
+        // {
+        //   "Name": "Apple",
+        //   "Expiry": "2008-12-28T00:00:00",
+        //   "Sizes": [
+        //     "Small"
+        //   ]
+        // }
 
         #endregion
     }
@@ -81,7 +81,7 @@ public class Snippets
         var movie = JsonConvert.DeserializeObject<Movie>(json);
 
         var name = movie.Name;
-// Bad Boys
+        // Bad Boys
 
         #endregion
     }

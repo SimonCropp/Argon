@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using System.Data;
+// ReSharper disable UnusedVariable
 
 public class DemoTests : TestFixtureBase
 {

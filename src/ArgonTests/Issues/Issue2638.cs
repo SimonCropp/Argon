@@ -12,7 +12,7 @@ public class Issue2638
 
         static void Test(bool value)
         {
-            var obj = (JObject) JToken.Parse(@"{""x"": XXX, ""y"": XXX}".Replace("XXX", value ? "true" : "false"));
+            var obj = (JObject) JToken.Parse("""{"x": XXX, "y": XXX}""".Replace("XXX", value ? "true" : "false"));
             var x = ((JValue) obj["x"]).Value;
             var y = ((JValue) obj["y"]).Value;
 
@@ -34,7 +34,7 @@ public class Issue2638
 
         static void Test(double value, bool expectSame)
         {
-            var obj = (JObject) JToken.Parse(@"{""x"": XXX, ""y"": XXX}".Replace("XXX", value.ToString("0.0###", InvariantCulture)));
+            var obj = (JObject) JToken.Parse("""{"x": XXX, "y": XXX}""".Replace("XXX", value.ToString("0.0###", InvariantCulture)));
             var x = ((JValue) obj["x"]).Value;
             var y = ((JValue) obj["y"]).Value;
 
@@ -74,7 +74,7 @@ public class Issue2638
 
         static void Test(long value, bool expectSame)
         {
-            var obj = (JObject) JToken.Parse(@"{""x"": XXX, ""y"": XXX}".Replace("XXX", value.ToString(InvariantCulture)));
+            var obj = (JObject) JToken.Parse("""{"x": XXX, "y": XXX}""".Replace("XXX", value.ToString(InvariantCulture)));
             var x = ((JValue) obj["x"]).Value;
             var y = ((JValue) obj["y"]).Value;
 

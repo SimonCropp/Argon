@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using TestObjects;
+// ReSharper disable UnusedVariable
 
 public class IsoDateTimeConverterTests : TestFixtureBase
 {

@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Xml;
 using TestObjects;
 using Formatting = Argon.Formatting;
+// ReSharper disable UnusedVariable
+// ReSharper disable UnusedParameter.Local
 
 public class JsonConvertTest : TestFixtureBase
 {
@@ -18,7 +20,11 @@ public class JsonConvertTest : TestFixtureBase
         var value = nonAsciiChar + @"\" + escapableNonQuoteAsciiChar;
 
         var convertedValue = JsonConvert.ToString((object) value);
-        Assert.Equal($@"""{nonAsciiChar}\\\u0000""", convertedValue);
+        Assert.Equal(
+            $"""
+             "{nonAsciiChar}\\\u0000"
+             """,
+            convertedValue);
     }
 
     [Fact]
@@ -185,7 +191,7 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.None
             });
 
-            Assert.Equal(@"{""test"":[1,2,3]}", json);
+            Assert.Equal("""{"test":[1,2,3]}""", json);
         }
         finally
         {
@@ -209,11 +215,15 @@ public class JsonConvertTest : TestFixtureBase
             var serializer = JsonSerializer.CreateDefault();
             serializer.Serialize(stringWriter, l);
 
-            XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", stringWriter.ToString());
+            XUnitAssert.AreEqualNormalized(
+                """
+                [
+                  1,
+                  2,
+                  3
+                ]
+                """,
+                stringWriter.ToString());
 
             stringWriter = new();
             serializer.Formatting = Formatting.None;
@@ -258,31 +268,43 @@ public class JsonConvertTest : TestFixtureBase
             });
             serializer.Serialize(stringWriter, l);
 
-            XUnitAssert.AreEqualNormalized(@"[
-  2,
-  4,
-  6
-]", stringWriter.ToString());
+            XUnitAssert.AreEqualNormalized(
+                """
+                [
+                  2,
+                  4,
+                  6
+                ]
+                """,
+                stringWriter.ToString());
 
             stringWriter = new();
             serializer.Converters.Clear();
             serializer.Serialize(stringWriter, l);
 
-            XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", stringWriter.ToString());
+            XUnitAssert.AreEqualNormalized(
+                """
+                [
+                  1,
+                  2,
+                  3
+                ]
+                """,
+                stringWriter.ToString());
 
             stringWriter = new();
             serializer = JsonSerializer.Create(new() {Formatting = Formatting.Indented});
             serializer.Serialize(stringWriter, l);
 
-            XUnitAssert.AreEqualNormalized(@"[
-  1,
-  2,
-  3
-]", stringWriter.ToString());
+            XUnitAssert.AreEqualNormalized(
+                """
+                [
+                  1,
+                  2,
+                  3
+                ]
+                """,
+                stringWriter.ToString());
         }
         finally
         {
@@ -315,41 +337,79 @@ public class JsonConvertTest : TestFixtureBase
     public void EscapeJavaScriptString()
     {
         var result = JavaScriptUtils.ToEscapedJavaScriptString("How now brown cow?", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""How now brown cow?""", result);
+        Assert.Equal(
+            """
+            "How now brown cow?"
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("How now 'brown' cow?", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""How now 'brown' cow?""", result);
+        Assert.Equal(
+            """
+            "How now 'brown' cow?"
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("How now <brown> cow?", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""How now <brown> cow?""", result);
+        Assert.Equal(
+            """
+            "How now <brown> cow?"
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("How \r\nnow brown cow?", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""How \r\nnow brown cow?""", result);
+        Assert.Equal(
+            """
+            "How \r\nnow brown cow?"
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007""", result);
+        Assert.Equal(
+            """
+            "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007"
+            """,
+            result);
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString("\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013""", result);
+        Assert.Equal(
+            """
+            "\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013"
+            """,
+            result);
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString(
                 "\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f ", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f """, result);
+        Assert.Equal(
+            """
+            "\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f "
+            """,
+            result);
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString(
                 "!\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""!\""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]""", result);
+        Assert.Equal(
+            """
+            "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]"
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("^_`abcdefghijklmnopqrstuvwxyz{|}~", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""^_`abcdefghijklmnopqrstuvwxyz{|}~""", result);
+        Assert.Equal(
+            """
+            "^_`abcdefghijklmnopqrstuvwxyz{|}~"
+            """,
+            result);
 
         var data =
             "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
         var expected =
-            @"""\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~""";
+            """
+            "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+            """;
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(data, '"', true, EscapeHandling.Default);
         Assert.Equal(expected, result);
@@ -357,30 +417,64 @@ public class JsonConvertTest : TestFixtureBase
         result = JavaScriptUtils.ToEscapedJavaScriptString("Fred's cat.", '\'', true, EscapeHandling.Default);
         Assert.Equal(result, @"'Fred\'s cat.'");
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString(@"""How are you gentlemen?"" said Cats.", '"', true, EscapeHandling.Default);
-        Assert.Equal(result, @"""\""How are you gentlemen?\"" said Cats.""");
+        result = JavaScriptUtils.ToEscapedJavaScriptString(
+            """
+            "How are you gentlemen?" said Cats.
+            """,
+            '"', true, EscapeHandling.Default);
+        Assert.Equal(
+            result,
+            """
+            "\"How are you gentlemen?\" said Cats."
+            """);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString(@"""How are' you gentlemen?"" said Cats.", '"', true, EscapeHandling.Default);
-        Assert.Equal(result, @"""\""How are' you gentlemen?\"" said Cats.""");
+        result = JavaScriptUtils.ToEscapedJavaScriptString(
+            """
+            "How are' you gentlemen?" said Cats.
+            """,
+            '"',
+            true,
+            EscapeHandling.Default);
+        Assert.Equal(
+            result,
+            """
+            "\"How are' you gentlemen?\" said Cats."
+            """);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString(@"Fred's ""cat"".", '\'', true, EscapeHandling.Default);
-        Assert.Equal(result, @"'Fred\'s ""cat"".'");
+        result = JavaScriptUtils.ToEscapedJavaScriptString("""Fred's "cat".""", '\'', true, EscapeHandling.Default);
+        Assert.Equal(result, """'Fred\'s "cat".'""");
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("\u001farray\u003caddress", '"', true, EscapeHandling.Default);
-        Assert.Equal(result, @"""\u001farray<address""");
+        Assert.Equal(
+            result,
+            """
+            "\u001farray<address"
+            """);
     }
 
     [Fact]
     public void EscapeJavaScriptString_UnicodeLinefeeds()
     {
         var result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u0085' + "after", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""before\u0085after""", result);
+        Assert.Equal(
+            """
+            "before\u0085after"
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u2028' + "after", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""before\u2028after""", result);
+        Assert.Equal(
+            """
+            "before\u2028after"
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u2029' + "after", '"', true, EscapeHandling.Default);
-        Assert.Equal(@"""before\u2029after""", result);
+        Assert.Equal(
+            """
+            "before\u2029after"
+            """,
+            result);
     }
 
     [Fact]
@@ -394,7 +488,11 @@ public class JsonConvertTest : TestFixtureBase
     {
         var guid = new Guid("BED7F4EA-1A96-11d2-8F08-00A0C9A6186D");
         var json = JsonConvert.ToString(guid);
-        Assert.Equal(@"""bed7f4ea-1a96-11d2-8f08-00a0c9a6186d""", json);
+        Assert.Equal(
+            """
+            "bed7f4ea-1a96-11d2-8f08-00a0c9a6186d"
+            """,
+            json);
     }
 
     [Fact]
@@ -441,10 +539,18 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal("1", JsonConvert.ToString(value));
 
         value = new DateTime(ParseTests.InitialJavaScriptDateTicks, DateTimeKind.Utc);
-        Assert.Equal(@"""1970-01-01T00:00:00Z""", JsonConvert.ToString(value));
+        Assert.Equal(
+            """
+            "1970-01-01T00:00:00Z"
+            """,
+            JsonConvert.ToString(value));
 
         value = new DateTimeOffset(ParseTests.InitialJavaScriptDateTicks, TimeSpan.Zero);
-        Assert.Equal(@"""1970-01-01T00:00:00+00:00""", JsonConvert.ToString(value));
+        Assert.Equal(
+            """
+            "1970-01-01T00:00:00+00:00"
+            """,
+            JsonConvert.ToString(value));
 
         value = null;
         Assert.Equal("null", JsonConvert.ToString(value));
@@ -455,13 +561,21 @@ public class JsonConvertTest : TestFixtureBase
 #endif
 
         value = "I am a string";
-        Assert.Equal(@"""I am a string""", JsonConvert.ToString(value));
+        Assert.Equal(
+            """
+            "I am a string"
+            """,
+            JsonConvert.ToString(value));
 
         value = true;
         Assert.Equal("true", JsonConvert.ToString(value));
 
         value = 'c';
-        Assert.Equal(@"""c""", JsonConvert.ToString(value));
+        Assert.Equal(
+            """
+            "c"
+            """,
+            JsonConvert.ToString(value));
     }
 
     [Fact]
@@ -469,7 +583,7 @@ public class JsonConvertTest : TestFixtureBase
         XUnitAssert.Throws<JsonReaderException>(
             () =>
             {
-                var orig = @"this is a string ""that has quotes"" ";
+                var orig = """this is a string "that has quotes" """;
 
                 var serialized = JsonConvert.SerializeObject(orig);
 
@@ -486,7 +600,10 @@ public class JsonConvertTest : TestFixtureBase
         var i = JsonConvert.DeserializeObject<int>("1");
         Assert.Equal(1, i);
 
-        var d = JsonConvert.DeserializeObject<DateTimeOffset>(@"""2013-08-14T04:38:31.000+0000""");
+        var d = JsonConvert.DeserializeObject<DateTimeOffset>(
+            """
+            "2013-08-14T04:38:31.000+0000"
+            """);
         Assert.Equal(new(new(2013, 8, 14, 4, 38, 31, DateTimeKind.Utc)), d);
 
         var b = JsonConvert.DeserializeObject<bool>("true");
@@ -543,7 +660,11 @@ public class JsonConvertTest : TestFixtureBase
         var v = "It's a good day\r\n\"sunshine\"";
 
         var json = JsonConvert.ToString(v);
-        Assert.Equal(@"""It's a good day\r\n\""sunshine\""""", json);
+        Assert.Equal(
+            """
+            "It's a good day\r\n\"sunshine\""
+            """,
+            json);
     }
 
     [Fact]
@@ -558,10 +679,18 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(@"""\u003cb\u003ehi " + '\u20AC' + @"\u003c/b\u003e""", json);
 
         json = JsonConvert.ToString(v, '"', EscapeHandling.EscapeNonAscii);
-        Assert.Equal(@"""<b>hi \u20ac</b>""", json);
+        Assert.Equal(
+            """
+            "<b>hi \u20ac</b>"
+            """,
+            json);
 
         json = JsonConvert.ToString(v, '"', EscapeHandling.None);
-        Assert.Equal(@"""<b>hi €</b>""", json);
+        Assert.Equal(
+            """
+            "<b>hi €</b>"
+            """,
+            json);
     }
 
     [Fact]
@@ -778,7 +907,11 @@ public class JsonConvertTest : TestFixtureBase
         jsonWriter.WriteValue(dt);
         jsonWriter.Flush();
 
-        Assert.Equal(@"""2000-12-31T20:59:59.9999999+11:33""", stringWriter.ToString());
+        Assert.Equal(
+            """
+            "2000-12-31T20:59:59.9999999+11:33"
+            """,
+            stringWriter.ToString());
     }
 
     [Fact]
@@ -798,14 +931,14 @@ public class JsonConvertTest : TestFixtureBase
     public void IntegerLengthOverflows()
     {
         // Maximum javascript number length (in characters) is 380
-        var o = JObject.Parse(@"{""biginteger"":" + new string('9', 380) + "}");
+        var o = JObject.Parse("""{"biginteger":""" + new string('9', 380) + "}");
         var v = (JValue) o["biginteger"];
         Assert.Equal(JTokenType.Integer, v.Type);
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
         Assert.Equal(BigInteger.Parse(new('9', 380)), (BigInteger) v.Value);
 
         XUnitAssert.Throws<JsonReaderException>(
-            () => JObject.Parse(@"{""biginteger"":" + new string('9', 381) + "}"),
+            () => JObject.Parse("""{"biginteger":""" + new string('9', 381) + "}"),
             $"JSON integer {new string('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
     }
 

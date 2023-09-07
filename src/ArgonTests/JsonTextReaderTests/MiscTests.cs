@@ -137,7 +137,7 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void UnescapeDoubleQuotes()
     {
-        var json = @"{""recipe_id"":""12"",""recipe_name"":""Apocalypse Leather Armors"",""recipe_text"":""#C16------------------------------\r\n#C12Ingredients #C20\r\n#C16------------------------------\r\n\r\na piece of Leather Armor\r\n( ie #L \""Enhanced Leather Armor Boots\"" \""85644\"" )\r\n<img src=rdb:\/\/13264>\r\n\r\n#L \""Hacker Tool\"" \""87814\""\r\n<img src=rdb:\/\/99282>\r\n\r\n#L \""Clanalizer\"" \""208313\""\r\n<img src=rdb:\/\/156479>\r\n\r\n#C16------------------------------\r\n#C12Recipe #C16\r\n#C16------------------------------#C20\r\n\r\nHacker Tool\r\n#C15+#C20\r\na piece of Leather Armor\r\n#C15=#C20\r\n<img src=rdb:\/\/13264>\r\na piece of Hacked Leather Armor\r\n( ie : #L \""Hacked Leather Armor Boots\"" \""245979\"" )\r\n#C16Skills: |  BE  |#C20\r\n\r\n#C14------------------------------#C20\r\n\r\nClanalizer\r\n#C15+#C20\r\na piece of Hacked Leather Armor\r\n#C15=#C20\r\n<img src=rdb:\/\/13264>\r\na piece of Apocalypse Leather Armor\r\n( ie : #L \""Apocalypse Leather Armor Boots\"" \""245966\"" )\r\n#C16Skills: |  ??  |#C20\r\n\r\n#C16------------------------------\r\n#C12Details#C16\r\n#C16------------------------------#C20\r\n\r\n#L \""Apocalypse Leather Armor Boots\"" \""245967\""\r\n#L \""Apocalypse Leather Armor Gloves\"" \""245969\""\r\n#L \""Apocalypse Leather Armor Helmet\"" \""245975\""\r\n#L \""Apocalypse Leather Armor Pants\"" \""245971\""\r\n#L \""Apocalypse Leather Armor Sleeves\"" \""245973\""\r\n#L \""Apocalypse Leather Body Armor\"" \""245965\""\r\n\r\n#C16------------------------------\r\n#C12Comments#C16\r\n#C16------------------------------#C20\r\n\r\nNice froob armor.. but ugleh!\r\n\r\n"",""recipe_author"":null}";
+        var json = "{\"recipe_id\":\"12\",\"recipe_name\":\"Apocalypse Leather Armors\",\"recipe_text\":\"#C16------------------------------\\r\\n#C12Ingredients #C20\\r\\n#C16------------------------------\\r\\n\\r\\na piece of Leather Armor\\r\\n( ie #L \\\"Enhanced Leather Armor Boots\\\" \\\"85644\\\" )\\r\\n<img src=rdb:\\/\\/13264>\\r\\n\\r\\n#L \\\"Hacker Tool\\\" \\\"87814\\\"\\r\\n<img src=rdb:\\/\\/99282>\\r\\n\\r\\n#L \\\"Clanalizer\\\" \\\"208313\\\"\\r\\n<img src=rdb:\\/\\/156479>\\r\\n\\r\\n#C16------------------------------\\r\\n#C12Recipe #C16\\r\\n#C16------------------------------#C20\\r\\n\\r\\nHacker Tool\\r\\n#C15+#C20\\r\\na piece of Leather Armor\\r\\n#C15=#C20\\r\\n<img src=rdb:\\/\\/13264>\\r\\na piece of Hacked Leather Armor\\r\\n( ie : #L \\\"Hacked Leather Armor Boots\\\" \\\"245979\\\" )\\r\\n#C16Skills: |  BE  |#C20\\r\\n\\r\\n#C14------------------------------#C20\\r\\n\\r\\nClanalizer\\r\\n#C15+#C20\\r\\na piece of Hacked Leather Armor\\r\\n#C15=#C20\\r\\n<img src=rdb:\\/\\/13264>\\r\\na piece of Apocalypse Leather Armor\\r\\n( ie : #L \\\"Apocalypse Leather Armor Boots\\\" \\\"245966\\\" )\\r\\n#C16Skills: |  ??  |#C20\\r\\n\\r\\n#C16------------------------------\\r\\n#C12Details#C16\\r\\n#C16------------------------------#C20\\r\\n\\r\\n#L \\\"Apocalypse Leather Armor Boots\\\" \\\"245967\\\"\\r\\n#L \\\"Apocalypse Leather Armor Gloves\\\" \\\"245969\\\"\\r\\n#L \\\"Apocalypse Leather Armor Helmet\\\" \\\"245975\\\"\\r\\n#L \\\"Apocalypse Leather Armor Pants\\\" \\\"245971\\\"\\r\\n#L \\\"Apocalypse Leather Armor Sleeves\\\" \\\"245973\\\"\\r\\n#L \\\"Apocalypse Leather Body Armor\\\" \\\"245965\\\"\\r\\n\\r\\n#C16------------------------------\\r\\n#C12Comments#C16\\r\\n#C16------------------------------#C20\\r\\n\\r\\nNice froob armor.. but ugleh!\\r\\n\\r\\n\",\"recipe_author\":null}";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -169,7 +169,7 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void SurrogatePairValid()
     {
-        var json = @"{ ""MATHEMATICAL ITALIC CAPITAL ALPHA"": ""\uD835\uDEE2"" }";
+        var json = """{ "MATHEMATICAL ITALIC CAPITAL ALPHA": "\uD835\uDEE2" }""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -223,7 +223,11 @@ public class MiscTests : TestFixtureBase
 
     static string ReadString(string input)
     {
-        var ms = new MemoryStream(Encoding.UTF8.GetBytes($@"""{input}"""));
+        var ms = new MemoryStream(
+            Encoding.UTF8.GetBytes(
+                $"""
+                 "{input}"
+                 """));
 
         var reader = new JsonTextReader(new StreamReader(ms));
         reader.Read();
@@ -338,7 +342,7 @@ public class MiscTests : TestFixtureBase
     public void AppendCharsWhileReadingNewLine()
     {
         var json = """
-            
+
             {
               "description": "A person",
               "type": "object",
@@ -433,7 +437,7 @@ public class MiscTests : TestFixtureBase
     public void LongStringTest()
     {
         var length = 20000;
-        var json = $@"[""{new string(' ', length)}""]";
+        var json = $"""["{new string(' ', length)}"]""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -455,7 +459,7 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void EscapedUnicodeText()
     {
-        var json = @"[""\u003c"",""\u5f20""]";
+        var json = """["\u003c","\u5f20"]""";
 
         var reader = new JsonTextReader(new StringReader(json), 2);
 
@@ -475,7 +479,7 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void SupportMultipleContent()
     {
-        var reader = new JsonTextReader(new StringReader(@"{'prop1':[1]} 1 2 ""name"" [][]null {}{} 1.1"));
+        var reader = new JsonTextReader(new StringReader("""{'prop1':[1]} 1 2 "name" [][]null {}{} 1.1"""));
         reader.SupportMultipleContent = true;
 
         Assert.True(reader.Read());
@@ -541,18 +545,20 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public async Task SingleLineComments()
     {
-        var json = $@"//comment*//*hi*/
-{{//comment
-Name://comment
-true//comment after true{StringUtils.CarriageReturn},//comment after comma{StringUtils.CarriageReturnLineFeed}'ExpiryDate':'2014-06-04T00:00:00Z',
-        Price: 3.99,
-        Sizes: //comment
-[//comment
+        var json = $$"""
+                     //comment*//*hi*/
+                     {//comment
+                     Name://comment
+                     true//comment after true{{StringUtils.CarriageReturn}},//comment after comma{{StringUtils.CarriageReturnLineFeed}}'ExpiryDate':'2014-06-04T00:00:00Z',
+                             Price: 3.99,
+                             Sizes: //comment
+                     [//comment
 
-          'Small'//comment
-]//comment
-}}//comment 
-//comment 1 ";
+                               'Small'//comment
+                     ]//comment
+                     }//comment
+                     //comment 1
+                     """;
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 

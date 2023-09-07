@@ -5,6 +5,8 @@
 using System.ComponentModel;
 using TestObjects;
 using OriginalStreamWriter = System.IO.StreamWriter;
+// ReSharper disable UnusedParameter.Local
+// ReSharper disable UnusedVariable
 
 namespace Argon.Tests.Documentation;
 

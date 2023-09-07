@@ -94,7 +94,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
     [Fact]
     public void CaseInsensitive()
     {
-        var json = @"{""height"":1}";
+        var json = """{"height":1}""";
 
         var c = JsonConvert.DeserializeObject<DoubleClass>(json, new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error});
 

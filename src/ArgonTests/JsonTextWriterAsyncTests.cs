@@ -250,7 +250,7 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await writer.WriteEndObjectAsync();
         await writer.FlushAsync();
 
-        Assert.Equal(@"{""name"":value}", stringBuilder.ToString());
+        Assert.Equal("""{"name":value}""", stringBuilder.ToString());
     }
 
     [Fact]

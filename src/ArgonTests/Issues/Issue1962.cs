@@ -38,8 +38,10 @@ public class Issue1962
     [Fact]
     public void Test_IgnoreComments()
     {
-        var json = @"// comment
-[ 1, 2, 42 ]";
+        var json = """
+                   // comment
+                   [ 1, 2, 42 ]
+                   """;
         var token = JToken.Parse(json, new()
         {
             CommentHandling = CommentHandling.Ignore

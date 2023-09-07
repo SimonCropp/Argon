@@ -67,10 +67,11 @@ public class NullValueHandlingTests : TestFixtureBase
 
         var s3 = (Store) serializer.Deserialize(
             new JsonTextReader(
-                new StringReader(@"{""Escape"":null}")),
+                new StringReader("""{"Escape":null}""")),
             typeof(Store));
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", s3.Escape);
 
+        // ReSharper disable once UnusedVariable
         var s4 = (Store) serializer.Deserialize(
             new JsonTextReader(
                 new StringReader(

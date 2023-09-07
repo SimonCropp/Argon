@@ -7,8 +7,10 @@ public class Issue2492
     [Fact]
     public void Test_Object()
     {
-        var jsontext = @"{ ""ABC"": //DEF
-{}}";
+        var jsontext = """
+                       { "ABC": //DEF
+                       {}}
+                       """;
 
         using var stringReader = new StringReader(jsontext);
         using var jsonReader = new JsonTextReader(stringReader);

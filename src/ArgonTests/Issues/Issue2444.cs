@@ -16,14 +16,14 @@ public class Issue2444
             }
         };
 
-        var json = @"{""dict"":{""value1"":""a"",""text_value"":""b""}}";
+        var json = """{"dict":{"value1":"a","text_value":"b"}}""";
         var c = JsonConvert.DeserializeObject<DataClass>(json, settings);
 
         Assert.Equal(2, c.Dict.Count);
         Assert.Equal("a", c.Dict[MyEnum.Value1]);
         Assert.Equal("b", c.Dict[MyEnum.TextValue]);
 
-        var json1 = @"{""dict"":{""Value1"":""a"",""TextValue"":""b""}}";
+        var json1 = """{"dict":{"Value1":"a","TextValue":"b"}}""";
         var c1 = JsonConvert.DeserializeObject<DataClass>(json1, settings);
 
         Assert.Equal(2, c1.Dict.Count);
@@ -32,8 +32,10 @@ public class Issue2444
 
         // Non-dictionary values should still error
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<List<MyEnum>>(@"[""text_value""]", settings),
-            @"Error converting value ""text_value"" to type 'Issue2444+MyEnum'. Path '[0]', line 1, position 13.");
+            () => JsonConvert.DeserializeObject<List<MyEnum>>(
+                """["text_value"]""",
+                settings),
+            """Error converting value "text_value" to type 'Issue2444+MyEnum'. Path '[0]', line 1, position 13.""");
     }
 
     public enum MyEnum

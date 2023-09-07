@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 using TestObjects;
+// ReSharper disable UnusedParameter.Local
 
 public class SerializationErrorHandlingTests : TestFixtureBase
 {
@@ -76,7 +77,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<string>();
         var json = "{\"myint\":3554860000,\"Mybool\":false}";
-        var i = JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
+        JsonConvert.DeserializeObject<MyClass1>(json, new JsonSerializerSettings
         {
             Error = (_, _, _, exception, markAsHandled) =>
             {
@@ -216,40 +217,43 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        XUnitAssert.AreEqualNormalized(@"[
-  [
-    [
-      {
-        ""Member"": ""Value1"",
-        ""ThrowError"": ""Handle this!"",
-        ""Member2"": ""Member1""
-      },
-      {
-        ""Member"": ""Value2""
-      },
-      {
-        ""Member"": ""Value3"",
-        ""ThrowError"": ""Handle that!"",
-        ""Member2"": ""Member3""
-      }
-    ],
-    [
-      {
-        ""Member"": ""Value1"",
-        ""ThrowError"": ""Handle this!"",
-        ""Member2"": ""Member1""
-      },
-      {
-        ""Member"": ""Value2""
-      },
-      {
-        ""Member"": ""Value3"",
-        ""ThrowError"": ""Handle that!"",
-        ""Member2"": ""Member3""
-      }
-    ]
-  ]
-]", json);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              [
+                [
+                  {
+                    "Member": "Value1",
+                    "ThrowError": "Handle this!",
+                    "Member2": "Member1"
+                  },
+                  {
+                    "Member": "Value2"
+                  },
+                  {
+                    "Member": "Value3",
+                    "ThrowError": "Handle that!",
+                    "Member2": "Member3"
+                  }
+                ],
+                [
+                  {
+                    "Member": "Value1",
+                    "ThrowError": "Handle this!",
+                    "Member2": "Member1"
+                  },
+                  {
+                    "Member": "Value2"
+                  },
+                  {
+                    "Member": "Value3",
+                    "ThrowError": "Handle that!",
+                    "Member2": "Member3"
+                  }
+                ]
+              ]
+            ]
+            """, json);
     }
 
     [Fact]
@@ -302,16 +306,19 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializingErrorInDateTimeCollection()
     {
-        var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(@"[
-  ""2009-09-09T00:00:00Z"",
-  ""kjhkjhkjhkjh"",
-  [
-    1
-  ],
-  ""1977-02-20T00:00:00Z"",
-  null,
-  ""2000-12-01T00:00:00Z""
-]", new IsoDateTimeConverter());
+        var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
+            """
+            [
+              "2009-09-09T00:00:00Z",
+              "kjhkjhkjhkjh",
+              [
+                1
+              ],
+              "1977-02-20T00:00:00Z",
+              null,
+              "2000-12-01T00:00:00Z"
+            ]
+            """, new IsoDateTimeConverter());
 
         Assert.Equal(3, c.Count);
         Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
@@ -336,16 +343,21 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 new IsoDateTimeConverter()
             }
         });
-        var c = serializer.Deserialize<List<DateTime>>(new JsonTextReader(new StringReader(@"[
-        ""2009-09-09T00:00:00Z"",
-        ""I am not a date and will error!"",
-        [
-          1
-        ],
-        ""1977-02-20T00:00:00Z"",
-        null,
-        ""2000-12-01T00:00:00Z""
-      ]")));
+        var c = serializer.Deserialize<List<DateTime>>(
+            new JsonTextReader(
+            new StringReader(
+                """
+                [
+                  "2009-09-09T00:00:00Z",
+                  "I am not a date and will error!",
+                  [
+                    1
+                  ],
+                  "1977-02-20T00:00:00Z",
+                  null,
+                  "2000-12-01T00:00:00Z"
+                ]
+                """)));
 
         // 2009-09-09T00:00:00Z
         // 1977-02-20T00:00:00Z
@@ -371,8 +383,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.True(possibleErrs.Any(m => m == errors[0]),
             $"Expected One of: {string.Join(Environment.NewLine, possibleErrs)}{Environment.NewLine}But was: {errors[0]}");
 
-        Assert.Equal("[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 9.", errors[1]);
-        Assert.Equal("[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 12.", errors[2]);
+        Assert.Equal(
+            "[2] - 2 - Unexpected token parsing date. Expected String, got StartArray. Path '[2]', line 4, position 3.",
+            errors[1]);
+        Assert.Equal(
+            "[4] - 4 - Cannot convert null value to System.DateTime. Path '[4]', line 8, position 6.",
+            errors[2]);
     }
 
     [Fact]
@@ -381,16 +397,18 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var eventErrorHandlerCalled = false;
 
         var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
-            @"[
-  ""2009-09-09T00:00:00Z"",
-  ""kjhkjhkjhkjh"",
-  [
-    1
-  ],
-  ""1977-02-20T00:00:00Z"",
-  null,
-  ""2000-12-01T00:00:00Z""
-]",
+            """
+            [
+              "2009-09-09T00:00:00Z",
+              "kjhkjhkjhkjh",
+              [
+                1
+              ],
+              "1977-02-20T00:00:00Z",
+              null,
+              "2000-12-01T00:00:00Z"
+            ]
+            """,
             new JsonSerializerSettings
             {
                 Error = (_, _, _, _, _) => eventErrorHandlerCalled = true,
@@ -437,7 +455,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var errors = new List<string>();
 
-        var json = @"[[""kjhkjhkjhkjh""]]";
+        var json = """[["kjhkjhkjhkjh"]]""";
 
         Exception exception = null;
         try
@@ -807,7 +825,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var dictionary = data.GroupBy(person => person.FirstName)
             .ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
-        Assert.Equal(@"{""Scott"":[]}", output);
+        Assert.Equal("""{"Scott":[]}""", output);
     }
 
     [Fact]
@@ -847,7 +865,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             .ToDictionary(group => group.Key, group => group.Cast<IErrorPerson2>());
         var output = JsonConvert.SerializeObject(dictionary, Formatting.None, settings);
 
-        Assert.Equal(@"{""Scott"":[],""James"":[]}", output);
+        Assert.Equal("""{"Scott":[],"James":[]}""", output);
     }
 
     [Fact]

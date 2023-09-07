@@ -4,13 +4,15 @@
 
 using System.Text.RegularExpressions;
 using TestCaseSource = Xunit.MemberDataAttribute;
+// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable UnusedVariable
 
 public class JPathExecuteTests : TestFixtureBase
 {
     [Fact]
     public void GreaterThanIssue1518()
     {
-        var statusJson = @"{""usingmem"": ""214376""}"; //214,376
+        var statusJson = """{"usingmem": "214376"}"""; //214,376
         var jObj = JObject.Parse(statusJson);
 
         var aa = jObj.SelectToken("$..[?(@.usingmem>10)]"); //found,10

@@ -169,7 +169,7 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ThrowErrorWhenParsingUnquoteStringThatStartsWithNE()
     {
-        const string json = @"{ ""ItemName"": ""value"", ""u"":netanelsalinger,""r"":9 }";
+        const string json = """{ "ItemName": "value", "u":netanelsalinger,"r":9 }""";
 
         var reader = new JsonTextReader(new StringReader(json));
 
@@ -468,12 +468,14 @@ public class ExceptionHandlingTests : TestFixtureBase
     [Fact]
     public void ReadIntegerWithErrorInArray()
     {
-        var json = @"[
-  333333333333333333333333333333333333333,
-  3.3,
-  ,
-  0f
-]";
+        var json = """
+                   [
+                     333333333333333333333333333333333333333,
+                     3.3,
+                     ,
+                     0f
+                   ]
+                   """;
 
         var jsonTextReader = new JsonTextReader(new StringReader(json));
 

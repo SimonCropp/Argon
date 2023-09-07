@@ -1144,7 +1144,7 @@ public class JTokenTests : TestFixtureBase
 
         json = JsonConvert.SerializeObject(a, new IsoDateTimeConverter());
 
-        Assert.Equal(@"[""2009-02-15T00:00:00Z""]", json);
+        Assert.Equal("""["2009-02-15T00:00:00Z"]""", json);
     }
 
     [Fact]
@@ -1157,7 +1157,7 @@ public class JTokenTests : TestFixtureBase
 
         var json = a.ToString(Formatting.None, new IsoDateTimeConverter());
 
-        Assert.Equal(@"[""2009-02-15T00:00:00Z""]", json);
+        Assert.Equal("""["2009-02-15T00:00:00Z"]""", json);
     }
 
     [Fact]
