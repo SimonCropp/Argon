@@ -400,6 +400,7 @@ static class ConvertUtils
         // see if source or target types have a TypeConverter that converts between the two
         var toConverter = TypeDescriptor.GetConverter(initialType);
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (toConverter != null && toConverter.CanConvertTo(targetType))
         {
             value = toConverter.ConvertTo(null, InvariantCulture, initialValue, targetType);
@@ -408,6 +409,7 @@ static class ConvertUtils
 
         var fromConverter = TypeDescriptor.GetConverter(targetType);
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (fromConverter != null && fromConverter.CanConvertFrom(initialType))
         {
             value = fromConverter.ConvertFrom(null, InvariantCulture, initialValue);
@@ -497,6 +499,7 @@ static class ConvertUtils
             }
         }
 
+        // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
         throw new ArgumentException($"Could not cast or convert from {initialType.ToString() ?? "{null}"} to {targetType}.");
     }
 

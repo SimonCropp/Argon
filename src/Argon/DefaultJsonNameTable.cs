@@ -123,6 +123,7 @@ public class DefaultJsonNameTable : JsonNameTable
         for (var i = 0; i < entries.Length; i++)
         {
             Entry next;
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             for (var entry = entries[i]; entry != null; entry = next)
             {
                 var index = entry.HashCode & newMask;
