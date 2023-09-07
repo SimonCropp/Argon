@@ -18,6 +18,7 @@ public partial class JsonTextWriter : JsonWriter
     bool[]? charEscapeFlags;
     char[]? writeBuffer;
     char[]? indentChars;
+    string newLine;
 
     Base64Encoder Base64Encoder => base64Encoder ??= new(writer);
 
@@ -88,6 +89,7 @@ public partial class JsonTextWriter : JsonWriter
     public JsonTextWriter(TextWriter textWriter)
     {
         writer = textWriter;
+        newLine = writer.NewLine;
 
         UpdateCharEscapeFlags();
 
@@ -220,27 +222,25 @@ public partial class JsonTextWriter : JsonWriter
         // levels of indentation multiplied by the indent count
         var currentIndentCount = Top * indentation;
 
-        var newLineLen = SetIndentChars();
+        SetIndentChars();
 
-        writer.Write(indentChars!, 0, newLineLen + Math.Min(currentIndentCount, indentCharBufferSize));
+        writer.Write(indentChars!, 0, newLine.Length + Math.Min(currentIndentCount, indentCharBufferSize));
 
         while ((currentIndentCount -= indentCharBufferSize) > 0)
         {
-            writer.Write(indentChars!, newLineLen, Math.Min(currentIndentCount, indentCharBufferSize));
+            writer.Write(indentChars!, newLine.Length, Math.Min(currentIndentCount, indentCharBufferSize));
         }
     }
 
-    int SetIndentChars()
+    void SetIndentChars()
     {
         // Set _indentChars to be a newline followed by IndentCharBufferSize indent characters.
-        var writerNewLine = writer.NewLine;
-        var newLineLen = writerNewLine.Length;
-        var match = indentChars != null && indentChars.Length == indentCharBufferSize + newLineLen;
+        var match = indentChars != null && indentChars.Length == indentCharBufferSize + newLine.Length;
         if (match)
         {
-            for (var i = 0; i != newLineLen; ++i)
+            for (var i = 0; i != newLine.Length; ++i)
             {
-                if (writerNewLine[i] != indentChars![i])
+                if (newLine[i] != indentChars![i])
                 {
                     match = false;
                     break;
@@ -252,10 +252,8 @@ public partial class JsonTextWriter : JsonWriter
         {
             // If we're here, either _indentChars hasn't been set yet, or _writer.NewLine
             // has been changed, or _indentChar has been changed.
-            indentChars = (writerNewLine + new string(indentChar, indentCharBufferSize)).ToCharArray();
+            indentChars = (newLine + new string(indentChar, indentCharBufferSize)).ToCharArray();
         }
-
-        return newLineLen;
     }
 
     /// <summary>
