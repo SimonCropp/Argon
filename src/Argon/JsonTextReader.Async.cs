@@ -1028,7 +1028,7 @@ public partial class JsonTextReader
                         case '-':
                             if (await EnsureCharsAsync(1, true, cancel).ConfigureAwait(false) && charBuffer[charPos + 1] == 'I')
                             {
-                                return ParseNumberNegativeInfinity(readType);
+                                return await ParseNumberNegativeInfinityAsync(readType, cancel);
                             }
 
                             await ParseNumberAsync(readType, cancel).ConfigureAwait(false);

@@ -614,7 +614,7 @@ public abstract partial class JsonWriter
         var initialDepthOffset = initialDepth - 1;
         do
         {
-            WriteToken(reader.TokenType, reader.Value);
+            await WriteTokenAsync(reader.TokenType, reader.Value, cancel);
         } while (
             // stop if we have reached the end of the token being read
             initialDepthOffset < reader.Depth - reader.TokenType.EndTokenOffset()
