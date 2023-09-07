@@ -101,7 +101,7 @@ public class ExpandoObjectConverter : JsonConverter
     /// Determines whether this instance can convert the specified object type.
     /// </summary>
     /// <returns>
-    /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+    /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type type) =>
         type == typeof(ExpandoObject);
