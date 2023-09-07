@@ -122,21 +122,17 @@ public partial class JsonTextWriter
             writeBuffer = null;
         }
 
-        if (CloseOutput && writer != null)
+        if (CloseOutput)
         {
-#if HAVE_ASYNC_DISPOABLE
-            await _writer.DisposeAsync().ConfigureAwait(false);
+#if NET7_0_OR_GREATER
+            await writer.DisposeAsync().ConfigureAwait(false);
 #else
             // DisposeAsync isn't available. Instead, flush any remaining content with FlushAsync
             // to prevent Close/Dispose from making a blocking flush.
             //
             // No cancellation token on TextWriter.FlushAsync?!
             await writer.FlushAsync().ConfigureAwait(false);
-#if HAVE_STREAM_READER_WRITER_CLOSE
-            writer.Close();
-#else
             writer.Dispose();
-#endif
 #endif
         }
     }
