@@ -352,7 +352,9 @@ public class XmlNodeConverter : JsonConverter
                 SerializeGroupedNodes(writer, node, manager, writePropertyName);
                 break;
             case XmlNodeType.Element:
-                if (IsArray(node) && AllSameName(node) && node.ChildNodes.Count > 0)
+                if (IsArray(node) &&
+                    AllSameName(node) &&
+                    node.ChildNodes.Count > 0)
                 {
                     SerializeGroupedNodes(writer, node, manager, false);
                 }

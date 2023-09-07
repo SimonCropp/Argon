@@ -1,9 +1,7 @@
-class ScanFilter : PathFilter
+class ScanFilter(string? name) :
+    PathFilter
 {
-    internal string? Name;
-
-    public ScanFilter(string? name) =>
-        Name = name;
+    internal string? Name = name;
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {

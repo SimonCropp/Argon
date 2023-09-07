@@ -1,9 +1,7 @@
-class FieldMultipleFilter : PathFilter
+class FieldMultipleFilter(List<string> names) :
+    PathFilter
 {
-    internal List<string> Names;
-
-    public FieldMultipleFilter(List<string> names) =>
-        Names = names;
+    internal List<string> Names = names;
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {

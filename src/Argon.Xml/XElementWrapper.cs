@@ -26,7 +26,8 @@ class XElementWrapper : XContainerWrapper, IXmlElement
             // cache results to prevent multiple reads which kills perf in large documents
             if (attributes == null)
             {
-                if (Element.HasAttributes || HasImplicitNamespaceAttribute(NamespaceUri))
+                if (Element.HasAttributes ||
+                    HasImplicitNamespaceAttribute(NamespaceUri))
                 {
                     attributes = new();
                     foreach (var attribute in Element.Attributes())

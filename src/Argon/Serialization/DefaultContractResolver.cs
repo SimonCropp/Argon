@@ -934,8 +934,7 @@ public class DefaultContractResolver : IContractResolver
         var member = attributeProvider as MemberInfo;
 
         DataMemberAttribute? dataMemberAttribute;
-        if (dataContractAttribute == null ||
-            member == null)
+        if (dataContractAttribute == null || member == null)
         {
             dataMemberAttribute = null;
         }
@@ -966,13 +965,13 @@ public class DefaultContractResolver : IContractResolver
         }
 
         NamingStrategy? namingStrategy;
-        if (propertyAttribute?.NamingStrategyType != null)
+        if (propertyAttribute?.NamingStrategyType == null)
         {
-            namingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(propertyAttribute.NamingStrategyType, propertyAttribute.NamingStrategyParameters);
+            namingStrategy = NamingStrategy;
         }
         else
         {
-            namingStrategy = NamingStrategy;
+            namingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(propertyAttribute.NamingStrategyType, propertyAttribute.NamingStrategyParameters);
         }
 
         if (namingStrategy == null)

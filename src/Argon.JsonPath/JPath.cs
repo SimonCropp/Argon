@@ -717,7 +717,8 @@ class JPath
         var currentPosition = currentIndex;
         foreach (var ch in s)
         {
-            if (currentPosition < expression.Length && expression[currentPosition] == ch)
+            if (currentPosition < expression.Length &&
+                expression[currentPosition] == ch)
             {
                 currentPosition++;
             }

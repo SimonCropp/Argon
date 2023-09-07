@@ -1,15 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 
-class BooleanQueryExpression : QueryExpression
+class BooleanQueryExpression(QueryOperator @operator, object left, object? right) :
+    QueryExpression(@operator)
 {
-    public readonly object Left;
-    public readonly object? Right;
-
-    public BooleanQueryExpression(QueryOperator @operator, object left, object? right) : base(@operator)
-    {
-        Left = left;
-        Right = right;
-    }
+    public readonly object Left = left;
+    public readonly object? Right = right;
 
     static IEnumerable<JToken> GetResult(JToken root, JToken t, object? o)
     {

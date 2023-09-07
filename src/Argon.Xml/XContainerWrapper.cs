@@ -1,15 +1,11 @@
 ﻿using System.Xml.Linq;
 
-class XContainerWrapper : XObjectWrapper
+class XContainerWrapper(XContainer container) :
+    XObjectWrapper(container)
 {
     List<IXmlNode>? childNodes;
 
     XContainer Container => (XContainer) WrappedNode!;
-
-    public XContainerWrapper(XContainer container)
-        : base(container)
-    {
-    }
 
     public override List<IXmlNode> ChildNodes
     {

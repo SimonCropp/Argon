@@ -1,13 +1,11 @@
 ﻿using System.Xml;
 
-class XmlNodeWrapper : IXmlNode
+class XmlNodeWrapper(XmlNode node) :
+    IXmlNode
 {
-    readonly XmlNode node;
+    XmlNode node = node;
     List<IXmlNode>? childNodes;
     List<IXmlNode>? attributes;
-
-    public XmlNodeWrapper(XmlNode node) =>
-        this.node = node;
 
     public object WrappedNode => node;
 
