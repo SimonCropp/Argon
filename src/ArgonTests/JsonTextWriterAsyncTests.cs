@@ -1807,12 +1807,9 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
     }
 }
 
-public class CustomAsyncJsonTextWriter : CustomJsonTextWriter
+public class CustomAsyncJsonTextWriter(TextWriter textWriter) :
+    CustomJsonTextWriter(textWriter)
 {
-    public CustomAsyncJsonTextWriter(TextWriter textWriter) : base(textWriter)
-    {
-    }
-
     public override Task WritePropertyNameAsync(string name, Cancel cancel = default) =>
         WritePropertyNameAsync(name, true, cancel);
 
