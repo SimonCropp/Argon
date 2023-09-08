@@ -587,15 +587,32 @@ public class DefaultContractResolver : IContractResolver
         // then see whether object is compatible with any of the built in converters
         contract.InternalConverter = JsonSerializer.GetMatchingConverter(builtInConverters, nonNullableUnderlyingType);
 
+        SetCreator(contract);
+    }
+
+    static void SetCreator(JsonContract contract)
+    {
         var createdType = contract.CreatedType;
-        if (contract.IsInstantiable
-            && (createdType.HasDefaultConstructor(true) || createdType.IsValueType))
+        if (!contract.IsInstantiable)
+        {
+            return;
+        }
+
+        if (createdType.IsValueType)
         {
             contract.DefaultCreator = GetDefaultCreator(createdType);
-
-            contract.DefaultCreatorNonPublic = !createdType.IsValueType &&
-                                               createdType.GetDefaultConstructor() == null;
+            return;
         }
+
+        var constructor = createdType.GetDefaultConstructor(true);
+        if (constructor == null)
+        {
+            return;
+        }
+
+        contract.DefaultCreator = GetDefaultCreator(createdType);
+
+        contract.DefaultCreatorNonPublic = constructor.IsPublic;
     }
 
     /// <summary>

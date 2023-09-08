@@ -147,9 +147,6 @@ static class ReflectionUtils
         return GetDefaultConstructor(type, nonPublic) != null;
     }
 
-    public static ConstructorInfo? GetDefaultConstructor(this Type type) =>
-        GetDefaultConstructor(type, false);
-
     public static ConstructorInfo? GetDefaultConstructor(this Type type, bool nonPublic)
     {
         var bindingFlags = BindingFlags.Instance | BindingFlags.Public;
