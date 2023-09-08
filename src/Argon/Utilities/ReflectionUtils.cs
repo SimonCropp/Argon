@@ -49,9 +49,6 @@ static class ReflectionUtils
     static bool IsPublic(this PropertyInfo property) =>
         property.Method().IsPublic;
 
-    public static Type? GetObjectType(object? v) =>
-        v?.GetType();
-
     public static string GetTypeName(this Type type, TypeNameAssemblyFormatHandling? assemblyFormat, ISerializationBinder? binder)
     {
         var fullyQualifiedTypeName = GetFullyQualifiedTypeName(type, binder);

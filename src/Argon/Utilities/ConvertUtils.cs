@@ -469,7 +469,7 @@ static class ConvertUtils
             return convertedValue;
         }
 
-        return EnsureTypeAssignable(initialValue, ReflectionUtils.GetObjectType(initialValue)!, targetType);
+        return EnsureTypeAssignable(initialValue, initialValue.GetType(), targetType);
     }
 
     #endregion

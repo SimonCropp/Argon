@@ -186,7 +186,8 @@ public abstract partial class JsonReader : IDisposable
         get
         {
             var depth = stack.Count;
-            if (TokenType.IsStartToken() || currentPosition.Type == JsonContainerType.None)
+            if (TokenType.IsStartToken() ||
+                currentPosition.Type == JsonContainerType.None)
             {
                 return depth;
             }
@@ -207,8 +208,8 @@ public abstract partial class JsonReader : IDisposable
                 return string.Empty;
             }
 
-            var insideContainer = currentState != State.ArrayStart
-                                  && currentState != State.ObjectStart;
+            var insideContainer = currentState != State.ArrayStart &&
+                                  currentState != State.ObjectStart;
 
             var current = insideContainer ? (JsonPosition?) currentPosition : null;
 

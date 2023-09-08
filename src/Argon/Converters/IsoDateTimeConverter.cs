@@ -56,7 +56,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
         }
         else
         {
-            throw new JsonSerializationException($"Unexpected value when converting date. Expected DateTime or DateTimeOffset, got {ReflectionUtils.GetObjectType(value)!}.");
+            throw new JsonSerializationException($"Unexpected value when converting date. Expected DateTime or DateTimeOffset, got {value.GetType()}.");
         }
 
         writer.WriteValue(text);

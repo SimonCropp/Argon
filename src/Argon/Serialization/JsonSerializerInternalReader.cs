@@ -767,7 +767,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         }
 
         MiscellaneousUtils.Assert(contract != null);
-        var valueType = ReflectionUtils.GetObjectType(value);
+        var valueType = value?.GetType();
 
         // type of value and type of target don't match
         // attempt to convert value's type to target's type
