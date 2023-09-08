@@ -1105,13 +1105,9 @@ public class XmlNodeConverterTest : TestFixtureBase
         XUnitAssert.AreEqualNormalized(xml, ToStringWithDeclaration(doc22));
     }
 
-    public class Utf8StringWriter : StringWriter
+    public class Utf8StringWriter(StringBuilder sb) : StringWriter(sb)
     {
         public override Encoding Encoding => Encoding.UTF8;
-
-        public Utf8StringWriter(StringBuilder sb) : base(sb)
-        {
-        }
     }
 
     public static string ToStringWithDeclaration(XDocument doc, bool indent = false)
