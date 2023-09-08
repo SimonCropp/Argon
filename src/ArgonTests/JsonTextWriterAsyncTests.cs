@@ -6,14 +6,12 @@ using TestObjects;
 
 namespace Argon.Tests;
 
-public class JsonTextWriterAsyncTests : TestFixtureBase
+public class JsonTextWriterAsyncTests :
+    TestFixtureBase
 {
-    public class LazyStringWriter : StringWriter
+    public class LazyStringWriter(IFormatProvider formatProvider) :
+        StringWriter(formatProvider)
     {
-        public LazyStringWriter(IFormatProvider formatProvider) : base(formatProvider)
-        {
-        }
-
         public override Task FlushAsync() =>
             DoDelay(base.FlushAsync());
 
@@ -1603,12 +1601,8 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         Assert.True(writer.WriteWhitespaceAsync(" ", token).IsCanceled);
     }
 
-    class NoOverridesDerivedJsonTextWriter : JsonTextWriter
-    {
-        public NoOverridesDerivedJsonTextWriter(TextWriter textWriter) : base(textWriter)
-        {
-        }
-    }
+    class NoOverridesDerivedJsonTextWriter(TextWriter textWriter) :
+        JsonTextWriter(textWriter);
 
     class MinimalOverridesDerivedJsonWriter : JsonWriter
     {
@@ -1767,16 +1761,14 @@ public class JsonTextWriterAsyncTests : TestFixtureBase
         await XUnitAssert.ThrowsAsync<InvalidOperationException>(() => writer.WriteStartObjectAsync());
     }
 
-    public class ThrowingWriter : TextWriter
+    public class ThrowingWriter(params char[] throwChars) :
+        TextWriter
     {
         // allergic to certain characters, this null-stream writer throws on any attempt to write them.
 
         char[] singleCharBuffer = new char[1];
 
-        public ThrowingWriter(params char[] throwChars) =>
-            ThrowChars = throwChars;
-
-        public char[] ThrowChars { get; set; }
+        public char[] ThrowChars { get; set; } = throwChars;
 
         public override Encoding Encoding => Encoding.UTF8;
 
