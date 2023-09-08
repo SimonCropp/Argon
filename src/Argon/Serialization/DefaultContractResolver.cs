@@ -14,6 +14,7 @@ public class DefaultContractResolver : IContractResolver
 
     static readonly JsonConverter[] builtInConverters =
     {
+        new StringBuilderConverter(),
         new ExpandoObjectConverter(),
         new KeyValuePairConverter(),
         new DriveInfoConverter(),
@@ -22,7 +23,8 @@ public class DefaultContractResolver : IContractResolver
         new RegexConverter(),
         new EncodingConverter(),
         new TimeZoneInfoConverter(),
-        new VersionConverter()
+        new VersionConverter(),
+        new StringWriterConverter()
     };
 
     readonly DefaultJsonNameTable nameTable = new();
