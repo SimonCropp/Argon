@@ -38,16 +38,10 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal("test", c2.strprop);
     }
 
-    public struct ImmutableStruct
+    public struct ImmutableStruct(string value)
     {
-        public ImmutableStruct(string value)
-        {
-            Value = value;
-            Value2 = 0;
-        }
-
-        public string Value { get; }
-        public int Value2 { get; set; }
+        public string Value { get; } = value;
+        public int Value2 { get; set; } = 0;
     }
 
     [Fact]
@@ -59,16 +53,10 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(2, result.Value2);
     }
 
-    public struct AlmostImmutableStruct
+    public struct AlmostImmutableStruct(string value, int value2)
     {
-        public AlmostImmutableStruct(string value, int value2)
-        {
-            Value = value;
-            Value2 = value2;
-        }
-
-        public string Value { get; }
-        public int Value2 { get; set; }
+        public string Value { get; } = value;
+        public int Value2 { get; set; } = value2;
     }
 
     [Fact]
@@ -608,13 +596,10 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal("working", result.Value);
     }
 
-    public struct ImmutableStructWithConstructorAttribute
+    [method: JsonConstructor]
+    public struct ImmutableStructWithConstructorAttribute(string value)
     {
-        [JsonConstructor]
-        public ImmutableStructWithConstructorAttribute(string value) =>
-            Value = value;
-
-        public string Value { get; }
+        public string Value { get; } = value;
     }
 
     [Fact]
@@ -3697,13 +3682,8 @@ public class JsonSerializerTest : TestFixtureBase
         }
     }
 
-    public class NonComparableKey
+    public class NonComparableKey(string member)
     {
-        string member;
-
-        public NonComparableKey(string member) =>
-            this.member = member;
-
         public override string ToString() =>
             member;
 
