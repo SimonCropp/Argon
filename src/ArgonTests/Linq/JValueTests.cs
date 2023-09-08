@@ -798,8 +798,10 @@ public class JValueTests : TestFixtureBase
         v1 = new("2");
         v2 = null;
 
+        // ReSharper disable ExpressionIsAlwaysNull
         Assert.Equal(1, v1.CompareTo(v2));
         Assert.Equal(1, ((IComparable) v1).CompareTo(v2));
+        // ReSharper restore ExpressionIsAlwaysNull
 
         v1 = new((object) null);
         v2 = null;
