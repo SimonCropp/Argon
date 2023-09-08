@@ -33,28 +33,21 @@ static class ReflectionUtils
     public static bool IsVirtual(this PropertyInfo property) =>
         property.Method() is {IsVirtual: true};
 
-    static MethodInfo? Method(this PropertyInfo property)
+    static MethodInfo Method(this PropertyInfo property)
     {
-        var method = property.GetMethod;
-        if (method != null)
+        if (property.GetMethod == null)
         {
-            return method;
+            return property.SetMethod!;
         }
 
-        method = property.SetMethod;
-        if (method != null)
-        {
-            return method;
-        }
-
-        return null;
+        return property.GetMethod;
     }
 
-    static MethodInfo? GetBaseDefinition(this PropertyInfo property) =>
-        property.Method()?.GetBaseDefinition();
+    static MethodInfo GetBaseDefinition(this PropertyInfo property) =>
+        property.Method().GetBaseDefinition();
 
     static bool IsPublic(this PropertyInfo property) =>
-        property.Method() is {IsPublic: true};
+        property.Method().IsPublic;
 
     public static Type? GetObjectType(object? v) =>
         v?.GetType();
@@ -190,16 +183,9 @@ static class ReflectionUtils
         return type;
     }
 
-    public static bool IsGenericDefinition(Type type, Type genericInterfaceDefinition)
-    {
-        if (!type.IsGenericType)
-        {
-            return false;
-        }
-
-        var t = type.GetGenericTypeDefinition();
-        return t == genericInterfaceDefinition;
-    }
+    public static bool IsGenericDefinition(Type type, Type genericInterfaceDefinition) =>
+        type.IsGenericType &&
+        type.GetGenericTypeDefinition() == genericInterfaceDefinition;
 
     public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition) =>
         ImplementsGenericDefinition(type, genericInterfaceDefinition, out _);
@@ -212,7 +198,11 @@ static class ReflectionUtils
             throw new ArgumentNullException($"'{genericInterfaceDefinition}' is not a generic interface definition.");
         }
 
-        if (type is {IsInterface: true, IsGenericType: true})
+        if (type is
+            {
+                IsInterface: true,
+                IsGenericType: true
+            })
         {
             var interfaceDefinition = type.GetGenericTypeDefinition();
 
@@ -243,14 +233,16 @@ static class ReflectionUtils
 
     public static bool InheritsGenericDefinition(this Type type, Type genericClassDefinition)
     {
-        if (!genericClassDefinition.IsClass || !genericClassDefinition.IsGenericTypeDefinition)
+        if (!genericClassDefinition.IsClass ||
+            !genericClassDefinition.IsGenericTypeDefinition)
         {
             throw new ArgumentNullException($"'{genericClassDefinition}' is not a generic class definition.");
         }
 
         do
         {
-            if (type.IsGenericType && genericClassDefinition == type.GetGenericTypeDefinition())
+            if (type.IsGenericType &&
+                genericClassDefinition == type.GetGenericTypeDefinition())
             {
                 return true;
             }
@@ -450,18 +442,18 @@ static class ReflectionUtils
         return targetMembers;
     }
 
-    public static Tuple<string?, string> SplitFullyQualifiedTypeName(string fullyQualifiedTypeName)
+    public static Tuple<string?, string> SplitFullyQualifiedTypeName(string fullTypeName)
     {
-        var assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullyQualifiedTypeName);
+        var assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullTypeName);
 
         if (assemblyDelimiterIndex == null)
         {
-            return new(null, fullyQualifiedTypeName);
+            return new(null, fullTypeName);
         }
 
         var delimiterIndex = assemblyDelimiterIndex.Value;
-        var typeName = fullyQualifiedTypeName.Trim(0, delimiterIndex);
-        var assemblyName = fullyQualifiedTypeName.Trim(delimiterIndex + 1, fullyQualifiedTypeName.Length - delimiterIndex - 1);
+        var typeName = fullTypeName.Trim(0, delimiterIndex);
+        var assemblyName = fullTypeName.Trim(delimiterIndex + 1, fullTypeName.Length - delimiterIndex - 1);
         return new(assemblyName, typeName);
     }
 
@@ -498,7 +490,8 @@ static class ReflectionUtils
     {
         const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-        if (member.MemberType == MemberTypes.Property)
+        var memberType = member.MemberType;
+        if (memberType == MemberTypes.Property)
         {
             var property = (PropertyInfo) member;
 
@@ -512,7 +505,7 @@ static class ReflectionUtils
             return targetType.GetProperty(property.Name, bindingFlags, null, property.PropertyType, types, null);
         }
 
-        return targetType.GetMember(member.Name, member.MemberType, bindingFlags).SingleOrDefault();
+        return targetType.GetMember(member.Name, memberType, bindingFlags).SingleOrDefault();
     }
 
     static List<FieldInfo> GetFields(Type targetType, BindingFlags bindingFlags)
@@ -568,8 +561,7 @@ static class ReflectionUtils
             var member = properties[i];
             if (member.DeclaringType != targetType)
             {
-                var declaredMember = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType!, member)!;
-                properties[i] = declaredMember;
+                properties[i] = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType!, member)!;
             }
         }
 
@@ -594,12 +586,14 @@ static class ReflectionUtils
             {
                 if (property.IsVirtual())
                 {
-                    var subTypePropertyDeclaringType = property.GetBaseDefinition()?.DeclaringType ?? property.DeclaringType;
+                    var subTypePropertyDeclaringType = property.GetBaseDefinition().DeclaringType ??
+                                                       property.DeclaringType;
 
-                    var index = initialProperties.FindIndex(p =>
-                        p.Name == property.Name &&
-                        p.IsVirtual() &&
-                        (p.GetBaseDefinition()?.DeclaringType ?? p.DeclaringType!).IsAssignableFrom(subTypePropertyDeclaringType));
+                    var index = initialProperties.FindIndex(
+                        _ =>
+                            _.Name == property.Name &&
+                            _.IsVirtual() &&
+                            (_.GetBaseDefinition().DeclaringType ?? _.DeclaringType!).IsAssignableFrom(subTypePropertyDeclaringType));
 
                     // don't add a virtual property that has an override
                     if (index == -1)
@@ -612,8 +606,9 @@ static class ReflectionUtils
 
                 if (property.IsPublic())
                 {
-                    var publicIndex = initialProperties.FindIndex(p => p.Name == property.Name
-                                                                       && p.DeclaringType == property.DeclaringType);
+                    var publicIndex = initialProperties.FindIndex(
+                        _ => _.Name == property.Name &&
+                             _.DeclaringType == property.DeclaringType);
 
                     if (publicIndex == -1)
                     {
@@ -625,7 +620,7 @@ static class ReflectionUtils
 
                 // have to test on name rather than reference because instances are different
                 // depending on the type that GetProperties was called on
-                var nonPublicIndex = initialProperties.FindIndex(p => p.Name == property.Name);
+                var nonPublicIndex = initialProperties.FindIndex(_ => _.Name == property.Name);
                 if (nonPublicIndex == -1)
                 {
                     initialProperties.Add(property);
@@ -646,12 +641,13 @@ static class ReflectionUtils
     }
 
     public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method) =>
-        currentType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Any(info =>
-                info.Name == method &&
+        currentType
+            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .Any(_ =>
+                _.Name == method &&
                 // check that the method overrides the original on DynamicObjectProxy
-                info.DeclaringType != methodDeclaringType &&
-                info.GetBaseDefinition().DeclaringType == methodDeclaringType
+                _.DeclaringType != methodDeclaringType &&
+                _.GetBaseDefinition().DeclaringType == methodDeclaringType
             );
 
     public static object? GetDefaultValue(Type type)
