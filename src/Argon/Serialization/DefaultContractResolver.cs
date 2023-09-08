@@ -564,10 +564,11 @@ public class DefaultContractResolver : IContractResolver
 
     void InitializeContract(JsonContract contract)
     {
-        var containerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(contract.NonNullableUnderlyingType);
+        var nonNullableUnderlyingType = contract.NonNullableUnderlyingType;
+        var containerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(nonNullableUnderlyingType);
         if (containerAttribute == null)
         {
-            var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(contract.NonNullableUnderlyingType);
+            var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(nonNullableUnderlyingType);
             // doesn't have a null value
             if (dataContractAttribute is {IsReference: true})
             {
@@ -579,10 +580,10 @@ public class DefaultContractResolver : IContractResolver
             contract.IsReference = containerAttribute.isReference;
         }
 
-        contract.Converter = ResolveContractConverter(contract.NonNullableUnderlyingType);
+        contract.Converter = ResolveContractConverter(nonNullableUnderlyingType);
 
         // then see whether object is compatible with any of the built in converters
-        contract.InternalConverter = JsonSerializer.GetMatchingConverter(builtInConverters, contract.NonNullableUnderlyingType);
+        contract.InternalConverter = JsonSerializer.GetMatchingConverter(builtInConverters, nonNullableUnderlyingType);
 
         var createdType = contract.CreatedType;
         if (contract.IsInstantiable
