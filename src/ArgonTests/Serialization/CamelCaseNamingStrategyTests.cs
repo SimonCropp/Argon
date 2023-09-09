@@ -235,35 +235,6 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    public class PropertyAttributeNamingStrategyTestClass
-    {
-        [JsonProperty] public string HasNoAttributeNamingStrategy { get; set; }
-
-        [JsonProperty(NamingStrategyType = typeof(CamelCaseNamingStrategy))]
-        public string HasAttributeNamingStrategy { get; set; }
-    }
-
-    [Fact]
-    public void JsonPropertyAttribute_NamingStrategyType()
-    {
-        var c = new PropertyAttributeNamingStrategyTestClass
-        {
-            HasNoAttributeNamingStrategy = "Value1!",
-            HasAttributeNamingStrategy = "Value2!"
-        };
-
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "HasNoAttributeNamingStrategy": "Value1!",
-              "hasAttributeNamingStrategy": "Value2!"
-            }
-            """,
-            json);
-    }
-
     [Fact]
     public void ToCamelCaseTest()
     {

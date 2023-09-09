@@ -1000,23 +1000,13 @@ public class DefaultContractResolver : IContractResolver
             hasSpecifiedName = false;
         }
 
-        NamingStrategy? namingStrategy;
-        if (propertyAttribute?.NamingStrategyType == null)
-        {
-            namingStrategy = NamingStrategy;
-        }
-        else
-        {
-            namingStrategy = JsonTypeReflector.CreateNamingStrategyInstance(propertyAttribute.NamingStrategyType, propertyAttribute.NamingStrategyParameters);
-        }
-
-        if (namingStrategy == null)
+        if (NamingStrategy == null)
         {
             property.PropertyName = ResolvePropertyName(mappedName);
         }
         else
         {
-            property.PropertyName = namingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
+            property.PropertyName = NamingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
         }
 
         property.UnderlyingName = name;
