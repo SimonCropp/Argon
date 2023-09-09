@@ -25,13 +25,10 @@ public class OutAndRefTestClass
     }
 }
 
-public class InTestClass
+public class InTestClass(in string value)
 {
-    public string Value { get; }
+    public string Value { get; } = value;
     public bool B1 { get; }
-
-    public InTestClass(in string value) =>
-        Value = value;
 
     public InTestClass(in string value, in bool b1)
         : this(in value) =>
