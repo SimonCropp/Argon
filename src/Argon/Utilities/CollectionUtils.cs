@@ -25,25 +25,29 @@ static class CollectionUtils
         {
             var parameters = constructor.GetParameters();
 
-            if (parameters.Length == 1)
+            if (parameters.Length != 1)
             {
-                var parameterType = parameters[0].ParameterType;
+                continue;
+            }
 
-                if (genericEnumerable == parameterType)
-                {
-                    // exact match
-                    match = constructor;
-                    break;
-                }
+            var parameterType = parameters[0].ParameterType;
 
-                // in case we can't find an exact match, use first inexact
-                if (match == null)
-                {
-                    if (parameterType.IsAssignableFrom(constructorArgumentType))
-                    {
-                        match = constructor;
-                    }
-                }
+            if (genericEnumerable == parameterType)
+            {
+                // exact match
+                match = constructor;
+                break;
+            }
+
+            // in case we can't find an exact match, use first inexact
+            if (match != null)
+            {
+                continue;
+            }
+
+            if (parameterType.IsAssignableFrom(constructorArgumentType))
+            {
+                match = constructor;
             }
         }
 
