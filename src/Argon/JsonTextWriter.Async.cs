@@ -28,6 +28,7 @@ public partial class JsonTextWriter
     }
 
     Task DoFlushAsync(Cancel cancel) =>
+        // ReSharper disable once MethodSupportsCancellation
         cancel.CancelIfRequestedAsync() ?? writer.FlushAsync();
 
     /// <summary>

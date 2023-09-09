@@ -6040,16 +6040,20 @@ public class JsonSerializerTest : TestFixtureBase
             Converters = {new MetroStringConverter()},
             Formatting = Formatting.Indented
         });
-        XUnitAssert.AreEqualNormalized(@"{
-  "":::NAME:::"": "":::APPLE:::"",
-  "":::EXPIRYDATE:::"": ""2012-04-01T00:00:00"",
-  "":::PRICE:::"": 3.99,
-  "":::SIZES:::"": [
-    "":::SMALL:::"",
-    "":::MEDIUM:::"",
-    "":::LARGE:::""
-  ]
-}", metroJson);
+        XUnitAssert.AreEqualNormalized(
+            """
+            {
+              ":::NAME:::": ":::APPLE:::",
+              ":::EXPIRYDATE:::": "2012-04-01T00:00:00",
+              ":::PRICE:::": 3.99,
+              ":::SIZES:::": [
+                ":::SMALL:::",
+                ":::MEDIUM:::",
+                ":::LARGE:::"
+              ]
+            }
+            """,
+            metroJson);
         //{
         //  ":::NAME:::": ":::APPLE:::",
         //  ":::EXPIRYDATE:::": "2012-04-01T00:00:00",
@@ -6066,14 +6070,18 @@ public class JsonSerializerTest : TestFixtureBase
             Formatting = Formatting.Indented
         });
 
-        XUnitAssert.AreEqualNormalized(@"[
-  "":::GRAY:::"",
-  "":::GRAY:::"",
-  "":::GRAY:::"",
-  "":::GRAY:::"",
-  "":::BLACK:::"",
-  "":::GRAY:::""
-]", json2);
+        XUnitAssert.AreEqualNormalized(
+            """
+            [
+              ":::GRAY:::",
+              ":::GRAY:::",
+              ":::GRAY:::",
+              ":::GRAY:::",
+              ":::BLACK:::",
+              ":::GRAY:::"
+            ]
+            """,
+            json2);
     }
 #endif
 
@@ -6993,7 +7001,7 @@ public class JsonSerializerTest : TestFixtureBase
             new Dictionary<Size, Size> {{new Size(1, 2), new Size(3, 4)}}
         );
 
-        Assert.Equal(@"{""1, 2"":""3, 4""}", json);
+        Assert.Equal("""{"1, 2":"3, 4"}""", json);
 
         var d = JsonConvert.DeserializeObject<Dictionary<Size, Size>>(json);
 

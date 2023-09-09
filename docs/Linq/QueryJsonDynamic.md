@@ -5,18 +5,20 @@ This sample loads JSON and then queries values from it using C# dynamic function
 <!-- snippet: QueryJsonDynamic -->
 <a id='snippet-queryjsondynamic'></a>
 ```cs
-var json = @"[
-  {
-    'Title': 'Json.NET is awesome!',
-    'Author': {
-      'Name': 'James Newton-King',
-      'Twitter': '@JamesNK',
-      'Picture': '/jamesnk.png'
-    },
-    'Date': '2013-01-23T19:30:00',
-    'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
-  }
-]";
+var json = """
+           [
+             {
+               'Title': 'Json.NET is awesome!',
+               'Author': {
+                 'Name': 'James Newton-King',
+                 'Twitter': '@JamesNK',
+                 'Picture': '/jamesnk.png'
+               },
+               'Date': '2013-01-23T19:30:00',
+               'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
+             }
+           ]
+           """;
 
 dynamic blogPosts = JArray.Parse(json);
 
@@ -37,5 +39,5 @@ DateTime postDate = blogPost.Date;
 Console.WriteLine(postDate);
 // 23/01/2013 7:30:00 p.m.
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/QueryJsonDynamic.cs#L13-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsondynamic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/QueryJsonDynamic.cs#L13-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsondynamic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
