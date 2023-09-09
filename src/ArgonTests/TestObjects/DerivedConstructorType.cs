@@ -4,12 +4,9 @@
 
 namespace TestObjects;
 
-public class DerivedConstructorType : BaseConstructorType
+public class DerivedConstructorType(string baseProperty, string derivedProperty) :
+    BaseConstructorType(baseProperty)
 {
-    public DerivedConstructorType(string baseProperty, string derivedProperty)
-        : base(baseProperty) =>
-        DerivedProperty = derivedProperty;
-
     [JsonProperty]
-    public string DerivedProperty { get; }
+    public string DerivedProperty { get; } = derivedProperty;
 }

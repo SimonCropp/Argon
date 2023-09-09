@@ -14,7 +14,7 @@ public class DirectoryAccount : IJsonOnDeserialized
     public string Domain { get; set; }
 
     [JsonExtensionData]
-    IDictionary<string, JToken> additionalData;
+    IDictionary<string, JToken> additionalData = new Dictionary<string, JToken>();
 
     public void OnDeserialized()
     {
@@ -25,7 +25,4 @@ public class DirectoryAccount : IJsonOnDeserialized
         Domain = samAccountName.Split('\\')[0];
         UserName = samAccountName.Split('\\')[1];
     }
-
-    public DirectoryAccount() =>
-        additionalData = new Dictionary<string, JToken>();
 }

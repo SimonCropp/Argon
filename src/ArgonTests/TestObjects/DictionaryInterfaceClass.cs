@@ -7,26 +7,28 @@ namespace TestObjects;
 public class DictionaryInterfaceClass
 {
     public string Name { get; set; }
-    public IDictionary<string, int> Dictionary { get; set; }
-    public ICollection<int> Collection { get; set; }
-    public EmployeeReference Employee { get; set; }
-    public object Random { get; set; }
 
-    public DictionaryInterfaceClass()
-    {
-        Dictionary = new Dictionary<string, int>
+    public IDictionary<string, int> Dictionary { get; set; } =
+        new Dictionary<string, int>
         {
-            { "existing", 1 }
+            {
+                "existing", 1
+            }
         };
-        Collection = new List<int>
+
+    public ICollection<int> Collection { get; set; } =
+        new List<int>
         {
             1,
             2,
             3
         };
-        Employee = new()
+
+    public EmployeeReference Employee { get; set; } =
+        new()
         {
             Name = "EmployeeName!"
         };
-    }
+
+    public object Random { get; set; }
 }

@@ -6,8 +6,5 @@ namespace TestObjects;
 
 public class ByteArrayTestClass
 {
-    public byte[] Prop1 { get; set; }
-
-    public ByteArrayTestClass() =>
-        Prop1 = Array.Empty<byte>();
+    public byte[] Prop1 { get; set; } = Array.Empty<byte>();
 }

@@ -4,7 +4,8 @@
 
 namespace TestObjects;
 
-public class DerivedSerializationEventTestObject : SerializationEventTestObject
+public class DerivedSerializationEventTestObject :
+    SerializationEventTestObject
 {
     // This field is set to null, but populated after deserialization, only
     // in the derived class

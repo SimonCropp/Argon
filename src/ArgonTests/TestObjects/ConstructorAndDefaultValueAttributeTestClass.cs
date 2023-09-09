@@ -6,12 +6,9 @@ using System.ComponentModel;
 
 namespace TestObjects;
 
-public sealed class ConstructorAndDefaultValueAttributeTestClass
+public sealed class ConstructorAndDefaultValueAttributeTestClass(string testProperty1)
 {
-    public ConstructorAndDefaultValueAttributeTestClass(string testProperty1) =>
-        TestProperty1 = testProperty1;
-
-    public string TestProperty1 { get; set; }
+    public string TestProperty1 { get; set; } = testProperty1;
 
     [DefaultValue(21)]
     public int TestProperty2 { get; set; }

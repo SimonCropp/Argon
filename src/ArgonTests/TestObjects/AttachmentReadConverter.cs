@@ -4,7 +4,8 @@
 
 namespace TestObjects;
 
-public class AttachmentReadConverter : JsonConverter
+public class AttachmentReadConverter :
+    JsonConverter
 {
     public override bool CanConvert(Type type) =>
         type == typeof(System.Net.Mail.Attachment);

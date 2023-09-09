@@ -4,12 +4,9 @@
 
 namespace TestObjects;
 
-public sealed class ConstructorAndRequiredTestClass
+public sealed class ConstructorAndRequiredTestClass(string testProperty1)
 {
-    public ConstructorAndRequiredTestClass(string testProperty1) =>
-        TestProperty1 = testProperty1;
-
-    public string TestProperty1 { get; set; }
+    public string TestProperty1 { get; set; } = testProperty1;
 
     [JsonProperty(Required = Required.AllowNull)]
     public int TestProperty2 { get; set; }

@@ -6,8 +6,5 @@ namespace TestObjects;
 
 public class PersonPropertyClass
 {
-    public Person Person { get; set; }
-
-    public PersonPropertyClass() =>
-        Person = new WagePerson();
+    public Person Person { get; set; } = new WagePerson();
 }

@@ -5,10 +5,7 @@
 namespace TestObjects;
 
 [JsonConverter(typeof(ClassConverterPrecedenceClassConverter))]
-public class ConverterPrecedenceClass
+public class ConverterPrecedenceClass(string testValue)
 {
-    public string TestValue { get; set; }
-
-    public ConverterPrecedenceClass(string testValue) =>
-        TestValue = testValue;
+    public string TestValue { get; set; } = testValue;
 }

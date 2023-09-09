@@ -6,18 +6,17 @@ namespace TestObjects;
 
 public class ExistingValueClass
 {
-    public Dictionary<string, string> Dictionary { get; set; }
-    public List<string> List { get; set; }
-
-    public ExistingValueClass()
-    {
-        Dictionary = new()
+    public Dictionary<string, string> Dictionary { get; set; } =
+        new()
         {
-            { "existing", "yup" }
+            {
+                "existing", "yup"
+            }
         };
-        List = new()
+
+    public List<string> List { get; set; } =
+        new()
         {
             "existing"
         };
-    }
 }

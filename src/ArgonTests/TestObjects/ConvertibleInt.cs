@@ -4,13 +4,9 @@
 
 namespace TestObjects;
 
-public struct ConvertibleInt : IConvertible
+public struct ConvertibleInt(int value) :
+    IConvertible
 {
-    readonly int _value;
-
-    public ConvertibleInt(int value) =>
-        _value = value;
-
     public TypeCode GetTypeCode() =>
         TypeCode.Int32;
 
@@ -54,7 +50,7 @@ public struct ConvertibleInt : IConvertible
     {
         if (conversionType == typeof(int))
         {
-            return _value;
+            return value;
         }
 
         throw new($"Type not supported: {conversionType.FullName}");

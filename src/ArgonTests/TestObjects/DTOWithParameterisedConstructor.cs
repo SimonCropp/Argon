@@ -4,14 +4,8 @@
 
 namespace TestObjects;
 
-public class DTOWithParameterisedConstructor
+public class DTOWithParameterisedConstructor(string A)
 {
-    public DTOWithParameterisedConstructor(string A)
-    {
-        this.A = A;
-        B = 2;
-    }
-
-    public string A { get; set; }
-    public int? B { get; set; }
+    public string A { get; set; } = A;
+    public int? B { get; set; } = 2;
 }

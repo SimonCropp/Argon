@@ -4,14 +4,8 @@
 
 namespace TestObjects;
 
-public class ConstructorReadonlyFields
+public class ConstructorReadonlyFields(string a, int b)
 {
-    public readonly string A;
-    public readonly int B;
-
-    public ConstructorReadonlyFields(string a, int b)
-    {
-        A = a;
-        B = b;
-    }
+    public readonly string A = a;
+    public readonly int B = b;
 }

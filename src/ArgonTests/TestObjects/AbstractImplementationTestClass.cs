@@ -4,6 +4,7 @@
 
 namespace TestObjects;
 
-public class AbstractImplementationTestClass : AbstractTestClass
+public class AbstractImplementationTestClass :
+    AbstractTestClass
 {
 }

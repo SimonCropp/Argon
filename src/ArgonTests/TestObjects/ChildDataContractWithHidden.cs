@@ -4,7 +4,8 @@
 
 namespace TestObjects;
 
-public class ChildDataContractWithHidden : BaseDataContractWithHidden
+public class ChildDataContractWithHidden :
+    BaseDataContractWithHidden
 {
     [DataMember(Name = "NewMember")]
     public new virtual string NewMember { get; set; }

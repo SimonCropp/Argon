@@ -4,19 +4,10 @@
 
 namespace TestObjects;
 
-class DictionaryKeyCast
+class DictionaryKeyCast(string name, int number)
 {
-    string _name;
-    int _number;
-
-    public DictionaryKeyCast(string name, int number)
-    {
-        _name = name;
-        _number = number;
-    }
-
     public override string ToString() =>
-        $"{_name} {_number}";
+        $"{name} {number}";
 
     public static implicit operator DictionaryKeyCast(string dictionaryKey)
     {

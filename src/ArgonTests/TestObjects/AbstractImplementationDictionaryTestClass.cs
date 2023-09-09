@@ -4,6 +4,7 @@
 
 namespace TestObjects;
 
-public class AbstractImplementationDictionaryTestClass<TKey, TValue> : AbstractDictionaryTestClass<TKey, TValue>
+public class AbstractImplementationDictionaryTestClass<TKey, TValue> :
+    AbstractDictionaryTestClass<TKey, TValue>
 {
 }

@@ -4,11 +4,8 @@
 
 namespace TestObjects;
 
-public class FooConstructor
+public class FooConstructor(string bar)
 {
     [JsonProperty(PropertyName = "something_else")]
-    public readonly string Bar;
-
-    public FooConstructor(string bar) =>
-        Bar = bar;
+    public readonly string Bar = bar;
 }

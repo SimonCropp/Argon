@@ -4,11 +4,8 @@
 
 namespace TestObjects;
 
-public class BaseConstructorType
+public class BaseConstructorType(string baseProperty)
 {
     [JsonProperty]
-    public string BaseProperty { get; }
-
-    public BaseConstructorType(string baseProperty) =>
-        BaseProperty = baseProperty;
+    public string BaseProperty { get; } = baseProperty;
 }

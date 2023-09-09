@@ -560,26 +560,16 @@ public class CustomerDataSet : System.Data.DataSet
     ///Row event argument class
     ///</summary>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    public class CustomersRowChangeEvent : EventArgs
+    [method: DebuggerNonUserCode]
+    [method: System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+    public class CustomersRowChangeEvent(CustomersRow row, System.Data.DataRowAction action) : EventArgs
     {
-        CustomersRow eventRow;
-
-        System.Data.DataRowAction eventAction;
+        [DebuggerNonUserCodeAttribute]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+        public CustomersRow Row => row;
 
         [DebuggerNonUserCodeAttribute]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public CustomersRowChangeEvent(CustomersRow row, System.Data.DataRowAction action)
-        {
-            eventRow = row;
-            eventAction = action;
-        }
-
-        [DebuggerNonUserCodeAttribute]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public CustomersRow Row => eventRow;
-
-        [DebuggerNonUserCodeAttribute]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public System.Data.DataRowAction Action => eventAction;
+        public System.Data.DataRowAction Action => action;
     }
 }

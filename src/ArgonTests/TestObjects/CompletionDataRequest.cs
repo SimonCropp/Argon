@@ -4,18 +4,10 @@
 
 namespace TestObjects;
 
-public class CompletionDataRequest
+public class CompletionDataRequest(string text, int cursorPosition, string dataSource, string project)
 {
-    public CompletionDataRequest(string text, int cursorPosition, string dataSource, string project)
-    {
-        Text = text;
-        CursorPosition = cursorPosition;
-        DataSource = dataSource;
-        Project = project;
-    }
-
-    public string Text { get; }
-    public int CursorPosition { get; }
-    public string DataSource { get; }
-    public string Project { get; }
+    public string Text { get; } = text;
+    public int CursorPosition { get; } = cursorPosition;
+    public string DataSource { get; } = dataSource;
+    public string Project { get; } = project;
 }

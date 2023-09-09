@@ -4,11 +4,8 @@
 
 namespace TestObjects;
 
-public class CircularConstructor1
+public class CircularConstructor1(CircularConstructor2 c2)
 {
-    public CircularConstructor2 C2 { get; internal set; }
+    public CircularConstructor2 C2 { get; internal set; } = c2;
     public string StringProperty { get; set; }
-
-    public CircularConstructor1(CircularConstructor2 c2) =>
-        C2 = c2;
 }

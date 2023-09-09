@@ -6,9 +6,6 @@ namespace TestObjects;
 
 public class Foo
 {
-    public Foo() =>
-        Bars = new();
-
     [JsonConverter(typeof(ListOfIds<Bar>))]
-    public List<Bar> Bars { get; set; }
+    public List<Bar> Bars { get; set; } = new();
 }

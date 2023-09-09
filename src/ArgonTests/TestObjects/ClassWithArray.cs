@@ -6,11 +6,8 @@ namespace TestObjects;
 
 public class ClassWithArray
 {
-    readonly IList<long> bar;
+    readonly IList<long> bar = new List<long> { int.MaxValue };
     string foo;
-
-    public ClassWithArray() =>
-        bar = new List<long> { int.MaxValue };
 
     [JsonProperty("foo")]
     public string Foo
