@@ -146,7 +146,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         };
         var output = JsonConvert.SerializeObject(dictionary);
 #if !(NET5_0_OR_GREATER)
-        Assert.Equal(@"{""3.40282347E+38"":1}", output);
+        Assert.Equal("""{"3.40282347E+38":1}""", output);
 #else
         Assert.Equal("""{"3.4028235E+38":1}""", output);
 #endif

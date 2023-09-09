@@ -29,7 +29,11 @@ public class Issue1642 : TestFixtureBase
         var o = Activator.CreateInstance(enumType);
 
         var json = JsonConvert.SerializeObject(o, new JsonSerializerSettings { Converters = { new StringEnumConverter() } });
-        Assert.Equal(@"""TestValue""", json);
+        Assert.Equal(
+            """
+            "TestValue"
+            """,
+            json);
     }
 
 }

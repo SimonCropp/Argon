@@ -26,7 +26,7 @@ public class DynamicConcreteTests : TestFixtureBase
     [Fact]
     public void UseDynamicConcreteIfTargetObjectTypeIsAnInterfaceWithNoBackingClass()
     {
-        var json = @"{Name:""Name!""}";
+        var json = """{Name:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
         {
@@ -39,7 +39,7 @@ public class DynamicConcreteTests : TestFixtureBase
     [Fact]
     public void UseDynamicConcreteIfTargetObjectTypeIsAnAbstractClassWithNoConcrete()
     {
-        var json = @"{Name:""Name!"", Game:""Same""}";
+        var json = """{Name:"Name!", Game:"Same"}""";
 
         var c = JsonConvert.DeserializeObject<AbstractWithNoConcrete>(json, new JsonSerializerSettings
         {
@@ -53,7 +53,7 @@ public class DynamicConcreteTests : TestFixtureBase
     [Fact]
     public void AnyMethodsExposedByDynamicConcreteAreHarmless()
     {
-        var json = @"{Name:""Name!""}";
+        var json = """{Name:"Name!"}""";
 
         var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
         {
