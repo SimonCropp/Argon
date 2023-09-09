@@ -3,7 +3,6 @@
 // as found in the license.md file.
 
 // ReSharper disable PossibleMultipleEnumeration
-namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class QueryJsonLinq : TestFixtureBase
 {

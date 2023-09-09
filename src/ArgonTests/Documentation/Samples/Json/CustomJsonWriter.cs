@@ -8,13 +8,10 @@ namespace Argon;
 
 #region CustomJsonWriterTypes
 
-public class XmlJsonWriter : JsonWriter
+public class XmlJsonWriter(XmlWriter writer) :
+    JsonWriter
 {
-    readonly XmlWriter writer;
     string propertyName;
-
-    public XmlJsonWriter(XmlWriter writer) =>
-        this.writer = writer;
 
     public override void WriteComment(string text)
     {

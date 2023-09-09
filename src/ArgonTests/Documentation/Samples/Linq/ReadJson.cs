@@ -3,7 +3,6 @@
 // as found in the license.md file.
 
 // ReSharper disable UnusedVariable
-namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class ReadJson : TestFixtureBase
 {

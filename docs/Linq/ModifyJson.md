@@ -46,5 +46,5 @@ Console.WriteLine(rss.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ModifyJson.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-modifyjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ModifyJson.cs#L10-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-modifyjson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

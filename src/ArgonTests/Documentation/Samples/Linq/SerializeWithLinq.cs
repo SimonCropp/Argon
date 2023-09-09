@@ -4,8 +4,6 @@
 
 using System.Web;
 
-namespace Argon.Tests.Documentation.Samples.Linq;
-
 public class SerializeWithLinq : TestFixtureBase
 {
     #region SerializeWithLinqTypes

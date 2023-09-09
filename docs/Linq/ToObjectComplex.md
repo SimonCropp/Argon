@@ -30,5 +30,5 @@ Console.WriteLine(person[0].Name);
 Console.WriteLine(person[1].Name);
 // Mike Smith
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ToObjectComplex.cs#L21-L48' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectcomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ToObjectComplex.cs#L19-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectcomplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

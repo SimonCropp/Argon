@@ -13,7 +13,7 @@ public class Post
     public IList<string> Categories { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L9-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonanonymousobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonanonymousobjecttypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CreateJsonAnonymousObjectUsage -->
@@ -74,5 +74,5 @@ Console.WriteLine(o.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L24-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonanonymousobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L22-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonanonymousobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
