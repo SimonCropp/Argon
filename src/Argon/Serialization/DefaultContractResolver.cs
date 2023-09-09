@@ -588,13 +588,23 @@ public class DefaultContractResolver : IContractResolver
         contract.InternalConverter = JsonSerializer.GetMatchingConverter(builtInConverters, nonNullableUnderlyingType);
 
         var createdType = contract.CreatedType;
-        if (contract.IsInstantiable
-            && (createdType.HasDefaultConstructor(true) || createdType.IsValueType))
+        if (!contract.IsInstantiable)
+        {
+            return;
+        }
+
+        if (createdType.IsValueType)
         {
             contract.DefaultCreator = GetDefaultCreator(createdType);
+            contract.DefaultCreatorNonPublic = false;
+            return;
+        }
 
-            contract.DefaultCreatorNonPublic = !createdType.IsValueType &&
-                                               createdType.GetDefaultConstructor() == null;
+        var constructor = createdType.GetDefaultConstructor(nonPublic: true);
+        if (constructor != null)
+        {
+            contract.DefaultCreator = GetDefaultCreator(createdType);
+            contract.DefaultCreatorNonPublic = !constructor.IsPublic;
         }
     }
 
