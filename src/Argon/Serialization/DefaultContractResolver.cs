@@ -12,21 +12,6 @@ public class DefaultContractResolver : IContractResolver
     // Json.NET Schema requires a property
     internal static IContractResolver Instance { get; } = new DefaultContractResolver();
 
-    static readonly JsonConverter[] builtInConverters =
-    {
-        new StringBuilderConverter(),
-        new ExpandoObjectConverter(),
-        new KeyValuePairConverter(),
-        new DriveInfoConverter(),
-        new EncodingConverter(),
-        new PathInfoConverter(),
-        new RegexConverter(),
-        new EncodingConverter(),
-        new TimeZoneInfoConverter(),
-        new VersionConverter(),
-        new StringWriterConverter()
-    };
-
     readonly DefaultJsonNameTable nameTable = new();
 
     readonly ThreadSafeStore<Type, JsonContract> contractCache;
@@ -50,6 +35,22 @@ public class DefaultContractResolver : IContractResolver
     /// Gets or sets the naming strategy used to resolve how property names and dictionary keys are serialized.
     /// </summary>
     public NamingStrategy? NamingStrategy { get; set; }
+
+    public static List<JsonConverter> Converters { get; } =
+        new()
+        {
+            new StringBuilderConverter(),
+            new ExpandoObjectConverter(),
+            new KeyValuePairConverter(),
+            new DriveInfoConverter(),
+            new EncodingConverter(),
+            new PathInfoConverter(),
+            new RegexConverter(),
+            new EncodingConverter(),
+            new TimeZoneInfoConverter(),
+            new VersionConverter(),
+            new StringWriterConverter()
+        };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultContractResolver" /> class.
@@ -330,14 +331,33 @@ public class DefaultContractResolver : IContractResolver
             {
                 createdType = type;
             }
+
             var setExtensionDataDictionary = BuildSetExtensionDataDictionary(member);
             var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
-            var setMethod = type.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] {keyType}, null)?.SetMethod;
+            var flags = BindingFlags.Public | BindingFlags.Instance;
+            var setMethod = type.GetProperty(
+                "Item",
+                flags, null, valueType,
+                new[]
+                {
+                    keyType
+                },
+                null)?.SetMethod;
+
             if (setMethod == null)
             {
                 // Item is explicitly implemented and non-public
                 // get from dictionary interface
-                setMethod = dictionaryType.GetProperty("Item", BindingFlags.Public | BindingFlags.Instance, null, valueType, new[] {keyType}, null)?.SetMethod;
+                setMethod = dictionaryType.GetProperty(
+                    "Item",
+                    flags,
+                    null,
+                    valueType,
+                    new[]
+                    {
+                        keyType
+                    },
+                    null)?.SetMethod;
             }
 
             var setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
@@ -427,7 +447,13 @@ public class DefaultContractResolver : IContractResolver
         // little hack to get Version objects to deserialize correctly
         if (type == typeof(Version))
         {
-            return type.GetConstructor(new[] {typeof(int), typeof(int), typeof(int), typeof(int)});
+            return type.GetConstructor(new[]
+            {
+                typeof(int),
+                typeof(int),
+                typeof(int),
+                typeof(int)
+            });
         }
 
         return null;
@@ -582,7 +608,7 @@ public class DefaultContractResolver : IContractResolver
         contract.Converter = ResolveContractConverter(nonNullableUnderlyingType);
 
         // then see whether object is compatible with any of the built in converters
-        contract.InternalConverter = JsonSerializer.GetMatchingConverter(builtInConverters, nonNullableUnderlyingType);
+        contract.InternalConverter = JsonSerializer.GetMatchingConverter(Converters, nonNullableUnderlyingType);
 
         var createdType = contract.CreatedType;
         if (!contract.IsInstantiable)
@@ -1090,13 +1116,17 @@ public class DefaultContractResolver : IContractResolver
 
     static void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
     {
-        MemberInfo? specifiedMember = member.DeclaringType!.GetProperty(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        var declaringType = member.DeclaringType!;
+        var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+        MemberInfo? specifiedMember = declaringType.GetProperty(member.Name + JsonTypeReflector.SpecifiedPostfix, flags);
         if (specifiedMember == null)
         {
-            specifiedMember = member.DeclaringType.GetField(member.Name + JsonTypeReflector.SpecifiedPostfix, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            specifiedMember = declaringType.GetField(member.Name + JsonTypeReflector.SpecifiedPostfix, flags);
         }
 
-        if (specifiedMember == null || specifiedMember.GetMemberUnderlyingType() != typeof(bool))
+        if (specifiedMember == null ||
+            specifiedMember.GetMemberUnderlyingType() != typeof(bool))
         {
             return;
         }
