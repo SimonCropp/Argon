@@ -54,7 +54,7 @@ public class DiscriminatedUnionConverter : JsonConverter
         var union = unionCache.Get(unionType);
 
         var tag = union.TagReader.Invoke(value);
-        var caseInfo = union.Cases.Single(c => c.Tag == tag);
+        var caseInfo = union.Cases.Single(_ => _.Tag == tag);
 
         writer.WriteStartObject();
         writer.WritePropertyName(resolver == null ? casePropertyName : resolver.GetResolvedPropertyName(casePropertyName));
@@ -102,7 +102,7 @@ public class DiscriminatedUnionConverter : JsonConverter
 
                 caseName = (string) reader.GetValue();
 
-                caseInfo = union.Cases.SingleOrDefault(c => c.Name == caseName);
+                caseInfo = union.Cases.SingleOrDefault(_ => _.Name == caseName);
 
                 if (caseInfo == null)
                 {

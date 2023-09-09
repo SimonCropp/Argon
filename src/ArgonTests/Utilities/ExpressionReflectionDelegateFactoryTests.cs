@@ -9,7 +9,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInString()
     {
-        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Length == 1);
+        var constructor = typeof(InTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 1);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -22,7 +22,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInStringAndBool()
     {
-        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Length == 2);
+        var constructor = typeof(InTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 2);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -36,7 +36,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefString()
     {
-        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Length == 1);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 1);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -49,7 +49,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefStringAndOutBool()
     {
-        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Length == 2);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 2);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -62,7 +62,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefStringAndRefBoolAndRefBool()
     {
-        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Length == 3);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 3);
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -344,12 +344,9 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
         Assert.Equal(0, myStruct2.IntProperty);
     }
 
-    public struct TestStruct
+    public readonly struct TestStruct(int i)
     {
-        public TestStruct(int i) =>
-            Value = i;
-
-        public int Value { get; }
+        public int Value { get; } = i;
     }
 
     public static TestStruct StructMethod(TestStruct s) =>

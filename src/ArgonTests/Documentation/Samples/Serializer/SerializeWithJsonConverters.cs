@@ -29,11 +29,11 @@ public class SerializeWithJsonConverters : TestFixtureBase
             jsonWithConverter,
             new StringEnumConverter());
 
-        Console.WriteLine(string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
+        Console.WriteLine(string.Join(", ", newStringComparsions.Select(_ => _.ToString()).ToArray()));
         // CurrentCulture, Ordinal
 
         #endregion
 
-        Assert.Equal("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(c => c.ToString()).ToArray()));
+        Assert.Equal("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(_ => _.ToString()).ToArray()));
     }
 }

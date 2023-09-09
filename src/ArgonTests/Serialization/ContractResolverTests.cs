@@ -375,7 +375,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract) resolver.ResolveContract(typeof(NumberFormatInfo));
 
-        Assert.False(contract.Properties.Any(c => c.PropertyName == "InvariantInfo"));
+        Assert.False(contract.Properties.Any(_ => _.PropertyName == "InvariantInfo"));
     }
 
     [Fact]

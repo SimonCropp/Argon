@@ -411,7 +411,7 @@ public class DefaultContractResolver : IContractResolver
     static ConstructorInfo? GetAttributeConstructor(Type type)
     {
         using var enumerator = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            .Where(c => c.IsDefined(typeof(JsonConstructorAttribute), true))
+            .Where(_ => _.IsDefined(typeof(JsonConstructorAttribute), true))
             .GetEnumerator();
         if (enumerator.MoveNext())
         {

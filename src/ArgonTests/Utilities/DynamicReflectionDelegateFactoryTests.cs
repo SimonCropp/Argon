@@ -10,7 +10,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInString()
     {
-        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Length == 1);
+        var constructor = typeof(InTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 1);
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -26,7 +26,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithInStringAndBool()
     {
-        var constructor = typeof(InTestClass).GetConstructors().Single(c => c.GetParameters().Length == 2);
+        var constructor = typeof(InTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 2);
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -44,7 +44,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefString()
     {
-        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Length == 1);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 1);
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -60,7 +60,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefStringAndOutBool()
     {
-        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Length == 2);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 2);
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
@@ -78,7 +78,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorWithRefStringAndRefBoolAndRefBool()
     {
-        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(c => c.GetParameters().Length == 3);
+        var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 3);
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 

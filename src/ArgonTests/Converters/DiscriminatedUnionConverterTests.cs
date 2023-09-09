@@ -189,7 +189,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
 
         var tag = union.TagReader.Invoke(value);
 
-        var caseInfo = union.Cases.Single(c => c.Tag == tag);
+        var caseInfo = union.Cases.Single(_ => _.Tag == tag);
 
         var fields = caseInfo.FieldReader.Invoke(value);
 
@@ -202,7 +202,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     {
         var union = CreateUnion(typeof(Shape.Rectangle));
 
-        var caseInfo = union.Cases.Single(c => c.Name == "Rectangle");
+        var caseInfo = union.Cases.Single(_ => _.Name == "Rectangle");
 
         var value = (Shape.Rectangle) caseInfo.Constructor.Invoke(new object[]
         {
