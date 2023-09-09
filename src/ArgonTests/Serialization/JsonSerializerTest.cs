@@ -4476,7 +4476,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = """{"First":"First","Second":2,"Ignored":{"Name":"James"},"AdditionalContent":{"LOL":true}}""";
 
-        var cc = JsonConvert.DeserializeObject<ConstructorCompexIgnoredProperty>(json);
+        var cc = JsonConvert.DeserializeObject<ConstructorComplexIgnoredProperty>(json);
         Assert.Equal("First", cc.First);
         Assert.Equal(2, cc.Second);
         Assert.Equal(null, cc.Ignored);
@@ -4487,7 +4487,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = """{"First":"First","Second":2,"Ignored":{"Name":"James"}}""";
 
-        var cc = JsonConvert.DeserializeObject<ConstructorCompexIgnoredProperty>(
+        var cc = JsonConvert.DeserializeObject<ConstructorComplexIgnoredProperty>(
             json, new JsonSerializerSettings
             {
                 MissingMemberHandling = MissingMemberHandling.Error
