@@ -31,7 +31,7 @@ static class ReflectionUtils
     }
 
     public static bool IsVirtual(this PropertyInfo property) =>
-        property.Method() is {IsVirtual: true};
+        property.Method().IsVirtual;
 
     static MethodInfo Method(this PropertyInfo property)
     {
