@@ -36,7 +36,7 @@ class ReflectionObject
         ObjectConstructor? creatorConstructor = null;
         if (creator == null)
         {
-            if (type.HasDefaultConstructor(false))
+            if (type.HasDefaultConstructor())
             {
                 var ctor = delegateFactory.CreateDefaultConstructor<object>(type);
 

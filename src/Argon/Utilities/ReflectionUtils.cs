@@ -127,18 +127,15 @@ static class ReflectionUtils
         return builder.ToString();
     }
 
-    public static bool HasDefaultConstructor(this Type type, bool nonPublic)
+    public static bool HasDefaultConstructor(this Type type)
     {
         if (type.IsValueType)
         {
             return true;
         }
 
-        return GetDefaultConstructor(type, nonPublic) != null;
+        return GetDefaultConstructor(type, false) != null;
     }
-
-    public static ConstructorInfo? GetDefaultConstructor(this Type type) =>
-        GetDefaultConstructor(type, false);
 
     public static ConstructorInfo? GetDefaultConstructor(this Type type, bool nonPublic)
     {
@@ -148,8 +145,7 @@ static class ReflectionUtils
             bindingFlags |= BindingFlags.NonPublic;
         }
 
-        return type.GetConstructors(bindingFlags)
-            .SingleOrDefault(_ => _.GetParameters().Length == 0);
+        return type.GetConstructor(bindingFlags, Array.Empty<Type>());
     }
 
     public static bool IsNullable(this Type type) =>
