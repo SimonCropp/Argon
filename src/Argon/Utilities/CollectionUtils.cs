@@ -80,19 +80,6 @@ static class CollectionUtils
         return -1;
     }
 
-    // faster reverse in .NET Framework with value types - https://github.com/JamesNK/Newtonsoft.Json/issues/1430
-    public static void FastReverse<T>(this List<T> list)
-    {
-        var i = 0;
-        var j = list.Count - 1;
-        while (i < j)
-        {
-            (list[i], list[j]) = (list[j], list[i]);
-            i++;
-            j--;
-        }
-    }
-
     static IList<int> GetDimensions(IList values, int dimensionsCount)
     {
         var dimensions = new List<int>();

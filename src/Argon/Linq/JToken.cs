@@ -126,7 +126,7 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 previous = current;
             }
 
-            positions.FastReverse();
+            positions.Reverse();
 
             return JsonPosition.BuildPath(positions, null);
         }
