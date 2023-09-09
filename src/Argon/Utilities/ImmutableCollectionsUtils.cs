@@ -77,34 +77,41 @@ static class ImmutableCollectionsUtils
 
     internal static bool TryBuildImmutableForArrayContract(Type underlyingType, Type collectionItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {
-        if (underlyingType.IsGenericType)
-        {
-            var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
-            var name = underlyingTypeDefinition.FullName;
-
-            var definition = ArrayContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
-            if (definition != null)
-            {
-                var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
-                var builderTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.BuilderTypeName);
-
-                if (createdTypeDefinition != null && builderTypeDefinition != null)
-                {
-                    var mb = builderTypeDefinition.GetMethods().FirstOrDefault(m => m.Name == "CreateRange" && m.GetParameters().Length == 1);
-                    if (mb != null)
-                    {
-                        createdType = createdTypeDefinition.MakeGenericType(collectionItemType);
-                        var method = mb.MakeGenericMethod(collectionItemType);
-                        parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(method);
-                        return true;
-                    }
-                }
-            }
-        }
-
         createdType = null;
         parameterizedCreator = null;
-        return false;
+
+        if (!underlyingType.IsGenericType)
+        {
+            return false;
+        }
+
+        var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
+        var name = underlyingTypeDefinition.FullName;
+
+        var definition = ArrayContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
+        if (definition == null)
+        {
+            return false;
+        }
+
+        var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
+        var builderTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.BuilderTypeName);
+
+        if (createdTypeDefinition == null || builderTypeDefinition == null)
+        {
+            return false;
+        }
+
+        var mb = builderTypeDefinition.GetMethods().FirstOrDefault(m => m.Name == "CreateRange" && m.GetParameters().Length == 1);
+        if (mb == null)
+        {
+            return false;
+        }
+
+        createdType = createdTypeDefinition.MakeGenericType(collectionItemType);
+        var method = mb.MakeGenericMethod(collectionItemType);
+        parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(method);
+        return true;
     }
 
     internal static bool TryBuildImmutableForDictionaryContract(Type underlyingType, Type keyItemType, Type valueItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
