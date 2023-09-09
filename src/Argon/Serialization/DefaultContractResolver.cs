@@ -287,7 +287,7 @@ public class DefaultContractResolver : IContractResolver
             var keyType = genericArguments[0];
             var valueType = genericArguments[1];
 
-            if (keyType.IsAssignableFrom(typeof(string)) &&
+            if (keyType == typeof(string) &&
                 valueType.IsAssignableFrom(typeof(JToken)))
             {
                 return true;
@@ -362,9 +362,9 @@ public class DefaultContractResolver : IContractResolver
 
         if (extensionDataAttribute.WriteData)
         {
-            var enumerableWrapper = typeof(EnumerableDictionaryWrapper<,>).MakeGenericType(keyType, valueType);
-            var constructors = enumerableWrapper.GetConstructors()[0];
-            var createEnumerableWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
+            var wrapper = typeof(EnumerableDictionaryWrapper<,>).MakeGenericType(keyType, valueType);
+            var constructors = wrapper.GetConstructors()[0];
+            var createWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
 
             contract.ExtensionDataGetter = o =>
             {
@@ -374,7 +374,7 @@ public class DefaultContractResolver : IContractResolver
                     return null;
                 }
 
-                return (IEnumerable<KeyValuePair<object, object>>) createEnumerableWrapper(dictionary);
+                return (IEnumerable<KeyValuePair<object, object>>) createWrapper(dictionary);
             };
         }
 
