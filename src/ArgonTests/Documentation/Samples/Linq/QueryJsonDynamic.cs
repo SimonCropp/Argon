@@ -11,18 +11,20 @@ public class QueryJsonDynamic : TestFixtureBase
     public void Example()
     {
         #region QueryJsonDynamic
-        var json = @"[
-          {
-            'Title': 'Json.NET is awesome!',
-            'Author': {
-              'Name': 'James Newton-King',
-              'Twitter': '@JamesNK',
-              'Picture': '/jamesnk.png'
-            },
-            'Date': '2013-01-23T19:30:00',
-            'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
-          }
-        ]";
+        var json = """
+                   [
+                     {
+                       'Title': 'Json.NET is awesome!',
+                       'Author': {
+                         'Name': 'James Newton-King',
+                         'Twitter': '@JamesNK',
+                         'Picture': '/jamesnk.png'
+                       },
+                       'Date': '2013-01-23T19:30:00',
+                       'BodyHtml': '&lt;h3&gt;Title!&lt;/h3&gt;\r\n&lt;p&gt;Content!&lt;/p&gt;'
+                     }
+                   ]
+                   """;
 
         dynamic blogPosts = JArray.Parse(json);
 
