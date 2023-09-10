@@ -28,7 +28,8 @@ public partial class JsonTextWriter : JsonWriter
         get => quoteChar;
         set
         {
-            if (value != '"' && value != '\'')
+            if (value != '"' &&
+                value != '\'')
             {
                 throw new ArgumentException(@"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
             }

@@ -91,7 +91,8 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     data = Array.Empty<byte>();
                 }
-                else if (stringReference.Length == 36 && ConvertUtils.TryConvertGuid(stringReference.ToString(), out var g))
+                else if (stringReference.Length == 36 &&
+                         ConvertUtils.TryConvertGuid(stringReference.ToString(), out var g))
                 {
                     data = g.ToByteArray();
                 }
@@ -543,7 +544,10 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                             break;
                         case ']':
                             charPos++;
-                            if (currentState is State.Array or State.ArrayStart or State.PostValue)
+                            if (currentState is
+                                State.Array or
+                                State.ArrayStart or
+                                State.PostValue)
                             {
                                 SetToken(JsonToken.EndArray);
                                 return null;
