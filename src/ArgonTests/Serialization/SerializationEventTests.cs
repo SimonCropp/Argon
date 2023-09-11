@@ -233,9 +233,7 @@ public class SerializationEventTests : TestFixtureBase
             TestMember = "Set!";
     }
 
-    public class SerializationEventContextSubClassTestObject : SerializationEventBaseTestObject
-    {
-    }
+    public class SerializationEventContextSubClassTestObject : SerializationEventBaseTestObject;
 
     [Fact]
     public void SerializationEventContextTestObjectSubClassTest()

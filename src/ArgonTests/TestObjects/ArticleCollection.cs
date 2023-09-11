@@ -4,6 +4,4 @@
 
 namespace TestObjects;
 
-public class ArticleCollection : List<Article>
-{
-}
+public class ArticleCollection : List<Article>;

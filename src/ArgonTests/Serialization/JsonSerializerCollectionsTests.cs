@@ -2028,9 +2028,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         }
 
         public interface ITestInterface : IFirstInterface,
-            ISecondInterface
-        {
-        }
+            ISecondInterface;
 
         public class TestClass : ITestInterface
         {
@@ -2764,9 +2762,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         public T Value { get; set; }
     }
 
-    public class NonGenericItem : GenericItem<string>
-    {
-    }
+    public class NonGenericItem : GenericItem<string>;
 
     public class GenericClass<T, TValue> : IEnumerable<T>
         where T : GenericItem<TValue>, new()
@@ -2788,9 +2784,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             GetEnumerator();
     }
 
-    public class NonGenericClass : GenericClass<GenericItem<string>, string>
-    {
-    }
+    public class NonGenericClass : GenericClass<GenericItem<string>, string>;
 
     public class StringListAppenderConverter : JsonConverter
     {

@@ -32,13 +32,9 @@ public class Issue1620 : TestFixtureBase
         Assert.Equal(1, properties.Count(p => p.Name == "Mock"));
     }
 
-    public interface IFoo
-    {
-    }
+    public interface IFoo;
 
-    public class Foo : IFoo
-    {
-    }
+    public class Foo : IFoo;
 
     public class FooConverter : JsonConverter
     {

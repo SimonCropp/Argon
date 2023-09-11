@@ -39,5 +39,5 @@ var result = JsonConvert.DeserializeObject<Target>(
 var settings = new JsonSerializerSettings();
 settings.AddFSharpConverters();
 ```
-<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L115-L120' title='Snippet source file'>snippet source</a> | <a href='#snippet-addfsharpconverters' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Serialization/FSharpTests.cs#L116-L121' title='Snippet source file'>snippet source</a> | <a href='#snippet-addfsharpconverters' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

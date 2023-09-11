@@ -20,11 +20,7 @@ public class Issue1796 : TestFixtureBase
         Assert.Equal(1, c.Count);
     }
 
-    public class TestStack : SortedSet<object>
-    {
-    }
+    public class TestStack : SortedSet<object>;
 
-    public class TestStack<T> : SortedSet<T>
-    {
-    }
+    public class TestStack<T> : SortedSet<T>;
 }

@@ -671,9 +671,7 @@ public class DataTableConverterTests : TestFixtureBase
     }
 
     [JsonConverter(typeof(DataTableConverterTest))]
-    public class CustomDataTable : DataTable
-    {
-    }
+    public class CustomDataTable : DataTable;
 
     public class DataTableConverterTest :
         DataTableConverter,

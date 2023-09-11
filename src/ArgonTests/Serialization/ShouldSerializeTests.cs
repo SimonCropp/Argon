@@ -6,9 +6,7 @@ using System.Xml.Serialization;
 
 public class ShouldSerializeTests : TestFixtureBase
 {
-    public class A
-    {
-    }
+    public class A;
 
     public class B
     {

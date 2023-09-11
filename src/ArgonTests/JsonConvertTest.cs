@@ -1377,9 +1377,7 @@ public class JsonConvertTest : TestFixtureBase
         public override string Data { get; set; }
     }
 
-    public class NonGenericChildClass : GenericIntermediateClass<int>
-    {
-    }
+    public class NonGenericChildClass : GenericIntermediateClass<int>;
 
     [Fact]
     public void ShouldNotPopulateReadOnlyEnumerableObjectWithNonDefaultConstructor()

@@ -5,6 +5,4 @@
 namespace TestObjects;
 
 [JsonConverter(typeof(ErroringJsonConverter))]
-public class ErroringTestClass
-{
-}
+public class ErroringTestClass;

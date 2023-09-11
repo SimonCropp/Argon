@@ -5,6 +5,4 @@
 namespace TestObjects;
 
 [JsonConverter(typeof(IsoDateTimeConverter))]
-public class IncompatibleJsonAttributeClass
-{
-}
+public class IncompatibleJsonAttributeClass;

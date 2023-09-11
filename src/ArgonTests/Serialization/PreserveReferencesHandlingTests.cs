@@ -240,9 +240,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         Assert.True(ReferenceEquals(circularDictionary, circularDictionary["self"]));
     }
 
-    public class CircularList : List<CircularList>
-    {
-    }
+    public class CircularList : List<CircularList>;
 
     [Fact]
     public void SerializeCircularListsError()
@@ -407,9 +405,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             "Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
     }
 
-    public class CircularDictionary : Dictionary<string, CircularDictionary>
-    {
-    }
+    public class CircularDictionary : Dictionary<string, CircularDictionary>;
 
     [Fact]
     public void SerializeCircularDictionarysError()
@@ -533,25 +529,16 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     }
 
     [JsonObject(IsReference = true)]
-    class Condition
+    class Condition(int value)
     {
-        public int Value { get; }
-
-        public Condition(int value) =>
-            Value = value;
+        public int Value { get; } = value;
     }
 
-    class ClassWithConditions
+    class ClassWithConditions(Condition condition1, Condition condition2)
     {
-        public Condition Condition1 { get; }
+        public Condition Condition1 { get; } = condition1;
 
-        public Condition Condition2 { get; }
-
-        public ClassWithConditions(Condition condition1, Condition condition2)
-        {
-            Condition1 = condition1;
-            Condition2 = condition2;
-        }
+        public Condition Condition2 { get; } = condition2;
     }
 
     [Fact]
@@ -1272,14 +1259,10 @@ public class PropertyItemIsReferenceList
 }
 
 [JsonArray(ItemIsReference = true)]
-public class ReferencedList<T> : List<T>
-{
-}
+public class ReferencedList<T> : List<T>;
 
 [JsonDictionary(ItemIsReference = true)]
-public class ReferencedDictionary<T> : Dictionary<string, T>
-{
-}
+public class ReferencedDictionary<T> : Dictionary<string, T>;
 
 [JsonObject(ItemIsReference = true)]
 public class ReferenceObject

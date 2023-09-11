@@ -56,13 +56,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         public ITest MyTest { get; set; }
     }
 
-    public interface ITest
-    {
-    }
+    public interface ITest;
 
-    public class MyTest : ITest
-    {
-    }
+    public class MyTest : ITest;
 
     public class MyClass1
     {
@@ -1070,9 +1066,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         public string String4 { get; set; }
     }
 
-    interface IErrorPerson2
-    {
-    }
+    interface IErrorPerson2;
 
     class ErrorPerson2 //:IPerson - oops! Forgot to implement the person interface
     {

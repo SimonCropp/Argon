@@ -108,7 +108,8 @@ public class FSharpTests : TestFixtureBase
         #endregion
     }
 
-    class Target{}
+    class Target;
+
     [Fact]
     public void AddFSharpConverters()
     {

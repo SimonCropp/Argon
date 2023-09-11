@@ -160,9 +160,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Equal(2, l[1]);
     }
 
-    public class CustomList<T> : List<T>
-    {
-    }
+    public class CustomList<T> : List<T>;
 
     [Fact]
     public void ListInterfaceDefaultCreator()
@@ -189,9 +187,7 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Equal(3, l[2]);
     }
 
-    public class CustomDictionary<TKey, TValue> : Dictionary<TKey, TValue>
-    {
-    }
+    public class CustomDictionary<TKey, TValue> : Dictionary<TKey, TValue>;
 
     [Fact]
     public void DictionaryInterfaceDefaultCreator()

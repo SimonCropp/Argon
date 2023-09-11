@@ -2460,13 +2460,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         public string MyProperty { get; internal set; }
     }
 
-    public class MyChildList : List<string>, ISomeBase
-    {
-    }
+    public class MyChildList : List<string>, ISomeBase;
 
-    public interface ISomeBase
-    {
-    }
+    public interface ISomeBase;
 
     public class Message
     {
@@ -2552,14 +2548,10 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
     [JsonArray(ItemTypeNameHandling = TypeNameHandling.All)]
-    public class TypeNameList<T> : List<T>
-    {
-    }
+    public class TypeNameList<T> : List<T>;
 
     [JsonDictionary(ItemTypeNameHandling = TypeNameHandling.All)]
-    public class TypeNameDictionary<T> : Dictionary<string, T>
-    {
-    }
+    public class TypeNameDictionary<T> : Dictionary<string, T>;
 
     [JsonObject(ItemTypeNameHandling = TypeNameHandling.All)]
     public class TypeNameObject

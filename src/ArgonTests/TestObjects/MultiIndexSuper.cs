@@ -4,6 +4,4 @@
 
 namespace TestObjects;
 
-public class MultiIndexSuper : MultiIndexBase
-{
-}
+public class MultiIndexSuper : MultiIndexBase;

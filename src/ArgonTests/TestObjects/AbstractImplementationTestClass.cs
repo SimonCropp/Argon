@@ -5,6 +5,4 @@
 namespace TestObjects;
 
 public class AbstractImplementationTestClass :
-    AbstractTestClass
-{
-}
+    AbstractTestClass;

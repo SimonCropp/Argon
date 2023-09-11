@@ -4,6 +4,4 @@
 
 namespace TestObjects;
 
-public class ProductCollection : List<Product>
-{
-}
+public class ProductCollection : List<Product>;

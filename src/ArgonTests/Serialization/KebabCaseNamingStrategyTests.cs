@@ -251,9 +251,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             json);
     }
 
-    public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>
-    {
-    }
+    public class DictionaryAttributeNamingStrategyTestClass : Dictionary<string, string>;
 
     [Fact]
     public void JsonDictionaryAttribute_NamingStrategyType()
