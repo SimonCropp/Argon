@@ -120,7 +120,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Equal(1, c.Messages.Count);
 
         Console.WriteLine(c.Messages[0]);
-        Assert.True(possibleMsgs.Any(m => m == c.Messages[0]), $"Expected One of: {Environment.NewLine}{string.Join(Environment.NewLine, possibleMsgs)}{Environment.NewLine}Was: {Environment.NewLine}{c.Messages[0]}");
+        Assert.True(possibleMsgs.Any(_ => _ == c.Messages[0]), $"Expected One of: {Environment.NewLine}{string.Join(Environment.NewLine, possibleMsgs)}{Environment.NewLine}Was: {Environment.NewLine}{c.Messages[0]}");
     }
 
     [Fact]
@@ -381,7 +381,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             "[1] - 1 - The string 'I am not a date and will error!' was not recognized as a valid DateTime. There is an unknown word starting at index '0'."
         };
 
-        Assert.True(possibleErrs.Any(m => m == errors[0]),
+        Assert.True(possibleErrs.Any(_ => _ == errors[0]),
             $"Expected One of: {string.Join(Environment.NewLine, possibleErrs)}{Environment.NewLine}But was: {errors[0]}");
 
         Assert.Equal(

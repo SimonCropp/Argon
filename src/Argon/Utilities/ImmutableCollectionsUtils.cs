@@ -102,7 +102,9 @@ static class ImmutableCollectionsUtils
             return false;
         }
 
-        var mb = builderTypeDefinition.GetMethods().FirstOrDefault(m => m.Name == "CreateRange" && m.GetParameters().Length == 1);
+        var mb = builderTypeDefinition.GetMethods()
+            .FirstOrDefault(_ => _.Name == "CreateRange" &&
+                                 _.GetParameters().Length == 1);
         if (mb == null)
         {
             return false;
