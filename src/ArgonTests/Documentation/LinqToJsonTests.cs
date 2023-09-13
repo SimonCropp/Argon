@@ -317,7 +317,7 @@ public class LinqToJsonTests : TestFixtureBase
         //Json.NET 1.3 + New license + Now on CodePlex
 
         var categories =
-            from c in rss["channel"]["item"].SelectMany(i => i["categories"]).Values<string>()
+            from c in rss["channel"]["item"].SelectMany(_ => _["categories"]).Values<string>()
             group c by c
             into g
             orderby g.Count() descending

@@ -196,7 +196,7 @@ public class ConstructorHandlingTests : TestFixtureBase
         {
             var properties = base.CreateProperties(type, memberSerialization);
 
-            foreach (var property in properties.Where(p => p.PropertyType == typeof(string)))
+            foreach (var property in properties.Where(_ => _.PropertyType == typeof(string)))
             {
                 property.DefaultValue = ConstructorParametersRespectDefaultValue.DefaultValue;
                 property.DefaultValueHandling = DefaultValueHandling.Populate;

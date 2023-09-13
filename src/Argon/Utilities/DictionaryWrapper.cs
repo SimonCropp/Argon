@@ -395,7 +395,7 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
 
         public object Key => Entry.Key;
 
-        public object Value => Entry.Value;
+        public object Valu_ => _ntry.Value;
 
         public object Current => new DictionaryEntry(e.Current.Key, e.Current.Value);
 

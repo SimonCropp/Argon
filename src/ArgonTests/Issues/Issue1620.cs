@@ -29,7 +29,7 @@ public class Issue1620 : TestFixtureBase
 
         var properties = foo.GetType().GetFieldsAndProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).ToList();
 
-        Assert.Equal(1, properties.Count(p => p.Name == "Mock"));
+        Assert.Equal(1, properties.Count(_ => _.Name == "Mock"));
     }
 
     public interface IFoo;

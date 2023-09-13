@@ -175,7 +175,7 @@ public static class DynamicConcrete
 
     static void BindMethod(TypeBuilder typeBuilder, MethodInfo methodInfo)
     {
-        var args = methodInfo.GetParameters().Select(p => p.ParameterType).ToArray();
+        var args = methodInfo.GetParameters().Select(_ => _.ParameterType).ToArray();
         var methodBuilder = typeBuilder.DefineMethod(
             methodInfo.Name,
             MethodAttributes.Public | MethodAttributes.Virtual,

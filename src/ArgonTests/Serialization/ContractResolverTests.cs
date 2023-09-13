@@ -19,7 +19,7 @@ public class DynamicContractResolver : DefaultContractResolver
 
         // only serializer properties that start with the specified character
         properties =
-            properties.Where(p => p.PropertyName.StartsWith(startingWithChar.ToString())).ToList();
+            properties.Where(_ => _.PropertyName.StartsWith(startingWithChar.ToString())).ToList();
 
         return properties;
     }

@@ -14,7 +14,7 @@ public class DeserializeBenchmarks
     {
         LargeJsonText = File.ReadAllText("large.json");
 
-        FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(i => i * 1.1m)).ToString(Formatting.None);
+        FloatArrayJson = new JArray(Enumerable.Range(0, 5000).Select(_ => _ * 1.1m)).ToString(Formatting.None);
     }
 
     [Benchmark]

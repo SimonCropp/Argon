@@ -936,7 +936,7 @@ public class LinqToJsonTest : TestFixtureBase
         // Querying LINQ to JSON
 
         var linqToJson = posts
-            .Where(p => p["Categories"].Any(c => (string) c == "LINQ to JSON")).ToList();
+            .Where(_ => _["Categories"].Any(c => (string) c == "LINQ to JSON")).ToList();
         // Querying LINQ to JSON
 
         Assert.NotNull(serializerBasics);

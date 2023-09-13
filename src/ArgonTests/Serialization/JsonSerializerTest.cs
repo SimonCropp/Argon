@@ -1386,10 +1386,10 @@ public class JsonSerializerTest : TestFixtureBase
 
         var data = ms.ToArray();
         var dataContractJson = JObject.Parse(Encoding.UTF8.GetString(data, 0, data.Length));
-        dataContractJson = new(dataContractJson.Properties().OrderBy(p => p.Name));
+        dataContractJson = new(dataContractJson.Properties().OrderBy(_ => _.Name));
 
         var jsonNetJson = JObject.Parse(JsonConvert.SerializeObject(o));
-        jsonNetJson = new(jsonNetJson.Properties().OrderBy(p => p.Name));
+        jsonNetJson = new(jsonNetJson.Properties().OrderBy(_ => _.Name));
 
         //Console.WriteLine("Results for " + o.GetType().Name);
         //Console.WriteLine("DataContractJsonSerializer: " + dataContractJson);

@@ -215,7 +215,7 @@ public partial class JObject :
     /// </summary>
     /// <returns>A <see cref="JEnumerable{T}" /> of <see cref="JToken" /> of this object's property values.</returns>
     public JEnumerable<JToken> PropertyValues() =>
-        new(Properties().Select(p => p.Value));
+        new(Properties().Select(_ => _.Value));
 
     /// <summary>
     /// Gets the <see cref="JToken" /> with the specified key.

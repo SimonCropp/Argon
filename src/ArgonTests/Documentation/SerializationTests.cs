@@ -814,7 +814,7 @@ public class SerializationTests :
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization serialization) =>
             // only serializer properties that start with the specified character
             base.CreateProperties(type, serialization)
-                .Where(p => p.PropertyName.StartsWith(startingWithChar.ToString())).ToList();
+                .Where(_ => _.PropertyName.StartsWith(startingWithChar.ToString())).ToList();
     }
 
     public class Book

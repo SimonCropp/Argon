@@ -901,7 +901,7 @@ public class DefaultContractResolver : IContractResolver
             properties.AddProperty(property);
         }
 
-        return properties.OrderBy(p => p.Order ?? -1).ToList();
+        return properties.OrderBy(_ => _.Order ?? -1).ToList();
     }
 
     internal virtual DefaultJsonNameTable GetNameTable() =>
