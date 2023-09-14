@@ -68,6 +68,7 @@ public class Issue1461 : TestFixtureBase
     {
         internal object Value { get; set; }
 
+        // ReSharper disable once ConvertToPrimaryConstructor
         public Id(string id) =>
             Value = id;
         public Id(long id) =>

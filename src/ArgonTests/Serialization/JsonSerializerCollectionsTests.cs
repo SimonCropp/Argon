@@ -33,7 +33,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         const string key = "id";
 
-        var jsonValue = $"{{\"{key}\":null}}";
+        var jsonValue = $"{{'{key}':null}}";
 
         var deserializedObject = JsonConvert.DeserializeObject<ConcurrentDictionary<string, string>>(jsonValue);
 
@@ -93,7 +93,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         };
 
         var output = JsonConvert.SerializeObject(dic1);
-        Assert.Equal("""{"1":2147483647}""", output);
+        Assert.Equal("{'1':2147483647}", output);
 
         var dic2 = JsonConvert.DeserializeObject<ConcurrentDictionary<int, int>>(output);
         Assert.True(dic2.TryGetValue(1, out var i));
@@ -110,7 +110,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         };
         var output = JsonConvert.SerializeObject(dictionary);
-        Assert.Equal("""{"1":1}""", output);
+        Assert.Equal("{'1':1}", output);
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<double, int>>(output);
         Assert.Equal(1d, deserializedValue.First().Key);
@@ -126,7 +126,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         };
         var output = JsonConvert.SerializeObject(dictionary);
-        Assert.Equal("""{"1.7976931348623157E+308":1}""", output);
+        Assert.Equal("{'1.7976931348623157E+308':1}", output);
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<double, int>>(output);
         Assert.Equal(double.MaxValue, deserializedValue.First().Key);
@@ -143,9 +143,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         };
         var output = JsonConvert.SerializeObject(dictionary);
 #if !(NET5_0_OR_GREATER)
-        Assert.Equal("""{"3.40282347E+38":1}""", output);
+        Assert.Equal("{'3.40282347E+38':1}", output);
 #else
-        Assert.Equal("""{"3.4028235E+38":1}""", output);
+        Assert.Equal("{'3.4028235E+38':1}", output);
 #endif
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<float, int>>(output);
