@@ -384,18 +384,14 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
         }
     }
 
-    readonly struct DictionaryEnumerator<TEnumeratorKey, TEnumeratorValue> : IDictionaryEnumerator
+    readonly struct DictionaryEnumerator<TEnumeratorKey, TEnumeratorValue>(IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
+        : IDictionaryEnumerator
     {
-        readonly IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e;
-
-        public DictionaryEnumerator(IEnumerator<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e) =>
-            this.e = e;
-
         public DictionaryEntry Entry => (DictionaryEntry) Current;
 
         public object Key => Entry.Key;
 
-        public object Valu_ => _ntry.Value;
+        public object Value => Entry.Value;
 
         public object Current => new DictionaryEntry(e.Current.Key, e.Current.Value);
 
