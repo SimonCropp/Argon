@@ -98,7 +98,7 @@ class XElementWrapper : XContainerWrapper, IXmlElement
         set => Element.Value = value;
     }
 
-    public override string LocalNam_ => _lement.Name.LocalName;
+    public override string LocalName => Element.Name.LocalName;
 
     public override string NamespaceUri => Element.Name.NamespaceName;
 
