@@ -23,7 +23,7 @@ public class KeysJsonConverter : JsonConverter
         else
         {
             var o = (JObject) token;
-            var propertyNames = o.Properties().Select(p => p.Name).ToList();
+            var propertyNames = o.Properties().Select(_ => _.Name).ToList();
 
             o.AddFirst(new JProperty("Keys", new JArray(propertyNames)));
 
