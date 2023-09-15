@@ -10,7 +10,8 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void EmbedJValueStringInNewJObject()
     {
-        var v = new JValue((string) null);
+        string s = null;
+        var v = new JValue(s);
         dynamic o = JObject.FromObject(new
         {
             title = v
@@ -578,7 +579,8 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void WriteObjectNullStringValue()
     {
-        var v = new JValue((string) null);
+        string s = null;
+        var v = new JValue(s);
         Assert.Equal(null, v.Value);
         Assert.Equal(JTokenType.String, v.Type);
 
