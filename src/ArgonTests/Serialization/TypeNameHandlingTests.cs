@@ -1119,12 +1119,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
-    public class TypeNameSerializationBinder : ISerializationBinder
+    public class TypeNameSerializationBinder(string typeFormat) : ISerializationBinder
     {
-        public string TypeFormat { get; }
-
-        public TypeNameSerializationBinder(string typeFormat) =>
-            TypeFormat = typeFormat;
+        public string TypeFormat { get; } = typeFormat;
 
         public Type BindToType(string assemblyName, string typeName)
         {
@@ -1210,12 +1207,9 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("Elbow Grease", purchase.ProductName);
     }
 
-    public class NewTypeNameSerializationBinder : ISerializationBinder
+    public class NewTypeNameSerializationBinder(string typeFormat) : ISerializationBinder
     {
-        public string TypeFormat { get; }
-
-        public NewTypeNameSerializationBinder(string typeFormat) =>
-            TypeFormat = typeFormat;
+        public string TypeFormat { get; } = typeFormat;
 
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
@@ -2421,21 +2415,15 @@ public class TypeNameHandlingTests : TestFixtureBase
     }
 
 
-    public struct Message2
+    [method: Argon.JsonConstructor]
+    public struct Message2(string value)
     {
-        public string Value { get; }
-
-        [Argon.JsonConstructor]
-        public Message2(string value) =>
-            Value = value;
+        public string Value { get; } = value;
     }
 
-    public class ObjectWithOptionalMessage
+    public class ObjectWithOptionalMessage(Message2? message)
     {
-        public Message2? Message { get; }
-
-        public ObjectWithOptionalMessage(Message2? message) =>
-            Message = message;
+        public Message2? Message { get; } = message;
     }
 
     public class DataType

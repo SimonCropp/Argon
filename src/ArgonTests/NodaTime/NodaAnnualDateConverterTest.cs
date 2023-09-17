@@ -33,8 +33,7 @@ public class NodaAnnualDateConverterTest
     [Fact]
     public void Serialize_NullableType_NullValue()
     {
-        AnnualDate? instant = null;
-        var json = JsonConvert.SerializeObject(instant, Formatting.None, settings);
+        var json = JsonConvert.SerializeObject(null, Formatting.None, settings);
         var expectedJson = "null";
         Assert.Equal(expectedJson, json);
     }

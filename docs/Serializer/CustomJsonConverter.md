@@ -5,13 +5,8 @@ This sample creates a custom `Argon.JsonConverter` that overrides serialization 
 <!-- snippet: CustomJsonConverterTypes -->
 <a id='snippet-customjsonconvertertypes'></a>
 ```cs
-public class KeysJsonConverter : JsonConverter
+public class KeysJsonConverter(params Type[] types) : JsonConverter
 {
-    readonly Type[] _types;
-
-    public KeysJsonConverter(params Type[] types) =>
-        _types = types;
-
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
         var token = JToken.FromObject(value);
@@ -37,7 +32,7 @@ public class KeysJsonConverter : JsonConverter
     public override bool CanRead => false;
 
     public override bool CanConvert(Type type) =>
-        _types.Any(t => t == type);
+        types.Any(t => t == type);
 }
 
 public class Employee
@@ -47,7 +42,7 @@ public class Employee
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L7-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L7-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonConverterUsage -->
@@ -84,5 +79,5 @@ var newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConv
 Console.WriteLine(newEmployee.FirstName);
 // James
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L56-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconverterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L51-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconverterusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

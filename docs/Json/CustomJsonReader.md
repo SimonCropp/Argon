@@ -5,18 +5,11 @@ This sample creates a custom `Argon.JsonReader`.
 <!-- snippet: CustomJsonReaderTypes -->
 <a id='snippet-customjsonreadertypes'></a>
 ```cs
-public class XmlJsonReader : JsonReader
+public class XmlJsonReader(XmlReader reader) : JsonReader
 {
-    readonly Stack<JTokenType> stateStack;
-    readonly XmlReader reader;
+    readonly Stack<JTokenType> stateStack = new();
 
     JTokenType? valueType;
-
-    public XmlJsonReader(XmlReader reader)
-    {
-        this.reader = reader;
-        stateStack = new();
-    }
 
     JTokenType PeekState()
     {
@@ -217,7 +210,7 @@ public class XmlJsonReader : JsonReader
     }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L8-L222' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L8-L215' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonReaderUsage -->
@@ -278,5 +271,5 @@ using (var reader = new XmlJsonReader(xmlReader))
     //}
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L229-L286' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L222-L279' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

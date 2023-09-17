@@ -10,15 +10,12 @@ using System.Runtime.Serialization.Json;
 
 public class DefaultValueHandlingTests : TestFixtureBase
 {
-    class DefaultValueWithConstructorAndRename
+    class DefaultValueWithConstructorAndRename(string text = DefaultValueWithConstructorAndRename.DefaultText)
     {
         public const string DefaultText = "...";
 
         [DefaultValue(DefaultText)] [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-        public readonly string Text;
-
-        public DefaultValueWithConstructorAndRename(string text = DefaultText) =>
-            Text = text;
+        public readonly string Text = text;
     }
 
     [Fact]
@@ -28,15 +25,12 @@ public class DefaultValueHandlingTests : TestFixtureBase
         Assert.Equal(DefaultValueWithConstructorAndRename.DefaultText, myObject.Text);
     }
 
-    class DefaultValueWithConstructor
+    class DefaultValueWithConstructor([JsonProperty(PropertyName = "myText")] string text = DefaultValueWithConstructor.DefaultText)
     {
         public const string DefaultText = "...";
 
         [DefaultValue(DefaultText)] [JsonProperty(PropertyName = "myText", DefaultValueHandling = DefaultValueHandling.Populate)]
-        public readonly string Text;
-
-        public DefaultValueWithConstructor([JsonProperty(PropertyName = "myText")] string text = DefaultText) =>
-            Text = text;
+        public readonly string Text = text;
     }
 
     [Fact]

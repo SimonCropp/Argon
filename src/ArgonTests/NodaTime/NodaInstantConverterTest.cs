@@ -33,8 +33,7 @@ public class NodaInstantConverterTest
     [Fact]
     public void Serialize_NullableType_NullValue()
     {
-        Instant? instant = null;
-        var json = JsonConvert.SerializeObject(instant, Formatting.None, settings);
+        var json = JsonConvert.SerializeObject(null, Formatting.None, settings);
         var expectedJson = "null";
         Assert.Equal(expectedJson, json);
     }

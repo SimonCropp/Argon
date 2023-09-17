@@ -10,13 +10,8 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
 {
     #region DeserializeWithDependencyInjectionTypes
 
-    public class AutofacContractResolver : DefaultContractResolver
+    public class AutofacContractResolver(IContainer container) : DefaultContractResolver
     {
-        readonly IContainer container;
-
-        public AutofacContractResolver(IContainer container) =>
-            this.container = container;
-
         protected override JsonObjectContract CreateObjectContract(Type type)
         {
             // use Autofac to create types that have been registered with it
@@ -48,17 +43,11 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         }
     }
 
-    public class TaskController
+    public class TaskController(ITaskRepository repository, ILogger logger)
     {
-        public TaskController(ITaskRepository repository, ILogger logger)
-        {
-            Repository = repository;
-            Logger = logger;
-        }
+        public ITaskRepository Repository { get; } = repository;
 
-        public ITaskRepository Repository { get; }
-
-        public ILogger Logger { get; }
+        public ILogger Logger { get; } = logger;
     }
 
     #endregion
@@ -129,12 +118,9 @@ public class DeserializeWithDependencyInjection : TestFixtureBase
         public string ConnectionString { get; set; }
     }
 
-    public class LogManager : ILogger
+    public class LogManager(DateTime dt) : ILogger
     {
-        public LogManager(DateTime dt) =>
-            DateTime = dt;
-
-        public DateTime DateTime { get; }
+        public DateTime DateTime { get; } = dt;
 
         public string Level { get; set; }
     }

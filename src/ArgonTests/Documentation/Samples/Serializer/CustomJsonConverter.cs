@@ -6,13 +6,8 @@ public class CustomJsonConverter : TestFixtureBase
 {
     #region CustomJsonConverterTypes
 
-    public class KeysJsonConverter : JsonConverter
+    public class KeysJsonConverter(params Type[] types) : JsonConverter
     {
-        readonly Type[] _types;
-
-        public KeysJsonConverter(params Type[] types) =>
-            _types = types;
-
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var token = JToken.FromObject(value);
@@ -38,7 +33,7 @@ public class CustomJsonConverter : TestFixtureBase
         public override bool CanRead => false;
 
         public override bool CanConvert(Type type) =>
-            _types.Any(t => t == type);
+            types.Any(t => t == type);
     }
 
     public class Employee
