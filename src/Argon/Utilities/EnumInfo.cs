@@ -2,18 +2,10 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-class EnumInfo
+class EnumInfo(bool isFlags, ulong[] values, string[] names, string[] resolvedNames)
 {
-    public EnumInfo(bool isFlags, ulong[] values, string[] names, string[] resolvedNames)
-    {
-        IsFlags = isFlags;
-        Values = values;
-        Names = names;
-        ResolvedNames = resolvedNames;
-    }
-
-    public readonly bool IsFlags;
-    public readonly ulong[] Values;
-    public readonly string[] Names;
-    public readonly string[] ResolvedNames;
+    public readonly bool IsFlags = isFlags;
+    public readonly ulong[] Values = values;
+    public readonly string[] Names = names;
+    public readonly string[] ResolvedNames = resolvedNames;
 }

@@ -9,18 +9,11 @@
 /// </summary>
 static class ImmutableCollectionsUtils
 {
-    internal class ImmutableCollectionTypeInfo
+    internal class ImmutableCollectionTypeInfo(string contractTypeName, string createdTypeName, string builderTypeName)
     {
-        public ImmutableCollectionTypeInfo(string contractTypeName, string createdTypeName, string builderTypeName)
-        {
-            ContractTypeName = contractTypeName;
-            CreatedTypeName = createdTypeName;
-            BuilderTypeName = builderTypeName;
-        }
-
-        public string ContractTypeName { get; set; }
-        public string CreatedTypeName { get; set; }
-        public string BuilderTypeName { get; set; }
+        public string ContractTypeName { get; set; } = contractTypeName;
+        public string CreatedTypeName { get; set; } = createdTypeName;
+        public string BuilderTypeName { get; set; } = builderTypeName;
     }
 
     const string ImmutableListGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableList`1";

@@ -33,18 +33,11 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
             .Compile();
     }
 
-    class ByRefParameter
+    class ByRefParameter(Expression value, ParameterExpression variable, bool isOut)
     {
-        public Expression Value;
-        public ParameterExpression Variable;
-        public bool IsOut;
-
-        public ByRefParameter(Expression value, ParameterExpression variable, bool isOut)
-        {
-            Value = value;
-            Variable = variable;
-            IsOut = isOut;
-        }
+        public Expression Value = value;
+        public ParameterExpression Variable = variable;
+        public bool IsOut = isOut;
     }
 
     static Expression BuildMethodCall(MethodBase method, Type type, ParameterExpression? targetParameterExpression, ParameterExpression argsParameterExpression)

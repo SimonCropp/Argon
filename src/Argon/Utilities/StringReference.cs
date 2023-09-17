@@ -2,22 +2,15 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-readonly struct StringReference
+readonly struct StringReference(char[] chars, int startIndex, int length)
 {
     public char this[int i] => Chars[i];
 
-    public char[] Chars { get; }
+    public char[] Chars { get; } = chars;
 
-    public int StartIndex { get; }
+    public int StartIndex { get; } = startIndex;
 
-    public int Length { get; }
-
-    public StringReference(char[] chars, int startIndex, int length)
-    {
-        Chars = chars;
-        StartIndex = startIndex;
-        Length = length;
-    }
+    public int Length { get; } = length;
 
     public override string ToString() =>
         new(Chars, StartIndex, Length);

@@ -104,30 +104,24 @@ static class EnumUtils
             index--;
         }
 
-        string? returnString;
         if (result != 0)
         {
             // We were unable to represent this number as a bitwise or of valid flags
-            returnString = null; // return null so the caller knows to .ToString() the input
+            return null; // return null so the caller knows to .ToString() the input
         }
-        else if (saveResult == 0)
+
+        if (saveResult == 0)
         {
             // For the cases when we have zero
             if (values.Length > 0 && values[0] == 0)
             {
-                returnString = resolvedNames[0]; // Zero was one of the enum values.
+                return resolvedNames[0]; // Zero was one of the enum values.
             }
-            else
-            {
-                returnString = null;
-            }
-        }
-        else
-        {
-            returnString = stringBuilder.ToString(); // Return the string representation
+
+            return null;
         }
 
-        return returnString;
+        return stringBuilder.ToString(); // Return the string representation
     }
 
     public static EnumInfo GetEnumValuesAndNames(Type enumType) =>
