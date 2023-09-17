@@ -293,8 +293,9 @@ static class EnumUtils
     {
         for (var i = 0; i < enumNames.Length; i++)
         {
-            if (enumNames[i].Length == valueSubstringLength &&
-                string.Compare(enumNames[i], 0, value, valueIndex, valueSubstringLength, comparison) == 0)
+            var enumName = enumNames[i];
+            if (enumName.Length == valueSubstringLength &&
+                string.Compare(enumName, 0, value, valueIndex, valueSubstringLength, comparison) == 0)
             {
                 return i;
             }
