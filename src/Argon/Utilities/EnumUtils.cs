@@ -82,14 +82,15 @@ static class EnumUtils
         // items in an enum are sufficiently small and not worth the optimization.
         while (index >= 0)
         {
-            if (index == 0 && values[index] == 0)
+            var value = values[index];
+            if (index == 0 && value == 0)
             {
                 break;
             }
 
-            if ((result & values[index]) == values[index])
+            if ((result & value) == value)
             {
-                result -= values[index];
+                result -= value;
                 if (!firstTime)
                 {
                     stringBuilder.Insert(0, EnumSeparatorString);
