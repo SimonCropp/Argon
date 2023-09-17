@@ -1,15 +1,11 @@
 ﻿using System.Xml.Linq;
 
-class XElementWrapper : XContainerWrapper, IXmlElement
+class XElementWrapper(XElement element) : XContainerWrapper(element),
+    IXmlElement
 {
     List<IXmlNode>? attributes;
 
     XElement Element => (XElement) WrappedNode!;
-
-    public XElementWrapper(XElement element)
-        : base(element)
-    {
-    }
 
     public void SetAttributeNode(IXmlNode attribute)
     {
