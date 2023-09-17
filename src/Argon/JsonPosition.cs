@@ -9,22 +9,14 @@ enum JsonContainerType
     Array = 2
 }
 
-struct JsonPosition
+struct JsonPosition(JsonContainerType type)
 {
     static readonly char[] specialCharacters = {'.', ' ', '\'', '/', '"', '[', ']', '(', ')', '\t', '\n', '\r', '\f', '\b', '\\', '\u0085', '\u2028', '\u2029'};
 
-    internal JsonContainerType Type;
-    internal int Position;
-    internal string? PropertyName;
-    internal bool HasIndex;
-
-    public JsonPosition(JsonContainerType type)
-    {
-        Type = type;
-        HasIndex = TypeHasIndex(type);
-        Position = -1;
-        PropertyName = null;
-    }
+    internal JsonContainerType Type = type;
+    internal int Position = -1;
+    internal string? PropertyName = null;
+    internal bool HasIndex = TypeHasIndex(type);
 
     int CalculateLength() =>
         Type switch

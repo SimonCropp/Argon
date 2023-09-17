@@ -1,11 +1,5 @@
-﻿class TypeInformation
+﻿class TypeInformation(Type type, PrimitiveTypeCode typeCode)
 {
-    public Type Type { get; }
-    public PrimitiveTypeCode TypeCode { get; }
-
-    public TypeInformation(Type type, PrimitiveTypeCode typeCode)
-    {
-        Type = type;
-        TypeCode = typeCode;
-    }
+    public Type Type { get; } = type;
+    public PrimitiveTypeCode TypeCode { get; } = typeCode;
 }
