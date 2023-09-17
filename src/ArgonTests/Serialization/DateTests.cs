@@ -61,8 +61,7 @@ public class DateTests : TestFixtureBase
     [Fact]
     public void SerializeNullable_Null()
     {
-        Date? d = default;
-        var json = JsonConvert.SerializeObject(d, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(null, Formatting.Indented);
 
         Assert.Equal("null", json);
     }

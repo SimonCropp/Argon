@@ -14,7 +14,7 @@ public class DirectoryAccount : IJsonOnDeserialized
     public string UserName { get; set; }
     public string Domain { get; set; }
 
-    [JsonExtensionData] IDictionary<string, JToken> _additionalData;
+    [JsonExtensionData] IDictionary<string, JToken> _additionalData = new Dictionary<string, JToken>();
 
     public void OnDeserialized()
     {
@@ -25,12 +25,9 @@ public class DirectoryAccount : IJsonOnDeserialized
         Domain = samAccountName.Split('\\')[0];
         UserName = samAccountName.Split('\\')[1];
     }
-
-    public DirectoryAccount() =>
-        _additionalData = new Dictionary<string, JToken>();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L31' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeExtensionDataUsage -->
@@ -54,5 +51,5 @@ Console.WriteLine(account.Domain);
 Console.WriteLine(account.UserName);
 // johns
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L39-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L36-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

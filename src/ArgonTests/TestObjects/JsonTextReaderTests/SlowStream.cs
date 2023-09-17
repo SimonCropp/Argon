@@ -2,18 +2,9 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-public class SlowStream : Stream
+public class SlowStream(byte[] content, int bytesPerRead) : Stream
 {
-    byte[] bytes;
     int totalBytesRead;
-    int bytesPerRead;
-
-    public SlowStream(byte[] content, int bytesPerRead)
-    {
-        bytes = content;
-        totalBytesRead = 0;
-        this.bytesPerRead = bytesPerRead;
-    }
 
     public SlowStream(string content, Encoding encoding, int bytesPerRead)
         : this(encoding.GetBytes(content), bytesPerRead)
@@ -41,10 +32,10 @@ public class SlowStream : Stream
     public override int Read(byte[] buffer, int offset, int count)
     {
         var toReturn = Math.Min(count, bytesPerRead);
-        toReturn = Math.Min(toReturn, bytes.Length - totalBytesRead);
+        toReturn = Math.Min(toReturn, content.Length - totalBytesRead);
         if (toReturn > 0)
         {
-            Array.Copy(bytes, totalBytesRead, buffer, offset, toReturn);
+            Array.Copy(content, totalBytesRead, buffer, offset, toReturn);
         }
 
         totalBytesRead += toReturn;

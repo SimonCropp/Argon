@@ -7,18 +7,11 @@ using System.Xml;
 
 #region CustomJsonReaderTypes
 
-public class XmlJsonReader : JsonReader
+public class XmlJsonReader(XmlReader reader) : JsonReader
 {
-    readonly Stack<JTokenType> stateStack;
-    readonly XmlReader reader;
+    readonly Stack<JTokenType> stateStack = new();
 
     JTokenType? valueType;
-
-    public XmlJsonReader(XmlReader reader)
-    {
-        this.reader = reader;
-        stateStack = new();
-    }
 
     JTokenType PeekState()
     {

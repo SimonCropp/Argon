@@ -8,18 +8,15 @@ This sample deserializes JSON with `Argon.ObjectCreationHandling` set to Replace
 public class UserViewModel
 {
     public string Name { get; set; }
-    public IList<string> Offices { get; }
-
-    public UserViewModel() =>
-        Offices = new List<string>
-        {
-            "Auckland",
-            "Wellington",
-            "Christchurch"
-        };
+    public IList<string> Offices { get; } = new List<string>
+    {
+        "Auckland",
+        "Wellington",
+        "Christchurch"
+    };
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L7-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L7-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingtypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeObjectCreationHandlingUsage -->
@@ -63,5 +60,5 @@ foreach (var office in model2.Offices)
 // Wellington
 // Christchurch
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L28-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L25-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

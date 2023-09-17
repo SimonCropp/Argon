@@ -6,13 +6,8 @@ public class CustomContractResolver : TestFixtureBase
 {
     #region CustomContractResolverTypes
 
-    public class DynamicContractResolver : DefaultContractResolver
+    public class DynamicContractResolver(char startingWithChar) : DefaultContractResolver
     {
-        readonly char startingWithChar;
-
-        public DynamicContractResolver(char startingWithChar) =>
-            this.startingWithChar = startingWithChar;
-
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
             var properties = base.CreateProperties(type, memberSerialization);

@@ -126,26 +126,19 @@ public class ConstructorHandlingTests : TestFixtureBase
         Assert.Equal(1, c.Name);
     }
 
-    public class ConstructorParametersRespectDefaultValueAttributes
+    public class ConstructorParametersRespectDefaultValueAttributes(string parameter1, string parameter2, string parameter3)
     {
         [DefaultValue("parameter1_default")]
-        public string Parameter1 { get; }
+        public string Parameter1 { get; } = parameter1;
 
         [DefaultValue("parameter2_default")]
-        public string Parameter2 { get; }
+        public string Parameter2 { get; } = parameter2;
 
         [DefaultValue("parameter3_default")]
-        public string Parameter3 { get; set; }
+        public string Parameter3 { get; set; } = parameter3;
 
         [DefaultValue("parameter4_default")]
         public string Parameter4 { get; set; }
-
-        public ConstructorParametersRespectDefaultValueAttributes(string parameter1, string parameter2, string parameter3)
-        {
-            Parameter1 = parameter1;
-            Parameter2 = parameter2;
-            Parameter3 = parameter3;
-        }
     }
 
     [Fact]
@@ -174,18 +167,12 @@ public class ConstructorHandlingTests : TestFixtureBase
         Assert.Equal("Default Value", testObject.Parameter2);
     }
 
-    public class ConstructorParametersRespectDefaultValue
+    public class ConstructorParametersRespectDefaultValue(string parameter1, string parameter2)
     {
         public const string DefaultValue = "Default Value";
 
-        public string Parameter1 { get; }
-        public string Parameter2 { get; }
-
-        public ConstructorParametersRespectDefaultValue(string parameter1, string parameter2)
-        {
-            Parameter1 = parameter1;
-            Parameter2 = parameter2;
-        }
+        public string Parameter1 { get; } = parameter1;
+        public string Parameter2 { get; } = parameter2;
     }
 
     public class ConstructorParameterDefaultStringValueContractResolver : DefaultContractResolver

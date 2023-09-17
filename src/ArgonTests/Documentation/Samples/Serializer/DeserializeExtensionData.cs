@@ -15,7 +15,7 @@ public class DeserializeExtensionData : TestFixtureBase
         public string UserName { get; set; }
         public string Domain { get; set; }
 
-        [JsonExtensionData] IDictionary<string, JToken> _additionalData;
+        [JsonExtensionData] IDictionary<string, JToken> _additionalData = new Dictionary<string, JToken>();
 
         public void OnDeserialized()
         {
@@ -26,9 +26,6 @@ public class DeserializeExtensionData : TestFixtureBase
             Domain = samAccountName.Split('\\')[0];
             UserName = samAccountName.Split('\\')[1];
         }
-
-        public DirectoryAccount() =>
-            _additionalData = new Dictionary<string, JToken>();
     }
 
     #endregion

@@ -161,38 +161,26 @@ public class DependencyInjectionTests : TestFixtureBase
         public string ConnectionString { get; set; }
     }
 
-    public class LogManager : ILogger
+    public class LogManager(DateTime dt) : ILogger
     {
-        public LogManager(DateTime dt) =>
-            DateTime = dt;
-
-        public DateTime DateTime { get; }
+        public DateTime DateTime { get; } = dt;
 
         public string Level { get; set; }
     }
 
-    public class TaskController
+    public class TaskController(ITaskRepository repository, ILogger logger)
     {
-        public TaskController(ITaskRepository repository, ILogger logger)
-        {
-            Repository = repository;
-            Logger = logger;
-        }
+        public ITaskRepository Repository { get; } = repository;
 
-        public ITaskRepository Repository { get; }
-
-        public ILogger Logger { get; }
+        public ILogger Logger { get; } = logger;
     }
 
-    public class HasSettableProperty
+    public class HasSettableProperty(ILogger logger)
     {
-        public ILogger Logger { get; set; }
+        public ILogger Logger { get; set; } = logger;
         public ITaskRepository Repository { get; set; }
         public IList<Person> People { get; set; }
         public Person Person { get; set; }
-
-        public HasSettableProperty(ILogger logger) =>
-            Logger = logger;
     }
 
     [DataContract]
@@ -214,20 +202,15 @@ public class DependencyInjectionTests : TestFixtureBase
         [DataMember(Name = "company_name")] public string CompanyName { get; set; }
     }
 
-    public class AutofacContractResolver : DefaultContractResolver
+    public class AutofacContractResolver(IContainer container) : DefaultContractResolver
     {
-        readonly IContainer _container;
-
-        public AutofacContractResolver(IContainer container) =>
-            _container = container;
-
         protected override JsonObjectContract CreateObjectContract(Type type)
         {
             // use Autofac to create types that have been registered with it
-            if (_container.IsRegistered(type))
+            if (container.IsRegistered(type))
             {
                 var contract = ResolveContact(type);
-                contract.DefaultCreator = () => _container.Resolve(type);
+                contract.DefaultCreator = () => container.Resolve(type);
 
                 return contract;
             }
@@ -238,7 +221,7 @@ public class DependencyInjectionTests : TestFixtureBase
         JsonObjectContract ResolveContact(Type type)
         {
             // attempt to create the contact from the resolved type
-            if (_container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
+            if (container.ComponentRegistry.TryGetRegistration(new TypedService(type), out var registration))
             {
                 var viewType = (registration.Activator as ReflectionActivator)?.LimitType;
                 if (viewType != null)

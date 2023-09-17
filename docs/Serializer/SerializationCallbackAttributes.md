@@ -13,27 +13,19 @@ public class SerializationEventTestObject :
 {
     // 2222
     // This member is serialized and deserialized with no change.
-    public int Member1 { get; set; }
+    public int Member1 { get; set; } = 11;
 
     // The value of this field is set and reset during and
     // after serialization.
-    public string Member2 { get; set; }
+    public string Member2 { get; set; } = "Hello World!";
 
     // This field is not serialized. The OnDeserializedAttribute
     // is used to set the member value after serialization.
     [JsonIgnore]
-    public string Member3 { get; set; }
+    public string Member3 { get; set; } = "This is a nonserialized value";
 
     // This field is set to null, but populated after deserialization.
     public string Member4 { get; set; }
-
-    public SerializationEventTestObject()
-    {
-        Member1 = 11;
-        Member2 = "Hello World!";
-        Member3 = "This is a nonserialized value";
-        Member4 = null;
-    }
 
     public void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";
@@ -48,7 +40,7 @@ public class SerializationEventTestObject :
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializationCallbackAttributesUsage -->
@@ -92,5 +84,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L57-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L49-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

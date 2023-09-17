@@ -5,13 +5,8 @@ This sample deserializes JSON using dependency injection.
 <!-- snippet: DeserializeWithDependencyInjectionTypes -->
 <a id='snippet-deserializewithdependencyinjectiontypes'></a>
 ```cs
-public class AutofacContractResolver : DefaultContractResolver
+public class AutofacContractResolver(IContainer container) : DefaultContractResolver
 {
-    readonly IContainer container;
-
-    public AutofacContractResolver(IContainer container) =>
-        this.container = container;
-
     protected override JsonObjectContract CreateObjectContract(Type type)
     {
         // use Autofac to create types that have been registered with it
@@ -43,20 +38,14 @@ public class AutofacContractResolver : DefaultContractResolver
     }
 }
 
-public class TaskController
+public class TaskController(ITaskRepository repository, ILogger logger)
 {
-    public TaskController(ITaskRepository repository, ILogger logger)
-    {
-        Repository = repository;
-        Logger = logger;
-    }
+    public ITaskRepository Repository { get; } = repository;
 
-    public ITaskRepository Repository { get; }
-
-    public ILogger Logger { get; }
+    public ILogger Logger { get; } = logger;
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L11-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L11-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectiontypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeWithDependencyInjectionUsage -->
@@ -88,5 +77,5 @@ var controller = JsonConvert.DeserializeObject<TaskController>(json, new JsonSer
 Console.WriteLine(controller.Repository.GetType().Name);
 // TaskRepository
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L69-L97' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeWithDependencyInjection.cs#L58-L86' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithdependencyinjectionusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
