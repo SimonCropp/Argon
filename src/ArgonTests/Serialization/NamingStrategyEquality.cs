@@ -16,12 +16,11 @@ public class NamingStrategyEquality : TestFixtureBase
     [Fact]
     public void CamelCaseNamingStrategyEqualityVariants()
     {
-        CheckInequality<CamelCaseNamingStrategy>(false, false, true);
-        CheckInequality<CamelCaseNamingStrategy>(false, true, false);
-        CheckInequality<CamelCaseNamingStrategy>(true, false, false);
-        CheckInequality<CamelCaseNamingStrategy>(false, true, true);
-        CheckInequality<CamelCaseNamingStrategy>(true, true, false);
-        CheckInequality<CamelCaseNamingStrategy>(true, true, true);
+        CheckInequality<CamelCaseNamingStrategy>(false, true);
+        CheckInequality<CamelCaseNamingStrategy>(true, false);
+        CheckInequality<CamelCaseNamingStrategy>(false, true);
+        CheckInequality<CamelCaseNamingStrategy>(true, true);
+        CheckInequality<CamelCaseNamingStrategy>(true, true);
     }
 
     [Fact]
@@ -36,12 +35,8 @@ public class NamingStrategyEquality : TestFixtureBase
     [Fact]
     public void DefaultNamingStrategyEqualityVariants()
     {
-        CheckInequality<DefaultNamingStrategy>(false, false, true);
-        CheckInequality<DefaultNamingStrategy>(false, true, false);
-        CheckInequality<DefaultNamingStrategy>(true, false, false);
-        CheckInequality<DefaultNamingStrategy>(false, true, true);
-        CheckInequality<DefaultNamingStrategy>(true, true, false);
-        CheckInequality<DefaultNamingStrategy>(true, true, true);
+        CheckInequality<DefaultNamingStrategy>(false, true);
+        CheckInequality<DefaultNamingStrategy>(true, false);
     }
 
     [Fact]
@@ -56,12 +51,8 @@ public class NamingStrategyEquality : TestFixtureBase
     [Fact]
     public void SnakeCaseNamingStrategyEqualityVariants()
     {
-        CheckInequality<SnakeCaseNamingStrategy>(false, false, true);
-        CheckInequality<SnakeCaseNamingStrategy>(false, true, false);
-        CheckInequality<SnakeCaseNamingStrategy>(true, false, false);
-        CheckInequality<SnakeCaseNamingStrategy>(false, true, true);
-        CheckInequality<SnakeCaseNamingStrategy>(true, true, false);
-        CheckInequality<SnakeCaseNamingStrategy>(true, true, true);
+        CheckInequality<SnakeCaseNamingStrategy>(false, true);
+        CheckInequality<SnakeCaseNamingStrategy>(true, false);
     }
 
     [Fact]
@@ -76,12 +67,8 @@ public class NamingStrategyEquality : TestFixtureBase
     [Fact]
     public void KebabCaseNamingStrategyEqualityVariants()
     {
-        CheckInequality<KebabCaseNamingStrategy>(false, false, true);
-        CheckInequality<KebabCaseNamingStrategy>(false, true, false);
-        CheckInequality<KebabCaseNamingStrategy>(true, false, false);
-        CheckInequality<KebabCaseNamingStrategy>(false, true, true);
-        CheckInequality<KebabCaseNamingStrategy>(true, true, false);
-        CheckInequality<KebabCaseNamingStrategy>(true, true, true);
+        CheckInequality<KebabCaseNamingStrategy>(false, true);
+        CheckInequality<KebabCaseNamingStrategy>(true, false);
     }
 
     [Fact]
@@ -93,21 +80,19 @@ public class NamingStrategyEquality : TestFixtureBase
         Assert.False(s1.GetHashCode() == s2.GetHashCode());
     }
 
-    static void CheckInequality<T>(bool overrideSpecifiedNames, bool processDictionaryKeys, bool processExtensionDataNames)
+    static void CheckInequality<T>(bool overrideSpecifiedNames, bool processDictionaryKeys)
         where T : NamingStrategy, new()
     {
         var s1 = new T
         {
             OverrideSpecifiedNames = false,
             ProcessDictionaryKeys = false,
-            ProcessExtensionDataNames = false
         };
 
         var s2 = new T
         {
             OverrideSpecifiedNames = overrideSpecifiedNames,
             ProcessDictionaryKeys = processDictionaryKeys,
-            ProcessExtensionDataNames = processExtensionDataNames
         };
 
         Assert.False(s1.Equals(s2));

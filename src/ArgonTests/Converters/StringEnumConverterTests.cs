@@ -134,14 +134,13 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void StringEnumConverter_NamingStrategyTypeCtor()
     {
-        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] {true, true, true}, false);
+        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] {true, true}, false);
 
         Assert.NotNull(converter.NamingStrategy);
         Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
         XUnitAssert.False(converter.AllowIntegerValues);
         XUnitAssert.True(converter.NamingStrategy.OverrideSpecifiedNames);
         XUnitAssert.True(converter.NamingStrategy.ProcessDictionaryKeys);
-        XUnitAssert.True(converter.NamingStrategy.ProcessExtensionDataNames);
     }
 
     [Fact]

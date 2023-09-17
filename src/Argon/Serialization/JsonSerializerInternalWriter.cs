@@ -408,35 +408,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             }
         }
 
-        var extensionData = contract.ExtensionDataGetter?.Invoke(value);
-        if (extensionData != null)
-        {
-            foreach (var e in extensionData)
-            {
-                var keyContract = GetContract(e.Key);
-                var valueContract = GetContractSafe(e.Value);
-
-                var propertyName = GetDictionaryPropertyName(e.Key, keyContract, contract.ExtensionDataNameResolver, out _);
-
-                if (ShouldWriteReference(e.Value, null, valueContract, contract, member))
-                {
-                    writer.WritePropertyName(propertyName);
-                    WriteReference(writer, e.Value);
-                }
-                else
-                {
-                    if (!CheckForCircularReference(writer, e.Value, null, valueContract, contract, member))
-                    {
-                        continue;
-                    }
-
-                    writer.WritePropertyName(propertyName);
-
-                    SerializeValue(writer, e.Value, valueContract, null, contract, member);
-                }
-            }
-        }
-
         writer.WriteEndObject();
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
@@ -972,8 +943,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         try
         {
-            //TODO: very similar to code in extensionData writing. should refactor
-
             JsonContract? valueContract;
             if (interceptResult.ShouldReplace)
             {

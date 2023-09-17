@@ -6,13 +6,9 @@ using System.Text.RegularExpressions;
 using TestObjects;
 // ReSharper disable PossibleMultipleEnumeration
 
-public class DynamicContractResolver : DefaultContractResolver
+public class DynamicContractResolver(char startingWithChar) :
+    DefaultContractResolver
 {
-    readonly char startingWithChar;
-
-    public DynamicContractResolver(char startingWithChar) =>
-        this.startingWithChar = startingWithChar;
-
     protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
     {
         var properties = base.CreateProperties(type, memberSerialization);
@@ -557,36 +553,6 @@ public class ContractResolverTests : TestFixtureBase
 //             return serializableMembers;
 //         }
 //     }
-
-    public class ClassWithExtensionData
-    {
-        [JsonExtensionData] public IDictionary<string, object> Data { get; set; }
-    }
-
-    [Fact]
-    public void ExtensionDataGetterCanBeIteratedMultipleTimes()
-    {
-        var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithExtensionData));
-
-        var myClass = new ClassWithExtensionData
-        {
-            Data = new Dictionary<string, object>
-            {
-                {"SomeField", "Field"}
-            }
-        };
-
-        var getter = contract.ExtensionDataGetter;
-
-        IEnumerable<KeyValuePair<object, object>> dictionaryData = getter(myClass).ToDictionary(kv => kv.Key, kv => kv.Value);
-        Assert.True(dictionaryData.Any());
-        Assert.True(dictionaryData.Any());
-
-        var extensionData = getter(myClass);
-        Assert.True(extensionData.Any());
-        Assert.True(extensionData.Any()); // second test fails if the enumerator returned isn't reset
-    }
 
     public class ClassWithShouldSerialize
     {

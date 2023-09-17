@@ -115,69 +115,6 @@ This example shows the JsonConverterAttribute being applied to a property.
 
 To apply a JsonConverter to the items in a collection, use either `Argon.JsonArrayAttribute`, `Argon.JsonDictionaryAttribute` or `Argon.JsonPropertyAttribute` and set the ItemConverterType property to the converter type you want to use.
 
-### JsonExtensionDataAttribute
-
-The `Argon.JsonExtensionDataAttribute` instructs the `Argon.JsonSerializer` to deserialize properties with no matching field or property on the type into the specified collection. During serialization the values in this collection are written back to the instance's JSON object.
-
-All extension data values will be written during serialization, even if a property the same name has already been written.
-
-This example shows the JsonExtensionDataAttribute being applied to a field, unmatched JSON properties being added to the field's collection during deserialization.
-
-<!-- snippet: DeserializeExtensionDataTypes -->
-<a id='snippet-deserializeextensiondatatypes'></a>
-```cs
-public class DirectoryAccount : IJsonOnDeserialized
-{
-    // normal deserialization
-    public string DisplayName { get; set; }
-
-    // these properties are set in OnDeserialized
-    public string UserName { get; set; }
-    public string Domain { get; set; }
-
-    [JsonExtensionData] IDictionary<string, JToken> _additionalData;
-
-    public void OnDeserialized()
-    {
-        // SAMAccountName is not deserialized to any property
-        // and so it is added to the extension data dictionary
-        var samAccountName = (string) _additionalData["SAMAccountName"];
-
-        Domain = samAccountName.Split('\\')[0];
-        UserName = samAccountName.Split('\\')[1];
-    }
-
-    public DirectoryAccount() =>
-        _additionalData = new Dictionary<string, JToken>();
-}
-```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L7-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatatypes' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
-
-<!-- snippet: DeserializeExtensionDataUsage -->
-<a id='snippet-deserializeextensiondatausage'></a>
-```cs
-var json = """
-    {
-      'DisplayName': 'John Smith',
-      'SAMAccountName': 'contoso\\johns'
-    }
-    """;
-
-var account = JsonConvert.DeserializeObject<DirectoryAccount>(json);
-
-Console.WriteLine(account.DisplayName);
-// John Smith
-
-Console.WriteLine(account.Domain);
-// contoso
-
-Console.WriteLine(account.UserName);
-// johns
-```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeExtensionData.cs#L39-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeextensiondatausage' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
-
 
 ### JsonConstructorAttribute
 
