@@ -11,6 +11,7 @@ static class AttributeCache<T> where T : Attribute
 }
 
 
+// var requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
 static class TypeAttributeCache
 {
     public class Info
@@ -29,6 +30,33 @@ static class TypeAttributeCache
                 Container = GetAttribute<JsonContainerAttribute>(attributes),
                 Converter = GetAttribute<JsonConverterAttribute>(attributes),
                 Object = GetAttribute<JsonObjectAttribute>(attributes)
+            };
+        });
+
+    static T? GetAttribute<T>(List<Attribute> attributes) =>
+        attributes.OfType<T>().SingleOrDefault();
+
+    public static Info Get(ICustomAttributeProvider provider) =>
+        cache.Get(provider);
+}
+static class MemberAttributeCache
+{
+    public class Info
+    {
+        public required JsonConverterAttribute? Converter { get; init; }
+        public required JsonPropertyAttribute? Property { get; init; }
+        public required JsonRequiredAttribute? Required { get; init; }
+    }
+
+    static ThreadSafeStore<ICustomAttributeProvider, Info> cache = new(
+        provider =>
+        {
+            var attributes = JsonTypeReflector.GetAttributes(provider).ToList();
+            return new()
+            {
+                Converter = GetAttribute<JsonConverterAttribute>(attributes),
+                Property = GetAttribute<JsonPropertyAttribute>(attributes),
+                Required = GetAttribute<JsonRequiredAttribute>(attributes),
             };
         });
 
