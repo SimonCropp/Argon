@@ -216,7 +216,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
     }
 
     static bool CoerceEmptyStringToNull(Type? type, JsonContract? contract, string s) =>
-        s.IsNullOrEmpty() &&
+        s.Length == 0 &&
         type != null &&
         type != typeof(string) &&
         type != typeof(object) &&
