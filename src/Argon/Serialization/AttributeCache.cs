@@ -11,7 +11,6 @@ static class AttributeCache<T> where T : Attribute
 }
 
 
-// var requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
 static class TypeAttributeCache
 {
     public class Info
@@ -33,6 +32,7 @@ static class TypeAttributeCache
             };
         });
 
+
     static T? GetAttribute<T>(List<Attribute> attributes) =>
         attributes.OfType<T>().SingleOrDefault();
 
@@ -46,6 +46,12 @@ static class MemberAttributeCache
         public required JsonConverterAttribute? Converter { get; init; }
         public required JsonPropertyAttribute? Property { get; init; }
         public required JsonRequiredAttribute? Required { get; init; }
+        public required DefaultValueAttribute? DefaultValue { get; init; }
+        public required JsonIgnoreAttribute? Ignore { get; init; }
+        public required JsonExtensionDataAttribute? ExtensionData { get; init; }
+        public required IgnoreDataMemberAttribute? IgnoreDataMember { get; init; }
+
+
     }
 
     static ThreadSafeStore<ICustomAttributeProvider, Info> cache = new(
@@ -57,6 +63,10 @@ static class MemberAttributeCache
                 Converter = GetAttribute<JsonConverterAttribute>(attributes),
                 Property = GetAttribute<JsonPropertyAttribute>(attributes),
                 Required = GetAttribute<JsonRequiredAttribute>(attributes),
+                DefaultValue = GetAttribute<DefaultValueAttribute>(attributes),
+                Ignore = GetAttribute<JsonIgnoreAttribute>(attributes),
+                ExtensionData = GetAttribute<JsonExtensionDataAttribute>(attributes),
+                IgnoreDataMember = GetAttribute<IgnoreDataMemberAttribute>(attributes),
             };
         });
 

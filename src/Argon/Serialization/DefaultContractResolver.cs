@@ -1057,9 +1057,9 @@ public class DefaultContractResolver : IContractResolver
         property.HasMemberAttribute = hasMemberAttribute;
 
         var hasJsonIgnoreAttribute =
-            JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null
+            info.Ignore != null
             // automatically ignore extension data dictionary property if it is public
-            || JsonTypeReflector.GetAttribute<JsonExtensionDataAttribute>(attributeProvider) != null;
+            || info.ExtensionData != null;
 
         if (memberSerialization == MemberSerialization.OptIn)
         {
@@ -1068,7 +1068,7 @@ public class DefaultContractResolver : IContractResolver
         }
         else
         {
-            var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
+            var hasIgnoreDataMemberAttribute = info.IgnoreDataMember != null;
 
             // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
             property.Ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
@@ -1078,7 +1078,7 @@ public class DefaultContractResolver : IContractResolver
         // the class type might have a converter but the property converter takes precedence
         property.Converter = JsonTypeReflector.GetJsonConverter(attributeProvider);
 
-        var defaultValueAttribute = JsonTypeReflector.GetAttribute<DefaultValueAttribute>(attributeProvider);
+        var defaultValueAttribute = info.DefaultValue;
         if (defaultValueAttribute != null)
         {
             property.DefaultValue = defaultValueAttribute.Value;
