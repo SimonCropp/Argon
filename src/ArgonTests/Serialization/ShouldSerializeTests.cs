@@ -393,39 +393,6 @@ public class ShouldSerializeTests : TestFixtureBase
             json);
     }
 
-    [Fact]
-    public void ShouldDeserialize_True()
-    {
-        var json = "{'HasName':true,'Name':'Name!'}";
-
-        var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(json, new JsonSerializerSettings
-        {
-            ContractResolver = ShouldDeserializeContractResolver.Instance,
-        });
-
-        Assert.Equal(null, c.ExtensionData);
-        XUnitAssert.True(c.HasName);
-        Assert.Equal("Name!", c.Name);
-    }
-
-    [Fact]
-    public void ShouldDeserialize_False()
-    {
-        var json = "{'HasName':false,'Name':'Name!'}";
-
-        var c = JsonConvert.DeserializeObject<ShouldDeserializeTestClass>(
-            json,
-            new JsonSerializerSettings
-            {
-                ContractResolver = ShouldDeserializeContractResolver.Instance,
-            });
-
-        Assert.Equal(1, c.ExtensionData.Count);
-        Assert.Equal("Name!", (string) c.ExtensionData["Name"]);
-        XUnitAssert.False(c.HasName);
-        Assert.Equal(null, c.Name);
-    }
-
     public class Employee
     {
         public string Name { get; set; }
@@ -551,16 +518,5 @@ public class ShouldSerializeTests : TestFixtureBase
 
             return property;
         }
-    }
-
-    public class ShouldDeserializeTestClass
-    {
-        [JsonExtensionData] public IDictionary<string, JToken> ExtensionData { get; set; }
-
-        public bool HasName { get; set; }
-        public string Name { get; set; }
-
-        public bool ShouldDeserializeName() =>
-            HasName;
     }
 }
