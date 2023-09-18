@@ -58,20 +58,20 @@ public class JsonContainerContract : JsonContract
     internal JsonContainerContract(Type underlyingType)
         : base(underlyingType)
     {
-        var jsonContainerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(underlyingType);
+        var containerAttribute = AttributeCache2.Get(underlyingType).ContainerAttribute;
 
-        if (jsonContainerAttribute != null)
+        if (containerAttribute != null)
         {
-            if (jsonContainerAttribute.ItemConverterType != null)
+            if (containerAttribute.ItemConverterType != null)
             {
                 ItemConverter = JsonTypeReflector.CreateJsonConverterInstance(
-                    jsonContainerAttribute.ItemConverterType,
-                    jsonContainerAttribute.ItemConverterParameters);
+                    containerAttribute.ItemConverterType,
+                    containerAttribute.ItemConverterParameters);
             }
 
-            ItemIsReference = jsonContainerAttribute.itemIsReference;
-            ItemReferenceLoopHandling = jsonContainerAttribute.itemReferenceLoopHandling;
-            ItemTypeNameHandling = jsonContainerAttribute.itemTypeNameHandling;
+            ItemIsReference = containerAttribute.itemIsReference;
+            ItemReferenceLoopHandling = containerAttribute.itemReferenceLoopHandling;
+            ItemTypeNameHandling = containerAttribute.itemTypeNameHandling;
         }
     }
 }

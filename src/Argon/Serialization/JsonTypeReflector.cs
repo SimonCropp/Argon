@@ -216,6 +216,22 @@ static class JsonTypeReflector
         return null;
     }
 
+    public static IEnumerable<Attribute> GetAttributes(this Type type)
+    {
+        foreach (var attribute in type.GetCustomAttributes<Attribute>(true))
+        {
+            yield return attribute;
+        }
+
+        foreach (var typeInterface in type.GetInterfaces())
+        {
+            foreach (var attribute in typeInterface.GetCustomAttributes<Attribute>(true))
+            {
+                yield return attribute;
+            }
+        }
+    }
+
     public static T? GetAttribute<T>(this MemberInfo member)
         where T : Attribute
     {
@@ -245,6 +261,30 @@ static class JsonTypeReflector
         return null;
     }
 
+    public static IEnumerable<Attribute> GetAttributes(this MemberInfo member)
+    {
+        foreach (var attribute in member.GetCustomAttributes<Attribute>(true))
+        {
+            yield return attribute;
+        }
+
+        if (member.DeclaringType != null)
+        {
+            foreach (var typeInterface in member.DeclaringType.GetInterfaces())
+            {
+                var interfaceTypeMemberInfo = ReflectionUtils.GetMemberInfoFromType(typeInterface, member);
+
+                if (interfaceTypeMemberInfo != null)
+                {
+                    foreach (var attribute in interfaceTypeMemberInfo.GetCustomAttributes<Attribute>(true))
+                    {
+                        yield return attribute;
+                    }
+                }
+            }
+        }
+    }
+
     public static T? GetAttribute<T>(ICustomAttributeProvider provider)
         where T : Attribute
     {
@@ -261,6 +301,26 @@ static class JsonTypeReflector
         if (provider is ParameterInfo parameter)
         {
             return parameter.GetCustomAttribute<T>();
+        }
+
+        throw new($"Bad provider: {provider.GetType().FullName}");
+    }
+
+    public static IEnumerable<Attribute> GetAttributes(ICustomAttributeProvider provider)
+    {
+        if (provider is Type type)
+        {
+            return GetAttributes(type);
+        }
+
+        if (provider is MemberInfo member)
+        {
+            return GetAttributes(member);
+        }
+
+        if (provider is ParameterInfo parameter)
+        {
+            return parameter.GetCustomAttributes();
         }
 
         throw new($"Bad provider: {provider.GetType().FullName}");

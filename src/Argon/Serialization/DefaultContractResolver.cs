@@ -590,7 +590,7 @@ public class DefaultContractResolver : IContractResolver
     void InitializeContract(JsonContract contract)
     {
         var nonNullableUnderlyingType = contract.NonNullableUnderlyingType;
-        var containerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(nonNullableUnderlyingType);
+        var containerAttribute =  AttributeCache2.Get(nonNullableUnderlyingType).ContainerAttribute;
         if (containerAttribute == null)
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(nonNullableUnderlyingType);
