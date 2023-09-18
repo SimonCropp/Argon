@@ -58,7 +58,7 @@ public class JsonContainerContract : JsonContract
     internal JsonContainerContract(Type underlyingType)
         : base(underlyingType)
     {
-        var attribute = AttributeCache2.Get(underlyingType).Container;
+        var attribute = TypeAttributeCache.Get(underlyingType).Container;
 
         if (attribute != null)
         {

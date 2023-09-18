@@ -11,7 +11,7 @@ static class AttributeCache<T> where T : Attribute
 }
 
 
-static class AttributeCache2
+static class TypeAttributeCache
 {
     public class Info
     {
@@ -20,7 +20,7 @@ static class AttributeCache2
         public required JsonObjectAttribute? Object { get; init; }
     }
 
-    static ThreadSafeStore<ICustomAttributeProvider, Info> TypeAttributeCache = new(
+    static ThreadSafeStore<ICustomAttributeProvider, Info> cache = new(
         provider =>
         {
             var attributes = JsonTypeReflector.GetAttributes(provider).ToList();
@@ -36,5 +36,5 @@ static class AttributeCache2
         attributes.OfType<T>().SingleOrDefault();
 
     public static Info Get(ICustomAttributeProvider provider) =>
-        TypeAttributeCache.Get(provider);
+        cache.Get(provider);
 }

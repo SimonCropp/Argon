@@ -98,7 +98,7 @@ static class JsonTypeReflector
 
     public static MemberSerialization GetObjectMemberSerialization(Type type)
     {
-        var objectAttribute = AttributeCache2.Get(type).Object;
+        var objectAttribute = TypeAttributeCache.Get(type).Object;
         if (objectAttribute != null)
         {
             return objectAttribute.MemberSerialization;
@@ -116,7 +116,7 @@ static class JsonTypeReflector
 
     public static JsonConverter? GetJsonConverter(ICustomAttributeProvider attributeProvider)
     {
-        var attribute = AttributeCache2.Get(attributeProvider).Converter;
+        var attribute = TypeAttributeCache.Get(attributeProvider).Converter;
 
         if (attribute == null)
         {
