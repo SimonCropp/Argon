@@ -10,8 +10,7 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void EmbedJValueStringInNewJObject()
     {
-        string s = null;
-        var v = new JValue(s);
+        var v = new JValue((string) null);
         dynamic o = JObject.FromObject(new
         {
             title = v
