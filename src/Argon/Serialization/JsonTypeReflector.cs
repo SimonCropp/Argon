@@ -24,10 +24,11 @@ static class JsonTypeReflector
         // use the type's TypeConverter can convert to a string
         var converterType = typeConverter.GetType();
 
+        var converterName = converterType.FullName;
         if (converterType == typeof(TypeConverter) ||
-            string.Equals(converterType.FullName, "System.ComponentModel.ComponentConverter", StringComparison.Ordinal) ||
-            string.Equals(converterType.FullName, "System.ComponentModel.ReferenceConverter", StringComparison.Ordinal) ||
-            string.Equals(converterType.FullName, "System.Windows.Forms.Design.DataSourceConverter", StringComparison.Ordinal))
+            string.Equals(converterName, "System.ComponentModel.ComponentConverter", StringComparison.Ordinal) ||
+            string.Equals(converterName, "System.ComponentModel.ReferenceConverter", StringComparison.Ordinal) ||
+            string.Equals(converterName, "System.Windows.Forms.Design.DataSourceConverter", StringComparison.Ordinal))
         {
             return false;
         }

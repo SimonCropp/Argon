@@ -45,9 +45,10 @@ public class KeyValuePairConverter : JsonConverter
     /// </summary>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
+        var nullable = type.IsNullableType();
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!type.IsNullableType())
+            if (!nullable)
             {
                 throw JsonSerializationException.Create(reader, "Cannot convert null value to KeyValuePair.");
             }
@@ -60,7 +61,7 @@ public class KeyValuePairConverter : JsonConverter
 
         reader.ReadAndAssert();
 
-        var t = type.IsNullableType()
+        var t = nullable
             ? Nullable.GetUnderlyingType(type)!
             : type;
 

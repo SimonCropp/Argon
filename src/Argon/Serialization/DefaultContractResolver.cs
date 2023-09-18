@@ -343,12 +343,12 @@ public class DefaultContractResolver : IContractResolver
     /// <param name="matchingMemberProperty">The matching member property.</param>
     /// <param name="parameterInfo">The constructor parameter.</param>
     /// <returns>A created <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.</returns>
-    protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameterInfo)
+    protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameter)
     {
-        var declaringType = parameterInfo.Member.DeclaringType!;
-        var property = new JsonProperty(parameterInfo.ParameterType, declaringType);
+        var declaringType = parameter.Member.DeclaringType!;
+        var property = new JsonProperty(parameter.ParameterType, declaringType);
 
-        SetPropertySettingsFromAttributes(property, parameterInfo, parameterInfo.Name!, declaringType, MemberSerialization.OptOut, out _);
+        SetPropertySettingsFromAttributes(property, parameter, parameter.Name!, declaringType, MemberSerialization.OptOut, out _);
 
         property.Readable = false;
         property.Writable = true;
@@ -356,7 +356,7 @@ public class DefaultContractResolver : IContractResolver
         // "inherit" values from matching member property if unset on parameter
         if (matchingMemberProperty != null)
         {
-            property.PropertyName = property.PropertyName != parameterInfo.Name ? property.PropertyName : matchingMemberProperty.PropertyName;
+            property.PropertyName = property.PropertyName != parameter.Name ? property.PropertyName : matchingMemberProperty.PropertyName;
             property.Converter ??= matchingMemberProperty.Converter;
 
             if (!property.hasExplicitDefaultValue && matchingMemberProperty.hasExplicitDefaultValue)
