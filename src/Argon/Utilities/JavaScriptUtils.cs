@@ -86,7 +86,7 @@ static class JavaScriptUtils
             writer.Write(delimiter);
         }
 
-        if (!s.IsNullOrEmpty())
+        if (!string.IsNullOrEmpty(s))
         {
             WriteEscapedJavaScriptNonNullString(writer, s, escapeFlags, escapeHandling, ref buffer);
         }
@@ -315,7 +315,7 @@ static class JavaScriptUtils
             return WriteEscapedJavaScriptStringWithDelimitersAsync(writer, s, delimiter, escapeFlags, escapeHandling, client, buffer, cancel);
         }
 
-        if (s.IsNullOrEmpty())
+        if (string.IsNullOrEmpty(s))
         {
             return cancel.CancelIfRequestedAsync() ?? Task.CompletedTask;
         }
@@ -331,7 +331,7 @@ static class JavaScriptUtils
             return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, s, delimiter, escapeFlags, escapeHandling, client, buffer, cancel);
         }
 
-        if (!s.IsNullOrEmpty())
+        if (!string.IsNullOrEmpty(s))
         {
             task = WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, escapeFlags, escapeHandling, client, buffer, cancel);
             if (task.IsCompletedSuccessfully())
@@ -347,7 +347,7 @@ static class JavaScriptUtils
     {
         await task.ConfigureAwait(false);
 
-        if (!s.IsNullOrEmpty())
+        if (!string.IsNullOrEmpty(s))
         {
             await WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, s, escapeFlags, escapeHandling, client, buffer, cancel).ConfigureAwait(false);
         }

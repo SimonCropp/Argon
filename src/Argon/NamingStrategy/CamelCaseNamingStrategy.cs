@@ -57,7 +57,7 @@ public class CamelCaseNamingStrategy : NamingStrategy
 
     internal static string ToCamelCase(string s)
     {
-        if (s.IsNullOrEmpty() || !char.IsUpper(s[0]))
+        if (string.IsNullOrEmpty(s) || !char.IsUpper(s[0]))
         {
             return s;
         }

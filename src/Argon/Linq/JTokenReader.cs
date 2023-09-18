@@ -265,9 +265,9 @@ public class JTokenReader : JsonReader, IJsonLineInfo
 
             initialPath ??= root.Path;
 
-            if (!initialPath.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(initialPath))
             {
-                if (path.IsNullOrEmpty())
+                if (string.IsNullOrEmpty(path))
                 {
                     return initialPath;
                 }
