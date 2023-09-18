@@ -15,7 +15,9 @@ static class AttributeCache2
 {
     public class Info
     {
-        public JsonContainerAttribute? ContainerAttribute { get; init; }
+        public required JsonContainerAttribute? Container { get; init; }
+        public required JsonConverterAttribute? Converter { get; init; }
+        public required JsonObjectAttribute? Object { get; init; }
     }
 
     static ThreadSafeStore<ICustomAttributeProvider, Info> TypeAttributeCache = new(
@@ -24,9 +26,14 @@ static class AttributeCache2
             var attributes = JsonTypeReflector.GetAttributes(provider).ToList();
             return new()
             {
-                ContainerAttribute = attributes.OfType<JsonContainerAttribute>().SingleOrDefault()
+                Container = GetAttribute<JsonContainerAttribute>(attributes),
+                Converter = GetAttribute<JsonConverterAttribute>(attributes),
+                Object = GetAttribute<JsonObjectAttribute>(attributes)
             };
         });
+
+    static T? GetAttribute<T>(List<Attribute> attributes) =>
+        attributes.OfType<T>().SingleOrDefault();
 
     public static Info Get(ICustomAttributeProvider provider) =>
         TypeAttributeCache.Get(provider);
