@@ -2504,7 +2504,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             English
         }
 
-        public CASResponce(string xmlResponce)
+        public CASResponse(string xmlResponse)
         {
             Domain = "";
             Mail = "";
@@ -2512,7 +2512,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Givenname = "";
             CommonName = "";
 
-            ParseReplyXML(xmlResponce);
+            ParseReplyXML(xmlResponse);
             ExtractGroups();
             ExtractLanguage();
         }
@@ -2569,7 +2569,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
                 var xNodeUser = auth.Element(XName.Get("user", ns));
 
-                var eduPers = auth.Element(XName.Get("norEduPerson", ""));
+                var nonEduPerson = auth.Element(XName.Get("norEduPerson", ""));
 
                 var casUser = "";
                 var eduPerson = new Dictionary<string, string>();
@@ -2578,9 +2578,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 {
                     casUser = xNodeUser.Value;
 
-                    if (eduPers != null)
+                    if (nonEduPerson != null)
                     {
-                        foreach (var xPersonValue in eduPers.Elements())
+                        foreach (var xPersonValue in nonEduPerson.Elements())
                         {
                             if (eduPerson.ContainsKey(xPersonValue.Name.LocalName))
                             {

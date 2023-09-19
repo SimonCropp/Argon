@@ -32,11 +32,8 @@ public class Issue1351 : TestFixtureBase
     [DataContract]
     public class TestClass
     {
-        public TestClass() =>
-            Color = Colors.White;
-
         [DataMember]
-        public Color Color { get; set; }
+        public Color Color { get; set; } = Colors.White;
     }
 
     [Fact]

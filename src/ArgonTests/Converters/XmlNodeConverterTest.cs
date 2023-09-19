@@ -991,11 +991,11 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var doc = new XmlDocument();
 
-        var fragement = doc.CreateDocumentFragment();
+        var fragment = doc.CreateDocumentFragment();
 
-        fragement.InnerXml = "<Item>widget</Item><Item>widget</Item>";
+        fragment.InnerXml = "<Item>widget</Item><Item>widget</Item>";
 
-        var jsonText = JsonXmlConvert.SerializeXmlNode(fragement);
+        var jsonText = JsonXmlConvert.SerializeXmlNode(fragment);
 
         var expected = """{"Item":["widget","widget"]}""";
 
@@ -2434,7 +2434,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void EmtpyElementWithArrayAttributeShouldWriteAttributes()
+    public void EmptyElementWithArrayAttributeShouldWriteAttributes()
     {
         var xml = """
             <?xml version="1.0" encoding="utf-8" ?>
@@ -2493,7 +2493,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void EmtpyElementWithArrayAttributeShouldWriteElement()
+    public void EmptyElementWithArrayAttributeShouldWriteElement()
     {
         var xml = """
             <root>

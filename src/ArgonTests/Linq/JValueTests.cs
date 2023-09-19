@@ -513,7 +513,7 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void ExpicitConversionTest()
+    public void ExplicitConversionTest()
     {
         const string example = "Hello";
         dynamic obj = new

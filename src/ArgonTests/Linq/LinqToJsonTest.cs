@@ -1493,7 +1493,7 @@ public class LinqToJsonTest : TestFixtureBase
     }
 
     [Fact]
-    public void ParseWithPrecendingComments()
+    public void ParseWithPreceedingComments()
     {
         var json = "/* blah */ {'hi':'hi!'}";
         var o = JObject.Parse(json);
@@ -1570,7 +1570,7 @@ public class LinqToJsonTest : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeWithNoRedundentIdPropertiesTest()
+    public void SerializeWithNoRedundantIdPropertiesTest()
     {
         var dic1 = new Dictionary<string, object>();
         var dic2 = new Dictionary<string, object>();

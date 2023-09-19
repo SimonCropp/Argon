@@ -142,7 +142,7 @@ public class ConstructorHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void ConstructorParametersRespectDefaultValueTest_Attrbutes()
+    public void ConstructorParametersRespectDefaultValueTest_Attributes()
     {
         var testObject = JsonConvert.DeserializeObject<ConstructorParametersRespectDefaultValueAttributes>("{'Parameter2':'value!'}", new JsonSerializerSettings
         {

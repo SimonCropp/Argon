@@ -80,16 +80,10 @@ public class Issue0198 : TestFixtureBase
         Assert.Equal(1, a.Prop1.Count);
     }
 
-    class TestClass1 : AbstactClass
+    class TestClass1 : AbstractClass
     {
-        public TestClass1()
-        {
-            Prop1 = new HashSet<TestClass2>();
-            Prop2 = new HashSet<string>();
-        }
-
-        public ICollection<TestClass2> Prop1 { get; set; }
-        public ICollection<string> Prop2 { get; set; }
+        public ICollection<TestClass2> Prop1 { get; set; } = new HashSet<TestClass2>();
+        public ICollection<string> Prop2 { get; set; } = new HashSet<string>();
     }
 
     class TestClass2
@@ -98,16 +92,13 @@ public class Issue0198 : TestFixtureBase
         public string MyProperty2 { get; set; }
     }
 
-    abstract class AbstactClass
+    abstract class AbstractClass
     {
         public ICollection<TestClass2> Prop3 { get; set; } = new List<TestClass2>();
     }
 
     class TestClass3
     {
-        public TestClass3() =>
-            Prop1 = new ModelStateDictionary<string>();
-
-        public IDictionary<string, string> Prop1 { get; set; }
+        public IDictionary<string, string> Prop1 { get; set; } = new ModelStateDictionary<string>();
     }
 }

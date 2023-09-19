@@ -1272,7 +1272,7 @@ public class JPathExecuteTests : TestFixtureBase
     }
 
     [Fact]
-    public void NotEqualsAndNonPrimativeValues()
+    public void NotEqualsAndNonPrimitiveValues()
     {
         var json = """
             [

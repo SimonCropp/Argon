@@ -53,12 +53,6 @@ public class Issue1461 : TestFixtureBase
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value == null)
-            {
-                writer.WriteNull();
-                return;
-            }
-
             var id = (Id)value;
             writer.WriteValue(id.Value);
         }
@@ -68,6 +62,7 @@ public class Issue1461 : TestFixtureBase
     {
         internal object Value { get; set; }
 
+        // ReSharper disable once ConvertToPrimaryConstructor
         public Id(string id) =>
             Value = id;
         public Id(long id) =>

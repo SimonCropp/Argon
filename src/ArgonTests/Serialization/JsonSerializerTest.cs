@@ -1738,7 +1738,7 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void BackslashEqivilence()
+    public void BackslashEquivalence()
     {
         var json = """["vvv\/vvv\tvvv\"vvv\bvvv\nvvv\rvvv\\vvv\fvvv"]""";
 
@@ -2339,7 +2339,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DeserializeNullableMember()
     {
-        var userNullablle = new UserNullable
+        var userNullable = new UserNullable
         {
             Id = new("AD6205E8-0DF4-465d-AEA6-8BA18E93A7E7"),
             FName = "FirstValue",
@@ -2350,19 +2350,19 @@ public class JsonSerializerTest : TestFixtureBase
             Active = true
         };
 
-        var json = JsonConvert.SerializeObject(userNullablle);
+        var json = JsonConvert.SerializeObject(userNullable);
 
         Assert.Equal("""{"Id":"ad6205e8-0df4-465d-aea6-8ba18e93a7e7","FName":"FirstValue","LName":"LastValue","RoleId":5,"NullableRoleId":6,"NullRoleId":null,"Active":true}""", json);
 
-        var userNullablleDeserialized = JsonConvert.DeserializeObject<UserNullable>(json);
+        var userNullableDeserialized = JsonConvert.DeserializeObject<UserNullable>(json);
 
-        Assert.Equal(new("AD6205E8-0DF4-465d-AEA6-8BA18E93A7E7"), userNullablleDeserialized.Id);
-        Assert.Equal("FirstValue", userNullablleDeserialized.FName);
-        Assert.Equal("LastValue", userNullablleDeserialized.LName);
-        Assert.Equal(5, userNullablleDeserialized.RoleId);
-        Assert.Equal(6, userNullablleDeserialized.NullableRoleId);
-        Assert.Equal(null, userNullablleDeserialized.NullRoleId);
-        XUnitAssert.True(userNullablleDeserialized.Active);
+        Assert.Equal(new("AD6205E8-0DF4-465d-AEA6-8BA18E93A7E7"), userNullableDeserialized.Id);
+        Assert.Equal("FirstValue", userNullableDeserialized.FName);
+        Assert.Equal("LastValue", userNullableDeserialized.LName);
+        Assert.Equal(5, userNullableDeserialized.RoleId);
+        Assert.Equal(6, userNullableDeserialized.NullableRoleId);
+        Assert.Equal(null, userNullableDeserialized.NullRoleId);
+        XUnitAssert.True(userNullableDeserialized.Active);
     }
 
     [Fact]

@@ -34,6 +34,7 @@ public class RefAndRefReadonlyTestClass
     int refField;
     readonly int refReadonlyField;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public RefAndRefReadonlyTestClass(int refReadonlyField) =>
         this.refReadonlyField = refReadonlyField;
 
@@ -50,6 +51,7 @@ public class RefAndRefReadonlyIgnoredTestClass
     int _refField;
     readonly int _refReadonlyField;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public RefAndRefReadonlyIgnoredTestClass(int refReadonlyField) =>
         _refReadonlyField = refReadonlyField;
 

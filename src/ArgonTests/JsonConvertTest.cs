@@ -108,20 +108,20 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal("hi", o.Value);
     }
 
-    public class CustonNameTable : JsonNameTable
+    public class CustomNameTable : JsonNameTable
     {
         public override string Get(char[] key, int start, int length) =>
             "_" + new string(key, start, length);
     }
 
     [Fact]
-    public void CustonNameTableTest()
+    public void CustomNameTableTest()
     {
         var sr = new StringReader("{'property':'hi'}");
         var jsonTextReader = new JsonTextReader(sr);
 
         Assert.Null(jsonTextReader.PropertyNameTable);
-        var nameTable = jsonTextReader.PropertyNameTable = new CustonNameTable();
+        var nameTable = jsonTextReader.PropertyNameTable = new CustomNameTable();
 
         var serializer = new JsonSerializer();
         var o = serializer.Deserialize<Dictionary<string, string>>(jsonTextReader);
@@ -1394,7 +1394,7 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void ShouldNotPopulateContructorArgumentEnumerableObject()
+    public void ShouldNotPopulateConstructorArgumentEnumerableObject()
     {
         object actual = JsonConvert.DeserializeObject<AcceptsEnumerableObjectToConstructor>("{\"foo\":{}}");
         Assert.NotNull(actual);

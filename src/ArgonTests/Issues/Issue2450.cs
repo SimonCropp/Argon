@@ -39,11 +39,9 @@ public class Issue2450
         Assert.Equal((long)2, d.Value["prop2"]);
     }
 
-    public struct Dict : IReadOnlyDictionary<string, object>
+    public struct Dict(IDictionary<string, object> dict) :
+        IReadOnlyDictionary<string, object>
     {
-        readonly IDictionary<string, object> dict;
-        public Dict(IDictionary<string, object> dict) => this.dict = dict;
-
         public object this[string key] => dict[key];
         public IEnumerable<string> Keys => dict.Keys;
         public IEnumerable<object> Values => dict.Values;

@@ -1570,12 +1570,9 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 }
 
-public class CustomJsonTextWriter : JsonTextWriter
+public class CustomJsonTextWriter(TextWriter textWriter) : JsonTextWriter(textWriter)
 {
-    protected readonly TextWriter writer;
-
-    public CustomJsonTextWriter(TextWriter textWriter) : base(textWriter) =>
-        writer = textWriter;
+    protected readonly TextWriter writer = textWriter;
 
     public override void WritePropertyName(string name) =>
         WritePropertyName(name, true);
