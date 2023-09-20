@@ -1114,17 +1114,19 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class PopulateReadOnlyTestClass
     {
-        public IList<int> NonReadOnlyList { get; set; } = new List<int>
-        {
-            1
-        };
-
-        public IDictionary<string, int> NonReadOnlyDictionary { get; set; } = new Dictionary<string, int>
-        {
+        public IList<int> NonReadOnlyList { get; set; } =
+            new List<int>
             {
-                "first", 2
-            }
-        };
+                1
+            };
+
+        public IDictionary<string, int> NonReadOnlyDictionary { get; set; } =
+            new Dictionary<string, int>
+            {
+                {
+                    "first", 2
+                }
+            };
 
         public IList<int> Array { get; set; } = new[]
         {
@@ -1136,34 +1138,39 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             4
         });
 
-        public IDictionary<string, int> Dictionary { get; set; } = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
-        {
+        public IDictionary<string, int> Dictionary { get; set; } =
+            new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
             {
-                "first", 5
-            }
-        });
+                {
+                    "first", 5
+                }
+            });
 
-        public IReadOnlyCollection<int> IReadOnlyCollection { get; set; } = new ReadOnlyCollection<int>(new[]
-        {
-            6
-        });
-
-        public ReadOnlyCollection<int> ReadOnlyCollection { get; set; } = new(new[]
-        {
-            7
-        });
-
-        public IReadOnlyList<int> IReadOnlyList { get; set; } = new ReadOnlyCollection<int>(new[]
-        {
-            8
-        });
-
-        public IReadOnlyDictionary<string, int> IReadOnlyDictionary { get; set; } = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
-        {
+        public IReadOnlyCollection<int> IReadOnlyCollection { get; set; } =
+            new ReadOnlyCollection<int>(new[]
             {
-                "first", 9
-            }
-        });
+                6
+            });
+
+        public ReadOnlyCollection<int> ReadOnlyCollection { get; set; } =
+            new(new[]
+            {
+                7
+            });
+
+        public IReadOnlyList<int> IReadOnlyList { get; set; } =
+            new ReadOnlyCollection<int>(new[]
+            {
+                8
+            });
+
+        public IReadOnlyDictionary<string, int> IReadOnlyDictionary { get; set; } =
+            new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
+            {
+                {
+                    "first", 9
+                }
+            });
 
         public ReadOnlyDictionary<string, int> ReadOnlyDictionary { get; set; } =
             new(new Dictionary<string, int>
@@ -2309,7 +2316,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{ "user":"bpan", "Person":{ "groups":"replaced!", "domain":"adm", "mail":"bpan@sdu.dk", "sn":"Pan", "gn":"Benzhi", "cn":"Benzhi Pan", "eo":"BQHLJaVTMr0eWsi1jaIut4Ls/pSuMeNEmsWfWsfKo=", "guid":"9A38CE8E5B288942A8DA415CF5E687", "employeenumber":"2674", "omk1":"930", "language":"da" }, "XMLResponce":"<?xml version='1.0' encoding='iso-8859-1' ?>\n<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n\t<cas:authenticationSuccess>\n\t\t<cas:user>bpan</cas:user>\n\t\t<norEduPerson>\n\t\t\t<groups>FNC-PRI-APP-SUNDB-EDOR-A,FNC-RI-APP-SUB-EDITOR-B</groups>\n\t\t\t<domain>adm</domain>\n\t\t\t<mail>bpan@sdu.dk</mail>\n\t\t\t<sn>Pan</sn>\n\t\t\t<gn>Benzhi</gn>\n\t\t\t<cn>Benzhi Pan</cn>\n\t\t\t<eo>BQHLJaVTMr0eWsi1jaIut4Lsfr/pSuMeNEmsWfWsfKo=</eo>\n\t\t\t<guid>9A38CE8E5B288942A8DA415C2C687</guid>\n\t\t\t<employeenumber>274</employeenumber>\n\t\t\t<omk1>930</omk1>\n\t\t\t<language>da</language>\n\t\t</norEduPerson>\n\t</cas:authenticationSuccess>\n</cas:serviceResponse>\n", "Language":1, "Groups":[ "FNC-PRI-APP-SNDB-EDOR-A", "FNC-PI-APP-SUNDB-EDOR-B" ], "Domain":"adm", "Mail":"bpan@sdu.dk", "Surname":"Pan", "Givenname":"Benzhi", "CommonName":"Benzhi Pan", "OrganizationName":null }""";
 
-        var result = JsonConvert.DeserializeObject<CASResponse>(json);
+        var result = JsonConvert.DeserializeObject<CASResponce>(json);
 
         Assert.Equal("replaced!", result.Person["groups"]);
     }
@@ -2437,7 +2444,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
 
-    public class CASResponse
+    public class CASResponce
     {
         //<?xml version='1.0' encoding='iso-8859-1' ?>
         //<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
@@ -2504,7 +2511,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             English
         }
 
-        public CASResponse(string xmlResponse)
+        public CASResponce(string xmlResponce)
         {
             Domain = "";
             Mail = "";
@@ -2512,7 +2519,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Givenname = "";
             CommonName = "";
 
-            ParseReplyXML(xmlResponse);
+            ParseReplyXML(xmlResponce);
             ExtractGroups();
             ExtractLanguage();
         }
@@ -2569,7 +2576,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
                 var xNodeUser = auth.Element(XName.Get("user", ns));
 
-                var nonEduPerson = auth.Element(XName.Get("norEduPerson", ""));
+                var eduPers = auth.Element(XName.Get("norEduPerson", ""));
 
                 var casUser = "";
                 var eduPerson = new Dictionary<string, string>();
@@ -2578,9 +2585,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 {
                     casUser = xNodeUser.Value;
 
-                    if (nonEduPerson != null)
+                    if (eduPers != null)
                     {
-                        foreach (var xPersonValue in nonEduPerson.Elements())
+                        foreach (var xPersonValue in eduPers.Elements())
                         {
                             if (eduPerson.ContainsKey(xPersonValue.Name.LocalName))
                             {
