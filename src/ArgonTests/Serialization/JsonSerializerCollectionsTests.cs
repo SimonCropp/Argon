@@ -2309,7 +2309,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{ "user":"bpan", "Person":{ "groups":"replaced!", "domain":"adm", "mail":"bpan@sdu.dk", "sn":"Pan", "gn":"Benzhi", "cn":"Benzhi Pan", "eo":"BQHLJaVTMr0eWsi1jaIut4Ls/pSuMeNEmsWfWsfKo=", "guid":"9A38CE8E5B288942A8DA415CF5E687", "employeenumber":"2674", "omk1":"930", "language":"da" }, "XMLResponce":"<?xml version='1.0' encoding='iso-8859-1' ?>\n<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n\t<cas:authenticationSuccess>\n\t\t<cas:user>bpan</cas:user>\n\t\t<norEduPerson>\n\t\t\t<groups>FNC-PRI-APP-SUNDB-EDOR-A,FNC-RI-APP-SUB-EDITOR-B</groups>\n\t\t\t<domain>adm</domain>\n\t\t\t<mail>bpan@sdu.dk</mail>\n\t\t\t<sn>Pan</sn>\n\t\t\t<gn>Benzhi</gn>\n\t\t\t<cn>Benzhi Pan</cn>\n\t\t\t<eo>BQHLJaVTMr0eWsi1jaIut4Lsfr/pSuMeNEmsWfWsfKo=</eo>\n\t\t\t<guid>9A38CE8E5B288942A8DA415C2C687</guid>\n\t\t\t<employeenumber>274</employeenumber>\n\t\t\t<omk1>930</omk1>\n\t\t\t<language>da</language>\n\t\t</norEduPerson>\n\t</cas:authenticationSuccess>\n</cas:serviceResponse>\n", "Language":1, "Groups":[ "FNC-PRI-APP-SNDB-EDOR-A", "FNC-PI-APP-SUNDB-EDOR-B" ], "Domain":"adm", "Mail":"bpan@sdu.dk", "Surname":"Pan", "Givenname":"Benzhi", "CommonName":"Benzhi Pan", "OrganizationName":null }""";
 
-        var result = JsonConvert.DeserializeObject<CASResponce>(json);
+        var result = JsonConvert.DeserializeObject<CASResponse>(json);
 
         Assert.Equal("replaced!", result.Person["groups"]);
     }
@@ -2437,7 +2437,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
 
-    public class CASResponce
+    public class CASResponse
     {
         //<?xml version='1.0' encoding='iso-8859-1' ?>
         //<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
