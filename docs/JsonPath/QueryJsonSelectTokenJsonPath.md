@@ -46,9 +46,9 @@ Console.WriteLine(acme);
 // { "Name": "Acme Co", Products: [{ "Name": "Anvil", "Price": 50 }] }
 
 // name of all products priced 50 and above
-var pricyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
+var priceyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
 
-foreach (var item in pricyProducts)
+foreach (var item in priceyProducts)
 {
     Console.WriteLine(item);
 }
