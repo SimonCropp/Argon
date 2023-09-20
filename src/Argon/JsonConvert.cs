@@ -152,17 +152,12 @@ public static class JsonConvert
 
     static string GetFormat(byte? precision)
     {
-        string format;
         if (precision.HasValue)
         {
-            format = $"0.{new string('#', precision.Value)}";
-        }
-        else
-        {
-            format = "R";
+            return $"0.{new string('#', precision.Value)}";
         }
 
-        return format;
+        return "R";
     }
 
     static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
