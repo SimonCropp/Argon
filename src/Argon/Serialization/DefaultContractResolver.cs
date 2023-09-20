@@ -341,7 +341,7 @@ public class DefaultContractResolver : IContractResolver
     /// Creates a <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.
     /// </summary>
     /// <param name="matchingMemberProperty">The matching member property.</param>
-    /// <param name="parameterInfo">The constructor parameter.</param>
+    /// <param name="parameter">The constructor parameter.</param>
     /// <returns>A created <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.</returns>
     protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameter)
     {
