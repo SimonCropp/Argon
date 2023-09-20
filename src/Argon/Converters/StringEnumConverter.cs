@@ -120,7 +120,7 @@ public class StringEnumConverter : JsonConverter
             {
                 var enumText = reader.Value?.ToString();
 
-                if (string.IsNullOrEmpty(enumText) && isNullable)
+                if (enumText.IsNullOrEmpty() && isNullable)
                 {
                     return null;
                 }

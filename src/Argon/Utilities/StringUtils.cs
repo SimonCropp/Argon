@@ -9,6 +9,10 @@ static class StringUtils
     public const char LineFeed = '\n';
     public const char Tab = '\t';
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this string? value) =>
+        string.IsNullOrEmpty(value);
+
     public static StringWriter CreateStringWriter(int capacity)
     {
         var stringBuilder = new StringBuilder(capacity);
@@ -76,7 +80,7 @@ static class StringUtils
 
     static string ToSeparatedCase(string s, char separator)
     {
-        if (string.IsNullOrEmpty(s))
+        if (IsNullOrEmpty(s))
         {
             return s;
         }
