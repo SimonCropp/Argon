@@ -24,7 +24,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
     public string? DateTimeFormat
     {
         get => dateTimeFormat ?? string.Empty;
-        set => dateTimeFormat = string.IsNullOrEmpty(value) ? null : value;
+        set => dateTimeFormat = value.IsNullOrEmpty() ? null : value;
     }
 
     /// <summary>
@@ -110,14 +110,14 @@ public class IsoDateTimeConverter : DateTimeConverterBase
 
         var dateText = reader.Value?.ToString()!;
 
-        if (string.IsNullOrEmpty(dateText) && nullable)
+        if (dateText.IsNullOrEmpty() && nullable)
         {
             return null;
         }
 
         if (t == typeof(DateTimeOffset))
         {
-            if (string.IsNullOrEmpty(dateTimeFormat))
+            if (dateTimeFormat.IsNullOrEmpty())
             {
                 return DateTimeOffset.Parse(dateText, InvariantCulture, DateTimeStyles);
             }
@@ -125,7 +125,7 @@ public class IsoDateTimeConverter : DateTimeConverterBase
             return DateTimeOffset.ParseExact(dateText, dateTimeFormat, InvariantCulture, DateTimeStyles);
         }
 
-        if (string.IsNullOrEmpty(dateTimeFormat))
+        if (dateTimeFormat.IsNullOrEmpty())
         {
             return DateTime.Parse(dateText, InvariantCulture, DateTimeStyles);
         }
