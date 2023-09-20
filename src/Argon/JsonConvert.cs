@@ -143,8 +143,27 @@ public static class JsonConvert
     public static string ToString(float value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable) =>
-        EnsureFloatFormat(value, EnsureDecimalPlace(value, value.ToString("R", InvariantCulture)), floatFormatHandling, quoteChar, nullable);
+    internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, byte? precision)
+    {
+        var format = GetFormat(precision);
+        var text = value.ToString(format, InvariantCulture);
+        return EnsureFloatFormat(value, EnsureDecimalPlace(value, text), floatFormatHandling, quoteChar, nullable);
+    }
+
+    static string GetFormat(byte? precision)
+    {
+        string format;
+        if (precision.HasValue)
+        {
+            format = $"0.{new string('#', precision.Value)}";
+        }
+        else
+        {
+            format = "R";
+        }
+
+        return format;
+    }
 
     static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
     {
@@ -174,9 +193,11 @@ public static class JsonConvert
     public static string ToString(double value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
+    internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, byte? precision)
     {
-        var ensureDecimalPlace = EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
+        var format = GetFormat(precision);
+        var text = value.ToString(format, InvariantCulture);
+        var ensureDecimalPlace = EnsureDecimalPlace(value, text);
         return EnsureFloatFormat(value, ensureDecimalPlace, floatFormatHandling, quoteChar, nullable);
     }
 

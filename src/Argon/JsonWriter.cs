@@ -202,6 +202,11 @@ public abstract partial class JsonWriter : IDisposable
     public FloatFormatHandling FloatFormatHandling { get; set; }
 
     /// <summary>
+    /// Gets or sets how many decimal points to use when serializing floats and doubles.
+    /// </summary>
+    public byte? FloatPrecision { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="JsonWriter" /> class.
     /// </summary>
     protected JsonWriter()

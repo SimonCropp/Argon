@@ -151,6 +151,11 @@ public class JsonSerializerSettings
     public FloatParseHandling? FloatParseHandling { get; set; }
 
     /// <summary>
+    /// Gets or sets how many decimal points to use when serializing floats and doubles.
+    /// </summary>
+    public byte? FloatPrecision { get; set; }
+
+    /// <summary>
     /// Gets or sets how strings are escaped when writing JSON text.
     /// The default value is <see cref="Argon.EscapeHandling.Default" />.
     /// </summary>
@@ -175,6 +180,7 @@ public class JsonSerializerSettings
     /// </summary>
     public JsonSerializerSettings(JsonSerializerSettings original)
     {
+        FloatPrecision = original.FloatPrecision;
         FloatParseHandling = original.FloatParseHandling;
         FloatFormatHandling = original.FloatFormatHandling;
         DefaultValueHandling = original.DefaultValueHandling;
