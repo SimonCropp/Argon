@@ -6630,6 +6630,37 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal("[1.1,0.0,0.0]", json);
     }
 
+    // [Fact]
+    // public void SerializeNumberPointsDefault()
+    // {
+    //     var numbers = new List<object>
+    //     {
+    //         1.1234567f,
+    //         1.1234567d,
+    //     };
+    //
+    //     var json = JsonConvert.SerializeObject(numbers);
+    //     Assert.Equal("[1.1234567,1.1234567]", json);
+    // }
+
+    [Fact]
+    public void SerializeNumberPointsLimited()
+    {
+        var numbers = new List<object>
+        {
+            1.1234567f,
+            1.1234567d,
+        };
+
+        var json = JsonConvert.SerializeObject(
+            numbers,
+            new JsonSerializerSettings
+            {
+                FloatPrecision = 3
+            });
+        Assert.Equal("[1.123,1.123]", json);
+    }
+
     [Fact]
     public void DeserializeReadOnlyListWithBigInteger()
     {
@@ -7665,6 +7696,9 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.Equal(settings.EscapeHandling, clone.EscapeHandling);
         Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.EscapeHandling)));
+
+        Assert.Equal(settings.FloatPrecision, clone.FloatPrecision);
+        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.FloatPrecision)));
 
         Assert.Equal(0, propertyNames.Count);
     }

@@ -116,6 +116,12 @@ class JsonSerializerProxy : JsonSerializer
         set => serializer.FloatParseHandling = value;
     }
 
+    public override byte? FloatPrecision
+    {
+        get => serializer.FloatPrecision;
+        set => serializer.FloatPrecision = value;
+    }
+
     public override EscapeHandling? EscapeHandling
     {
         get => serializer.EscapeHandling;
