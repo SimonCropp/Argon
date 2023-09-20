@@ -88,6 +88,7 @@
     * [Deserialize JSON from a file](/docs/Serializer/DeserializeWithJsonSerializerFromFile.md)
     * [ErrorHandlingAttribute](/docs/Serializer/ErrorHandlingAttribute.md)
     * [ErrorHandling setting](/docs/Serializer/ErrorHandlingEvent.md)
+    * [Float Precision](/docs/Serializer/FloatPrecision.md)
     * [JsonConstructorAttribute](/docs/Serializer/JsonConstructorAttribute.md)
     * [JsonConverterAttribute on a class](/docs/Serializer/JsonConverterAttributeClass.md)
     * [JsonConverterAttribute on a property](/docs/Serializer/JsonConverterAttributeProperty.md)

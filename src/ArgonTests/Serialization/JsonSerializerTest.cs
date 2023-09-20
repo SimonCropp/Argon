@@ -155,10 +155,10 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeGenericIEnumerableWithImplicitConversion()
     {
         var deserialized = """
-            {
-              "Enumerable": [ "abc", "def" ]
-            }
-            """;
+                           {
+                             "Enumerable": [ "abc", "def" ]
+                           }
+                           """;
         var enumerableClass = JsonConvert.DeserializeObject<GenericIEnumerableWithImplicitConversion>(deserialized);
         var enumerableObject = enumerableClass.Enumerable.ToArray();
         Assert.Equal(2, enumerableObject.Length);
@@ -529,30 +529,30 @@ public class JsonSerializerTest : TestFixtureBase
             json);
 
         var deserializeJson = """
-            {
-              "IgnoredList": [
-                {
-                  "Major": 1,
-                  "Minor": 2,
-                  "Build": 3,
-                  "Revision": 4,
-                  "MajorRevision": 0,
-                  "MinorRevision": 4
-                }
-              ],
-              "IgnoredDictionary": {
-                "Value": {
-                  "Major": 1,
-                  "Minor": 2,
-                  "Build": 3,
-                  "Revision": 4,
-                  "MajorRevision": 0,
-                  "MinorRevision": 4
-                }
-              },
-              "Name": "Name!"
-            }
-            """;
+                              {
+                                "IgnoredList": [
+                                  {
+                                    "Major": 1,
+                                    "Minor": 2,
+                                    "Build": 3,
+                                    "Revision": 4,
+                                    "MajorRevision": 0,
+                                    "MinorRevision": 4
+                                  }
+                                ],
+                                "IgnoredDictionary": {
+                                  "Value": {
+                                    "Major": 1,
+                                    "Minor": 2,
+                                    "Build": 3,
+                                    "Revision": 4,
+                                    "MajorRevision": 0,
+                                    "MinorRevision": 4
+                                  }
+                                },
+                                "Name": "Name!"
+                              }
+                              """;
 
         var c2 = JsonConvert.DeserializeObject<IgnoredPropertiesTestClass>(
             deserializeJson,
@@ -626,11 +626,11 @@ public class JsonSerializerTest : TestFixtureBase
     public void ReadIntegerWithError()
     {
         var json = """
-            {
-                ParentId: 1,
-                ChildId: 333333333333333333333333333333333333333
-            }
-            """;
+                   {
+                       ParentId: 1,
+                       ChildId: 333333333333333333333333333333333333333
+                   }
+                   """;
 
         var l = JsonConvert.DeserializeObject<Link>(json, new JsonSerializerSettings
         {
@@ -681,9 +681,9 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(
             """{"IsTransient":true}""",
             JsonConvert.SerializeObject(new ChildClass
-        {
-            IsTransient = true
-        }));
+            {
+                IsTransient = true
+            }));
 
         var childClass = JsonConvert.DeserializeObject<ChildClass>("""{"IsTransient":true}""");
         XUnitAssert.True(childClass.IsTransient);
@@ -695,9 +695,9 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(
             """{"IsTransient":true}""",
             JsonConvert.SerializeObject(new ChildClassVirtual
-        {
-            IsTransient = true
-        }));
+            {
+                IsTransient = true
+            }));
 
         var childClass = JsonConvert.DeserializeObject<ChildClassVirtual>("""{"IsTransient":true}""");
         XUnitAssert.True(childClass.IsTransient);
@@ -1104,7 +1104,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void EmbedJValueStringInNewJObject()
     {
-        var v = new JValue((string)null);
+        var v = new JValue((string) null);
         var o = JObject.FromObject(new
         {
             title = v
@@ -1580,85 +1580,85 @@ public class JsonSerializerTest : TestFixtureBase
     public void GoogleSearchAPI()
     {
         var json = """
-            {
-                results:
-                    [
-                        {
-                            GsearchResultClass:"GwebSearch",
-                            unescapedUrl : "http://www.google.com/",
-                            url : "http://www.google.com/",
-                            visibleUrl : "www.google.com",
-                            cacheUrl :
-            "http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com",
-                            title : "Google",
-                            titleNoFormatting : "Google",
-                            content : "Enables users to search the Web, Usenet, and
-            images. Features include PageRank,   caching and translation of
-            results, and an option to find similar pages."
-                        },
-                        {
-                            GsearchResultClass:"GwebSearch",
-                            unescapedUrl : "http://news.google.com/",
-                            url : "http://news.google.com/",
-                            visibleUrl : "news.google.com",
-                            cacheUrl :
-            "http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com",
-                            title : "Google News",
-                            titleNoFormatting : "Google News",
-                            content : "Aggregated headlines and a search engine of many of the world's news sources."
-                        },
+                   {
+                       results:
+                           [
+                               {
+                                   GsearchResultClass:"GwebSearch",
+                                   unescapedUrl : "http://www.google.com/",
+                                   url : "http://www.google.com/",
+                                   visibleUrl : "www.google.com",
+                                   cacheUrl :
+                   "http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com",
+                                   title : "Google",
+                                   titleNoFormatting : "Google",
+                                   content : "Enables users to search the Web, Usenet, and
+                   images. Features include PageRank,   caching and translation of
+                   results, and an option to find similar pages."
+                               },
+                               {
+                                   GsearchResultClass:"GwebSearch",
+                                   unescapedUrl : "http://news.google.com/",
+                                   url : "http://news.google.com/",
+                                   visibleUrl : "news.google.com",
+                                   cacheUrl :
+                   "http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com",
+                                   title : "Google News",
+                                   titleNoFormatting : "Google News",
+                                   content : "Aggregated headlines and a search engine of many of the world's news sources."
+                               },
 
-                        {
-                            GsearchResultClass:"GwebSearch",
-                            unescapedUrl : "http://groups.google.com/",
-                            url : "http://groups.google.com/",
-                            visibleUrl : "groups.google.com",
-                            cacheUrl :
-            "http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com",
-                            title : "Google Groups",
-                            titleNoFormatting : "Google Groups",
-                            content : "Enables users to search and browse the Usenet
-            archives which consist of over 700   million messages, and post new
-            comments."
-                        },
+                               {
+                                   GsearchResultClass:"GwebSearch",
+                                   unescapedUrl : "http://groups.google.com/",
+                                   url : "http://groups.google.com/",
+                                   visibleUrl : "groups.google.com",
+                                   cacheUrl :
+                   "http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com",
+                                   title : "Google Groups",
+                                   titleNoFormatting : "Google Groups",
+                                   content : "Enables users to search and browse the Usenet
+                   archives which consist of over 700   million messages, and post new
+                   comments."
+                               },
 
-                        {
-                            GsearchResultClass:"GwebSearch",
-                            unescapedUrl : "http://maps.google.com/",
-                            url : "http://maps.google.com/",
-                            visibleUrl : "maps.google.com",
-                            cacheUrl :
-            "http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com",
-                            title : "Google Maps",
-                            titleNoFormatting : "Google Maps",
-                            content : "Provides directions, interactive maps, and
-            satellite/aerial imagery of the United   States. Can also search by
-            keyword such as type of business."
-                        }
-                    ],
+                               {
+                                   GsearchResultClass:"GwebSearch",
+                                   unescapedUrl : "http://maps.google.com/",
+                                   url : "http://maps.google.com/",
+                                   visibleUrl : "maps.google.com",
+                                   cacheUrl :
+                   "http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com",
+                                   title : "Google Maps",
+                                   titleNoFormatting : "Google Maps",
+                                   content : "Provides directions, interactive maps, and
+                   satellite/aerial imagery of the United   States. Can also search by
+                   keyword such as type of business."
+                               }
+                           ],
 
-                adResults:
-                    [
-                        {
-                            GsearchResultClass:"GwebSearch.ad",
-                            title : "Gartner Symposium/ITxpo",
-                            content1 : "Meet brilliant Gartner IT analysts",
-                            content2 : "20-23 May 2007- Barcelona, Spain",
-                            url :
-            "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=",
+                       adResults:
+                           [
+                               {
+                                   GsearchResultClass:"GwebSearch.ad",
+                                   title : "Gartner Symposium/ITxpo",
+                                   content1 : "Meet brilliant Gartner IT analysts",
+                                   content2 : "20-23 May 2007- Barcelona, Spain",
+                                   url :
+                   "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=",
 
-                            impressionUrl :
-            "http://www.google.com/uds/css/ad-indicator-on.gif?ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB",
+                                   impressionUrl :
+                   "http://www.google.com/uds/css/ad-indicator-on.gif?ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB",
 
-                            unescapedUrl :
-            "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=",
+                                   unescapedUrl :
+                   "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=",
 
-                            visibleUrl : "www.gartner.com"
-                        }
-                    ]
-            }
+                                   visibleUrl : "www.gartner.com"
+                               }
+                           ]
+                   }
 
-            """;
+                   """;
         var o = JsonConvert.DeserializeObject(json);
         var s = string.Empty;
         s += s;
@@ -1668,17 +1668,17 @@ public class JsonSerializerTest : TestFixtureBase
     public void TorrentDeserializeTest()
     {
         var jsonText = """
-            {
-                "":"",
-                "label": [
-                       ["SomeName",6]
-                ],
-                "torrents": [
-                       ["192D99A5C943555CB7F00A852821CF6D6DB3008A",201,"filename.avi",178311826,1000,178311826,72815250,408,1603,7,121430,"NameOfLabelPrevioslyDefined",3,6,0,8,128954,-1,0],
-                ],
-                "torrentc": "1816000723"
-            }
-            """;
+                       {
+                           "":"",
+                           "label": [
+                                  ["SomeName",6]
+                           ],
+                           "torrents": [
+                                  ["192D99A5C943555CB7F00A852821CF6D6DB3008A",201,"filename.avi",178311826,1000,178311826,72815250,408,1603,7,121430,"NameOfLabelPrevioslyDefined",3,6,0,8,128954,-1,0],
+                           ],
+                           "torrentc": "1816000723"
+                       }
+                       """;
 
         var o = (JObject) JsonConvert.DeserializeObject(jsonText);
         Assert.Equal(4, o.Children().Count());
@@ -1971,42 +1971,42 @@ public class JsonSerializerTest : TestFixtureBase
 
 #if (NET5_0_OR_GREATER)
         var expected = """
-            {
-              "String": "string",
-              "Int32": 2147483647,
-              "UInt32": 4294967295,
-              "Byte": 255,
-              "SByte": 127,
-              "Short": 32767,
-              "UShort": 65535,
-              "Long": 9223372036854775807,
-              "ULong": 9223372036854775807,
-              "Double": 1.7976931348623157E+308,
-              "Float": 3.4028235E+38,
-              "DBNull": null,
-              "Bool": true,
-              "Char": "\u0000"
-            }
-            """;
+                       {
+                         "String": "string",
+                         "Int32": 2147483647,
+                         "UInt32": 4294967295,
+                         "Byte": 255,
+                         "SByte": 127,
+                         "Short": 32767,
+                         "UShort": 65535,
+                         "Long": 9223372036854775807,
+                         "ULong": 9223372036854775807,
+                         "Double": 1.7976931348623157E+308,
+                         "Float": 3.4028235E+38,
+                         "DBNull": null,
+                         "Bool": true,
+                         "Char": "\u0000"
+                       }
+                       """;
 #elif !NET5_0_OR_GREATER
         var expected = """
-            {
-              "String": "string",
-              "Int32": 2147483647,
-              "UInt32": 4294967295,
-              "Byte": 255,
-              "SByte": 127,
-              "Short": 32767,
-              "UShort": 65535,
-              "Long": 9223372036854775807,
-              "ULong": 9223372036854775807,
-              "Double": 1.7976931348623157E+308,
-              "Float": 3.40282347E+38,
-              "DBNull": null,
-              "Bool": true,
-              "Char": "\u0000"
-            }
-            """;
+                       {
+                         "String": "string",
+                         "Int32": 2147483647,
+                         "UInt32": 4294967295,
+                         "Byte": 255,
+                         "SByte": 127,
+                         "Short": 32767,
+                         "UShort": 65535,
+                         "Long": 9223372036854775807,
+                         "ULong": 9223372036854775807,
+                         "Double": 1.7976931348623157E+308,
+                         "Float": 3.40282347E+38,
+                         "DBNull": null,
+                         "Bool": true,
+                         "Char": "\u0000"
+                       }
+                       """;
 #else
             expected = @"{
   ""String"": ""string"",
@@ -2436,13 +2436,13 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeRequiredMembersClassWithNullValues()
     {
         var json = """
-            {
-              "FirstName": "I can't be null bro!",
-              "MiddleName": null,
-              "LastName": null,
-              "BirthDate": "2013-08-14T04:38:31.000+0000"
-            }
-            """;
+                   {
+                     "FirstName": "I can't be null bro!",
+                     "MiddleName": null,
+                     "LastName": null,
+                     "BirthDate": "2013-08-14T04:38:31.000+0000"
+                   }
+                   """;
 
         var c = JsonConvert.DeserializeObject<RequiredMembersClass>(json);
 
@@ -2457,13 +2457,13 @@ public class JsonSerializerTest : TestFixtureBase
         try
         {
             var json = """
-                {
-                  "FirstName": null,
-                  "MiddleName": null,
-                  "LastName": null,
-                  "BirthDate": "2013-08-14T04:38:31.000+0000"
-                }
-                """;
+                       {
+                         "FirstName": null,
+                         "MiddleName": null,
+                         "LastName": null,
+                         "BirthDate": "2013-08-14T04:38:31.000+0000"
+                       }
+                       """;
 
             JsonConvert.DeserializeObject<RequiredMembersClass>(json);
             XUnitAssert.Fail();
@@ -2493,10 +2493,10 @@ public class JsonSerializerTest : TestFixtureBase
     public void RequiredMembersClassMissingRequiredProperty()
     {
         var json = """
-            {
-              "FirstName": "Bob"
-            }
-            """;
+                   {
+                     "FirstName": "Bob"
+                   }
+                   """;
 
         try
         {
@@ -2571,43 +2571,43 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeGoogleGeoCode()
     {
         var json = """
-            {
-              "name": "1600 Amphitheatre Parkway, Mountain View, CA, USA",
-              "Status": {
-                "code": 200,
-                "request": "geocode"
-              },
-              "Placemark": [
-                {
-                  "address": "1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
-                  "AddressDetails": {
-                    "Country": {
-                      "CountryNameCode": "US",
-                      "AdministrativeArea": {
-                        "AdministrativeAreaName": "CA",
-                        "SubAdministrativeArea": {
-                          "SubAdministrativeAreaName": "Santa Clara",
-                          "Locality": {
-                            "LocalityName": "Mountain View",
-                            "Thoroughfare": {
-                              "ThoroughfareName": "1600 Amphitheatre Pkwy"
-                            },
-                            "PostalCode": {
-                              "PostalCodeNumber": "94043"
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "Accuracy": 8
-                  },
-                  "Point": {
-                    "coordinates": [-122.083739, 37.423021, 0]
-                  }
-                }
-              ]
-            }
-            """;
+                   {
+                     "name": "1600 Amphitheatre Parkway, Mountain View, CA, USA",
+                     "Status": {
+                       "code": 200,
+                       "request": "geocode"
+                     },
+                     "Placemark": [
+                       {
+                         "address": "1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA",
+                         "AddressDetails": {
+                           "Country": {
+                             "CountryNameCode": "US",
+                             "AdministrativeArea": {
+                               "AdministrativeAreaName": "CA",
+                               "SubAdministrativeArea": {
+                                 "SubAdministrativeAreaName": "Santa Clara",
+                                 "Locality": {
+                                   "LocalityName": "Mountain View",
+                                   "Thoroughfare": {
+                                     "ThoroughfareName": "1600 Amphitheatre Pkwy"
+                                   },
+                                   "PostalCode": {
+                                     "PostalCodeNumber": "94043"
+                                   }
+                                 }
+                               }
+                             }
+                           },
+                           "Accuracy": 8
+                         },
+                         "Point": {
+                           "coordinates": [-122.083739, 37.423021, 0]
+                         }
+                       }
+                     ]
+                   }
+                   """;
 
         var jsonGoogleMapGeocoder = JsonConvert.DeserializeObject<GoogleMapGeocoderStructure>(json);
     }
@@ -2719,13 +2719,13 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeBestMatchPropertyCase()
     {
         var json = """
-            {
-              "firstName": "firstName",
-              "FirstName": "FirstName",
-              "LastName": "LastName",
-              "lastName": "lastName",
-            }
-            """;
+                   {
+                     "firstName": "firstName",
+                     "FirstName": "FirstName",
+                     "LastName": "LastName",
+                     "lastName": "lastName",
+                   }
+                   """;
 
         var o = JsonConvert.DeserializeObject<PropertyCase>(json);
         Assert.NotNull(o);
@@ -2889,24 +2889,24 @@ public class JsonSerializerTest : TestFixtureBase
     public void PartialClassDeserialize()
     {
         var json = """
-            {
-                "request": "ux.settings.update",
-                "sid": "14c561bd-32a8-457e-b4e5-4bba0832897f",
-                "uid": "30c39065-0f31-de11-9442-001e3786a8ec",
-                "fidOrder": [
-                    "id",
-                    "andytest_name",
-                    "andytest_age",
-                    "andytest_address",
-                    "andytest_phone",
-                    "date",
-                    "title",
-                    "titleId"
-                ],
-                "entityName": "Andy Test",
-                "setting": "entity.field.order"
-            }
-            """;
+                   {
+                       "request": "ux.settings.update",
+                       "sid": "14c561bd-32a8-457e-b4e5-4bba0832897f",
+                       "uid": "30c39065-0f31-de11-9442-001e3786a8ec",
+                       "fidOrder": [
+                           "id",
+                           "andytest_name",
+                           "andytest_age",
+                           "andytest_address",
+                           "andytest_phone",
+                           "date",
+                           "title",
+                           "titleId"
+                       ],
+                       "entityName": "Andy Test",
+                       "setting": "entity.field.order"
+                   }
+                   """;
 
         var r = JsonConvert.DeserializeObject<RequestOnly>(json);
         Assert.Equal("ux.settings.update", r.Request);
@@ -2947,13 +2947,13 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeDictionaryInterface()
     {
         var json = """
-            {
-              "Name": "Name!",
-              "Dictionary": {
-                "Item": 11
-              }
-            }
-            """;
+                   {
+                     "Name": "Name!",
+                     "Dictionary": {
+                       "Item": 11
+                     }
+                   }
+                   """;
 
         var c = JsonConvert.DeserializeObject<DictionaryInterfaceClass>(
             json,
@@ -2971,25 +2971,25 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeDictionaryInterfaceWithExistingValues()
     {
         var json = """
-            {
-              "Random": {
-                "blah": 1
-              },
-              "Name": "Name!",
-              "Dictionary": {
-                "Item": 11,
-                "Item1": 12
-              },
-              "Collection": [
-                999
-              ],
-              "Employee": {
-                "Manager": {
-                  "Name": "ManagerName!"
-                }
-              }
-            }
-            """;
+                   {
+                     "Random": {
+                       "blah": 1
+                     },
+                     "Name": "Name!",
+                     "Dictionary": {
+                       "Item": 11,
+                       "Item1": 12
+                     },
+                     "Collection": [
+                       999
+                     ],
+                     "Employee": {
+                       "Manager": {
+                         "Name": "ManagerName!"
+                       }
+                     }
+                   }
+                   """;
 
         var c = JsonConvert.DeserializeObject<DictionaryInterfaceClass>(json,
             new JsonSerializerSettings
@@ -3039,18 +3039,18 @@ public class JsonSerializerTest : TestFixtureBase
     public void NestedInsideOuterObject()
     {
         var json = """
-            {
-              "short": {
-                "original": "http://www.contrast.ie/blog/online&#45;marketing&#45;2009/",
-                "short": "m2sqc6",
-                "shortened": "http://short.ie/m2sqc6",
-                "error": {
-                  "code": 0,
-                  "msg": "No action taken"
-                }
-              }
-            }
-            """;
+                   {
+                     "short": {
+                       "original": "http://www.contrast.ie/blog/online&#45;marketing&#45;2009/",
+                       "short": "m2sqc6",
+                       "shortened": "http://short.ie/m2sqc6",
+                       "error": {
+                         "code": 0,
+                         "msg": "No action taken"
+                       }
+                     }
+                   }
+                   """;
 
         var o = JObject.Parse(json);
 
@@ -3131,20 +3131,20 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeEnumerableAsObject()
     {
         var json = """
-            {
-              "Children": [
-                {
-                  "Children": null,
-                  "Text": "First"
-                },
-                {
-                  "Children": null,
-                  "Text": "Second"
-                }
-              ],
-              "Text": "Blah, blah, blah"
-            }
-            """;
+                   {
+                     "Children": [
+                       {
+                         "Children": null,
+                         "Text": "First"
+                       },
+                       {
+                         "Children": null,
+                         "Text": "Second"
+                       }
+                     ],
+                     "Text": "Blah, blah, blah"
+                   }
+                   """;
 
         var content = JsonConvert.DeserializeObject<Content>(json);
 
@@ -3858,11 +3858,11 @@ public class JsonSerializerTest : TestFixtureBase
         try
         {
             var json = """
-                {
-                  "TestObjects.Person": 1,
-                  "TestObjects.Person": 2
-                }
-                """;
+                       {
+                         "TestObjects.Person": 1,
+                         "TestObjects.Person": 2
+                       }
+                       """;
 
             JsonConvert.DeserializeObject<Dictionary<Person, int>>(json);
             XUnitAssert.Fail();
@@ -3877,58 +3877,58 @@ public class JsonSerializerTest : TestFixtureBase
     public void SerializeFragment()
     {
         var googleSearchText = """
-            {
-                "responseData": {
-                  "results": [
-                    {
-                      "GsearchResultClass": "GwebSearch",
-                      "unescapedUrl": "http://en.wikipedia.org/wiki/Paris_Hilton",
-                      "url": "http://en.wikipedia.org/wiki/Paris_Hilton",
-                      "visibleUrl": "en.wikipedia.org",
-                      "cacheUrl": "http://www.google.com/search?q=cache:TwrPfhd22hYJ:en.wikipedia.org",
-                      "title": "<b>Paris Hilton</b> - Wikipedia, the free encyclopedia",
-                      "titleNoFormatting": "Paris Hilton - Wikipedia, the free encyclopedia",
-                      "content": "[1] In 2006, she released her debut album..."
-                    },
-                    {
-                      "GsearchResultClass": "GwebSearch",
-                      "unescapedUrl": "http://www.imdb.com/name/nm0385296/",
-                      "url": "http://www.imdb.com/name/nm0385296/",
-                      "visibleUrl": "www.imdb.com",
-                      "cacheUrl": "http://www.google.com/search?q=cache:1i34KkqnsooJ:www.imdb.com",
-                      "title": "<b>Paris Hilton</b>",
-                      "titleNoFormatting": "Paris Hilton",
-                      "content": "Self: Zoolander. Socialite <b>Paris Hilton</b>..."
-                    }
-                  ],
-                  "cursor": {
-                    "pages": [
-                      {
-                        "start": "0",
-                        "label": 1
-                      },
-                      {
-                        "start": "4",
-                        "label": 2
-                      },
-                      {
-                        "start": "8",
-                        "label": 3
-                      },
-                      {
-                        "start": "12",
-                        "label": 4
-                      }
-                    ],
-                    "estimatedResultCount": "59600000",
-                    "currentPageIndex": 0,
-                    "moreResultsUrl": "http://www.google.com/search?oe=utf8&ie=utf8..."
-                  }
-                },
-                "responseDetails": null,
-                "responseStatus": 200
-              }
-            """;
+                               {
+                                   "responseData": {
+                                     "results": [
+                                       {
+                                         "GsearchResultClass": "GwebSearch",
+                                         "unescapedUrl": "http://en.wikipedia.org/wiki/Paris_Hilton",
+                                         "url": "http://en.wikipedia.org/wiki/Paris_Hilton",
+                                         "visibleUrl": "en.wikipedia.org",
+                                         "cacheUrl": "http://www.google.com/search?q=cache:TwrPfhd22hYJ:en.wikipedia.org",
+                                         "title": "<b>Paris Hilton</b> - Wikipedia, the free encyclopedia",
+                                         "titleNoFormatting": "Paris Hilton - Wikipedia, the free encyclopedia",
+                                         "content": "[1] In 2006, she released her debut album..."
+                                       },
+                                       {
+                                         "GsearchResultClass": "GwebSearch",
+                                         "unescapedUrl": "http://www.imdb.com/name/nm0385296/",
+                                         "url": "http://www.imdb.com/name/nm0385296/",
+                                         "visibleUrl": "www.imdb.com",
+                                         "cacheUrl": "http://www.google.com/search?q=cache:1i34KkqnsooJ:www.imdb.com",
+                                         "title": "<b>Paris Hilton</b>",
+                                         "titleNoFormatting": "Paris Hilton",
+                                         "content": "Self: Zoolander. Socialite <b>Paris Hilton</b>..."
+                                       }
+                                     ],
+                                     "cursor": {
+                                       "pages": [
+                                         {
+                                           "start": "0",
+                                           "label": 1
+                                         },
+                                         {
+                                           "start": "4",
+                                           "label": 2
+                                         },
+                                         {
+                                           "start": "8",
+                                           "label": 3
+                                         },
+                                         {
+                                           "start": "12",
+                                           "label": 4
+                                         }
+                                       ],
+                                       "estimatedResultCount": "59600000",
+                                       "currentPageIndex": 0,
+                                       "moreResultsUrl": "http://www.google.com/search?oe=utf8&ie=utf8..."
+                                     }
+                                   },
+                                   "responseDetails": null,
+                                   "responseStatus": 200
+                                 }
+                               """;
 
         var googleSearch = JObject.Parse(googleSearchText);
 
@@ -3971,15 +3971,15 @@ public class JsonSerializerTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(personPropertyClass, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
             """
-                {
-                  "Person": {
-                    "HourlyWage": 12.50,
-                    "Name": "Jim Bob",
-                    "BirthDate": "2000-11-29T23:59:59Z",
-                    "LastModified": "2000-11-29T23:59:59Z"
-                  }
-                }
-                """,
+            {
+              "Person": {
+                "HourlyWage": 12.50,
+                "Name": "Jim Bob",
+                "BirthDate": "2000-11-29T23:59:59Z",
+                "LastModified": "2000-11-29T23:59:59Z"
+              }
+            }
+            """,
             json);
 
         var newPersonPropertyClass = JsonConvert.DeserializeObject<PersonPropertyClass>(json);
@@ -4290,19 +4290,19 @@ public class JsonSerializerTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(testObject, settings);
         var expected = """
-            {
-              "Document": {
-                "root": "hehe, root"
-              },
-              "Element": {
-                "fifth": {
-                  "@xmlns:json": "http://json.org",
-                  "@json:Awesome": "true",
-                  "#text": "element"
-                }
-              }
-            }
-            """;
+                       {
+                         "Document": {
+                           "root": "hehe, root"
+                         },
+                         "Element": {
+                           "fifth": {
+                             "@xmlns:json": "http://json.org",
+                             "@json:Awesome": "true",
+                             "#text": "element"
+                           }
+                         }
+                       }
+                       """;
         XUnitAssert.AreEqualNormalized(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XNodeTestObject>(json, settings);
@@ -4327,12 +4327,12 @@ public class JsonSerializerTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var json = JsonConvert.SerializeObject(testObject, settings);
         var expected = """
-            {
-              "Document": {
-                "root": "hehe, root"
-              }
-            }
-            """;
+                       {
+                         "Document": {
+                           "root": "hehe, root"
+                         }
+                       }
+                       """;
         XUnitAssert.AreEqualNormalized(expected, json);
 
         var newTestObject = JsonConvert.DeserializeObject<XmlNodeTestObject>(json, settings);
@@ -4555,11 +4555,11 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var jsonText = JsonConvert.SerializeObject(
             new double?[]
-        {
-            2.4,
-            4.3,
-            null
-        },
+            {
+                2.4,
+                4.3,
+                null
+            },
             Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized(
@@ -5057,13 +5057,13 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeStringEnglish()
     {
         var json = """
-            {
-              'Name': 'James Hughes',
-              'Age': '40',
-              'Height': '44.4',
-              'Price': '4'
-            }
-            """;
+                   {
+                     'Name': 'James Hughes',
+                     'Age': '40',
+                     'Height': '44.4',
+                     'Price': '4'
+                   }
+                   """;
 
         var p = JsonConvert.DeserializeObject<DeserializeStringConvert>(json);
         Assert.Equal(40, p.Age);
@@ -5701,12 +5701,12 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeIConvertible()
     {
         var json = """
-            {
-              "Integer": 1,
-              "NullableInteger1": 2,
-              "NullableInteger2": null
-            }
-            """;
+                   {
+                     "Integer": 1,
+                     "NullableInteger1": 2,
+                     "NullableInteger2": null
+                   }
+                   """;
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.DeserializeObject<ConvertableIntTestClass>(json),
@@ -5751,11 +5751,11 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeBoolInt()
     {
         var json = """
-            {
-              "PreProperty": true,
-              "PostProperty": "-1"
-            }
-            """;
+                   {
+                     "PreProperty": true,
+                     "PostProperty": "-1"
+                   }
+                   """;
 
         XUnitAssert.Throws<JsonReaderException>(
             () => JsonConvert.DeserializeObject<MyClass>(json),
@@ -5766,9 +5766,9 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeUnexpectedEndInt()
     {
         var json = """
-            {
-              "PreProperty":
-            """;
+                   {
+                     "PreProperty":
+                   """;
 
         XUnitAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<MyClass>(json));
     }
@@ -5830,18 +5830,18 @@ public class JsonSerializerTest : TestFixtureBase
         var jsonString = JsonConvert.SerializeObject(expected, Formatting.Indented);
 
         XUnitAssert.AreEqualNormalized($$"""
-            {
-              "SourceTypeID": "d8220a4b-75b1-4b7a-8112-b7bdae956a45",
-              "BrokerID": "951663c4-924e-4c86-a57a-7ed737501dbd",
-              "Latitude": 33.657145,
-              "Longitude": -117.766684,
-              "TimeStamp": "2000-03-01T23:59:59Z",
-              "Payload": {
-                "$type": "{{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
-                "$value": "AAECAwQFBgcICQ=="
-              }
-            }
-            """,
+                                         {
+                                           "SourceTypeID": "d8220a4b-75b1-4b7a-8112-b7bdae956a45",
+                                           "BrokerID": "951663c4-924e-4c86-a57a-7ed737501dbd",
+                                           "Latitude": 33.657145,
+                                           "Longitude": -117.766684,
+                                           "TimeStamp": "2000-03-01T23:59:59Z",
+                                           "Payload": {
+                                             "$type": "{{typeof(byte[]).GetTypeName(0, DefaultSerializationBinder.Instance)}}",
+                                             "$value": "AAECAwQFBgcICQ=="
+                                           }
+                                         }
+                                         """,
             jsonString);
 
         var actual = JsonConvert.DeserializeObject<Item>(jsonString);
@@ -6643,8 +6643,10 @@ public class JsonSerializerTest : TestFixtureBase
     //     Assert.Equal("[1.1234567,1.1234567]", json);
     // }
 
+    #region FloatPrecision
+
     [Fact]
-    public void SerializeNumberPointsLimited()
+    public void FloatPrecision()
     {
         var numbers = new List<object>
         {
@@ -6660,6 +6662,8 @@ public class JsonSerializerTest : TestFixtureBase
             });
         Assert.Equal("[1.123,1.123]", json);
     }
+
+    #endregion
 
     [Fact]
     public void DeserializeReadOnlyListWithBigInteger()
@@ -6840,14 +6844,14 @@ public class JsonSerializerTest : TestFixtureBase
     public void TestStringToNullableDeserialization()
     {
         var json = """
-            {
-              "MyNullableBool": "",
-              "MyNullableInteger": "",
-              "MyNullableDateTime": "",
-              "MyNullableDateTimeOffset": "",
-              "MyNullableDecimal": ""
-            }
-            """;
+                   {
+                     "MyNullableBool": "",
+                     "MyNullableInteger": "",
+                     "MyNullableDateTime": "",
+                     "MyNullableDateTimeOffset": "",
+                     "MyNullableDecimal": ""
+                   }
+                   """;
 
         var c2 = JsonConvert.DeserializeObject<NullableTestClass>(json);
         Assert.Null(c2.MyNullableBool);
@@ -7065,23 +7069,23 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeCustomReferenceResolver()
     {
         var json = """
-            [
-              {
-                "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
-                "Name": "John Smith",
-                "Spouse": {
-                  "$id": "ae3c399c-058d-431d-91b0-a36c266441b9",
-                  "Name": "Jane Smith",
-                  "Spouse": {
-                    "$ref": "0b64ffdf-d155-44ad-9689-58d9adb137f3"
-                  }
-                }
-              },
-              {
-                "$ref": "ae3c399c-058d-431d-91b0-a36c266441b9"
-              }
-            ]
-            """;
+                   [
+                     {
+                       "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
+                       "Name": "John Smith",
+                       "Spouse": {
+                         "$id": "ae3c399c-058d-431d-91b0-a36c266441b9",
+                         "Name": "Jane Smith",
+                         "Spouse": {
+                           "$ref": "0b64ffdf-d155-44ad-9689-58d9adb137f3"
+                         }
+                       }
+                     },
+                     {
+                       "$ref": "ae3c399c-058d-431d-91b0-a36c266441b9"
+                     }
+                   ]
+                   """;
 
         var people = JsonConvert.DeserializeObject<IList<PersonReference>>(json, new JsonSerializerSettings
         {
@@ -7103,23 +7107,23 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeCustomReferenceResolver_ViaProvider()
     {
         var json = """
-            [
-              {
-                "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
-                "Name": "John Smith",
-                "Spouse": {
-                  "$id": "ae3c399c-058d-431d-91b0-a36c266441b9",
-                  "Name": "Jane Smith",
-                  "Spouse": {
-                    "$ref": "0b64ffdf-d155-44ad-9689-58d9adb137f3"
-                  }
-                }
-              },
-              {
-                "$ref": "ae3c399c-058d-431d-91b0-a36c266441b9"
-              }
-            ]
-            """;
+                   [
+                     {
+                       "$id": "0b64ffdf-d155-44ad-9689-58d9adb137f3",
+                       "Name": "John Smith",
+                       "Spouse": {
+                         "$id": "ae3c399c-058d-431d-91b0-a36c266441b9",
+                         "Name": "Jane Smith",
+                         "Spouse": {
+                           "$ref": "0b64ffdf-d155-44ad-9689-58d9adb137f3"
+                         }
+                       }
+                     },
+                     {
+                       "$ref": "ae3c399c-058d-431d-91b0-a36c266441b9"
+                     }
+                   ]
+                   """;
 
         var people = JsonConvert.DeserializeObject<IList<PersonReference>>(json, new JsonSerializerSettings
         {
@@ -7347,11 +7351,11 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializedDerivedWithPrivate()
     {
         var json = """
-            {
-              "DerivedProperty": "derived",
-              "BaseProperty": "base"
-            }
-            """;
+                   {
+                     "DerivedProperty": "derived",
+                     "BaseProperty": "base"
+                   }
+                   """;
 
         var d = JsonConvert.DeserializeObject<DerivedWithPrivate>(json);
 
@@ -7376,46 +7380,46 @@ public class JsonSerializerTest : TestFixtureBase
     public void MailMessageConverterTest()
     {
         const string JsonMessage = """
-            {
-              "From": {
-                "Address": "askywalker@theEmpire.gov",
-                "DisplayName": "Darth Vader"
-              },
-              "Sender": null,
-              "ReplyTo": null,
-              "ReplyToList": [],
-              "To": [
-                {
-                  "Address": "lskywalker@theRebellion.org",
-                  "DisplayName": "Luke Skywalker"
-                }
-              ],
-              "Bcc": [],
-              "CC": [
-                {
-                  "Address": "lorgana@alderaan.gov",
-                  "DisplayName": "Princess Leia"
-                }
-              ],
-              "Priority": 0,
-              "DeliveryNotificationOptions": 0,
-              "Subject": "Family tree",
-              "SubjectEncoding": null,
-              "Headers": [],
-              "HeadersEncoding": null,
-              "Body": "<strong>I am your father!</strong>",
-              "BodyEncoding": "US-ASCII",
-              "BodyTransferEncoding": -1,
-              "IsBodyHtml": true,
-              "Attachments": [
-                {
-                  "FileName": "skywalker family tree.jpg",
-                  "ContentBase64": "AQIDBAU="
-                }
-              ],
-              "AlternateViews": []
-            }
-            """;
+                                   {
+                                     "From": {
+                                       "Address": "askywalker@theEmpire.gov",
+                                       "DisplayName": "Darth Vader"
+                                     },
+                                     "Sender": null,
+                                     "ReplyTo": null,
+                                     "ReplyToList": [],
+                                     "To": [
+                                       {
+                                         "Address": "lskywalker@theRebellion.org",
+                                         "DisplayName": "Luke Skywalker"
+                                       }
+                                     ],
+                                     "Bcc": [],
+                                     "CC": [
+                                       {
+                                         "Address": "lorgana@alderaan.gov",
+                                         "DisplayName": "Princess Leia"
+                                       }
+                                     ],
+                                     "Priority": 0,
+                                     "DeliveryNotificationOptions": 0,
+                                     "Subject": "Family tree",
+                                     "SubjectEncoding": null,
+                                     "Headers": [],
+                                     "HeadersEncoding": null,
+                                     "Body": "<strong>I am your father!</strong>",
+                                     "BodyEncoding": "US-ASCII",
+                                     "BodyTransferEncoding": -1,
+                                     "IsBodyHtml": true,
+                                     "Attachments": [
+                                       {
+                                         "FileName": "skywalker family tree.jpg",
+                                         "ContentBase64": "AQIDBAU="
+                                       }
+                                     ],
+                                     "AlternateViews": []
+                                   }
+                                   """;
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
             {
