@@ -7,8 +7,9 @@
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.JsonPath.svg?label=Argon.JsonPath)](https://www.nuget.org/packages/Argon.JsonPath/)
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.FSharp.svg?label=Argon.FSharp)](https://www.nuget.org/packages/Argon.FSharp/)
 
-
 Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
+
+**See [Milestones](../../milestones?state=closed) for release notes.**
 
 
 ## Serialize JSON
