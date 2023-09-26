@@ -134,7 +134,7 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void StringEnumConverter_NamingStrategyTypeCtor()
     {
-        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] {true, true}, false);
+        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), [true, true], false);
 
         Assert.NotNull(converter.NamingStrategy);
         Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());

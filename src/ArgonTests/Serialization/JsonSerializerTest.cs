@@ -1493,13 +1493,13 @@ public class JsonSerializerTest : TestFixtureBase
         var executorObject = new MethodExecutorObject
         {
             serverClassName = "BanSubs",
-            serverMethodParams = new object[]
-            {
+            serverMethodParams =
+                [
                 "21321546",
                 "101",
                 "1236",
                 "D:\\1.txt"
-            },
+                ],
             clientGetResultFunction = "ClientBanSubsCB"
         };
 

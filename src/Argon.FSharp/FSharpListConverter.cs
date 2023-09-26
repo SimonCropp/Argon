@@ -24,11 +24,10 @@ public class FSharpListConverter : JsonConverter
         return readList.MakeGenericMethod(genericArgument)
             .Invoke(
                 null,
-                new object[]
-                {
-                    reader,
-                    serializer
-                });
+                [
+                reader,
+                serializer
+                ]);
     }
 
     public static FSharpList<T> ReadList<T>(JsonReader reader, JsonSerializer serializer)

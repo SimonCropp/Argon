@@ -14,12 +14,7 @@ public class FSharpMapConverter : JsonConverter
         writeMap.MakeGenericMethod(genericArguments[0], genericArguments[1])
             .Invoke(
                 null,
-                new[]
-                {
-                    writer,
-                    value,
-                    serializer
-                });
+                [writer, value, serializer]);
     }
 
     public static void WriteMap<T, K>(JsonWriter writer, FSharpMap<T, K> value, JsonSerializer serializer)
@@ -32,11 +27,7 @@ public class FSharpMapConverter : JsonConverter
         return readMap.MakeGenericMethod(arguments[0], arguments[1])
             .Invoke(
                 null,
-                new object[]
-                {
-                    reader,
-                    serializer
-                });
+                [reader, serializer]);
     }
 
     static MethodInfo readMap = typeof(FSharpMapConverter).GetMethod("ReadMap")!;
