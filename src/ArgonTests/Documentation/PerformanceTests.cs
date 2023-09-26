@@ -11,7 +11,7 @@ namespace Argon.Tests.Documentation;
 public class Person
 {
     public string Name { get; set; }
-    public IList<string> Likes { get; } = new List<string>();
+    public IList<string> Likes { get; } = [];
 }
 
 #endregion

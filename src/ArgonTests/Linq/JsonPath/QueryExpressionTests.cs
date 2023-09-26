@@ -46,11 +46,11 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var compositeExpression = new CompositeExpression(QueryOperator.Or)
         {
-            Expressions = new()
-            {
+            Expressions =
+            [
                 new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> {new FieldFilter("FirstName")}, null),
                 new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> {new FieldFilter("LastName")}, null)
-            }
+            ]
         };
 
         var o1 = new JObject

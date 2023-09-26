@@ -86,7 +86,7 @@ There are a couple of ways to continue to use JsonConverters without any overhea
 public class Person
 {
     public string Name { get; set; }
-    public IList<string> Likes { get; } = new List<string>();
+    public IList<string> Likes { get; } = [];
 }
 ```
 <sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>

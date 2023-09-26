@@ -57,9 +57,7 @@ public class ExpandoObjectConverter : JsonConverter
                 case JsonToken.Comment:
                     break;
                 default:
-                    var v = ReadValue(reader);
-
-                    list.Add(v);
+                    list.Add(ReadValue(reader));
                     break;
                 case JsonToken.EndArray:
                     return list;

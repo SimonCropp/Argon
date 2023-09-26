@@ -31,13 +31,13 @@ public class Issue1576 : TestFixtureBase
 
     public class TestClass
     {
-        public List<int> Items { get; } = new();
+        public List<int> Items { get; } = [];
     }
 
     public class TestClassWithJsonConverter
     {
         [JsonConverter(typeof(OneItemListJsonConverter))]
-        public List<int> Items { get; } = new();
+        public List<int> Items { get; } = [];
     }
 
     public class CustomContractResolver : DefaultContractResolver
