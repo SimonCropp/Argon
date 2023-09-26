@@ -1084,7 +1084,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         public override int Read(char[] buffer, int index, int count)
         {
             var temp = new char[buffer.Length];
-            var charsRead = 0;
+            int charsRead;
             if (_firstRead)
             {
                 charsRead = new StringReader("[").Read(temp, index, count);

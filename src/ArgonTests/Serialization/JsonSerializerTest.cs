@@ -499,10 +499,7 @@ public class JsonSerializerTest : TestFixtureBase
         var c1 = new IgnoredPropertiesTestClass
         {
             IgnoredProperty = v,
-            IgnoredList = new()
-            {
-                v
-            },
+            IgnoredList = [v],
             IgnoredDictionary = new()
             {
                 {
@@ -512,10 +509,13 @@ public class JsonSerializerTest : TestFixtureBase
             Name = "Name!"
         };
 
-        var json = JsonConvert.SerializeObject(c1, Formatting.Indented, new JsonSerializerSettings
-        {
-            ContractResolver = new IgnoredPropertiesContractResolver()
-        });
+        var json = JsonConvert.SerializeObject(
+            c1,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                ContractResolver = new IgnoredPropertiesContractResolver()
+            });
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -525,31 +525,32 @@ public class JsonSerializerTest : TestFixtureBase
             """,
             json);
 
-        var deserializeJson = """
-                              {
-                                "IgnoredList": [
-                                  {
-                                    "Major": 1,
-                                    "Minor": 2,
-                                    "Build": 3,
-                                    "Revision": 4,
-                                    "MajorRevision": 0,
-                                    "MinorRevision": 4
-                                  }
-                                ],
-                                "IgnoredDictionary": {
-                                  "Value": {
-                                    "Major": 1,
-                                    "Minor": 2,
-                                    "Build": 3,
-                                    "Revision": 4,
-                                    "MajorRevision": 0,
-                                    "MinorRevision": 4
-                                  }
-                                },
-                                "Name": "Name!"
-                              }
-                              """;
+        var deserializeJson =
+            """
+            {
+              "IgnoredList": [
+                {
+                  "Major": 1,
+                  "Minor": 2,
+                  "Build": 3,
+                  "Revision": 4,
+                  "MajorRevision": 0,
+                  "MinorRevision": 4
+                }
+              ],
+              "IgnoredDictionary": {
+                "Value": {
+                  "Major": 1,
+                  "Minor": 2,
+                  "Build": 3,
+                  "Revision": 4,
+                  "MajorRevision": 0,
+                  "MinorRevision": 4
+                }
+              },
+              "Name": "Name!"
+            }
+            """;
 
         var c2 = JsonConvert.DeserializeObject<IgnoredPropertiesTestClass>(
             deserializeJson,
@@ -677,7 +678,8 @@ public class JsonSerializerTest : TestFixtureBase
     {
         Assert.Equal(
             """{"IsTransient":true}""",
-            JsonConvert.SerializeObject(new ChildClass
+            JsonConvert.SerializeObject(
+                new ChildClass
             {
                 IsTransient = true
             }));
@@ -691,7 +693,8 @@ public class JsonSerializerTest : TestFixtureBase
     {
         Assert.Equal(
             """{"IsTransient":true}""",
-            JsonConvert.SerializeObject(new ChildClassVirtual
+            JsonConvert.SerializeObject(
+                new ChildClassVirtual
             {
                 IsTransient = true
             }));
@@ -789,15 +792,15 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = """
                    /* Test */
-                               {
-                                   /*Test*/"A":/* Test */true/* Test */,
-                                   /* Test */"B":/* Test */false/* Test */,
-                                   /* Test */"C":/* Test */[
-                                       /* Test */
-                                       1/* Test */
-                                   ]/* Test */
-                               }
-                               /* Test */
+                   {
+                       /*Test*/"A":/* Test */true/* Test */,
+                       /* Test */"B":/* Test */false/* Test */,
+                       /* Test */"C":/* Test */[
+                           /* Test */
+                           1/* Test */
+                       ]/* Test */
+                   }
+                   /* Test */
                    """;
         var o = (JObject) JsonConvert.DeserializeObject(json);
         Assert.Equal(3, o.Count);
@@ -982,76 +985,76 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void JsonSerializerProxyProperties()
     {
-        var serializerProxy = new JsonSerializerProxy(new JsonSerializerInternalReader(new()));
+        var proxy = new JsonSerializerProxy(new JsonSerializerInternalReader(new()));
 
-        Assert.Null(serializerProxy.SerializationBinder);
+        Assert.Null(proxy.SerializationBinder);
 
         var customBinder = new DefaultSerializationBinder();
 
-        serializerProxy.SerializationBinder = customBinder;
-        Assert.Equal(customBinder, serializerProxy.SerializationBinder);
+        proxy.SerializationBinder = customBinder;
+        Assert.Equal(customBinder, proxy.SerializationBinder);
 
-        serializerProxy.CheckAdditionalContent = true;
-        XUnitAssert.True(serializerProxy.CheckAdditionalContent);
+        proxy.CheckAdditionalContent = true;
+        XUnitAssert.True(proxy.CheckAdditionalContent);
 
-        serializerProxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
-        Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializerProxy.ConstructorHandling);
+        proxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
+        Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, proxy.ConstructorHandling);
 
         var resolver = new CamelCasePropertyNamesContractResolver();
-        serializerProxy.ContractResolver = resolver;
-        Assert.Equal(resolver, serializerProxy.ContractResolver);
+        proxy.ContractResolver = resolver;
+        Assert.Equal(resolver, proxy.ContractResolver);
 
-        serializerProxy.Converters.Add(new StringEnumConverter());
-        Assert.Equal(1, serializerProxy.Converters.Count);
+        proxy.Converters.Add(new StringEnumConverter());
+        Assert.Equal(1, proxy.Converters.Count);
 
-        serializerProxy.EqualityComparer = EqualityComparer<object>.Default;
-        Assert.Equal(EqualityComparer<object>.Default, serializerProxy.EqualityComparer);
+        proxy.EqualityComparer = EqualityComparer<object>.Default;
+        Assert.Equal(EqualityComparer<object>.Default, proxy.EqualityComparer);
 
-        serializerProxy.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
-        Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, serializerProxy.DefaultValueHandling);
+        proxy.DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
+        Assert.Equal(DefaultValueHandling.IgnoreAndPopulate, proxy.DefaultValueHandling);
 
-        serializerProxy.FloatFormatHandling = FloatFormatHandling.Symbol;
-        Assert.Equal(FloatFormatHandling.Symbol, serializerProxy.FloatFormatHandling);
+        proxy.FloatFormatHandling = FloatFormatHandling.Symbol;
+        Assert.Equal(FloatFormatHandling.Symbol, proxy.FloatFormatHandling);
 
-        serializerProxy.FloatParseHandling = FloatParseHandling.Decimal;
-        Assert.Equal(FloatParseHandling.Decimal, serializerProxy.FloatParseHandling);
+        proxy.FloatParseHandling = FloatParseHandling.Decimal;
+        Assert.Equal(FloatParseHandling.Decimal, proxy.FloatParseHandling);
 
-        serializerProxy.Formatting = Formatting.Indented;
-        Assert.Equal(Formatting.Indented, serializerProxy.Formatting);
+        proxy.Formatting = Formatting.Indented;
+        Assert.Equal(Formatting.Indented, proxy.Formatting);
 
-        serializerProxy.MaxDepth = 9001;
-        Assert.Equal(9001, serializerProxy.MaxDepth);
+        proxy.MaxDepth = 9001;
+        Assert.Equal(9001, proxy.MaxDepth);
 
-        serializerProxy.MissingMemberHandling = MissingMemberHandling.Error;
-        Assert.Equal(MissingMemberHandling.Error, serializerProxy.MissingMemberHandling);
+        proxy.MissingMemberHandling = MissingMemberHandling.Error;
+        Assert.Equal(MissingMemberHandling.Error, proxy.MissingMemberHandling);
 
-        serializerProxy.NullValueHandling = NullValueHandling.Ignore;
-        Assert.Equal(NullValueHandling.Ignore, serializerProxy.NullValueHandling);
+        proxy.NullValueHandling = NullValueHandling.Ignore;
+        Assert.Equal(NullValueHandling.Ignore, proxy.NullValueHandling);
 
-        serializerProxy.ObjectCreationHandling = ObjectCreationHandling.Replace;
-        Assert.Equal(ObjectCreationHandling.Replace, serializerProxy.ObjectCreationHandling);
+        proxy.ObjectCreationHandling = ObjectCreationHandling.Replace;
+        Assert.Equal(ObjectCreationHandling.Replace, proxy.ObjectCreationHandling);
 
-        serializerProxy.PreserveReferencesHandling = PreserveReferencesHandling.All;
-        Assert.Equal(PreserveReferencesHandling.All, serializerProxy.PreserveReferencesHandling);
+        proxy.PreserveReferencesHandling = PreserveReferencesHandling.All;
+        Assert.Equal(PreserveReferencesHandling.All, proxy.PreserveReferencesHandling);
 
-        serializerProxy.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        Assert.Equal(ReferenceLoopHandling.Ignore, serializerProxy.ReferenceLoopHandling);
+        proxy.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        Assert.Equal(ReferenceLoopHandling.Ignore, proxy.ReferenceLoopHandling);
 
         var referenceResolver = new IdReferenceResolver();
-        serializerProxy.ReferenceResolver = referenceResolver;
-        Assert.Equal(referenceResolver, serializerProxy.ReferenceResolver);
+        proxy.ReferenceResolver = referenceResolver;
+        Assert.Equal(referenceResolver, proxy.ReferenceResolver);
 
-        serializerProxy.EscapeHandling = EscapeHandling.EscapeNonAscii;
-        Assert.Equal(EscapeHandling.EscapeNonAscii, serializerProxy.EscapeHandling);
+        proxy.EscapeHandling = EscapeHandling.EscapeNonAscii;
+        Assert.Equal(EscapeHandling.EscapeNonAscii, proxy.EscapeHandling);
 
-        serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
-        Assert.Equal(TypeNameAssemblyFormatHandling.Simple, serializerProxy.TypeNameAssemblyFormatHandling);
+        proxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
+        Assert.Equal(TypeNameAssemblyFormatHandling.Simple, proxy.TypeNameAssemblyFormatHandling);
 
-        serializerProxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
-        Assert.Equal(TypeNameAssemblyFormatHandling.Full, serializerProxy.TypeNameAssemblyFormatHandling);
+        proxy.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full;
+        Assert.Equal(TypeNameAssemblyFormatHandling.Full, proxy.TypeNameAssemblyFormatHandling);
 
-        serializerProxy.TypeNameHandling = TypeNameHandling.All;
-        Assert.Equal(TypeNameHandling.All, serializerProxy.TypeNameHandling);
+        proxy.TypeNameHandling = TypeNameHandling.All;
+        Assert.Equal(TypeNameHandling.All, proxy.TypeNameHandling);
     }
 
     [Fact]
@@ -1200,8 +1203,10 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = """{"foo":{"bar":"value"},"foo2":{"bar":"value2"}}""";
         var deserialized = JsonConvert.DeserializeObject<Foo1<Bar1>>(json);
-        Assert.NotNull(deserialized.foo2); // passes (bug only occurs for generics that /hide/ another property)
-        Assert.Equal("value2", deserialized.foo2.bar); // also passes, with no issue
+        // passes (bug only occurs for generics that /hide/ another property)
+        Assert.NotNull(deserialized.foo2);
+        // also passes, with no issue
+        Assert.Equal("value2", deserialized.foo2.bar);
         Assert.NotNull(deserialized.foo);
         Assert.Equal("value", deserialized.foo.bar);
     }
@@ -1571,94 +1576,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.Equal(0, c.IgnoredField);
         Assert.Equal(99, c.Field);
-    }
-
-    [Fact]
-    public void GoogleSearchAPI()
-    {
-        var json = """
-                   {
-                       results:
-                           [
-                               {
-                                   GsearchResultClass:"GwebSearch",
-                                   unescapedUrl : "http://www.google.com/",
-                                   url : "http://www.google.com/",
-                                   visibleUrl : "www.google.com",
-                                   cacheUrl :
-                   "http://www.google.com/search?q=cache:zhool8dxBV4J:www.google.com",
-                                   title : "Google",
-                                   titleNoFormatting : "Google",
-                                   content : "Enables users to search the Web, Usenet, and
-                   images. Features include PageRank,   caching and translation of
-                   results, and an option to find similar pages."
-                               },
-                               {
-                                   GsearchResultClass:"GwebSearch",
-                                   unescapedUrl : "http://news.google.com/",
-                                   url : "http://news.google.com/",
-                                   visibleUrl : "news.google.com",
-                                   cacheUrl :
-                   "http://www.google.com/search?q=cache:Va_XShOz_twJ:news.google.com",
-                                   title : "Google News",
-                                   titleNoFormatting : "Google News",
-                                   content : "Aggregated headlines and a search engine of many of the world's news sources."
-                               },
-
-                               {
-                                   GsearchResultClass:"GwebSearch",
-                                   unescapedUrl : "http://groups.google.com/",
-                                   url : "http://groups.google.com/",
-                                   visibleUrl : "groups.google.com",
-                                   cacheUrl :
-                   "http://www.google.com/search?q=cache:x2uPD3hfkn0J:groups.google.com",
-                                   title : "Google Groups",
-                                   titleNoFormatting : "Google Groups",
-                                   content : "Enables users to search and browse the Usenet
-                   archives which consist of over 700   million messages, and post new
-                   comments."
-                               },
-
-                               {
-                                   GsearchResultClass:"GwebSearch",
-                                   unescapedUrl : "http://maps.google.com/",
-                                   url : "http://maps.google.com/",
-                                   visibleUrl : "maps.google.com",
-                                   cacheUrl :
-                   "http://www.google.com/search?q=cache:dkf5u2twBXIJ:maps.google.com",
-                                   title : "Google Maps",
-                                   titleNoFormatting : "Google Maps",
-                                   content : "Provides directions, interactive maps, and
-                   satellite/aerial imagery of the United   States. Can also search by
-                   keyword such as type of business."
-                               }
-                           ],
-
-                       adResults:
-                           [
-                               {
-                                   GsearchResultClass:"GwebSearch.ad",
-                                   title : "Gartner Symposium/ITxpo",
-                                   content1 : "Meet brilliant Gartner IT analysts",
-                                   content2 : "20-23 May 2007- Barcelona, Spain",
-                                   url :
-                   "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=",
-
-                                   impressionUrl :
-                   "http://www.google.com/uds/css/ad-indicator-on.gif?ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB",
-
-                                   unescapedUrl :
-                   "http://www.google.com/url?sa=L&ai=BVualExYGRo3hD5ianAPJvejjD8-s6ye7kdTwArbI4gTAlrECEAEYASDXtMMFOAFQubWAjvr_____AWDXw_4EiAEBmAEAyAEBgAIB&num=1&q=http://www.gartner.com/it/sym/2007/spr8/spr8.jsp%3Fsrc%3D_spain_07_%26WT.srch%3D1&usg=__CxRH06E4Xvm9Muq13S4MgMtnziY=",
-
-                                   visibleUrl : "www.gartner.com"
-                               }
-                           ]
-                   }
-
-                   """;
-        var o = JsonConvert.DeserializeObject(json);
-        var s = string.Empty;
-        s += s;
     }
 
     [Fact]
