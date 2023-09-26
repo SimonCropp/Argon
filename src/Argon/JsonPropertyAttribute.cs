@@ -30,19 +30,6 @@ public sealed class JsonPropertyAttribute : Attribute
     public Type? ItemConverterType { get; set; }
 
     /// <summary>
-    /// The parameter list to use when constructing the <see cref="JsonConverter" /> described by <see cref="ItemConverterType" />.
-    /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="JsonConverter" /> that exactly matches the number,
-    /// order, and type of these parameters.
-    /// </summary>
-    /// <example>
-    /// <code>
-    /// [JsonProperty(ItemConverterType = typeof(MyContainerConverter), ItemConverterParameters = new object[] { 123, "Four" })]
-    /// </code>
-    /// </example>
-    public object[]? ItemConverterParameters { get; set; }
-
-    /// <summary>
     /// Gets or sets the null value handling used when serializing this property.
     /// </summary>
     public NullValueHandling NullValueHandling

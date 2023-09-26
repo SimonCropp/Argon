@@ -7337,9 +7337,9 @@ public class JsonSerializerTest : TestFixtureBase
 
     [Fact]
     public void ErrorCreatingJsonConverter() =>
-        XUnitAssert.Throws<JsonException>(
+        XUnitAssert.Throws<ArgumentException>(
             () => JsonConvert.SerializeObject(new ErroringTestClass()),
-            "Error creating 'TestObjects.ErroringJsonConverter'.");
+            "Could not get constructor for TestObjects.ErroringJsonConverter.");
 
     [Fact]
     public void DeserializeInvalidOctalRootError() =>

@@ -15,19 +15,6 @@ public abstract class JsonContainerAttribute : Attribute
     /// </summary>
     public Type? ItemConverterType { get; set; }
 
-    /// <summary>
-    /// The parameter list to use when constructing the <see cref="JsonConverter" /> described by <see cref="ItemConverterType" />.
-    /// If <c>null</c>, the default constructor is used.
-    /// When non-<c>null</c>, there must be a constructor defined in the <see cref="JsonConverter" /> that exactly matches the number,
-    /// order, and type of these parameters.
-    /// </summary>
-    /// <example>
-    /// <code>
-    /// [JsonContainer(ItemConverterType = typeof(MyContainerConverter), ItemConverterParameters = new object[] { 123, "Four" })]
-    /// </code>
-    /// </example>
-    public object[]? ItemConverterParameters { get; set; }
-
     // yuck. can't set nullable properties on an attribute in C#
     // have to use this approach to get an unset default state
     internal bool? isReference;
