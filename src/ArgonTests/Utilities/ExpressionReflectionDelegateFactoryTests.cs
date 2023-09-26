@@ -39,8 +39,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Input"};
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input"]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
     }
@@ -52,8 +51,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Input", null};
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input", null]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
     }
@@ -65,8 +63,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Input", true, null};
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input", true, null]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
         XUnitAssert.True(o.B1);

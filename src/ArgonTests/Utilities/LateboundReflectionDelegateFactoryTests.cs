@@ -44,8 +44,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Value"};
-        var o = (InTestClass) creator(args);
+        var o = (InTestClass) creator(["Value"]);
         Assert.NotNull(o);
         Assert.Equal("Value", o.Value);
     }
