@@ -104,7 +104,6 @@ public class StringEnumConverterTests : TestFixtureBase
         Bar = 1
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
     public enum AllowIntegerValuesEnum
     {
         Foo = 0,
@@ -200,7 +199,8 @@ public class StringEnumConverterTests : TestFixtureBase
         var e = JsonConvert.DeserializeObject<AllowIntegerValuesEnum>(
             """
             "9"
-            """);
+            """,
+            new StringEnumConverter(new CamelCaseNamingStrategy()));
         Assert.Equal(9, (int) e);
     }
 
