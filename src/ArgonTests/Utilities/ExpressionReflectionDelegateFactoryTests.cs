@@ -26,8 +26,7 @@ public class ExpressionReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = ExpressionReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Value", true};
-        var o = (InTestClass) creator(args);
+        var o = (InTestClass) creator(["Value", true]);
         Assert.NotNull(o);
         Assert.Equal("Value", o.Value);
         XUnitAssert.True(o.B1);
