@@ -84,7 +84,6 @@ public class StringEnumConverterTests : TestFixtureBase
         public NegativeFlagsEnum Value2 { get; set; }
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
     public enum CamelCaseEnumNew
     {
         This,
@@ -92,7 +91,6 @@ public class StringEnumConverterTests : TestFixtureBase
         CamelCase
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
     public enum SnakeCaseEnumNew
     {
         This,
@@ -146,7 +144,7 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void Serialize_CamelCaseFromAttribute()
     {
-        var json = JsonConvert.SerializeObject(CamelCaseEnumNew.CamelCase);
+        var json = JsonConvert.SerializeObject(CamelCaseEnumNew.CamelCase, new StringEnumConverter(new CamelCaseNamingStrategy()));
         Assert.Equal(
             """
             "camelCase"
@@ -160,14 +158,17 @@ public class StringEnumConverterTests : TestFixtureBase
         var e = JsonConvert.DeserializeObject<CamelCaseEnumNew>(
             """
             "camelCase"
-            """);
+            """,
+            new StringEnumConverter(new CamelCaseNamingStrategy()));
         Assert.Equal(CamelCaseEnumNew.CamelCase, e);
     }
 
     [Fact]
     public void Serialize_SnakeCaseFromAttribute()
     {
-        var json = JsonConvert.SerializeObject(SnakeCaseEnumNew.SnakeCase);
+        var json = JsonConvert.SerializeObject(
+            SnakeCaseEnumNew.SnakeCase,
+            new StringEnumConverter(new SnakeCaseNamingStrategy()));
         Assert.Equal(
             """
             "snake_case"
@@ -181,7 +182,8 @@ public class StringEnumConverterTests : TestFixtureBase
         var e = JsonConvert.DeserializeObject<SnakeCaseEnumNew>(
             """
             "snake_case"
-            """);
+            """,
+            new StringEnumConverter(new SnakeCaseNamingStrategy()));
         Assert.Equal(SnakeCaseEnumNew.SnakeCase, e);
     }
 
