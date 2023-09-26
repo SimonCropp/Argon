@@ -288,12 +288,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void CaseInsensitiveRequiredPropertyConstructorCreation()
     {
-        var foo1 = new FooRequired(new[]
-        {
-            "A",
-            "B",
-            "C"
-        });
+        var foo1 = new FooRequired(["A", "B", "C"]);
         var json = JsonConvert.SerializeObject(foo1);
 
         XUnitAssert.AreEqualNormalized("""{"Bars":["A","B","C"]}""", json);
@@ -347,10 +342,12 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void Serialize_Required_DisallowedNull_NullValueHandlingIgnore()
     {
-        var json = JsonConvert.SerializeObject(new Binding_DisallowNull(), new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore
-        });
+        var json = JsonConvert.SerializeObject(
+            new Binding_DisallowNull(),
+            new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
         Assert.Equal("{}", json);
     }
 
@@ -2916,7 +2913,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(new("30c39065-0f31-de11-9442-001e3786a8ec"), n.Uid);
         Assert.Equal(8, n.FidOrder.Count);
         Assert.Equal("id", n.FidOrder[0]);
-        Assert.Equal("titleId", n.FidOrder[n.FidOrder.Count - 1]);
+        Assert.Equal("titleId", n.FidOrder[^1]);
     }
 
     [Fact]
@@ -6735,10 +6732,13 @@ public class JsonSerializerTest : TestFixtureBase
             NullableFloat = null
         };
 
-        var json = JsonConvert.SerializeObject(floats, Formatting.Indented, new JsonSerializerSettings
-        {
-            FloatFormatHandling = FloatFormatHandling.DefaultValue
-        });
+        var json = JsonConvert.SerializeObject(
+            floats,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                FloatFormatHandling = FloatFormatHandling.DefaultValue
+            });
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -6772,15 +6772,18 @@ public class JsonSerializerTest : TestFixtureBase
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter);
 
-        var serializer = JsonSerializer.Create(new()
-        {
-            EscapeHandling = EscapeHandling.EscapeHtml,
-            Formatting = Formatting.Indented
-        });
-        serializer.Serialize(jsonWriter, new
-        {
-            html = "<html></html>"
-        });
+        var serializer = JsonSerializer.Create(
+            new()
+            {
+                EscapeHandling = EscapeHandling.EscapeHtml,
+                Formatting = Formatting.Indented
+            });
+        serializer.Serialize(
+            jsonWriter,
+            new
+            {
+                html = "<html></html>"
+            });
 
         Assert.Equal(EscapeHandling.Default, jsonWriter.EscapeHandling);
 
@@ -6949,12 +6952,14 @@ public class JsonSerializerTest : TestFixtureBase
             jane
         };
 
-        var json = JsonConvert.SerializeObject(people, new JsonSerializerSettings
-        {
-            ReferenceResolverProvider = () => new IdReferenceResolver(),
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Formatting = Formatting.Indented
-        });
+        var json = JsonConvert.SerializeObject(
+            people,
+            new JsonSerializerSettings
+            {
+                ReferenceResolverProvider = () => new IdReferenceResolver(),
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                Formatting = Formatting.Indented
+            });
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -7002,12 +7007,14 @@ public class JsonSerializerTest : TestFixtureBase
             jane
         };
 
-        var json = JsonConvert.SerializeObject(people, new JsonSerializerSettings
-        {
-            ReferenceResolverProvider = null,
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Formatting = Formatting.Indented
-        });
+        var json = JsonConvert.SerializeObject(
+            people,
+            new JsonSerializerSettings
+            {
+                ReferenceResolverProvider = null,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                Formatting = Formatting.Indented
+            });
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -7090,12 +7097,14 @@ public class JsonSerializerTest : TestFixtureBase
                    ]
                    """;
 
-        var people = JsonConvert.DeserializeObject<IList<PersonReference>>(json, new JsonSerializerSettings
-        {
-            ReferenceResolverProvider = () => new IdReferenceResolver(),
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Formatting = Formatting.Indented
-        });
+        var people = JsonConvert.DeserializeObject<IList<PersonReference>>(
+            json,
+            new JsonSerializerSettings
+            {
+                ReferenceResolverProvider = () => new IdReferenceResolver(),
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                Formatting = Formatting.Indented
+            });
 
         Assert.Equal(2, people.Count);
 
@@ -7128,12 +7137,14 @@ public class JsonSerializerTest : TestFixtureBase
                    ]
                    """;
 
-        var people = JsonConvert.DeserializeObject<IList<PersonReference>>(json, new JsonSerializerSettings
-        {
-            ReferenceResolverProvider = () => new IdReferenceResolver(),
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            Formatting = Formatting.Indented
-        });
+        var people = JsonConvert.DeserializeObject<IList<PersonReference>>(
+            json,
+            new JsonSerializerSettings
+            {
+                ReferenceResolverProvider = () => new IdReferenceResolver(),
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                Formatting = Formatting.Indented
+            });
 
         Assert.Equal(2, people.Count);
 
@@ -7382,47 +7393,48 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void MailMessageConverterTest()
     {
-        const string JsonMessage = """
-                                   {
-                                     "From": {
-                                       "Address": "askywalker@theEmpire.gov",
-                                       "DisplayName": "Darth Vader"
-                                     },
-                                     "Sender": null,
-                                     "ReplyTo": null,
-                                     "ReplyToList": [],
-                                     "To": [
-                                       {
-                                         "Address": "lskywalker@theRebellion.org",
-                                         "DisplayName": "Luke Skywalker"
-                                       }
-                                     ],
-                                     "Bcc": [],
-                                     "CC": [
-                                       {
-                                         "Address": "lorgana@alderaan.gov",
-                                         "DisplayName": "Princess Leia"
-                                       }
-                                     ],
-                                     "Priority": 0,
-                                     "DeliveryNotificationOptions": 0,
-                                     "Subject": "Family tree",
-                                     "SubjectEncoding": null,
-                                     "Headers": [],
-                                     "HeadersEncoding": null,
-                                     "Body": "<strong>I am your father!</strong>",
-                                     "BodyEncoding": "US-ASCII",
-                                     "BodyTransferEncoding": -1,
-                                     "IsBodyHtml": true,
-                                     "Attachments": [
-                                       {
-                                         "FileName": "skywalker family tree.jpg",
-                                         "ContentBase64": "AQIDBAU="
-                                       }
-                                     ],
-                                     "AlternateViews": []
-                                   }
-                                   """;
+        const string JsonMessage =
+            """
+            {
+              "From": {
+                "Address": "askywalker@theEmpire.gov",
+                "DisplayName": "Darth Vader"
+              },
+              "Sender": null,
+              "ReplyTo": null,
+              "ReplyToList": [],
+              "To": [
+                {
+                  "Address": "lskywalker@theRebellion.org",
+                  "DisplayName": "Luke Skywalker"
+                }
+              ],
+              "Bcc": [],
+              "CC": [
+                {
+                  "Address": "lorgana@alderaan.gov",
+                  "DisplayName": "Princess Leia"
+                }
+              ],
+              "Priority": 0,
+              "DeliveryNotificationOptions": 0,
+              "Subject": "Family tree",
+              "SubjectEncoding": null,
+              "Headers": [],
+              "HeadersEncoding": null,
+              "Body": "<strong>I am your father!</strong>",
+              "BodyEncoding": "US-ASCII",
+              "BodyTransferEncoding": -1,
+              "IsBodyHtml": true,
+              "Attachments": [
+                {
+                  "FileName": "skywalker family tree.jpg",
+                  "ContentBase64": "AQIDBAU="
+                }
+              ],
+              "AlternateViews": []
+            }
+            """;
 
         XUnitAssert.Throws<JsonSerializationException>(() =>
             {
@@ -7590,10 +7602,12 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = NestedJson.Build(150);
 
-        var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings
-        {
-            MaxDepth = null
-        });
+        var o = JsonConvert.DeserializeObject<JObject>(
+            json,
+            new JsonSerializerSettings
+            {
+                MaxDepth = null
+            });
         var depth = GetDepth(o);
 
         Assert.Equal(150, depth);
@@ -7604,10 +7618,12 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = NestedJson.Build(150);
 
-        var o = JsonConvert.DeserializeObject<JObject>(json, new JsonSerializerSettings
-        {
-            MaxDepth = int.MaxValue
-        });
+        var o = JsonConvert.DeserializeObject<JObject>(
+            json,
+            new JsonSerializerSettings
+            {
+                MaxDepth = int.MaxValue
+            });
         var depth = GetDepth(o);
 
         Assert.Equal(150, depth);
@@ -7631,7 +7647,10 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void ShallowCopy_CopyAllProperties()
     {
-        var propertyNames = typeof(JsonSerializerSettings).GetProperties().Select(property => property.Name).ToList();
+        var propertyNames = typeof(JsonSerializerSettings)
+            .GetProperties()
+            .Select(_ => _.Name)
+            .ToList();
 
         var settings = new JsonSerializerSettings();
 
