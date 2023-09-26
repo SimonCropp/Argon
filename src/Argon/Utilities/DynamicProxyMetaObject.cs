@@ -325,12 +325,12 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         //
         var fallbackResult = fallback(null);
 
-        var callArgs = new List<Expression>
-        {
+        Expression[] callArgs =
+            [
             Expression.Convert(Expression, typeof(T)),
-            Constant(binder)
-        };
-        callArgs.AddRange(args);
+            Constant(binder),
+            ..args
+            ];
 
         //
         // Build a new expression like:
