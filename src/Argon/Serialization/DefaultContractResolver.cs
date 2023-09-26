@@ -782,9 +782,7 @@ public class DefaultContractResolver : IContractResolver
 
         var propertyAttribute = JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(attributeProvider);
 
-        var propertyName = GetPropertyName(name, propertyAttribute, dataMemberAttribute);
-
-        property.PropertyName = propertyName;
+        property.PropertyName = GetPropertyName(name, propertyAttribute, dataMemberAttribute);
 
         property.UnderlyingName = name;
 
@@ -835,21 +833,9 @@ public class DefaultContractResolver : IContractResolver
 
         property.HasMemberAttribute = hasMemberAttribute;
 
-        var hasJsonIgnoreAttribute =
-            JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null;
+        var ignored = GetPropertyIgnored(attributeProvider, memberSerialization, hasMemberAttribute);
 
-        if (memberSerialization == MemberSerialization.OptIn)
-        {
-            // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
-            property.Ignored = hasJsonIgnoreAttribute || !hasMemberAttribute;
-        }
-        else
-        {
-            var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
-
-            // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
-            property.Ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
-        }
+        property.Ignored = ignored;
 
         // resolve converter for property
         // the class type might have a converter but the property converter takes precedence
@@ -863,6 +849,28 @@ public class DefaultContractResolver : IContractResolver
 
         allowNonPublicAccess = hasMemberAttribute ||
                                memberSerialization == MemberSerialization.Fields;
+    }
+
+    static bool GetPropertyIgnored(ICustomAttributeProvider attributeProvider, MemberSerialization memberSerialization, bool hasMemberAttribute)
+    {
+        var hasJsonIgnoreAttribute =
+            JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null;
+
+        bool ignored;
+        if (memberSerialization == MemberSerialization.OptIn)
+        {
+            // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
+            ignored = hasJsonIgnoreAttribute || !hasMemberAttribute;
+        }
+        else
+        {
+            var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
+
+            // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
+            ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
+        }
+
+        return ignored;
     }
 
     string GetPropertyName(string name, JsonPropertyAttribute? propertyAttribute, DataMemberAttribute? dataMemberAttribute)
