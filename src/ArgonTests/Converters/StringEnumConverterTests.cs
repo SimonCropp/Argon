@@ -98,7 +98,6 @@ public class StringEnumConverterTests : TestFixtureBase
         SnakeCase
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy), new object[0], false)]
     public enum NotAllowIntegerValuesEnum
     {
         Foo = 0,
@@ -181,15 +180,19 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void Deserialize_NotAllowIntegerValuesFromAttribute() =>
+    public void Deserialize_NotAllowIntegerValuesFromAttribute()
+    {
+        var converter = new StringEnumConverter(new CamelCaseNamingStrategy(), false);
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
                 JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(
                     """
                     "9"
-                    """);
+                    """,
+                    converter);
             });
+    }
 
     [Fact]
     public void Deserialize_AllowIntegerValuesAttribute()
