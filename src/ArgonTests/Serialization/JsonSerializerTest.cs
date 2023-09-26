@@ -6615,16 +6615,20 @@ public class JsonSerializerTest : TestFixtureBase
         var json = JsonConvert.SerializeObject(d);
         Assert.Equal("[1.1,\"NaN\",\"Infinity\"]", json);
 
-        json = JsonConvert.SerializeObject(d, new JsonSerializerSettings
-        {
-            FloatFormatHandling = FloatFormatHandling.Symbol
-        });
+        json = JsonConvert.SerializeObject(
+            d,
+            new JsonSerializerSettings
+            {
+                FloatFormatHandling = FloatFormatHandling.Symbol
+            });
         Assert.Equal("[1.1,NaN,Infinity]", json);
 
-        json = JsonConvert.SerializeObject(d, new JsonSerializerSettings
-        {
-            FloatFormatHandling = FloatFormatHandling.DefaultValue
-        });
+        json = JsonConvert.SerializeObject(
+            d,
+            new JsonSerializerSettings
+            {
+                FloatFormatHandling = FloatFormatHandling.DefaultValue
+            });
 
         Assert.Equal("[1.1,0.0,0.0]", json);
     }
