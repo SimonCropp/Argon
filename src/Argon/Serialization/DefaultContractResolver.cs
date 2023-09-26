@@ -802,7 +802,8 @@ public class DefaultContractResolver : IContractResolver
             {
                 property.required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
                 property.Order = dataMemberAttribute.Order == -1 ? null : dataMemberAttribute.Order;
-                property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? DefaultValueHandling.Ignore : null;
+                property.DefaultValueHandling = dataMemberAttribute.EmitDefaultValue ? null : DefaultValueHandling.Ignore;
+
                 hasMemberAttribute = true;
             }
         }
