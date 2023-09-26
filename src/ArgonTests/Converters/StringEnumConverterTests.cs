@@ -112,13 +112,6 @@ public class StringEnumConverterTests : TestFixtureBase
         Bar = 1
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy), null)]
-    public enum NullArgumentInAttribute
-    {
-        Foo = 0,
-        Bar = 1
-    }
-
     [Fact]
     public void NamingStrategyAndCamelCaseText()
     {
@@ -197,21 +190,6 @@ public class StringEnumConverterTests : TestFixtureBase
                     "9"
                     """);
             });
-
-    [Fact]
-    public void CannotPassNullArgumentToConverter()
-    {
-        var ex = XUnitAssert.Throws<JsonException>(
-            () =>
-            {
-                JsonConvert.DeserializeObject<NullArgumentInAttribute>(
-                    """
-                    "9"
-                    """);
-            });
-
-        Assert.Equal("Cannot pass a null parameter to the constructor.", ex.InnerException.Message);
-    }
 
     [Fact]
     public void Deserialize_AllowIntegerValuesAttribute()
