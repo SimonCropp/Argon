@@ -285,12 +285,13 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         //
         var result = Expression.Parameter(typeof(object), null);
 
-        var callArgs = new List<Expression>
-        {
+        Expression[] callArgs =
+            [
             Expression.Convert(Expression, typeof(T)),
-            Constant(binder)
-        };
-        callArgs.AddRange(args);
+            Constant(binder),
+            ..args
+            ];
+
         callArgs[^1] = Expression.Assign(result, callArgs[^1]);
 
         return new(
