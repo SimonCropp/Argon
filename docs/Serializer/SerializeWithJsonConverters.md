@@ -21,11 +21,11 @@ var jsonWithConverter = JsonConvert.SerializeObject(stringComparisons, new Strin
 Console.WriteLine(jsonWithConverter);
 // ["CurrentCulture","Ordinal"]
 
-var newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>(
+var newStringComparsons = JsonConvert.DeserializeObject<List<StringComparison>>(
     jsonWithConverter,
     new StringEnumConverter());
 
-Console.WriteLine(string.Join(", ", newStringComparsions.Select(_ => _.ToString()).ToArray()));
+Console.WriteLine(string.Join(", ", newStringComparsons.Select(_ => _.ToString()).ToArray()));
 // CurrentCulture, Ordinal
 ```
 <sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeWithJsonConverters.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonconvertersusage' title='Start of snippet'>anchor</a></sup>

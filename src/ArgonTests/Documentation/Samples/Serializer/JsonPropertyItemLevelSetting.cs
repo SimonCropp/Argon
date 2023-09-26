@@ -40,11 +40,7 @@ public class JsonPropertyItemLevelSetting : TestFixtureBase
         var business = new Business
         {
             Name = "Acme Ltd.",
-            Employees = new List<Employee>
-            {
-                manager,
-                worker
-            }
+            Employees = [manager, worker]
         };
 
         var json = JsonConvert.SerializeObject(business, Formatting.Indented);

@@ -48,11 +48,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[]
-        {
-            "Input"
-        };
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input"]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
     }
@@ -64,12 +60,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[]
-        {
-            "Input",
-            false
-        };
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input", false]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
         XUnitAssert.True(o.B1);
@@ -82,13 +73,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[]
-        {
-            "Input",
-            true,
-            null
-        };
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input", true, null]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
         XUnitAssert.True(o.B1);

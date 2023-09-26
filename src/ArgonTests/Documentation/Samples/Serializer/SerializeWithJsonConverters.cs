@@ -25,15 +25,15 @@ public class SerializeWithJsonConverters : TestFixtureBase
         Console.WriteLine(jsonWithConverter);
         // ["CurrentCulture","Ordinal"]
 
-        var newStringComparsions = JsonConvert.DeserializeObject<List<StringComparison>>(
+        var newStringComparsons = JsonConvert.DeserializeObject<List<StringComparison>>(
             jsonWithConverter,
             new StringEnumConverter());
 
-        Console.WriteLine(string.Join(", ", newStringComparsions.Select(_ => _.ToString()).ToArray()));
+        Console.WriteLine(string.Join(", ", newStringComparsons.Select(_ => _.ToString()).ToArray()));
         // CurrentCulture, Ordinal
 
         #endregion
 
-        Assert.Equal("CurrentCulture, Ordinal", string.Join(", ", newStringComparsions.Select(_ => _.ToString()).ToArray()));
+        Assert.Equal("CurrentCulture, Ordinal", string.Join(", ", newStringComparsons.Select(_ => _.ToString()).ToArray()));
     }
 }

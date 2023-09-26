@@ -18,13 +18,8 @@ public class Issue1569 : TestFixtureBase
         }
     }
 
-    public class AsyncOnlyStream : Stream
+    public class AsyncOnlyStream(Stream innerStream) : Stream
     {
-        readonly Stream innerStream;
-
-        public AsyncOnlyStream(Stream innerStream) =>
-            this.innerStream = innerStream;
-
         public override void Flush() =>
             throw new NotSupportedException();
 

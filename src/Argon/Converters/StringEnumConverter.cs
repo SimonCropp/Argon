@@ -100,9 +100,10 @@ public class StringEnumConverter : JsonConverter
     /// </summary>
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {
+        var nullable = type.IsNullableType();
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!type.IsNullableType())
+            if (!nullable)
             {
                 throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
             }
@@ -110,7 +111,7 @@ public class StringEnumConverter : JsonConverter
             return null;
         }
 
-        var isNullable = type.IsNullableType();
+        var isNullable = nullable;
         var t = isNullable ? Nullable.GetUnderlyingType(type)! : type;
 
         try

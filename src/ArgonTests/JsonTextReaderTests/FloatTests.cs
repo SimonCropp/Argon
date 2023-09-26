@@ -51,7 +51,7 @@ public class FloatTests : TestFixtureBase
     }
 
     [Fact]
-    public void Float_NaNAndInifinity_ReadAsDouble()
+    public void Float_NaNAndInfinity_ReadAsDouble()
     {
         const string testJson = """
                                 [
@@ -82,7 +82,7 @@ public class FloatTests : TestFixtureBase
     }
 
     [Fact]
-    public void Float_NaNAndInifinity_ReadAsString()
+    public void Float_NaNAndInfinity_ReadAsString()
     {
         const string testJson = """
                                 [

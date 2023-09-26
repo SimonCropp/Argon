@@ -24,28 +24,40 @@ public class DemoTests : TestFixtureBase
             Blue = 0
         };
 
-        var json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        });
+        var json = JsonConvert.SerializeObject(
+            red,
+            new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented
+            });
         // {
         //   "Red": 255,
         //   "Green": 0,
         //   "Blue": 0
         // }
 
-        json = JsonConvert.SerializeObject(red, new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented,
-            Converters = {new HtmlColorConverter()}
-        });
+        json = JsonConvert.SerializeObject(
+            red,
+            new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                Converters =
+                {
+                    new HtmlColorConverter()
+                }
+            });
         // "#FF0000"
 
-        var r2 = JsonConvert.DeserializeObject<HtmlColor>(json, new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented,
-            Converters = {new HtmlColorConverter()}
-        });
+        var r2 = JsonConvert.DeserializeObject<HtmlColor>(
+            json,
+            new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                Converters =
+                {
+                    new HtmlColorConverter()
+                }
+            });
         Assert.Equal(255, r2.Red);
         Assert.Equal(0, r2.Green);
         Assert.Equal(0, r2.Blue);
@@ -90,8 +102,11 @@ public class DemoTests : TestFixtureBase
         //    throw new NotImplementedException();
         //}
 
-        public override object ReadJson(JsonReader reader, Type type,
-            object existingValue, JsonSerializer serializer)
+        public override object ReadJson(
+            JsonReader reader,
+            Type type,
+            object existingValue,
+            JsonSerializer serializer)
         {
             // get hex string
             var hexString = (string) reader.Value;
@@ -127,8 +142,12 @@ public class DemoTests : TestFixtureBase
 
         var dailyRegistrations = new Dictionary<DateTime, int>
         {
-            {new DateTime(2014, 6, 1), 23},
-            {new DateTime(2014, 6, 2), 50}
+            {
+                new DateTime(2014, 6, 1), 23
+            },
+            {
+                new DateTime(2014, 6, 2), 50
+            }
         };
 
         var regJson = JsonConvert.SerializeObject(dailyRegistrations, Formatting.Indented);
@@ -137,7 +156,11 @@ public class DemoTests : TestFixtureBase
         //   "2014-06-02T00:00:00": 50
         // }
 
-        var c = new City {Name = "Oslo", Population = 650000};
+        var c = new City
+        {
+            Name = "Oslo",
+            Population = 650000
+        };
 
         var cityJson = JsonConvert.SerializeObject(c, Formatting.Indented);
         // {
@@ -149,16 +172,18 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializationBasics()
     {
-        var s = new Session
+        var session = new Session
         {
             Name = "Serialize All The Things",
             Date = new(2014, 6, 4, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        var j = JsonConvert.SerializeObject(s, new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        });
+        var j = JsonConvert.SerializeObject(
+            session,
+            new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented
+            });
         // {
         //   "Name": "Serialize All The Things",
         //   "Date": new Date(1401796800000)
@@ -178,11 +203,11 @@ public class DemoTests : TestFixtureBase
     public void DeserializationBasics1()
     {
         var j = """
-            {
-              Name: 'Serialize All The Things',
-              Date: '2014-06-03'
-            }
-            """;
+                {
+                  Name: 'Serialize All The Things',
+                  Date: '2014-06-03'
+                }
+                """;
 
         var s = JsonConvert.DeserializeObject<Session>(j, new JsonSerializerSettings());
         // Name = Serialize All The Things
@@ -210,12 +235,28 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializeReferencesByValue()
     {
-        var arnie = new Employee {Name = "Arnie Admin"};
-        var mike = new Manager {Name = "Mike Manager"};
-        var susan = new Manager {Name = "Susan Supervisor"};
+        var arnie = new Employee
+        {
+            Name = "Arnie Admin"
+        };
+        var mike = new Manager
+        {
+            Name = "Mike Manager"
+        };
+        var susan = new Manager
+        {
+            Name = "Susan Supervisor"
+        };
 
-        mike.Reportees = new[] {arnie, susan};
-        susan.Reportees = new[] {arnie};
+        mike.Reportees = new[]
+        {
+            arnie,
+            susan
+        };
+        susan.Reportees = new[]
+        {
+            arnie
+        };
 
         var json = JsonConvert.SerializeObject(mike, Formatting.Indented);
         // {
@@ -260,19 +301,37 @@ public class DemoTests : TestFixtureBase
     [Fact]
     public void SerializeReferencesWithMetadata()
     {
-        var arnie = new Employee {Name = "Arnie Admin"};
-        var mike = new Manager {Name = "Mike Manager"};
-        var susan = new Manager {Name = "Susan Supervisor"};
-
-        mike.Reportees = new[] {arnie, susan};
-        susan.Reportees = new[] {arnie};
-
-        var json = JsonConvert.SerializeObject(mike, new JsonSerializerSettings
+        var arnie = new Employee
         {
-            Formatting = Formatting.Indented,
-            TypeNameHandling = TypeNameHandling.Objects,
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-        });
+            Name = "Arnie Admin"
+        };
+        var mike = new Manager
+        {
+            Name = "Mike Manager"
+        };
+        var susan = new Manager
+        {
+            Name = "Susan Supervisor"
+        };
+
+        mike.Reportees = new[]
+        {
+            arnie,
+            susan
+        };
+        susan.Reportees = new[]
+        {
+            arnie
+        };
+
+        var json = JsonConvert.SerializeObject(
+            mike,
+            new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.Objects,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
         // {
         //   "$id": "1",
         //   "$type": "YourNamespace.Manager, YourAssembly",
@@ -328,35 +387,37 @@ public class DemoTests : TestFixtureBase
     public void RoundtripTypesAndReferences()
     {
         var json = """
-            {
-              '$id': '1',
-              '$type': 'DemoTests+Manager, ArgonTests',
-              'Reportees': [
-                {
-                  '$id': '2',
-                  '$type': 'DemoTests+Employee, ArgonTests',
-                  'Name': 'Arnie Admin'
-                },
-                {
-                  '$id': '3',
-                  '$type': 'DemoTests+Manager, ArgonTests',
-                  'Reportees': [
-                    {
-                      '$ref': '2'
-                    }
-                  ],
-                  'Name': 'Susan Supervisor'
-                }
-              ],
-              'Name': 'Mike Manager'
-            }
-            """;
+                   {
+                     '$id': '1',
+                     '$type': 'DemoTests+Manager, ArgonTests',
+                     'Reportees': [
+                       {
+                         '$id': '2',
+                         '$type': 'DemoTests+Employee, ArgonTests',
+                         'Name': 'Arnie Admin'
+                       },
+                       {
+                         '$id': '3',
+                         '$type': 'DemoTests+Manager, ArgonTests',
+                         'Reportees': [
+                           {
+                             '$ref': '2'
+                           }
+                         ],
+                         'Name': 'Susan Supervisor'
+                       }
+                     ],
+                     'Name': 'Mike Manager'
+                   }
+                   """;
 
-        var e = JsonConvert.DeserializeObject<Employee>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Objects,
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-        });
+        var e = JsonConvert.DeserializeObject<Employee>(
+            json,
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            });
         // Name = Mike Manager
         // Reportees = Arnie Admin, Susan Supervisor
 
@@ -381,17 +442,21 @@ public class DemoTests : TestFixtureBase
     {
         public string StreetAddress { get; set; }
 
-        [JsonIgnore] public int Bedrooms { get; set; }
+        [JsonIgnore]
+        public int Bedrooms { get; set; }
 
-        [JsonIgnore] public decimal FloorArea { get; set; }
+        [JsonIgnore]
+        public decimal FloorArea { get; set; }
 
-        [JsonIgnore] public DateTime BuildDate { get; set; }
+        [JsonIgnore]
+        public DateTime BuildDate { get; set; }
     }
 
     [JsonObject(MemberSerialization.OptIn)]
     public class House3
     {
-        [JsonProperty] public string StreetAddress { get; set; }
+        [JsonProperty]
+        public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
@@ -401,7 +466,8 @@ public class DemoTests : TestFixtureBase
     [JsonObject(MemberSerialization.OptIn)]
     public class House2
     {
-        [JsonProperty("address")] public string StreetAddress { get; set; }
+        [JsonProperty("address")]
+        public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
@@ -411,23 +477,27 @@ public class DemoTests : TestFixtureBase
     [JsonObject(MemberSerialization.OptIn)]
     public class House4
     {
-        [JsonProperty("address", Order = 2)] public string StreetAddress { get; set; }
+        [JsonProperty("address", Order = 2)]
+        public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
 
-        [JsonProperty("buildDate", Order = 1)] public DateTime BuildDate { get; set; }
+        [JsonProperty("buildDate", Order = 1)]
+        public DateTime BuildDate { get; set; }
     }
 
     [JsonObject(MemberSerialization.OptIn)]
     public class House5
     {
-        [JsonProperty("address", Order = 2)] public string StreetAddress { get; set; }
+        [JsonProperty("address", Order = 2)]
+        public string StreetAddress { get; set; }
 
         public int Bedrooms { get; set; }
         public decimal FloorArea { get; set; }
 
-        [JsonProperty("buildDate", Order = 1)] public DateTime BuildDate { get; set; }
+        [JsonProperty("buildDate", Order = 1)]
+        public DateTime BuildDate { get; set; }
     }
 
     [Fact]
@@ -605,7 +675,8 @@ public class DemoTests : TestFixtureBase
         JArray largeJson;
 
         // read asynchronously from a file
-        using (TextReader textReader = new StreamReader(new FileStream("large.json", FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true)))
+        using (TextReader textReader = new StreamReader(
+                   new FileStream("large.json", FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true)))
         {
             largeJson = await JArray.LoadAsync(new JsonTextReader(textReader));
         }
@@ -614,7 +685,8 @@ public class DemoTests : TestFixtureBase
         user["isActive"] = false;
 
         // write asynchronously to a file
-        using (TextWriter textWriter = new StreamWriter(new FileStream("large.json", FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true)))
+        using (TextWriter textWriter = new StreamWriter(
+                   new FileStream("large.json", FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true)))
         {
             await largeJson.WriteToAsync(new JsonTextWriter(textWriter));
         }

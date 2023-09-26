@@ -30,14 +30,14 @@ public class Stockholder
 var stockholder = new Stockholder
 {
     FullName = "Steve Stockholder",
-    Businesses = new List<Business>
-    {
+    Businesses =
+        [
         new Hotel
         {
             Name = "Hudson Hotel",
             Stars = 4
         }
-    }
+        ]
 };
 
 var jsonTypeNameAll = JsonConvert.SerializeObject(stockholder, Formatting.Indented, new JsonSerializerSettings

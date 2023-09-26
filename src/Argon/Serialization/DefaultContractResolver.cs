@@ -37,8 +37,7 @@ public class DefaultContractResolver : IContractResolver
     public NamingStrategy? NamingStrategy { get; set; }
 
     public static List<JsonConverter> Converters { get; } =
-        new()
-        {
+        [
             new StringBuilderConverter(),
             new ExpandoObjectConverter(),
             new KeyValuePairConverter(),
@@ -50,7 +49,7 @@ public class DefaultContractResolver : IContractResolver
             new TimeZoneInfoConverter(),
             new VersionConverter(),
             new StringWriterConverter()
-        };
+        ];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultContractResolver" /> class.
@@ -111,7 +110,8 @@ public class DefaultContractResolver : IContractResolver
         // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
         foreach (var member in type.GetFieldsAndProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
         {
-            if (!(member is not PropertyInfo p || !p.IsIndexedProperty()))
+            if (!(member is not PropertyInfo property ||
+                  !property.IsIndexedProperty()))
             {
                 continue;
             }
@@ -128,7 +128,7 @@ public class DefaultContractResolver : IContractResolver
         // MemberBase is problematic to serialize. Large, self referencing instances, etc
         if (typeof(Exception).IsAssignableFrom(type))
         {
-            return serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal));
+            return serializableMembers.Where(_ => !string.Equals(_.Name, "TargetSite", StringComparison.Ordinal));
         }
 
         return serializableMembers;
@@ -137,7 +137,8 @@ public class DefaultContractResolver : IContractResolver
     bool ShouldSerialize(MemberInfo member, List<MemberInfo> defaultMembers, DataContractAttribute? dataContractAttribute)
     {
         // exclude members that are compiler generated if set
-        if (!SerializeCompilerGeneratedMembers && member.IsDefined(typeof(CompilerGeneratedAttribute), true))
+        if (!SerializeCompilerGeneratedMembers &&
+            member.IsDefined(typeof(CompilerGeneratedAttribute), true))
         {
             return false;
         }
@@ -160,7 +161,8 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 
-        if (dataContractAttribute != null && member.GetAttribute<DataMemberAttribute>() != null)
+        if (dataContractAttribute != null &&
+            member.GetAttribute<DataMemberAttribute>() != null)
         {
             return true;
         }
@@ -180,18 +182,12 @@ public class DefaultContractResolver : IContractResolver
         contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType);
         contract.Properties.AddRange(CreateProperties(contract.NonNullableUnderlyingType, contract.MemberSerialization));
 
-        DictionaryKeyResolver? extensionDataNameResolver = null;
-
-        var attribute = TypeAttributeCache.Get(contract.NonNullableUnderlyingType).Object;
+        var attribute = AttributeCache<JsonObjectAttribute>.GetAttribute(contract.NonNullableUnderlyingType);
         if (attribute != null)
         {
             contract.ItemRequired = attribute.itemRequired;
             contract.ItemNullValueHandling = attribute.itemNullValueHandling;
         }
-
-        extensionDataNameResolver ??= ResolveExtensionDataName;
-
-        contract.ExtensionDataNameResolver = extensionDataNameResolver;
 
         if (contract.IsInstantiable)
         {
@@ -230,202 +226,7 @@ public class DefaultContractResolver : IContractResolver
             }
         }
 
-        var extensionDataMember = GetExtensionDataMemberForType(contract.NonNullableUnderlyingType);
-        if (extensionDataMember != null)
-        {
-            SetExtensionDataDelegates(contract, extensionDataMember);
-        }
-
         return contract;
-    }
-
-    static MemberInfo? GetExtensionDataMemberForType(Type type)
-    {
-        const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-        var current = type;
-        while (current != null && current != typeof(object))
-        {
-            foreach (var field in current.GetFields(flags))
-            {
-                if (IsExtensionDataMember(field))
-                {
-                    return field;
-                }
-            }
-
-            foreach (var property in current.GetProperties(flags))
-            {
-                if (IsExtensionDataMember(property))
-                {
-                    return property;
-                }
-            }
-
-            current = current.BaseType;
-        }
-
-        return null;
-    }
-
-    static bool IsExtensionDataMember(MemberInfo member)
-    {
-        // last instance of attribute wins on type if there are multiple
-        if (!member.IsDefined(typeof(JsonExtensionDataAttribute), false))
-        {
-            return false;
-        }
-
-        if (!member.CanReadMemberValue(true))
-        {
-            throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(member.DeclaringType!)}'. Member '{member.Name}' must have a getter.");
-        }
-
-        var memberType = member.GetMemberUnderlyingType();
-
-        if (memberType.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
-        {
-            var genericArguments = dictionaryType.GetGenericArguments();
-            var keyType = genericArguments[0];
-            var valueType = genericArguments[1];
-
-            if (keyType.IsAssignableFrom(typeof(string)) &&
-                valueType.IsAssignableFrom(typeof(JToken)))
-            {
-                return true;
-            }
-        }
-
-        throw new JsonException($"Invalid extension data attribute on '{GetClrTypeFullName(member.DeclaringType!)}'. Member '{member.Name}' type must implement IDictionary<string, JToken>.");
-    }
-
-    static void SetExtensionDataDelegates(JsonObjectContract contract, MemberInfo member)
-    {
-        var extensionDataAttribute = member.GetCustomAttribute<JsonExtensionDataAttribute>(true);
-        if (extensionDataAttribute == null)
-        {
-            return;
-        }
-
-        var type = member.GetMemberUnderlyingType();
-
-        if (!type.ImplementsGenericDefinition(typeof(IDictionary<,>), out var dictionaryType))
-        {
-            throw new JsonSerializationException($"Cannot use '{member.Name}' for extension data. It must be a IDictionary<,>.");
-        }
-
-        var keyType = dictionaryType.GetGenericArguments()[0];
-        var valueType = dictionaryType.GetGenericArguments()[1];
-
-        var getExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(member);
-
-        if (extensionDataAttribute.ReadData)
-        {
-            Type createdType;
-
-            // change type to a class if it is the base interface so it can be instantiated if needed
-            if (ReflectionUtils.IsGenericDefinition(type, typeof(IDictionary<,>)))
-            {
-                createdType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
-            }
-            else
-            {
-                createdType = type;
-            }
-
-            var setExtensionDataDictionary = BuildSetExtensionDataDictionary(member);
-            var createExtensionDataDictionary = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
-            var flags = BindingFlags.Public | BindingFlags.Instance;
-            var setMethod = type.GetProperty(
-                "Item",
-                flags, null, valueType,
-                new[]
-                {
-                    keyType
-                },
-                null)?.SetMethod;
-
-            if (setMethod == null)
-            {
-                // Item is explicitly implemented and non-public
-                // get from dictionary interface
-                setMethod = dictionaryType.GetProperty(
-                    "Item",
-                    flags,
-                    null,
-                    valueType,
-                    new[]
-                    {
-                        keyType
-                    },
-                    null)?.SetMethod;
-            }
-
-            var setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod!);
-
-            contract.ExtensionDataSetter = (o, key, value) =>
-            {
-                var dictionary = getExtensionDataDictionary(o);
-                if (dictionary == null)
-                {
-                    if (setExtensionDataDictionary == null)
-                    {
-                        throw new JsonSerializationException($"Cannot set value onto extension data member '{member.Name}'. The extension data collection is null and it cannot be set.");
-                    }
-
-                    dictionary = createExtensionDataDictionary();
-                    setExtensionDataDictionary(o, dictionary);
-                }
-
-                setExtensionDataDictionaryValue(dictionary, key, value);
-            };
-        }
-
-        if (extensionDataAttribute.WriteData)
-        {
-            var enumerableWrapper = typeof(EnumerableDictionaryWrapper<,>).MakeGenericType(keyType, valueType);
-            var constructors = enumerableWrapper.GetConstructors()[0];
-            var createEnumerableWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
-
-            contract.ExtensionDataGetter = o =>
-            {
-                var dictionary = getExtensionDataDictionary(o);
-                if (dictionary == null)
-                {
-                    return null;
-                }
-
-                return (IEnumerable<KeyValuePair<object, object>>) createEnumerableWrapper(dictionary);
-            };
-        }
-
-        contract.ExtensionDataValueType = valueType;
-    }
-
-    static Action<object, object?>? BuildSetExtensionDataDictionary(MemberInfo member)
-    {
-        if (member.CanSetMemberValue(true, false))
-        {
-            return JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(member);
-        }
-
-        return null;
-    }
-
-    // leave as class instead of struct
-    // will be always return as an interface and boxed
-    class EnumerableDictionaryWrapper<TEnumeratorKey, TEnumeratorValue>(IEnumerable<KeyValuePair<TEnumeratorKey, TEnumeratorValue>> e)
-        : IEnumerable<KeyValuePair<object, object>>
-    {
-        public IEnumerator<KeyValuePair<object, object>> GetEnumerator()
-        {
-            foreach (var item in e)
-            {
-                yield return new(item.Key!, item.Value!);
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
     }
 
     static ConstructorInfo? GetAttributeConstructor(Type type)
@@ -542,7 +343,7 @@ public class DefaultContractResolver : IContractResolver
     /// Creates a <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.
     /// </summary>
     /// <param name="matchingMemberProperty">The matching member property.</param>
-    /// <param name="parameterInfo">The constructor parameter.</param>
+    /// <param name="parameter">The constructor parameter.</param>
     /// <returns>A created <see cref="JsonProperty" /> for the given <see cref="ParameterInfo" />.</returns>
     protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty? matchingMemberProperty, ParameterInfo parameter)
     {
@@ -590,7 +391,7 @@ public class DefaultContractResolver : IContractResolver
     void InitializeContract(JsonContract contract)
     {
         var nonNullableUnderlyingType = contract.NonNullableUnderlyingType;
-        var containerAttribute =  TypeAttributeCache.Get(nonNullableUnderlyingType).Container;
+        var containerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(nonNullableUnderlyingType);
         if (containerAttribute == null)
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(nonNullableUnderlyingType);
@@ -773,7 +574,7 @@ public class DefaultContractResolver : IContractResolver
         }
 
         t = t.EnsureNotNullableType();
-        var containerAttribute = TypeAttributeCache.Get(t).Container;
+        var containerAttribute = AttributeCache<JsonContainerAttribute>.GetAttribute(t);
 
         if (containerAttribute is JsonObjectAttribute)
         {
@@ -979,13 +780,101 @@ public class DefaultContractResolver : IContractResolver
             dataMemberAttribute = JsonTypeReflector.GetDataMemberAttribute(member);
         }
 
-        var info = MemberAttributeCache.Get(attributeProvider);
+        var propertyAttribute = JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(attributeProvider);
 
+        property.PropertyName = GetPropertyName(name, propertyAttribute, dataMemberAttribute);
+
+        property.UnderlyingName = name;
+
+        var hasMemberAttribute = false;
+        if (propertyAttribute == null)
+        {
+            property.NullValueHandling = null;
+            property.ReferenceLoopHandling = null;
+            property.ObjectCreationHandling = null;
+            property.TypeNameHandling = null;
+            property.IsReference = null;
+            property.ItemIsReference = null;
+            property.ItemConverter = null;
+            property.ItemReferenceLoopHandling = null;
+            property.ItemTypeNameHandling = null;
+            if (dataMemberAttribute != null)
+            {
+                property.required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
+                property.Order = dataMemberAttribute.Order == -1 ? null : dataMemberAttribute.Order;
+                property.DefaultValueHandling = dataMemberAttribute.EmitDefaultValue ? null : DefaultValueHandling.Ignore;
+
+                hasMemberAttribute = true;
+            }
+        }
+        else
+        {
+            property.required = propertyAttribute.required;
+            property.Order = propertyAttribute.order;
+            property.DefaultValueHandling = propertyAttribute.defaultValueHandling;
+            hasMemberAttribute = true;
+            property.NullValueHandling = propertyAttribute.nullValueHandling;
+            property.ReferenceLoopHandling = propertyAttribute.referenceLoopHandling;
+            property.ObjectCreationHandling = propertyAttribute.objectCreationHandling;
+            property.TypeNameHandling = propertyAttribute.typeNameHandling;
+            property.IsReference = propertyAttribute.isReference;
+
+            property.ItemIsReference = propertyAttribute.itemIsReference;
+            property.ItemConverter = propertyAttribute.ItemConverterType == null ? null : JsonTypeReflector.CreateJsonConverterInstance(propertyAttribute.ItemConverterType, propertyAttribute.ItemConverterParameters);
+            property.ItemReferenceLoopHandling = propertyAttribute.itemReferenceLoopHandling;
+            property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
+        }
+
+        var requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
+        if (requiredAttribute != null)
+        {
+            property.required = Required.Always;
+            hasMemberAttribute = true;
+        }
+
+        property.HasMemberAttribute = hasMemberAttribute;
+
+        var ignored = GetPropertyIgnored(attributeProvider, memberSerialization, hasMemberAttribute);
+
+        property.Ignored = ignored;
+
+        // resolve converter for property
+        // the class type might have a converter but the property converter takes precedence
+        property.Converter = JsonTypeReflector.GetJsonConverter(attributeProvider);
+
+        var defaultValueAttribute = JsonTypeReflector.GetAttribute<DefaultValueAttribute>(attributeProvider);
+        if (defaultValueAttribute != null)
+        {
+            property.DefaultValue = defaultValueAttribute.Value;
+        }
+
+        allowNonPublicAccess = hasMemberAttribute ||
+                               memberSerialization == MemberSerialization.Fields;
+    }
+
+    static bool GetPropertyIgnored(ICustomAttributeProvider attributeProvider, MemberSerialization memberSerialization, bool hasMemberAttribute)
+    {
+        var hasJsonIgnoreAttribute = JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null;
+
+        if (memberSerialization == MemberSerialization.OptIn)
+        {
+            // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
+            return hasJsonIgnoreAttribute || !hasMemberAttribute;
+        }
+
+        var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
+
+        // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
+        return hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
+    }
+
+    string GetPropertyName(string name, JsonPropertyAttribute? propertyAttribute, DataMemberAttribute? dataMemberAttribute)
+    {
         string mappedName;
         bool hasSpecifiedName;
-        if (info.Property?.PropertyName != null)
+        if (propertyAttribute?.PropertyName != null)
         {
-            mappedName = info.Property.PropertyName;
+            mappedName = propertyAttribute.PropertyName;
             hasSpecifiedName = true;
         }
         else if (dataMemberAttribute?.Name != null)
@@ -1001,91 +890,10 @@ public class DefaultContractResolver : IContractResolver
 
         if (NamingStrategy == null)
         {
-            property.PropertyName = ResolvePropertyName(mappedName);
-        }
-        else
-        {
-            property.PropertyName = NamingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
+            return ResolvePropertyName(mappedName);
         }
 
-        property.UnderlyingName = name;
-
-        var hasMemberAttribute = false;
-        if (info.Property == null)
-        {
-            property.NullValueHandling = null;
-            property.ReferenceLoopHandling = null;
-            property.ObjectCreationHandling = null;
-            property.TypeNameHandling = null;
-            property.IsReference = null;
-            property.ItemIsReference = null;
-            property.ItemConverter = null;
-            property.ItemReferenceLoopHandling = null;
-            property.ItemTypeNameHandling = null;
-            if (dataMemberAttribute != null)
-            {
-                property.required = dataMemberAttribute.IsRequired ? Required.AllowNull : Required.Default;
-                property.Order = dataMemberAttribute.Order == -1 ? null : dataMemberAttribute.Order;
-                property.DefaultValueHandling = !dataMemberAttribute.EmitDefaultValue ? DefaultValueHandling.Ignore : null;
-                hasMemberAttribute = true;
-            }
-        }
-        else
-        {
-            property.required = info.Property.required;
-            property.Order = info.Property.order;
-            property.DefaultValueHandling = info.Property.defaultValueHandling;
-            hasMemberAttribute = true;
-            property.NullValueHandling = info.Property.nullValueHandling;
-            property.ReferenceLoopHandling = info.Property.referenceLoopHandling;
-            property.ObjectCreationHandling = info.Property.objectCreationHandling;
-            property.TypeNameHandling = info.Property.typeNameHandling;
-            property.IsReference = info.Property.isReference;
-
-            property.ItemIsReference = info.Property.itemIsReference;
-            property.ItemConverter = info.Property.ItemConverterType == null ? null : JsonTypeReflector.CreateJsonConverterInstance(info.Property.ItemConverterType, info.Property.ItemConverterParameters);
-            property.ItemReferenceLoopHandling = info.Property.itemReferenceLoopHandling;
-            property.ItemTypeNameHandling = info.Property.itemTypeNameHandling;
-        }
-
-        if (info.Required != null)
-        {
-            property.required = Required.Always;
-            hasMemberAttribute = true;
-        }
-
-        property.HasMemberAttribute = hasMemberAttribute;
-
-        var hasJsonIgnoreAttribute =
-            info.Ignore != null
-            // automatically ignore extension data dictionary property if it is public
-            || info.ExtensionData != null;
-
-        if (memberSerialization == MemberSerialization.OptIn)
-        {
-            // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
-            property.Ignored = hasJsonIgnoreAttribute || !hasMemberAttribute;
-        }
-        else
-        {
-            var hasIgnoreDataMemberAttribute = info.IgnoreDataMember != null;
-
-            // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
-            property.Ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
-        }
-
-        // resolve converter for property
-        // the class type might have a converter but the property converter takes precedence
-        property.Converter = JsonTypeReflector.GetJsonConverter(attributeProvider);
-
-        var defaultValueAttribute = info.DefaultValue;
-        if (defaultValueAttribute != null)
-        {
-            property.DefaultValue = defaultValueAttribute.Value;
-        }
-
-        allowNonPublicAccess = hasMemberAttribute ||
-                               memberSerialization == MemberSerialization.Fields;
+        return NamingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
     }
 
     static Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
@@ -1143,21 +951,6 @@ public class DefaultContractResolver : IContractResolver
         }
 
         return NamingStrategy.GetPropertyName(propertyName, false);
-    }
-
-    /// <summary>
-    /// Resolves the name of the extension data. By default no changes are made to extension data names.
-    /// </summary>
-    /// <param name="extensionDataName">Name of the extension data.</param>
-    /// <returns>Resolved name of the extension data.</returns>
-    protected virtual string ResolveExtensionDataName(string extensionDataName, object original)
-    {
-        if (NamingStrategy == null)
-        {
-            return extensionDataName;
-        }
-
-        return NamingStrategy.GetExtensionDataName(extensionDataName);
     }
 
     /// <summary>

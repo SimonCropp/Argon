@@ -134,14 +134,13 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void StringEnumConverter_NamingStrategyTypeCtor()
     {
-        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), new object[] {true, true, true}, false);
+        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), [true, true], false);
 
         Assert.NotNull(converter.NamingStrategy);
         Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
         XUnitAssert.False(converter.AllowIntegerValues);
         XUnitAssert.True(converter.NamingStrategy.OverrideSpecifiedNames);
         XUnitAssert.True(converter.NamingStrategy.ProcessDictionaryKeys);
-        XUnitAssert.True(converter.NamingStrategy.ProcessExtensionDataNames);
     }
 
     [Fact]
@@ -926,7 +925,7 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeEnumCaseIncensitive_ByEnumMemberValue_UpperCase()
+    public void DeserializeEnumCaseInsensitive_ByEnumMemberValue_UpperCase()
     {
         var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
             """
@@ -937,7 +936,7 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeEnumCaseIncensitive_ByEnumMemberValue_MixedCase()
+    public void DeserializeEnumCaseInsensitive_ByEnumMemberValue_MixedCase()
     {
         var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
             """
@@ -948,7 +947,7 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeEnumCaseIncensitive_ByName_LowerCase()
+    public void DeserializeEnumCaseInsensitive_ByName_LowerCase()
     {
         var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
             """
@@ -959,7 +958,7 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeEnumCaseIncensitive_ByName_UperCase()
+    public void DeserializeEnumCaseInsensitive_ByName_UpperCase()
     {
         var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
             """
@@ -970,7 +969,7 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeEnumCaseIncensitive_FromAttribute()
+    public void DeserializeEnumCaseInsensitive_FromAttribute()
     {
         var e = JsonConvert.DeserializeObject<EnumMemberDoesNotMatchName>(
             """

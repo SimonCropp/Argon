@@ -16,12 +16,6 @@ public abstract class NamingStrategy
     public bool ProcessDictionaryKeys { get; set; }
 
     /// <summary>
-    /// A flag indicating whether extension data names should be processed.
-    /// Defaults to <c>false</c>.
-    /// </summary>
-    public bool ProcessExtensionDataNames { get; set; }
-
-    /// <summary>
     /// A flag indicating whether explicitly specified property names,
     /// e.g. a property name customized with a <see cref="JsonPropertyAttribute" />, should be processed.
     /// Defaults to <c>false</c>.
@@ -42,21 +36,6 @@ public abstract class NamingStrategy
         }
 
         return ResolvePropertyName(name);
-    }
-
-    /// <summary>
-    /// Gets the serialized name for a given extension data name.
-    /// </summary>
-    /// <param name="name">The initial extension data name.</param>
-    /// <returns>The serialized extension data name.</returns>
-    public virtual string GetExtensionDataName(string name)
-    {
-        if (ProcessExtensionDataNames)
-        {
-            return ResolvePropertyName(name);
-        }
-
-        return name;
     }
 
     /// <summary>
@@ -88,7 +67,6 @@ public abstract class NamingStrategy
         {
             var hashCode = GetType().GetHashCode(); // make sure different types do not result in equal values
             hashCode = (hashCode * 397) ^ ProcessDictionaryKeys.GetHashCode();
-            hashCode = (hashCode * 397) ^ ProcessExtensionDataNames.GetHashCode();
             hashCode = (hashCode * 397) ^ OverrideSpecifiedNames.GetHashCode();
             return hashCode;
         }
@@ -112,7 +90,6 @@ public abstract class NamingStrategy
 
         return GetType() == other.GetType() &&
                ProcessDictionaryKeys == other.ProcessDictionaryKeys &&
-               ProcessExtensionDataNames == other.ProcessExtensionDataNames &&
                OverrideSpecifiedNames == other.OverrideSpecifiedNames;
     }
 }

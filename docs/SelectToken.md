@@ -55,7 +55,7 @@ var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price")
 var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 // Elbow Grease
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L451-L496' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L450-L495' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -107,9 +107,9 @@ Console.WriteLine(acme);
 // { "Name": "Acme Co", Products: [{ "Name": "Anvil", "Price": 50 }] }
 
 // name of all products priced 50 and above
-var pricyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
+var priceyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
 
-foreach (var item in pricyProducts)
+foreach (var item in priceyProducts)
 {
     Console.WriteLine(item);
 }
@@ -139,7 +139,7 @@ var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("P
 var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
 // 149.95
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L540-L553' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L539-L552' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

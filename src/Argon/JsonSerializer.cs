@@ -103,7 +103,7 @@ public class JsonSerializer
     /// <summary>
     /// Gets a collection <see cref="JsonConverter" /> that will be used during serialization.
     /// </summary>
-    public virtual List<JsonConverter> Converters { get; } = new();
+    public virtual List<JsonConverter> Converters { get; } = [];
 
     /// <summary>
     /// Gets or sets the contract resolver used by the serializer when
@@ -136,6 +136,11 @@ public class JsonSerializer
     /// The default value is <see cref="Argon.FloatParseHandling.Double" />.
     /// </summary>
     public virtual FloatParseHandling? FloatParseHandling { get; set; }
+
+    /// <summary>
+    /// Gets or sets how many decimal points to use when serializing floats and doubles.
+    /// </summary>
+    public virtual byte? FloatPrecision { get; set; }
 
     /// <summary>
     /// Gets or sets how special floating point numbers, e.g. <see cref="Double.NaN" />,
@@ -370,6 +375,11 @@ public class JsonSerializer
             serializer.FloatParseHandling = settings.FloatParseHandling;
         }
 
+        if (settings.FloatPrecision != null)
+        {
+            serializer.FloatPrecision = settings.FloatPrecision;
+        }
+
         if (settings.EscapeHandling != null)
         {
             serializer.EscapeHandling = settings.EscapeHandling;
@@ -590,6 +600,13 @@ public class JsonSerializer
             jsonWriter.FloatFormatHandling = FloatFormatHandling.GetValueOrDefault();
         }
 
+        byte? previousFloatPrecision = null;
+        if (FloatPrecision != null && jsonWriter.FloatPrecision != FloatPrecision)
+        {
+            previousFloatPrecision = jsonWriter.FloatPrecision;
+            jsonWriter.FloatPrecision = FloatPrecision;
+        }
+
         EscapeHandling? previousEscapeHandling = null;
         if (EscapeHandling != null && jsonWriter.EscapeHandling != EscapeHandling)
         {
@@ -609,6 +626,11 @@ public class JsonSerializer
         if (previousFloatFormatHandling != null)
         {
             jsonWriter.FloatFormatHandling = previousFloatFormatHandling.GetValueOrDefault();
+        }
+
+        if (previousFloatPrecision != null)
+        {
+            jsonWriter.FloatPrecision = previousFloatPrecision;
         }
 
         if (previousEscapeHandling != null)

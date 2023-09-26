@@ -216,7 +216,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
     }
 
     static bool CoerceEmptyStringToNull(Type? type, JsonContract? contract, string s) =>
-        s.IsNullOrEmpty() &&
+        s.Length == 0 &&
         type != null &&
         type != typeof(string) &&
         type != typeof(object) &&
@@ -843,8 +843,6 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
         if (skipSettingProperty)
         {
-            // Don't set extension data if the value was ignored
-            // e.g. a null with NullValueHandling should not go in ExtensionData
             return ignoredValue;
         }
 
@@ -1828,18 +1826,6 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
             }
         }
 
-        if (contract.ExtensionDataSetter != null)
-        {
-            foreach (var propertyValue in propertyContexts)
-            {
-                if (!propertyValue.Used &&
-                    propertyValue.Presence != PropertyPresence.None)
-                {
-                    contract.ExtensionDataSetter(createdObject, propertyValue.Name, propertyValue.Value);
-                }
-            }
-        }
-
         if (trackPresence)
         {
             foreach (var context in propertyContexts)
@@ -1929,14 +1915,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                         }
                     }
 
-                    if (contract.ExtensionDataSetter != null)
-                    {
-                        creatorPropertyContext.Value = ReadExtensionDataValue(contract, containerProperty, reader);
-                    }
-                    else
-                    {
-                        reader.Skip();
-                    }
+                    reader.Skip();
 
                     break;
                 case JsonToken.Comment:
@@ -2050,7 +2029,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                                 break;
                             }
 
-                            SetExtensionData(contract, member, reader, propertyName, newObject);
+                            reader.Skip();
                             continue;
                         }
 
@@ -2062,7 +2041,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                             }
 
                             SetPropertyPresence(reader, property, propertiesPresence);
-                            SetExtensionData(contract, member, reader, propertyName, newObject);
+                            reader.Skip();
                         }
                         else
                         {
@@ -2080,7 +2059,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                             // set extension data if property is ignored or readonly
                             if (!SetPropertyValue(property, propertyConverter, contract, member, reader, newObject))
                             {
-                                SetExtensionData(contract, member, reader, propertyName, newObject);
+                                reader.Skip();
                             }
                         }
                     }
@@ -2152,36 +2131,6 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         }
 
         return false;
-    }
-
-    void SetExtensionData(JsonObjectContract contract, JsonProperty? member, JsonReader reader, string memberName, object o)
-    {
-        if (contract.ExtensionDataSetter == null)
-        {
-            reader.Skip();
-            return;
-        }
-
-        try
-        {
-            var value = ReadExtensionDataValue(contract, member, reader);
-
-            contract.ExtensionDataSetter(o, memberName, value);
-        }
-        catch (Exception exception)
-        {
-            throw JsonSerializationException.Create(reader, $"Error setting value in extension data for type '{contract.UnderlyingType}'.", exception);
-        }
-    }
-
-    object? ReadExtensionDataValue(JsonObjectContract contract, JsonProperty? member, JsonReader reader)
-    {
-        if (contract.ExtensionDataIsJToken)
-        {
-            return JToken.ReadFrom(reader);
-        }
-
-        return CreateValueInternal(reader, null, null, null, contract, member, null);
     }
 
     void EndProcessProperty(object newObject, JsonReader reader, JsonObjectContract contract, int initialDepth, JsonProperty property, PropertyPresence presence, bool setDefaultValue)

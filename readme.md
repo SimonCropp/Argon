@@ -7,8 +7,9 @@
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.JsonPath.svg?label=Argon.JsonPath)](https://www.nuget.org/packages/Argon.JsonPath/)
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.FSharp.svg?label=Argon.FSharp)](https://www.nuget.org/packages/Argon.FSharp/)
 
-
 Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
+
+**See [Milestones](../../milestones?state=closed) for release notes.**
 
 
 ## Serialize JSON
@@ -168,7 +169,6 @@ var json = jObject.ToString();
     * [ConstructorHandling setting](/docs/Serializer/DeserializeConstructorHandling.md)
     * [Deserialize a DataSet](/docs/Serializer/DeserializeDataSet.md)
     * [Deserialize a Dictionary](/docs/Serializer/DeserializeDictionary.md)
-    * [ Deserialize ExtensionData](/docs/Serializer/DeserializeExtensionData.md)
     * [Deserialize an immutable collection](/docs/Serializer/DeserializeImmutableCollections.md)
     * [MetadataPropertyHandling setting](/docs/Serializer/DeserializeMetadataPropertyHandling.md)
     * [MissingMemberHandling setting](/docs/Serializer/DeserializeMissingMemberHandling.md)
@@ -178,6 +178,7 @@ var json = jObject.ToString();
     * [Deserialize JSON from a file](/docs/Serializer/DeserializeWithJsonSerializerFromFile.md)
     * [ErrorHandlingAttribute](/docs/Serializer/ErrorHandlingAttribute.md)
     * [ErrorHandling setting](/docs/Serializer/ErrorHandlingEvent.md)
+    * [Float Precision](/docs/Serializer/FloatPrecision.md)
     * [JsonConstructorAttribute](/docs/Serializer/JsonConstructorAttribute.md)
     * [JsonConverterAttribute on a class](/docs/Serializer/JsonConverterAttributeClass.md)
     * [JsonConverterAttribute on a property](/docs/Serializer/JsonConverterAttributeProperty.md)
@@ -204,7 +205,6 @@ var json = jObject.ToString();
     * [Serialize a DataSet](/docs/Serializer/SerializeDataSet.md)
     * [DateTimeZoneHandling setting](/docs/Serializer/SerializeDateTimeZoneHandling.md)
     * [Serialize a Dictionary](/docs/Serializer/SerializeDictionary.md)
-    * [Serialize ExtensionData](/docs/Serializer/SerializeExtensionData.md)
     * [Serialize an immutable collection](/docs/Serializer/SerializeImmutableCollections.md)
     * [Serialize an Object](/docs/Serializer/SerializeObject.md)
     * [Serialize Raw JSON value](/docs/Serializer/SerializeRawJson.md)

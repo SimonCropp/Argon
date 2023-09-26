@@ -49,7 +49,7 @@ public class FloatAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task Float_NaNAndInifinity_ReadAsDoubleAsync()
+    public async Task Float_NaNAndInfinity_ReadAsDoubleAsync()
     {
         const string testJson = """
                                 [
@@ -80,7 +80,7 @@ public class FloatAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task Float_NaNAndInifinity_ReadAsStringAsync()
+    public async Task Float_NaNAndInfinity_ReadAsStringAsync()
     {
         const string testJson = """
                                 [

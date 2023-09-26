@@ -29,7 +29,7 @@ var documents = new Directory {Name = "My Documents", Parent = root};
 
 var file = new File {Name = "ImportantLegalDocument.docx", Parent = documents};
 
-documents.Files = new List<File> {file};
+documents.Files = [file];
 
 try
 {
@@ -41,12 +41,12 @@ catch (JsonSerializationException)
     // 'Argon.Tests.Documentation.Examples.ReferenceLoopHandlingObject+Directory'. Path 'Files[0]'.
 }
 
-var preserveReferenacesAll = JsonConvert.SerializeObject(documents, Formatting.Indented, new JsonSerializerSettings
+var preserveReferencesAll = JsonConvert.SerializeObject(documents, Formatting.Indented, new JsonSerializerSettings
 {
     PreserveReferencesHandling = PreserveReferencesHandling.All
 });
 
-Console.WriteLine(preserveReferenacesAll);
+Console.WriteLine(preserveReferencesAll);
 // {
 //   "$id": "1",
 //   "Name": "My Documents",

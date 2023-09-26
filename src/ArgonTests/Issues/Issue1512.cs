@@ -43,12 +43,9 @@ public class Issue1512 : TestFixtureBase
     }
 }
 
-public sealed class Outer
+public sealed class Outer(ImmutableArray<string>? inners)
 {
-    public Outer(ImmutableArray<string>? inners) =>
-        Inners = inners;
-
-    public ImmutableArray<string>? Inners { get; }
+    public ImmutableArray<string>? Inners { get; } = inners;
 }
 
 public sealed class OuterProperty

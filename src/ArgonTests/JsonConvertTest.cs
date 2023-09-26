@@ -108,20 +108,20 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal("hi", o.Value);
     }
 
-    public class CustonNameTable : JsonNameTable
+    public class CustomNameTable : JsonNameTable
     {
         public override string Get(char[] key, int start, int length) =>
             "_" + new string(key, start, length);
     }
 
     [Fact]
-    public void CustonNameTableTest()
+    public void CustomNameTableTest()
     {
         var sr = new StringReader("{'property':'hi'}");
         var jsonTextReader = new JsonTextReader(sr);
 
         Assert.Null(jsonTextReader.PropertyNameTable);
-        var nameTable = jsonTextReader.PropertyNameTable = new CustonNameTable();
+        var nameTable = jsonTextReader.PropertyNameTable = new CustomNameTable();
 
         var serializer = new JsonSerializer();
         var o = serializer.Deserialize<Dictionary<string, string>>(jsonTextReader);
@@ -1313,8 +1313,8 @@ public class JsonConvertTest : TestFixtureBase
     {
         var measurements = new Measurements
         {
-            Loads = new() {23283.567554707258, 23224.849899771067, 23062.5, 22846.272519910868, 22594.281246368635},
-            Positions = new() {57.724227689317019, 60.440934405753069, 63.444192925248643, 66.813119113482557, 70.4496501404433},
+            Loads = [23283.567554707258, 23224.849899771067, 23062.5, 22846.272519910868, 22594.281246368635],
+            Positions = [57.724227689317019, 60.440934405753069, 63.444192925248643, 66.813119113482557, 70.4496501404433],
             Gain = 12345.67895111213
         };
 
@@ -1394,7 +1394,7 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void ShouldNotPopulateContructorArgumentEnumerableObject()
+    public void ShouldNotPopulateConstructorArgumentEnumerableObject()
     {
         object actual = JsonConvert.DeserializeObject<AcceptsEnumerableObjectToConstructor>("{\"foo\":{}}");
         Assert.NotNull(actual);

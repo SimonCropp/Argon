@@ -874,7 +874,7 @@ public partial class JsonTextWriter
 
     Task WriteValueAsync(double value, bool nullable, Cancel cancel)
     {
-        var convertedValue = JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable);
+        var convertedValue = JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable, FloatPrecision);
         return WriteValueInternalAsync(JsonToken.Float, convertedValue, cancel);
     }
 
@@ -918,7 +918,10 @@ public partial class JsonTextWriter
     }
 
     Task WriteValueAsync(float value, bool nullable, Cancel cancel) =>
-        WriteValueInternalAsync(JsonToken.Float, JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable), cancel);
+        WriteValueInternalAsync(
+            JsonToken.Float,
+            JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable, FloatPrecision),
+            cancel);
 
     /// <summary>
     /// Asynchronously writes a <see cref="Nullable{T}" /> of <see cref="float" /> value.

@@ -46,35 +46,23 @@ public class Issue1725 : TestFixtureBase
         Assert.Equal(1, p2.Age);
     }
 
-    public class InPerson
+    public class InPerson(in string name)
     {
-        public InPerson(in string name) =>
-            Name = name;
-
-        public string Name { get; }
+        public string Name { get; } = name;
     }
 
-    public class RefPerson
+    public class RefPerson(ref string name)
     {
-        public RefPerson(ref string name) =>
-            Name = name;
-
-        public string Name { get; }
+        public string Name { get; } = name;
     }
 
-    public class InNullablePerson
+    public class InNullablePerson(in int? age)
     {
-        public InNullablePerson(in int? age) =>
-            Age = age;
-
-        public int? Age { get; }
+        public int? Age { get; } = age;
     }
 
-    public class RefNullablePerson
+    public class RefNullablePerson(ref int? age)
     {
-        public RefNullablePerson(ref int? age) =>
-            Age = age;
-
-        public int? Age { get; }
+        public int? Age { get; } = age;
     }
 }

@@ -860,7 +860,7 @@ public class ReadAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ReadContentDelimitedByCommentsAsync()
+    public Task ReadContentDelimitedByCommentsAsync()
     {
         var json = """
                    /*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
@@ -872,7 +872,7 @@ public class ReadAsyncTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
-        await reader.VerifyReaderState();
+        return reader.VerifyReaderState();
     }
 
     [Fact]
@@ -1315,7 +1315,7 @@ public class ReadAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ReadNewLinesAsync()
+    public Task ReadNewLinesAsync()
     {
         var newLinesText = $"{StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}{StringUtils.LineFeed}{StringUtils.CarriageReturnLineFeed} {StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}";
 
@@ -1327,7 +1327,7 @@ public class ReadAsyncTests : TestFixtureBase
         }
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-        await reader.VerifyReaderState();
+        return reader.VerifyReaderState();
     }
 
     [Fact]

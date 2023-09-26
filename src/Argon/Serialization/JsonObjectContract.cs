@@ -47,38 +47,8 @@ public class JsonObjectContract : JsonContainerContract
 
     internal ObjectConstructor? ParameterizedCreator { get; set; }
 
-    /// <summary>
-    /// Gets or sets the extension data setter.
-    /// </summary>
-    public ExtensionDataSetter? ExtensionDataSetter { get; set; }
-
-    /// <summary>
-    /// Gets or sets the extension data getter.
-    /// </summary>
-    public ExtensionDataGetter? ExtensionDataGetter { get; set; }
-
-    /// <summary>
-    /// Gets or sets the extension data value type.
-    /// </summary>
-    public Type? ExtensionDataValueType
-    {
-        get => extensionDataValueType;
-        set
-        {
-            extensionDataValueType = value;
-            ExtensionDataIsJToken = value != null && typeof(JToken).IsAssignableFrom(value);
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the extension data name resolver.
-    /// </summary>
-    public DictionaryKeyResolver? ExtensionDataNameResolver { get; set; }
-
-    internal bool ExtensionDataIsJToken;
     bool? hasRequiredOrDefaultValueProperties;
     JsonPropertyCollection? creatorParameters;
-    Type? extensionDataValueType;
 
     internal bool HasRequiredOrDefaultValueProperties
     {

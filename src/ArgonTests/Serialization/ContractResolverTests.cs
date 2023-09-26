@@ -294,61 +294,61 @@ public class ContractResolverTests : TestFixtureBase
     public void CalculatingPropertyNameEscapedSkipping()
     {
         var p = new JsonProperty(typeof(Object),typeof(Object)) {PropertyName = "abc"};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "123"};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "._-"};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "!@#"};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "$%^"};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "?*("};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = ")_+"};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "=:,"};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = null};
-        Assert.True(p.skipPropertyNameEscape);
+        Assert.True(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "&"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "<"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = ">"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "'"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = @""""};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = Environment.NewLine};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "\0"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "\n"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "\v"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
 
         p = new(typeof(Object),typeof(Object)) {PropertyName = "\u00B9"};
-        Assert.False(p.skipPropertyNameEscape);
+        Assert.False(p.skipNameEscape);
     }
 
     [Fact]
@@ -552,36 +552,6 @@ public class ContractResolverTests : TestFixtureBase
 //             return serializableMembers;
 //         }
 //     }
-
-    public class ClassWithExtensionData
-    {
-        [JsonExtensionData] public IDictionary<string, object> Data { get; set; }
-    }
-
-    [Fact]
-    public void ExtensionDataGetterCanBeIteratedMultipleTimes()
-    {
-        var resolver = new DefaultContractResolver();
-        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithExtensionData));
-
-        var myClass = new ClassWithExtensionData
-        {
-            Data = new Dictionary<string, object>
-            {
-                {"SomeField", "Field"}
-            }
-        };
-
-        var getter = contract.ExtensionDataGetter;
-
-        IEnumerable<KeyValuePair<object, object>> dictionaryData = getter(myClass).ToDictionary(kv => kv.Key, kv => kv.Value);
-        Assert.True(dictionaryData.Any());
-        Assert.True(dictionaryData.Any());
-
-        var extensionData = getter(myClass);
-        Assert.True(extensionData.Any());
-        Assert.True(extensionData.Any()); // second test fails if the enumerator returned isn't reset
-    }
 
     public class ClassWithShouldSerialize
     {

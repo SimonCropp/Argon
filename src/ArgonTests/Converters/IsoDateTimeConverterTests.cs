@@ -166,8 +166,12 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     {
         var json = """{"DateTimeField":""}""";
 
-        var c = JsonConvert.DeserializeObject<NullableDateTimeTestClass>(json,
-            new JsonSerializerSettings {Converters = new() {new IsoDateTimeConverter()}});
+        var c = JsonConvert.DeserializeObject<NullableDateTimeTestClass>(
+            json,
+            new JsonSerializerSettings
+            {
+                Converters = [new IsoDateTimeConverter()]
+            });
         Assert.Equal(null, c.DateTimeField);
     }
 

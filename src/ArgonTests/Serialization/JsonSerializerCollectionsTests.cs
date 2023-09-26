@@ -1114,17 +1114,19 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class PopulateReadOnlyTestClass
     {
-        public IList<int> NonReadOnlyList { get; set; } = new List<int>
-        {
-            1
-        };
-
-        public IDictionary<string, int> NonReadOnlyDictionary { get; set; } = new Dictionary<string, int>
-        {
+        public IList<int> NonReadOnlyList { get; set; } =
+            new List<int>
             {
-                "first", 2
-            }
-        };
+                1
+            };
+
+        public IDictionary<string, int> NonReadOnlyDictionary { get; set; } =
+            new Dictionary<string, int>
+            {
+                {
+                    "first", 2
+                }
+            };
 
         public IList<int> Array { get; set; } = new[]
         {
@@ -1136,34 +1138,39 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             4
         });
 
-        public IDictionary<string, int> Dictionary { get; set; } = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
-        {
+        public IDictionary<string, int> Dictionary { get; set; } =
+            new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
             {
-                "first", 5
-            }
-        });
+                {
+                    "first", 5
+                }
+            });
 
-        public IReadOnlyCollection<int> IReadOnlyCollection { get; set; } = new ReadOnlyCollection<int>(new[]
-        {
-            6
-        });
-
-        public ReadOnlyCollection<int> ReadOnlyCollection { get; set; } = new(new[]
-        {
-            7
-        });
-
-        public IReadOnlyList<int> IReadOnlyList { get; set; } = new ReadOnlyCollection<int>(new[]
-        {
-            8
-        });
-
-        public IReadOnlyDictionary<string, int> IReadOnlyDictionary { get; set; } = new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
-        {
+        public IReadOnlyCollection<int> IReadOnlyCollection { get; set; } =
+            new ReadOnlyCollection<int>(new[]
             {
-                "first", 9
-            }
-        });
+                6
+            });
+
+        public ReadOnlyCollection<int> ReadOnlyCollection { get; set; } =
+            new(new[]
+            {
+                7
+            });
+
+        public IReadOnlyList<int> IReadOnlyList { get; set; } =
+            new ReadOnlyCollection<int>(new[]
+            {
+                8
+            });
+
+        public IReadOnlyDictionary<string, int> IReadOnlyDictionary { get; set; } =
+            new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
+            {
+                {
+                    "first", 9
+                }
+            });
 
         public ReadOnlyDictionary<string, int> ReadOnlyDictionary { get; set; } =
             new(new Dictionary<string, int>
@@ -2307,9 +2314,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void NonDefaultConstructor_DuplicateKeyInDictionary_Replace()
     {
-        var json = """{ "user":"bpan", "Person":{ "groups":"replaced!", "domain":"adm", "mail":"bpan@sdu.dk", "sn":"Pan", "gn":"Benzhi", "cn":"Benzhi Pan", "eo":"BQHLJaVTMr0eWsi1jaIut4Ls/pSuMeNEmsWfWsfKo=", "guid":"9A38CE8E5B288942A8DA415CF5E687", "employeenumber":"2674", "omk1":"930", "language":"da" }, "XMLResponce":"<?xml version='1.0' encoding='iso-8859-1' ?>\n<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n\t<cas:authenticationSuccess>\n\t\t<cas:user>bpan</cas:user>\n\t\t<norEduPerson>\n\t\t\t<groups>FNC-PRI-APP-SUNDB-EDOR-A,FNC-RI-APP-SUB-EDITOR-B</groups>\n\t\t\t<domain>adm</domain>\n\t\t\t<mail>bpan@sdu.dk</mail>\n\t\t\t<sn>Pan</sn>\n\t\t\t<gn>Benzhi</gn>\n\t\t\t<cn>Benzhi Pan</cn>\n\t\t\t<eo>BQHLJaVTMr0eWsi1jaIut4Lsfr/pSuMeNEmsWfWsfKo=</eo>\n\t\t\t<guid>9A38CE8E5B288942A8DA415C2C687</guid>\n\t\t\t<employeenumber>274</employeenumber>\n\t\t\t<omk1>930</omk1>\n\t\t\t<language>da</language>\n\t\t</norEduPerson>\n\t</cas:authenticationSuccess>\n</cas:serviceResponse>\n", "Language":1, "Groups":[ "FNC-PRI-APP-SNDB-EDOR-A", "FNC-PI-APP-SUNDB-EDOR-B" ], "Domain":"adm", "Mail":"bpan@sdu.dk", "Surname":"Pan", "Givenname":"Benzhi", "CommonName":"Benzhi Pan", "OrganizationName":null }""";
+        var json = """{ "user":"bpan", "Person":{ "groups":"replaced!", "domain":"adm", "mail":"bpan@sdu.dk", "sn":"Pan", "gn":"Benzhi", "cn":"Benzhi Pan", "eo":"BQHLJaVTMr0eWsi1jaIut4Ls/pSuMeNEmsWfWsfKo=", "guid":"9A38CE8E5B288942A8DA415CF5E687", "employeenumber":"2674", "omk1":"930", "language":"da" }, "XMLResponse":"<?xml version='1.0' encoding='iso-8859-1' ?>\n<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n\t<cas:authenticationSuccess>\n\t\t<cas:user>bpan</cas:user>\n\t\t<norEduPerson>\n\t\t\t<groups>FNC-PRI-APP-SUNDB-EDOR-A,FNC-RI-APP-SUB-EDITOR-B</groups>\n\t\t\t<domain>adm</domain>\n\t\t\t<mail>bpan@sdu.dk</mail>\n\t\t\t<sn>Pan</sn>\n\t\t\t<gn>Benzhi</gn>\n\t\t\t<cn>Benzhi Pan</cn>\n\t\t\t<eo>BQHLJaVTMr0eWsi1jaIut4Lsfr/pSuMeNEmsWfWsfKo=</eo>\n\t\t\t<guid>9A38CE8E5B288942A8DA415C2C687</guid>\n\t\t\t<employeenumber>274</employeenumber>\n\t\t\t<omk1>930</omk1>\n\t\t\t<language>da</language>\n\t\t</norEduPerson>\n\t</cas:authenticationSuccess>\n</cas:serviceResponse>\n", "Language":1, "Groups":[ "FNC-PRI-APP-SNDB-EDOR-A", "FNC-PI-APP-SUNDB-EDOR-B" ], "Domain":"adm", "Mail":"bpan@sdu.dk", "Surname":"Pan", "Givenname":"Benzhi", "CommonName":"Benzhi Pan", "OrganizationName":null }""";
 
-        var result = JsonConvert.DeserializeObject<CASResponce>(json);
+        var result = JsonConvert.DeserializeObject<CASResponse>(json);
 
         Assert.Equal("replaced!", result.Person["groups"]);
     }
@@ -2437,7 +2444,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
 
-    public class CASResponce
+    public class CASResponse
     {
         //<?xml version='1.0' encoding='iso-8859-1' ?>
         //<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
@@ -2504,7 +2511,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             English
         }
 
-        public CASResponce(string xmlResponce)
+        public CASResponse(string xmlResponse)
         {
             Domain = "";
             Mail = "";
@@ -2512,7 +2519,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             Givenname = "";
             CommonName = "";
 
-            ParseReplyXML(xmlResponce);
+            ParseReplyXML(xmlResponse);
             ExtractGroups();
             ExtractLanguage();
         }
@@ -2630,7 +2637,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
 
                 Person = eduPerson;
-                XMLResponce = xmlString;
+                XMLResponse = xmlString;
             }
             catch
             {
@@ -2638,29 +2645,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         }
 
-        /// <summary>
-        /// Fast felt der altid findes.
-        /// </summary>
         public string user { get; private set; }
 
-        /// <summary>
-        /// Person type som dictionary indeholdende de ekstra informationer returneret ved login.
-        /// </summary>
         public Dictionary<string, string> Person { get; private set; }
 
-        /// <summary>
-        /// Den oprindelige xml returneret fra CAS.
-        /// </summary>
-        public string XMLResponce { get; private set; }
+        public string XMLResponse { get; private set; }
 
-        /// <summary>
-        /// Det sprog der benyttes i SSO. Muligheder er da eller en.
-        /// </summary>
         public ssoLanguage Language { get; private set; }
 
-        /// <summary>
-        /// Liste af grupper som man er medlem af. Kun udvalgt iblandt dem der blev puttet ind i systemet.
-        /// </summary>
         public List<string> Groups { get; private set; }
 
         public string Domain { get; private set; }
