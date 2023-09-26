@@ -543,7 +543,7 @@ public class MiscTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task SingleLineComments()
+    public Task SingleLineComments()
     {
         var json = $$"""
                      //comment*//*hi*/
@@ -562,7 +562,7 @@ public class MiscTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
 
-        await reader.VerifyReaderState();
+        return reader.VerifyReaderState();
     }
 
     [Fact]

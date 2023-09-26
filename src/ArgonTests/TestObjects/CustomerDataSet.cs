@@ -38,7 +38,7 @@ public class CustomerDataSet : System.Data.DataSet
     protected CustomerDataSet(SerializationInfo info, StreamingContext context) :
         base(info, context, false)
     {
-        if (IsBinarySerialized(info, context) == true)
+        if (IsBinarySerialized(info, context))
         {
             InitVars(false);
             var schemaChangedHandler1 = new System.ComponentModel.CollectionChangeEventHandler(SchemaChanged);
@@ -178,7 +178,7 @@ public class CustomerDataSet : System.Data.DataSet
     internal void InitVars(bool initTable)
     {
         tableCustomers = (CustomersDataTable)base.Tables["Customers"];
-        if (initTable == true)
+        if (initTable)
         {
             tableCustomers?.InitVars();
         }
