@@ -781,34 +781,10 @@ public class DefaultContractResolver : IContractResolver
         }
 
         var propertyAttribute = JsonTypeReflector.GetAttribute<JsonPropertyAttribute>(attributeProvider);
-        var requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
 
-        string mappedName;
-        bool hasSpecifiedName;
-        if (propertyAttribute?.PropertyName != null)
-        {
-            mappedName = propertyAttribute.PropertyName;
-            hasSpecifiedName = true;
-        }
-        else if (dataMemberAttribute?.Name != null)
-        {
-            mappedName = dataMemberAttribute.Name;
-            hasSpecifiedName = true;
-        }
-        else
-        {
-            mappedName = name;
-            hasSpecifiedName = false;
-        }
+        var propertyName = GetPropertyName(name, propertyAttribute, dataMemberAttribute);
 
-        if (NamingStrategy == null)
-        {
-            property.PropertyName = ResolvePropertyName(mappedName);
-        }
-        else
-        {
-            property.PropertyName = NamingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
-        }
+        property.PropertyName = propertyName;
 
         property.UnderlyingName = name;
 
@@ -850,6 +826,7 @@ public class DefaultContractResolver : IContractResolver
             property.ItemTypeNameHandling = propertyAttribute.itemTypeNameHandling;
         }
 
+        var requiredAttribute = JsonTypeReflector.GetAttribute<JsonRequiredAttribute>(attributeProvider);
         if (requiredAttribute != null)
         {
             property.required = Required.Always;
@@ -886,6 +863,34 @@ public class DefaultContractResolver : IContractResolver
 
         allowNonPublicAccess = hasMemberAttribute ||
                                memberSerialization == MemberSerialization.Fields;
+    }
+
+    string GetPropertyName(string name, JsonPropertyAttribute? propertyAttribute, DataMemberAttribute? dataMemberAttribute)
+    {
+        string mappedName;
+        bool hasSpecifiedName;
+        if (propertyAttribute?.PropertyName != null)
+        {
+            mappedName = propertyAttribute.PropertyName;
+            hasSpecifiedName = true;
+        }
+        else if (dataMemberAttribute?.Name != null)
+        {
+            mappedName = dataMemberAttribute.Name;
+            hasSpecifiedName = true;
+        }
+        else
+        {
+            mappedName = name;
+            hasSpecifiedName = false;
+        }
+
+        if (NamingStrategy == null)
+        {
+            return ResolvePropertyName(mappedName);
+        }
+
+        return NamingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
     }
 
     static Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
