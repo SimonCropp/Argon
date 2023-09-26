@@ -3,7 +3,7 @@
 // as found in the license.md file.
 
 class JPropertyKeyedCollection() :
-    Collection<JToken>(new List<JToken>())
+    Collection<JToken>([])
 {
     static readonly IEqualityComparer<string> comparer = StringComparer.Ordinal;
 

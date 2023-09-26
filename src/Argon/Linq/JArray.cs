@@ -12,7 +12,7 @@ namespace Argon;
 /// </example>
 public partial class JArray : JContainer, IList<JToken>
 {
-    readonly List<JToken> values = new();
+    readonly List<JToken> values = [];
 
     /// <summary>
     /// Gets the container's children tokens.

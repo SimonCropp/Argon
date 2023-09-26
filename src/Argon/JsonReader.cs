@@ -70,7 +70,7 @@ public abstract partial class JsonReader : IDisposable
     JsonPosition currentPosition;
     int? maxDepth;
     bool hasExceededMaxDepth;
-    List<JsonPosition> stack = new();
+    List<JsonPosition> stack = [];
 
     /// <summary>
     /// Gets the current reader state.
