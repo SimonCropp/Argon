@@ -10,10 +10,31 @@ static class AttributeCache<T> where T : Attribute
         cache.Get(provider);
 }
 
-static class TypeAttributeCache<T> where T : Attribute
+static class TypeAttributeCache
 {
-    static ThreadSafeStore<Type, T?> cache = new(JsonTypeReflector.GetAttribute<T>);
+    public class Info
+    {
+        public required JsonContainerAttribute? Container { get; init; }
+        public required JsonConverterAttribute? Converter { get; init; }
+        public required JsonObjectAttribute? Object { get; init; }
+    }
 
-    public static T? GetAttribute(Type provider) =>
-        cache.Get(provider);
+    static ThreadSafeStore<Type, Info> cache = new(
+        provider =>
+        {
+            var attributes = provider.GetAttributes().ToList();
+            return new()
+            {
+                Container = GetAttribute<JsonContainerAttribute>(attributes),
+                Converter = GetAttribute<JsonConverterAttribute>(attributes),
+                Object = GetAttribute<JsonObjectAttribute>(attributes)
+            };
+        });
+
+
+    static T? GetAttribute<T>(List<Attribute> attributes) =>
+        attributes.OfType<T>().SingleOrDefault();
+
+    public static Info Get(Type type) =>
+        cache.Get(type);
 }

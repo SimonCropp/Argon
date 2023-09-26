@@ -182,7 +182,9 @@ public class DefaultContractResolver : IContractResolver
         contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType);
         contract.Properties.AddRange(CreateProperties(contract.NonNullableUnderlyingType, contract.MemberSerialization));
 
-        var attribute = TypeAttributeCache<JsonObjectAttribute>.GetAttribute(contract.NonNullableUnderlyingType);
+        var info = TypeAttributeCache.Get(contract.NonNullableUnderlyingType);
+
+        var attribute = info.Object;
         if (attribute != null)
         {
             contract.ItemRequired = attribute.itemRequired;
@@ -391,7 +393,8 @@ public class DefaultContractResolver : IContractResolver
     void InitializeContract(JsonContract contract)
     {
         var nonNullableUnderlyingType = contract.NonNullableUnderlyingType;
-        var containerAttribute = TypeAttributeCache<JsonContainerAttribute>.GetAttribute(nonNullableUnderlyingType);
+        var info = TypeAttributeCache.Get(nonNullableUnderlyingType);
+        var containerAttribute = info.Container;
         if (containerAttribute == null)
         {
             var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(nonNullableUnderlyingType);
@@ -574,7 +577,8 @@ public class DefaultContractResolver : IContractResolver
         }
 
         t = t.EnsureNotNullableType();
-        var containerAttribute = TypeAttributeCache<JsonContainerAttribute>.GetAttribute(t);
+        var info = TypeAttributeCache.Get(t);
+        var containerAttribute = info.Container;
 
         if (containerAttribute is JsonObjectAttribute)
         {

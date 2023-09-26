@@ -58,7 +58,8 @@ public class JsonContainerContract : JsonContract
     internal JsonContainerContract(Type underlyingType)
         : base(underlyingType)
     {
-        var containerAttribute = TypeAttributeCache<JsonContainerAttribute>.GetAttribute(underlyingType);
+        var info = TypeAttributeCache.Get(underlyingType);
+        var containerAttribute = info.Container;
 
         if (containerAttribute != null)
         {

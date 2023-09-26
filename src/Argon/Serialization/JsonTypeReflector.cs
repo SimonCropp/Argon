@@ -49,7 +49,7 @@ static class JsonTypeReflector
 
         while (currentType != null)
         {
-            var result = TypeAttributeCache<DataContractAttribute>.GetAttribute(currentType);
+            var result = AttributeCache<DataContractAttribute>.GetAttribute(currentType);
             if (result != null)
             {
                 return result;
@@ -98,7 +98,8 @@ static class JsonTypeReflector
 
     public static MemberSerialization GetObjectMemberSerialization(Type type)
     {
-        var objectAttribute = TypeAttributeCache<JsonObjectAttribute>.GetAttribute(type);
+        var info = TypeAttributeCache.Get(type);
+        var objectAttribute = info.Object;
         if (objectAttribute != null)
         {
             return objectAttribute.MemberSerialization;
