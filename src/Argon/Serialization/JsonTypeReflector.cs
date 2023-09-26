@@ -15,7 +15,7 @@ static class JsonTypeReflector
 
     public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
 
-    static ThreadSafeStore<Type, Func<object[]?, object>> creatorCache = new(GetCreator);
+    static ThreadSafeStore<Type, JsonConverter> creatorCache = new(GetCreator);
 
     public static bool TryGetStringConverter(Type type, [NotNullWhen(true)] out TypeConverter? typeConverter)
     {
@@ -123,76 +123,20 @@ static class JsonTypeReflector
             return null;
         }
 
-        var creator = creatorCache.Get(attribute.ConverterType);
-        return (JsonConverter) creator(attribute.ConverterParameters);
+        return creatorCache.Get(attribute.ConverterType);
     }
 
     /// <summary>
     /// Lookup and create an instance of the <see cref="JsonConverter" /> type described by the argument.
     /// </summary>
     /// <param name="converterType">The <see cref="JsonConverter" /> type to create.</param>
-    /// <param name="args">
-    /// Optional arguments to pass to an initializing constructor of the JsonConverter.
-    /// If <c>null</c>, the default constructor is used.
-    /// </param>
-    public static JsonConverter CreateJsonConverterInstance(Type converterType, object[]? args)
+    public static JsonConverter CreateJsonConverterInstance(Type converterType) =>
+        creatorCache.Get(converterType);
+
+    static JsonConverter GetCreator(Type type)
     {
-        var creator = creatorCache.Get(converterType);
-        return (JsonConverter) creator(args);
-    }
-
-    public static NamingStrategy CreateNamingStrategyInstance(Type namingStrategyType, object[]? args)
-    {
-        var creator = creatorCache.Get(namingStrategyType);
-        return (NamingStrategy) creator(args);
-    }
-
-    static Func<object[]?, object> GetCreator(Type type)
-    {
-        var defaultConstructor = type.HasDefaultConstructor()
-            ? ReflectionDelegateFactory.CreateDefaultConstructor<object>(type)
-            : null;
-
-        return parameters =>
-        {
-            try
-            {
-                if (parameters != null)
-                {
-                    var paramTypes = new Type[parameters.Length];
-                    for (var index = 0; index < parameters.Length; index++)
-                    {
-                        var parameter = parameters[index];
-                        if (parameter == null)
-                        {
-                            throw new InvalidOperationException("Cannot pass a null parameter to the constructor.");
-                        }
-                        paramTypes[index] = parameter.GetType();
-                    }
-
-                    var constructorInfo = type.GetConstructor(paramTypes);
-
-                    if (constructorInfo == null)
-                    {
-                        throw new JsonException($"No matching parameterized constructor found for '{type}'.");
-                    }
-
-                    var constructor = ReflectionDelegateFactory.CreateParameterizedConstructor(constructorInfo);
-                    return constructor(parameters);
-                }
-
-                if (defaultConstructor == null)
-                {
-                    throw new JsonException($"No parameterless constructor defined for '{type}'.");
-                }
-
-                return defaultConstructor();
-            }
-            catch (Exception exception)
-            {
-                throw new JsonException($"Error creating '{type}'.", exception);
-            }
-        };
+        var constructor = ReflectionDelegateFactory.CreateDefaultConstructor<JsonConverter>(type);
+        return constructor();
     }
 
     public static T? GetAttribute<T>(this Type type)

@@ -16,24 +16,9 @@ public sealed class JsonConverterAttribute : Attribute
     public Type ConverterType { get; }
 
     /// <summary>
-    /// The parameter list to use when constructing the <see cref="JsonConverter" /> described by <see cref="ConverterType" />.
-    /// If <c>null</c>, the default constructor is used.
-    /// </summary>
-    public object[]? ConverterParameters { get; }
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="JsonConverterAttribute" /> class.
     /// </summary>
     /// <param name="converterType">Type of the <see cref="JsonConverter" />.</param>
     public JsonConverterAttribute(Type converterType) =>
         ConverterType = converterType;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonConverterAttribute" /> class.
-    /// </summary>
-    /// <param name="converterType">Type of the <see cref="JsonConverter" />.</param>
-    /// <param name="converterParameters">Parameter list to use when constructing the <see cref="JsonConverter" />. Can be <c>null</c>.</param>
-    public JsonConverterAttribute(Type converterType, params object[] converterParameters)
-        : this(converterType) =>
-        ConverterParameters = converterParameters;
 }

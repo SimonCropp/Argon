@@ -84,7 +84,6 @@ public class StringEnumConverterTests : TestFixtureBase
         public NegativeFlagsEnum Value2 { get; set; }
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
     public enum CamelCaseEnumNew
     {
         This,
@@ -92,7 +91,6 @@ public class StringEnumConverterTests : TestFixtureBase
         CamelCase
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(SnakeCaseNamingStrategy))]
     public enum SnakeCaseEnumNew
     {
         This,
@@ -100,22 +98,13 @@ public class StringEnumConverterTests : TestFixtureBase
         SnakeCase
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy), new object[0], false)]
     public enum NotAllowIntegerValuesEnum
     {
         Foo = 0,
         Bar = 1
     }
 
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
     public enum AllowIntegerValuesEnum
-    {
-        Foo = 0,
-        Bar = 1
-    }
-
-    [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy), null)]
-    public enum NullArgumentInAttribute
     {
         Foo = 0,
         Bar = 1
@@ -132,21 +121,9 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void StringEnumConverter_NamingStrategyTypeCtor()
-    {
-        var converter = new StringEnumConverter(typeof(CamelCaseNamingStrategy), [true, true], false);
-
-        Assert.NotNull(converter.NamingStrategy);
-        Assert.Equal(typeof(CamelCaseNamingStrategy), converter.NamingStrategy.GetType());
-        XUnitAssert.False(converter.AllowIntegerValues);
-        XUnitAssert.True(converter.NamingStrategy.OverrideSpecifiedNames);
-        XUnitAssert.True(converter.NamingStrategy.ProcessDictionaryKeys);
-    }
-
-    [Fact]
     public void Serialize_CamelCaseFromAttribute()
     {
-        var json = JsonConvert.SerializeObject(CamelCaseEnumNew.CamelCase);
+        var json = JsonConvert.SerializeObject(CamelCaseEnumNew.CamelCase, new StringEnumConverter(new CamelCaseNamingStrategy()));
         Assert.Equal(
             """
             "camelCase"
@@ -160,14 +137,17 @@ public class StringEnumConverterTests : TestFixtureBase
         var e = JsonConvert.DeserializeObject<CamelCaseEnumNew>(
             """
             "camelCase"
-            """);
+            """,
+            new StringEnumConverter(new CamelCaseNamingStrategy()));
         Assert.Equal(CamelCaseEnumNew.CamelCase, e);
     }
 
     [Fact]
     public void Serialize_SnakeCaseFromAttribute()
     {
-        var json = JsonConvert.SerializeObject(SnakeCaseEnumNew.SnakeCase);
+        var json = JsonConvert.SerializeObject(
+            SnakeCaseEnumNew.SnakeCase,
+            new StringEnumConverter(new SnakeCaseNamingStrategy()));
         Assert.Equal(
             """
             "snake_case"
@@ -181,34 +161,24 @@ public class StringEnumConverterTests : TestFixtureBase
         var e = JsonConvert.DeserializeObject<SnakeCaseEnumNew>(
             """
             "snake_case"
-            """);
+            """,
+            new StringEnumConverter(new SnakeCaseNamingStrategy()));
         Assert.Equal(SnakeCaseEnumNew.SnakeCase, e);
     }
 
     [Fact]
-    public void Deserialize_NotAllowIntegerValuesFromAttribute() =>
+    public void Deserialize_NotAllowIntegerValuesFromAttribute()
+    {
+        var converter = new StringEnumConverter(new CamelCaseNamingStrategy(), false);
         XUnitAssert.Throws<JsonSerializationException>(
             () =>
             {
                 JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(
                     """
                     "9"
-                    """);
+                    """,
+                    converter);
             });
-
-    [Fact]
-    public void CannotPassNullArgumentToConverter()
-    {
-        var ex = XUnitAssert.Throws<JsonException>(
-            () =>
-            {
-                JsonConvert.DeserializeObject<NullArgumentInAttribute>(
-                    """
-                    "9"
-                    """);
-            });
-
-        Assert.Equal("Cannot pass a null parameter to the constructor.", ex.InnerException.Message);
     }
 
     [Fact]
@@ -217,7 +187,8 @@ public class StringEnumConverterTests : TestFixtureBase
         var e = JsonConvert.DeserializeObject<AllowIntegerValuesEnum>(
             """
             "9"
-            """);
+            """,
+            new StringEnumConverter(new CamelCaseNamingStrategy()));
         Assert.Equal(9, (int) e);
     }
 

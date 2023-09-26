@@ -972,332 +972,6 @@ public class JsonConvertTest : TestFixtureBase
         public Nest A { get; set; }
     }
 
-    [Fact]
-    public void ParametersPassedToJsonConverterConstructor()
-    {
-        var clobber = new ClobberMyProperties {One = "Red", Two = "Green", Three = "Yellow", Four = "Black"};
-        var json = JsonConvert.SerializeObject(clobber);
-
-        Assert.Equal("{\"One\":\"Uno-1-Red\",\"Two\":\"Dos-2-Green\",\"Three\":\"Tres-1337-Yellow\",\"Four\":\"Black\"}", json);
-    }
-
-    public class ClobberMyProperties
-    {
-        [JsonConverter(typeof(ClobberingJsonConverter), "Uno", 1)]
-        public string One { get; set; }
-
-        [JsonConverter(typeof(ClobberingJsonConverter), "Dos", 2)]
-        public string Two { get; set; }
-
-        [JsonConverter(typeof(ClobberingJsonConverter), "Tres")]
-        public string Three { get; set; }
-
-        public string Four { get; set; }
-    }
-
-    public class ClobberingJsonConverter(string clobberValueString, int clobberValueInt) : JsonConverter
-    {
-        public string ClobberValueString { get; } = clobberValueString;
-
-        public int ClobberValueInt { get; } = clobberValueInt;
-
-        public ClobberingJsonConverter(string clobberValueString)
-            : this(clobberValueString, 1337)
-        {
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
-            writer.WriteValue($"{ClobberValueString}-{ClobberValueInt}-{value}");
-
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-            throw new NotImplementedException();
-
-        public override bool CanConvert(Type type) =>
-            type == typeof(string);
-    }
-
-    [Fact]
-    public void WrongParametersPassedToJsonConvertConstructorShouldThrow()
-    {
-        var value = new IncorrectJsonConvertParameters {One = "Boom"};
-
-        XUnitAssert.Throws<JsonException>(() => JsonConvert.SerializeObject(value));
-    }
-
-    public class IncorrectJsonConvertParameters
-    {
-        /// <summary>
-        /// We deliberately use the wrong number/type of arguments for ClobberingJsonConverter to ensure an
-        /// exception is thrown.
-        /// </summary>
-        [JsonConverter(typeof(ClobberingJsonConverter), "Uno", "Blammo")]
-        public string One { get; set; }
-    }
-
-    public class OverloadsJsonConverter : JsonConverter
-    {
-        readonly string type;
-
-        // constructor with Type argument
-
-        public OverloadsJsonConverter(Type typeParam) =>
-            type = "Type";
-
-        public OverloadsJsonConverter(object objectParam) =>
-            type = $"object({objectParam.GetType().FullName})";
-
-        // primitive type conversions
-
-        public OverloadsJsonConverter(byte byteParam) =>
-            type = "byte";
-
-        public OverloadsJsonConverter(short shortParam) =>
-            type = "short";
-
-        public OverloadsJsonConverter(int intParam) =>
-            type = "int";
-
-        public OverloadsJsonConverter(long longParam) =>
-            type = "long";
-
-        public OverloadsJsonConverter(double doubleParam) =>
-            type = "double";
-
-        // params argument
-
-        public OverloadsJsonConverter(params int[] intParams) =>
-            type = "int[]";
-
-        public OverloadsJsonConverter(bool[] intParams) =>
-            type = "bool[]";
-
-        // closest type resolution
-
-        public OverloadsJsonConverter(IEnumerable<string> iEnumerableParam) =>
-            type = "IEnumerable<string>";
-
-        public OverloadsJsonConverter(IList<string> iListParam) =>
-            type = "IList<string>";
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
-            writer.WriteValue(type);
-
-        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
-            throw new NotImplementedException();
-
-        public override bool CanConvert(Type type) =>
-            type == typeof(int);
-    }
-
-    public class OverloadWithTypeParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), typeof(int))]
-        public int Overload { get; set; }
-    }
-
-    [Fact]
-    public void JsonConverterConstructor_OverloadWithTypeParam()
-    {
-        var value = new OverloadWithTypeParameter();
-        var json = JsonConvert.SerializeObject(value);
-
-        Assert.Equal("{\"Overload\":\"Type\"}", json);
-    }
-
-    public class OverloadWithUnhandledParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), "str")]
-        public int Overload { get; set; }
-    }
-
-    [Fact]
-    public void JsonConverterConstructor_OverloadWithUnhandledParam_FallbackToObject()
-    {
-        var value = new OverloadWithUnhandledParameter();
-        var json = JsonConvert.SerializeObject(value);
-
-        Assert.Equal("{\"Overload\":\"object(System.String)\"}", json);
-    }
-
-    public class OverloadWithIntParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), 1)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithUIntParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), 1U)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithLongParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), 1L)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithULongParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), 1UL)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithShortParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), (short) 1)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithUShortParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), (ushort) 1)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithSByteParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), (sbyte) 1)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithByteParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), (byte) 1)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithCharParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), 'a')]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithBoolParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), true)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithFloatParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), 1.5f)]
-        public int Overload { get; set; }
-    }
-
-    public class OverloadWithDoubleParameter
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), 1.5)]
-        public int Overload { get; set; }
-    }
-
-    [Fact]
-    public void JsonConverterConstructor_OverloadsWithPrimitiveParams()
-    {
-        {
-            var value = new OverloadWithIntParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"int\"}", json);
-        }
-
-        {
-            // uint -> long
-            var value = new OverloadWithUIntParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"long\"}", json);
-        }
-
-        {
-            var value = new OverloadWithLongParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"long\"}", json);
-        }
-
-        {
-            // ulong -> double
-            var value = new OverloadWithULongParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"double\"}", json);
-        }
-
-        {
-            var value = new OverloadWithShortParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"short\"}", json);
-        }
-
-        {
-            // ushort -> int
-            var value = new OverloadWithUShortParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"int\"}", json);
-        }
-
-        {
-            // sbyte -> short
-            var value = new OverloadWithSByteParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"short\"}", json);
-        }
-
-        {
-            var value = new OverloadWithByteParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"byte\"}", json);
-        }
-
-        {
-            // char -> int
-            var value = new OverloadWithCharParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"int\"}", json);
-        }
-
-        {
-            // bool -> (object)bool
-            var value = new OverloadWithBoolParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"object(System.Boolean)\"}", json);
-        }
-
-        {
-            // float -> double
-            var value = new OverloadWithFloatParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"double\"}", json);
-        }
-
-        {
-            var value = new OverloadWithDoubleParameter();
-            var json = JsonConvert.SerializeObject(value);
-            Assert.Equal("{\"Overload\":\"double\"}", json);
-        }
-    }
-
-    public class OverloadWithArrayParameters
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), new[] {1, 2, 3})]
-        public int WithParams { get; set; }
-
-        [JsonConverter(typeof(OverloadsJsonConverter), new[] {true, false})]
-        public int WithoutParams { get; set; }
-    }
-
-    [Fact]
-    public void JsonConverterConstructor_OverloadsWithArrayParams()
-    {
-        var value = new OverloadWithArrayParameters();
-        var json = JsonConvert.SerializeObject(value);
-
-        Assert.Equal("{\"WithParams\":\"int[]\",\"WithoutParams\":\"bool[]\"}", json);
-    }
-
-    public class OverloadWithBaseType
-    {
-        [JsonConverter(typeof(OverloadsJsonConverter), new object[] {new[] {"a", "b", "c"}})]
-        public int Overload { get; set; }
-    }
-
     //[Fact]
     //[Ignore("https://github.com/dotnet/roslyn/issues/36974")]
     //public void JsonConverterConstructor_OverloadsWithBaseTypes()
@@ -1313,14 +987,13 @@ public class JsonConvertTest : TestFixtureBase
     {
         var measurements = new Measurements
         {
-            Loads = [23283.567554707258, 23224.849899771067, 23062.5, 22846.272519910868, 22594.281246368635],
             Positions = [57.724227689317019, 60.440934405753069, 63.444192925248643, 66.813119113482557, 70.4496501404433],
             Gain = 12345.67895111213
         };
 
         var json = JsonConvert.SerializeObject(measurements);
 
-        Assert.Equal("{\"Positions\":[57.72,60.44,63.44,66.81,70.45],\"Loads\":[23284.0,23225.0,23062.0,22846.0,22594.0],\"Gain\":12345.679}", json);
+        Assert.Equal("{\"Positions\":[57.72,60.44,63.44,66.81,70.45],\"Gain\":12345.68}", json);
     }
 
     public class Measurements
@@ -1328,25 +1001,12 @@ public class JsonConvertTest : TestFixtureBase
         [JsonProperty(ItemConverterType = typeof(RoundingJsonConverter))]
         public List<double> Positions { get; set; }
 
-        [JsonProperty(ItemConverterType = typeof(RoundingJsonConverter), ItemConverterParameters = new object[] {0, MidpointRounding.ToEven})]
-        public List<double> Loads { get; set; }
-
-        [JsonConverter(typeof(RoundingJsonConverter), 4)]
+        [JsonConverter(typeof(RoundingJsonConverter))]
         public double Gain { get; set; }
     }
 
-    public class RoundingJsonConverter(int precision, MidpointRounding rounding) : JsonConverter
+    public class RoundingJsonConverter : JsonConverter
     {
-        public RoundingJsonConverter()
-            : this(2)
-        {
-        }
-
-        public RoundingJsonConverter(int precision)
-            : this(precision, MidpointRounding.AwayFromZero)
-        {
-        }
-
         public override bool CanRead => false;
 
         public override bool CanConvert(Type type) =>
@@ -1356,7 +1016,7 @@ public class JsonConvertTest : TestFixtureBase
             throw new NotImplementedException();
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
-            writer.WriteValue(Math.Round((double) value, precision, rounding));
+            writer.WriteValue(Math.Round((double) value, 2, MidpointRounding.AwayFromZero));
     }
 
     [Fact]
