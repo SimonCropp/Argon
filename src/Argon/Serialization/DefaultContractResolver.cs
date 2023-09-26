@@ -37,8 +37,7 @@ public class DefaultContractResolver : IContractResolver
     public NamingStrategy? NamingStrategy { get; set; }
 
     public static List<JsonConverter> Converters { get; } =
-        new()
-        {
+        [
             new StringBuilderConverter(),
             new ExpandoObjectConverter(),
             new KeyValuePairConverter(),
@@ -50,7 +49,7 @@ public class DefaultContractResolver : IContractResolver
             new TimeZoneInfoConverter(),
             new VersionConverter(),
             new StringWriterConverter()
-        };
+        ];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultContractResolver" /> class.

@@ -10,7 +10,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 {
     Type? rootType;
     int rootLevel;
-    readonly List<object> serializeStack = new();
+    readonly List<object> serializeStack = [];
 
     public void Serialize(JsonWriter jsonWriter, object? value, Type? type)
     {
