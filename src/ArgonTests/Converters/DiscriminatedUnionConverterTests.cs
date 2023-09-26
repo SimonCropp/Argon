@@ -158,7 +158,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         var u = new Union
         {
             TagReader = s => FSharpValue.PreComputeUnionTagReader(type, null).Invoke(s),
-            Cases = new()
+            Cases = []
         };
 
         var cases = FSharpType.GetUnionCases(type, null);

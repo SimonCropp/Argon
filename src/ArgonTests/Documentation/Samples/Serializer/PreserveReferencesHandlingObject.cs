@@ -31,7 +31,7 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
 
         var file = new File {Name = "ImportantLegalDocument.docx", Parent = documents};
 
-        documents.Files = new List<File> {file};
+        documents.Files = [file];
 
         try
         {
