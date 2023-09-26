@@ -5,14 +5,14 @@
 public class MiscAsyncTests : TestFixtureBase
 {
     [Fact]
-    public async Task ReadWithSupportMultipleContentCommaDelimitedAsync()
+    public Task ReadWithSupportMultipleContentCommaDelimitedAsync()
     {
         var json = "{ 'name': 'Admin' },{ 'name': 'Publisher' },1,null,[],,'string'";
 
         var reader = new JsonTextReader(new StringReader(json));
         reader.SupportMultipleContent = true;
 
-        await reader.VerifyReaderState();
+        return reader.VerifyReaderState();
     }
 
     [Fact]

@@ -12,8 +12,8 @@ public class ParseTests : TestFixtureBase
                 "Small",
                 "Medium",
                 "Large"
-            ]   
-            
+            ]
+
 
             """;
 
@@ -251,11 +251,11 @@ public class ParseTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ParseContentDelimitedByNonStandardWhitespace()
+    public Task ParseContentDelimitedByNonStandardWhitespace()
     {
         var json = "\x00a0{\x00a0'h\x00a0i\x00a0'\x00a0:\x00a0[\x00a0true\x00a0,'2014-06-04T00:00:00Z'\x00a0]\x00a0/*\x00a0comment\x00a0*/\x00a0}\x00a0";
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-        await reader.VerifyReaderState();
+        return reader.VerifyReaderState();
     }
 
     [Fact]

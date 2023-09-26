@@ -862,7 +862,7 @@ public class ReadTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ReadContentDelimitedByComments()
+    public Task ReadContentDelimitedByComments()
     {
         var json = """
                    /*comment*/{/*comment*/Name:/*comment*/true/*comment*/,/*comment*/
@@ -873,7 +873,7 @@ public class ReadTests : TestFixtureBase
                    """;
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-        await reader.VerifyReaderState();
+        return reader.VerifyReaderState();
     }
 
     [Fact]
@@ -1316,7 +1316,7 @@ public class ReadTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ReadNewLines()
+    public Task ReadNewLines()
     {
         var newLinesText = $"{StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}{StringUtils.LineFeed}{StringUtils.CarriageReturnLineFeed} {StringUtils.CarriageReturn}{StringUtils.CarriageReturnLineFeed}";
 
@@ -1324,7 +1324,7 @@ public class ReadTests : TestFixtureBase
             $"{newLinesText}{{{newLinesText}'{newLinesText}name1{newLinesText}'{newLinesText}:{newLinesText}[{newLinesText}'2014-06-04T00:00:00Z'{newLinesText},{newLinesText}1.1111{newLinesText}]{newLinesText},{newLinesText}name2{newLinesText}:{newLinesText}{{{newLinesText}}}{newLinesText}}}{newLinesText}";
 
         var reader = new JsonTextReader(new StreamReader(new SlowStream(json, new UTF8Encoding(false), 1)));
-        await reader.VerifyReaderState();
+        return reader.VerifyReaderState();
     }
 
     [Fact]
