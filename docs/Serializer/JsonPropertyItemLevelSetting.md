@@ -38,11 +38,7 @@ var worker = new Employee
 var business = new Business
 {
     Name = "Acme Ltd.",
-    Employees = new List<Employee>
-    {
-        manager,
-        worker
-    }
+    Employees = [manager, worker]
 };
 
 var json = JsonConvert.SerializeObject(business, Formatting.Indented);
@@ -66,5 +62,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L28-L71' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L28-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
