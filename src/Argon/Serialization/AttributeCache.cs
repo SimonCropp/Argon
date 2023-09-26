@@ -48,7 +48,6 @@ static class MemberAttributeCache
         public required JsonRequiredAttribute? Required { get; init; }
         public required DefaultValueAttribute? DefaultValue { get; init; }
         public required JsonIgnoreAttribute? Ignore { get; init; }
-        public required JsonExtensionDataAttribute? ExtensionData { get; init; }
         public required IgnoreDataMemberAttribute? IgnoreDataMember { get; init; }
 
 
@@ -65,7 +64,6 @@ static class MemberAttributeCache
                 Required = GetAttribute<JsonRequiredAttribute>(attributes),
                 DefaultValue = GetAttribute<DefaultValueAttribute>(attributes),
                 Ignore = GetAttribute<JsonIgnoreAttribute>(attributes),
-                ExtensionData = GetAttribute<JsonExtensionDataAttribute>(attributes),
                 IgnoreDataMember = GetAttribute<IgnoreDataMemberAttribute>(attributes),
             };
         });

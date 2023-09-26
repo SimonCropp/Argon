@@ -766,6 +766,7 @@ public class DefaultContractResolver : IContractResolver
 
     void SetPropertySettingsFromAttributes(JsonProperty property, ICustomAttributeProvider attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
     {
+        var info = MemberAttributeCache.Get(attributeProvider);
         var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
 
         var member = attributeProvider as MemberInfo;
@@ -834,7 +835,7 @@ public class DefaultContractResolver : IContractResolver
 
         property.HasMemberAttribute = hasMemberAttribute;
 
-        var ignored = GetPropertyIgnored(attributeProvider, memberSerialization, hasMemberAttribute);
+        var ignored = GetPropertyIgnored(memberSerialization, hasMemberAttribute, info);
 
         property.Ignored = ignored;
 
@@ -852,9 +853,9 @@ public class DefaultContractResolver : IContractResolver
                                memberSerialization == MemberSerialization.Fields;
     }
 
-    static bool GetPropertyIgnored(ICustomAttributeProvider attributeProvider, MemberSerialization memberSerialization, bool hasMemberAttribute)
+    static bool GetPropertyIgnored(MemberSerialization memberSerialization, bool hasMemberAttribute, MemberAttributeCache.Info info)
     {
-        var hasJsonIgnoreAttribute = JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null;
+        var hasJsonIgnoreAttribute = info.Ignore != null;
 
         if (memberSerialization == MemberSerialization.OptIn)
         {
@@ -862,7 +863,7 @@ public class DefaultContractResolver : IContractResolver
             return hasJsonIgnoreAttribute || !hasMemberAttribute;
         }
 
-        var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
+        var hasIgnoreDataMemberAttribute = info.IgnoreDataMember != null;
 
         // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
         return hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
