@@ -14,7 +14,7 @@ class JPath
     public JPath(string expression)
     {
         this.expression = expression;
-        Filters = new();
+        Filters = [];
 
         ParseMain();
     }
@@ -281,7 +281,7 @@ class JPath
                     throw new JsonException("Array index expected.");
                 }
 
-                indexes ??= new();
+                indexes ??= [];
 
                 var indexer = expression.Substring(start, length);
                 indexes.Add(Convert.ToInt32(indexer, InvariantCulture));
@@ -404,11 +404,11 @@ class JPath
     {
         if (expression[currentIndex] == '$')
         {
-            expressionPath = new() {RootFilter.Instance};
+            expressionPath = [RootFilter.Instance];
         }
         else if (expression[currentIndex] == '@')
         {
-            expressionPath = new();
+            expressionPath = [];
         }
         else
         {
@@ -816,7 +816,7 @@ class JPath
                 currentIndex++;
                 EatWhitespace();
 
-                fields ??= new();
+                fields ??= [];
 
                 fields.Add(field);
             }

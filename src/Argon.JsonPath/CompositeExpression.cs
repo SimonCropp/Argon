@@ -1,9 +1,6 @@
-﻿class CompositeExpression : QueryExpression
+﻿class CompositeExpression(QueryOperator @operator) : QueryExpression(@operator)
 {
-    public List<QueryExpression> Expressions { get; set; }
-
-    public CompositeExpression(QueryOperator @operator) : base(@operator) =>
-        Expressions = new();
+    public List<QueryExpression> Expressions { get; set; } = [];
 
     public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)
     {

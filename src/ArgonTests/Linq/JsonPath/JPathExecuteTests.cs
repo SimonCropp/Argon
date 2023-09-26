@@ -1553,7 +1553,7 @@ public class JPathExecuteTests : TestFixtureBase
     {
         foreach (var item in StrictMatchTestData())
         {
-            yield return new[] {item[0], item[1], item[2]};
+            yield return [item[0], item[1], item[2]];
 
             if (!item[0].Equals(item[1]))
             {
@@ -1565,16 +1565,16 @@ public class JPathExecuteTests : TestFixtureBase
 
     static IEnumerable<object[]> StrictMatchTestData()
     {
-        yield return new object[] {"1", "1", true};
-        yield return new object[] {"1", "1.0", true};
-        yield return new object[] {"1", "true", false};
-        yield return new object[] {"1", "'1'", false};
-        yield return new object[] {"'1'", "'1'", true};
-        yield return new object[] {"false", "false", true};
-        yield return new object[] {"true", "false", false};
-        yield return new object[] {"1", "1.1", false};
-        yield return new object[] {"1", "null", false};
-        yield return new object[] {"null", "null", true};
-        yield return new object[] {"null", "'null'", false};
+        yield return ["1", "1", true];
+        yield return ["1", "1.0", true];
+        yield return ["1", "true", false];
+        yield return ["1", "'1'", false];
+        yield return ["'1'", "'1'", true];
+        yield return ["false", "false", true];
+        yield return ["true", "false", false];
+        yield return ["1", "1.1", false];
+        yield return ["1", "null", false];
+        yield return ["null", "null", true];
+        yield return ["null", "'null'", false];
     }
 }

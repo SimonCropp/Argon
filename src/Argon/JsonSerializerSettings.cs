@@ -45,7 +45,7 @@ public class JsonSerializerSettings
     /// <summary>
     /// Gets or sets a <see cref="JsonConverter" /> collection that will be used during serialization.
     /// </summary>
-    public List<JsonConverter> Converters { get; set; } = new();
+    public List<JsonConverter> Converters { get; set; } = [];
 
     /// <summary>
     /// Gets or sets how object references are preserved by the serializer.

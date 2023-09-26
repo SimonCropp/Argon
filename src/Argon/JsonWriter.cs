@@ -75,7 +75,7 @@ public abstract partial class JsonWriter : IDisposable
     static JsonWriter() =>
         stateArray = BuildStateArray();
 
-    List<JsonPosition> stack = new();
+    List<JsonPosition> stack = [];
     JsonPosition currentPosition;
     State currentState;
 

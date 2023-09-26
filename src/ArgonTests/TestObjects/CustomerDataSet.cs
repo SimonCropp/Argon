@@ -347,11 +347,7 @@ public class CustomerDataSet : System.Data.DataSet
         public CustomersRow AddCustomersRow(string CustomerID)
         {
             var rowCustomersRow = (CustomersRow)NewRow();
-            var columnValuesArray = new object[]
-            {
-                CustomerID
-            };
-            rowCustomersRow.ItemArray = columnValuesArray;
+            rowCustomersRow.ItemArray = [CustomerID];
             Rows.Add(rowCustomersRow);
             return rowCustomersRow;
         }

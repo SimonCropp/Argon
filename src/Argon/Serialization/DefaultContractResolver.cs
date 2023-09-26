@@ -37,8 +37,7 @@ public class DefaultContractResolver : IContractResolver
     public NamingStrategy? NamingStrategy { get; set; }
 
     public static List<JsonConverter> Converters { get; } =
-        new()
-        {
+        [
             new StringBuilderConverter(),
             new ExpandoObjectConverter(),
             new KeyValuePairConverter(),
@@ -50,7 +49,7 @@ public class DefaultContractResolver : IContractResolver
             new TimeZoneInfoConverter(),
             new VersionConverter(),
             new StringWriterConverter()
-        };
+        ];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DefaultContractResolver" /> class.
@@ -111,7 +110,8 @@ public class DefaultContractResolver : IContractResolver
         // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
         foreach (var member in type.GetFieldsAndProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
         {
-            if (!(member is not PropertyInfo p || !p.IsIndexedProperty()))
+            if (!(member is not PropertyInfo property ||
+                  !property.IsIndexedProperty()))
             {
                 continue;
             }
@@ -128,7 +128,7 @@ public class DefaultContractResolver : IContractResolver
         // MemberBase is problematic to serialize. Large, self referencing instances, etc
         if (typeof(Exception).IsAssignableFrom(type))
         {
-            return serializableMembers.Where(m => !string.Equals(m.Name, "TargetSite", StringComparison.Ordinal));
+            return serializableMembers.Where(_ => !string.Equals(_.Name, "TargetSite", StringComparison.Ordinal));
         }
 
         return serializableMembers;
@@ -137,7 +137,8 @@ public class DefaultContractResolver : IContractResolver
     bool ShouldSerialize(MemberInfo member, List<MemberInfo> defaultMembers, DataContractAttribute? dataContractAttribute)
     {
         // exclude members that are compiler generated if set
-        if (!SerializeCompilerGeneratedMembers && member.IsDefined(typeof(CompilerGeneratedAttribute), true))
+        if (!SerializeCompilerGeneratedMembers &&
+            member.IsDefined(typeof(CompilerGeneratedAttribute), true))
         {
             return false;
         }
@@ -160,7 +161,8 @@ public class DefaultContractResolver : IContractResolver
             return true;
         }
 
-        if (dataContractAttribute != null && member.GetAttribute<DataMemberAttribute>() != null)
+        if (dataContractAttribute != null &&
+            member.GetAttribute<DataMemberAttribute>() != null)
         {
             return true;
         }

@@ -66,8 +66,7 @@ public class LinqToJsonTests : TestFixtureBase
         public IList<string> Categories { get; set; }
     }
 
-    static List<Post> GetPosts() =>
-        new();
+    static List<Post> GetPosts() => [];
 
     [Fact]
     public void LinqToJsonCreateDeclaratively()

@@ -158,7 +158,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         var u = new Union
         {
             TagReader = s => FSharpValue.PreComputeUnionTagReader(type, null).Invoke(s),
-            Cases = new()
+            Cases = []
         };
 
         var cases = FSharpType.GetUnionCases(type, null);
@@ -204,10 +204,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
 
         var caseInfo = union.Cases.Single(_ => _.Name == "Rectangle");
 
-        var value = (Shape.Rectangle) caseInfo.Constructor.Invoke(new object[]
-        {
-            10.0, 5.0
-        });
+        var value = (Shape.Rectangle) caseInfo.Constructor.Invoke([10.0, 5.0]);
 
         Assert.Equal("TestObjects.Shape+Rectangle", value.ToString());
         Assert.Equal(10, value.width);

@@ -44,8 +44,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Value"};
-        var o = (InTestClass) creator(args);
+        var o = (InTestClass) creator(["Value"]);
         Assert.NotNull(o);
         Assert.Equal("Value", o.Value);
     }
@@ -57,8 +56,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Value", true};
-        var o = (InTestClass) creator(args);
+        var o = (InTestClass) creator(["Value", true]);
         Assert.NotNull(o);
         Assert.Equal("Value", o.Value);
         XUnitAssert.True(o.B1);
@@ -71,8 +69,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Input"};
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input"]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
     }
@@ -84,8 +81,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Input", null};
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input", null]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
     }
@@ -97,8 +93,7 @@ public class LateboundReflectionDelegateFactoryTests : TestFixtureBase
 
         var creator = LateBoundReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
 
-        var args = new object[] {"Input", true, null};
-        var o = (OutAndRefTestClass) creator(args);
+        var o = (OutAndRefTestClass) creator(["Input", true, null]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
         XUnitAssert.True(o.B1);

@@ -9,7 +9,7 @@ public class Issue1461 : TestFixtureBase
     {
         var settings = new JsonSerializerSettings
         {
-            Converters = new (){ new IdJsonConverter() },
+            Converters = [new IdJsonConverter()],
         };
 
         var test = new TestObject { Id = "test" };

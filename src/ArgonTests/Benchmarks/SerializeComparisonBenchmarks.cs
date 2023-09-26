@@ -27,12 +27,12 @@ public class SerializeComparisonBenchmarks
             },
             BigNumber = 34123123123.121M,
             Now = DateTime.Now.AddHours(1),
-            strings = new()
-            {
+            strings =
+            [
                 null,
                 "Markus egger ]><[, (2nd)",
                 null
-            }
+            ]
         };
 
         var address = new Address

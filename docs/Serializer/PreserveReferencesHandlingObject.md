@@ -29,7 +29,7 @@ var documents = new Directory {Name = "My Documents", Parent = root};
 
 var file = new File {Name = "ImportantLegalDocument.docx", Parent = documents};
 
-documents.Files = new List<File> {file};
+documents.Files = [file];
 
 try
 {

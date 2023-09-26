@@ -51,7 +51,7 @@ static class DynamicUtils
             for (var i = 0; i < values.Length; i++)
             {
                 var createArgumentInfoMethod = csharpArgumentInfoType.GetMethod("Create", new[] {csharpArgumentInfoFlags, typeof(string)})!;
-                var arg = createArgumentInfoMethod.Invoke(null, new object?[] {0, null});
+                var arg = createArgumentInfoMethod.Invoke(null, [0, null]);
                 a.SetValue(arg, i);
             }
 
