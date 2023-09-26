@@ -93,7 +93,7 @@ public class XmlNodeConverter : JsonConverter
         {
             if (parent.NodeType == XmlNodeType.Element)
             {
-                parentElements ??= new();
+                parentElements ??= [];
 
                 parentElements.Add(parent);
             }
@@ -252,10 +252,7 @@ public class XmlNodeConverter : JsonConverter
                         {
                             if (value is not List<IXmlNode> nodes)
                             {
-                                nodes = new()
-                                {
-                                    (IXmlNode) value
-                                };
+                                nodes = [(IXmlNode) value];
                                 nodesGroupedByName[currentNodeName] = nodes;
                             }
 

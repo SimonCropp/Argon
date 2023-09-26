@@ -17,7 +17,7 @@ class XContainerWrapper(XContainer container) :
             {
                 if (HasChildNodes)
                 {
-                    childNodes = new();
+                    childNodes = [];
                     foreach (var node in Container.Nodes())
                     {
                         childNodes.Add(WrapNode(node));
