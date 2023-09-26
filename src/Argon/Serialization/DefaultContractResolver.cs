@@ -854,24 +854,18 @@ public class DefaultContractResolver : IContractResolver
 
     static bool GetPropertyIgnored(ICustomAttributeProvider attributeProvider, MemberSerialization memberSerialization, bool hasMemberAttribute)
     {
-        var hasJsonIgnoreAttribute =
-            JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null;
+        var hasJsonIgnoreAttribute = JsonTypeReflector.GetAttribute<JsonIgnoreAttribute>(attributeProvider) != null;
 
-        bool ignored;
         if (memberSerialization == MemberSerialization.OptIn)
         {
             // ignored if it has JsonIgnore/NonSerialized or does not have DataMember or JsonProperty attributes
-            ignored = hasJsonIgnoreAttribute || !hasMemberAttribute;
-        }
-        else
-        {
-            var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
-
-            // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
-            ignored = hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
+            return hasJsonIgnoreAttribute || !hasMemberAttribute;
         }
 
-        return ignored;
+        var hasIgnoreDataMemberAttribute = JsonTypeReflector.GetAttribute<IgnoreDataMemberAttribute>(attributeProvider) != null;
+
+        // ignored if it has JsonIgnore or NonSerialized or IgnoreDataMember attributes
+        return hasJsonIgnoreAttribute || hasIgnoreDataMemberAttribute;
     }
 
     string GetPropertyName(string name, JsonPropertyAttribute? propertyAttribute, DataMemberAttribute? dataMemberAttribute)
