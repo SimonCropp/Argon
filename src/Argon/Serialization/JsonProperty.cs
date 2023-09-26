@@ -211,16 +211,14 @@ public class JsonProperty(Type propertyType, Type declaringType)
 
     internal void WritePropertyName(JsonWriter writer)
     {
-        var propertyName = PropertyName;
-        MiscellaneousUtils.Assert(propertyName != null);
-
+        MiscellaneousUtils.Assert(name != null);
         if (skipNameEscape)
         {
-            writer.WritePropertyName(propertyName, false);
+            writer.WritePropertyName(name, false);
         }
         else
         {
-            writer.WritePropertyName(propertyName);
+            writer.WritePropertyName(name);
         }
     }
 }
