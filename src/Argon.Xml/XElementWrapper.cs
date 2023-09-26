@@ -25,7 +25,7 @@ class XElementWrapper(XElement element) : XContainerWrapper(element),
                 if (Element.HasAttributes ||
                     HasImplicitNamespaceAttribute(NamespaceUri))
                 {
-                    attributes = new();
+                    attributes = [];
                     foreach (var attribute in Element.Attributes())
                     {
                         attributes.Add(new XAttributeWrapper(attribute));

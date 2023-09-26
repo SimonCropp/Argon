@@ -12,7 +12,7 @@ namespace Argon;
 /// </summary>
 public class XmlNodeConverter : JsonConverter
 {
-    internal static readonly List<IXmlNode> EmptyChildNodes = new();
+    internal static readonly List<IXmlNode> EmptyChildNodes = [];
 
     const string textName = "#text";
     const string commentName = "#comment";

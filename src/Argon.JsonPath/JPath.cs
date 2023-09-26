@@ -14,7 +14,7 @@ class JPath
     public JPath(string expression)
     {
         this.expression = expression;
-        Filters = new();
+        Filters = [];
 
         ParseMain();
     }
