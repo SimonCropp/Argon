@@ -66,7 +66,7 @@ static class BoxedPrimitives
 
     internal static object Get(decimal value)
     {
-        // Decimals can contain trailing zeros. For example 1 vs 1.0. Unfortunatly, Equals doesn't check for trailing zeros.
+        // Decimals can contain trailing zeros. For example 1 vs 1.0. Unfortunately, Equals doesn't check for trailing zeros.
         // There isn't a way to find out if a decimal has trailing zeros in older frameworks without calling ToString.
         // Don't provide a cached boxed decimal value in older frameworks.
 

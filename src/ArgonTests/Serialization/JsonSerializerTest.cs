@@ -1480,11 +1480,11 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var value = """{"Name":"Orange", "Price":3.99, "ExpiryDate":"01/24/2010 12:00:00"}""";
 
-        var p = JsonConvert.DeserializeObject(value, typeof(Product)) as Product;
+        var product = (Product)JsonConvert.DeserializeObject(value, typeof(Product));
 
-        Assert.Equal("Orange", p.Name);
-        Assert.Equal(new(2010, 1, 24, 12, 0, 0), p.ExpiryDate);
-        Assert.Equal(3.99m, p.Price);
+        Assert.Equal("Orange", product.Name);
+        Assert.Equal(new(2010, 1, 24, 12, 0, 0), product.ExpiryDate);
+        Assert.Equal(3.99m, product.Price);
     }
 
     [Fact]
@@ -1505,7 +1505,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var output = JsonConvert.SerializeObject(executorObject);
 
-        var executorObject2 = JsonConvert.DeserializeObject(output, typeof(MethodExecutorObject)) as MethodExecutorObject;
+        var executorObject2 = (MethodExecutorObject)JsonConvert.DeserializeObject(output, typeof(MethodExecutorObject));
 
         Assert.NotSame(executorObject, executorObject2);
         Assert.Equal(executorObject2.serverClassName, "BanSubs");
@@ -1519,7 +1519,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var value = """{"Name":"Orange", "Price":3.99, "ExpiryDate":"01/24/2010 12:00:00"}""";
 
-        var p = JsonConvert.DeserializeObject(value, typeof(Hashtable)) as Hashtable;
+        var p = (Hashtable)JsonConvert.DeserializeObject(value, typeof(Hashtable));
 
         Assert.Equal("Orange", p["Name"].ToString());
     }
@@ -1529,7 +1529,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var value = """{"Name":"Orange", "Hash":{"ExpiryDate":"01/24/2010 12:00:00","UntypedArray":["01/24/2010 12:00:00"]}}""";
 
-        var p = JsonConvert.DeserializeObject(value, typeof(TypedSubHashtable)) as TypedSubHashtable;
+        var p = (TypedSubHashtable)JsonConvert.DeserializeObject(value, typeof(TypedSubHashtable));
 
         Assert.Equal("01/24/2010 12:00:00", p.Hash["ExpiryDate"].ToString());
         XUnitAssert.AreEqualNormalized(
