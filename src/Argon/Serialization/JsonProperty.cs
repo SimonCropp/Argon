@@ -14,8 +14,8 @@ public class JsonProperty(Type propertyType, Type declaringType)
 
     object? defaultValue;
     bool hasGeneratedDefaultValue;
-    string? propertyName;
-    internal bool skipPropertyNameEscape;
+    string? name;
+    internal bool skipNameEscape;
 
     // use to cache contract during deserialization
     internal JsonContract? PropertyContract { get; set; }
@@ -25,11 +25,11 @@ public class JsonProperty(Type propertyType, Type declaringType)
     /// </summary>
     public string? PropertyName
     {
-        get => propertyName;
+        get => name;
         set
         {
-            propertyName = value;
-            skipPropertyNameEscape = !JavaScriptUtils.ShouldEscapeJavaScriptString(propertyName);
+            name = value;
+            skipNameEscape = !JavaScriptUtils.ShouldEscapeJavaScriptString(name);
         }
     }
 
@@ -214,7 +214,7 @@ public class JsonProperty(Type propertyType, Type declaringType)
         var propertyName = PropertyName;
         MiscellaneousUtils.Assert(propertyName != null);
 
-        if (skipPropertyNameEscape)
+        if (skipNameEscape)
         {
             writer.WritePropertyName(propertyName, false);
         }
