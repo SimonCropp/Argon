@@ -139,6 +139,22 @@ static class JsonTypeReflector
         return constructor();
     }
 
+    public static IEnumerable<Attribute> GetAttributes(this Type type)
+    {
+        foreach (var attribute in type.GetCustomAttributes<Attribute>(true))
+        {
+            yield return attribute;
+        }
+
+        foreach (var typeInterface in type.GetInterfaces())
+        {
+            foreach (var attribute in typeInterface.GetCustomAttributes<Attribute>(true))
+            {
+                yield return attribute;
+            }
+        }
+    }
+
     public static T? GetAttribute<T>(this Type type)
         where T : Attribute
     {
