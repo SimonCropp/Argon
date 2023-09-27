@@ -900,7 +900,8 @@ public class DefaultContractResolver : IContractResolver
     {
         var shouldSerializeMethod = member.DeclaringType!.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
 
-        if (shouldSerializeMethod == null || shouldSerializeMethod.ReturnType != typeof(bool))
+        if (shouldSerializeMethod == null ||
+            shouldSerializeMethod.ReturnType != typeof(bool))
         {
             return null;
         }

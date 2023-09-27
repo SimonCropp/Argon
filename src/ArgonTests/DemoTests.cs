@@ -430,28 +430,6 @@ public class DemoTests : TestFixtureBase
         Assert.True(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
     }
 
-    public class House
-    {
-        public string StreetAddress { get; set; }
-        public DateTime BuildDate { get; set; }
-        public int Bedrooms { get; set; }
-        public decimal FloorArea { get; set; }
-    }
-
-    public class House1
-    {
-        public string StreetAddress { get; set; }
-
-        [JsonIgnore]
-        public int Bedrooms { get; set; }
-
-        [JsonIgnore]
-        public decimal FloorArea { get; set; }
-
-        [JsonIgnore]
-        public DateTime BuildDate { get; set; }
-    }
-
     [JsonObject(MemberSerialization.OptIn)]
     public class House3
     {
@@ -536,58 +514,6 @@ public class DemoTests : TestFixtureBase
         //   "buildDate": new Date(-2524568400000),
         //   "address": "221B Baker Street"
         // }
-    }
-
-    [Fact]
-    public void MergeJson()
-    {
-        var o1 = JObject.Parse(
-            """
-            {
-              'FirstName': 'John',
-              'LastName': 'Smith',
-              'Enabled': false,
-              'Roles': [ 'User' ]
-            }
-            """);
-        var o2 = JObject.Parse(
-            """
-            {
-              'Enabled': true,
-              'Roles': [ 'User', 'Admin' ]
-            }
-            """);
-
-        o1.Merge(o2, new()
-        {
-            // union arrays together to avoid duplicates
-            MergeArrayHandling = MergeArrayHandling.Union
-        });
-
-        var json = o1.ToString();
-        // {
-        //   "FirstName": "John",
-        //   "LastName": "Smith",
-        //   "Enabled": true,
-        //   "Roles": [
-        //     "User",
-        //     "Admin"
-        //   ]
-        // }
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "FirstName": "John",
-              "LastName": "Smith",
-              "Enabled": true,
-              "Roles": [
-                "User",
-                "Admin"
-              ]
-            }
-            """,
-            json);
     }
 
     [Fact]

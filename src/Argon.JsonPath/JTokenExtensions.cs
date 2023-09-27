@@ -93,10 +93,7 @@ public static class JTokenExtensions
     /// <returns>An <see cref="IEnumerable{T}" /> of <see cref="JToken" /> that contains the selected elements.</returns>
     public static IEnumerable<JToken> SelectTokens(this JToken token, string path, JsonSelectSettings? settings)
     {
-        if (settings == null)
-        {
-            settings = DefaultSettings;
-        }
+        settings ??= DefaultSettings;
 
         var p = new JPath(path);
         return p.Evaluate(token, token, settings);

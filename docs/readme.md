@@ -53,7 +53,6 @@
     * [Using JObject.Properties](/docs/Linq/JObjectProperties.md)
     * [Casting JValue](/docs/Linq/JValueCast.md)
     * [Using JValue.Value](/docs/Linq/JValueValue.md)
-    * [Merging JSON](/docs/Linq/MergeJson.md)
     * [Modifying JSON](/docs/Linq/ModifyJson.md)
     * [Parse JSON using JToken.Parse](/docs/Linq/ParseJsonAny.md)
     * [Parse JSON using JArray.Parse](/docs/Linq/ParseJsonArray.md)

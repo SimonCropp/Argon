@@ -1,13 +1,8 @@
 ﻿using System.Xml.Linq;
 
-class XTextWrapper : XObjectWrapper
+class XTextWrapper(XText text) : XObjectWrapper(text)
 {
     XText Text => (XText) WrappedNode!;
-
-    public XTextWrapper(XText text)
-        : base(text)
-    {
-    }
 
     public override string Value
     {

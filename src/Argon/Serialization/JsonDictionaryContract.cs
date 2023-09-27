@@ -53,7 +53,8 @@ public class JsonDictionaryContract : JsonContainerContract
     {
         get
         {
-            if (parameterizedCreator == null && parameterizedConstructor != null)
+            if (parameterizedCreator == null &&
+                parameterizedConstructor != null)
             {
                 parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructor);
             }

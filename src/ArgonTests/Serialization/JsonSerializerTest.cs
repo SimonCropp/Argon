@@ -5338,7 +5338,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void SerializeIConvertible()
     {
-        var c = new ConvertableIntTestClass
+        var c = new ConvertibleIntTestClass
         {
             Integer = new(1),
             NullableInteger1 = new ConvertibleInt(2),
@@ -5370,7 +5370,7 @@ public class JsonSerializerTest : TestFixtureBase
                    """;
 
         XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<ConvertableIntTestClass>(json),
+            () => JsonConvert.DeserializeObject<ConvertibleIntTestClass>(json),
             "Error converting value 1 to type 'TestObjects.ConvertibleInt'. Path 'Integer', line 2, position 14.");
     }
 
@@ -6916,7 +6916,7 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void ConvertibleIdTest()
     {
-        var c = new TestClassConvertable
+        var c = new TestClassConvertible
         {
             Id = new()
             {

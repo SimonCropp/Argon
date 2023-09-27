@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-public class ConvertableIntTestClass
+public class ConvertibleIntTestClass
 {
     public ConvertibleInt Integer { get; set; }
     public ConvertibleInt? NullableInteger1 { get; set; }

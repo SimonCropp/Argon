@@ -10,7 +10,7 @@ namespace Argon;
 public abstract class JsonContract
 {
     internal bool IsNullable;
-    internal bool IsConvertable;
+    internal bool IsConvertible;
     internal bool IsEnum;
     internal Type NonNullableUnderlyingType;
     internal ReadType InternalReadType;
@@ -89,7 +89,7 @@ public abstract class JsonContract
 
         createdType = CreatedType = NonNullableUnderlyingType;
 
-        IsConvertable = NonNullableUnderlyingType.IsConvertible();
+        IsConvertible = NonNullableUnderlyingType.IsConvertible();
         IsEnum = NonNullableUnderlyingType.IsEnum;
 
         InternalReadType = ReadType.Read;
