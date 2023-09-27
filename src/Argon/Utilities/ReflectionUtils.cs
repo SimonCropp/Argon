@@ -481,7 +481,7 @@ static class ReflectionUtils
 
     public static MemberInfo? GetMemberInfoFromType(Type targetType, MemberInfo member)
     {
-        const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+        const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
         var memberType = member.MemberType;
         if (memberType == MemberTypes.Property)

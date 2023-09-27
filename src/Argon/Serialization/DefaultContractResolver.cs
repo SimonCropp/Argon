@@ -108,7 +108,7 @@ public class DefaultContractResolver : IContractResolver
             .Where(FilterMembers).ToList();
 
         // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
-        foreach (var member in type.GetFieldsAndProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+        foreach (var member in type.GetFieldsAndProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
         {
             if (!(member is not PropertyInfo property ||
                   !property.IsIndexedProperty()))
