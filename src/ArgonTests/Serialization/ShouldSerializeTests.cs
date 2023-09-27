@@ -183,62 +183,6 @@ public class ShouldSerializeTests : TestFixtureBase
             json);
     }
 
-    [Fact]
-    public void SpecifiedTest()
-    {
-        var c = new SpecifiedTestClass
-        {
-            Name = "James",
-            Age = 27,
-            NameSpecified = false
-        };
-
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "Age": 27
-            }
-            """,
-            json);
-
-        var deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
-        Assert.Null(deserialized.Name);
-        Assert.False(deserialized.NameSpecified);
-        Assert.False(deserialized.WeightSpecified);
-        Assert.False(deserialized.HeightSpecified);
-        Assert.False(deserialized.FavoriteNumberSpecified);
-        Assert.Equal(27, deserialized.Age);
-
-        c.NameSpecified = true;
-        c.WeightSpecified = true;
-        c.HeightSpecified = true;
-        c.FavoriteNumber = 23;
-        json = JsonConvert.SerializeObject(c, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "Name": "James",
-              "Age": 27,
-              "Weight": 0,
-              "Height": 0,
-              "FavoriteNumber": 23
-            }
-            """,
-            json);
-
-        deserialized = JsonConvert.DeserializeObject<SpecifiedTestClass>(json);
-        Assert.Equal("James", deserialized.Name);
-        Assert.True(deserialized.NameSpecified);
-        Assert.True(deserialized.WeightSpecified);
-        Assert.True(deserialized.HeightSpecified);
-        Assert.True(deserialized.FavoriteNumberSpecified);
-        Assert.Equal(27, deserialized.Age);
-        Assert.Equal(23, deserialized.FavoriteNumber);
-    }
-
     //    [Fact]
     //    public void XmlSerializerSpecifiedTrueTest()
     //    {
@@ -296,59 +240,6 @@ public class ShouldSerializeTests : TestFixtureBase
         public int NumberOfChildren { get; set; }
 
         [JsonIgnore] public bool NumberOfChildrenSpecified { get; set; }
-    }
-
-    [Fact]
-    public void SpecifiedExample()
-    {
-        var joe = new FamilyDetails
-        {
-            Name = "Joe Family Details",
-            NumberOfChildren = 4,
-            NumberOfChildrenSpecified = true
-        };
-
-        var martha = new FamilyDetails
-        {
-            Name = "Martha Family Details",
-            NumberOfChildren = 3,
-            NumberOfChildrenSpecified = false
-        };
-
-        var json = JsonConvert.SerializeObject(new[] {joe, martha}, Formatting.Indented);
-        //[
-        //  {
-        //    "Name": "Joe Family Details",
-        //    "NumberOfChildren": 4
-        //  },
-        //  {
-        //    "Name": "Martha Family Details"
-        //  }
-        //]
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            [
-              {
-                "Name": "Joe Family Details",
-                "NumberOfChildren": 4
-              },
-              {
-                "Name": "Martha Family Details"
-              }
-            ]
-            """,
-            json);
-
-        var mikeString = "{\"Name\": \"Mike Person\"}";
-        var mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeString);
-
-        XUnitAssert.False(mike.NumberOfChildrenSpecified);
-
-        var mikeFullDisclosureString = "{\"Name\": \"Mike Person\", \"NumberOfChildren\": \"0\"}";
-        mike = JsonConvert.DeserializeObject<FamilyDetails>(mikeFullDisclosureString);
-
-        XUnitAssert.True(mike.NumberOfChildrenSpecified);
     }
 
     [Fact]

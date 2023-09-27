@@ -874,8 +874,6 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         // this could happen because of a JsonConverter against the type
         property.ValueProvider!.SetValue(target, value);
 
-        property.SetIsSpecified?.Invoke(target, true);
-
         return true;
     }
 
