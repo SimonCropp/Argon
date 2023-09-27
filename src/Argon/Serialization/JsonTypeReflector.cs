@@ -48,25 +48,6 @@ static class JsonTypeReflector
     public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo member) =>
         AttributeCache<DataMemberAttribute>.GetAttribute(member);
 
-    public static MemberSerialization GetObjectMemberSerialization(Type type)
-    {
-        var info = TypeAttributeCache.Get(type);
-        var objectAttribute = info.Object;
-        if (objectAttribute != null)
-        {
-            return objectAttribute.MemberSerialization;
-        }
-
-        var dataContractAttribute = GetDataContractAttribute(type);
-        if (dataContractAttribute == null)
-        {
-            // the default
-            return MemberSerialization.OptOut;
-        }
-
-        return MemberSerialization.OptIn;
-    }
-
     public static JsonConverter? GetJsonConverter(ICustomAttributeProvider attributeProvider)
     {
         var attribute = AttributeCache<JsonConverterAttribute>.GetAttribute(attributeProvider);

@@ -92,16 +92,15 @@ public class DefaultContractResolver : IContractResolver
     /// <returns>The serializable members for the type.</returns>
     protected virtual IEnumerable<MemberInfo> GetSerializableMembers(Type type)
     {
-        var memberSerialization = JsonTypeReflector.GetObjectMemberSerialization(type);
+        var info = TypeAttributeCache.Get(type);
 
-        if (memberSerialization == MemberSerialization.Fields)
+        if (info.MemberSerialization == MemberSerialization.Fields)
         {
             // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additional assembly loads
             return type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
         var serializableMembers = new List<MemberInfo>();
-        var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(type);
 
         // Exclude index properties and ByRef types
         var defaultMembers = type.GetFieldsAndProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -116,7 +115,7 @@ public class DefaultContractResolver : IContractResolver
                 continue;
             }
 
-            if (!ShouldSerialize(member, defaultMembers, dataContractAttribute))
+            if (!ShouldSerialize(member, defaultMembers, info.DataContract))
             {
                 continue;
             }
@@ -177,12 +176,11 @@ public class DefaultContractResolver : IContractResolver
     protected virtual JsonObjectContract CreateObjectContract(Type type)
     {
         var contract = new JsonObjectContract(type);
+        var info = TypeAttributeCache.Get(contract.NonNullableUnderlyingType);
         InitializeContract(contract);
 
-        contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType);
+        contract.MemberSerialization = info.MemberSerialization;
         contract.Properties.AddRange(CreateProperties(contract.NonNullableUnderlyingType, contract.MemberSerialization));
-
-        var info = TypeAttributeCache.Get(contract.NonNullableUnderlyingType);
 
         var attribute = info.Object;
         if (attribute != null)
@@ -397,9 +395,7 @@ public class DefaultContractResolver : IContractResolver
         var containerAttribute = info.Container;
         if (containerAttribute == null)
         {
-            var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(nonNullableUnderlyingType);
-            // doesn't have a null value
-            if (dataContractAttribute is {IsReference: true})
+            if (info.DataContract is {IsReference: true})
             {
                 contract.IsReference = true;
             }
