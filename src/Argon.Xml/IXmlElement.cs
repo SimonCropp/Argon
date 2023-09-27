@@ -1,4 +1,5 @@
-﻿interface IXmlElement : IXmlNode
+﻿interface IXmlElement :
+    IXmlNode
 {
     void SetAttributeNode(IXmlNode attribute);
     string? GetPrefixOfNamespace(string namespaceUri);

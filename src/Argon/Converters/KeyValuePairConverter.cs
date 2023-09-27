@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Converts a <see cref="KeyValuePair{TKey,TValue}"/> to and from JSON.
 /// </summary>
-public class KeyValuePairConverter : JsonConverter
+public class KeyValuePairConverter :
+    JsonConverter
 {
     const string keyName = "Key";
     const string valueName = "Value";

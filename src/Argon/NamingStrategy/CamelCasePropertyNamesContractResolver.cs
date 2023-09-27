@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Resolves member mappings for a type, camel casing property names.
 /// </summary>
-public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
+public class CamelCasePropertyNamesContractResolver :
+    DefaultContractResolver
 {
     static readonly object typeContractCacheLock = new();
     static readonly DefaultJsonNameTable NameTable = new();

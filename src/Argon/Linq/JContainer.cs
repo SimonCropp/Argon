@@ -20,8 +20,8 @@ public abstract partial class JContainer :
     {
     }
 
-    internal JContainer(JContainer other)
-        : this()
+    internal JContainer(JContainer other) :
+        this()
     {
         var i = 0;
         foreach (var child in other)

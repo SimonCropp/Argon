@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// A snake case naming strategy.
 /// </summary>
-public class SnakeCaseNamingStrategy : NamingStrategy
+public class SnakeCaseNamingStrategy :
+    NamingStrategy
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SnakeCaseNamingStrategy" /> class.

@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 
-class XCommentWrapper(XComment text) : XObjectWrapper(text)
+class XCommentWrapper(XComment text) :
+    XObjectWrapper(text)
 {
     XComment Text => (XComment) WrappedNode!;
 

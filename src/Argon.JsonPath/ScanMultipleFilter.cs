@@ -1,4 +1,5 @@
-class ScanMultipleFilter(List<string> names) : PathFilter
+class ScanMultipleFilter(List<string> names) :
+    PathFilter
 {
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {

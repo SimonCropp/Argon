@@ -32,16 +32,16 @@ public partial class JObject :
     /// Initializes a new instance of the <see cref="JObject" /> class from another <see cref="JObject" /> object.
     /// </summary>
     /// <param name="other">A <see cref="JObject" /> object to copy from.</param>
-    public JObject(JObject other)
-        : base(other)
+    public JObject(JObject other) :
+        base(other)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JObject" /> class with the specified content.
     /// </summary>
-    public JObject(params object[] content)
-        : this((object) content)
+    public JObject(params object[] content) :
+        this((object) content)
     {
     }
 
@@ -548,7 +548,8 @@ public partial class JObject :
     protected override DynamicMetaObject GetMetaObject(Expression parameter) =>
         new DynamicProxyMetaObject<JObject>(parameter, this, new JObjectDynamicProxy());
 
-    class JObjectDynamicProxy : DynamicProxy<JObject>
+    class JObjectDynamicProxy :
+        DynamicProxy<JObject>
     {
         public override bool TryGetMember(JObject instance, GetMemberBinder binder, out object? result)
         {

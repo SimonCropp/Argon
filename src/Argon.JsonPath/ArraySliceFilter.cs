@@ -1,4 +1,5 @@
-class ArraySliceFilter : PathFilter
+class ArraySliceFilter :
+    PathFilter
 {
     public int? Start { get; set; }
     public int? End { get; set; }

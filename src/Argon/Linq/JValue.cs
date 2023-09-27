@@ -10,7 +10,13 @@ namespace Argon;
 /// <summary>
 /// Represents a value in JSON (string, integer, date, etc).
 /// </summary>
-public partial class JValue : JToken, IEquatable<JValue>, IFormattable, IComparable, IComparable<JValue>, IConvertible
+public partial class JValue :
+    JToken,
+    IEquatable<JValue>,
+    IFormattable,
+    IComparable,
+    IComparable<JValue>,
+    IConvertible
 {
     JTokenType valueType;
     object? value;
@@ -32,112 +38,112 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(long value)
-        : this(BoxedPrimitives.Get(value), JTokenType.Integer)
+    public JValue(long value) :
+        this(BoxedPrimitives.Get(value), JTokenType.Integer)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(decimal value)
-        : this(BoxedPrimitives.Get(value), JTokenType.Float)
+    public JValue(decimal value) :
+        this(BoxedPrimitives.Get(value), JTokenType.Float)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(char value)
-        : this(value, JTokenType.String)
+    public JValue(char value) :
+        this(value, JTokenType.String)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(ulong value)
-        : this(value, JTokenType.Integer)
+    public JValue(ulong value) :
+        this(value, JTokenType.Integer)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(double value)
-        : this(BoxedPrimitives.Get(value), JTokenType.Float)
+    public JValue(double value) :
+        this(BoxedPrimitives.Get(value), JTokenType.Float)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(float value)
-        : this(value, JTokenType.Float)
+    public JValue(float value) :
+        this(value, JTokenType.Float)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(DateTime value)
-        : this(value, JTokenType.Date)
+    public JValue(DateTime value) :
+        this(value, JTokenType.Date)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(DateTimeOffset value)
-        : this(value, JTokenType.Date)
+    public JValue(DateTimeOffset value) :
+        this(value, JTokenType.Date)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(bool value)
-        : this(BoxedPrimitives.Get(value), JTokenType.Boolean)
+    public JValue(bool value) :
+        this(BoxedPrimitives.Get(value), JTokenType.Boolean)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(string? value)
-        : this(value, JTokenType.String)
+    public JValue(string? value) :
+        this(value, JTokenType.String)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(Guid value)
-        : this(value, JTokenType.Guid)
+    public JValue(Guid value) :
+        this(value, JTokenType.Guid)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(Uri? value)
-        : this(value, value == null ? JTokenType.Null : JTokenType.Uri)
+    public JValue(Uri? value) :
+        this(value, value == null ? JTokenType.Null : JTokenType.Uri)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(TimeSpan value)
-        : this(value, JTokenType.TimeSpan)
+    public JValue(TimeSpan value) :
+        this(value, JTokenType.TimeSpan)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JValue" /> class with the given value.
     /// </summary>
-    public JValue(object? value)
-        : this(value, GetValueType(null, value))
+    public JValue(object? value) :
+        this(value, GetValueType(null, value))
     {
     }
 
@@ -875,7 +881,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
     protected override DynamicMetaObject GetMetaObject(Expression parameter) =>
         new DynamicProxyMetaObject<JValue>(parameter, this, new JValueDynamicProxy());
 
-    class JValueDynamicProxy : DynamicProxy<JValue>
+    class JValueDynamicProxy :
+        DynamicProxy<JValue>
     {
         public override bool TryConvert(JValue instance, ConvertBinder binder, [NotNullWhen(true)] out object? result)
         {

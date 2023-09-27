@@ -5,7 +5,8 @@
 /// <summary>
 /// Json.NET converter for <see cref="DateTimeZone"/>.
 /// </summary>
-sealed class NodaDateTimeZoneConverter : NodaConverterBase<DateTimeZone>
+sealed class NodaDateTimeZoneConverter :
+    NodaConverterBase<DateTimeZone>
 {
     readonly IDateTimeZoneProvider provider;
 

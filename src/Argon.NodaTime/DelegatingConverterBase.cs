@@ -26,7 +26,8 @@ namespace Argon.NodaTime;
 /// }
 /// </code>
 /// </example>
-public abstract class DelegatingConverterBase : JsonConverter
+public abstract class DelegatingConverterBase :
+    JsonConverter
 {
     readonly JsonConverter original;
 

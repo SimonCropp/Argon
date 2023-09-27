@@ -9,7 +9,8 @@ namespace Argon.NodaTime;
 /// This handles all the boilerplate code dealing with nullity.
 /// </summary>
 /// <typeparam name="T">The type to convert to/from JSON.</typeparam>
-public abstract class NodaConverterBase<T> : JsonConverter
+public abstract class NodaConverterBase<T> :
+    JsonConverter
 {
     /// <summary>
     /// Default constructor.
