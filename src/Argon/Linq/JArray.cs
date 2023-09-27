@@ -225,19 +225,6 @@ public partial class JArray : JContainer, IList<JToken>
         return values.IndexOfReference(item);
     }
 
-    internal override void MergeItem(object content, JsonMergeSettings? settings)
-    {
-        var a = IsMultiContent(content) || content is JArray
-            ? (IEnumerable) content
-            : null;
-        if (a == null)
-        {
-            return;
-        }
-
-        MergeEnumerableContent(this, a, settings);
-    }
-
     #region IList<JToken> Members
 
     /// <summary>

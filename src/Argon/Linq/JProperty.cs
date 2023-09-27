@@ -202,16 +202,6 @@ public partial class JProperty : JContainer
     internal override bool ContainsItem(JToken? item) =>
         Value == item;
 
-    internal override void MergeItem(object content, JsonMergeSettings? settings)
-    {
-        var value = (content as JProperty)?.Value;
-
-        if (value != null && value.Type != JTokenType.Null)
-        {
-            Value = value;
-        }
-    }
-
     internal override void ClearItems() =>
         throw new JsonException($"Cannot add or remove items from {typeof(JProperty)}.");
 
