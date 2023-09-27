@@ -14,9 +14,9 @@ static class TypeAttributeCache
 {
     public class Info
     {
-        public required JsonContainerAttribute? Container { get; init; }
-        public required JsonConverterAttribute? Converter { get; init; }
-        public required JsonObjectAttribute? Object { get; init; }
+        public required JsonContainerAttribute? JsonContainer { get; init; }
+        public required JsonConverterAttribute? JsonConverter { get; init; }
+        public required JsonObjectAttribute? JsonObject { get; init; }
         public required DataContractAttribute? DataContract { get; init; }
         public required MemberSerialization MemberSerialization { get; init; }
     }
@@ -25,24 +25,24 @@ static class TypeAttributeCache
         provider =>
         {
             var attributes = provider.GetAttributes().ToList();
-            var dataContractAttribute = GetAttribute<DataContractAttribute>(attributes);
+            var dataContract = GetAttribute<DataContractAttribute>(attributes);
+            var jsonObject = GetAttribute<JsonObjectAttribute>(attributes);
 
-            var jsonObjectAttribute = GetAttribute<JsonObjectAttribute>(attributes);
             return new()
             {
-                Container = GetAttribute<JsonContainerAttribute>(attributes),
-                Converter = GetAttribute<JsonConverterAttribute>(attributes),
-                Object = jsonObjectAttribute,
-                DataContract = dataContractAttribute,
-                MemberSerialization = GetObjectMemberSerialization(jsonObjectAttribute, dataContractAttribute)
+                JsonContainer = GetAttribute<JsonContainerAttribute>(attributes),
+                JsonConverter = GetAttribute<JsonConverterAttribute>(attributes),
+                JsonObject = jsonObject,
+                DataContract = dataContract,
+                MemberSerialization = GetObjectMemberSerialization(jsonObject, dataContract)
             };
         });
 
-    static MemberSerialization GetObjectMemberSerialization(JsonObjectAttribute? objectAttribute, DataContractAttribute? dataContract)
+    static MemberSerialization GetObjectMemberSerialization(JsonObjectAttribute? jsonObject, DataContractAttribute? dataContract)
     {
-        if (objectAttribute != null)
+        if (jsonObject != null)
         {
-            return objectAttribute.MemberSerialization;
+            return jsonObject.MemberSerialization;
         }
 
         if (dataContract == null)
