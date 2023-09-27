@@ -1,5 +1,4 @@
   * [Argon is JSON framework for .NET](/docs/readme.md)
-  * [Conditional Property Serialization](/docs/ConditionalProperties.md)
   * [Serialization using ContractResolver](/docs/ContractResolver.md)
   * [Converting between JSON and XML](/docs/ConvertingJSONandXML.md)
   * [Creating JSON](/docs/CreatingLINQtoJSON.md)
@@ -109,7 +108,6 @@
     * [ReferenceLoopHandling setting](/docs/Serializer/ReferenceLoopHandlingIgnore.md)
     * [Serialization Callback Attributes](/docs/Serializer/SerializationCallbackAttributes.md)
     * [Serializing Collections](/docs/Serializer/SerializeCollection.md)
-    * [Serialize Conditional Property](/docs/Serializer/SerializeConditionalProperty.md)
     * [Custom IContractResolver](/docs/Serializer/SerializeContractResolver.md)
     * [Serialize a DataSet](/docs/Serializer/SerializeDataSet.md)
     * [DateTimeZoneHandling setting](/docs/Serializer/SerializeDateTimeZoneHandling.md)

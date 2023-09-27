@@ -10,8 +10,6 @@ static class JsonTypeReflector
     public const string ValuePropertyName = "$value";
     public const string ArrayValuesPropertyName = "$values";
 
-    public const string ShouldSerializePrefix = "ShouldSerialize";
-
     public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
 
     static ThreadSafeStore<Type, JsonConverter> creatorCache = new(GetCreator);
