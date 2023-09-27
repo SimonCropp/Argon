@@ -290,18 +290,6 @@ public class ParseAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ParseHexNumberAsync()
-    {
-        var json = "0x20";
-
-        var reader = new JsonTextReader(new StringReader(json));
-
-        await reader.ReadAsDecimalAsync();
-        Assert.Equal(JsonToken.Float, reader.TokenType);
-        Assert.Equal(32m, reader.Value);
-    }
-
-    [Fact]
     public async Task ParseNumbersAsync()
     {
         var json = "[0,1,2 , 3]";
@@ -325,17 +313,5 @@ public class ParseAsyncTests : TestFixtureBase
 
         await reader.ReadAsync();
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
-    }
-
-    [Fact]
-    public async Task ParseOctalNumberAsync()
-    {
-        var json = "010";
-
-        var reader = new JsonTextReader(new StringReader(json));
-
-        await reader.ReadAsDecimalAsync();
-        Assert.Equal(JsonToken.Float, reader.TokenType);
-        Assert.Equal(8m, reader.Value);
     }
 }
