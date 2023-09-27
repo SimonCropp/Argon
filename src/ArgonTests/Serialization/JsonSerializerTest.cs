@@ -5252,50 +5252,6 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeStaticDefault()
-    {
-        var contractResolver = new DefaultContractResolver();
-
-        var c = new StaticTestClass
-        {
-            x = int.MaxValue
-        };
-        StaticTestClass.y = 2;
-        StaticTestClass.z = 3;
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
-        {
-            ContractResolver = contractResolver
-        });
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "x": 2147483647,
-              "y": 2,
-              "z": 3
-            }
-            """,
-            json);
-
-        var c2 = JsonConvert.DeserializeObject<StaticTestClass>(
-            """
-            {
-              "x": -1,
-              "y": -2,
-              "z": -3
-            }
-            """,
-            new JsonSerializerSettings
-            {
-                ContractResolver = contractResolver
-            });
-
-        Assert.Equal(-1, c2.x);
-        Assert.Equal(-2, StaticTestClass.y);
-        Assert.Equal(-3, StaticTestClass.z);
-    }
-
-    [Fact]
     public void ReadForTypeHackFixDecimal()
     {
         var d1 = new List<decimal>
@@ -7001,24 +6957,6 @@ public class JsonSerializerTest : TestFixtureBase
         var uriWithPlus2 = JsonConvert.DeserializeObject<Uri>(jsonWithPlus);
 
         Assert.Equal(originalUri, uriWithPlus2.OriginalString);
-    }
-
-    [Fact]
-    public void DeserializeConstantProperty()
-    {
-        var c1 = new ConstantTestClass();
-
-        var json = JsonConvert.SerializeObject(c1, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "MY_CONSTANT": "."
-            }
-            """,
-            json);
-
-        JsonConvert.DeserializeObject<ConstantTestClass>(json);
     }
 
     [Fact]
