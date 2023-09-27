@@ -73,27 +73,34 @@ static class JsonTypeReflector
 
         // search property and then search base properties if nothing is returned and the property is virtual
         var property = (PropertyInfo) member;
-        var result = AttributeCache<DataMemberAttribute>.GetAttribute(property);
-        if (result == null)
+        if (AttributeCache<DataMemberAttribute>.GetAttribute(property) is {} result)
         {
-            if (property.IsVirtual())
-            {
-                var currentType = property.DeclaringType;
-
-                while (result == null && currentType != null)
-                {
-                    var baseProperty = (PropertyInfo?) ReflectionUtils.GetMemberInfoFromType(currentType, property);
-                    if (baseProperty != null && baseProperty.IsVirtual())
-                    {
-                        result = AttributeCache<DataMemberAttribute>.GetAttribute(baseProperty);
-                    }
-
-                    currentType = currentType.BaseType;
-                }
-            }
+            return result;
         }
 
-        return result;
+        if (!property.IsVirtual())
+        {
+            return null;
+        }
+
+        var type = property.DeclaringType;
+
+        while (type != null)
+        {
+            var baseProperty = (PropertyInfo?) ReflectionUtils.GetMemberInfoFromType(type, property);
+            if (baseProperty != null &&
+                baseProperty.IsVirtual())
+            {
+                if (AttributeCache<DataMemberAttribute>.GetAttribute(baseProperty) is {} baseResult)
+                {
+                    return baseResult;
+                }
+            }
+
+            type = type.BaseType;
+        }
+
+        return null;
     }
 
     public static MemberSerialization GetObjectMemberSerialization(Type type)
