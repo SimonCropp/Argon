@@ -551,10 +551,10 @@ static class ReflectionUtils
         // a base class private getter/setter will be inaccessible unless the property was gotten from the base class
         for (var i = 0; i < properties.Count; i++)
         {
-            var member = properties[i];
-            if (member.DeclaringType != targetType)
+            var property = properties[i];
+            if (property.DeclaringType != targetType)
             {
-                properties[i] = (PropertyInfo) GetMemberInfoFromType(member.DeclaringType!, member)!;
+                properties[i] = (PropertyInfo) GetMemberInfoFromType(property.DeclaringType!, property)!;
             }
         }
 
