@@ -446,7 +446,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
                     return true;
             }
         }
-        else if (objA is int or uint or long or short or ushort or sbyte or byte || objB is int or uint or long or short or ushort or sbyte or byte)
+        else if (objA is int or uint or long or short or ushort or sbyte or byte ||
+                 objB is int or uint or long or short or ushort or sbyte or byte)
         {
             if (objA == null || objB == null)
             {
@@ -992,7 +993,8 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             return 1;
         }
 
-        var comparisonType = valueType == JTokenType.String && valueType != obj.valueType
+        var comparisonType = valueType == JTokenType.String &&
+                             valueType != obj.valueType
             ? obj.valueType
             : valueType;
 

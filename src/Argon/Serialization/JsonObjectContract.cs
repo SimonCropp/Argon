@@ -58,11 +58,7 @@ public class JsonObjectContract : JsonContainerContract
             {
                 hasRequiredOrDefaultValueProperties = false;
 
-                if (ItemRequired.GetValueOrDefault(Required.Default) != Required.Default)
-                {
-                    hasRequiredOrDefaultValueProperties = true;
-                }
-                else
+                if (ItemRequired.GetValueOrDefault(Required.Default) == Required.Default)
                 {
                     foreach (var property in Properties)
                     {
@@ -72,6 +68,10 @@ public class JsonObjectContract : JsonContainerContract
                             break;
                         }
                     }
+                }
+                else
+                {
+                    hasRequiredOrDefaultValueProperties = true;
                 }
             }
 

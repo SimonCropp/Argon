@@ -7,24 +7,111 @@ namespace Argon;
 /// <summary>
 /// Represents an abstract JSON token.
 /// </summary>
-public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
-    , ICloneable
-    , IDynamicMetaObjectProvider
+public abstract partial class JToken : IJEnumerable<JToken>,
+    IJsonLineInfo,
+    ICloneable,
+    IDynamicMetaObjectProvider
 {
     static JTokenEqualityComparer? equalityComparer;
     int? lineNumber;
     int? linePosition;
 
-    static readonly JTokenType[] BooleanTypes = {JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean};
-    static readonly JTokenType[] NumberTypes = {JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean};
-    static readonly JTokenType[] BigIntegerTypes = {JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes};
-    static readonly JTokenType[] StringTypes = {JTokenType.Date, JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Boolean, JTokenType.Bytes, JTokenType.Guid, JTokenType.TimeSpan, JTokenType.Uri};
-    static readonly JTokenType[] GuidTypes = {JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Guid, JTokenType.Bytes};
-    static readonly JTokenType[] TimeSpanTypes = {JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.TimeSpan};
-    static readonly JTokenType[] UriTypes = {JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Uri};
-    static readonly JTokenType[] CharTypes = {JTokenType.Integer, JTokenType.Float, JTokenType.String, JTokenType.Comment, JTokenType.Raw};
-    static readonly JTokenType[] DateTimeTypes = {JTokenType.Date, JTokenType.String, JTokenType.Comment, JTokenType.Raw};
-    static readonly JTokenType[] BytesTypes = {JTokenType.Bytes, JTokenType.String, JTokenType.Comment, JTokenType.Raw, JTokenType.Integer};
+    static readonly JTokenType[] BooleanTypes =
+    {
+        JTokenType.Integer,
+        JTokenType.Float,
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.Boolean
+    };
+
+    static readonly JTokenType[] NumberTypes =
+    {
+        JTokenType.Integer,
+        JTokenType.Float,
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.Boolean
+    };
+
+    static readonly JTokenType[] BigIntegerTypes =
+    {
+        JTokenType.Integer,
+        JTokenType.Float,
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.Boolean,
+        JTokenType.Bytes
+    };
+
+    static readonly JTokenType[] StringTypes =
+    {
+        JTokenType.Date,
+        JTokenType.Integer,
+        JTokenType.Float,
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.Boolean,
+        JTokenType.Bytes,
+        JTokenType.Guid,
+        JTokenType.TimeSpan,
+        JTokenType.Uri
+    };
+
+    static readonly JTokenType[] GuidTypes =
+    {
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.Guid,
+        JTokenType.Bytes
+    };
+
+    static readonly JTokenType[] TimeSpanTypes =
+    {
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.TimeSpan
+    };
+
+    static readonly JTokenType[] UriTypes =
+    {
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.Uri
+    };
+
+    static readonly JTokenType[] CharTypes =
+    {
+        JTokenType.Integer,
+        JTokenType.Float,
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw
+    };
+
+    static readonly JTokenType[] DateTimeTypes =
+    {
+        JTokenType.Date,
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw
+    };
+
+    static readonly JTokenType[] BytesTypes =
+    {
+        JTokenType.Bytes,
+        JTokenType.String,
+        JTokenType.Comment,
+        JTokenType.Raw,
+        JTokenType.Integer
+    };
 
     /// <summary>
     /// Gets a comparer that can compare two tokens for value equality.
@@ -110,14 +197,20 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
                 {
                     case JTokenType.Property:
                         var property = (JProperty) current;
-                        positions.Add(new(JsonContainerType.Object) {PropertyName = property.Name});
+                        positions.Add(new(JsonContainerType.Object)
+                        {
+                            PropertyName = property.Name
+                        });
                         break;
                     case JTokenType.Array:
                         if (previous != null)
                         {
                             var index = ((IList<JToken>) current).IndexOf(previous);
 
-                            positions.Add(new(JsonContainerType.Array) {Position = index});
+                            positions.Add(new(JsonContainerType.Array)
+                            {
+                                Position = index
+                            });
                         }
 
                         break;
@@ -370,7 +463,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
 
     static void ValidateToken<T>(JToken value, [NotNull] JValue? v, JTokenType[] jTokenTypes)
     {
-        if (v == null || !ValidateToken(v, jTokenTypes))
+        if (v == null ||
+            !ValidateToken(v, jTokenTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to {typeof(T).Name}.");
         }
@@ -429,7 +523,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, BooleanTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, BooleanTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Boolean.");
         }
@@ -471,7 +566,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, DateTimeTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, DateTimeTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to DateTime.");
         }
@@ -496,7 +592,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, DateTimeTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, DateTimeTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to DateTimeOffset.");
         }
@@ -531,7 +628,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, NumberTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Decimal.");
         }
@@ -541,7 +639,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (decimal?) integer;
         }
 
-        return v.Value == null ? null : Convert.ToDecimal(v.Value, InvariantCulture);
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToDecimal(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -556,7 +659,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, NumberTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Double.");
         }
@@ -566,7 +670,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (double?) integer;
         }
 
-        return v.Value == null ? null : Convert.ToDouble(v.Value, InvariantCulture);
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToDouble(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -581,7 +690,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, CharTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, CharTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Char.");
         }
@@ -591,7 +701,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (char?) integer;
         }
 
-        return v.Value == null ? null : Convert.ToChar(v.Value, InvariantCulture);
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToChar(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -708,7 +823,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, NumberTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Int32.");
         }
@@ -718,7 +834,12 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
             return (int?) integer;
         }
 
-        return v.Value == null ? null : Convert.ToInt32(v.Value, InvariantCulture);
+        if (v.Value == null)
+        {
+            return null;
+        }
+
+        return Convert.ToInt32(v.Value, InvariantCulture);
     }
 
     /// <summary>
@@ -763,7 +884,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, NumberTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to UInt16.");
         }
@@ -793,7 +915,8 @@ public abstract partial class JToken : IJEnumerable<JToken>, IJsonLineInfo
         }
 
         var v = EnsureValue(value);
-        if (v == null || !ValidateTokenNullable(v, NumberTypes))
+        if (v == null ||
+            !ValidateTokenNullable(v, NumberTypes))
         {
             throw new ArgumentException($"Can not convert {GetType(value)} to Byte.");
         }

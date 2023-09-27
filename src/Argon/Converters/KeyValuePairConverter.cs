@@ -33,9 +33,9 @@ public class KeyValuePairConverter : JsonConverter
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
         writer.WriteStartObject();
-        writer.WritePropertyName(resolver == null ? keyName : resolver.GetResolvedPropertyName(keyName));
+        writer.WritePropertyName(resolver?.GetResolvedPropertyName(keyName) ?? keyName);
         serializer.Serialize(writer, reflectionObject.GetValue(value, keyName), reflectionObject.GetType(keyName));
-        writer.WritePropertyName(resolver == null ? valueName : resolver.GetResolvedPropertyName(valueName));
+        writer.WritePropertyName(resolver?.GetResolvedPropertyName(valueName) ?? valueName);
         serializer.Serialize(writer, reflectionObject.GetValue(value, valueName), reflectionObject.GetType(valueName));
         writer.WriteEndObject();
     }

@@ -838,18 +838,9 @@ public partial class JsonTextReader
             throw JsonReaderException.Create(this, $"Invalid property identifier character: {charBuffer[charPos]}.");
         }
 
-        string propertyName;
-
-        if (PropertyNameTable == null)
-        {
-            propertyName = stringReference.ToString();
-        }
-        else
-        {
-            propertyName = PropertyNameTable.Get(stringReference.Chars, stringReference.StartIndex, stringReference.Length)
-                           // no match in name table
-                           ?? stringReference.ToString();
-        }
+        var propertyName = PropertyNameTable?.Get(stringReference.Chars, stringReference.StartIndex, stringReference.Length)
+                          // no match in name table
+                          ?? stringReference.ToString();
 
         await EatWhitespaceAsync(cancel).ConfigureAwait(false);
 

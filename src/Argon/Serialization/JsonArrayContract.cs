@@ -40,7 +40,8 @@ public class JsonArrayContract : JsonContainerContract
     {
         get
         {
-            if (parameterizedCreator == null && parameterizedConstructor != null)
+            if (parameterizedCreator == null &&
+                parameterizedConstructor != null)
             {
                 parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructor);
             }

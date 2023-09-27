@@ -1,13 +1,8 @@
 ﻿using System.Xml.Linq;
 
-class XCommentWrapper : XObjectWrapper
+class XCommentWrapper(XComment text) : XObjectWrapper(text)
 {
     XComment Text => (XComment) WrappedNode!;
-
-    public XCommentWrapper(XComment text)
-        : base(text)
-    {
-    }
 
     public override string Value
     {

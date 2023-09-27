@@ -38,7 +38,8 @@ public abstract class NodaConverterBase<T> : JsonConverter
     /// <returns>True if the given type is supported by this converter (including the nullable form for
     /// value types); false otherwise.</returns>
     public override bool CanConvert(Type objectType) =>
-        objectType == typeof(T) || objectType == NullableT ||
+        objectType == typeof(T) ||
+        objectType == NullableT ||
         (CheckAssignableFrom && typeof(T).IsAssignableFrom(objectType.GetTypeInfo()));
 
     /// <summary>
@@ -66,7 +67,8 @@ public abstract class NodaConverterBase<T> : JsonConverter
             var value = (string) reader.GetValue();
             if (value == "")
             {
-                Preconditions.CheckData(objectType == NullableT,
+                Preconditions.CheckData(
+                    objectType == NullableT,
                     "Cannot convert null value to {0}",
                     objectType);
                 return null;
