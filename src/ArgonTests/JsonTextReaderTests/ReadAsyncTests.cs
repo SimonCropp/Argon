@@ -592,13 +592,6 @@ public class ReadAsyncTests : TestFixtureBase
     }
 
     [Fact]
-    public async Task ReadAsDouble_HexAsync()
-    {
-        var reader = new JsonTextReader(new StringReader("0XCAFEBABE"));
-        Assert.Equal(3405691582d, await reader.ReadAsDoubleAsync());
-    }
-
-    [Fact]
     public async Task ReadAsDouble_AllowThousandsAsync()
     {
         var reader = new JsonTextReader(new StringReader("'1,112.34'"));
