@@ -71,35 +71,3 @@ public class ConverterContractResolver : DefaultContractResolver
     }
 }
 ```
-
-This example sets a `Argon.JsonConverter` for a type using an IContractResolver. Using a contract resolver here is useful because DateTime is not an owned type and it is not possible to place a JsonConverterAttribute on it.
-
-<!-- snippet: ShouldSerializeContractResolver -->
-<a id='snippet-shouldserializecontractresolver'></a>
-```cs
-public class ShouldSerializeContractResolver : DefaultContractResolver
-{
-    public new static readonly ShouldSerializeContractResolver Instance = new();
-
-    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-    {
-        var property = base.CreateProperty(member, memberSerialization);
-
-        if (property.DeclaringType == typeof(Employee) && property.PropertyName == "Manager")
-        {
-            property.ShouldSerialize =
-                instance =>
-                {
-                    var e = (Employee) instance;
-                    return e.Manager != e;
-                };
-        }
-
-        return property;
-    }
-}
-```
-<sup><a href='/src/ArgonTests/Documentation/ConditionalPropertiesTests.cs#L13-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-shouldserializecontractresolver' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
-
-This example sets up [conditional serialization for a property](ConditionalProperties) using an IContractResolver. This is useful to conditionally serialize a property but don't want to add additional methods to the type.

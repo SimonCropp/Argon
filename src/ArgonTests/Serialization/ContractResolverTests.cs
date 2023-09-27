@@ -553,46 +553,6 @@ public class ContractResolverTests : TestFixtureBase
 //         }
 //     }
 
-    public class ClassWithShouldSerialize
-    {
-        public string Prop1 { get; set; }
-        public string Prop2 { get; set; }
-
-        public bool ShouldSerializeProp1() =>
-            false;
-    }
-
-    [Fact]
-    public void DefaultContractResolverIgnoreShouldSerializeTrue()
-    {
-        var resolver = new DefaultContractResolver
-        {
-            IgnoreShouldSerializeMembers = true
-        };
-
-        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithShouldSerialize));
-
-        var property1 = contract.Properties["Prop1"];
-        Assert.Equal(null, property1.ShouldSerialize);
-
-        var property2 = contract.Properties["Prop2"];
-        Assert.Equal(null, property2.ShouldSerialize);
-    }
-
-    [Fact]
-    public void DefaultContractResolverIgnoreShouldSerializeUnset()
-    {
-        var resolver = new DefaultContractResolver();
-
-        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithShouldSerialize));
-
-        var property1 = contract.Properties["Prop1"];
-        Assert.NotEqual(null, property1.ShouldSerialize);
-
-        var property2 = contract.Properties["Prop2"];
-        Assert.Equal(null, property2.ShouldSerialize);
-    }
-
     [Fact]
     public void NonGenericDictionary_KeyValueTypes()
     {

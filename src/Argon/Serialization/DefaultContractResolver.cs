@@ -22,11 +22,6 @@ public class DefaultContractResolver : IContractResolver
     public bool SerializeCompilerGeneratedMembers { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to ignore ShouldSerialize members when serializing and deserializing types.
-    /// </summary>
-    public bool IgnoreShouldSerializeMembers { get; set; }
-
-    /// <summary>
     /// Gets or sets the naming strategy used to resolve how property names and dictionary keys are serialized.
     /// </summary>
     public NamingStrategy? NamingStrategy { get; set; }
@@ -746,11 +741,6 @@ public class DefaultContractResolver : IContractResolver
             property.Writable = member.CanSetMemberValue(allowNonPublicAccess, property.HasMemberAttribute);
         }
 
-        if (!IgnoreShouldSerializeMembers)
-        {
-            property.ShouldSerialize = CreateShouldSerializeTest(member);
-        }
-
         return property;
     }
 
@@ -884,22 +874,6 @@ public class DefaultContractResolver : IContractResolver
         }
 
         return NamingStrategy.GetPropertyName(mappedName, hasSpecifiedName);
-    }
-
-    static Predicate<object>? CreateShouldSerializeTest(MemberInfo member)
-    {
-        var shouldSerializeMethod = member.DeclaringType!.GetMethod(JsonTypeReflector.ShouldSerializePrefix + member.Name, Type.EmptyTypes);
-
-        if (shouldSerializeMethod == null ||
-            shouldSerializeMethod.ReturnType != typeof(bool))
-        {
-            return null;
-        }
-
-        var shouldSerializeCall =
-            JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(shouldSerializeMethod);
-
-        return o => (bool) shouldSerializeCall(o)!;
     }
 
     /// <summary>
