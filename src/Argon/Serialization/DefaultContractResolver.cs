@@ -766,12 +766,12 @@ public class DefaultContractResolver : IContractResolver
 
     void SetPropertySettingsFromAttributes(JsonProperty property, ICustomAttributeProvider attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
     {
-        var dataContractAttribute = JsonTypeReflector.GetDataContractAttribute(declaringType);
+        var info = TypeAttributeCache.Get(declaringType);
 
         var member = attributeProvider as MemberInfo;
 
         DataMemberAttribute? dataMemberAttribute;
-        if (dataContractAttribute == null || member == null)
+        if (info.DataContract == null || member == null)
         {
             dataMemberAttribute = null;
         }

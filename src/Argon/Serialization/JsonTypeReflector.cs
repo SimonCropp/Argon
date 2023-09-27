@@ -42,9 +42,6 @@ static class JsonTypeReflector
         return false;
     }
 
-    public static DataContractAttribute? GetDataContractAttribute(Type type) =>
-        AttributeCache<DataContractAttribute>.GetAttribute(type);
-
     public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo member) =>
         AttributeCache<DataMemberAttribute>.GetAttribute(member);
 
