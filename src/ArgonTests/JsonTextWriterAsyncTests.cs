@@ -270,7 +270,7 @@ public class JsonTextWriterAsyncTests :
     }
 
     [Fact]
-    public async Task WriteIConvertableAsync()
+    public async Task WriteIConvertibleAsync()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter);

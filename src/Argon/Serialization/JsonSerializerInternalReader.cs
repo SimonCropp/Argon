@@ -46,7 +46,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
             if (converter is {CanRead: true})
             {
-                deserializedValue = DeserializeConvertable(converter, reader, type!, null);
+                deserializedValue = DeserializeConvertible(converter, reader, type!, null);
             }
             else
             {
@@ -777,7 +777,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
             try
             {
-                if (contract.IsConvertable)
+                if (contract.IsConvertible)
                 {
                     var primitiveContract = (JsonPrimitiveContract) contract;
 
@@ -855,7 +855,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                 currentValue = property.ValueProvider!.GetValue(target);
             }
 
-            value = DeserializeConvertable(propertyConverter, reader, property.PropertyType!, currentValue);
+            value = DeserializeConvertible(propertyConverter, reader, property.PropertyType!, currentValue);
         }
         else
         {
@@ -1232,7 +1232,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                         object? itemValue;
                         if (dictionaryValueConverter is {CanRead: true})
                         {
-                            itemValue = DeserializeConvertable(dictionaryValueConverter, reader, contract.DictionaryValueType!, null);
+                            itemValue = DeserializeConvertible(dictionaryValueConverter, reader, contract.DictionaryValueType!, null);
                         }
                         else
                         {
@@ -1317,7 +1317,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
                                 if (collectionItemConverter is {CanRead: true})
                                 {
-                                    value = DeserializeConvertable(collectionItemConverter, reader, contract.CollectionItemType!, null);
+                                    value = DeserializeConvertible(collectionItemConverter, reader, contract.CollectionItemType!, null);
                                 }
                                 else
                                 {
@@ -1468,7 +1468,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
                             if (collectionItemConverter is {CanRead: true})
                             {
-                                value = DeserializeConvertable(collectionItemConverter, reader, contract.CollectionItemType, null);
+                                value = DeserializeConvertible(collectionItemConverter, reader, contract.CollectionItemType, null);
                             }
                             else
                             {
@@ -1587,7 +1587,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                             object? value;
                             if (dynamicMemberConverter is {CanRead: true})
                             {
-                                value = DeserializeConvertable(dynamicMemberConverter, reader, t, null);
+                                value = DeserializeConvertible(dynamicMemberConverter, reader, t, null);
                             }
                             else
                             {
@@ -1850,7 +1850,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         return createdObject;
     }
 
-    object? DeserializeConvertable(JsonConverter converter, JsonReader reader, Type type, object? existingValue) =>
+    object? DeserializeConvertible(JsonConverter converter, JsonReader reader, Type type, object? existingValue) =>
         converter.ReadJson(reader, type, existingValue, GetInternalSerializer());
 
     List<CreatorPropertyContext> ResolvePropertyAndCreatorValues(JsonObjectContract contract, JsonProperty? containerProperty, JsonReader reader, Type type)
@@ -1887,7 +1887,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
                             if (propertyConverter is {CanRead: true})
                             {
-                                creatorPropertyContext.Value = DeserializeConvertable(propertyConverter, reader, property.PropertyType!, null);
+                                creatorPropertyContext.Value = DeserializeConvertible(propertyConverter, reader, property.PropertyType!, null);
                             }
                             else
                             {

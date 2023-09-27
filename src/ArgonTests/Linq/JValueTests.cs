@@ -201,7 +201,7 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void JValueIConvertable() =>
+    public void JValueIConvertible() =>
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         Assert.True(new JValue(0) is IConvertible);
 

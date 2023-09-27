@@ -4,7 +4,7 @@
 
 namespace TestObjects;
 
-public class TestClassConvertable
+public class TestClassConvertible
 {
     public ConvertibleId Id;
     public int X;

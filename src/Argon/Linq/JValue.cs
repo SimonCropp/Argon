@@ -1006,9 +1006,9 @@ public partial class JValue : JToken, IEquatable<JValue>, IFormattable, ICompara
             return TypeCode.Empty;
         }
 
-        if (value is IConvertible convertable)
+        if (value is IConvertible convertible)
         {
-            return convertable.GetTypeCode();
+            return convertible.GetTypeCode();
         }
 
         return TypeCode.Object;

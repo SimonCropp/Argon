@@ -111,7 +111,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         if (converter is {CanWrite: true})
         {
-            SerializeConvertable(writer, converter, value, valueContract, containerContract, containerProperty);
+            SerializeConvertible(writer, converter, value, valueContract, containerContract, containerProperty);
             return;
         }
 
@@ -527,7 +527,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         return (value & flag) == flag;
     }
 
-    void SerializeConvertable(JsonWriter writer, JsonConverter converter, object value, JsonContract contract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
+    void SerializeConvertible(JsonWriter writer, JsonConverter converter, object value, JsonContract contract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
         if (ShouldWriteReference(value, null, contract, collectionContract, containerProperty))
         {
