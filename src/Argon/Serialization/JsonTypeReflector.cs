@@ -149,14 +149,14 @@ static class JsonTypeReflector
 
     public static IEnumerable<Attribute> GetAttributes(this Type type)
     {
-        foreach (var attribute in type.GetCustomAttributes<Attribute>(true))
+        foreach (Attribute attribute in type.GetCustomAttributes(true))
         {
             yield return attribute;
         }
 
         foreach (var typeInterface in type.GetInterfaces())
         {
-            foreach (var attribute in typeInterface.GetCustomAttributes<Attribute>(true))
+            foreach (Attribute attribute in typeInterface.GetCustomAttributes(true))
             {
                 yield return attribute;
             }
