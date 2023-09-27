@@ -514,9 +514,10 @@ public class JsonSerializer
 
         if (reader is JsonTextReader textReader)
         {
-            if (textReader.PropertyNameTable == null && contractResolver is DefaultContractResolver resolver)
+            if (textReader.PropertyNameTable == null &&
+                contractResolver is not null)
             {
-                textReader.PropertyNameTable = resolver.GetNameTable();
+                textReader.PropertyNameTable = contractResolver.GetNameTable();
             }
         }
     }
@@ -538,8 +539,8 @@ public class JsonSerializer
         }
 
         if (reader is JsonTextReader {PropertyNameTable: not null} textReader &&
-            contractResolver is DefaultContractResolver resolver &&
-            textReader.PropertyNameTable == resolver.GetNameTable())
+            contractResolver is not null &&
+            textReader.PropertyNameTable == contractResolver.GetNameTable())
         {
             textReader.PropertyNameTable = null;
         }

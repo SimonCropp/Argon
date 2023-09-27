@@ -62,6 +62,5 @@ public class CamelCasePropertyNamesContractResolver :
         return contract;
     }
 
-    internal override DefaultJsonNameTable GetNameTable() =>
-        NameTable;
+    public override JsonNameTable GetNameTable() => NameTable;
 }

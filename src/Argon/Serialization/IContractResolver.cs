@@ -19,4 +19,6 @@ public interface IContractResolver
     /// <param name="type">The type to resolve a contract for.</param>
     /// <returns>The contract for a given type.</returns>
     JsonContract ResolveContract(Type type);
+
+    JsonNameTable GetNameTable();
 }
