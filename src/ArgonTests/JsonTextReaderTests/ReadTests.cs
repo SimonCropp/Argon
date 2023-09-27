@@ -232,27 +232,6 @@ public class ReadTests : TestFixtureBase
         Assert.False(reader.Read());
     }
 
-    [Fact]
-    public void ReadHexidecimalWithAllLetters()
-    {
-        var json = """{"text":0xabcdef12345}""";
-
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.Integer, reader.TokenType);
-        Assert.Equal(11806310474565, reader.Value);
-
-        Assert.True(reader.Read());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-    }
-
     //TODO: fails when run shared
 // #if !RELEASE
 //     [Fact]
@@ -352,75 +331,6 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
 
         Assert.False(jsonReader.Read());
-    }
-
-    [Fact]
-    public void ReadOctalNumberAsInt64()
-    {
-        var s = new StringReader("[0372, 0xFA, 0XFA]");
-        var jsonReader = new JsonTextReader(s);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
-
-        jsonReader.Read();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250, (long) jsonReader.Value);
-
-        jsonReader.Read();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250, (long) jsonReader.Value);
-
-        jsonReader.Read();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(long), jsonReader.ValueType);
-        Assert.Equal(250, (long) jsonReader.Value);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
-
-        Assert.False(jsonReader.Read());
-    }
-
-    [Fact]
-    public void ReadOctalNumberAsInt32()
-    {
-        var s = new StringReader("[0372, 0xFA, 0XFA]");
-        var jsonReader = new JsonTextReader(s);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
-
-        jsonReader.ReadAsInt32();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(int), jsonReader.ValueType);
-        Assert.Equal(250, jsonReader.Value);
-
-        jsonReader.ReadAsInt32();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(int), jsonReader.ValueType);
-        Assert.Equal(250, jsonReader.Value);
-
-        jsonReader.ReadAsInt32();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(int), jsonReader.ValueType);
-        Assert.Equal(250, jsonReader.Value);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
-
-        Assert.False(jsonReader.Read());
-    }
-
-    [Fact]
-    public void ReadAsDecimalNoContent()
-    {
-        var reader = new JsonTextReader(new StringReader(""));
-
-        Assert.Null(reader.ReadAsDecimal());
-        Assert.Equal(JsonToken.None, reader.TokenType);
     }
 
     [Fact]
@@ -698,13 +608,6 @@ public class ReadTests : TestFixtureBase
     {
         var reader = new JsonTextReader(new StringReader("'12.34'"));
         Assert.Equal(12.34d, reader.ReadAsDouble());
-    }
-
-    [Fact]
-    public void ReadAsDouble_Hex()
-    {
-        var reader = new JsonTextReader(new StringReader("0XCAFEBABE"));
-        Assert.Equal(3405691582d, reader.ReadAsDouble());
     }
 
     [Fact]

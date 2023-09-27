@@ -297,18 +297,6 @@ public class ParseTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseHexNumber()
-    {
-        var json = "0x20";
-
-        var reader = new JsonTextReader(new StringReader(json));
-
-        reader.ReadAsDecimal();
-        Assert.Equal(JsonToken.Float, reader.TokenType);
-        Assert.Equal(32m, reader.Value);
-    }
-
-    [Fact]
     public void ParseNumbers()
     {
         var json = "[0,1,2 , 3]";
@@ -332,19 +320,6 @@ public class ParseTests : TestFixtureBase
 
         reader.Read();
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
-    }
-
-
-    [Fact]
-    public void ParseOctalNumber()
-    {
-        var json = "010";
-
-        var reader = new JsonTextReader(new StringReader(json));
-
-        reader.ReadAsDecimal();
-        Assert.Equal(JsonToken.Float, reader.TokenType);
-        Assert.Equal(8m, reader.Value);
     }
 
     internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;

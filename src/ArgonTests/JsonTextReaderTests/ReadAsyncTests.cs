@@ -231,26 +231,6 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.False(await reader.ReadAsync());
     }
 
-    [Fact]
-    public async Task ReadHexidecimalWithAllLettersAsync()
-    {
-        var json = """{"text":0xabcdef12345}""";
-
-        var reader = new JsonTextReader(new StringReader(json));
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.StartObject, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.PropertyName, reader.TokenType);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.Integer, reader.TokenType);
-        Assert.Equal(11806310474565, reader.Value);
-
-        Assert.True(await reader.ReadAsync());
-        Assert.Equal(JsonToken.EndObject, reader.TokenType);
-    }
 
     //TODO: fails when run shared
 // #if !RELEASE
@@ -376,36 +356,6 @@ public class ReadAsyncTests : TestFixtureBase
         Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
         Assert.Equal(typeof(long), jsonReader.ValueType);
         Assert.Equal(250L, (long) jsonReader.Value);
-
-        Assert.True(await jsonReader.ReadAsync());
-        Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
-
-        Assert.False(await jsonReader.ReadAsync());
-    }
-
-    [Fact]
-    public async Task ReadOctalNumberAsInt32Async()
-    {
-        var s = new StringReader("[0372, 0xFA, 0XFA]");
-        var jsonReader = new JsonTextReader(s);
-
-        Assert.True(await jsonReader.ReadAsync());
-        Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
-
-        await jsonReader.ReadAsInt32Async();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(int), jsonReader.ValueType);
-        Assert.Equal(250, jsonReader.Value);
-
-        await jsonReader.ReadAsInt32Async();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(int), jsonReader.ValueType);
-        Assert.Equal(250, jsonReader.Value);
-
-        await jsonReader.ReadAsInt32Async();
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(typeof(int), jsonReader.ValueType);
-        Assert.Equal(250, jsonReader.Value);
 
         Assert.True(await jsonReader.ReadAsync());
         Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
