@@ -45,47 +45,8 @@ static class JsonTypeReflector
     public static DataContractAttribute? GetDataContractAttribute(Type type) =>
         AttributeCache<DataContractAttribute>.GetAttribute(type);
 
-    public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo member)
-    {
-        // DataMemberAttribute does not have inheritance
-
-        // can't override a field
-        if (member.MemberType == MemberTypes.Field)
-        {
-            return AttributeCache<DataMemberAttribute>.GetAttribute(member);
-        }
-
-        // search property and then search base properties if nothing is returned and the property is virtual
-        var property = (PropertyInfo) member;
-        if (AttributeCache<DataMemberAttribute>.GetAttribute(property) is {} result)
-        {
-            return result;
-        }
-
-        if (!property.IsVirtual())
-        {
-            return null;
-        }
-
-        var type = property.DeclaringType;
-
-        while (type != null)
-        {
-            var baseProperty = (PropertyInfo?) ReflectionUtils.GetMemberInfoFromType(type, property);
-            if (baseProperty != null &&
-                baseProperty.IsVirtual())
-            {
-                if (AttributeCache<DataMemberAttribute>.GetAttribute(baseProperty) is {} baseResult)
-                {
-                    return baseResult;
-                }
-            }
-
-            type = type.BaseType;
-        }
-
-        return null;
-    }
+    public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo member) =>
+        AttributeCache<DataMemberAttribute>.GetAttribute(member);
 
     public static MemberSerialization GetObjectMemberSerialization(Type type)
     {
