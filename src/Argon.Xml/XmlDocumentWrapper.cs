@@ -1,13 +1,9 @@
 ﻿using System.Xml;
 
-class XmlDocumentWrapper : XmlNodeWrapper, IXmlDocument
+class XmlDocumentWrapper(XmlDocument document) :
+    XmlNodeWrapper(document),
+    IXmlDocument
 {
-    readonly XmlDocument document;
-
-    public XmlDocumentWrapper(XmlDocument document)
-        : base(document) =>
-        this.document = document;
-
     public IXmlNode CreateComment(string? data) =>
         new XmlNodeWrapper(document.CreateComment(data));
 

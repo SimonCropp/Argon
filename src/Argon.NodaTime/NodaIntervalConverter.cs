@@ -7,7 +7,8 @@
 /// end aspects of the interval are represented with separate properties, each parsed and formatted
 /// by the <see cref="Instant"/> converter for the serializer provided.
 /// </summary>
-sealed class NodaIntervalConverter : NodaConverterBase<Interval>
+sealed class NodaIntervalConverter :
+    NodaConverterBase<Interval>
 {
     /// <summary>
     /// Reads Start and End properties for the start and end of an interval, converting them to instants

@@ -9,7 +9,8 @@ namespace Argon.NodaTime;
 /// from an <see cref="IPattern{T}"/>.
 /// </summary>
 /// <typeparam name="T">The type to convert to/from JSON.</typeparam>
-public sealed class NodaPatternConverter<T> : NodaConverterBase<T>
+public sealed class NodaPatternConverter<T> :
+    NodaConverterBase<T>
 {
     readonly IPattern<T> pattern;
     readonly Action<T>? validator;
@@ -19,7 +20,8 @@ public sealed class NodaPatternConverter<T> : NodaConverterBase<T>
     /// </summary>
     /// <param name="pattern">The pattern to use for parsing and formatting.</param>
     /// <exception cref="ArgumentNullException"><paramref name="pattern"/> is null.</exception>
-    public NodaPatternConverter(IPattern<T> pattern) : this(pattern, null)
+    public NodaPatternConverter(IPattern<T> pattern) :
+        this(pattern, null)
     {
     }
 

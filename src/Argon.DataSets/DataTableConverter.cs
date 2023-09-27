@@ -9,7 +9,8 @@ namespace Argon.DataSets;
 /// <summary>
 /// Converts a <see cref="DataTable" /> to and from JSON.
 /// </summary>
-public class DataTableConverter : JsonConverter
+public class DataTableConverter :
+    JsonConverter
 {
     /// <summary>
     /// Writes the JSON representation of the object.
@@ -34,8 +35,7 @@ public class DataTableConverter : JsonConverter
                     continue;
                 }
 
-                writer.WritePropertyName(
-                    resolver == null ? column.ColumnName : resolver.GetResolvedPropertyName(column.ColumnName));
+                writer.WritePropertyName(resolver?.GetResolvedPropertyName(column.ColumnName) ?? column.ColumnName);
                 serializer.Serialize(writer, columnValue);
             }
 

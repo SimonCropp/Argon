@@ -1,13 +1,9 @@
 ﻿using System.Xml.Linq;
 
-class XProcessingInstructionWrapper : XObjectWrapper
+class XProcessingInstructionWrapper(XProcessingInstruction processingInstruction) :
+    XObjectWrapper(processingInstruction)
 {
     XProcessingInstruction ProcessingInstruction => (XProcessingInstruction) WrappedNode!;
-
-    public XProcessingInstructionWrapper(XProcessingInstruction processingInstruction)
-        : base(processingInstruction)
-    {
-    }
 
     public override string LocalName => ProcessingInstruction.Target;
 

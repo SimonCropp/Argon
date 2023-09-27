@@ -1,13 +1,9 @@
 ﻿using System.Xml.Linq;
 
-class XAttributeWrapper : XObjectWrapper
+class XAttributeWrapper(XAttribute attribute) :
+    XObjectWrapper(attribute)
 {
     XAttribute Attribute => (XAttribute) WrappedNode!;
-
-    public XAttributeWrapper(XAttribute attribute)
-        : base(attribute)
-    {
-    }
 
     public override string Value
     {

@@ -1,4 +1,5 @@
-﻿interface IXmlDocument : IXmlNode
+﻿interface IXmlDocument :
+    IXmlNode
 {
     IXmlNode CreateComment(string text);
     IXmlNode CreateTextNode(string text);

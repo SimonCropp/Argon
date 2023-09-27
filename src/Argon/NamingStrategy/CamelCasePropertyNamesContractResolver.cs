@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Resolves member mappings for a type, camel casing property names.
 /// </summary>
-public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
+public class CamelCasePropertyNamesContractResolver :
+    DefaultContractResolver
 {
     static readonly object typeContractCacheLock = new();
     static readonly DefaultJsonNameTable NameTable = new();
@@ -33,7 +34,8 @@ public class CamelCasePropertyNamesContractResolver : DefaultContractResolver
         // for backwards compatibility the CamelCasePropertyNamesContractResolver shares contracts between instances
         var key = new Tuple<Type, Type>(GetType(), type);
         var cache = contractCache;
-        if (cache == null || !cache.TryGetValue(key, out var contract))
+        if (cache == null ||
+            !cache.TryGetValue(key, out var contract))
         {
             contract = CreateContract(type);
 

@@ -10,7 +10,9 @@ namespace Argon;
 /// <example>
 /// <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
 /// </example>
-public partial class JArray : JContainer, IList<JToken>
+public partial class JArray :
+    JContainer,
+    IList<JToken>
 {
     readonly List<JToken> values = [];
 
@@ -43,8 +45,8 @@ public partial class JArray : JContainer, IList<JToken>
     /// <summary>
     /// Initializes a new instance of the <see cref="JArray" /> class with the specified content.
     /// </summary>
-    public JArray(params object[] content)
-        : this((object) content)
+    public JArray(params object[] content) :
+        this((object) content)
     {
     }
 
@@ -223,19 +225,6 @@ public partial class JArray : JContainer, IList<JToken>
         }
 
         return values.IndexOfReference(item);
-    }
-
-    internal override void MergeItem(object content, JsonMergeSettings? settings)
-    {
-        var a = IsMultiContent(content) || content is JArray
-            ? (IEnumerable) content
-            : null;
-        if (a == null)
-        {
-            return;
-        }
-
-        MergeEnumerableContent(this, a, settings);
     }
 
     #region IList<JToken> Members

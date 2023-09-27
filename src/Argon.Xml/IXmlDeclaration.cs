@@ -1,4 +1,5 @@
-﻿interface IXmlDeclaration : IXmlNode
+﻿interface IXmlDeclaration :
+    IXmlNode
 {
     string? Version { get; }
     string? Encoding { get; set; }

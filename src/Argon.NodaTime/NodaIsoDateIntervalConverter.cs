@@ -5,7 +5,8 @@
 /// <summary>
 /// Json.NET converter for <see cref="DateInterval"/>.
 /// </summary>
-sealed class NodaIsoDateIntervalConverter : NodaConverterBase<DateInterval>
+sealed class NodaIsoDateIntervalConverter :
+    NodaConverterBase<DateInterval>
 {
     protected override DateInterval ReadJsonImpl(JsonReader reader, JsonSerializer serializer)
     {

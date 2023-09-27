@@ -20,8 +20,8 @@ public abstract partial class JContainer :
     {
     }
 
-    internal JContainer(JContainer other)
-        : this()
+    internal JContainer(JContainer other) :
+        this()
     {
         var i = 0;
         foreach (var child in other)
@@ -464,41 +464,6 @@ public abstract partial class JContainer :
     public void RemoveAll() =>
         ClearItems();
 
-    internal abstract void MergeItem(object content, JsonMergeSettings? settings);
-
-    /// <summary>
-    /// Merge the specified content into this <see cref="JToken" />.
-    /// </summary>
-    public void Merge(object content)
-    {
-        ValidateContent(content);
-        MergeItem(content, null);
-    }
-
-    /// <summary>
-    /// Merge the specified content into this <see cref="JToken" /> using <see cref="JsonMergeSettings" />.
-    /// </summary>
-    public void Merge(object content, JsonMergeSettings? settings)
-    {
-        ValidateContent(content);
-        MergeItem(content, settings);
-    }
-
-    static void ValidateContent(object content)
-    {
-        if (content is JToken)
-        {
-            return;
-        }
-
-        if (IsMultiContent(content))
-        {
-            return;
-        }
-
-        throw new ArgumentException($"Could not determine JSON object type for type {content.GetType()}.", nameof(content));
-    }
-
     internal void ReadTokenFrom(JsonReader reader, JsonLoadSettings? options)
     {
         var startDepth = reader.Depth;
@@ -691,80 +656,4 @@ public abstract partial class JContainer :
     /// Gets the count of child JSON tokens.
     /// </summary>
     public int Count => ChildrenTokens.Count;
-
-    internal static void MergeEnumerableContent(JContainer target, IEnumerable content, JsonMergeSettings? settings)
-    {
-        switch (settings?.MergeArrayHandling ?? MergeArrayHandling.Concat)
-        {
-            case MergeArrayHandling.Concat:
-                foreach (var item in content)
-                {
-                    target.Add(CreateFromContent(item));
-                }
-
-                break;
-            case MergeArrayHandling.Union:
-                var items = new HashSet<JToken>(target, EqualityComparer);
-
-                foreach (var item in content)
-                {
-                    var contentItem = CreateFromContent(item);
-
-                    if (items.Add(contentItem))
-                    {
-                        target.Add(contentItem);
-                    }
-                }
-
-                break;
-            case MergeArrayHandling.Replace:
-                if (target == content)
-                {
-                    break;
-                }
-
-                target.ClearItems();
-                foreach (var item in content)
-                {
-                    target.Add(CreateFromContent(item));
-                }
-
-                break;
-            case MergeArrayHandling.Merge:
-                var i = 0;
-                foreach (var targetItem in content)
-                {
-                    if (i < target.Count)
-                    {
-                        var sourceItem = target[i];
-
-                        if (sourceItem is JContainer existingContainer)
-                        {
-                            existingContainer.Merge(targetItem, settings);
-                        }
-                        else
-                        {
-                            if (targetItem != null)
-                            {
-                                var contentValue = CreateFromContent(targetItem);
-                                if (contentValue.Type != JTokenType.Null)
-                                {
-                                    target[i] = contentValue;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        target.Add(CreateFromContent(targetItem));
-                    }
-
-                    i++;
-                }
-
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(settings), "Unexpected merge array handling when merging JSON.");
-        }
-    }
 }

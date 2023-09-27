@@ -1,10 +1,6 @@
-class ScanMultipleFilter : PathFilter
+class ScanMultipleFilter(List<string> names) :
+    PathFilter
 {
-    List<string> names;
-
-    public ScanMultipleFilter(List<string> names) =>
-        this.names = names;
-
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {
         foreach (var c in current)

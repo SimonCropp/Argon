@@ -299,7 +299,7 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void WriteIConvertable()
+    public void WriteIConvertible()
     {
         var stringWriter = new StringWriter();
         var jsonWriter = new JsonTextWriter(stringWriter);

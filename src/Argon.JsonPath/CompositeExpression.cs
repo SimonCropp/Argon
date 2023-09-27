@@ -1,4 +1,5 @@
-﻿class CompositeExpression(QueryOperator @operator) : QueryExpression(@operator)
+﻿class CompositeExpression(QueryOperator @operator) :
+    QueryExpression(@operator)
 {
     public List<QueryExpression> Expressions { get; set; } = [];
 

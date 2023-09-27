@@ -1,13 +1,9 @@
 ﻿using System.Xml;
 
-class XmlElementWrapper : XmlNodeWrapper, IXmlElement
+class XmlElementWrapper(XmlElement element) :
+    XmlNodeWrapper(element),
+    IXmlElement
 {
-    readonly XmlElement element;
-
-    public XmlElementWrapper(XmlElement element)
-        : base(element) =>
-        this.element = element;
-
     public void SetAttributeNode(IXmlNode attribute)
     {
         var xmlAttributeWrapper = (XmlNodeWrapper) attribute;

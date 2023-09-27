@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Converts a <see cref="DateTime"/> to and from the ISO 8601 date format (e.g. <c>"2008-04-12T12:53Z"</c>).
 /// </summary>
-public class IsoDateTimeConverter : DateTimeConverterBase
+public class IsoDateTimeConverter :
+    DateTimeConverterBase
 {
     const string defaultDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.FFFFFFFK";
 

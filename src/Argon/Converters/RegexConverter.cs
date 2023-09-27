@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Converts a <see cref="Regex"/> to and from JSON.
 /// </summary>
-public class RegexConverter : JsonConverter
+public class RegexConverter :
+    JsonConverter
 {
     const string patternName = "Pattern";
     const string optionsName = "Options";

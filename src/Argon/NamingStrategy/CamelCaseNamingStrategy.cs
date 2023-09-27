@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// A camel case naming strategy.
 /// </summary>
-public class CamelCaseNamingStrategy : NamingStrategy
+public class CamelCaseNamingStrategy :
+    NamingStrategy
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CamelCaseNamingStrategy" /> class.

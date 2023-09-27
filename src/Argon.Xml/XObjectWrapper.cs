@@ -1,16 +1,12 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
 
-class XObjectWrapper : IXmlNode
+class XObjectWrapper(XObject? o) :
+    IXmlNode
 {
-    readonly XObject? xmlObject;
+    public object? WrappedNode => o;
 
-    public XObjectWrapper(XObject? xmlObject) =>
-        this.xmlObject = xmlObject;
-
-    public object? WrappedNode => xmlObject;
-
-    public virtual XmlNodeType NodeType => xmlObject?.NodeType ?? XmlNodeType.None;
+    public virtual XmlNodeType NodeType => o?.NodeType ?? XmlNodeType.None;
 
     public virtual string LocalName => null!;
 

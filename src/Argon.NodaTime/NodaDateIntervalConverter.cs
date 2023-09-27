@@ -7,7 +7,8 @@
 /// end aspects of the date interval are represented with separate properties, each parsed and formatted
 /// by the <see cref="LocalDate"/> converter for the serializer provided.
 /// </summary>
-sealed class NodaDateIntervalConverter : NodaConverterBase<DateInterval>
+sealed class NodaDateIntervalConverter :
+    NodaConverterBase<DateInterval>
 {
     /// <summary>
     /// Reads Start and End properties for the start and end of a date interval, converting them to local dates

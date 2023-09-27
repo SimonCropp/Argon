@@ -1,9 +1,7 @@
-class ArrayMultipleIndexFilter : PathFilter
+class ArrayMultipleIndexFilter(List<int> indexes) :
+    PathFilter
 {
-    internal List<int> Indexes;
-
-    public ArrayMultipleIndexFilter(List<int> indexes) =>
-        Indexes = indexes;
+    internal List<int> Indexes = indexes;
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings)
     {

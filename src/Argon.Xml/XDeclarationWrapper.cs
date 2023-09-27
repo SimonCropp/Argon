@@ -1,13 +1,11 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
 
-class XDeclarationWrapper : XObjectWrapper, IXmlDeclaration
+class XDeclarationWrapper(XDeclaration declaration) :
+    XObjectWrapper(null),
+    IXmlDeclaration
 {
-    internal XDeclaration Declaration { get; }
-
-    public XDeclarationWrapper(XDeclaration declaration)
-        : base(null) =>
-        Declaration = declaration;
+    internal XDeclaration Declaration { get; } = declaration;
 
     public override XmlNodeType NodeType => XmlNodeType.XmlDeclaration;
 

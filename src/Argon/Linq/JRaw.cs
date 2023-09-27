@@ -7,22 +7,23 @@ namespace Argon;
 /// <summary>
 /// Represents a raw JSON string.
 /// </summary>
-public partial class JRaw : JValue
+public partial class JRaw :
+    JValue
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="JRaw" /> class from another <see cref="JRaw" /> object.
     /// </summary>
     /// <param name="other">A <see cref="JRaw" /> object to copy from.</param>
-    public JRaw(JRaw other)
-        : base(other)
+    public JRaw(JRaw other) :
+        base(other)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JRaw" /> class.
     /// </summary>
-    public JRaw(object? rawJson)
-        : base(rawJson, JTokenType.Raw)
+    public JRaw(object? rawJson) :
+        base(rawJson, JTokenType.Raw)
     {
     }
 

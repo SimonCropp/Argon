@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Converts a <see cref="KeyValuePair{TKey,TValue}"/> to and from JSON.
 /// </summary>
-public class KeyValuePairConverter : JsonConverter
+public class KeyValuePairConverter :
+    JsonConverter
 {
     const string keyName = "Key";
     const string valueName = "Value";
@@ -33,9 +34,9 @@ public class KeyValuePairConverter : JsonConverter
         var resolver = serializer.ContractResolver as DefaultContractResolver;
 
         writer.WriteStartObject();
-        writer.WritePropertyName(resolver == null ? keyName : resolver.GetResolvedPropertyName(keyName));
+        writer.WritePropertyName(resolver?.GetResolvedPropertyName(keyName) ?? keyName);
         serializer.Serialize(writer, reflectionObject.GetValue(value, keyName), reflectionObject.GetType(keyName));
-        writer.WritePropertyName(resolver == null ? valueName : resolver.GetResolvedPropertyName(valueName));
+        writer.WritePropertyName(resolver?.GetResolvedPropertyName(valueName) ?? valueName);
         serializer.Serialize(writer, reflectionObject.GetValue(value, valueName), reflectionObject.GetType(valueName));
         writer.WriteEndObject();
     }

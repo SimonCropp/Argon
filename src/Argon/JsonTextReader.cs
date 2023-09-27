@@ -1406,18 +1406,9 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
             throw JsonReaderException.Create(this, $"Invalid property identifier character: {charBuffer[charPos]}.");
         }
 
-        string propertyName;
-
-        if (PropertyNameTable == null)
-        {
-            propertyName = stringReference.ToString();
-        }
-        else
-        {
-            propertyName = PropertyNameTable.Get(stringReference.Chars, stringReference.StartIndex, stringReference.Length) ??
+        var propertyName = PropertyNameTable?.Get(stringReference.Chars, stringReference.StartIndex, stringReference.Length) ??
                            // no match in name table
                            stringReference.ToString();
-        }
 
         EatWhitespace();
 
