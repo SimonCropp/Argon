@@ -13,4 +13,6 @@ public abstract class JsonNameTable
     /// <param name="length">The number of characters in the name.</param>
     /// <returns>A string containing the same characters as the specified range of characters in the given array.</returns>
     public abstract string? Get(char[] key, int start, int length);
+
+    public abstract string? Add(string name);
 }

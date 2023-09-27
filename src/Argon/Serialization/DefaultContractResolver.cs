@@ -683,11 +683,7 @@ public class DefaultContractResolver : IContractResolver
         {
             var property = CreateProperty(member, memberSerialization);
 
-            // nametable is not thread-safe for multiple writers
-            lock (nameTable)
-            {
-                property.PropertyName = nameTable.Add(property.PropertyName!);
-            }
+            property.PropertyName = nameTable.Add(property.PropertyName!);
 
             properties.AddProperty(property);
         }
@@ -695,8 +691,7 @@ public class DefaultContractResolver : IContractResolver
         return properties.OrderBy(_ => _.Order ?? -1).ToList();
     }
 
-    internal virtual DefaultJsonNameTable GetNameTable() =>
-        nameTable;
+    public virtual JsonNameTable GetNameTable() => nameTable;
 
     /// <summary>
     /// Creates the <see cref="IValueProvider" /> used by the serializer to get and set values from a member.

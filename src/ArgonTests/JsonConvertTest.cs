@@ -112,6 +112,9 @@ public class JsonConvertTest : TestFixtureBase
     {
         public override string Get(char[] key, int start, int length) =>
             "_" + new string(key, start, length);
+
+        public override string Add(string name) =>
+            throw new NotImplementedException();
     }
 
     [Fact]
