@@ -7,11 +7,13 @@ namespace Argon;
 /// <summary>
 /// Represents a JSON property.
 /// </summary>
-public partial class JProperty : JContainer
+public partial class JProperty :
+    JContainer
 {
     #region JPropertyList
 
-    class JPropertyList : IList<JToken>
+    class JPropertyList :
+        IList<JToken>
     {
         internal JToken? token;
 
@@ -138,8 +140,8 @@ public partial class JProperty : JContainer
     /// Initializes a new instance of the <see cref="JProperty" /> class from another <see cref="JProperty" /> object.
     /// </summary>
     /// <param name="other">A <see cref="JProperty" /> object to copy from.</param>
-    public JProperty(JProperty other)
-        : base(other) =>
+    public JProperty(JProperty other) :
+        base(other) =>
         Name = other.Name;
 
     internal override JToken GetItem(int index)
@@ -226,8 +228,8 @@ public partial class JProperty : JContainer
     /// <summary>
     /// Initializes a new instance of the <see cref="JProperty" /> class.
     /// </summary>
-    public JProperty(string name, params object[] content)
-        : this(name, (object) content)
+    public JProperty(string name, params object[] content) :
+        this(name, (object) content)
     {
     }
 

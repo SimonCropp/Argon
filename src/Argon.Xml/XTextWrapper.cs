@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 
-class XTextWrapper(XText text) : XObjectWrapper(text)
+class XTextWrapper(XText text) :
+    XObjectWrapper(text)
 {
     XText Text => (XText) WrappedNode!;
 

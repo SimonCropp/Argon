@@ -7,7 +7,9 @@ namespace Argon;
 /// <summary>
 /// Represents a reader that provides fast, non-cached, forward-only access to serialized JSON data.
 /// </summary>
-public class JTokenReader : JsonReader, IJsonLineInfo
+public class JTokenReader :
+    JsonReader,
+    IJsonLineInfo
 {
     readonly JToken root;
     string? initialPath;
@@ -28,8 +30,8 @@ public class JTokenReader : JsonReader, IJsonLineInfo
     /// Initializes a new instance of the <see cref="JTokenReader" /> class.
     /// </summary>
     /// <param name="initialPath">The initial path of the token. It is prepended to the returned <see cref="Path" />.</param>
-    public JTokenReader(JToken token, string initialPath)
-        : this(token) =>
+    public JTokenReader(JToken token, string initialPath) :
+        this(token) =>
         this.initialPath = initialPath;
 
     /// <summary>

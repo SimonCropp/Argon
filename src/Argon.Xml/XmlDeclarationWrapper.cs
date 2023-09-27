@@ -1,13 +1,9 @@
 ﻿using System.Xml;
 
-class XmlDeclarationWrapper : XmlNodeWrapper, IXmlDeclaration
+class XmlDeclarationWrapper(XmlDeclaration declaration) :
+    XmlNodeWrapper(declaration),
+    IXmlDeclaration
 {
-    readonly XmlDeclaration declaration;
-
-    public XmlDeclarationWrapper(XmlDeclaration declaration)
-        : base(declaration) =>
-        this.declaration = declaration;
-
     public string Version => declaration.Version;
 
     public string? Encoding

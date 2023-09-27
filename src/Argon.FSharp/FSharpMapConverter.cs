@@ -4,7 +4,8 @@
 /// <summary>
 /// Converts a <see cref="FSharpMap{TKey,TValue}"/>.
 /// </summary>
-public class FSharpMapConverter : JsonConverter
+public class FSharpMapConverter :
+    JsonConverter
 {
     static MethodInfo writeMap = typeof(FSharpMapConverter).GetMethod("WriteMap")!;
 

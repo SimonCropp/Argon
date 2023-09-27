@@ -1,14 +1,11 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
 
-class XDocumentWrapper : XContainerWrapper, IXmlDocument
+class XDocumentWrapper(XDocument document) :
+    XContainerWrapper(document),
+    IXmlDocument
 {
     XDocument Document => (XDocument) WrappedNode!;
-
-    public XDocumentWrapper(XDocument document)
-        : base(document)
-    {
-    }
 
     public override List<IXmlNode> ChildNodes
     {

@@ -1,20 +1,16 @@
 ﻿using System.Xml.Linq;
 
-class XDocumentTypeWrapper : XObjectWrapper, IXmlDocumentType
+class XDocumentTypeWrapper(XDocumentType type) :
+    XObjectWrapper(type),
+    IXmlDocumentType
 {
-    readonly XDocumentType documentType;
+    public string Name => type.Name;
 
-    public XDocumentTypeWrapper(XDocumentType documentType)
-        : base(documentType) =>
-        this.documentType = documentType;
+    public string? System => type.SystemId;
 
-    public string Name => documentType.Name;
+    public string? Public => type.PublicId;
 
-    public string? System => documentType.SystemId;
-
-    public string? Public => documentType.PublicId;
-
-    public string? InternalSubset => documentType.InternalSubset;
+    public string? InternalSubset => type.InternalSubset;
 
     public override string LocalName => "DOCTYPE";
 }

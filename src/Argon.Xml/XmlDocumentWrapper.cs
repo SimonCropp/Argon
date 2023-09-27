@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 
-class XmlDocumentWrapper(XmlDocument document) : XmlNodeWrapper(document),
+class XmlDocumentWrapper(XmlDocument document) :
+    XmlNodeWrapper(document),
     IXmlDocument
 {
     public IXmlNode CreateComment(string? data) =>

@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Converts an <see cref="Enum"/> to and from its name string value.
 /// </summary>
-public class StringEnumConverter : JsonConverter
+public class StringEnumConverter :
+    JsonConverter
 {
     /// <summary>
     /// Gets or sets the naming strategy used to resolve how enum text is written.

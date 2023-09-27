@@ -1,4 +1,5 @@
-﻿interface IXmlDocumentType : IXmlNode
+﻿interface IXmlDocumentType :
+    IXmlNode
 {
     string Name { get; }
     string? System { get; }

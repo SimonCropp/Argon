@@ -4,7 +4,8 @@ namespace Argon;
 /// <summary>
 /// Converts a <see cref="FSharpList{T}"/>.
 /// </summary>
-public class FSharpListConverter : JsonConverter
+public class FSharpListConverter :
+    JsonConverter
 {
     static MethodInfo readList = typeof(FSharpListConverter).GetMethod("ReadList")!;
 

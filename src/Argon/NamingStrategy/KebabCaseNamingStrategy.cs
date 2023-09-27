@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// A kebab case naming strategy.
 /// </summary>
-public class KebabCaseNamingStrategy : NamingStrategy
+public class KebabCaseNamingStrategy :
+    NamingStrategy
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="KebabCaseNamingStrategy" /> class.

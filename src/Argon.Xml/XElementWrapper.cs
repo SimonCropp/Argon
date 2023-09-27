@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 
-class XElementWrapper(XElement element) : XContainerWrapper(element),
+class XElementWrapper(XElement element) :
+    XContainerWrapper(element),
     IXmlElement
 {
     List<IXmlNode>? attributes;

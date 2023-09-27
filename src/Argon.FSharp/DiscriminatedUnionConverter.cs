@@ -7,7 +7,8 @@ namespace Argon;
 /// <summary>
 /// Converts a F# discriminated union.
 /// </summary>
-public class DiscriminatedUnionConverter : JsonConverter
+public class DiscriminatedUnionConverter :
+    JsonConverter
 {
     const string casePropertyName = "Case";
     const string fieldsPropertyName = "Fields";

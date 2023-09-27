@@ -1,4 +1,5 @@
-class FieldFilter(string? name) : PathFilter
+class FieldFilter(string? name) :
+    PathFilter
 {
     internal string? Name = name;
 
