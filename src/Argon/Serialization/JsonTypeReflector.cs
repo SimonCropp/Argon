@@ -42,24 +42,8 @@ static class JsonTypeReflector
         return false;
     }
 
-    public static DataContractAttribute? GetDataContractAttribute(Type type)
-    {
-        // DataContractAttribute does not have inheritance
-        var currentType = type;
-
-        while (currentType != null)
-        {
-            var result = AttributeCache<DataContractAttribute>.GetAttribute(currentType);
-            if (result != null)
-            {
-                return result;
-            }
-
-            currentType = currentType.BaseType;
-        }
-
-        return null;
-    }
+    public static DataContractAttribute? GetDataContractAttribute(Type type) =>
+        AttributeCache<DataContractAttribute>.GetAttribute(type);
 
     public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo member)
     {
