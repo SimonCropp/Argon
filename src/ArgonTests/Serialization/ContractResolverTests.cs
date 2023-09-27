@@ -593,24 +593,6 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Equal(null, property2.ShouldSerialize);
     }
 
-    public class ClassWithIsSpecified
-    {
-        [JsonProperty] public string Prop1 { get; set; }
-        [JsonProperty] public string Prop2 { get; set; }
-        [JsonProperty] public string Prop3 { get; set; }
-        [JsonProperty] public string Prop4 { get; set; }
-        [JsonProperty] public string Prop5 { get; set; }
-
-        public bool Prop1Specified;
-        public bool Prop2Specified { get; set; }
-        public static bool Prop3Specified { get; set; }
-        public event Func<bool> Prop4Specified;
-        public static bool Prop5Specified;
-
-        protected virtual bool OnProp4Specified() =>
-            Prop4Specified?.Invoke() ?? false;
-    }
-
     [Fact]
     public void NonGenericDictionary_KeyValueTypes()
     {
