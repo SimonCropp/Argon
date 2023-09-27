@@ -22,11 +22,6 @@ public class DefaultContractResolver : IContractResolver
     public bool SerializeCompilerGeneratedMembers { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to ignore IsSpecified members when serializing and deserializing types.
-    /// </summary>
-    public bool IgnoreIsSpecifiedMembers { get; set; }
-
-    /// <summary>
     /// Gets or sets a value indicating whether to ignore ShouldSerialize members when serializing and deserializing types.
     /// </summary>
     public bool IgnoreShouldSerializeMembers { get; set; }
@@ -756,11 +751,6 @@ public class DefaultContractResolver : IContractResolver
             property.ShouldSerialize = CreateShouldSerializeTest(member);
         }
 
-        if (!IgnoreIsSpecifiedMembers)
-        {
-            SetIsSpecifiedActions(property, member, allowNonPublicAccess);
-        }
-
         return property;
     }
 
@@ -910,33 +900,6 @@ public class DefaultContractResolver : IContractResolver
             JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(shouldSerializeMethod);
 
         return o => (bool) shouldSerializeCall(o)!;
-    }
-
-    static void SetIsSpecifiedActions(JsonProperty property, MemberInfo member, bool allowNonPublicAccess)
-    {
-        var declaringType = member.DeclaringType!;
-        var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
-        MemberInfo? specifiedMember = declaringType.GetProperty(member.Name + JsonTypeReflector.SpecifiedPostfix, flags);
-        if (specifiedMember == null)
-        {
-            specifiedMember = declaringType.GetField(member.Name + JsonTypeReflector.SpecifiedPostfix, flags);
-        }
-
-        if (specifiedMember == null ||
-            specifiedMember.GetMemberUnderlyingType() != typeof(bool))
-        {
-            return;
-        }
-
-        Func<object, object> specifiedPropertyGet = JsonTypeReflector.ReflectionDelegateFactory.CreateGet<object>(specifiedMember)!;
-
-        property.GetIsSpecified = o => (bool) specifiedPropertyGet(o);
-
-        if (specifiedMember.CanSetMemberValue(allowNonPublicAccess, false))
-        {
-            property.SetIsSpecified = JsonTypeReflector.ReflectionDelegateFactory.CreateSet<object>(specifiedMember);
-        }
     }
 
     /// <summary>

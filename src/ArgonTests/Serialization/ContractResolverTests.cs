@@ -623,65 +623,6 @@ public class ContractResolverTests : TestFixtureBase
     }
 
     [Fact]
-    public void DefaultContractResolverIgnoreIsSpecifiedTrue()
-    {
-        var resolver = new DefaultContractResolver
-        {
-            IgnoreIsSpecifiedMembers = true
-        };
-
-        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithIsSpecified));
-
-        var property1 = contract.Properties["Prop1"];
-        Assert.Equal(null, property1.GetIsSpecified);
-        Assert.Equal(null, property1.SetIsSpecified);
-
-        var property2 = contract.Properties["Prop2"];
-        Assert.Equal(null, property2.GetIsSpecified);
-        Assert.Equal(null, property2.SetIsSpecified);
-
-        var property3 = contract.Properties["Prop3"];
-        Assert.Equal(null, property3.GetIsSpecified);
-        Assert.Equal(null, property3.SetIsSpecified);
-
-        var property4 = contract.Properties["Prop4"];
-        Assert.Equal(null, property4.GetIsSpecified);
-        Assert.Equal(null, property4.SetIsSpecified);
-
-        var property5 = contract.Properties["Prop5"];
-        Assert.Equal(null, property5.GetIsSpecified);
-        Assert.Equal(null, property5.SetIsSpecified);
-    }
-
-    [Fact]
-    public void DefaultContractResolverIgnoreIsSpecifiedUnset()
-    {
-        var resolver = new DefaultContractResolver();
-
-        var contract = (JsonObjectContract) resolver.ResolveContract(typeof(ClassWithIsSpecified));
-
-        var property1 = contract.Properties["Prop1"];
-        Assert.NotEqual(null, property1.GetIsSpecified);
-        Assert.NotEqual(null, property1.SetIsSpecified);
-
-        var property2 = contract.Properties["Prop2"];
-        Assert.NotEqual(null, property2.GetIsSpecified);
-        Assert.NotEqual(null, property2.SetIsSpecified);
-
-        var property3 = contract.Properties["Prop3"];
-        Assert.Equal(null, property3.GetIsSpecified);
-        Assert.Equal(null, property3.SetIsSpecified);
-
-        var property4 = contract.Properties["Prop4"];
-        Assert.Equal(null, property4.GetIsSpecified);
-        Assert.Equal(null, property4.SetIsSpecified);
-
-        var property5 = contract.Properties["Prop5"];
-        Assert.Equal(null, property5.GetIsSpecified);
-        Assert.Equal(null, property5.SetIsSpecified);
-    }
-
-    [Fact]
     public void JsonRequiredAttribute()
     {
         var resolver = new DefaultContractResolver();

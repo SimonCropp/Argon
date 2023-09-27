@@ -171,16 +171,6 @@ public class JsonProperty(Type propertyType, Type declaringType)
     public Predicate<object>? ShouldDeserialize { get; set; }
 
     /// <summary>
-    /// Gets or sets a predicate used to determine whether the property should be serialized.
-    /// </summary>
-    public Predicate<object>? GetIsSpecified { get; set; }
-
-    /// <summary>
-    /// Gets or sets an action used to set whether the property has been deserialized.
-    /// </summary>
-    public Action<object, object?>? SetIsSpecified { get; set; }
-
-    /// <summary>
     /// Returns a <see cref="String" /> that represents this instance.
     /// </summary>
     /// <returns>

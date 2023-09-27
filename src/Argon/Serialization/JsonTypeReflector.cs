@@ -11,7 +11,6 @@ static class JsonTypeReflector
     public const string ArrayValuesPropertyName = "$values";
 
     public const string ShouldSerializePrefix = "ShouldSerialize";
-    public const string SpecifiedPostfix = "Specified";
 
     public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
 
