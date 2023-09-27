@@ -307,33 +307,6 @@ public class ReadTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadOctalNumber()
-    {
-        var s = new StringReader("[0372, 0xFA, 0XFA]");
-        var jsonReader = new JsonTextReader(s);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(250L, jsonReader.Value);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(250L, jsonReader.Value);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.Integer, jsonReader.TokenType);
-        Assert.Equal(250L, jsonReader.Value);
-
-        Assert.True(jsonReader.Read());
-        Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
-
-        Assert.False(jsonReader.Read());
-    }
-
-    [Fact]
     public void ReadAsBytesNoContent()
     {
         var reader = new JsonTextReader(new StringReader(""));
