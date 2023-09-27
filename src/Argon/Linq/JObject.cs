@@ -107,43 +107,6 @@ public partial class JObject :
         }
     }
 
-    internal override void MergeItem(object content, JsonMergeSettings? settings)
-    {
-        if (content is not JObject o)
-        {
-            return;
-        }
-
-        foreach (var (key, itemValue) in o)
-        {
-            var existingProperty = PropertyOrNull(key, settings?.PropertyNameComparison ?? StringComparison.Ordinal);
-
-            if (existingProperty == null)
-            {
-                Add(key, itemValue);
-                continue;
-            }
-
-            if (itemValue == null)
-            {
-                continue;
-            }
-
-            if (existingProperty.Value is JContainer existingContainer &&
-                existingContainer.Type == itemValue.Type)
-            {
-                existingContainer.Merge(itemValue, settings);
-            }
-            else
-            {
-                if (!IsNull(itemValue) || settings?.MergeNullValueHandling == MergeNullValueHandling.Merge)
-                {
-                    existingProperty.Value = itemValue;
-                }
-            }
-        }
-    }
-
     static bool IsNull(JToken token) =>
         token.Type == JTokenType.Null ||
         token is JValue {Value: null};
