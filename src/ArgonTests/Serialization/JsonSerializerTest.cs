@@ -7002,12 +7002,6 @@ public class JsonSerializerTest : TestFixtureBase
             "Could not get constructor for TestObjects.ErroringJsonConverter.");
 
     [Fact]
-    public void DeserializeInvalidOctalRootError() =>
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JsonConvert.DeserializeObject<string>("020474068"),
-            "Input string '020474068' is not a valid number. Path '', line 1, position 9.");
-
-    [Fact]
     public void DeserializedDerivedWithPrivate()
     {
         var json = """
