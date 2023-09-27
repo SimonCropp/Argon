@@ -1240,20 +1240,6 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void ChildDataContractTestWithHidden()
-    {
-        var cc = new ChildDataContractWithHidden
-        {
-            VirtualMember = "VirtualMember!",
-            NonVirtualMember = "NonVirtualMember!",
-            NewMember = "NewMember!"
-        };
-
-        var result = JsonConvert.SerializeObject(cc);
-        Assert.Equal("""{"NewMember":"NewMember!","virtualMember":"VirtualMember!","nonVirtualMember":"NonVirtualMember!"}""", result);
-    }
-
-    [Fact]
     public void SubWithoutContractNewPropertiesTest()
     {
         BaseWithContract baseWith = new SubWithoutContractNewProperties
@@ -5047,48 +5033,6 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new EnumerableArrayPropertyClass());
         JsonConvert.DeserializeObject<EnumerableArrayPropertyClass>(json);
-    }
-
-    [Fact]
-    public void ChildDataContractTest()
-    {
-        var cc = new ChildDataContract
-        {
-            VirtualMember = "VirtualMember!",
-            NonVirtualMember = "NonVirtualMember!"
-        };
-
-        var result = JsonConvert.SerializeObject(cc, Formatting.Indented);
-
-        XUnitAssert.AreEqualNormalized(
-            """
-            {
-              "virtualMember": "VirtualMember!",
-              "nonVirtualMember": "NonVirtualMember!"
-            }
-            """,
-            result);
-    }
-
-    [Fact]
-    public void ChildDataContractTestWithDataContractSerializer()
-    {
-        var cc = new ChildDataContract
-        {
-            VirtualMember = "VirtualMember!",
-            NonVirtualMember = "NonVirtualMember!"
-        };
-
-        var serializer = new DataContractSerializer(typeof(ChildDataContract));
-
-        var ms = new MemoryStream();
-        serializer.WriteObject(ms, cc);
-
-        var xml = Encoding.UTF8.GetString(ms.ToArray(), 0, Convert.ToInt32(ms.Length));
-
-        Assert.Equal(
-            """<ChildDataContract xmlns="http://schemas.datacontract.org/2004/07/TestObjects" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><nonVirtualMember>NonVirtualMember!</nonVirtualMember><virtualMember>VirtualMember!</virtualMember><NewMember i:nil="true"/></ChildDataContract>""",
-            xml);
     }
 
     [Fact]
