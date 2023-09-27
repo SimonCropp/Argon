@@ -1679,43 +1679,15 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
         JsonToken numberType;
 
         var singleDigit = char.IsDigit(firstChar) && stringReference.Length == 1;
-        var nonBase10 = firstChar == '0' &&
-                        stringReference.Length > 1 &&
-                        stringReference.Chars[stringReference.StartIndex + 1] != '.' &&
-                        stringReference.Chars[stringReference.StartIndex + 1] != 'e' &&
-                        stringReference.Chars[stringReference.StartIndex + 1] != 'E';
-
         switch (readType)
         {
             case ReadType.ReadAsString:
             {
                 var number = stringReference.ToString();
 
-                // validate that the string is a valid number
-                if (nonBase10)
+                if (!double.TryParse(number, NumberStyles.Float, InvariantCulture, out _))
                 {
-                    try
-                    {
-                        if (number.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                        {
-                            Convert.ToInt64(number, 16);
-                        }
-                        else
-                        {
-                            Convert.ToInt64(number, 8);
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid number.", exception);
-                    }
-                }
-                else
-                {
-                    if (!double.TryParse(number, NumberStyles.Float, InvariantCulture, out _))
-                    {
-                        throw ThrowReaderError($"Input string '{stringReference}' is not a valid number.");
-                    }
+                    throw ThrowReaderError($"Input string '{stringReference}' is not a valid number.");
                 }
 
                 numberType = JsonToken.String;
@@ -1728,21 +1700,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     // digit char values start at 48
                     numberValue = BoxedPrimitives.Get(firstChar - 48);
-                }
-                else if (nonBase10)
-                {
-                    var number = stringReference.ToString();
-
-                    try
-                    {
-                        var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt32(number, 16) : Convert.ToInt32(number, 8);
-
-                        numberValue = BoxedPrimitives.Get(integer);
-                    }
-                    catch (Exception exception)
-                    {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid integer.", exception);
-                    }
                 }
                 else
                 {
@@ -1771,22 +1728,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                     // digit char values start at 48
                     numberValue = (decimal) firstChar - 48;
                 }
-                else if (nonBase10)
-                {
-                    var number = stringReference.ToString();
-
-                    try
-                    {
-                        // decimal.Parse doesn't support parsing hexadecimal values
-                        var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
-
-                        numberValue = BoxedPrimitives.Get(Convert.ToDecimal(integer));
-                    }
-                    catch (Exception exception)
-                    {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid decimal.", exception);
-                    }
-                }
                 else
                 {
                     var parseResult = ConvertUtils.DecimalTryParse(stringReference.Chars, stringReference.StartIndex, stringReference.Length, out var value);
@@ -1809,22 +1750,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     // digit char values start at 48
                     numberValue = (double) firstChar - 48;
-                }
-                else if (nonBase10)
-                {
-                    var number = stringReference.ToString();
-
-                    try
-                    {
-                        // double.Parse doesn't support parsing hexadecimal values
-                        var integer = number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8);
-
-                        numberValue = BoxedPrimitives.Get(Convert.ToDouble(integer));
-                    }
-                    catch (Exception exception)
-                    {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid double.", exception);
-                    }
                 }
                 else
                 {
@@ -1850,21 +1775,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 {
                     // digit char values start at 48
                     numberValue = (long) firstChar - 48;
-                    numberType = JsonToken.Integer;
-                }
-                else if (nonBase10)
-                {
-                    var number = stringReference.ToString();
-
-                    try
-                    {
-                        numberValue = BoxedPrimitives.Get(number.StartsWith("0x", StringComparison.OrdinalIgnoreCase) ? Convert.ToInt64(number, 16) : Convert.ToInt64(number, 8));
-                    }
-                    catch (Exception exception)
-                    {
-                        throw ThrowReaderError($"Input string '{number}' is not a valid number.", exception);
-                    }
-
                     numberType = JsonToken.Integer;
                 }
                 else
