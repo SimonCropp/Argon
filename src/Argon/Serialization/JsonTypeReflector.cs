@@ -39,29 +39,8 @@ static class JsonTypeReflector
         return false;
     }
 
-    public static DataContractAttribute? GetDataContractAttribute(Type type) =>
-        AttributeCache<DataContractAttribute>.GetAttribute(type);
-
     public static DataMemberAttribute? GetDataMemberAttribute(MemberInfo member) =>
         AttributeCache<DataMemberAttribute>.GetAttribute(member);
-
-    public static MemberSerialization GetObjectMemberSerialization(Type type)
-    {
-        var objectAttribute = AttributeCache<JsonObjectAttribute>.GetAttribute(type);
-        if (objectAttribute != null)
-        {
-            return objectAttribute.MemberSerialization;
-        }
-
-        var dataContractAttribute = GetDataContractAttribute(type);
-        if (dataContractAttribute == null)
-        {
-            // the default
-            return MemberSerialization.OptOut;
-        }
-
-        return MemberSerialization.OptIn;
-    }
 
     public static JsonConverter? GetJsonConverter(ICustomAttributeProvider attributeProvider)
     {
@@ -86,6 +65,22 @@ static class JsonTypeReflector
     {
         var constructor = ReflectionDelegateFactory.CreateDefaultConstructor<JsonConverter>(type);
         return constructor();
+    }
+
+    public static IEnumerable<Attribute> GetAttributes(this Type type)
+    {
+        foreach (Attribute attribute in type.GetCustomAttributes(true))
+        {
+            yield return attribute;
+        }
+
+        foreach (var typeInterface in type.GetInterfaces())
+        {
+            foreach (Attribute attribute in typeInterface.GetCustomAttributes(true))
+            {
+                yield return attribute;
+            }
+        }
     }
 
     public static T? GetAttribute<T>(this Type type)
