@@ -417,9 +417,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
     bool CalculatePropertyValues(JsonWriter writer, object value, JsonContainerContract contract, JsonProperty? member, JsonProperty property, [NotNullWhen(true)] out JsonContract? memberContract, out object? memberValue)
     {
-        if (property is {Ignored: false, Readable: true} &&
-            ShouldSerialize(property, value) &&
-            IsSpecified(property, value))
+        if (property is {Ignored: false, Readable: true})
         {
             property.PropertyContract ??= Serializer.ResolveContract(property.PropertyType!);
 
@@ -1074,25 +1072,5 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         {
             writer.WriteEnd();
         }
-    }
-
-    static bool ShouldSerialize(JsonProperty property, object target)
-    {
-        if (property.ShouldSerialize == null)
-        {
-            return true;
-        }
-
-        return property.ShouldSerialize(target);
-    }
-
-    static bool IsSpecified(JsonProperty property, object target)
-    {
-        if (property.GetIsSpecified == null)
-        {
-            return true;
-        }
-
-        return property.GetIsSpecified(target);
     }
 }

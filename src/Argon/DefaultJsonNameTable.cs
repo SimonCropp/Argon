@@ -74,7 +74,15 @@ public class DefaultJsonNameTable : JsonNameTable
     /// </summary>
     /// <remarks>This method is not thread-safe.</remarks>
     /// <returns>The resolved string.</returns>
-    public string Add(string key)
+    public override string Add(string key)
+    {
+        lock (entries)
+        {
+            return InnerAdd(key);
+        }
+    }
+
+    string InnerAdd(string key)
     {
         var length = key.Length;
         if (length == 0)

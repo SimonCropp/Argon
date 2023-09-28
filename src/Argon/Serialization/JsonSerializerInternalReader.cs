@@ -874,8 +874,6 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         // this could happen because of a JsonConverter against the type
         property.ValueProvider!.SetValue(target, value);
 
-        property.SetIsSpecified?.Invoke(target, true);
-
         return true;
     }
 
@@ -2033,7 +2031,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                             continue;
                         }
 
-                        if (property.Ignored || !ShouldDeserialize(property, newObject))
+                        if (property.Ignored)
                         {
                             if (!reader.Read())
                             {
@@ -2103,16 +2101,6 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
         OnDeserialized(newObject);
         return newObject;
-    }
-
-    static bool ShouldDeserialize(JsonProperty property, object target)
-    {
-        if (property.ShouldDeserialize == null)
-        {
-            return true;
-        }
-
-        return property.ShouldDeserialize(target);
     }
 
     bool CheckPropertyName(JsonReader reader, string memberName)
