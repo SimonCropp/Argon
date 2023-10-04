@@ -83,9 +83,8 @@ public class JsonArrayContract : JsonContainerContract
 
         // netcoreapp3.0 uses EmptyPartition for empty enumerable. Treat as an empty array.
         IsArray = CreatedType.IsArray ||
-                  (NonNullableUnderlyingType.IsGenericType && NonNullableUnderlyingType.GetGenericTypeDefinition().FullName == "System.Linq.EmptyPartition`1");
-
-        bool canDeserialize;
+                  (NonNullableUnderlyingType.IsGenericType &&
+                   NonNullableUnderlyingType.GetGenericTypeDefinition().FullName == "System.Linq.EmptyPartition`1");
 
         if (IsArray)
         {
@@ -93,7 +92,7 @@ public class JsonArrayContract : JsonContainerContract
             IsReadOnlyOrFixedSize = true;
             genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
 
-            canDeserialize = true;
+            CanDeserialize = true;
             IsMultidimensionalArray = CreatedType.IsArray && UnderlyingType.GetArrayRank() > 1;
         }
         else if (typeof(IList).IsAssignableFrom(NonNullableUnderlyingType))
@@ -118,7 +117,7 @@ public class JsonArrayContract : JsonContainerContract
             }
 
             IsReadOnlyOrFixedSize = NonNullableUnderlyingType.InheritsGenericDefinition(typeof(ReadOnlyCollection<>));
-            canDeserialize = true;
+            CanDeserialize = true;
         }
         else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(ICollection<>), out genericCollectionDefinitionType))
         {
@@ -136,7 +135,7 @@ public class JsonArrayContract : JsonContainerContract
             }
 
             parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(NonNullableUnderlyingType, CollectionItemType);
-            canDeserialize = true;
+            CanDeserialize = true;
             ShouldCreateWrapper = true;
         }
         else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IReadOnlyCollection<>), out var tempCollectionType))
@@ -153,7 +152,7 @@ public class JsonArrayContract : JsonContainerContract
             parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(CreatedType, CollectionItemType);
 
             IsReadOnlyOrFixedSize = true;
-            canDeserialize = HasParameterizedCreatorInternal;
+            CanDeserialize = HasParameterizedCreatorInternal;
         }
         else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IEnumerable<>), out tempCollectionType))
         {
@@ -166,13 +165,14 @@ public class JsonArrayContract : JsonContainerContract
 
             parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(NonNullableUnderlyingType, CollectionItemType);
 
-            if (NonNullableUnderlyingType.IsGenericType && NonNullableUnderlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            if (NonNullableUnderlyingType.IsGenericType &&
+                NonNullableUnderlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 genericCollectionDefinitionType = tempCollectionType;
 
                 IsReadOnlyOrFixedSize = false;
                 ShouldCreateWrapper = false;
-                canDeserialize = true;
+                CanDeserialize = true;
             }
             else
             {
@@ -180,17 +180,15 @@ public class JsonArrayContract : JsonContainerContract
 
                 IsReadOnlyOrFixedSize = true;
                 ShouldCreateWrapper = true;
-                canDeserialize = HasParameterizedCreatorInternal;
+                CanDeserialize = HasParameterizedCreatorInternal;
             }
         }
         else
         {
             // types that implement IEnumerable and nothing else
-            canDeserialize = false;
+            CanDeserialize = false;
             ShouldCreateWrapper = true;
         }
-
-        CanDeserialize = canDeserialize;
 
         if (CollectionItemType != null &&
             ImmutableCollectionsUtils.TryBuildImmutableForArrayContract(
