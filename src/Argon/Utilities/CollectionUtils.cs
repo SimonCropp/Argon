@@ -6,17 +6,17 @@ static class CollectionUtils
 {
     public static bool IsDictionary(this Type type) =>
         typeof(IDictionary).IsAssignableFrom(type) ||
-        type.ImplementsGenericDefinition(typeof(IDictionary<,>)) ||
-        type.ImplementsGenericDefinition(typeof(IReadOnlyDictionary<,>));
+        type.ImplementsGeneric(typeof(IDictionary<,>)) ||
+        type.ImplementsGeneric(typeof(IReadOnlyDictionary<,>));
 
-    public static ConstructorInfo? ResolveEnumerableCollectionConstructor(Type collectionType, Type collectionItemType)
+    public static ConstructorInfo? ResolveEnumerableCollectionConstructor(this Type collectionType, Type collectionItemType)
     {
         var genericConstructorArgument = typeof(IList<>).MakeGenericType(collectionItemType);
 
         return ResolveEnumerableCollectionConstructor(collectionType, collectionItemType, genericConstructorArgument);
     }
 
-    public static ConstructorInfo? ResolveEnumerableCollectionConstructor(Type collectionType, Type collectionItemType, Type constructorArgumentType)
+    public static ConstructorInfo? ResolveEnumerableCollectionConstructor(this Type collectionType, Type collectionItemType, Type constructorArgumentType)
     {
         var genericEnumerable = typeof(IEnumerable<>).MakeGenericType(collectionItemType);
         ConstructorInfo? match = null;

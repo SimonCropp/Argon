@@ -21,7 +21,7 @@ public class JsonArrayContract : JsonContainerContract
     /// </summary>
     public bool IsMultidimensionalArray { get; }
 
-    readonly Type? genericCollectionDefinitionType;
+    readonly Type? genericCollectionDefinition;
 
     Type? genericWrapperType;
     ObjectConstructor? genericWrapperCreator;
@@ -69,7 +69,9 @@ public class JsonArrayContract : JsonContainerContract
     /// </summary>
     public bool HasParameterizedCreator { get; set; }
 
-    internal bool HasParameterizedCreatorInternal => HasParameterizedCreator || parameterizedCreator != null || parameterizedConstructor != null;
+    internal bool HasParameterizedCreatorInternal => HasParameterizedCreator ||
+                                                     parameterizedCreator != null ||
+                                                     parameterizedConstructor != null;
 
     public InterceptSerializeArrayItem InterceptSerializeItem { get; set; } = _ => InterceptResult.Default;
 
@@ -90,16 +92,16 @@ public class JsonArrayContract : JsonContainerContract
         {
             CollectionItemType = UnderlyingType.GetCollectionItemType()!;
             IsReadOnlyOrFixedSize = true;
-            genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
+            genericCollectionDefinition = typeof(List<>).MakeGenericType(CollectionItemType);
 
             CanDeserialize = true;
             IsMultidimensionalArray = CreatedType.IsArray && UnderlyingType.GetArrayRank() > 1;
         }
         else if (typeof(IList).IsAssignableFrom(NonNullableUnderlyingType))
         {
-            if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(ICollection<>), out genericCollectionDefinitionType))
+            if (NonNullableUnderlyingType.ImplementsGeneric(typeof(ICollection<>), out genericCollectionDefinition))
             {
-                CollectionItemType = genericCollectionDefinitionType.GetGenericArguments()[0];
+                CollectionItemType = genericCollectionDefinition.GetGenericArguments()[0];
             }
             else
             {
@@ -113,62 +115,62 @@ public class JsonArrayContract : JsonContainerContract
 
             if (CollectionItemType != null)
             {
-                parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(NonNullableUnderlyingType, CollectionItemType);
+                parameterizedConstructor = NonNullableUnderlyingType.ResolveEnumerableCollectionConstructor(CollectionItemType);
             }
 
             IsReadOnlyOrFixedSize = NonNullableUnderlyingType.InheritsGenericDefinition(typeof(ReadOnlyCollection<>));
             CanDeserialize = true;
         }
-        else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(ICollection<>), out genericCollectionDefinitionType))
+        else if (NonNullableUnderlyingType.ImplementsGeneric(typeof(ICollection<>), out genericCollectionDefinition))
         {
-            CollectionItemType = genericCollectionDefinitionType.GetGenericArguments()[0];
+            CollectionItemType = genericCollectionDefinition.GetGenericArguments()[0];
 
-            if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(ICollection<>))
-                || ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IList<>)))
+            if (NonNullableUnderlyingType.IsGenericDefinition(typeof(ICollection<>))
+                || NonNullableUnderlyingType.IsGenericDefinition(typeof(IList<>)))
             {
                 CreatedType = typeof(List<>).MakeGenericType(CollectionItemType);
             }
 
-            if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(ISet<>)))
+            if (NonNullableUnderlyingType.IsGenericDefinition(typeof(ISet<>)))
             {
                 CreatedType = typeof(HashSet<>).MakeGenericType(CollectionItemType);
             }
 
-            parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(NonNullableUnderlyingType, CollectionItemType);
+            parameterizedConstructor = NonNullableUnderlyingType.ResolveEnumerableCollectionConstructor(CollectionItemType);
             CanDeserialize = true;
             ShouldCreateWrapper = true;
         }
-        else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IReadOnlyCollection<>), out var tempCollectionType))
+        else if (NonNullableUnderlyingType.ImplementsGeneric(typeof(IReadOnlyCollection<>), out var tempCollectionType))
         {
             CollectionItemType = tempCollectionType.GetGenericArguments()[0];
 
-            if (ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyCollection<>))
-                || ReflectionUtils.IsGenericDefinition(NonNullableUnderlyingType, typeof(IReadOnlyList<>)))
+            if (NonNullableUnderlyingType.IsGenericDefinition(typeof(IReadOnlyCollection<>))
+                || NonNullableUnderlyingType.IsGenericDefinition(typeof(IReadOnlyList<>)))
             {
                 CreatedType = typeof(ReadOnlyCollection<>).MakeGenericType(CollectionItemType);
             }
 
-            genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
-            parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(CreatedType, CollectionItemType);
+            genericCollectionDefinition = typeof(List<>).MakeGenericType(CollectionItemType);
+            parameterizedConstructor = CreatedType.ResolveEnumerableCollectionConstructor(CollectionItemType);
 
             IsReadOnlyOrFixedSize = true;
             CanDeserialize = HasParameterizedCreatorInternal;
         }
-        else if (NonNullableUnderlyingType.ImplementsGenericDefinition(typeof(IEnumerable<>), out tempCollectionType))
+        else if (NonNullableUnderlyingType.ImplementsGeneric(typeof(IEnumerable<>), out tempCollectionType))
         {
             CollectionItemType = tempCollectionType.GetGenericArguments()[0];
 
-            if (ReflectionUtils.IsGenericDefinition(UnderlyingType, typeof(IEnumerable<>)))
+            if (UnderlyingType.IsGenericDefinition(typeof(IEnumerable<>)))
             {
                 CreatedType = typeof(List<>).MakeGenericType(CollectionItemType);
             }
 
-            parameterizedConstructor = CollectionUtils.ResolveEnumerableCollectionConstructor(NonNullableUnderlyingType, CollectionItemType);
+            parameterizedConstructor = NonNullableUnderlyingType.ResolveEnumerableCollectionConstructor(CollectionItemType);
 
             if (NonNullableUnderlyingType.IsGenericType &&
                 NonNullableUnderlyingType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
-                genericCollectionDefinitionType = tempCollectionType;
+                genericCollectionDefinition = tempCollectionType;
 
                 IsReadOnlyOrFixedSize = false;
                 ShouldCreateWrapper = false;
@@ -176,7 +178,7 @@ public class JsonArrayContract : JsonContainerContract
             }
             else
             {
-                genericCollectionDefinitionType = typeof(List<>).MakeGenericType(CollectionItemType);
+                genericCollectionDefinition = typeof(List<>).MakeGenericType(CollectionItemType);
 
                 IsReadOnlyOrFixedSize = true;
                 ShouldCreateWrapper = true;
@@ -208,20 +210,20 @@ public class JsonArrayContract : JsonContainerContract
     {
         if (genericWrapperCreator == null)
         {
-            MiscellaneousUtils.Assert(genericCollectionDefinitionType != null);
+            MiscellaneousUtils.Assert(genericCollectionDefinition != null);
 
             genericWrapperType = typeof(CollectionWrapper<>).MakeGenericType(CollectionItemType!);
 
             Type constructorArgument;
 
-            if (genericCollectionDefinitionType.InheritsGenericDefinition(typeof(List<>))
-                || genericCollectionDefinitionType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            if (genericCollectionDefinition.InheritsGenericDefinition(typeof(List<>))
+                || genericCollectionDefinition.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 constructorArgument = typeof(ICollection<>).MakeGenericType(CollectionItemType!);
             }
             else
             {
-                constructorArgument = genericCollectionDefinitionType;
+                constructorArgument = genericCollectionDefinition;
             }
 
             var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] {constructorArgument})!;

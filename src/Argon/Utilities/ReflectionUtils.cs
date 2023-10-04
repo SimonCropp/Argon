@@ -176,14 +176,14 @@ static class ReflectionUtils
         return type;
     }
 
-    public static bool IsGenericDefinition(Type type, Type genericInterfaceDefinition) =>
+    public static bool IsGenericDefinition(this Type type, Type genericInterfaceDefinition) =>
         type.IsGenericType &&
         type.GetGenericTypeDefinition() == genericInterfaceDefinition;
 
-    public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition) =>
-        ImplementsGenericDefinition(type, genericInterfaceDefinition, out _);
+    public static bool ImplementsGeneric(this Type type, Type genericInterfaceDefinition) =>
+        type.ImplementsGeneric(genericInterfaceDefinition, out _);
 
-    public static bool ImplementsGenericDefinition(this Type type, Type genericInterfaceDefinition, [NotNullWhen(true)] out Type? implementingType)
+    public static bool ImplementsGeneric(this Type type, Type genericInterfaceDefinition, [NotNullWhen(true)] out Type? implementingType)
     {
         if (!genericInterfaceDefinition.IsInterface ||
             !genericInterfaceDefinition.IsGenericTypeDefinition)
@@ -263,7 +263,7 @@ static class ReflectionUtils
             return type.GetElementType();
         }
 
-        if (ImplementsGenericDefinition(type, typeof(IEnumerable<>), out var genericListType))
+        if (type.ImplementsGeneric(typeof(IEnumerable<>), out var genericListType))
         {
             if (genericListType.IsGenericTypeDefinition)
             {
@@ -283,7 +283,7 @@ static class ReflectionUtils
 
     public static void GetDictionaryKeyValueTypes(this Type dictionaryType, out Type? keyType, out Type? valueType)
     {
-        if (ImplementsGenericDefinition(dictionaryType, typeof(IDictionary<,>), out var genericDictionaryType))
+        if (dictionaryType.ImplementsGeneric(typeof(IDictionary<,>), out var genericDictionaryType))
         {
             if (genericDictionaryType.IsGenericTypeDefinition)
             {
