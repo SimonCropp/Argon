@@ -423,17 +423,11 @@ static class ReflectionUtils
         return false;
     }
 
-    public static List<MemberInfo> GetFieldsAndProperties(this Type type, BindingFlags bindingFlags)
-    {
-        var properties = GetProperties(type, bindingFlags);
-        var fields = GetFields(type, bindingFlags);
-        var targetMembers = new List<MemberInfo>(fields.Count + properties.Count);
-
-        targetMembers.AddRange(fields);
-        targetMembers.AddRange(properties);
-
-        return targetMembers;
-    }
+    public static List<MemberInfo> GetFieldsAndProperties(this Type type, BindingFlags bindingFlags) =>
+        [
+        ..GetFields(type, bindingFlags),
+        ..GetProperties(type, bindingFlags)
+        ];
 
     public static Tuple<string?, string> SplitFullyQualifiedTypeName(string fullTypeName)
     {
