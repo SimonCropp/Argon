@@ -474,28 +474,32 @@ public class DefaultContractResolver : IContractResolver
 
         if (overrideConstructor != null)
         {
-            var parameters = overrideConstructor.GetParameters();
-            var expectedParameterType = contract.CollectionItemType == null
-                ? typeof(IEnumerable)
-                : typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType);
-
-            if (parameters.Length == 0)
-            {
-                contract.HasParameterizedCreator = false;
-            }
-            else if (parameters.Length == 1 && expectedParameterType.IsAssignableFrom(parameters[0].ParameterType))
-            {
-                contract.HasParameterizedCreator = true;
-            }
-            else
-            {
-                throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
-            }
-
+            contract.HasParameterizedCreator = HasParameterizedCreator(overrideConstructor, contract);
             contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
         }
 
         return contract;
+    }
+
+    static bool HasParameterizedCreator(ConstructorInfo overrideConstructor, JsonArrayContract contract)
+    {
+        var parameters = overrideConstructor.GetParameters();
+        var expectedParameterType = contract.CollectionItemType == null
+            ? typeof(IEnumerable)
+            : typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType);
+
+        if (parameters.Length == 0)
+        {
+            return false;
+        }
+
+        if (parameters.Length == 1 &&
+            expectedParameterType.IsAssignableFrom(parameters[0].ParameterType))
+        {
+            return true;
+        }
+
+        throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
     }
 
     /// <summary>

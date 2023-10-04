@@ -126,11 +126,11 @@ static class ImmutableCollectionsUtils
                 {
                     var method = builderTypeDefinition
                         .GetMethods()
-                        .FirstOrDefault(m =>
+                        .FirstOrDefault(_ =>
                         {
-                            var parameters = m.GetParameters();
+                            var parameters = _.GetParameters();
 
-                            if (m.Name != "CreateRange" ||
+                            if (_.Name != "CreateRange" ||
                                 parameters.Length != 1)
                             {
                                 return false;
