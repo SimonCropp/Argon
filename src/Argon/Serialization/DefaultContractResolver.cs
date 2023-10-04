@@ -235,18 +235,6 @@ public class DefaultContractResolver : IContractResolver
             return conInfo;
         }
 
-        // little hack to get Version objects to deserialize correctly
-        if (type == typeof(Version))
-        {
-            return type.GetConstructor(new[]
-            {
-                typeof(int),
-                typeof(int),
-                typeof(int),
-                typeof(int)
-            });
-        }
-
         return null;
     }
 
