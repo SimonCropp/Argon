@@ -3197,6 +3197,37 @@ public class JsonSerializerTest : TestFixtureBase
             return contract;
         }
     }
+    [Fact]
+    public void InterceptList()
+    {
+        var strings = new List<string>
+        {
+            "a",
+            "c",
+            "b"
+        };
+
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = new InterceptListContractResolver()
+        };
+        var json = JsonConvert.SerializeObject(strings, settings);
+        Assert.Equal("""["a","b","c"]""", json);
+    }
+
+    class InterceptListContractResolver : DefaultContractResolver
+    {
+        protected override JsonArrayContract CreateArrayContract(Type type)
+        {
+            var contract = base.CreateArrayContract(type);
+            contract.InterceptSerializeItems = items =>
+            {
+                var value = (List<string>) items;
+                return value.OrderBy(_ => _);
+            };
+            return contract;
+        }
+    }
 
     [Fact]
     public void ReplaceListItem()

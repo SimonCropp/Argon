@@ -5,6 +5,7 @@
 namespace Argon;
 
 public delegate InterceptResult InterceptSerializeArrayItem(object? value);
+public delegate IEnumerable InterceptSerializeArrayItems(IEnumerable value);
 
 /// <summary>
 /// Contract details for a <see cref="System.Type" /> used by the <see cref="JsonSerializer" />.
@@ -69,11 +70,13 @@ public class JsonArrayContract : JsonContainerContract
     /// </summary>
     public bool HasParameterizedCreator { get; set; }
 
+
     internal bool HasParameterizedCreatorInternal => HasParameterizedCreator ||
                                                      parameterizedCreator != null ||
                                                      parameterizedConstructor != null;
 
     public InterceptSerializeArrayItem InterceptSerializeItem { get; set; } = _ => InterceptResult.Default;
+    public InterceptSerializeArrayItems InterceptSerializeItems { get; set; } = value => value;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonArrayContract" /> class.
@@ -216,8 +219,8 @@ public class JsonArrayContract : JsonContainerContract
 
             Type constructorArgument;
 
-            if (genericCollectionDefinition.InheritsGenericDefinition(typeof(List<>))
-                || genericCollectionDefinition.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            if (genericCollectionDefinition.InheritsGenericDefinition(typeof(List<>)) ||
+                genericCollectionDefinition.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 constructorArgument = typeof(ICollection<>).MakeGenericType(CollectionItemType!);
             }

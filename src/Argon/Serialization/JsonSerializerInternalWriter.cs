@@ -561,7 +561,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         var index = 0;
         // note that an error in the IEnumerable won't be caught
-        foreach (var value in values)
+        foreach (var value in contract.InterceptSerializeItems(values))
         {
             SerializeArrayItem(writer, contract, member, value, underlyingList, initialDepth, ref index);
         }
