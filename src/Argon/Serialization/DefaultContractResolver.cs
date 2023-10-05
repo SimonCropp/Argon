@@ -441,17 +441,17 @@ public class DefaultContractResolver : IContractResolver
             return false;
         }
 
-        var expectedParameterType = contract is {DictionaryKeyType: not null, DictionaryValueType: not null}
+        var expectedType = contract is {DictionaryKeyType: not null, DictionaryValueType: not null}
             ? typeof(IEnumerable<>).MakeGenericType(typeof(KeyValuePair<,>).MakeGenericType(contract.DictionaryKeyType, contract.DictionaryValueType))
             : typeof(IDictionary);
 
         if (parameters.Length == 1 &&
-            expectedParameterType.IsAssignableFrom(parameters[0].ParameterType))
+            expectedType.IsAssignableFrom(parameters[0].ParameterType))
         {
             return true;
         }
 
-        throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
+        throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedType}'.");
     }
 
     /// <summary>
