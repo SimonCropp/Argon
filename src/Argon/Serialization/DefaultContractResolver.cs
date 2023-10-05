@@ -28,17 +28,17 @@ public class DefaultContractResolver : IContractResolver
 
     public static List<JsonConverter> Converters { get; } =
         [
-            new StringBuilderConverter(),
-            new ExpandoObjectConverter(),
-            new KeyValuePairConverter(),
-            new DriveInfoConverter(),
-            new EncodingConverter(),
-            new PathInfoConverter(),
-            new RegexConverter(),
-            new EncodingConverter(),
-            new TimeZoneInfoConverter(),
-            new VersionConverter(),
-            new StringWriterConverter()
+        new StringBuilderConverter(),
+        new ExpandoObjectConverter(),
+        new KeyValuePairConverter(),
+        new DriveInfoConverter(),
+        new EncodingConverter(),
+        new PathInfoConverter(),
+        new RegexConverter(),
+        new EncodingConverter(),
+        new TimeZoneInfoConverter(),
+        new VersionConverter(),
+        new StringWriterConverter()
         ];
 
     /// <summary>
@@ -181,10 +181,8 @@ public class DefaultContractResolver : IContractResolver
 
         if (contract.IsInstantiable)
         {
-            var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
-
             // check if a JsonConstructorAttribute has been defined and use that
-            if (overrideConstructor != null)
+            if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
             {
                 contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
                 contract.CreatorParameters.AddRange(CreateConstructorParameters(overrideConstructor, contract.Properties));
@@ -219,23 +217,24 @@ public class DefaultContractResolver : IContractResolver
         return contract;
     }
 
-    static ConstructorInfo? GetAttributeConstructor(Type type)
+    static bool TryGetAttributeConstructor(Type type, [NotNullWhen(true)] out ConstructorInfo? constructor)
     {
-        using var enumerator = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+        var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
             .Where(_ => _.IsDefined(typeof(JsonConstructorAttribute), true))
-            .GetEnumerator();
-        if (enumerator.MoveNext())
+            .ToList();
+        if (constructors.Count == 0)
         {
-            var conInfo = enumerator.Current;
-            if (enumerator.MoveNext())
-            {
-                throw new JsonException("Multiple constructors with the JsonConstructorAttribute.");
-            }
-
-            return conInfo;
+            constructor = null;
+            return false;
         }
 
-        return null;
+        if (constructors.Count == 1)
+        {
+            constructor = constructors[0];
+            return true;
+        }
+
+        throw new JsonException("Multiple constructors with the JsonConstructorAttribute.");
     }
 
     static ConstructorInfo? GetImmutableConstructor(Type type, JsonPropertyCollection memberProperties)
@@ -421,9 +420,7 @@ public class DefaultContractResolver : IContractResolver
 
         contract.DictionaryKeyResolver = ResolveDictionaryKey;
 
-        var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
-
-        if (overrideConstructor != null)
+        if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
         {
             var parameters = overrideConstructor.GetParameters();
             var expectedParameterType = contract is {DictionaryKeyType: { }, DictionaryValueType: { }}
@@ -458,9 +455,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonArrayContract(type);
         InitializeContract(contract);
 
-        var overrideConstructor = GetAttributeConstructor(contract.NonNullableUnderlyingType);
-
-        if (overrideConstructor != null)
+        if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
         {
             contract.HasParameterizedCreator = HasParameterizedCreator(overrideConstructor, contract);
             contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
