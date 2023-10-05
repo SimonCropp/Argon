@@ -31,7 +31,7 @@ public abstract partial class JContainer
 
         do
         {
-            if (parent is JProperty {Value: { }} parentProperty)
+            if (parent is JProperty {Value: not null} parentProperty)
             {
                 if (parentProperty == this)
                 {

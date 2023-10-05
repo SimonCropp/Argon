@@ -425,28 +425,33 @@ public class DefaultContractResolver : IContractResolver
 
         if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
         {
-            var parameters = overrideConstructor.GetParameters();
-            var expectedParameterType = contract is {DictionaryKeyType: { }, DictionaryValueType: { }}
-                ? typeof(IEnumerable<>).MakeGenericType(typeof(KeyValuePair<,>).MakeGenericType(contract.DictionaryKeyType, contract.DictionaryValueType))
-                : typeof(IDictionary);
-
-            if (parameters.Length == 0)
-            {
-                contract.HasParameterizedCreator = false;
-            }
-            else if (parameters.Length == 1 && expectedParameterType.IsAssignableFrom(parameters[0].ParameterType))
-            {
-                contract.HasParameterizedCreator = true;
-            }
-            else
-            {
-                throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
-            }
-
+            contract.HasParameterizedCreator = GetHasParameterizedCreator(overrideConstructor, contract);
             contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
         }
 
         return contract;
+    }
+
+    static bool GetHasParameterizedCreator(ConstructorInfo overrideConstructor, JsonDictionaryContract contract)
+    {
+        var parameters = overrideConstructor.GetParameters();
+
+        if (parameters.Length == 0)
+        {
+            return false;
+        }
+
+        var expectedParameterType = contract is {DictionaryKeyType: not null, DictionaryValueType: not null}
+            ? typeof(IEnumerable<>).MakeGenericType(typeof(KeyValuePair<,>).MakeGenericType(contract.DictionaryKeyType, contract.DictionaryValueType))
+            : typeof(IDictionary);
+
+        if (parameters.Length == 1 &&
+            expectedParameterType.IsAssignableFrom(parameters[0].ParameterType))
+        {
+            return true;
+        }
+
+        throw new JsonException($"Constructor for '{contract.UnderlyingType}' must have no parameters or a single parameter that implements '{expectedParameterType}'.");
     }
 
     /// <summary>
