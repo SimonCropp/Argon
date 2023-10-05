@@ -27,16 +27,16 @@ static class BoxedPrimitives
     // integers tend to be weighted towards a handful of low numbers; we could argue
     // for days over the "correct" range to have special handling, but I'm arbitrarily
     // mirroring the same decision as the IL opcodes, which has M1 thru 8
-    internal static readonly object Int32_M1 = -1;
-    internal static readonly object Int32_0 = 0;
-    internal static readonly object Int32_1 = 1;
-    internal static readonly object Int32_2 = 2;
-    internal static readonly object Int32_3 = 3;
-    internal static readonly object Int32_4 = 4;
-    internal static readonly object Int32_5 = 5;
-    internal static readonly object Int32_6 = 6;
-    internal static readonly object Int32_7 = 7;
-    internal static readonly object Int32_8 = 8;
+    static readonly object Int32_M1 = -1;
+    static readonly object Int32_0 = 0;
+    static readonly object Int32_1 = 1;
+    static readonly object Int32_2 = 2;
+    static readonly object Int32_3 = 3;
+    static readonly object Int32_4 = 4;
+    static readonly object Int32_5 = 5;
+    static readonly object Int32_6 = 6;
+    static readonly object Int32_7 = 7;
+    static readonly object Int32_8 = 8;
 
     internal static object Get(long value) => value switch
     {
@@ -53,16 +53,16 @@ static class BoxedPrimitives
         _ => value,
     };
 
-    internal static readonly object Int64_M1 = -1L;
-    internal static readonly object Int64_0 = 0L;
-    internal static readonly object Int64_1 = 1L;
-    internal static readonly object Int64_2 = 2L;
-    internal static readonly object Int64_3 = 3L;
-    internal static readonly object Int64_4 = 4L;
-    internal static readonly object Int64_5 = 5L;
-    internal static readonly object Int64_6 = 6L;
-    internal static readonly object Int64_7 = 7L;
-    internal static readonly object Int64_8 = 8L;
+    static readonly object Int64_M1 = -1L;
+    static readonly object Int64_0 = 0L;
+    static readonly object Int64_1 = 1L;
+    static readonly object Int64_2 = 2L;
+    static readonly object Int64_3 = 3L;
+    static readonly object Int64_4 = 4L;
+    static readonly object Int64_5 = 5L;
+    static readonly object Int64_6 = 6L;
+    static readonly object Int64_7 = 7L;
+    static readonly object Int64_8 = 8L;
 
     internal static object Get(decimal value)
     {
