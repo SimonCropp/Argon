@@ -169,10 +169,11 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonObjectContract(type);
         InitializeContract(contract);
 
-        contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(contract.NonNullableUnderlyingType);
-        contract.Properties.AddRange(CreateProperties(contract.NonNullableUnderlyingType, contract.MemberSerialization));
+        var nonNullableUnderlyingType = contract.NonNullableUnderlyingType;
+        contract.MemberSerialization = JsonTypeReflector.GetObjectMemberSerialization(nonNullableUnderlyingType);
+        contract.Properties.AddRange(CreateProperties(nonNullableUnderlyingType, contract.MemberSerialization));
 
-        var attribute = AttributeCache<JsonObjectAttribute>.GetAttribute(contract.NonNullableUnderlyingType);
+        var attribute = AttributeCache<JsonObjectAttribute>.GetAttribute(nonNullableUnderlyingType);
         if (attribute != null)
         {
             contract.ItemRequired = attribute.itemRequired;
@@ -182,7 +183,7 @@ public class DefaultContractResolver : IContractResolver
         if (contract.IsInstantiable)
         {
             // check if a JsonConstructorAttribute has been defined and use that
-            if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
+            if (TryGetAttributeConstructor(nonNullableUnderlyingType, out var overrideConstructor))
             {
                 contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
                 contract.CreatorParameters.AddRange(CreateConstructorParameters(overrideConstructor, contract.Properties));
@@ -194,19 +195,18 @@ public class DefaultContractResolver : IContractResolver
             }
             else if (contract.DefaultCreator == null || contract.DefaultCreatorNonPublic)
             {
-                var constructor = GetParameterizedConstructor(contract.NonNullableUnderlyingType);
+                var constructor = GetParameterizedConstructor(nonNullableUnderlyingType);
                 if (constructor != null)
                 {
                     contract.ParameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
                     contract.CreatorParameters.AddRange(CreateConstructorParameters(constructor, contract.Properties));
                 }
             }
-            else if (contract.NonNullableUnderlyingType.IsValueType)
+            else if (nonNullableUnderlyingType.IsValueType)
             {
                 // value types always have default constructor
                 // check whether there is a constructor that matches with non-writable properties on value type
-                var constructor = GetImmutableConstructor(contract.NonNullableUnderlyingType, contract.Properties);
-                if (constructor != null)
+                if (TryGetImmutableConstructor(nonNullableUnderlyingType, contract.Properties, out var constructor))
                 {
                     contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
                     contract.CreatorParameters.AddRange(CreateConstructorParameters(constructor, contract.Properties));
@@ -237,11 +237,11 @@ public class DefaultContractResolver : IContractResolver
         throw new JsonException("Multiple constructors with the JsonConstructorAttribute.");
     }
 
-    static ConstructorInfo? GetImmutableConstructor(Type type, JsonPropertyCollection memberProperties)
+    static bool TryGetImmutableConstructor(Type type, JsonPropertyCollection memberProperties, [NotNullWhen(true)] out ConstructorInfo? constructor)
     {
-        foreach (var constructor in type.GetConstructors())
+        foreach (var constructorItem in type.GetConstructors())
         {
-            var parameters = constructor.GetParameters();
+            var parameters = constructorItem.GetParameters();
             if (parameters.Length <= 0)
             {
                 continue;
@@ -252,14 +252,17 @@ public class DefaultContractResolver : IContractResolver
                 var memberProperty = MatchProperty(memberProperties, parameter.Name, parameter.ParameterType);
                 if (memberProperty == null || memberProperty.Writable)
                 {
-                    return null;
+                    constructor = null;
+                    return false;
                 }
             }
 
-            return constructor;
+            constructor = constructorItem;
+            return true;
         }
 
-        return null;
+        constructor = null;
+        return false;
     }
 
     static ConstructorInfo? GetParameterizedConstructor(Type type)
