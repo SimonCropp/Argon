@@ -16,7 +16,7 @@
     <PackageReference Include="FSharp.Core" Version="7.0.400" />
     <PackageReference Include="Verify.Xunit" Version="22.1.0" />
     <PackageReference Include="Xunit" Version="2.5.1" />
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.8" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.9" />
     <PackageReference Include="Moq" Version="4.20.69" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
