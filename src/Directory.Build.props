@@ -9,6 +9,7 @@
     <NoWarn>CS1591;CS1573</NoWarn>
     <Configurations>Debug;Release;DebugNet7</Configurations>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="System.ReadOnlySpan&lt;System.Char&gt;" Alias="CharSpan" />
