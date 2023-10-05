@@ -17,12 +17,15 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     readonly IReadOnlyDictionary<TKey, TValue> readOnlyDictionary;
     object syncRoot;
 
+    // ReSharper disable once UnusedMember.Global
     public DictionaryWrapper(IDictionary dictionary) =>
         this.dictionary = dictionary;
 
+    // ReSharper disable once UnusedMember.Global
     public DictionaryWrapper(IDictionary<TKey, TValue> dictionary) =>
         genericDictionary = dictionary;
 
+    // ReSharper disable once UnusedMember.Global
     public DictionaryWrapper(IReadOnlyDictionary<TKey, TValue> dictionary) =>
         readOnlyDictionary = dictionary;
 

@@ -29,7 +29,11 @@ public class PreserveReferencesHandlingObject : TestFixtureBase
         var root = new Directory {Name = "Root"};
         var documents = new Directory {Name = "My Documents", Parent = root};
 
-        var file = new File {Name = "ImportantLegalDocument.docx", Parent = documents};
+        var file = new File
+        {
+            Name = "ImportantLegalDocument.docx",
+            Parent = documents
+        };
 
         documents.Files = [file];
 
