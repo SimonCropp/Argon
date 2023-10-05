@@ -27,7 +27,11 @@ public class File
 var root = new Directory {Name = "Root"};
 var documents = new Directory {Name = "My Documents", Parent = root};
 
-var file = new File {Name = "ImportantLegalDocument.docx", Parent = documents};
+var file = new File
+{
+    Name = "ImportantLegalDocument.docx",
+    Parent = documents
+};
 
 documents.Files = [file];
 
@@ -96,5 +100,5 @@ Console.WriteLine(preserveReferenacesObjects);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L27-L101' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L27-L105' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjectusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
