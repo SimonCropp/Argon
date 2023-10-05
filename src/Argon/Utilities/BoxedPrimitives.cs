@@ -105,12 +105,22 @@ static class BoxedPrimitives
         if (value == 0.0d)
         {
             // Double supports -0.0. Detection logic from https://stackoverflow.com/a/4739883/11829.
-            return double.IsNegativeInfinity(1.0 / value) ? DoubleNegativeZero : DoubleZero;
+            if (double.IsNegativeInfinity(1.0 / value))
+            {
+                return DoubleNegativeZero;
+            }
+
+            return DoubleZero;
         }
 
         if (double.IsInfinity(value))
         {
-            return double.IsPositiveInfinity(value) ? DoublePositiveInfinity : DoubleNegativeInfinity;
+            if (double.IsPositiveInfinity(value))
+            {
+                return DoublePositiveInfinity;
+            }
+
+            return DoubleNegativeInfinity;
         }
 
         if (double.IsNaN(value))
