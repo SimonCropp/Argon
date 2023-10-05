@@ -77,9 +77,7 @@ static class BoxedPrimitives
         if (value == decimal.Zero)
         {
             Span<int> bits = stackalloc int[4];
-            var written = decimal.GetBits(value, bits);
-            MiscellaneousUtils.Assert(written == 4);
-
+            decimal.GetBits(value, bits);
             var scale = (byte) (bits[3] >> ScaleShift);
             // Only use cached boxed value if value is zero and there is zero or one trailing zeros.
             if (scale == 0)
