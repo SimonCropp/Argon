@@ -367,8 +367,7 @@ public partial class JsonTextWriter : JsonWriter
 
     string EnsureFloatFormat(double value, string text, bool nullable)
     {
-        if (FloatFormatHandling == FloatFormatHandling.Symbol ||
-            !(double.IsInfinity(value) || double.IsNaN(value)))
+        if (UseSymbol(value))
         {
             return text;
         }
@@ -386,6 +385,9 @@ public partial class JsonTextWriter : JsonWriter
         return QuoteChar + text + QuoteChar;
     }
 
+    bool UseSymbol(double value) =>
+        FloatFormatHandling == FloatFormatHandling.Symbol ||
+        !(double.IsInfinity(value) || double.IsNaN(value));
 
     /// <summary>
     /// Writes a <see cref="Nullable{T}" /> of <see cref="Double" /> value.
