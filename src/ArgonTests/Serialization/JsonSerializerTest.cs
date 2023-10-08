@@ -76,10 +76,10 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void DontCloseInputOnDeserializeError()
     {
-        using var s = File.OpenRead("large.json");
+        using var stream = File.OpenRead("large.json");
         try
         {
-            using (var reader = new JsonTextReader(new StreamReader(s)))
+            using (var reader = new JsonTextReader(new StreamReader(stream)))
             {
                 reader.SupportMultipleContent = true;
                 reader.CloseInput = false;
@@ -99,11 +99,11 @@ public class JsonSerializerTest : TestFixtureBase
         }
         catch (Exception)
         {
-            Assert.True(s.Position > 0);
+            Assert.True(stream.Position > 0);
 
-            s.Seek(0, SeekOrigin.Begin);
+            stream.Seek(0, SeekOrigin.Begin);
 
-            Assert.Equal(0, s.Position);
+            Assert.Equal(0, stream.Position);
         }
     }
 
