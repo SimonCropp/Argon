@@ -195,20 +195,9 @@ public partial class JsonTextWriter
         }
     }
 
-    Task WriteValueInternalAsync(JsonToken token, string value, Cancel cancel)
+    async Task WriteValueInternalAsync(JsonToken token, string value, Cancel cancel)
     {
-        var task = InternalWriteValueAsync(token, cancel);
-        if (task.IsCompletedSuccessfully())
-        {
-            return writer.WriteAsync(value, cancel);
-        }
-
-        return WriteValueInternalAsync(task, value, cancel);
-    }
-
-    async Task WriteValueInternalAsync(Task task, string value, Cancel cancel)
-    {
-        await task.ConfigureAwait(false);
+        await InternalWriteValueAsync(token, cancel);
         await writer.WriteAsync(value, cancel).ConfigureAwait(false);
     }
 
