@@ -201,10 +201,29 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     public FloatFormatHandling FloatFormatHandling { get; set; }
 
+    byte? floatPrecision;
+
     /// <summary>
     /// Gets or sets how many decimal points to use when serializing floats and doubles.
     /// </summary>
-    public byte? FloatPrecision { get; set; }
+    public byte? FloatPrecision
+    {
+        get => floatPrecision;
+        set
+        {
+            floatPrecision = value;
+            if (floatPrecision.HasValue)
+            {
+                FloatFormat = $"0.{new string('#', floatPrecision.Value)}";
+            }
+            else
+            {
+                FloatFormat = "R";
+            }
+        }
+    }
+
+    protected string FloatFormat { get; private set; } = "R";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonWriter" /> class.
