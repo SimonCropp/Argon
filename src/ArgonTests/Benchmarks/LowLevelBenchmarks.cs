@@ -4,69 +4,10 @@
 
 using BenchmarkDotNet.Attributes;
 
-public class LowLevelBenchmarks
+public class WriteEscapedJavaScriptString
 {
-    const string FloatText = "123.123";
-    static readonly char[] FloatChars = FloatText.ToCharArray();
-
-    static readonly Dictionary<string, object> NormalDictionary = new();
-
-    static readonly ConcurrentDictionary<string, object> ConcurrentDictionary = new();
-
-    static LowLevelBenchmarks()
-    {
-        for (var i = 0; i < 10; i++)
-        {
-            var key = i.ToString();
-            var value = new object();
-
-            NormalDictionary.Add(key, value);
-            ConcurrentDictionary.TryAdd(key, value);
-        }
-    }
-
     [Benchmark]
-    public void DictionaryGet() =>
-        NormalDictionary.TryGetValue("1", out _);
-
-    [Benchmark]
-    public void ConcurrentDictionaryGet() =>
-        ConcurrentDictionary.TryGetValue("1", out _);
-
-    [Benchmark]
-    public void ConcurrentDictionaryGetOrCreate() =>
-        ConcurrentDictionary.GetOrAdd("1", Dummy);
-
-    static object Dummy(string arg) =>
-        throw new("Should never get here.");
-
-    [Benchmark]
-    public void DecimalTryParseString()
-    {
-        decimal value;
-        decimal.TryParse(FloatText, NumberStyles.Number | NumberStyles.AllowExponent, InvariantCulture, out value);
-    }
-
-    [Benchmark]
-    public void GetMemberWithMemberTypeAndBindingFlags() =>
-        typeof(LowLevelBenchmarks).GetMember("AName", MemberTypes.Field | MemberTypes.Property, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
-    [Benchmark]
-    public void GetPropertyGetField()
-    {
-        typeof(LowLevelBenchmarks).GetProperty("AName", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-        typeof(LowLevelBenchmarks).GetField("AName", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-    }
-
-    [Benchmark]
-    public void DecimalTryParseChars()
-    {
-        decimal value;
-        ConvertUtils.DecimalTryParse(FloatChars, 0, FloatChars.Length, out value);
-    }
-
-    [Benchmark]
-    public void WriteEscapedJavaScriptString()
+    public void Run()
     {
         var text = """
                    The general form of an HTML element is therefore: <tag attribute1="value1" attribute2="value2">content</tag>.
@@ -92,8 +33,8 @@ public class LowLevelBenchmarks
 
                    """;
 
-        using var w = StringUtils.CreateStringWriter(text.Length);
+        using var writer = StringUtils.CreateStringWriter(text.Length);
         char[] buffer = null;
-        JavaScriptUtils.WriteEscapedJavaScriptString(w, text, '"', true, JavaScriptUtils.DoubleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
+        JavaScriptUtils.WriteEscapedJavaScriptString(writer, text, '"', true, JavaScriptUtils.DoubleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
     }
 }

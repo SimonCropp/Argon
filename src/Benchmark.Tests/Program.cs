@@ -6,11 +6,11 @@ using BenchmarkDotNet.Running;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
         var attribute = (AssemblyFileVersionAttribute)typeof(JsonConvert).Assembly.GetCustomAttribute(typeof(AssemblyFileVersionAttribute))!;
         Console.WriteLine($"Json.NET Version: {attribute.Version}");
 
-        new BenchmarkSwitcher(new [] { typeof(LowLevelBenchmarks) }).Run(new[] { "*" });
+        new BenchmarkSwitcher(new [] { typeof(WriteEscapedJavaScriptString) }).Run(new[] { "*" });
     }
 }
