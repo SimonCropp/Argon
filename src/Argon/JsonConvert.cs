@@ -143,21 +143,21 @@ public static class JsonConvert
     public static string ToString(float value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, string format)
+    internal static string ToString(float value, FloatFormatHandling handling, char quoteChar, bool nullable, string format)
     {
         var text = value.ToString(format, InvariantCulture);
-        return EnsureFloatFormat(value, EnsureDecimalPlace(value, text), floatFormatHandling, quoteChar, nullable);
+        return EnsureFloatFormat(value, EnsureDecimalPlace(value, text), handling, quoteChar, nullable);
     }
 
-    static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
+    static string EnsureFloatFormat(double value, string text, FloatFormatHandling handling, char quoteChar, bool nullable)
     {
-        if (floatFormatHandling == FloatFormatHandling.Symbol ||
+        if (handling == FloatFormatHandling.Symbol ||
             !(double.IsInfinity(value) || double.IsNaN(value)))
         {
             return text;
         }
 
-        if (floatFormatHandling == FloatFormatHandling.DefaultValue)
+        if (handling == FloatFormatHandling.DefaultValue)
         {
             if (nullable)
             {
@@ -177,11 +177,10 @@ public static class JsonConvert
     public static string ToString(double value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, string format)
+    internal static string ToString(double value, FloatFormatHandling handling, char quoteChar, bool nullable, string format)
     {
         var text = value.ToString(format, InvariantCulture);
-        var ensureDecimalPlace = EnsureDecimalPlace(value, text);
-        return EnsureFloatFormat(value, ensureDecimalPlace, floatFormatHandling, quoteChar, nullable);
+        return EnsureFloatFormat(value, EnsureDecimalPlace(value, text), handling, quoteChar, nullable);
     }
 
     static string EnsureDecimalPlace(double value, string text)
