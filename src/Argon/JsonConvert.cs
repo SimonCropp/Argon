@@ -143,21 +143,10 @@ public static class JsonConvert
     public static string ToString(float value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, byte? precision)
+    internal static string ToString(float value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, string format)
     {
-        var format = GetFormat(precision);
         var text = value.ToString(format, InvariantCulture);
         return EnsureFloatFormat(value, EnsureDecimalPlace(value, text), floatFormatHandling, quoteChar, nullable);
-    }
-
-    static string GetFormat(byte? precision)
-    {
-        if (precision.HasValue)
-        {
-            return $"0.{new string('#', precision.Value)}";
-        }
-
-        return "R";
     }
 
     static string EnsureFloatFormat(double value, string text, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable)
@@ -188,9 +177,8 @@ public static class JsonConvert
     public static string ToString(double value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, byte? precision)
+    internal static string ToString(double value, FloatFormatHandling floatFormatHandling, char quoteChar, bool nullable, string format)
     {
-        var format = GetFormat(precision);
         var text = value.ToString(format, InvariantCulture);
         var ensureDecimalPlace = EnsureDecimalPlace(value, text);
         return EnsureFloatFormat(value, ensureDecimalPlace, floatFormatHandling, quoteChar, nullable);

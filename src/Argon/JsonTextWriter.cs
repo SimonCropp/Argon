@@ -325,7 +325,7 @@ public partial class JsonTextWriter : JsonWriter
     public override void WriteValue(float value)
     {
         InternalWriteValue(JsonToken.Float);
-        WriteValueInternal(JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, false, FloatPrecision));
+        WriteValueInternal(JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, false, FloatFormat));
     }
 
     /// <summary>
@@ -340,7 +340,7 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.Float);
-            WriteValueInternal(JsonConvert.ToString(value.GetValueOrDefault(), FloatFormatHandling, QuoteChar, true, FloatPrecision));
+            WriteValueInternal(JsonConvert.ToString(value.GetValueOrDefault(), FloatFormatHandling, QuoteChar, true, FloatFormat));
         }
     }
 
@@ -350,7 +350,7 @@ public partial class JsonTextWriter : JsonWriter
     public override void WriteValue(double value)
     {
         InternalWriteValue(JsonToken.Float);
-        WriteValueInternal(JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, false, FloatPrecision));
+        WriteValueInternal(JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, false, FloatFormat));
     }
 
     /// <summary>
@@ -365,7 +365,7 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.Float);
-            WriteValueInternal(JsonConvert.ToString(value.GetValueOrDefault(), FloatFormatHandling, QuoteChar, true, FloatPrecision));
+            WriteValueInternal(JsonConvert.ToString(value.GetValueOrDefault(), FloatFormatHandling, QuoteChar, true, FloatFormat));
         }
     }
 
