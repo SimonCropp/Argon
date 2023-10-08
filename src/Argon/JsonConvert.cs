@@ -279,7 +279,7 @@ public static class JsonConvert
     /// Converts the <see cref="String" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
-    public static string ToString(string? value) =>
+    public static string ToString(string value) =>
         ToString(value, '"');
 
     /// <summary>
@@ -287,14 +287,14 @@ public static class JsonConvert
     /// </summary>
     /// <param name="delimiter">The string delimiter character.</param>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
-    public static string ToString(string? value, char delimiter) =>
+    public static string ToString(string value, char delimiter) =>
         ToString(value, delimiter, EscapeHandling.Default);
 
     /// <summary>
     /// Converts the <see cref="String" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
-    public static string ToString(string? value, char delimiter, EscapeHandling escapeHandling)
+    public static string ToString(string value, char delimiter, EscapeHandling escapeHandling)
     {
         if (delimiter != '"' &&
             delimiter != '\'')

@@ -78,7 +78,7 @@ static class JavaScriptUtils
         return false;
     }
 
-    public static void WriteEscapedJavaScriptString(TextWriter writer, string? value, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
+    public static void WriteEscapedJavaScriptString(TextWriter writer, string value, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
     {
         // leading delimiter
         if (appendDelimiters)
@@ -261,11 +261,11 @@ static class JavaScriptUtils
         }
     }
 
-    public static string ToEscapedJavaScriptString(string? value, char delimiter, bool appendDelimiters, EscapeHandling escapeHandling)
+    public static string ToEscapedJavaScriptString(string value, char delimiter, bool appendDelimiters, EscapeHandling escapeHandling)
     {
         var escapeFlags = GetCharEscapeFlags(escapeHandling, delimiter);
 
-        using var w = StringUtils.CreateStringWriter(value?.Length ?? 16);
+        using var w = StringUtils.CreateStringWriter(value.Length);
         char[]? buffer = null;
         WriteEscapedJavaScriptString(w, value, delimiter, appendDelimiters, escapeFlags, escapeHandling, ref buffer);
         return w.ToString();
