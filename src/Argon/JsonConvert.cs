@@ -143,33 +143,6 @@ public static class JsonConvert
     public static string ToString(float value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(float value, FloatFormatHandling handling, char quoteChar, bool nullable, string format)
-    {
-        var text = value.ToString(format, InvariantCulture);
-        return EnsureFloatFormat(value, EnsureDecimalPlace(value, text), handling, quoteChar, nullable);
-    }
-
-    static string EnsureFloatFormat(double value, string text, FloatFormatHandling handling, char quoteChar, bool nullable)
-    {
-        if (handling == FloatFormatHandling.Symbol ||
-            !(double.IsInfinity(value) || double.IsNaN(value)))
-        {
-            return text;
-        }
-
-        if (handling == FloatFormatHandling.DefaultValue)
-        {
-            if (nullable)
-            {
-                return Null;
-            }
-
-            return "0.0";
-        }
-
-        return quoteChar + text + quoteChar;
-    }
-
     /// <summary>
     /// Converts the <see cref="Double" /> to its JSON string representation.
     /// </summary>
@@ -177,13 +150,8 @@ public static class JsonConvert
     public static string ToString(double value) =>
         EnsureDecimalPlace(value, value.ToString("R", InvariantCulture));
 
-    internal static string ToString(double value, FloatFormatHandling handling, char quoteChar, bool nullable, string format)
-    {
-        var text = value.ToString(format, InvariantCulture);
-        return EnsureFloatFormat(value, EnsureDecimalPlace(value, text), handling, quoteChar, nullable);
-    }
 
-    static string EnsureDecimalPlace(double value, string text)
+    public static string EnsureDecimalPlace(double value, string text)
     {
         if (double.IsNaN(value) ||
             double.IsInfinity(value) ||

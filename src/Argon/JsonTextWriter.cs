@@ -325,7 +325,7 @@ public partial class JsonTextWriter : JsonWriter
     public override void WriteValue(float value)
     {
         InternalWriteValue(JsonToken.Float);
-        WriteValueInternal(JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, false, FloatFormat));
+        WriteValueInternal(FloatToString(value, false));
     }
 
     /// <summary>
@@ -340,7 +340,7 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.Float);
-            WriteValueInternal(JsonConvert.ToString(value.GetValueOrDefault(), FloatFormatHandling, QuoteChar, true, FloatFormat));
+            WriteValueInternal(FloatToString(value.GetValueOrDefault(), true));
         }
     }
 
@@ -350,8 +350,42 @@ public partial class JsonTextWriter : JsonWriter
     public override void WriteValue(double value)
     {
         InternalWriteValue(JsonToken.Float);
-        WriteValueInternal(JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, false, FloatFormat));
+        WriteValueInternal(DoubleToString(value, false));
     }
+
+    string DoubleToString(double value, bool nullable)
+    {
+        var text = value.ToString(FloatFormat, InvariantCulture);
+        return EnsureFloatFormat(value, JsonConvert.EnsureDecimalPlace(value, text), nullable);
+    }
+
+    string FloatToString(float value, bool nullable)
+    {
+        var text = value.ToString(FloatFormat, InvariantCulture);
+        return EnsureFloatFormat(value, JsonConvert.EnsureDecimalPlace(value, text), nullable);
+    }
+
+    string EnsureFloatFormat(double value, string text, bool nullable)
+    {
+        if (FloatFormatHandling == FloatFormatHandling.Symbol ||
+            !(double.IsInfinity(value) || double.IsNaN(value)))
+        {
+            return text;
+        }
+
+        if (FloatFormatHandling == FloatFormatHandling.DefaultValue)
+        {
+            if (nullable)
+            {
+                return JsonConvert.Null;
+            }
+
+            return "0.0";
+        }
+
+        return QuoteChar + text + QuoteChar;
+    }
+
 
     /// <summary>
     /// Writes a <see cref="Nullable{T}" /> of <see cref="Double" /> value.
@@ -365,7 +399,7 @@ public partial class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.Float);
-            WriteValueInternal(JsonConvert.ToString(value.GetValueOrDefault(), FloatFormatHandling, QuoteChar, true, FloatFormat));
+            WriteValueInternal(DoubleToString(value.GetValueOrDefault(), true));
         }
     }
 

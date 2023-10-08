@@ -874,7 +874,7 @@ public partial class JsonTextWriter
 
     Task WriteValueAsync(double value, bool nullable, Cancel cancel)
     {
-        var convertedValue = JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable, FloatFormat);
+        var convertedValue = DoubleToString(value, nullable);
         return WriteValueInternalAsync(JsonToken.Float, convertedValue, cancel);
     }
 
@@ -920,7 +920,7 @@ public partial class JsonTextWriter
     Task WriteValueAsync(float value, bool nullable, Cancel cancel) =>
         WriteValueInternalAsync(
             JsonToken.Float,
-            JsonConvert.ToString(value, FloatFormatHandling, QuoteChar, nullable, FloatFormat),
+            FloatToString(value, nullable),
             cancel);
 
     /// <summary>
