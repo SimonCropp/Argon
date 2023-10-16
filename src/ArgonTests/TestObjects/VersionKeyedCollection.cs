@@ -11,10 +11,7 @@ public class VersionKeyedCollection :
     IEnumerable<Person>,
     IJsonOnError
 {
-    public List<string> Messages { get; set; }
-
-    public VersionKeyedCollection() =>
-        Messages = new();
+    public List<string> Messages { get; set; } = new();
 
     protected override string GetKeyForItem(Person item) =>
         item.Name;

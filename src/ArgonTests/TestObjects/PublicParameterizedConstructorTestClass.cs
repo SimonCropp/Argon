@@ -4,12 +4,7 @@
 
 namespace TestObjects;
 
-public class PublicParameterizedConstructorTestClass
+public class PublicParameterizedConstructorTestClass(string name)
 {
-    readonly string _name;
-
-    public PublicParameterizedConstructorTestClass(string name) =>
-        _name = name;
-
-    public string Name => _name;
+    public string Name => name;
 }
