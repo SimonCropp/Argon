@@ -4,11 +4,8 @@
 
 namespace TestObjects;
 
-public class PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass
+public class PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass(NameContainer name)
 {
-    public PublicParameterizedConstructorRequiringConverterWithPropertyAttributeTestClass(NameContainer name) =>
-        Name = name;
-
     [JsonConverter(typeof(NameContainerConverter))]
-    public NameContainer Name { get; }
+    public NameContainer Name { get; } = name;
 }

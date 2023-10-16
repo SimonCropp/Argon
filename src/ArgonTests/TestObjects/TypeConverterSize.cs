@@ -7,17 +7,11 @@ using System.ComponentModel;
 namespace TestObjects;
 
 [TypeConverter(typeof(TypeConverterSizeConverter))]
-public struct TypeConverterSize
+public struct TypeConverterSize(int width, int height)
 {
     public static readonly TypeConverterSize Empty;
 
-    public TypeConverterSize(int width, int height)
-    {
-        Width = width;
-        Height = height;
-    }
+    public int Width { get; set; } = width;
 
-    public int Width { get; set; }
-
-    public int Height { get; set; }
+    public int Height { get; set; } = height;
 }

@@ -4,12 +4,7 @@
 
 namespace TestObjects;
 
-public class PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass
+public class PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass([JsonConverter(typeof(NameContainerConverter))] NameContainer nameParameter)
 {
-    readonly NameContainer _nameContainer;
-
-    public PublicParameterizedConstructorRequiringConverterWithParameterAttributeTestClass([JsonConverter(typeof(NameContainerConverter))] NameContainer nameParameter) =>
-        _nameContainer = nameParameter;
-
-    public NameContainer Name => _nameContainer;
+    public NameContainer Name => nameParameter;
 }

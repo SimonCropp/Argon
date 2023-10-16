@@ -4,12 +4,7 @@
 
 namespace TestObjects;
 
-public class PublicParameterizedConstructorRequiringConverterTestClass
+public class PublicParameterizedConstructorRequiringConverterTestClass(NameContainer nameParameter)
 {
-    readonly NameContainer _nameContainer;
-
-    public PublicParameterizedConstructorRequiringConverterTestClass(NameContainer nameParameter) =>
-        _nameContainer = nameParameter;
-
-    public NameContainer Name => _nameContainer;
+    public NameContainer Name => nameParameter;
 }

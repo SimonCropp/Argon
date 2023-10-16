@@ -4,10 +4,7 @@
 
 namespace TestObjects;
 
-public class PublicParameterizedConstructorWithPropertyNameConflict
+public class PublicParameterizedConstructorWithPropertyNameConflict(string name)
 {
-    public PublicParameterizedConstructorWithPropertyNameConflict(string name) =>
-        Name = Convert.ToInt32(name);
-
-    public int Name { get; }
+    public int Name { get; } = Convert.ToInt32(name);
 }

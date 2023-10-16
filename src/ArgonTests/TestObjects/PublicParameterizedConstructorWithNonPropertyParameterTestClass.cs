@@ -4,10 +4,7 @@
 
 namespace TestObjects;
 
-public class PublicParameterizedConstructorWithNonPropertyParameterTestClass
+public class PublicParameterizedConstructorWithNonPropertyParameterTestClass(string nameParameter)
 {
-    public PublicParameterizedConstructorWithNonPropertyParameterTestClass(string nameParameter) =>
-        Name = nameParameter;
-
-    public string Name { get; }
+    public string Name { get; } = nameParameter;
 }
