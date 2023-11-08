@@ -291,7 +291,7 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
         Assert.Equal("id", StringUtils.ToKebabCase("ID"));
         Assert.Equal("i", StringUtils.ToKebabCase("I"));
         Assert.Equal("", StringUtils.ToKebabCase(""));
-        Assert.Equal(null, StringUtils.ToKebabCase(null));
+        Assert.Null(StringUtils.ToKebabCase(null));
         Assert.Equal("person", StringUtils.ToKebabCase("Person"));
         Assert.Equal("i-phone", StringUtils.ToKebabCase("iPhone"));
         Assert.Equal("i-phone", StringUtils.ToKebabCase("IPhone"));

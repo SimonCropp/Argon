@@ -74,7 +74,7 @@ public class JArrayTests : TestFixtureBase
 
         ((ICollection<JToken>) j).CopyTo(a, 1);
 
-        Assert.Equal(null, a[0]);
+        Assert.Null(a[0]);
 
         Assert.Equal(1, (int) a[1]);
 
@@ -82,7 +82,7 @@ public class JArrayTests : TestFixtureBase
 
         Assert.Equal(3, (int) a[3]);
 
-        Assert.Equal(null, a[4]);
+        Assert.Null(a[4]);
     }
 
     [Fact]
@@ -250,8 +250,8 @@ public class JArrayTests : TestFixtureBase
         var v3 = new JValue(3);
 
         var j = new JArray();
-        Assert.Equal(null, j.First);
-        Assert.Equal(null, j.Last);
+        Assert.Null(j.First);
+        Assert.Null(j.Last);
 
         j.AddFirst(v1);
         Assert.Equal(v1, j.First);
@@ -288,7 +288,7 @@ public class JArrayTests : TestFixtureBase
         var j = new JArray();
         j.Insert(0, null);
 
-        Assert.Equal(null, ((JValue) j[0]).Value);
+        Assert.Null(((JValue) j[0]).Value);
     }
 
     [Fact]
@@ -336,7 +336,7 @@ public class JArrayTests : TestFixtureBase
 
         j[1] = v4;
 
-        Assert.Equal(null, v2.Parent);
+        Assert.Null(v2.Parent);
         Assert.Equal(-1, j.IndexOf(v2));
         Assert.Equal(j, v4.Parent);
         Assert.Equal(1, j.IndexOf(v4));

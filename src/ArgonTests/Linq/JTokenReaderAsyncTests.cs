@@ -69,7 +69,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
             await jsonReader.ReadAsync();
             Assert.Equal(JsonToken.Null, jsonReader.TokenType);
-            Assert.Equal(null, jsonReader.Value);
+            Assert.Null(jsonReader.Value);
 
             Assert.True(await jsonReader.ReadAsync());
             Assert.Equal(JsonToken.EndObject, jsonReader.TokenType);
@@ -176,7 +176,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
         Assert.Equal(0, lineInfo.LineNumber);
         Assert.Equal(0, lineInfo.LinePosition);
         XUnitAssert.False(lineInfo.HasLineInfo());
-        Assert.Equal(null, jsonReader.CurrentToken);
+        Assert.Null(jsonReader.CurrentToken);
 
         await jsonReader.ReadAsync();
         Assert.Equal(jsonReader.TokenType, JsonToken.StartObject);
@@ -248,11 +248,11 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         await jsonReader.ReadAsync();
         Assert.Equal(jsonReader.TokenType, JsonToken.None);
-        Assert.Equal(null, jsonReader.CurrentToken);
+        Assert.Null(jsonReader.CurrentToken);
 
         await jsonReader.ReadAsync();
         Assert.Equal(jsonReader.TokenType, JsonToken.None);
-        Assert.Equal(null, jsonReader.CurrentToken);
+        Assert.Null(jsonReader.CurrentToken);
     }
 
     [Fact]
@@ -471,8 +471,8 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         await reader.ReadAsDecimalAsync();
         Assert.Equal(JsonToken.Null, reader.TokenType);
-        Assert.Equal(null, reader.ValueType);
-        Assert.Equal(null, reader.Value);
+        Assert.Null(reader.ValueType);
+        Assert.Null(reader.Value);
     }
 
     [Fact]
@@ -716,7 +716,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = new JTokenReader(n);
 
-        Assert.Equal(null, await reader.ReadAsDoubleAsync());
+        Assert.Null(await reader.ReadAsDoubleAsync());
     }
 
     [Fact]
@@ -756,7 +756,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = new JTokenReader(n);
 
-        Assert.Equal(null, await reader.ReadAsBooleanAsync());
+        Assert.Null(await reader.ReadAsBooleanAsync());
     }
 
     [Fact]
@@ -776,7 +776,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = new JTokenReader(n);
 
-        Assert.Equal(null, await reader.ReadAsDateTimeAsync());
+        Assert.Null(await reader.ReadAsDateTimeAsync());
     }
 
     [Fact]
@@ -786,7 +786,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = new JTokenReader(n);
 
-        Assert.Equal(null, await reader.ReadAsDateTimeOffsetAsync());
+        Assert.Null(await reader.ReadAsDateTimeOffsetAsync());
     }
 
     [Fact]
@@ -816,7 +816,7 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = new JTokenReader(n);
 
-        Assert.Equal(null, await reader.ReadAsBytesAsync());
+        Assert.Null(await reader.ReadAsBytesAsync());
     }
 
     [Fact]
@@ -843,6 +843,6 @@ public class JTokenReaderAsyncTests : TestFixtureBase
 
         var reader = new JTokenReader(n);
 
-        Assert.Equal(null, await reader.ReadAsBytesAsync());
+        Assert.Null(await reader.ReadAsBytesAsync());
     }
 }

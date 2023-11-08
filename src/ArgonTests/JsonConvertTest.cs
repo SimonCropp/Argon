@@ -613,10 +613,10 @@ public class JsonConvertTest : TestFixtureBase
         XUnitAssert.True(b);
 
         var n = JsonConvert.TryDeserializeObject<object>("null");
-        Assert.Equal(null, n);
+        Assert.Null(n);
 
         var u = JsonConvert.TryDeserializeObject<object>("undefined");
-        Assert.Equal(null, u);
+        Assert.Null(u);
     }
 
     [Fact]

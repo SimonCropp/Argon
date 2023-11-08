@@ -611,7 +611,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal(3, result.Count());
         Assert.Equal(1, result.ElementAt(0));
         Assert.Equal(2, result.ElementAt(1));
-        Assert.Equal(null, result.ElementAt(2));
+        Assert.Null(result.ElementAt(2));
     }
 
     public class EnumerableClassFailure<T> : IEnumerable<T>
@@ -1024,7 +1024,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var v2 = JsonConvert.DeserializeObject<IDictionary<string, int?>>(json);
         Assert.Equal(3, v2.Count);
         Assert.Equal(1, v2["First"]);
-        Assert.Equal(null, v2["Second"]);
+        Assert.Null(v2["Second"]);
         Assert.Equal(3, v2["Third"]);
     }
 
@@ -1095,7 +1095,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal(2, values[0].Value.Value.Count);
         Assert.Equal("1", values[0].Value.Value[0]);
         Assert.Equal("2", values[0].Value.Value[1]);
-        Assert.Equal(null, values[1]);
+        Assert.Null(values[1]);
         Assert.Equal("bbb", values[2].Value.Key);
         Assert.Equal(2, values[2].Value.Value.Count);
         Assert.Equal("3", values[2].Value.Value[0]);
@@ -1715,7 +1715,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         Assert.Equal("Before!", aa.Before);
         Assert.Equal("After!", aa.After);
-        Assert.Equal(null, aa.Coordinates);
+        Assert.Null(aa.Coordinates);
 
         var after = JsonConvert.SerializeObject(aa);
 
@@ -1933,7 +1933,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal("Navigate", o.Method);
         Assert.Equal(2, o.Data.Length);
         Assert.Equal("dashboard", o.Data[0]);
-        Assert.Equal(null, o.Data[1]);
+        Assert.Null(o.Data[1]);
     }
 
     [Fact]

@@ -354,7 +354,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
 
         Assert.Equal(1, o.IntValue1);
         Assert.Equal(0, o.IntValue2);
-        Assert.Equal(null, o.ClassValue);
+        Assert.Null(o.ClassValue);
     }
 
     [Fact]
@@ -446,7 +446,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
         });
 
         Assert.Equal(ExportFormat.Default, o.ExportFormat);
-        Assert.Equal(null, o.Format);
+        Assert.Null(o.Format);
     }
 
     [DataContract]

@@ -361,7 +361,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});
 
         Assert.Equal(3, circularList.Count);
-        Assert.Equal(null, circularList[0]);
+        Assert.Null(circularList[0]);
         Assert.Equal(1, circularList[1].Count);
         Assert.Equal(1, circularList[2].Count);
         Assert.Equal(1, circularList[2][0].Count);

@@ -65,7 +65,7 @@ public class ReadTests : TestFixtureBase
 
         reader.Read();
         Assert.Equal(JsonToken.Undefined, reader.TokenType);
-        Assert.Equal(null, reader.Value);
+        Assert.Null(reader.Value);
     }
 
     [Fact]
@@ -146,17 +146,17 @@ public class ReadTests : TestFixtureBase
         XUnitAssert.False(reader.ReadAsBoolean());
         Assert.Equal("[12]", reader.Path);
 
-        Assert.Equal(null, reader.ReadAsBoolean());
+        Assert.Null(reader.ReadAsBoolean());
         Assert.Equal("[13]", reader.Path);
 
-        Assert.Equal(null, reader.ReadAsBoolean());
+        Assert.Null(reader.ReadAsBoolean());
         Assert.Equal("[14]", reader.Path);
 
-        Assert.Equal(null, reader.ReadAsBoolean());
+        Assert.Null(reader.ReadAsBoolean());
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
         Assert.Equal("", reader.Path);
 
-        Assert.Equal(null, reader.ReadAsBoolean());
+        Assert.Null(reader.ReadAsBoolean());
         Assert.Equal(JsonToken.None, reader.TokenType);
         Assert.Equal("", reader.Path);
     }
@@ -169,7 +169,7 @@ public class ReadTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         XUnitAssert.True(reader.ReadAsBoolean());
-        Assert.Equal(null, reader.ReadAsBoolean());
+        Assert.Null(reader.ReadAsBoolean());
     }
 
     [Fact]
@@ -573,7 +573,7 @@ public class ReadTests : TestFixtureBase
     public void ReadAsDouble_Null()
     {
         var reader = new JsonTextReader(new StringReader("null"));
-        Assert.Equal(null, reader.ReadAsDouble());
+        Assert.Null(reader.ReadAsDouble());
     }
 
     [Fact]
@@ -712,10 +712,10 @@ public class ReadTests : TestFixtureBase
         Assert.Equal("four", reader.ReadAsString());
         Assert.Equal(JsonToken.String, reader.TokenType);
 
-        Assert.Equal(null, reader.ReadAsString());
+        Assert.Null(reader.ReadAsString());
         Assert.Equal(JsonToken.Null, reader.TokenType);
 
-        Assert.Equal(null, reader.ReadAsInt32());
+        Assert.Null(reader.ReadAsInt32());
         Assert.Equal(JsonToken.Null, reader.TokenType);
 
         Assert.Equal(3.99m, reader.ReadAsDecimal());
@@ -733,7 +733,7 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
 
-        Assert.Equal(null, reader.ReadAsInt32());
+        Assert.Null(reader.ReadAsInt32());
         Assert.Equal(JsonToken.None, reader.TokenType);
     }
 

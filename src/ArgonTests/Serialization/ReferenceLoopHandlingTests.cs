@@ -12,7 +12,7 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
     public void ReferenceLoopHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.Equal(null, attribute.defaultValueHandling);
+        Assert.Null(attribute.defaultValueHandling);
         Assert.Equal(ReferenceLoopHandling.Error, attribute.ReferenceLoopHandling);
 
         attribute.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

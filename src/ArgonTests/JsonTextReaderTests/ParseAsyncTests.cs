@@ -81,7 +81,7 @@ public class ParseAsyncTests : TestFixtureBase
             "Input string '1.1' is not a valid integer. Path '', line 1, position 3.");
 
         reader = new(new StringReader(""));
-        Assert.Equal(null, await reader.ReadAsInt32Async());
+        Assert.Null(await reader.ReadAsInt32Async());
 
         reader = new(new StringReader("-"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(
@@ -119,7 +119,7 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(0.000001m, await reader.ReadAsDecimalAsync());
 
         reader = new(new StringReader(""));
-        Assert.Equal(null, await reader.ReadAsDecimalAsync());
+        Assert.Null(await reader.ReadAsDecimalAsync());
 
         reader = new(new StringReader("-"));
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsDecimalAsync(), "Input string '-' is not a valid decimal. Path '', line 1, position 1.");

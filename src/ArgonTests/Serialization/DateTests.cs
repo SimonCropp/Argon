@@ -153,7 +153,7 @@ public class DateTests : TestFixtureBase
     {
         var d = JsonConvert.TryDeserializeObject<Date?>("null");
 
-        Assert.Equal(null, d);
+        Assert.Null(d);
     }
 
     [Fact]
@@ -194,7 +194,7 @@ public class DateTests : TestFixtureBase
 
         Assert.Equal(2, l.Count);
         Assert.Equal(new Date(2000, 12, 29), l[0]);
-        Assert.Equal(null, l[1]);
+        Assert.Null(l[1]);
     }
 }
 #endif

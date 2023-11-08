@@ -184,7 +184,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             });
 
         Assert.Equal(3, circularList.Count);
-        Assert.Equal(null, circularList[0]);
+        Assert.Null(circularList[0]);
         Assert.Equal(1, circularList[1].Count);
         Assert.Equal(1, circularList[2].Count);
         Assert.Equal(1, circularList[2][0].Count);
@@ -372,7 +372,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         Assert.Equal("Bob", e.Name);
         Assert.Equal("Frank", e.Manager.Name);
 
-        Assert.Equal(null, p.Name);
+        Assert.Null(p.Name);
         Assert.Equal(new(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
         Assert.Equal(new(2000, 3, 30, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
@@ -493,7 +493,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore
             });
 
-        Assert.Equal(null, c.Id);
+        Assert.Null(c.Id);
     }
 
     [Fact]
@@ -523,7 +523,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         var o = (JObject) actual.Payload;
         Assert.Equal("System.Byte[], mscorlib", (string) o["$type"]);
         Assert.Equal("AAECAwQFBgcICQ==", (string) o["$value"]);
-        Assert.Equal(null, o.Parent);
+        Assert.Null(o.Parent);
     }
 
     [Fact]
@@ -541,7 +541,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             });
 
         var o = (JObject) actual.Payload;
-        Assert.Equal(null, o.Parent);
+        Assert.Null(o.Parent);
     }
 
     public class ItemWithJTokens
@@ -571,15 +571,15 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         Assert.Equal(JTokenType.Integer, actual.Payload1.Type);
         Assert.Equal(1, (int) actual.Payload1);
-        Assert.Equal(null, actual.Payload1.Parent);
+        Assert.Null(actual.Payload1.Parent);
 
         Assert.Equal(JTokenType.Object, actual.Payload2.Type);
         Assert.Equal(1, (int) actual.Payload2["prop1"]);
         Assert.Equal(2, (int) actual.Payload2["prop2"][0]);
-        Assert.Equal(null, actual.Payload2.Parent);
+        Assert.Null(actual.Payload2.Parent);
 
         Assert.Equal(1, (int) actual.Payload3[0]);
-        Assert.Equal(null, actual.Payload3.Parent);
+        Assert.Null(actual.Payload3.Parent);
     }
 
     [Fact]
@@ -597,7 +597,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             });
 
         var o = (JArray) actual.Payload;
-        Assert.Equal(null, o.Parent);
+        Assert.Null(o.Parent);
     }
 
     public class ItemWithUntypedPayload

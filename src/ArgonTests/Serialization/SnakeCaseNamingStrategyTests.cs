@@ -342,7 +342,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
         Assert.Equal("id", StringUtils.ToSnakeCase("ID"));
         Assert.Equal("i", StringUtils.ToSnakeCase("I"));
         Assert.Equal("", StringUtils.ToSnakeCase(""));
-        Assert.Equal(null, StringUtils.ToSnakeCase(null));
+        Assert.Null(StringUtils.ToSnakeCase(null));
         Assert.Equal("person", StringUtils.ToSnakeCase("Person"));
         Assert.Equal("i_phone", StringUtils.ToSnakeCase("iPhone"));
         Assert.Equal("i_phone", StringUtils.ToSnakeCase("IPhone"));

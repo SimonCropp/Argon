@@ -3317,8 +3317,8 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var d = JsonXmlConvert.DeserializeXNode("{}");
 
-        Assert.Equal(null, d.Root);
-        Assert.Equal(null, d.Declaration);
+        Assert.Null(d.Root);
+        Assert.Null(d.Declaration);
     }
 
     [Fact]
@@ -3339,7 +3339,7 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var d = JsonXmlConvert.DeserializeXNode("""{"?xml":{"@version":"Version!","@encoding":"Encoding!","@standalone":"Standalone!"}}""");
 
-        Assert.Equal(null, d.Root);
+        Assert.Null(d.Root);
         Assert.Equal("Version!", d.Declaration.Version);
         Assert.Equal("Encoding!", d.Declaration.Encoding);
         Assert.Equal("Standalone!", d.Declaration.Standalone);

@@ -243,7 +243,7 @@ public class CamelCaseNamingStrategyTests : TestFixtureBase
         Assert.Equal("id", CamelCaseNamingStrategy.ToCamelCase("ID"));
         Assert.Equal("i", CamelCaseNamingStrategy.ToCamelCase("I"));
         Assert.Equal("", CamelCaseNamingStrategy.ToCamelCase(""));
-        Assert.Equal(null, CamelCaseNamingStrategy.ToCamelCase(null));
+        Assert.Null(CamelCaseNamingStrategy.ToCamelCase(null));
         Assert.Equal("person", CamelCaseNamingStrategy.ToCamelCase("Person"));
         Assert.Equal("iPhone", CamelCaseNamingStrategy.ToCamelCase("iPhone"));
         Assert.Equal("iPhone", CamelCaseNamingStrategy.ToCamelCase("IPhone"));

@@ -81,7 +81,7 @@ public class ParseTests : TestFixtureBase
             "Input string '1.1' is not a valid integer. Path '', line 1, position 3.");
 
         reader = new(new StringReader(""));
-        Assert.Equal(null, reader.ReadAsInt32());
+        Assert.Null(reader.ReadAsInt32());
 
         reader = new(new StringReader("-"));
         XUnitAssert.Throws<JsonReaderException>(
@@ -119,7 +119,7 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(0.000001m, reader.ReadAsDecimal());
 
         reader = new(new StringReader(""));
-        Assert.Equal(null, reader.ReadAsDecimal());
+        Assert.Null(reader.ReadAsDecimal());
 
         reader = new(new StringReader("-"));
         XUnitAssert.Throws<JsonReaderException>(

@@ -172,7 +172,7 @@ public class IsoDateTimeConverterTests : TestFixtureBase
             {
                 Converters = [new IsoDateTimeConverter()]
             });
-        Assert.Equal(null, c.DateTimeField);
+        Assert.Null(c.DateTimeField);
     }
 
     [Fact]

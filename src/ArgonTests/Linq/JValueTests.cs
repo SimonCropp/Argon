@@ -13,7 +13,7 @@ public class JValueTests : TestFixtureBase
         var v = JValue.CreateUndefined();
 
         Assert.Equal(JTokenType.Undefined, v.Type);
-        Assert.Equal(null, v.Value);
+        Assert.Null(v.Value);
 
         Assert.Equal("", v.ToString());
         Assert.Equal("undefined", v.ToString(Formatting.None));
@@ -26,7 +26,7 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(StringComparison.OrdinalIgnoreCase, v.Value);
 
         v = JValue.CreateNull().ToObject<StringComparison?>();
-        Assert.Equal(null, v);
+        Assert.Null(v);
 
         v = new JValue(5).ToObject<StringComparison?>();
         Assert.Equal(StringComparison.OrdinalIgnoreCase, v.Value);
@@ -93,11 +93,11 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(JTokenType.String, v.Type);
 
         v.Value = null;
-        Assert.Equal(null, v.Value);
+        Assert.Null(v.Value);
         Assert.Equal(JTokenType.Null, v.Type);
 
         v.Value = null;
-        Assert.Equal(null, v.Value);
+        Assert.Null(v.Value);
         Assert.Equal(JTokenType.Null, v.Type);
 
         v.Value = "Pie";
@@ -141,7 +141,7 @@ public class JValueTests : TestFixtureBase
     public void CreateComment()
     {
         var commentValue = JValue.CreateComment(null);
-        Assert.Equal(null, commentValue.Value);
+        Assert.Null(commentValue.Value);
         Assert.Equal(JTokenType.Comment, commentValue.Type);
 
         commentValue.Value = "Comment";
@@ -153,7 +153,7 @@ public class JValueTests : TestFixtureBase
     public void CreateString()
     {
         var stringValue = JValue.CreateString(null);
-        Assert.Equal(null, stringValue.Value);
+        Assert.Null(stringValue.Value);
         Assert.Equal(JTokenType.String, stringValue.Type);
     }
 

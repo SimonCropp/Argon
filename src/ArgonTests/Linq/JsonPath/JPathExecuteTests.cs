@@ -436,7 +436,7 @@ public class JPathExecuteTests : TestFixtureBase
         Assert.Equal(o, token);
 
         token = o.SelectToken("['']");
-        Assert.Equal(null, token);
+        Assert.Null(token);
     }
 
     [Fact]
@@ -1266,7 +1266,7 @@ public class JPathExecuteTests : TestFixtureBase
         Assert.Equal("Lambton Quay", storeNames[0]);
         Assert.Equal("Willis Street", storeNames[1]);
         Assert.Equal(2, firstProductNames.Count);
-        Assert.Equal(null, firstProductNames[0]);
+        Assert.Null(firstProductNames[0]);
         Assert.Equal("Headlight Fluid", firstProductNames[1]);
         Assert.Equal(149.95m, totalPrice);
     }

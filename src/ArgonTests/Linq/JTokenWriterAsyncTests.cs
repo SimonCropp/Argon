@@ -41,10 +41,10 @@ public class JTokenWriterAsyncTests : TestFixtureBase
         Assert.Equal(0.99, (double) root[5]);
         Assert.Equal(0.000000000000000001d, (double) root[6]);
         Assert.Equal(0.000000000000000001m, (decimal) root[7]);
-        Assert.Equal(null, (string) root[8]);
+        Assert.Null((string) root[8]);
         Assert.Equal("This is a string.", (string) root[9]);
-        Assert.Equal(null, ((JValue) root[10]).Value);
-        Assert.Equal(null, ((JValue) root[11]).Value);
+        Assert.Null(((JValue) root[10]).Value);
+        Assert.Null(((JValue) root[11]).Value);
         Assert.Equal(data, (byte[]) root[12]);
     }
 
@@ -90,7 +90,7 @@ public class JTokenWriterAsyncTests : TestFixtureBase
     {
         using var jsonWriter = new JTokenWriter();
         Assert.Equal(WriteState.Start, jsonWriter.WriteState);
-        Assert.Equal(null, jsonWriter.CurrentToken);
+        Assert.Null(jsonWriter.CurrentToken);
 
         await jsonWriter.WriteStartObjectAsync();
         Assert.Equal(WriteState.Object, jsonWriter.WriteState);

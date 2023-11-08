@@ -216,6 +216,6 @@ public class RegexConverterTests : TestFixtureBase
         Assert.Equal("""{"RegProp":null}""", json);
 
         var obj = JsonConvert.DeserializeObject<SimpleClassWithRegex>(json);
-        Assert.Equal(null, obj.RegProp);
+        Assert.Null(obj.RegProp);
     }
 }

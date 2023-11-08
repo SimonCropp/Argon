@@ -187,7 +187,7 @@ public class TimeTests : TestFixtureBase
     {
         var t = JsonConvert.TryDeserializeObject<Time?>("null");
 
-        Assert.Equal(null, t);
+        Assert.Null(t);
     }
 
     [Fact]
@@ -228,7 +228,7 @@ public class TimeTests : TestFixtureBase
 
         Assert.Equal(2, l.Count);
         Assert.Equal(new Time(23, 59, 59), l[0]);
-        Assert.Equal(null, l[1]);
+        Assert.Null(l[1]);
     }
 }
 #endif

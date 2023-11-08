@@ -148,6 +148,6 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Assert.Equal(null, c.Expando);
+        Assert.Null(c.Expando);
     }
 }

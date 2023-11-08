@@ -10,7 +10,7 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void IsReferenceTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.Equal(null, attribute.isReference);
+        Assert.Null(attribute.isReference);
         XUnitAssert.False(attribute.IsReference);
 
         attribute.IsReference = false;
@@ -26,7 +26,7 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void NullValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.Equal(null, attribute.nullValueHandling);
+        Assert.Null(attribute.nullValueHandling);
         Assert.Equal(NullValueHandling.Include, attribute.NullValueHandling);
 
         attribute.NullValueHandling = NullValueHandling.Ignore;
@@ -38,7 +38,7 @@ public class JsonArrayAttributeTests : TestFixtureBase
     public void DefaultValueHandlingTest()
     {
         var attribute = new JsonPropertyAttribute();
-        Assert.Equal(null, attribute.defaultValueHandling);
+        Assert.Null(attribute.defaultValueHandling);
         Assert.Equal(DefaultValueHandling.Include, attribute.DefaultValueHandling);
 
         attribute.DefaultValueHandling = DefaultValueHandling.Ignore;

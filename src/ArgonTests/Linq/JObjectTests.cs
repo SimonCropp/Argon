@@ -26,7 +26,7 @@ public class JObjectTests : TestFixtureBase
             """,
             output);
 
-        Assert.Equal(null, v.Value);
+        Assert.Null(v.Value);
         Assert.Null((string) o.title);
     }
 
@@ -120,7 +120,7 @@ public class JObjectTests : TestFixtureBase
         Assert.Equal(1, o.Children().Count());
 
         XUnitAssert.False(o.TryGetValue("sdf", out var t));
-        Assert.Equal(null, t);
+        Assert.Null(t);
 
         XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
         XUnitAssert.True(JToken.DeepEquals(new JValue(1), t));
@@ -218,7 +218,7 @@ public class JObjectTests : TestFixtureBase
         Assert.Equal(1, (int) o["PropertyNameValue"]);
 
         o.Add("PropertyNameValue1", null);
-        Assert.Equal(null, ((JValue) o["PropertyNameValue1"]).Value);
+        Assert.Null(((JValue) o["PropertyNameValue1"]).Value);
 
         Assert.Equal(2, o.Children().Count());
     }
@@ -249,7 +249,7 @@ public class JObjectTests : TestFixtureBase
         ((ICollection<KeyValuePair<string, JToken>>) o).Clear();
         Assert.Equal(0, o.Children().Count());
 
-        Assert.Equal(null, p.Parent);
+        Assert.Null(p.Parent);
     }
 
     [Fact]
@@ -491,7 +491,7 @@ public class JObjectTests : TestFixtureBase
         json = """{"foo":null}""";
         o = (JObject) JsonConvert.DeserializeObject(json);
         value = o.Value<bool?>("foo");
-        Assert.Equal(null, value);
+        Assert.Null(value);
     }
 
     [Fact]
@@ -579,7 +579,7 @@ public class JObjectTests : TestFixtureBase
     public void WriteObjectNullStringValue()
     {
         var v = new JValue((string) null);
-        Assert.Equal(null, v.Value);
+        Assert.Null(v.Value);
         Assert.Equal(JTokenType.String, v.Type);
 
         var o = new JObject
@@ -661,7 +661,7 @@ public class JObjectTests : TestFixtureBase
 
         Assert.Equal("http://www.foo.com/", shortie.Original);
         Assert.Equal("krehqk", shortie.Short);
-        Assert.Equal(null, shortie.Shortened);
+        Assert.Null(shortie.Shortened);
         Assert.Equal(0, shortie.Error.Code);
         Assert.Equal("No action taken", shortie.Error.ErrorMessage);
     }
@@ -747,7 +747,7 @@ public class JObjectTests : TestFixtureBase
         var p3 = new JProperty("Test1", "III");
 
         p1.Replace(p3);
-        Assert.Equal(null, p1.Parent);
+        Assert.Null(p1.Parent);
         Assert.Equal(l, p3.Parent);
 
         Assert.Equal(p3, l[0]);
@@ -759,7 +759,7 @@ public class JObjectTests : TestFixtureBase
         var p4 = new JProperty("Test4", "IV");
 
         p2.Replace(p4);
-        Assert.Equal(null, p2.Parent);
+        Assert.Null(p2.Parent);
         Assert.Equal(l, p4.Parent);
 
         Assert.Equal(p3, l[0]);
@@ -876,7 +876,7 @@ public class JObjectTests : TestFixtureBase
         l.Remove(p2);
         Assert.Equal(0, l.Count);
         Assert.False(l.Contains(p2));
-        Assert.Equal(null, p2.Parent);
+        Assert.Null(p2.Parent);
     }
 
     [Fact]
@@ -1090,7 +1090,7 @@ public class JObjectTests : TestFixtureBase
         Assert.True(l.Remove(p2));
         Assert.Equal(0, l.Count);
         Assert.False(l.Contains(p2));
-        Assert.Equal(null, p2.Parent);
+        Assert.Null(p2.Parent);
     }
 
     [Fact]
@@ -1575,16 +1575,16 @@ public class JObjectTests : TestFixtureBase
             ["title"] = "Title!"
         };
 
-        Assert.Equal(null, a.GetValue("NAME", StringComparison.Ordinal));
-        Assert.Equal(null, a.GetValue("NAME"));
-        Assert.Equal(null, a.GetValue("TITLE"));
+        Assert.Null(a.GetValue("NAME", StringComparison.Ordinal));
+        Assert.Null(a.GetValue("NAME"));
+        Assert.Null(a.GetValue("TITLE"));
         Assert.Equal("Name!", (string) a.GetValue("NAME", StringComparison.OrdinalIgnoreCase));
         Assert.Equal("name!", (string) a.GetValue("name", StringComparison.Ordinal));
-        Assert.Equal(null, a.GetValue(null, StringComparison.Ordinal));
-        Assert.Equal(null, a.GetValue(null));
+        Assert.Null(a.GetValue(null, StringComparison.Ordinal));
+        Assert.Null(a.GetValue(null));
 
         Assert.False(a.TryGetValue("NAME", StringComparison.Ordinal, out var v));
-        Assert.Equal(null, v);
+        Assert.Null(v);
 
         Assert.False(a.TryGetValue("NAME", out v));
         Assert.False(a.TryGetValue("TITLE", out v));
@@ -1705,8 +1705,8 @@ public class JObjectTests : TestFixtureBase
             ["title"] = "Title!"
         };
 
-        Assert.Equal(null, a.PropertyOrNull("NAME"));
-        Assert.Equal(null, a.PropertyOrNull("TITLE"));
+        Assert.Null(a.PropertyOrNull("NAME"));
+        Assert.Null(a.PropertyOrNull("TITLE"));
 
         // Return first match when ignoring case
         Assert.Equal("Name", a.PropertyOrNull("NAME", StringComparison.OrdinalIgnoreCase).Name);

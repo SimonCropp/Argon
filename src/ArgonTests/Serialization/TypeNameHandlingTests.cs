@@ -743,7 +743,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("Bob", e.Name);
         Assert.Equal("Frank", e.Manager.Name);
 
-        Assert.Equal(null, p.Name);
+        Assert.Null(p.Name);
         Assert.Equal(new(2013, 8, 14, 0, 0, 0, DateTimeKind.Utc), p.BirthDate);
         Assert.Equal(new(2013, 8, 14, 0, 0, 0, DateTimeKind.Utc), p.LastModified);
 
@@ -957,7 +957,7 @@ public class TypeNameHandlingTests : TestFixtureBase
 
         var nested = (TypeNameProperty) deserialized.Value;
         Assert.Equal("Nested!", nested.Name);
-        Assert.Equal(null, nested.Value);
+        Assert.Null(nested.Value);
     }
 
     [Fact]

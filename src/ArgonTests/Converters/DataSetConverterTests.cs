@@ -113,7 +113,7 @@ public class DataSetConverterTests : TestFixtureBase
 
         var c2 = JsonConvert.DeserializeObject<DataSetTestClass>(json);
 
-        Assert.Equal(null, c2.Set);
+        Assert.Null(c2.Set);
     }
 
     [Fact]

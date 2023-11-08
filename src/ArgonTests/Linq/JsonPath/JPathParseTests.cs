@@ -108,7 +108,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("$.*");
         Assert.Equal(1, path.Filters.Count);
-        Assert.Equal(null, ((FieldFilter) path.Filters[0]).Name);
+        Assert.Null(((FieldFilter) path.Filters[0]).Name);
     }
 
     [Fact]
@@ -116,7 +116,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("$.[*]");
         Assert.Equal(1, path.Filters.Count);
-        Assert.Equal(null, ((ArrayIndexFilter) path.Filters[0]).Index);
+        Assert.Null(((ArrayIndexFilter) path.Filters[0]).Index);
     }
 
     [Fact]
@@ -132,7 +132,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[*]");
         Assert.Equal(1, path.Filters.Count);
-        Assert.Equal(null, ((ArrayIndexFilter) path.Filters[0]).Index);
+        Assert.Null(((ArrayIndexFilter) path.Filters[0]).Index);
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[ * ].derp");
         Assert.Equal(2, path.Filters.Count);
-        Assert.Equal(null, ((ArrayIndexFilter) path.Filters[0]).Index);
+        Assert.Null(((ArrayIndexFilter) path.Filters[0]).Index);
         Assert.Equal("derp", ((FieldFilter) path.Filters[1]).Name);
     }
 
@@ -189,7 +189,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("$..*");
         Assert.Equal(1, path.Filters.Count);
-        Assert.Equal(null, ((ScanFilter) path.Filters[0]).Name);
+        Assert.Null(((ScanFilter) path.Filters[0]).Name);
     }
 
     [Fact]
@@ -197,7 +197,7 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("$..* ");
         Assert.Equal(1, path.Filters.Count);
-        Assert.Equal(null, ((ScanFilter) path.Filters[0]).Name);
+        Assert.Null(((ScanFilter) path.Filters[0]).Name);
     }
 
     [Fact]
@@ -348,7 +348,7 @@ public class JPathParseTests : TestFixtureBase
         Assert.Equal("Blah", ((FieldFilter) path.Filters[0]).Name);
         var expressions = (BooleanQueryExpression) ((QueryFilter) path.Filters[1]).Expression;
         Assert.Equal(QueryOperator.Equals, expressions.Operator);
-        Assert.Equal(null, ((JValue) expressions.Right).Value);
+        Assert.Null(((JValue) expressions.Right).Value);
     }
 
     [Fact]
@@ -645,7 +645,7 @@ public class JPathParseTests : TestFixtureBase
         Assert.Equal(1, path.Filters.Count);
         Assert.Equal(111119990, ((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Equal(3, ((ArraySliceFilter) path.Filters[0]).End);
-        Assert.Equal(null, ((ArraySliceFilter) path.Filters[0]).Step);
+        Assert.Null(((ArraySliceFilter) path.Filters[0]).Step);
     }
 
     [Fact]
@@ -664,8 +664,8 @@ public class JPathParseTests : TestFixtureBase
         var path = new JPath("[  -3  :  ]");
         Assert.Equal(1, path.Filters.Count);
         Assert.Equal(-3, ((ArraySliceFilter) path.Filters[0]).Start);
-        Assert.Equal(null, ((ArraySliceFilter) path.Filters[0]).End);
-        Assert.Equal(null, ((ArraySliceFilter) path.Filters[0]).Step);
+        Assert.Null(((ArraySliceFilter) path.Filters[0]).End);
+        Assert.Null(((ArraySliceFilter) path.Filters[0]).Step);
     }
 
     [Fact]
@@ -673,9 +673,9 @@ public class JPathParseTests : TestFixtureBase
     {
         var path = new JPath("[ : 1 : ]");
         Assert.Equal(1, path.Filters.Count);
-        Assert.Equal(null, ((ArraySliceFilter) path.Filters[0]).Start);
+        Assert.Null(((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Equal(1, ((ArraySliceFilter) path.Filters[0]).End);
-        Assert.Equal(null, ((ArraySliceFilter) path.Filters[0]).Step);
+        Assert.Null(((ArraySliceFilter) path.Filters[0]).Step);
     }
 
     [Fact]

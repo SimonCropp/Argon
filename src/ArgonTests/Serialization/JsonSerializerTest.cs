@@ -64,7 +64,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var result = JsonConvert.DeserializeObject<AlmostImmutableStruct>("{ \"Value\": \"working\", \"Value2\": 2 }");
 
-        Assert.Equal(null, result.Value);
+        Assert.Null(result.Value);
         Assert.Equal(2, result.Value2);
     }
 
@@ -281,8 +281,8 @@ public class JsonSerializerTest : TestFixtureBase
         XUnitAssert.True(l[i++]);
         XUnitAssert.False(l[i++]);
         XUnitAssert.False(l[i++]);
-        Assert.Equal(null, l[i++]);
-        Assert.Equal(null, l[i++]);
+        Assert.Null(l[i++]);
+        Assert.Null(l[i++]);
     }
 
     [Fact]
@@ -827,7 +827,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeCommentTestObjectWithComments()
     {
         var o = JsonConvert.DeserializeObject<CommentTestObject>("{/* Test */}");
-        Assert.Equal(null, o.A);
+        Assert.Null(o.A);
 
         o = JsonConvert.DeserializeObject<CommentTestObject>("""{"A": true/* Test */}""");
         XUnitAssert.True(o.A);
@@ -1119,7 +1119,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var output = o.ToString();
 
-        Assert.Equal(null, v.Value);
+        Assert.Null(v.Value);
         Assert.Equal(JTokenType.String, v.Type);
 
         XUnitAssert.AreEqualNormalized(
@@ -2108,7 +2108,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal("LastValue", userNullableDeserialized.LName);
         Assert.Equal(5, userNullableDeserialized.RoleId);
         Assert.Equal(6, userNullableDeserialized.NullableRoleId);
-        Assert.Equal(null, userNullableDeserialized.NullRoleId);
+        Assert.Null(userNullableDeserialized.NullRoleId);
         XUnitAssert.True(userNullableDeserialized.Active);
     }
 
@@ -2194,8 +2194,8 @@ public class JsonSerializerTest : TestFixtureBase
         var c = JsonConvert.DeserializeObject<RequiredMembersClass>(json);
 
         Assert.Equal("I can't be null bro!", c.FirstName);
-        Assert.Equal(null, c.MiddleName);
-        Assert.Equal(null, c.LastName);
+        Assert.Null(c.MiddleName);
+        Assert.Null(c.LastName);
     }
 
     [Fact]
@@ -2613,8 +2613,8 @@ public class JsonSerializerTest : TestFixtureBase
         var o = JsonConvert.DeserializeObject<JsonPropertyWithHandlingValues>(json);
         Assert.Equal("Default!", o.DefaultValueHandlingIgnoreAndPopulateProperty);
         Assert.Equal("Default!", o.DefaultValueHandlingPopulateProperty);
-        Assert.Equal(null, o.DefaultValueHandlingIgnoreProperty);
-        Assert.Equal(null, o.DefaultValueHandlingIncludeProperty);
+        Assert.Null(o.DefaultValueHandlingIgnoreProperty);
+        Assert.Null(o.DefaultValueHandlingIncludeProperty);
     }
 
     [Fact]
@@ -2931,7 +2931,7 @@ public class JsonSerializerTest : TestFixtureBase
         var json = """{"DateTimeField":""}""";
 
         var c = JsonConvert.DeserializeObject<NullableDateTimeTestClass>(json);
-        Assert.Equal(null, c.DateTimeField);
+        Assert.Null(c.DateTimeField);
     }
 
     [Fact]
@@ -2971,7 +2971,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(3, l.Count);
 
         Assert.Equal(3.3m, l[0]);
-        Assert.Equal(null, l[1]);
+        Assert.Null(l[1]);
         Assert.Equal(1.1m, l[2]);
     }
 
@@ -3931,8 +3931,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.Equal("Value!", newC1.StringProperty);
         Assert.Equal(1, newC1.C2.IntProperty);
-        Assert.Equal(null, newC1.C2.C1.StringProperty);
-        Assert.Equal(null, newC1.C2.C1.C2);
+        Assert.Null(newC1.C2.C1.StringProperty);
+        Assert.Null(newC1.C2.C1.C2);
     }
 
     [Fact]
@@ -4257,7 +4257,7 @@ public class JsonSerializerTest : TestFixtureBase
         var cc = JsonConvert.DeserializeObject<ConstructorComplexIgnoredProperty>(json);
         Assert.Equal("First", cc.First);
         Assert.Equal(2, cc.Second);
-        Assert.Equal(null, cc.Ignored);
+        Assert.Null(cc.Ignored);
     }
 
     [Fact]
@@ -4272,7 +4272,7 @@ public class JsonSerializerTest : TestFixtureBase
             });
         Assert.Equal("First", cc.First);
         Assert.Equal(2, cc.Second);
-        Assert.Equal(null, cc.Ignored);
+        Assert.Null(cc.Ignored);
     }
 
     [Fact]
@@ -4367,7 +4367,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(3, d.Length);
         Assert.Equal(2.4, d[0]);
         Assert.Equal(4.3, d[1]);
-        Assert.Equal(null, d[2]);
+        Assert.Null(d[2]);
     }
 
     [Fact]
@@ -5471,7 +5471,7 @@ public class JsonSerializerTest : TestFixtureBase
         var json = """{"Id":null}""";
         var c = JsonConvert.DeserializeObject<NullableGuid>(json);
 
-        Assert.Equal(null, c.Id);
+        Assert.Null(c.Id);
 
         json = """{"Id":"d8220a4b-75b1-4b7a-8112-b7bdae956a45"}""";
         c = JsonConvert.DeserializeObject<NullableGuid>(json);
@@ -5579,7 +5579,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var e = JsonConvert.DeserializeObject<WithEnums>(json);
 
-        Assert.Equal(null, e.NullableEnum);
+        Assert.Null(e.NullableEnum);
 
         json = JsonConvert.SerializeObject(new WithEnums
         {
@@ -6394,7 +6394,7 @@ public class JsonSerializerTest : TestFixtureBase
         var l = JsonConvert.DeserializeObject<IReadOnlyList<int?>>(json);
 
         Assert.Equal(1, l[0]);
-        Assert.Equal(null, l[1]);
+        Assert.Null(l[1]);
     }
 
     [Fact]

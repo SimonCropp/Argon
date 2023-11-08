@@ -1062,8 +1062,8 @@ public class LinqToJsonTest : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        Assert.Equal(null, o["purple"]);
-        Assert.Equal(null, o.Value<string>("purple"));
+        Assert.Null(o["purple"]);
+        Assert.Null(o.Value<string>("purple"));
 
         Assert.IsType(typeof(JArray), o["channel"]["item"]);
 
@@ -1085,7 +1085,7 @@ public class LinqToJsonTest : TestFixtureBase
             () =>
             {
                 var o = new JObject();
-                Assert.Equal(null, o[0]);
+                Assert.Null(o[0]);
             },
             "Accessed JObject values with invalid key value: 0. Object property name expected.");
 
@@ -1095,7 +1095,7 @@ public class LinqToJsonTest : TestFixtureBase
             () =>
             {
                 var a = new JArray();
-                Assert.Equal(null, a["purple"]);
+                Assert.Null(a["purple"]);
             },
             """Accessed JArray values with invalid key value: "purple". Int32 array index expected.""");
 

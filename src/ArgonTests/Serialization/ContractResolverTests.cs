@@ -64,23 +64,23 @@ public class ContractResolverTests : TestFixtureBase
     {
         var p1 = new JsonProperty(typeof(object), typeof(Object));
 
-        Assert.Equal(null, p1.GetResolvedDefaultValue());
-        Assert.Equal(null, p1.DefaultValue);
+        Assert.Null(p1.GetResolvedDefaultValue());
+        Assert.Null(p1.DefaultValue);
 
         var p2 = new JsonProperty(typeof(int), typeof(Object));
 
         Assert.Equal(0, p2.GetResolvedDefaultValue());
-        Assert.Equal(null, p2.DefaultValue);
+        Assert.Null(p2.DefaultValue);
 
         var p3 = new JsonProperty(typeof(DateTime), typeof(Object));
 
         Assert.Equal(new DateTime(), p3.GetResolvedDefaultValue());
-        Assert.Equal(null, p3.DefaultValue);
+        Assert.Null(p3.DefaultValue);
 
         var p4 = new JsonProperty(typeof(CompareOptions), typeof(Object));
 
         Assert.Equal(CompareOptions.None, (CompareOptions) p4.GetResolvedDefaultValue());
-        Assert.Equal(null, p4.DefaultValue);
+        Assert.Null(p4.DefaultValue);
     }
 
     [Fact]

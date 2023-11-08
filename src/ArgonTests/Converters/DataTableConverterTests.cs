@@ -581,7 +581,7 @@ public class DataTableConverterTests : TestFixtureBase
 
         var c2 = JsonConvert.DeserializeObject<DataTableTestClass>(json);
 
-        Assert.Equal(null, c2.Table);
+        Assert.Null(c2.Table);
     }
 
     [Fact]

@@ -127,7 +127,7 @@ public class LinqDynamicTests : TestFixtureBase
 
         long? c2 = d.Count;
 
-        Assert.Equal(null, c1);
+        Assert.Null(c1);
         Assert.Equal(99, c2);
     }
 
@@ -350,9 +350,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(4.1m, (decimal) r);
 
         r = d.Integer + null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r += 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Float + 1;
         Assert.Equal(2.1d, (double) r);
@@ -370,9 +370,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(4.2m, (decimal) r);
 
         r = d.Float + null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r += 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Decimal + 1;
         Assert.Equal(2.1m, (decimal) r);
@@ -390,14 +390,14 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(4.2m, (decimal) r);
 
         r = d.Decimal + null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r += 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.BigInteger + null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r += 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.BigInteger + 1;
         Assert.Equal(101, (int) r);
@@ -429,9 +429,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(-2.1m, (decimal) r);
 
         r = d.Integer - null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r -= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Float - 1;
         XUnitAssert.AreEqual(0.1d, (double) r, 0.00001);
@@ -449,9 +449,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(-2m, (decimal) r);
 
         r = d.Float - null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r -= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Decimal - 1;
         Assert.Equal(0.1m, (decimal) r);
@@ -469,14 +469,14 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(-2m, (decimal) r);
 
         r = d.Decimal - null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r -= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.BigInteger - null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r -= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.BigInteger - 1.1d;
         Assert.Equal(99m, (decimal) r);
@@ -503,9 +503,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(2.2m, (decimal) r);
 
         r = d.Integer * null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r *= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Float * 1;
         Assert.Equal(1.1d, (double) r);
@@ -523,9 +523,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(2.42m, (decimal) r);
 
         r = d.Float * null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r *= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Decimal * 1;
         Assert.Equal(1.1m, (decimal) r);
@@ -543,9 +543,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(2.42m, (decimal) r);
 
         r = d.Decimal * null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r *= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.BigInteger * 1.1d;
         Assert.Equal(100m, (decimal) r);
@@ -553,9 +553,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(200m, (decimal) r);
 
         r = d.BigInteger * null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r *= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         #endregion
 
@@ -577,9 +577,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(0.454545454545454m, (decimal) r);
 
         r = d.Integer / null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r /= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Float / 1;
         Assert.Equal(1.1d, (double) r);
@@ -597,9 +597,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(0.5m, (decimal) r);
 
         r = d.Float / null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r /= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.Decimal / 1;
         Assert.Equal(1.1m, (decimal) r);
@@ -617,9 +617,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(0.5m, (decimal) r);
 
         r = d.Decimal / null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r /= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         r = d.BigInteger / 1.1d;
         Assert.Equal(100m, (decimal) r);
@@ -627,9 +627,9 @@ public class LinqDynamicTests : TestFixtureBase
         Assert.Equal(50m, (decimal) r);
 
         r = d.BigInteger / null;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
         r /= 2;
-        Assert.Equal(null, r.Value);
+        Assert.Null(r.Value);
 
         #endregion
     }

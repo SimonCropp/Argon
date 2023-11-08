@@ -123,7 +123,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         Assert.Equal(Currency.EUR, c);
 
         c = JsonConvert.TryDeserializeObject<Currency>("null", unionConverter);
-        Assert.Equal(null, c);
+        Assert.Null(c);
     }
 
     [Fact]
