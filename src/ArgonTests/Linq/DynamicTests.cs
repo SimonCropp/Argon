@@ -647,8 +647,8 @@ public class LinqDynamicTests : TestFixtureBase
             new JProperty("Bytes", new JValue("A string lol!"u8.ToArray())),
             new JProperty("Uri", new Uri("http://json.codeplex.com/")),
             new JProperty("Guid", new Guid("EA27FE1D-0D80-44F2-BF34-4654156FA7AF")),
-            new JProperty("TimeSpan", TimeSpan.FromDays(1))
-            , new JProperty("BigInteger", new BigInteger(100))
+            new JProperty("TimeSpan", TimeSpan.FromDays(1)),
+            new JProperty("BigInteger", new BigInteger(100))
         );
 
         dynamic d = o;
