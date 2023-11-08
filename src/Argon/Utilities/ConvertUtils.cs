@@ -289,7 +289,7 @@ static class ConvertUtils
         }
 
         // use Convert.ChangeType if both types are IConvertible
-        if (IsConvertible(initialValue.GetType()) && IsConvertible(targetType))
+        if (initialValue is IConvertible convertible && IsConvertible(targetType))
         {
             if (targetType.IsEnum)
             {
@@ -306,7 +306,7 @@ static class ConvertUtils
                 }
             }
 
-            value = System.Convert.ChangeType(initialValue, targetType, InvariantCulture);
+            value = convertible.ToType(targetType, InvariantCulture);
             return ConvertResult.Success;
         }
 
