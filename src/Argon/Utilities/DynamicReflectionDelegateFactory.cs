@@ -42,6 +42,8 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     static ConstructorInfo targetParameterCountExceptionConstructor = typeof(TargetParameterCountException).GetConstructor(Type.EmptyTypes)!;
 
+    static Type[] formatProviderType = {typeof(IFormatProvider)};
+
     static void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
     {
         var args = method.GetParameters();
@@ -144,7 +146,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
                 {
                     // for primitive types we need to handle type widening (e.g. short -> int)
                     var toParameterTypeMethod = typeof(IConvertible)
-                        .GetMethod($"To{parameterType.Name}", new[] {typeof(IFormatProvider)});
+                        .GetMethod($"To{parameterType.Name}", formatProviderType);
 
                     if (toParameterTypeMethod != null)
                     {
@@ -190,18 +192,18 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
             }
         }
 
+        Type returnType;
         if (method.IsConstructor)
         {
             generator.Emit(OpCodes.Newobj, (ConstructorInfo) method);
+            returnType = method.DeclaringType!;
         }
         else
         {
-            generator.CallMethod((MethodInfo) method);
+            var methodInfo = (MethodInfo) method;
+            generator.CallMethod(methodInfo);
+            returnType = methodInfo.ReturnType;
         }
-
-        var returnType = method.IsConstructor
-            ? method.DeclaringType!
-            : ((MethodInfo) method).ReturnType;
 
         if (returnType == typeof(void))
         {
@@ -283,16 +285,17 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Return();
     }
 
+    static Type[] objectArray = {typeof(object)};
+
     public override Func<T, object?> CreateGet<T>(FieldInfo field)
     {
         if (field.IsLiteral)
         {
             var constantValue = field.GetValue(null);
-            Func<T, object?> getter = _ => constantValue;
-            return getter;
+            return _ => constantValue;
         }
 
-        var method = CreateDynamicMethod($"Get{field.Name}", typeof(T), new[] {typeof(object)}, field.DeclaringType!);
+        var method = CreateDynamicMethod($"Get{field.Name}", typeof(T), objectArray, field.DeclaringType!);
         var generator = method.GetILGenerator();
 
         GenerateCreateGetFieldIL(field, generator);
