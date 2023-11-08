@@ -40,6 +40,8 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (MethodCall<T, object?>) dynamicMethod.CreateDelegate(typeof(MethodCall<T, object?>));
     }
 
+    static ConstructorInfo targetParameterCountExceptionConstructor = typeof(TargetParameterCountException).GetConstructor(Type.EmptyTypes)!;
+
     static void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
     {
         var args = method.GetParameters();
@@ -51,7 +53,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Emit(OpCodes.Ldlen);
         generator.Emit(OpCodes.Ldc_I4, args.Length);
         generator.Emit(OpCodes.Beq, argsOk);
-        generator.Emit(OpCodes.Newobj, typeof(TargetParameterCountException).GetConstructor(Type.EmptyTypes)!);
+        generator.Emit(OpCodes.Newobj, targetParameterCountExceptionConstructor);
         generator.Emit(OpCodes.Throw);
 
         generator.MarkLabel(argsOk);
