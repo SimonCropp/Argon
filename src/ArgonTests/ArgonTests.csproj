@@ -40,7 +40,7 @@
   </ItemGroup>
   
   <ItemGroup Condition="$(TargetFramework)=='net461' OR $(TargetFramework)=='net48'">
-    <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <Reference Include="System.Web" />
     <Reference Include="System.Data.Linq" /> 
