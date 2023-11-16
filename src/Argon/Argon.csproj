@@ -15,7 +15,7 @@
     <Using Include="System.Reflection.Emit" />
     <Using Include="System.Text.RegularExpressions" />
     <PackageReference Include="ProjectDefaults" Version="1.0.101" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
     <PackageReference Include="Polyfill" Version="1.32.1" PrivateAssets="all" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
   </ItemGroup>
