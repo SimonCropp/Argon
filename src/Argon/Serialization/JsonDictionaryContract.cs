@@ -203,7 +203,7 @@ public class JsonDictionaryContract : JsonContainerContract
         {
             genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType!, DictionaryValueType!);
 
-            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] {dictionaryDefinition!})!;
+            var genericWrapperConstructor = genericWrapperType.GetConstructor([dictionaryDefinition!])!;
             genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 

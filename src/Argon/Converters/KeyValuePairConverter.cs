@@ -21,7 +21,7 @@ public class KeyValuePairConverter :
         var keyType = genericArguments[0];
         var valueType = genericArguments[1];
 
-        return ReflectionObject.Create(type, type.GetConstructor(new[] { keyType, valueType }), keyName, valueName);
+        return ReflectionObject.Create(type, type.GetConstructor([ keyType, valueType ]), keyName, valueName);
     }
 
     /// <summary>

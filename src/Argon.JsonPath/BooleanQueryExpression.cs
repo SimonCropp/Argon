@@ -10,7 +10,7 @@ class BooleanQueryExpression(QueryOperator @operator, object left, object? right
     {
         if (o is JToken resultToken)
         {
-            return new[] {resultToken};
+            return [resultToken];
         }
 
         if (o is List<PathFilter> pathFilters)

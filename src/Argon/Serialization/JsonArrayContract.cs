@@ -229,7 +229,7 @@ public class JsonArrayContract : JsonContainerContract
                 constructorArgument = genericCollectionDefinition;
             }
 
-            var genericWrapperConstructor = genericWrapperType.GetConstructor(new[] {constructorArgument})!;
+            var genericWrapperConstructor = genericWrapperType.GetConstructor([constructorArgument])!;
             genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 

@@ -8,5 +8,5 @@ class RootFilter :
     }
 
     public override IEnumerable<JToken> ExecuteFilter(JToken root, IEnumerable<JToken> current, JsonSelectSettings settings) =>
-        new[] {root};
+        [root];
 }

@@ -22,7 +22,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override ObjectConstructor CreateParameterizedConstructor(MethodBase method)
     {
-        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] {typeof(object[])}, method.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), [typeof(object[])], method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 0);
@@ -32,7 +32,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
     {
-        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), new[] {typeof(object), typeof(object[])}, method.DeclaringType!);
+        var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), [typeof(object), typeof(object[])], method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
 
         GenerateCreateMethodCallIL(method, generator, 1);
@@ -42,7 +42,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     static ConstructorInfo targetParameterCountExceptionConstructor = typeof(TargetParameterCountException).GetConstructor(Type.EmptyTypes)!;
 
-    static Type[] formatProviderType = {typeof(IFormatProvider)};
+    static Type[] formatProviderType = [typeof(IFormatProvider)];
 
     static void GenerateCreateMethodCallIL(MethodBase method, ILGenerator generator, int argsIndex)
     {
@@ -259,7 +259,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Func<T, object?> CreateGet<T>(PropertyInfo property)
     {
-        var method = CreateDynamicMethod($"Get{property.Name}", typeof(object), new[] {typeof(T)}, property.DeclaringType!);
+        var method = CreateDynamicMethod($"Get{property.Name}", typeof(object), [typeof(T)], property.DeclaringType!);
         var generator = method.GetILGenerator();
 
         GenerateCreateGetPropertyIL(property, generator);
@@ -285,7 +285,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Return();
     }
 
-    static Type[] objectArray = {typeof(object)};
+    static Type[] objectArray = [typeof(object)];
 
     public override Func<T, object?> CreateGet<T>(FieldInfo field)
     {
@@ -321,7 +321,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(FieldInfo field)
     {
-        var method = CreateDynamicMethod($"Set{field.Name}", null, new[] {typeof(T), typeof(object)}, field.DeclaringType!);
+        var method = CreateDynamicMethod($"Set{field.Name}", null, [typeof(T), typeof(object)], field.DeclaringType!);
         var generator = method.GetILGenerator();
 
         GenerateCreateSetFieldIL(field, generator);
@@ -353,7 +353,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     public override Action<T, object?> CreateSet<T>(PropertyInfo property)
     {
-        var method = CreateDynamicMethod($"Set{property.Name}", null, new[] {typeof(T), typeof(object)}, property.DeclaringType!);
+        var method = CreateDynamicMethod($"Set{property.Name}", null, [typeof(T), typeof(object)], property.DeclaringType!);
         var generator = method.GetILGenerator();
 
         GenerateCreateSetPropertyIL(property, generator);

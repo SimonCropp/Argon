@@ -28,13 +28,13 @@ public abstract partial class JsonWriter : IDisposable
     {
         //                                 Start               PropertyName       ObjectStart        Object          ArrayStart         Array              Closed       Error
         //
-        /* None                   */new[] {State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error},
-        /* StartObject            */new[] {State.ObjectStart, State.ObjectStart, State.Error, State.Error, State.ObjectStart, State.ObjectStart, State.Error, State.Error},
-        /* StartArray             */new[] {State.ArrayStart, State.ArrayStart, State.Error, State.Error, State.ArrayStart, State.ArrayStart, State.Error, State.Error},
-        /* Property               */new[] {State.Property, State.Error, State.Property, State.Property, State.Error, State.Error, State.Error, State.Error},
-        /* Comment                */new[] {State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error},
-        /* Raw                    */new[] {State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error},
-        /* Value (will be copied) */new[] {State.Start, State.Object, State.Error, State.Error, State.Array, State.Array, State.Error, State.Error}
+        /* None                   */[State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error],
+        /* StartObject            */[State.ObjectStart, State.ObjectStart, State.Error, State.Error, State.ObjectStart, State.ObjectStart, State.Error, State.Error],
+        /* StartArray             */[State.ArrayStart, State.ArrayStart, State.Error, State.Error, State.ArrayStart, State.ArrayStart, State.Error, State.Error],
+        /* Property               */[State.Property, State.Error, State.Property, State.Property, State.Error, State.Error, State.Error, State.Error],
+        /* Comment                */[State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error],
+        /* Raw                    */[State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error],
+        /* Value (will be copied) */[State.Start, State.Object, State.Error, State.Error, State.Array, State.Array, State.Error, State.Error]
     };
 
     internal static State[][] BuildStateArray()

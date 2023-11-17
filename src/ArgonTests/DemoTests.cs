@@ -248,15 +248,15 @@ public class DemoTests : TestFixtureBase
             Name = "Susan Supervisor"
         };
 
-        mike.Reportees = new[]
-        {
+        mike.Reportees =
+        [
             arnie,
             susan
-        };
-        susan.Reportees = new[]
-        {
+        ];
+        susan.Reportees =
+        [
             arnie
-        };
+        ];
 
         var json = JsonConvert.SerializeObject(mike, Formatting.Indented);
         // {
@@ -314,15 +314,15 @@ public class DemoTests : TestFixtureBase
             Name = "Susan Supervisor"
         };
 
-        mike.Reportees = new[]
-        {
+        mike.Reportees =
+        [
             arnie,
             susan
-        };
-        susan.Reportees = new[]
-        {
+        ];
+        susan.Reportees =
+        [
             arnie
-        };
+        ];
 
         var json = JsonConvert.SerializeObject(
             mike,

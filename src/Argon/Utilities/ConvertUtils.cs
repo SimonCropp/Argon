@@ -54,7 +54,7 @@ static class ConvertUtils
         };
 
     static readonly TypeInformation[] PrimitiveTypeCodes =
-    {
+    [
         // need all of these. lookup against the index with TypeCode value
         new(typeof(object), PrimitiveTypeCode.Empty),
         new(typeof(object), PrimitiveTypeCode.Object),
@@ -75,7 +75,7 @@ static class ConvertUtils
         new(typeof(DateTime), PrimitiveTypeCode.DateTime),
         new(typeof(object), PrimitiveTypeCode.Empty), // no 17 in TypeCode for some reason
         new(typeof(string), PrimitiveTypeCode.String)
-    };
+    ];
 
     public static PrimitiveTypeCode GetTypeCode(Type type) =>
         GetTypeCode(type, out _);

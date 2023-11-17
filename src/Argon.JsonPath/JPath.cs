@@ -4,7 +4,7 @@
 
 class JPath
 {
-    static readonly char[] floatCharacters = {'.', 'E', 'e'};
+    static readonly char[] floatCharacters = ['.', 'E', 'e'];
 
     readonly string expression;
     public List<PathFilter> Filters { get; }
@@ -842,7 +842,7 @@ class JPath
 
     internal static IEnumerable<JToken> Evaluate(List<PathFilter> filters, JToken root, JToken t, JsonSelectSettings settings)
     {
-        IEnumerable<JToken> current = new[] {t};
+        IEnumerable<JToken> current = [t];
         foreach (var filter in filters)
         {
             current = filter.ExecuteFilter(root, current, settings);

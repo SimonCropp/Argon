@@ -170,16 +170,16 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
         });
 
     static Expression[] GetArgArray(DynamicMetaObject[] args) =>
-        new[] {Expression.NewArrayInit(typeof(object), GetArgs(args))};
+        [Expression.NewArrayInit(typeof(object), GetArgs(args))];
 
     static Expression[] GetArgArray(DynamicMetaObject[] args, DynamicMetaObject value)
     {
         var exp = value.Expression;
-        return new[]
-        {
+        return
+        [
             Expression.NewArrayInit(typeof(object), GetArgs(args)),
             exp.Type.IsValueType ? Expression.Convert(exp, typeof(object)) : exp
-        };
+        ];
     }
 
     static ConstantExpression Constant(DynamicMetaObjectBinder binder)
@@ -245,7 +245,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
         var callDynamic = new DynamicMetaObject(
             Expression.Block(
-                new[] {result},
+                [result],
                 Expression.Condition(
                     Expression.Call(
                         Expression.Constant(proxy),
@@ -296,7 +296,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
 
         return new(
             Expression.Block(
-                new[] {result},
+                [result],
                 Expression.Condition(
                     Expression.Call(
                         Expression.Constant(proxy),
