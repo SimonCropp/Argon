@@ -837,31 +837,31 @@ public class LinqToJsonTest : TestFixtureBase
     }
 
     static List<Post> GetPosts() =>
+    [
         new()
         {
-            new()
+            Title = "LINQ to JSON beta",
+            Description = "Announcing LINQ to JSON",
+            Link = "http://james.newtonking.com/projects/json-net.aspx",
+            Categories = new List<string>
             {
-                Title = "LINQ to JSON beta",
-                Description = "Announcing LINQ to JSON",
-                Link = "http://james.newtonking.com/projects/json-net.aspx",
-                Categories = new List<string>
-                {
-                    "Json.NET",
-                    "LINQ"
-                }
-            },
-            new()
-            {
-                Title = "Json.NET 1.3 + New license + Now on CodePlex",
-                Description = "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
-                Link = "http://james.newtonking.com/projects/json-net.aspx",
-                Categories = new List<string>
-                {
-                    "Json.NET",
-                    "CodePlex"
-                }
+                "Json.NET",
+                "LINQ"
             }
-        };
+        },
+
+        new()
+        {
+            Title = "Json.NET 1.3 + New license + Now on CodePlex",
+            Description = "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+            Link = "http://james.newtonking.com/projects/json-net.aspx",
+            Categories = new List<string>
+            {
+                "Json.NET",
+                "CodePlex"
+            }
+        }
+    ];
 
     [Fact]
     public void FromObjectExample()

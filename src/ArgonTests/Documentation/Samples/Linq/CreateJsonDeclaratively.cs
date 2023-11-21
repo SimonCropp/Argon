@@ -17,19 +17,18 @@ public class CreateJsonDeclaratively : TestFixtureBase
     #endregion
 
     static List<Post> GetPosts() =>
+    [
         new()
         {
-            new()
+            Title = "Title!",
+            Categories = new List<string>
             {
-                Title = "Title!",
-                Categories = new List<string>
-                {
-                    "Category1"
-                },
-                Description = "Description!",
-                Link = "Link!"
-            }
-        };
+                "Category1"
+            },
+            Description = "Description!",
+            Link = "Link!"
+        }
+    ];
 
     [Fact]
     public void Example()

@@ -71,5 +71,5 @@ Console.WriteLine(rss.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L37-L91' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L36-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelyusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -447,7 +447,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         var xmlNodeConverter = new XmlNodeConverter {DeserializeRootElementName = "object"};
         var settings = new JsonSerializerSettings
         {
-            Converters = new () {xmlNodeConverter}
+            Converters = [xmlNodeConverter]
         };
         var serializer = JsonSerializer.CreateDefault(settings);
         var d = json.ToObject<XDocument>(serializer);
@@ -3435,7 +3435,13 @@ public class XmlNodeConverterTest : TestFixtureBase
 
         var serializer = JsonSerializer.Create(new()
         {
-            Converters = new(new[] {new XmlNodeConverter()})
+            Converters =
+            [
+                ..new[]
+                {
+                    new XmlNodeConverter()
+                }
+            ]
         });
 
         var json = new StringBuilder(1024);

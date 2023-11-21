@@ -13,10 +13,7 @@ public class Issue2504 : TestFixtureBase
             jsontext,
             new JsonSerializerSettings
             {
-                Converters = new()
-                {
-                    new TestConverter()
-                },
+                Converters = [new TestConverter()],
                 MaxDepth = 150
             });
 
@@ -35,10 +32,7 @@ public class Issue2504 : TestFixtureBase
                 jsontext,
                 new JsonSerializerSettings
                 {
-                    Converters = new()
-                    {
-                        new TestConverter()
-                    },
+                    Converters = [new TestConverter()],
                     MaxDepth = 100
                 }),
             expectedMessage);

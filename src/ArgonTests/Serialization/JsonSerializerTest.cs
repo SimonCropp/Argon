@@ -2840,17 +2840,18 @@ public class JsonSerializerTest : TestFixtureBase
         var content = new Content
         {
             Text = "Blah, blah, blah",
-            Children = new()
-            {
+            Children =
+            [
                 new()
                 {
                     Text = "First"
                 },
+
                 new()
                 {
                     Text = "Second"
                 }
-            }
+            ]
         };
 
         var json = JsonConvert.SerializeObject(content, Formatting.Indented);
@@ -6858,10 +6859,7 @@ public class JsonSerializerTest : TestFixtureBase
         // If dynamic type handling is enabled, case 1 and 3 work fine
         var options = new JsonSerializerSettings
         {
-            Converters = new()
-            {
-                new TypeConverterJsonConverter()
-            }
+            Converters = [new TypeConverterJsonConverter()]
             //TypeNameHandling = TypeNameHandling.All
         };
 

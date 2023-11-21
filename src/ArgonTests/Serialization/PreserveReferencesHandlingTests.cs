@@ -249,8 +249,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new() {null});
-        circularList.Add(new() {new() {circularList}});
+        circularList.Add([null]);
+        circularList.Add([[circularList]]);
 
         XUnitAssert.Throws<JsonSerializationException>(
             () => JsonConvert.SerializeObject(circularList, Formatting.Indented),
@@ -262,8 +262,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new() {null});
-        circularList.Add(new() {new() {circularList}});
+        circularList.Add([null]);
+        circularList.Add([[circularList]]);
 
         var json = JsonConvert.SerializeObject(circularList,
             Formatting.Indented,
@@ -289,8 +289,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var circularList = new CircularList();
         circularList.Add(null);
-        circularList.Add(new() {null});
-        circularList.Add(new() {new() {circularList}});
+        circularList.Add([null]);
+        circularList.Add([[circularList]]);
 
         var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
             new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All});

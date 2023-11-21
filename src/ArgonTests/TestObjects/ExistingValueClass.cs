@@ -14,9 +14,5 @@ public class ExistingValueClass
             }
         };
 
-    public List<string> List { get; set; } =
-        new()
-        {
-            "existing"
-        };
+    public List<string> List { get; set; } = ["existing"];
 }

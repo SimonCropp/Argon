@@ -9,33 +9,55 @@ public class QueryExpressionTests : TestFixtureBase
     {
         var compositeExpression = new CompositeExpression(QueryOperator.And)
         {
-            Expressions = new()
-            {
-                new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> {new FieldFilter("FirstName")}, null),
-                new BooleanQueryExpression(QueryOperator.Exists, new List<PathFilter> {new FieldFilter("LastName")}, null)
-            }
+            Expressions =
+            [
+                new BooleanQueryExpression(QueryOperator.Exists,
+                    new List<PathFilter>
+                    {
+                        new FieldFilter("FirstName")
+                    },
+                    null),
+                new BooleanQueryExpression(QueryOperator.Exists,
+                    new List<PathFilter>
+                    {
+                        new FieldFilter("LastName")
+                    },
+                    null)
+            ]
         };
 
         var o1 = new JObject
         {
-            {"Title", "Title!"},
-            {"FirstName", "FirstName!"},
-            {"LastName", "LastName!"}
+            {
+                "Title", "Title!"
+            },
+            {
+                "FirstName", "FirstName!"
+            },
+            {
+                "LastName", "LastName!"
+            }
         };
 
         Assert.True(compositeExpression.IsMatch(o1, o1));
 
         var o2 = new JObject
         {
-            {"Title", "Title!"},
-            {"FirstName", "FirstName!"}
+            {
+                "Title", "Title!"
+            },
+            {
+                "FirstName", "FirstName!"
+            }
         };
 
         Assert.False(compositeExpression.IsMatch(o2, o2));
 
         var o3 = new JObject
         {
-            {"Title", "Title!"}
+            {
+                "Title", "Title!"
+            }
         };
 
         Assert.False(compositeExpression.IsMatch(o3, o3));

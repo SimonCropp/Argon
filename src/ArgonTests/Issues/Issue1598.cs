@@ -9,13 +9,13 @@ public class Issue1598 : TestFixtureBase
     {
         var activities = new Activities
         {
-            List = new()
-            {
+            List =
+            [
                 new()
                 {
                     Name = "An activity"
                 }
-            }
+            ]
         };
 
         var json = JsonConvert.SerializeObject(activities, Formatting.Indented);
@@ -37,13 +37,13 @@ public class Issue1598 : TestFixtureBase
     {
         var activities = new ActivitiesSubClass
         {
-            List = new()
-            {
+            List =
+            [
                 new()
                 {
                     Name = "An activity"
                 }
-            }
+            ]
         };
 
         var json = JsonConvert.SerializeObject(activities, Formatting.Indented);

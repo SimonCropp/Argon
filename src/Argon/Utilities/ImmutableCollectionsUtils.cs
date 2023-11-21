@@ -39,8 +39,8 @@ static class ImmutableCollectionsUtils
     const string ImmutableHashSetTypeName = "System.Collections.Immutable.ImmutableHashSet";
     const string ImmutableHashSetGenericTypeName = "System.Collections.Immutable.ImmutableHashSet`1";
 
-    static List<ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions = new()
-    {
+    static List<ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions =
+    [
         new(ImmutableListGenericInterfaceTypeName, ImmutableListGenericTypeName, ImmutableListTypeName),
         new(ImmutableListGenericTypeName, ImmutableListGenericTypeName, ImmutableListTypeName),
         new(ImmutableQueueGenericInterfaceTypeName, ImmutableQueueGenericTypeName, ImmutableQueueTypeName),
@@ -51,7 +51,7 @@ static class ImmutableCollectionsUtils
         new(ImmutableSortedSetGenericTypeName, ImmutableSortedSetGenericTypeName, ImmutableSortedSetTypeName),
         new(ImmutableHashSetGenericTypeName, ImmutableHashSetGenericTypeName, ImmutableHashSetTypeName),
         new(ImmutableArrayGenericTypeName, ImmutableArrayGenericTypeName, ImmutableArrayTypeName)
-    };
+    ];
 
     const string ImmutableDictionaryGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableDictionary`2";
 
@@ -61,12 +61,12 @@ static class ImmutableCollectionsUtils
     const string ImmutableSortedDictionaryTypeName = "System.Collections.Immutable.ImmutableSortedDictionary";
     const string ImmutableSortedDictionaryGenericTypeName = "System.Collections.Immutable.ImmutableSortedDictionary`2";
 
-    static List<ImmutableCollectionTypeInfo> dictionaryContractImmutableCollectionDefinitions = new()
-    {
+    static List<ImmutableCollectionTypeInfo> dictionaryContractImmutableCollectionDefinitions =
+    [
         new(ImmutableDictionaryGenericInterfaceTypeName, ImmutableDictionaryGenericTypeName, ImmutableDictionaryTypeName),
         new(ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryTypeName),
         new(ImmutableDictionaryGenericTypeName, ImmutableDictionaryGenericTypeName, ImmutableDictionaryTypeName)
-    };
+    ];
 
     internal static bool TryBuildImmutableForArrayContract(Type underlyingType, Type collectionItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {

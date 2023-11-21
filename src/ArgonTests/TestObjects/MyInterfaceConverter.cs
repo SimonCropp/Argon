@@ -8,11 +8,11 @@ namespace TestObjects;
 
 class MyInterfaceConverter : TypeConverter
 {
-    readonly List<IMyInterface> _writers = new()
-    {
+    readonly List<IMyInterface> _writers =
+    [
         new ConsoleWriter(),
         new TraceWriter()
-    };
+    ];
 
     public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) =>
         destinationType == typeof(string);
@@ -22,6 +22,7 @@ class MyInterfaceConverter : TypeConverter
 
     public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
     {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (value == null)
         {
             return null;

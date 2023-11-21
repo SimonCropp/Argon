@@ -16,7 +16,13 @@ public class Issue2082
             {
                 NamingStrategy = namingStrategy
             },
-            Converters = new() { new StringEnumConverter { NamingStrategy = namingStrategy } }
+            Converters =
+            [
+                new StringEnumConverter
+                {
+                    NamingStrategy = namingStrategy
+                }
+            ]
         });
 
         Assert.Equal("""{"value":"UPPER_CASE_NAME"}""", json);

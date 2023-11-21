@@ -1637,10 +1637,7 @@ public class JObjectTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings
         {
-            Converters = new()
-            {
-                new FooJsonConverter()
-            },
+            Converters = [new FooJsonConverter()],
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
