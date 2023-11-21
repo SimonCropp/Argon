@@ -636,7 +636,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         var hasWrittenMetadataObject = WriteStartArray(writer, values, contract, member, collectionContract, containerProperty);
 
-        SerializeMultidimensionalArray(writer, values, contract, member, writer.Top, Array.Empty<int>());
+        SerializeMultidimensionalArray(writer, values, contract, member, writer.Top, []);
 
         if (hasWrittenMetadataObject)
         {

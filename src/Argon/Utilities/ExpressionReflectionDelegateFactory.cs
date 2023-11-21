@@ -48,8 +48,8 @@ class ExpressionReflectionDelegateFactory : ReflectionDelegateFactory
         IList<ByRefParameter> refParameterMap;
         if (parametersInfo.Length == 0)
         {
-            argsExpression = Array.Empty<Expression>();
-            refParameterMap = Array.Empty<ByRefParameter>();
+            argsExpression = [];
+            refParameterMap = [];
         }
         else
         {

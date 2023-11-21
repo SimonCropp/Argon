@@ -18,27 +18,27 @@ public abstract partial class JToken :
     int? linePosition;
 
     static readonly JTokenType[] BooleanTypes =
-    {
+    [
         JTokenType.Integer,
         JTokenType.Float,
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw,
         JTokenType.Boolean
-    };
+    ];
 
     static readonly JTokenType[] NumberTypes =
-    {
+    [
         JTokenType.Integer,
         JTokenType.Float,
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw,
         JTokenType.Boolean
-    };
+    ];
 
     static readonly JTokenType[] BigIntegerTypes =
-    {
+    [
         JTokenType.Integer,
         JTokenType.Float,
         JTokenType.String,
@@ -46,10 +46,10 @@ public abstract partial class JToken :
         JTokenType.Raw,
         JTokenType.Boolean,
         JTokenType.Bytes
-    };
+    ];
 
     static readonly JTokenType[] StringTypes =
-    {
+    [
         JTokenType.Date,
         JTokenType.Integer,
         JTokenType.Float,
@@ -61,58 +61,58 @@ public abstract partial class JToken :
         JTokenType.Guid,
         JTokenType.TimeSpan,
         JTokenType.Uri
-    };
+    ];
 
     static readonly JTokenType[] GuidTypes =
-    {
+    [
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw,
         JTokenType.Guid,
         JTokenType.Bytes
-    };
+    ];
 
     static readonly JTokenType[] TimeSpanTypes =
-    {
+    [
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw,
         JTokenType.TimeSpan
-    };
+    ];
 
     static readonly JTokenType[] UriTypes =
-    {
+    [
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw,
         JTokenType.Uri
-    };
+    ];
 
     static readonly JTokenType[] CharTypes =
-    {
+    [
         JTokenType.Integer,
         JTokenType.Float,
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw
-    };
+    ];
 
     static readonly JTokenType[] DateTimeTypes =
-    {
+    [
         JTokenType.Date,
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw
-    };
+    ];
 
     static readonly JTokenType[] BytesTypes =
-    {
+    [
         JTokenType.Bytes,
         JTokenType.String,
         JTokenType.Comment,
         JTokenType.Raw,
         JTokenType.Integer
-    };
+    ];
 
     /// <summary>
     /// Gets a comparer that can compare two tokens for value equality.

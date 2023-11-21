@@ -145,7 +145,7 @@ static class ReflectionUtils
             bindingFlags |= BindingFlags.NonPublic;
         }
 
-        return type.GetConstructor(bindingFlags, null, Array.Empty<Type>(), null);
+        return type.GetConstructor(bindingFlags, null, [], null);
     }
 
     public static bool IsNullable(this Type type) =>

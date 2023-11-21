@@ -4,8 +4,7 @@
 
 class DynamicProxy<T>
 {
-    public virtual IEnumerable<string> GetDynamicMemberNames(T instance) =>
-        Array.Empty<string>();
+    public virtual IEnumerable<string> GetDynamicMemberNames(T instance) => [];
 
     public virtual bool TryBinaryOperation(T instance, BinaryOperationBinder binder, object arg, out object? result)
     {

@@ -89,7 +89,7 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
                 byte[] data;
                 if (stringReference.Length == 0)
                 {
-                    data = Array.Empty<byte>();
+                    data = [];
                 }
                 else if (stringReference.Length == 36 &&
                          ConvertUtils.TryConvertGuid(stringReference.ToString(), out var g))

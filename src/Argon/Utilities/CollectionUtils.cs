@@ -171,7 +171,7 @@ static class CollectionUtils
         }
 
         var multidimensionalArray = Array.CreateInstance(type, dimensions.ToArray());
-        CopyFromJaggedToMultidimensionalArray(values, multidimensionalArray, Array.Empty<int>());
+        CopyFromJaggedToMultidimensionalArray(values, multidimensionalArray, []);
 
         return multidimensionalArray;
     }

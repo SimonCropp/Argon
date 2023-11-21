@@ -445,7 +445,7 @@ public abstract partial class JsonReader : IDisposable
 
                 if (s.Length == 0)
                 {
-                    data = Array.Empty<byte>();
+                    data = [];
                 }
                 else if (ConvertUtils.TryConvertGuid(s, out var g1))
                 {

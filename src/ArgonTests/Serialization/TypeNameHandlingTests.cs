@@ -2303,10 +2303,12 @@ public class TypeNameHandlingTests : TestFixtureBase
         var dictionary = new Dictionary<int, HashSet<string>>
         {
             {
-                1, new HashSet<string>(new[]
-                {
-                    "test"
-                })
+                1, [
+                    ..new[]
+                    {
+                        "test"
+                    }
+                ]
             },
         };
 
@@ -2329,10 +2331,12 @@ public class TypeNameHandlingTests : TestFixtureBase
         var dictionary = new Dictionary<int, HashSet<string>>
         {
             {
-                1, new HashSet<string>(new[]
-                {
-                    "test"
-                })
+                1, [
+                    ..new[]
+                    {
+                        "test"
+                    }
+                ]
             },
         };
 

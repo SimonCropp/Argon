@@ -102,7 +102,7 @@ class NoThrowGetBinderMember(GetMemberBinder innerBinder) :
 {
     public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
     {
-        var retMetaObject = innerBinder.Bind(target, Array.Empty<DynamicMetaObject>());
+        var retMetaObject = innerBinder.Bind(target, []);
 
         var noThrowVisitor = new NoThrowExpressionVisitor();
         var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
