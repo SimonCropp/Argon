@@ -9,7 +9,7 @@ namespace Argon;
 public partial class JsonTextReader
 {
     // It's not safe to perform the async methods here in a derived class as if the synchronous equivalent
-    // has been overriden then the asychronous method will no longer be doing the same operation
+    // has been overriden then the asynchronous method will no longer be doing the same operation
     readonly bool safeAsync;
 
     /// <summary>
