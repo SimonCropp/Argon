@@ -614,7 +614,8 @@ public class DefaultContractResolver : IContractResolver
     {
         var typeCode = ConvertUtils.GetTypeCode(type);
 
-        return typeCode != PrimitiveTypeCode.Empty && typeCode != PrimitiveTypeCode.Object;
+        return typeCode != PrimitiveTypeCode.Empty &&
+               typeCode != PrimitiveTypeCode.Object;
     }
 
     static bool IsIConvertible(Type t)
