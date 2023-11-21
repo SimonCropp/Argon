@@ -55,7 +55,9 @@ public class DynamicConcreteTests : TestFixtureBase
     {
         var json = """{Name:"Name!"}""";
 
-        var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(json, new JsonSerializerSettings
+        var c = JsonConvert.DeserializeObject<IInterfaceWithNoConcrete>(
+            json,
+            new JsonSerializerSettings
         {
             ContractResolver = new DynamicConcreteContractResolver()
         });
@@ -197,8 +199,7 @@ public static class DynamicConcrete
             }
             else if (methodInfo.ReturnType.IsValueType || methodInfo.ReturnType.IsEnum)
             {
-                var getMethod = typeof(Activator).GetMethod("CreateInstance",
-                    new[] {typeof(Type)});
+                var getMethod = typeof(Activator).GetMethod("CreateInstance", [typeof(Type)]);
                 var lb = methodILGen.DeclareLocal(methodInfo.ReturnType);
                 if (lb.LocalType != null)
                 {
@@ -240,9 +241,11 @@ public static class DynamicConcrete
         getIl.Emit(OpCodes.Ret);
 
         //Setter
-        var backingSet = typeBuilder.DefineMethod($"set_{propertyName}", MethodAttributes.Public |
-                                                                         MethodAttributes.SpecialName | MethodAttributes.Virtual |
-                                                                         MethodAttributes.HideBySig, null, new[] {propertyType});
+        var backingSet = typeBuilder.DefineMethod(
+            $"set_{propertyName}",
+            MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.Virtual | MethodAttributes.HideBySig,
+            null,
+            [propertyType]);
 
         var setIl = backingSet.GetILGenerator();
 

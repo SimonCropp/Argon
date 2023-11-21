@@ -869,10 +869,7 @@ public class LinqToJsonTest : TestFixtureBase
         var p = new Post
         {
             Title = "How to use FromObject",
-            Categories = new[]
-            {
-                "LINQ to JSON"
-            }
+            Categories = ["LINQ to JSON"]
         };
 
         // serialize Post to JSON then parse JSON – SLOW!
@@ -1031,34 +1028,34 @@ public class LinqToJsonTest : TestFixtureBase
     public void BasicQuerying()
     {
         var json = """
-            {
-            "channel": {
-              "title": "James Newton-King",
-              "link": "http://james.newtonking.com",
-              "description": "James Newton-King's blog.",
-              "item": [
-                {
-                  "title": "Json.NET 1.3 + New license + Now on CodePlex",
-                  "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
-                  "link": "http://james.newtonking.com/projects/json-net.aspx",
-                  "category": [
-                    "Json.NET",
-                    "CodePlex"
-                  ]
-                },
-                {
-                  "title": "LINQ to JSON beta",
-                  "description": "Announcing LINQ to JSON",
-                  "link": "http://james.newtonking.com/projects/json-net.aspx",
-                  "category": [
-                    "Json.NET",
-                    "LINQ"
-                  ]
-                }
-              ]
-            }
-            }
-            """;
+                   {
+                   "channel": {
+                     "title": "James Newton-King",
+                     "link": "http://james.newtonking.com",
+                     "description": "James Newton-King's blog.",
+                     "item": [
+                       {
+                         "title": "Json.NET 1.3 + New license + Now on CodePlex",
+                         "description": "Announcing the release of Json.NET 1.3, the MIT license and being available on CodePlex",
+                         "link": "http://james.newtonking.com/projects/json-net.aspx",
+                         "category": [
+                           "Json.NET",
+                           "CodePlex"
+                         ]
+                       },
+                       {
+                         "title": "LINQ to JSON beta",
+                         "description": "Announcing LINQ to JSON",
+                         "link": "http://james.newtonking.com/projects/json-net.aspx",
+                         "category": [
+                           "Json.NET",
+                           "LINQ"
+                         ]
+                       }
+                     ]
+                   }
+                   }
+                   """;
 
         var o = JObject.Parse(json);
 
@@ -1072,11 +1069,13 @@ public class LinqToJsonTest : TestFixtureBase
 
         Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", (string) o["channel"]["item"][0]["title"]);
 
-        Assert.Equal(new[]
-        {
-            "Json.NET 1.3 + New license + Now on CodePlex",
-            "LINQ to JSON beta"
-        }, o["channel"]["item"].Children().Values<string>("title").ToArray());
+        Assert.Equal(
+            new[]
+            {
+                "Json.NET 1.3 + New license + Now on CodePlex",
+                "LINQ to JSON beta"
+            },
+            o["channel"]["item"].Children().Values<string>("title").ToArray());
     }
 
     [Fact]
@@ -1329,8 +1328,8 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void CovariantIJEnumerable()
     {
-        IEnumerable<JObject> o = new[]
-        {
+        IEnumerable<JObject> o =
+        [
             JObject.FromObject(new
             {
                 First = 1,
@@ -1341,7 +1340,7 @@ public class LinqToJsonTest : TestFixtureBase
                 First = 1,
                 Second = 2
             })
-        };
+        ];
 
         IJEnumerable<JToken> values = o.Properties();
         Assert.Equal(4, values.Count());
@@ -1419,7 +1418,8 @@ public class LinqToJsonTest : TestFixtureBase
         var o = JArray.Parse(json);
 
         Assert.Equal(4, o.Children()["item"].Children()["title"].Count());
-        Assert.Equal(new[]
+        Assert.Equal(
+            new[]
             {
                 "Json.NET 1.3 + New license + Now on CodePlex",
                 "LINQ to JSON beta",

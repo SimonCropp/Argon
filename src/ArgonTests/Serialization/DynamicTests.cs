@@ -312,7 +312,7 @@ public class TestDynamicObject : DynamicObject
     internal Dictionary<string, object> Members { get; } = new();
 
     public override IEnumerable<string> GetDynamicMemberNames() =>
-        Members.Keys.Union(new[] {"Int", "ChildObject"});
+        Members.Keys.Union(["Int", "ChildObject"]);
 
     public override bool TryConvert(ConvertBinder binder, out object result)
     {

@@ -26,7 +26,7 @@ public class SerializationTests :
             Name = "Apple",
             ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new[] {"Small", "Medium", "Large"}
+            Sizes = ["Small", "Medium", "Large"]
         };
 
         var output = JsonConvert.SerializeObject(product);
@@ -435,7 +435,7 @@ public class SerializationTests :
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[] {"Small", "Medium", "Large"}
+            Sizes = ["Small", "Medium", "Large"]
         };
 
         var json =

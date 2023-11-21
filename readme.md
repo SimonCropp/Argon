@@ -21,7 +21,7 @@ var product = new Product
 {
     Name = "Apple",
     Expiry = new(2008, 12, 28),
-    Sizes = new[] {"Small"}
+    Sizes = ["Small"]
 };
 
 var json = JsonConvert.SerializeObject(product);

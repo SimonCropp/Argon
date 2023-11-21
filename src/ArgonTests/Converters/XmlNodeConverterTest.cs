@@ -2301,7 +2301,7 @@ public class XmlNodeConverterTest : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new(2008, 12, 28, 0, 0, 0, DateTimeKind.Utc),
             Price = 3.99M,
-            Sizes = new[] {"Small"}
+            Sizes = ["Small"]
         };
 
         var output = JsonConvert.SerializeObject(product, new IsoDateTimeConverter());

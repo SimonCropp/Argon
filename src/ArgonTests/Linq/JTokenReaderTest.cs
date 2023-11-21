@@ -353,13 +353,13 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var bytes = new HasBytes
         {
-            Bytes = new byte[]
-            {
+            Bytes =
+            [
                 1,
                 2,
                 3,
                 4
-            }
+            ]
         };
         var json = JsonConvert.SerializeObject(bytes);
 
