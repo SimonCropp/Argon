@@ -94,16 +94,12 @@ static class ConvertUtils
             return GetTypeCode(Enum.GetUnderlyingType(type));
         }
 
-        // performance?
-        if (type.IsNullableType())
+        var nonNullable = Nullable.GetUnderlyingType(type);
+        if (nonNullable is {IsEnum: true})
         {
-            var nonNullable = Nullable.GetUnderlyingType(type)!;
-            if (nonNullable.IsEnum)
-            {
-                var nullableUnderlyingType = typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(nonNullable));
-                isEnum = true;
-                return GetTypeCode(nullableUnderlyingType);
-            }
+            var nullableUnderlyingType = typeof(Nullable<>).MakeGenericType(Enum.GetUnderlyingType(nonNullable));
+            isEnum = true;
+            return GetTypeCode(nullableUnderlyingType);
         }
 
         isEnum = false;
