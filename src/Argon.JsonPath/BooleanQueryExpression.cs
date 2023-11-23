@@ -18,7 +18,7 @@ class BooleanQueryExpression(QueryOperator @operator, object left, object? right
             return JPath.Evaluate(pathFilters, root, t, JTokenExtensions.DefaultSettings);
         }
 
-        return Array.Empty<JToken>();
+        return [];
     }
 
     public override bool IsMatch(JToken root, JToken t, JsonSelectSettings settings)

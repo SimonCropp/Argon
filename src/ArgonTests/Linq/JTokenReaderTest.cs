@@ -387,7 +387,7 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var bytes = new HasBytes
         {
-            Bytes = Array.Empty<byte>()
+            Bytes = []
         };
         var json = JsonConvert.SerializeObject(bytes);
 
