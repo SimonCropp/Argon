@@ -1469,13 +1469,13 @@ public class JPathExecuteTests : TestFixtureBase
             """);
 
         // just to verify expected behavior hasn't changed
-        var sanity1 = o.SelectTokens("Values[?(@.Coercible == '1')].Name").Select(x => (string) x);
-        var sanity2 = o.SelectTokens("Values[?(@.Coercible != '1')].Name").Select(x => (string) x);
+        var sanity1 = o.SelectTokens("Values[?(@.Coercible == '1')].Name").Select(_ => (string) _);
+        var sanity2 = o.SelectTokens("Values[?(@.Coercible != '1')].Name").Select(_ => (string) _);
         // new behavior
-        var mustBeNumber1 = o.SelectTokens("Values[?(@.Coercible === 1)].Name").Select(x => (string) x);
-        var mustBeString1 = o.SelectTokens("Values[?(@.Coercible !== 1)].Name").Select(x => (string) x);
-        var mustBeString2 = o.SelectTokens("Values[?(@.Coercible === '1')].Name").Select(x => (string) x);
-        var mustBeNumber2 = o.SelectTokens("Values[?(@.Coercible !== '1')].Name").Select(x => (string) x);
+        var mustBeNumber1 = o.SelectTokens("Values[?(@.Coercible === 1)].Name").Select(_ => (string) _);
+        var mustBeString1 = o.SelectTokens("Values[?(@.Coercible !== 1)].Name").Select(_ => (string) _);
+        var mustBeString2 = o.SelectTokens("Values[?(@.Coercible === '1')].Name").Select(_ => (string) _);
+        var mustBeNumber2 = o.SelectTokens("Values[?(@.Coercible !== '1')].Name").Select(_ => (string) _);
 
         // FAILS-- JPath returns { "String" }
         //Xunit.Assert.Equal(new[] { "Number", "String" }, sanity1);
