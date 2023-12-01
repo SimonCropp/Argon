@@ -39,7 +39,7 @@
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
   
-  <ItemGroup Condition="$(TargetFramework)=='net461' OR $(TargetFramework)=='net48'">
+  <ItemGroup Condition="$(TargetFramework)=='net48'">
     <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <Reference Include="System.Web" />
@@ -49,7 +49,7 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework)=='net5.0' OR $(TargetFramework)=='net6.0'">
+  <ItemGroup Condition="$(TargetFramework)=='net6.0'">
     <PackageReference Include="System.ObjectModel" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
