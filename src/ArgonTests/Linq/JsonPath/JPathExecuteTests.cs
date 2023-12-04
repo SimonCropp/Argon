@@ -1558,7 +1558,7 @@ public class JPathExecuteTests : TestFixtureBase
             if (!item[0].Equals(item[1]))
             {
                 // Test the inverse
-                yield return new[] {item[1], item[0], item[2]};
+                yield return [item[1], item[0], item[2]];
             }
         }
     }

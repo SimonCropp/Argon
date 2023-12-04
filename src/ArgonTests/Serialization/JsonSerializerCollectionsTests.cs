@@ -440,20 +440,25 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void NonZeroBasedArray()
     {
-        var onebasedArray = Array.CreateInstance(typeof(string), new[]
-        {
-            3
-        }, new[]
-        {
-            2
-        });
+        var onebasedArray = Array.CreateInstance(
+            typeof(string),
+            new[]
+            {
+                3
+            },
+            new[]
+            {
+                2
+            });
 
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
-            onebasedArray.SetValue(i.ToString(InvariantCulture), new[]
-            {
-                i
-            });
+            onebasedArray.SetValue(
+                i.ToString(InvariantCulture),
+                new[]
+                {
+                    i
+                });
         }
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
@@ -473,26 +478,28 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void NonZeroBasedMultiArray()
     {
         // lets create a two dimensional array, each rank is 1-based of with a capacity of 4.
-        var onebasedArray = Array.CreateInstance(typeof(string), new[]
-        {
-            3,
-            3
-        }, new[]
-        {
-            1,
-            2
-        });
+        var onebasedArray = Array.CreateInstance(
+            typeof(string),
+            [
+                3,
+                3
+            ],
+            [
+                1,
+                2
+            ]);
 
         // Iterate of the array elements and assign a random double
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
             for (var j = onebasedArray.GetLowerBound(1); j <= onebasedArray.GetUpperBound(1); j++)
             {
-                onebasedArray.SetValue($"{i}_{j}", new[]
-                {
-                    i,
-                    j
-                });
+                onebasedArray.SetValue(
+                    $"{i}_{j}", new[]
+                    {
+                        i,
+                        j
+                    });
             }
         }
 
@@ -1133,10 +1140,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             3
         };
 
-        public IList<int> List { get; set; } = new ReadOnlyCollection<int>(new[]
-        {
-            4
-        });
+        public IList<int> List { get; set; } = new ReadOnlyCollection<int>([4]);
 
         public IDictionary<string, int> Dictionary { get; set; } =
             new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
@@ -1147,16 +1151,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             });
 
         public IReadOnlyCollection<int> IReadOnlyCollection { get; set; } =
-            new ReadOnlyCollection<int>(new[]
-            {
-                6
-            });
+            new ReadOnlyCollection<int>([6]);
 
         public ReadOnlyCollection<int> ReadOnlyCollection { get; set; } =
-            new(new[]
-            {
-                7
-            });
+            new([7]);
 
         public IReadOnlyList<int> IReadOnlyList { get; set; } =
             new ReadOnlyCollection<int>(new[]

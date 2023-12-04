@@ -156,25 +156,25 @@ public class TestData
         DateYear = (JValue)shebang["dateYear"];
         DateISO = (JValue)shebang["dateJSONAndISOZulu"];
         OtherISODate = (JValue)shebang["otherDate"];
-        Dates = new[] { DateYearMonth, DateYear, DateISO, OtherISODate };
-        Boolies = new[] { True, False };
-        Strings = new[]
-        {
+        Dates = [DateYearMonth, DateYear, DateISO, OtherISODate];
+        Boolies = [True, False];
+        Strings =
+        [
             HerpString,
             DerpString
-        };
-        Numbers = new[]
-        {
+        ];
+        Numbers =
+        [
             One,
             OneDotZero,
             Two,
             Scientific
-        };
-        Nopes = new[]
-        {
+        ];
+        Nopes =
+        [
             Null
-        };
-        Errybody = new[] { Nopes, Numbers, Strings, Boolies, Dates };
-        ErrybodyButNull = new[] { Numbers, Strings, Boolies, Dates };
+        ];
+        Errybody = [ Nopes, Numbers, Strings, Boolies, Dates ];
+        ErrybodyButNull = [ Numbers, Strings, Boolies, Dates ];
     }
 }

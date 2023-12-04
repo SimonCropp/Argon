@@ -22,17 +22,17 @@ static class JavaScriptUtils
             escapeChars.Add((char) i);
         }
 
-        foreach (var escapeChar in escapeChars.Union(new[] {'\''}))
+        foreach (var escapeChar in escapeChars.Union(['\'']))
         {
             SingleQuoteEscapeFlags[escapeChar] = true;
         }
 
-        foreach (var escapeChar in escapeChars.Union(new[] {'"'}))
+        foreach (var escapeChar in escapeChars.Union(['"']))
         {
             DoubleQuoteEscapeFlags[escapeChar] = true;
         }
 
-        foreach (var escapeChar in escapeChars.Union(new[] {'"', '\'', '<', '>', '&'}))
+        foreach (var escapeChar in escapeChars.Union(['"', '\'', '<', '>', '&']))
         {
             htmlEscapeFlags[escapeChar] = true;
         }
