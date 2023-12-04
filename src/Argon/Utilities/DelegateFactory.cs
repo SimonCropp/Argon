@@ -4,7 +4,7 @@
 
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
-static class DynamicReflectionDelegateFactory
+static class DelegateFactory
 {
     static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
     {

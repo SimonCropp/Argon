@@ -36,17 +36,17 @@ class ReflectionObject
         {
             if (type.HasDefaultConstructor())
             {
-                var ctor = DynamicReflectionDelegateFactory.CreateDefaultConstructor<object>(type);
+                var ctor = DelegateFactory.CreateDefaultConstructor<object>(type);
 
                 creatorConstructor = _ => ctor();
             }
         }
         else
         {
-            creatorConstructor = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(creator);
+            creatorConstructor = DelegateFactory.CreateParameterizedConstructor(creator);
         }
 
-        var d = new ReflectionObject(creatorConstructor);
+        var reflectionObject = new ReflectionObject(creatorConstructor);
 
         foreach (var memberName in memberNames)
         {
@@ -66,12 +66,12 @@ class ReflectionObject
                 case MemberTypes.Property:
                     if (member.CanReadMemberValue(false))
                     {
-                        reflectionMember.Getter = DynamicReflectionDelegateFactory.CreateGet<object>(member);
+                        reflectionMember.Getter = DelegateFactory.CreateGet<object>(member);
                     }
 
                     if (member.CanSetMemberValue(false, false))
                     {
-                        reflectionMember.Setter = DynamicReflectionDelegateFactory.CreateSet<object>(member);
+                        reflectionMember.Setter = DelegateFactory.CreateSet<object>(member);
                     }
 
                     break;
@@ -80,12 +80,12 @@ class ReflectionObject
                     var parameters = method.GetParameters();
                     if (parameters.Length == 0 && method.ReturnType != typeof(void))
                     {
-                        var call = DynamicReflectionDelegateFactory.CreateMethodCall<object>(method);
+                        var call = DelegateFactory.CreateMethodCall<object>(method);
                         reflectionMember.Getter = target => call(target);
                     }
                     else if (parameters.Length == 1 && method.ReturnType == typeof(void))
                     {
-                        var call = DynamicReflectionDelegateFactory.CreateMethodCall<object>(method);
+                        var call = DelegateFactory.CreateMethodCall<object>(method);
                         reflectionMember.Setter = (target, arg) => call(target, arg);
                     }
 
@@ -96,9 +96,9 @@ class ReflectionObject
 
             reflectionMember.MemberType = member.GetMemberUnderlyingType();
 
-            d.Members[memberName] = reflectionMember;
+            reflectionObject.Members[memberName] = reflectionMember;
         }
 
-        return d;
+        return reflectionObject;
     }
 }

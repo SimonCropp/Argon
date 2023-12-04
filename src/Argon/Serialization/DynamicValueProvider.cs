@@ -29,7 +29,7 @@ public class DynamicValueProvider : IValueProvider
     {
         try
         {
-            setter ??= DynamicReflectionDelegateFactory.CreateSet<object>(member);
+            setter ??= DelegateFactory.CreateSet<object>(member);
 
 #if !RELEASE
             // dynamic method doesn't check whether the type is 'legal' to set
@@ -65,7 +65,7 @@ public class DynamicValueProvider : IValueProvider
     {
         try
         {
-            getter ??= DynamicReflectionDelegateFactory.CreateGet<object>(member);
+            getter ??= DelegateFactory.CreateGet<object>(member);
 
             return getter(target);
         }

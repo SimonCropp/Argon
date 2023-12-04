@@ -129,7 +129,7 @@ static class ConvertUtils
             return null;
         }
 
-        var call = DynamicReflectionDelegateFactory.CreateMethodCall<object?>(castMethodInfo);
+        var call = DelegateFactory.CreateMethodCall<object?>(castMethodInfo);
 
         return o => call(null, o);
     }

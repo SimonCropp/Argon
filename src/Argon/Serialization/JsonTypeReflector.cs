@@ -84,7 +84,7 @@ static class JsonTypeReflector
 
     static JsonConverter GetCreator(Type type)
     {
-        var constructor = DynamicReflectionDelegateFactory.CreateDefaultConstructor<JsonConverter>(type);
+        var constructor = DelegateFactory.CreateDefaultConstructor<JsonConverter>(type);
         return constructor();
     }
 

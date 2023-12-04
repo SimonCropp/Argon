@@ -105,7 +105,7 @@ static class ImmutableCollectionsUtils
 
         createdType = createdTypeDefinition.MakeGenericType(collectionItemType);
         var method = mb.MakeGenericMethod(collectionItemType);
-        parameterizedCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(method);
+        parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
         return true;
     }
 
@@ -144,7 +144,7 @@ static class ImmutableCollectionsUtils
                     {
                         createdType = createdTypeDefinition.MakeGenericType(keyItemType, valueItemType);
                         method = method.MakeGenericMethod(keyItemType, valueItemType);
-                        parameterizedCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(method);
+                        parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
                         return true;
                     }
                 }

@@ -56,7 +56,7 @@ public class JsonDictionaryContract : JsonContainerContract
             if (parameterizedCreator == null &&
                 parameterizedConstructor != null)
             {
-                parameterizedCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructor);
+                parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(parameterizedConstructor);
             }
 
             return parameterizedCreator;
@@ -204,7 +204,7 @@ public class JsonDictionaryContract : JsonContainerContract
             genericWrapperType = typeof(DictionaryWrapper<,>).MakeGenericType(DictionaryKeyType!, DictionaryValueType!);
 
             var genericWrapperConstructor = genericWrapperType.GetConstructor([dictionaryDefinition!])!;
-            genericWrapperCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
+            genericWrapperCreator = DelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 
         return (IWrappedDictionary) genericWrapperCreator(dictionary);
@@ -216,7 +216,7 @@ public class JsonDictionaryContract : JsonContainerContract
         {
             var temporaryDictionaryType = typeof(Dictionary<,>).MakeGenericType(DictionaryKeyType ?? typeof(object), DictionaryValueType ?? typeof(object));
 
-            genericTemporaryDictionaryCreator = DynamicReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
+            genericTemporaryDictionaryCreator = DelegateFactory.CreateDefaultConstructor<object>(temporaryDictionaryType);
         }
 
         return (IDictionary) genericTemporaryDictionaryCreator();
