@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
@@ -17,9 +17,6 @@
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Argon.FSharp\Argon.FSharp.csproj" />
     <ProjectReference Include="..\ArgonTests\ArgonTests.csproj" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
