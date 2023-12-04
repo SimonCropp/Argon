@@ -35,47 +35,6 @@ public class CustomerDataSet : System.Data.DataSet
 
     [DebuggerNonUserCodeAttribute]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-    protected CustomerDataSet(SerializationInfo info, StreamingContext context) :
-        base(info, context, false)
-    {
-        if (IsBinarySerialized(info, context))
-        {
-            InitVars(false);
-            var schemaChangedHandler1 = new System.ComponentModel.CollectionChangeEventHandler(SchemaChanged);
-            Tables.CollectionChanged += schemaChangedHandler1;
-            Relations.CollectionChanged += schemaChangedHandler1;
-            return;
-        }
-        var strSchema = (string)info.GetValue("XmlSchema", typeof(string));
-        if (DetermineSchemaSerializationMode(info, context) == System.Data.SchemaSerializationMode.IncludeSchema)
-        {
-            var ds = new System.Data.DataSet();
-            ds.ReadXmlSchema(new System.Xml.XmlTextReader(new StringReader(strSchema)));
-            if (ds.Tables["Customers"] != null)
-            {
-                base.Tables.Add(new CustomersDataTable(ds.Tables["Customers"]));
-            }
-            DataSetName = ds.DataSetName;
-            Prefix = ds.Prefix;
-            Namespace = ds.Namespace;
-            Locale = ds.Locale;
-            CaseSensitive = ds.CaseSensitive;
-            EnforceConstraints = ds.EnforceConstraints;
-            Merge(ds, false, System.Data.MissingSchemaAction.Add);
-            InitVars();
-        }
-        else
-        {
-            ReadXmlSchema(new System.Xml.XmlTextReader(new StringReader(strSchema)));
-        }
-        GetSerializationData(info, context);
-        var schemaChangedHandler = new System.ComponentModel.CollectionChangeEventHandler(SchemaChanged);
-        base.Tables.CollectionChanged += schemaChangedHandler;
-        Relations.CollectionChanged += schemaChangedHandler;
-    }
-
-    [DebuggerNonUserCodeAttribute]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
     [System.ComponentModel.Browsable(false)]
     [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
     public CustomersDataTable Customers => tableCustomers;
@@ -305,12 +264,6 @@ public class CustomerDataSet : System.Data.DataSet
             Prefix = table.Prefix;
             MinimumCapacity = table.MinimumCapacity;
         }
-
-        [DebuggerNonUserCodeAttribute]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected CustomersDataTable(SerializationInfo info, StreamingContext context) :
-            base(info, context) =>
-            InitVars();
 
         [DebuggerNonUserCodeAttribute]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]

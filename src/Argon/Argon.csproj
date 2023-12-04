@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net472;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <TargetFrameworks Condition="$(Configuration) == 'DebugNet7'">net7.0</TargetFrameworks>
+    <TargetFrameworks Condition="$(Configuration) == 'DebugNet8'">net8.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="System.Buffers" />

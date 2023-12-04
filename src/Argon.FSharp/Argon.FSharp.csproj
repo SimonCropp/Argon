@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <Description>Provides serialization support between FSharp and Argon.</Description>
-    <TargetFrameworks>net48;net6.0;net7.0</TargetFrameworks>
-    <TargetFrameworks Condition="$(Configuration) == 'DebugNet7'">net7.0</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="$(Configuration) == 'DebugNet8'">net8.0</TargetFrameworks>
     <PackageTags>nodatime;json;Argon</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
