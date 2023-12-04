@@ -2,14 +2,10 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if !NETSTANDARD2_0
-
 // ReSharper disable RedundantSuppressNullableWarningExpression
 
-class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
+static class DelegateFactory
 {
-    internal static DynamicReflectionDelegateFactory Instance { get; } = new();
-
     static DynamicMethod CreateDynamicMethod(string name, Type? returnType, Type[] parameterTypes, Type owner)
     {
         if (owner.IsInterface)
@@ -20,7 +16,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return new(name, returnType, parameterTypes, owner, true);
     }
 
-    public override ObjectConstructor CreateParameterizedConstructor(MethodBase method)
+    public static ObjectConstructor CreateParameterizedConstructor(MethodBase method)
     {
         var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), [typeof(object[])], method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
@@ -30,7 +26,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         return (ObjectConstructor) dynamicMethod.CreateDelegate(typeof(ObjectConstructor));
     }
 
-    public override MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
+    public static MethodCall<T, object?> CreateMethodCall<T>(MethodBase method)
     {
         var dynamicMethod = CreateDynamicMethod(method.ToString()!, typeof(object), [typeof(object), typeof(object[])], method.DeclaringType!);
         var generator = dynamicMethod.GetILGenerator();
@@ -217,7 +213,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Return();
     }
 
-    public override Func<T> CreateDefaultConstructor<T>(Type type)
+    public static Func<T> CreateDefaultConstructor<T>(Type type)
     {
         var method = CreateDynamicMethod($"Create{type.FullName}", typeof(T), Type.EmptyTypes, type);
         method.InitLocals = true;
@@ -257,7 +253,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Return();
     }
 
-    public override Func<T, object?> CreateGet<T>(PropertyInfo property)
+    public static Func<T, object?> CreateGet<T>(PropertyInfo property)
     {
         var method = CreateDynamicMethod($"Get{property.Name}", typeof(object), [typeof(T)], property.DeclaringType!);
         var generator = method.GetILGenerator();
@@ -287,7 +283,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
 
     static Type[] objectArray = [typeof(object)];
 
-    public override Func<T, object?> CreateGet<T>(FieldInfo field)
+    public static Func<T, object?> CreateGet<T>(FieldInfo field)
     {
         if (field.IsLiteral)
         {
@@ -319,7 +315,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Return();
     }
 
-    public override Action<T, object?> CreateSet<T>(FieldInfo field)
+    public static Action<T, object?> CreateSet<T>(FieldInfo field)
     {
         var method = CreateDynamicMethod($"Set{field.Name}", null, [typeof(T), typeof(object)], field.DeclaringType!);
         var generator = method.GetILGenerator();
@@ -351,7 +347,7 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.Return();
     }
 
-    public override Action<T, object?> CreateSet<T>(PropertyInfo property)
+    public static Action<T, object?> CreateSet<T>(PropertyInfo property)
     {
         var method = CreateDynamicMethod($"Set{property.Name}", null, [typeof(T), typeof(object)], property.DeclaringType!);
         var generator = method.GetILGenerator();
@@ -374,6 +370,40 @@ class DynamicReflectionDelegateFactory : ReflectionDelegateFactory
         generator.CallMethod(setMethod);
         generator.Return();
     }
-}
 
-#endif
+    public static Func<T, object?> CreateGet<T>(MemberInfo member)
+    {
+        if (member is PropertyInfo property)
+        {
+            // https://github.com/dotnet/corefx/issues/26053
+            if (property.PropertyType.IsByRef)
+            {
+                throw new InvalidOperationException($"Could not create getter for {property}. ByRef return values are not supported.");
+            }
+
+            return CreateGet<T>(property);
+        }
+
+        if (member is FieldInfo field)
+        {
+            return CreateGet<T>(field);
+        }
+
+        throw new($"Could not create getter for {member}.");
+    }
+
+    public static Action<T, object?> CreateSet<T>(MemberInfo member)
+    {
+        if (member is PropertyInfo property)
+        {
+            return CreateSet<T>(property);
+        }
+
+        if (member is FieldInfo field)
+        {
+            return CreateSet<T>(field);
+        }
+
+        throw new($"Could not create setter for {member}.");
+    }
+}

@@ -44,7 +44,7 @@ public class JsonArrayContract : JsonContainerContract
             if (parameterizedCreator == null &&
                 parameterizedConstructor != null)
             {
-                parameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(parameterizedConstructor);
+                parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(parameterizedConstructor);
             }
 
             return parameterizedCreator;
@@ -230,7 +230,7 @@ public class JsonArrayContract : JsonContainerContract
             }
 
             var genericWrapperConstructor = genericWrapperType.GetConstructor([constructorArgument])!;
-            genericWrapperCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
+            genericWrapperCreator = DelegateFactory.CreateParameterizedConstructor(genericWrapperConstructor);
         }
 
         return (IWrappedCollection) genericWrapperCreator(list);
@@ -246,7 +246,7 @@ public class JsonArrayContract : JsonContainerContract
                 : CollectionItemType;
 
             var temporaryListType = typeof(List<>).MakeGenericType(collectionItemType);
-            genericTemporaryCollectionCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryListType);
+            genericTemporaryCollectionCreator = DelegateFactory.CreateDefaultConstructor<object>(temporaryListType);
         }
 
         return (IList) genericTemporaryCollectionCreator();
