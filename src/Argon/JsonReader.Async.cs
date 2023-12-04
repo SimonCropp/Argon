@@ -5,7 +5,7 @@
 namespace Argon;
 
 public abstract partial class JsonReader
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
         : IAsyncDisposable
 {
         ValueTask IAsyncDisposable.DisposeAsync()

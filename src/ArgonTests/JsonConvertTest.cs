@@ -558,7 +558,7 @@ public class JsonConvertTest : TestFixtureBase
 
         Assert.Equal("null", JsonConvert.ToString((object)null));
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
         value = DBNull.Value;
         Assert.Equal("null", JsonConvert.ToString(value));
 #endif

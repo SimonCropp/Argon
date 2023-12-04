@@ -4,7 +4,7 @@
 
 using System.ComponentModel;
 using TestObjects;
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
 using System.Runtime.Serialization.Json;
 #endif
 
@@ -268,7 +268,7 @@ public class DefaultValueHandlingTests : TestFixtureBase
     {
         var c = new EmitDefaultValueClass();
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
         var serializer = new DataContractJsonSerializer(typeof(EmitDefaultValueClass));
 
         var ms = new MemoryStream();

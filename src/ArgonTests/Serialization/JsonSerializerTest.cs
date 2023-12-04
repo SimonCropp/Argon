@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
 using System.Web.Script.Serialization;
 using System.Drawing;
 #endif
@@ -1489,7 +1489,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = """["vvv\/vvv\tvvv\"vvv\bvvv\nvvv\rvvv\\vvv\fvvv"]""";
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
         var javaScriptSerializer = new JavaScriptSerializer();
         var javaScriptSerializerResult = javaScriptSerializer.Deserialize<List<string>>(json);
 #endif
@@ -1501,7 +1501,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.Equal(1, jsonNetResult.Count);
         Assert.Equal(dataContractResult[0], jsonNetResult[0]);
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
         Assert.Equal(javaScriptSerializerResult[0], jsonNetResult[0]);
 #endif
     }
@@ -1716,7 +1716,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var json = JsonConvert.SerializeObject(new ConverableMembers(), Formatting.Indented);
 
-#if (NET5_0_OR_GREATER)
+#if (NET6_0_OR_GREATER)
         var expected = """
                        {
                          "String": "string",
@@ -1735,7 +1735,7 @@ public class JsonSerializerTest : TestFixtureBase
                          "Char": "\u0000"
                        }
                        """;
-#elif !NET5_0_OR_GREATER
+#elif !NET6_0_OR_GREATER
         var expected = """
                        {
                          "String": "string",
@@ -1777,7 +1777,7 @@ public class JsonSerializerTest : TestFixtureBase
         var c = JsonConvert.DeserializeObject<ConverableMembers>(json);
         Assert.Equal("string", c.String);
         Assert.Equal(double.MaxValue, c.Double);
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
         Assert.Equal(DBNull.Value, c.DBNull);
 #endif
     }
@@ -5707,7 +5707,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(person.Name, roundtrippedPerson.Name);
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
     [Fact]
     public void MetroBlogPost()
     {
@@ -6734,7 +6734,7 @@ public class JsonSerializerTest : TestFixtureBase
             json);
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
     [Fact]
     public void SerializeDictionaryWithStructKey()
     {

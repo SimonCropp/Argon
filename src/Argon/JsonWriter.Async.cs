@@ -7,7 +7,7 @@
 namespace Argon;
 
 public abstract partial class JsonWriter
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
         : IAsyncDisposable
 {
     async ValueTask IAsyncDisposable.DisposeAsync()

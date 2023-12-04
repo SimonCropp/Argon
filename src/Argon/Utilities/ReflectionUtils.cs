@@ -324,7 +324,7 @@ static class ReflectionUtils
 
     public static bool IsByRefLikeType(this Type type)
     {
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
         return type.IsByRefLike;
 #else
         if (!type.IsValueType)

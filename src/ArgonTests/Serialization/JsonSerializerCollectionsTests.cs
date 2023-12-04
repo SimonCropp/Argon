@@ -142,10 +142,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             }
         };
         var output = JsonConvert.SerializeObject(dictionary);
-#if !(NET5_0_OR_GREATER)
-        Assert.Equal("""{"3.40282347E+38":1}""", output);
-#else
+#if (NET6_0_OR_GREATER)
         Assert.Equal("""{"3.4028235E+38":1}""", output);
+#else
+        Assert.Equal("""{"3.40282347E+38":1}""", output);
 #endif
 
         var deserializedValue = JsonConvert.DeserializeObject<Dictionary<float, int>>(output);
@@ -2326,7 +2326,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal("goose", deserialized[2]);
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
     [Fact]
     public void DeserializeCultureInfoKey()
     {

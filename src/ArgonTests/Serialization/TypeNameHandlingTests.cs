@@ -1595,10 +1595,10 @@ public class TypeNameHandlingTests : TestFixtureBase
         public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
             assemblyName = "AssemblyName";
-#if !NET5_0_OR_GREATER
-            typeName = $":::{serializedType.Name.ToUpper(InvariantCulture)}:::";
-#else
+#if NET6_0_OR_GREATER
             typeName = $":::{serializedType.Name.ToUpper()}:::";
+#else
+            typeName = $":::{serializedType.Name.ToUpper(InvariantCulture)}:::";
 #endif
         }
     }
@@ -2288,7 +2288,7 @@ public class TypeNameHandlingTests : TestFixtureBase
         Assert.Equal("property", deserialized.Rows["key"].First().SomeProperty);
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
     [Fact]
     public void DeserializeComplexGenericDictionary_Simple()
     {
