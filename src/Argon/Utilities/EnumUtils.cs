@@ -24,7 +24,7 @@ static class EnumUtils
 
             var specifiedName = f.GetCustomAttributes(typeof(EnumMemberAttribute), true)
                 .Cast<EnumMemberAttribute>()
-                .Select(a => a.Value)
+                .Select(_ => _.Value)
                 .SingleOrDefault();
             var hasSpecifiedName = specifiedName != null;
             var resolvedName = specifiedName ?? name;
