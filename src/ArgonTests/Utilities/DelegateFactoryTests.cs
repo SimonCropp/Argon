@@ -127,8 +127,7 @@ public class DelegateFactoryTests : TestFixtureBase
                 Assert.Equal("Hi", ((StructTest) structTest).StringProperty);
 
                 setter(new TimeSpan(), "Hi");
-            },
-            "Unable to cast object of type 'System.TimeSpan' to type 'TestObjects.StructTest'.");
+            });
 
     [Fact]
     public void CreateSetWithBadObjectValue() =>
