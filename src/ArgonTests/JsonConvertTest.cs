@@ -190,10 +190,20 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            var json = JsonConvert.SerializeObject(new {test = new[] {1, 2, 3}}, new JsonSerializerSettings
-            {
-                Formatting = Formatting.None
-            });
+            var json = JsonConvert.SerializeObject(
+                new
+                {
+                    test = new[]
+                    {
+                        1,
+                        2,
+                        3
+                    }
+                },
+                new JsonSerializerSettings
+                {
+                    Formatting = Formatting.None
+                });
 
             Assert.Equal("""{"test":[1,2,3]}""", json);
         }

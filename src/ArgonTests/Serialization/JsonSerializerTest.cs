@@ -1262,12 +1262,12 @@ public class JsonSerializerTest : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new[]
-            {
+            Sizes =
+            [
                 "Small",
                 "Medium",
                 "Large"
-            }
+            ]
         };
 
         var output = JsonConvert.SerializeObject(product);
@@ -3960,10 +3960,7 @@ public class JsonSerializerTest : TestFixtureBase
         var ms = new MemoryStream();
         var serializer = new DataContractJsonSerializer(
             typeof(DataContractJsonSerializerTestClass),
-            new[]
-            {
-                typeof(Human)
-            });
+            [typeof(Human)]);
         serializer.WriteObject(ms, c);
 
         var jsonBytes = ms.ToArray();
@@ -5887,12 +5884,11 @@ public class JsonSerializerTest : TestFixtureBase
         var c = new PropertyItemConverter
         {
             Data =
-                new[]
-                {
+                [
                     "one",
                     "two",
                     "three"
-                }
+                ]
         };
 
         var c2 = JsonConvert.DeserializeObject<PropertyItemConverter>("{'Data':['::ONE::','::TWO::']}");
@@ -5908,12 +5904,12 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var c = new PropertyItemConverter
         {
-            Data = new[]
-            {
+            Data =
+            [
                 "one",
                 "two",
                 "three"
-            }
+            ]
         };
 
         var json = JsonConvert.SerializeObject(c);
@@ -6566,12 +6562,12 @@ public class JsonSerializerTest : TestFixtureBase
     [Fact]
     public void HashSetInterface()
     {
-        ISet<string> s1 = new HashSet<string>(new[]
-        {
+        ISet<string> s1 = new HashSet<string>(
+        [
             "1",
             "two",
             "III"
-        });
+        ]);
 
         var json = JsonConvert.SerializeObject(s1);
 
