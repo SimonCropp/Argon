@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net461;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet7'">net7.0</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
-    <TargetFrameworks>netstandard2.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="System.Buffers" />
@@ -17,10 +17,10 @@
     <PackageReference Include="ProjectDefaults" Version="1.0.102" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
     <PackageReference Include="Polyfill" Version="1.33.1" PrivateAssets="all" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461'" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(TargetFramework)=='net461' OR $(TargetFramework)=='netstandard2.0'">
+  <ItemGroup Condition="$(TargetFramework)=='net461'">
     <PackageReference Include="System.Buffers" Version="4.5.1" />
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>

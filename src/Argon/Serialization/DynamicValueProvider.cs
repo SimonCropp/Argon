@@ -2,8 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if !NETSTANDARD2_0
-
 namespace Argon;
 
 /// <summary>
@@ -31,7 +29,7 @@ public class DynamicValueProvider : IValueProvider
     {
         try
         {
-            setter ??= DynamicReflectionDelegateFactory.Instance.CreateSet<object>(member);
+            setter ??= DynamicReflectionDelegateFactory.CreateSet<object>(member);
 
 #if !RELEASE
             // dynamic method doesn't check whether the type is 'legal' to set
@@ -67,7 +65,7 @@ public class DynamicValueProvider : IValueProvider
     {
         try
         {
-            getter ??= DynamicReflectionDelegateFactory.Instance.CreateGet<object>(member);
+            getter ??= DynamicReflectionDelegateFactory.CreateGet<object>(member);
 
             return getter(target);
         }
@@ -77,5 +75,3 @@ public class DynamicValueProvider : IValueProvider
         }
     }
 }
-
-#endif

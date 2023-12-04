@@ -185,7 +185,7 @@ public class DefaultContractResolver : IContractResolver
             // check if a JsonConstructorAttribute has been defined and use that
             if (TryGetAttributeConstructor(nonNullableUnderlyingType, out var overrideConstructor))
             {
-                contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
+                contract.OverrideCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
                 contract.CreatorParameters.AddRange(CreateConstructorParameters(overrideConstructor, contract.Properties));
             }
             else if (contract.MemberSerialization == MemberSerialization.Fields)
@@ -198,7 +198,7 @@ public class DefaultContractResolver : IContractResolver
                 var constructor = GetParameterizedConstructor(nonNullableUnderlyingType);
                 if (constructor != null)
                 {
-                    contract.ParameterizedCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
+                    contract.ParameterizedCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
                     contract.CreatorParameters.AddRange(CreateConstructorParameters(constructor, contract.Properties));
                 }
             }
@@ -208,7 +208,7 @@ public class DefaultContractResolver : IContractResolver
                 // check whether there is a constructor that matches with non-writable properties on value type
                 if (TryGetImmutableConstructor(nonNullableUnderlyingType, contract.Properties, out var constructor))
                 {
-                    contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
+                    contract.OverrideCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
                     contract.CreatorParameters.AddRange(CreateConstructorParameters(constructor, contract.Properties));
                 }
             }
@@ -366,7 +366,7 @@ public class DefaultContractResolver : IContractResolver
         JsonTypeReflector.GetJsonConverter(type);
 
     static Func<object> GetDefaultCreator(Type createdType) =>
-        JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
+        DynamicReflectionDelegateFactory.CreateDefaultConstructor<object>(createdType);
 
     void InitializeContract(JsonContract contract)
     {
@@ -426,7 +426,7 @@ public class DefaultContractResolver : IContractResolver
         if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
         {
             contract.HasParameterizedCreator = GetHasParameterizedCreator(overrideConstructor, contract);
-            contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
+            contract.OverrideCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
         }
 
         return contract;
@@ -466,7 +466,7 @@ public class DefaultContractResolver : IContractResolver
         if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
         {
             contract.HasParameterizedCreator = HasParameterizedCreator(overrideConstructor, contract);
-            contract.OverrideCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
+            contract.OverrideCreator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(overrideConstructor);
         }
 
         return contract;
@@ -693,16 +693,8 @@ public class DefaultContractResolver : IContractResolver
     /// Creates the <see cref="IValueProvider" /> used by the serializer to get and set values from a member.
     /// </summary>
     /// <returns>The <see cref="IValueProvider" /> used by the serializer to get and set values from a member.</returns>
-    protected virtual IValueProvider CreateMemberValueProvider(MemberInfo member)
-    {
-        // warning - this method use to cause errors with Intellitrace. Retest in VS Ultimate after changes
-
-#if !(NETSTANDARD2_0)
-        return new DynamicValueProvider(member);
-#else
-        return new ExpressionValueProvider(member);
-#endif
-    }
+    protected virtual IValueProvider CreateMemberValueProvider(MemberInfo member) =>
+        new DynamicValueProvider(member);
 
     /// <summary>
     /// Creates a <see cref="JsonProperty" /> for the given <see cref="MemberInfo" />.

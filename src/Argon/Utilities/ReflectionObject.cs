@@ -31,21 +31,19 @@ class ReflectionObject
 
     public static ReflectionObject Create(Type type, MethodBase? creator, params string[] memberNames)
     {
-        var delegateFactory = JsonTypeReflector.ReflectionDelegateFactory;
-
         ObjectConstructor? creatorConstructor = null;
         if (creator == null)
         {
             if (type.HasDefaultConstructor())
             {
-                var ctor = delegateFactory.CreateDefaultConstructor<object>(type);
+                var ctor = DynamicReflectionDelegateFactory.CreateDefaultConstructor<object>(type);
 
                 creatorConstructor = _ => ctor();
             }
         }
         else
         {
-            creatorConstructor = delegateFactory.CreateParameterizedConstructor(creator);
+            creatorConstructor = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(creator);
         }
 
         var d = new ReflectionObject(creatorConstructor);
@@ -68,12 +66,12 @@ class ReflectionObject
                 case MemberTypes.Property:
                     if (member.CanReadMemberValue(false))
                     {
-                        reflectionMember.Getter = delegateFactory.CreateGet<object>(member);
+                        reflectionMember.Getter = DynamicReflectionDelegateFactory.CreateGet<object>(member);
                     }
 
                     if (member.CanSetMemberValue(false, false))
                     {
-                        reflectionMember.Setter = delegateFactory.CreateSet<object>(member);
+                        reflectionMember.Setter = DynamicReflectionDelegateFactory.CreateSet<object>(member);
                     }
 
                     break;
@@ -82,12 +80,12 @@ class ReflectionObject
                     var parameters = method.GetParameters();
                     if (parameters.Length == 0 && method.ReturnType != typeof(void))
                     {
-                        var call = delegateFactory.CreateMethodCall<object>(method);
+                        var call = DynamicReflectionDelegateFactory.CreateMethodCall<object>(method);
                         reflectionMember.Getter = target => call(target);
                     }
                     else if (parameters.Length == 1 && method.ReturnType == typeof(void))
                     {
-                        var call = delegateFactory.CreateMethodCall<object>(method);
+                        var call = DynamicReflectionDelegateFactory.CreateMethodCall<object>(method);
                         reflectionMember.Setter = (target, arg) => call(target, arg);
                     }
 

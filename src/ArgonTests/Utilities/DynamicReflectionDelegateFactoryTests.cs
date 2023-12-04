@@ -2,7 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if !NET5_0_OR_GREATER
 using TestObjects;
 
 public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
@@ -12,7 +11,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var constructor = typeof(InTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 1);
 
-        var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
+        var creator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
 
         var args = new object[]
         {
@@ -28,7 +27,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var constructor = typeof(InTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 2);
 
-        var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
+        var creator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
 
         var args = new object[]
         {
@@ -46,7 +45,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 1);
 
-        var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
+        var creator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
 
         var o = (OutAndRefTestClass) creator(["Input"]);
         Assert.NotNull(o);
@@ -58,7 +57,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 2);
 
-        var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
+        var creator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
 
         var o = (OutAndRefTestClass) creator(["Input", false]);
         Assert.NotNull(o);
@@ -71,7 +70,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     {
         var constructor = typeof(OutAndRefTestClass).GetConstructors().Single(_ => _.GetParameters().Length == 3);
 
-        var creator = DynamicReflectionDelegateFactory.Instance.CreateParameterizedConstructor(constructor);
+        var creator = DynamicReflectionDelegateFactory.CreateParameterizedConstructor(constructor);
 
         var o = (OutAndRefTestClass) creator(["Input", true, null]);
         Assert.NotNull(o);
@@ -87,7 +86,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         {
             Name = "Hi"
         };
-        var setter = DynamicReflectionDelegateFactory.Instance.CreateGet<object>(typeof(Movie).GetProperty("Name"));
+        var setter = DynamicReflectionDelegateFactory.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
         XUnitAssert.Throws<InvalidCastException>(
             () => setter(p),
@@ -102,7 +101,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
                 var p = new Person();
                 var m = new Movie();
 
-                var setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
+                var setter = DynamicReflectionDelegateFactory.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(m, "Hi");
 
@@ -121,7 +120,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
             {
                 object structTest = new StructTest();
 
-                var setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(typeof(StructTest).GetProperty("StringProperty"));
+                var setter = DynamicReflectionDelegateFactory.CreateSet<object>(typeof(StructTest).GetProperty("StringProperty"));
 
                 setter(structTest, "Hi");
 
@@ -138,7 +137,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
             {
                 var m = new Movie();
 
-                var setter = DynamicReflectionDelegateFactory.Instance.CreateSet<object>(typeof(Movie).GetProperty("Name"));
+                var setter = DynamicReflectionDelegateFactory.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
                 setter(m, new Version("1.1.1.1"));
             },
@@ -154,7 +153,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         Assert.NotNull(castMethodInfo);
 
-        var call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(castMethodInfo);
+        var call = DynamicReflectionDelegateFactory.CreateMethodCall<object>(castMethodInfo);
 
         var result = call(null, "First!");
         Assert.NotNull(result);
@@ -170,7 +169,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         Assert.NotNull(namePropertyInfo);
 
-        var call = DynamicReflectionDelegateFactory.Instance.CreateGet<Person>(namePropertyInfo);
+        var call = DynamicReflectionDelegateFactory.CreateGet<Person>(namePropertyInfo);
 
         var p = new Person
         {
@@ -186,21 +185,18 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void ConstructorStruct()
     {
-        var creator1 = DynamicReflectionDelegateFactory.Instance.CreateDefaultConstructor<object>(typeof(MyStruct));
+        var creator1 = DynamicReflectionDelegateFactory.CreateDefaultConstructor<object>(typeof(MyStruct));
         var myStruct1 = (MyStruct) creator1.Invoke();
         Assert.Equal(0, myStruct1.IntProperty);
 
-        var creator2 = DynamicReflectionDelegateFactory.Instance.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
+        var creator2 = DynamicReflectionDelegateFactory.CreateDefaultConstructor<MyStruct>(typeof(MyStruct));
         var myStruct2 = creator2.Invoke();
         Assert.Equal(0, myStruct2.IntProperty);
     }
 
-    public struct TestStruct
+    public struct TestStruct(int i)
     {
-        public TestStruct(int i) =>
-            Value = i;
-
-        public int Value { get; }
+        public int Value { get; } = i;
     }
 
     public static TestStruct StructMethod(TestStruct s) =>
@@ -218,7 +214,7 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
 
         Assert.NotNull(methodInfo);
 
-        var call = DynamicReflectionDelegateFactory.Instance.CreateMethodCall<object>(methodInfo);
+        var call = DynamicReflectionDelegateFactory.CreateMethodCall<object>(methodInfo);
 
         var result = call(null, new TestStruct(123));
         Assert.NotNull(result);
@@ -227,5 +223,44 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
         Assert.Equal(246, s.Value);
     }
 }
+public class OutAndRefTestClass
+{
+    public string Input { get; set; }
+    public bool B1 { get; set; }
+    public bool B2 { get; set; }
 
-#endif
+    public OutAndRefTestClass(ref string value)
+    {
+        Input = value;
+        value = "Output";
+    }
+
+    public OutAndRefTestClass(ref string value, out bool b1)
+        : this(ref value)
+    {
+        b1 = true;
+        B1 = true;
+    }
+
+    public OutAndRefTestClass(ref string value, ref bool b1, ref bool b2)
+        : this(ref value)
+    {
+        B1 = b1;
+        B2 = b2;
+    }
+}
+
+public class InTestClass(in string value)
+{
+    public string Value { get; } = value;
+    public bool B1 { get; }
+
+    public InTestClass(in string value, in bool b1)
+        : this(in value) =>
+        B1 = b1;
+}
+
+public struct MyStruct
+{
+    public int IntProperty { get; set; }
+}

@@ -67,10 +67,10 @@ static class DynamicUtils
             var csharpArgumentInfoTypeEnumerableType = typeof(IEnumerable<>).MakeGenericType(csharpArgumentInfoType);
 
             var getMemberMethod = binderType.GetMethod("GetMember", [csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType])!;
-            getMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(getMemberMethod);
+            getMemberCall = DynamicReflectionDelegateFactory.CreateMethodCall<object?>(getMemberMethod);
 
             var setMemberMethod = binderType.GetMethod("SetMember", [csharpBinderFlagsType, typeof(string), typeof(Type), csharpArgumentInfoTypeEnumerableType])!;
-            setMemberCall = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object?>(setMemberMethod);
+            setMemberCall = DynamicReflectionDelegateFactory.CreateMethodCall<object?>(setMemberMethod);
         }
 
         public static CallSiteBinder GetMember(string name, Type context)

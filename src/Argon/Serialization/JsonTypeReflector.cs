@@ -84,7 +84,7 @@ static class JsonTypeReflector
 
     static JsonConverter GetCreator(Type type)
     {
-        var constructor = ReflectionDelegateFactory.CreateDefaultConstructor<JsonConverter>(type);
+        var constructor = DynamicReflectionDelegateFactory.CreateDefaultConstructor<JsonConverter>(type);
         return constructor();
     }
 
@@ -157,17 +157,5 @@ static class JsonTypeReflector
         }
 
         throw new($"Bad provider: {provider.GetType().FullName}");
-    }
-
-    public static ReflectionDelegateFactory ReflectionDelegateFactory
-    {
-        get
-        {
-#if NETSTANDARD2_0
-            return ExpressionReflectionDelegateFactory.Instance;
-#else
-            return DynamicReflectionDelegateFactory.Instance;
-#endif
-        }
     }
 }
