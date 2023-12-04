@@ -370,6 +370,7 @@ static class DelegateFactory
         generator.CallMethod(setMethod);
         generator.Return();
     }
+
     public static Func<T, object?> CreateGet<T>(MemberInfo member)
     {
         if (member is PropertyInfo property)

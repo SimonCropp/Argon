@@ -2,7 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if !NETSTANDARD2_0
 static class ILGeneratorExtensions
 {
     public static void PushInstance(this ILGenerator generator, Type type)
@@ -65,5 +64,3 @@ static class ILGeneratorExtensions
     public static void Return(this ILGenerator generator) =>
         generator.Emit(OpCodes.Ret);
 }
-
-#endif
