@@ -147,12 +147,10 @@ public class DynamicReflectionDelegateFactoryTests : TestFixtureBase
     [Fact]
     public void CreateStaticMethodCall()
     {
-        var castMethodInfo = typeof(DictionaryKey).GetMethod(
-            "op_Implicit",
-            new[]
-            {
-                typeof(string)
-            });
+        var castMethodInfo = typeof(DictionaryKey)
+            .GetMethod(
+                "op_Implicit",
+                [typeof(string)]);
 
         Assert.NotNull(castMethodInfo);
 

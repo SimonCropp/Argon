@@ -42,7 +42,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new(2008, 12, 28),
             Price = 3.99M,
-            Sizes = new[] {"Small", "Medium", "Large"}
+            Sizes = ["Small", "Medium", "Large"]
         };
 
         var output = JsonConvert.SerializeObject(product);

@@ -287,30 +287,28 @@ public class TypeNameHandlingTests : TestFixtureBase
                     "Dictionary key!", "Dictionary value!"
                 }
             },
-            ReadOnlyCollection = new ReadOnlyCollection<string>(new[]
-            {
-                "Read Only Collection value!"
-            }),
-            ReadOnlyList = new ReadOnlyCollection<string>(new[]
-            {
-                "Read Only List value!"
-            }),
+            ReadOnlyCollection = new ReadOnlyCollection<string>(["Read Only Collection value!"]),
+            ReadOnlyList = new ReadOnlyCollection<string>(["Read Only List value!"]),
             Set = new HashSet<string>
             {
                 "Set value!"
             },
-            ReadOnlyDictionary = new ReadOnlyDictionary<string, string>(new Dictionary<string, string>
-            {
+            ReadOnlyDictionary = new ReadOnlyDictionary<string, string>(
+                new Dictionary<string, string>
                 {
-                    "Read Only Dictionary key!", "Read Only Dictionary value!"
-                }
-            })
+                    {
+                        "Read Only Dictionary key!", "Read Only Dictionary value!"
+                    }
+                })
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.Auto
-        });
+        var json = JsonConvert.SerializeObject(
+            c,
+            Formatting.Indented,
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
 
         XUnitAssert.AreEqualNormalized(
             """

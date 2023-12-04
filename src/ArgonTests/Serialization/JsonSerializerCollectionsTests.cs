@@ -1157,10 +1157,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             new([7]);
 
         public IReadOnlyList<int> IReadOnlyList { get; set; } =
-            new ReadOnlyCollection<int>(new[]
-            {
-                8
-            });
+            new ReadOnlyCollection<int>([8]);
 
         public IReadOnlyDictionary<string, int> IReadOnlyDictionary { get; set; } =
             new ReadOnlyDictionary<string, int>(new Dictionary<string, int>
@@ -2140,14 +2137,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void ReadOnlyCollectionSerialize()
     {
-        var r1 = new ReadOnlyCollection<int>(new[]
-        {
+        var r1 = new ReadOnlyCollection<int>(
+        [
             0,
             1,
             2,
             3,
             4
-        });
+        ]);
 
         var jsonText = JsonConvert.SerializeObject(r1);
 
@@ -2293,12 +2290,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializeCollectionWithConstructorArrayArgument()
     {
-        var v = new ReadOnlyCollectionWithArrayArgument<double>(new[]
-        {
+        var v = new ReadOnlyCollectionWithArrayArgument<double>(
+        [
             -0.014147478859765236,
             -0.011419606805541858,
             -0.010038461483676238
-        });
+        ]);
         var json = JsonConvert.SerializeObject(v);
 
         XUnitAssert.Throws<JsonSerializationException>(

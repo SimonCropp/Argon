@@ -96,12 +96,12 @@ public class KebabCaseNamingStrategyTests : TestFixtureBase
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[]
-            {
+            Sizes =
+            [
                 "Small",
                 "Medium",
                 "Large"
-            }
+            ]
         };
 
         var contractResolver = new DefaultContractResolver

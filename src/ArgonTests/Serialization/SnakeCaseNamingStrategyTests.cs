@@ -97,12 +97,12 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
             ExpiryDate = new(2010, 12, 20, 18, 1, 0, DateTimeKind.Utc),
             Name = "Widget",
             Price = 9.99m,
-            Sizes = new[]
-            {
+            Sizes =
+            [
                 "Small",
                 "Medium",
                 "Large"
-            }
+            ]
         };
 
         var contractResolver = new DefaultContractResolver
@@ -199,11 +199,7 @@ public class SnakeCaseNamingStrategyTests : TestFixtureBase
         internal Dictionary<string, object> Members { get; } = new();
 
         public override IEnumerable<string> GetDynamicMemberNames() =>
-            Members.Keys.Union(new[]
-            {
-                "Int",
-                "ChildObject"
-            });
+            Members.Keys.Union(["Int", "ChildObject"]);
 
         public override bool TryConvert(ConvertBinder binder, out object result)
         {
