@@ -18,13 +18,13 @@ public class JsonContainerContract : JsonContract
         set
         {
             itemContract = value;
-            if (itemContract != null)
+            if (itemContract == null)
             {
-                FinalItemContract = itemContract.UnderlyingType.IsSealed ? itemContract : null;
+                FinalItemContract = null;
             }
             else
             {
-                FinalItemContract = null;
+                FinalItemContract = itemContract.UnderlyingType.IsSealed ? itemContract : null;
             }
         }
     }

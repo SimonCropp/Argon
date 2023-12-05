@@ -386,7 +386,6 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
             case JsonContractType.Dictionary:
             {
                 var dictionaryContract = (JsonDictionaryContract) contract;
-                object targetDictionary;
 
                 if (existingValue == null)
                 {
@@ -418,7 +417,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                         return wrappedDictionary.UnderlyingDictionary;
                     }
 
-                    targetDictionary = dictionary;
+                    return dictionary;
                 }
                 else
                 {
@@ -433,10 +432,8 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                         dictionary = value;
                     }
 
-                    targetDictionary = PopulateDictionary(dictionary, reader, dictionaryContract, member, id);
+                    return PopulateDictionary(dictionary, reader, dictionaryContract, member, id);
                 }
-
-                return targetDictionary;
             }
             case JsonContractType.Dynamic:
                 var dynamicContract = (JsonDynamicContract) contract;
