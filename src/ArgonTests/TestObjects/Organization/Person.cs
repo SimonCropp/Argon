@@ -5,7 +5,7 @@
 namespace TestObjects;
 
 [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
 [System.ComponentModel.Description("DescriptionAttribute description!")]
 #endif
 public class Person

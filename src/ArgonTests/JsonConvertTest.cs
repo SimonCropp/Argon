@@ -190,10 +190,20 @@ public class JsonConvertTest : TestFixtureBase
                 Formatting = Formatting.Indented
             };
 
-            var json = JsonConvert.SerializeObject(new {test = new[] {1, 2, 3}}, new JsonSerializerSettings
-            {
-                Formatting = Formatting.None
-            });
+            var json = JsonConvert.SerializeObject(
+                new
+                {
+                    test = new[]
+                    {
+                        1,
+                        2,
+                        3
+                    }
+                },
+                new JsonSerializerSettings
+                {
+                    Formatting = Formatting.None
+                });
 
             Assert.Equal("""{"test":[1,2,3]}""", json);
         }
@@ -558,7 +568,7 @@ public class JsonConvertTest : TestFixtureBase
 
         Assert.Equal("null", JsonConvert.ToString((object)null));
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
         value = DBNull.Value;
         Assert.Equal("null", JsonConvert.ToString(value));
 #endif

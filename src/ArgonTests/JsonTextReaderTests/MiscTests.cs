@@ -664,7 +664,7 @@ public class MiscTests : TestFixtureBase
         Assert.True(reader.Read());
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
     [Fact]
     public void LinePositionOnNewLine()
     {

@@ -206,10 +206,7 @@ public class DelegateFactoryTests : TestFixtureBase
     {
         var methodInfo = typeof(DelegateFactoryTests).GetMethod(
             nameof(StructMethod),
-            new[]
-            {
-                typeof(TestStruct)
-            });
+            [typeof(TestStruct)]);
 
         Assert.NotNull(methodInfo);
 

@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
 namespace Argon.Tests.Documentation.Samples.Linq;
 
 public class CreateJsonDynamic : TestFixtureBase

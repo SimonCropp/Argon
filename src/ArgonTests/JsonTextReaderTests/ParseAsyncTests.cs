@@ -177,7 +177,7 @@ public class ParseAsyncTests : TestFixtureBase
         Assert.Equal(double.MinValue, reader.Value);
 
         reader = new(new StringReader("1E+309"));
-#if !(NET5_0_OR_GREATER)
+#if !(NET6_0_OR_GREATER)
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Input string '1E+309' is not a valid number. Path '', line 1, position 6.");
 #else
         Assert.True(await reader.ReadAsync());
@@ -186,7 +186,7 @@ public class ParseAsyncTests : TestFixtureBase
 #endif
 
         reader = new(new StringReader("-1E+5000"));
-#if !(NET5_0_OR_GREATER)
+#if !(NET6_0_OR_GREATER)
         await XUnitAssert.ThrowsAsync<JsonReaderException>(() => reader.ReadAsync(), "Input string '-1E+5000' is not a valid number. Path '', line 1, position 8.");
 #else
         Assert.True(await reader.ReadAsync());

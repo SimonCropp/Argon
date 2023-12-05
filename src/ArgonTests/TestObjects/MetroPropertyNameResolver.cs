@@ -8,10 +8,10 @@ public class MetroPropertyNameResolver : DefaultContractResolver
 {
     protected override string ResolvePropertyName(string propertyName)
     {
-#if !NET5_0_OR_GREATER
-        return $":::{propertyName.ToUpper(InvariantCulture)}:::";
+#if NET6_0_OR_GREATER
+        return $":::{propertyName.ToUpper()}:::";
 #else
-            return $":::{propertyName.ToUpper()}:::";
+        return $":::{propertyName.ToUpper(InvariantCulture)}:::";
 #endif
     }
 }

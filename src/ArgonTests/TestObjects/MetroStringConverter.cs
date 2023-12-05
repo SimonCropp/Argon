@@ -8,10 +8,10 @@ public class MetroStringConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-#if !NET5_0_OR_GREATER
-        writer.WriteValue($":::{value.ToString().ToUpper(InvariantCulture)}:::");
-#else
+#if NET6_0_OR_GREATER
         writer.WriteValue($":::{value.ToString().ToUpper()}:::");
+#else
+        writer.WriteValue($":::{value.ToString().ToUpper(InvariantCulture)}:::");
 #endif
     }
 
@@ -19,10 +19,10 @@ public class MetroStringConverter : JsonConverter
     {
         var s = (string)reader.Value;
 
-#if !NET5_0_OR_GREATER
-        return s.ToLower(InvariantCulture).Trim(':');
-#else
+#if NET6_0_OR_GREATER
         return s?.ToLower().Trim(':');
+#else
+        return s.ToLower(InvariantCulture).Trim(':');
 #endif
     }
 
