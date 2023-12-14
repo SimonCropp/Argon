@@ -15,7 +15,7 @@
     <Using Include="Microsoft.FSharp.Reflection" />
     <Using Include="Microsoft.FSharp.Collections" />    
     <PackageReference Include="FSharp.Core" Version="8.0.100" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.106" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.107" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 
