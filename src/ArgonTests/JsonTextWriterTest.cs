@@ -1420,7 +1420,7 @@ public class JsonTextWriterTest : TestFixtureBase
         jsonWriter.WriteValue(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
         jsonWriter.WriteValue(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
 
-        jsonWriter.WriteValue(new byte[] {1, 2, 3});
+        jsonWriter.WriteValue([1, 2, 3]);
         jsonWriter.WriteValue(TimeSpan.Zero);
         jsonWriter.WriteValue(new Uri("http://www.google.com/"));
         jsonWriter.WriteValue(Guid.Empty);

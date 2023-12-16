@@ -373,13 +373,14 @@ public class JTokenReaderTest : TestFixtureBase
         var result2 = (HasBytes) JsonSerializer.Create(null)
             .Deserialize(jsonReader, typeof(HasBytes));
 
-        Assert.Equal(new byte[]
-        {
+        Assert.Equal(
+        [
             1,
             2,
             3,
             4
-        }, result2.Bytes);
+        ],
+        result2.Bytes);
     }
 
     [Fact]

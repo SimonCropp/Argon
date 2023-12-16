@@ -10,7 +10,7 @@ public class Store
     public DateTime Established = new(2010, 1, 22, 1, 1, 1, DateTimeKind.Utc);
     public double Width = 1.1;
     public int Employees = 999;
-    public int[] RoomsPerFloor = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    public int[] RoomsPerFloor = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     public bool Open = false;
     public char Symbol = '@';
 

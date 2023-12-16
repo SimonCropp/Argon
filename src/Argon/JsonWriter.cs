@@ -25,7 +25,7 @@ public abstract partial class JsonWriter : IDisposable
     static readonly State[][] stateArray;
 
     internal static readonly State[][] StateArrayTemplate =
-    {
+    [
         //                                 Start               PropertyName       ObjectStart        Object          ArrayStart         Array              Closed       Error
         //
         /* None                   */[State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error],
@@ -35,7 +35,7 @@ public abstract partial class JsonWriter : IDisposable
         /* Comment                */[State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error],
         /* Raw                    */[State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error],
         /* Value (will be copied) */[State.Start, State.Object, State.Error, State.Error, State.Array, State.Array, State.Error, State.Error]
-    };
+    ];
 
     internal static State[][] BuildStateArray()
     {
@@ -260,7 +260,7 @@ public abstract partial class JsonWriter : IDisposable
 
         if (stack.Count > 0)
         {
-            currentPosition = stack[stack.Count - 1];
+            currentPosition = stack[^1];
             stack.RemoveAt(stack.Count - 1);
         }
         else

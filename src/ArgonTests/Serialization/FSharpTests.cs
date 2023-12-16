@@ -8,10 +8,10 @@ using Microsoft.FSharp.Collections;
 public class FSharpTests : TestFixtureBase
 {
     static JsonConverter[] converters =
-    {
+    [
         new FSharpListConverter(),
-        new FSharpMapConverter(),
-    };
+        new FSharpMapConverter()
+    ];
 
     [Fact]
     public void List()

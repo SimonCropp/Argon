@@ -1241,7 +1241,7 @@ public class JsonTextWriterAsyncTests :
         await jsonWriter.WriteValueAsync(new DateTime(2000, 1, 1, 1, 1, 1, DateTimeKind.Utc));
         await jsonWriter.WriteValueAsync(new DateTimeOffset(2000, 1, 1, 1, 1, 1, TimeSpan.Zero));
 
-        await jsonWriter.WriteValueAsync(new byte[] {1, 2, 3});
+        await jsonWriter.WriteValueAsync([1, 2, 3]);
         await jsonWriter.WriteValueAsync(TimeSpan.Zero);
         await jsonWriter.WriteValueAsync(new Uri("http://www.google.com/"));
         await jsonWriter.WriteValueAsync(Guid.Empty);

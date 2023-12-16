@@ -440,16 +440,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void NonZeroBasedArray()
     {
-        var onebasedArray = Array.CreateInstance(
-            typeof(string),
-            new[]
-            {
-                3
-            },
-            new[]
-            {
-                2
-            });
+        var onebasedArray = Array.CreateInstance(typeof(string), [3], [2]);
 
         for (var i = onebasedArray.GetLowerBound(0); i <= onebasedArray.GetUpperBound(0); i++)
         {
@@ -2377,11 +2368,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         public string Name { get; } = name;
 
         public KeyValuePair<string, string>[] Dimensions =>
-            metricDimensions ??= new KeyValuePair<string, string>[]
-            {
+            metricDimensions ??=
+            [
                 new("Endpoint", Endpoint),
                 new("Name", Name)
-            };
+            ];
     }
 
     public class MyClass : IList<string>

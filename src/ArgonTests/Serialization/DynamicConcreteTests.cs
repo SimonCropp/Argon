@@ -128,7 +128,7 @@ public static class DynamicConcrete
         var ctorBuilder = typeBuilder.DefineConstructor(
             MethodAttributes.Public,
             CallingConventions.Standard,
-            new Type[] { });
+            []);
         var ilGenerator = ctorBuilder.GetILGenerator();
         ilGenerator.Emit(OpCodes.Ret);
 

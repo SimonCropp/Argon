@@ -35,10 +35,10 @@ public class Issue1837
         // given x === y, if Type(x) is Boolean, return true if x and y are both true or both false; otherwise, return false.
         target = lhs.True;
         AssertAll(StrictEquality, target, rhs.True);
-        AssertNone(StrictEquality, target, new[] { rhs.False }, rhs.Nopes, rhs.Numbers, rhs.Strings, rhs.Dates);
+        AssertNone(StrictEquality, target, [rhs.False], rhs.Nopes, rhs.Numbers, rhs.Strings, rhs.Dates);
         target = lhs.False;
         AssertAll(StrictEquality, target, rhs.False);
-        AssertNone(StrictEquality, target, new[] { rhs.True }, rhs.Nopes, rhs.Numbers, rhs.Strings, rhs.Dates);
+        AssertNone(StrictEquality, target, [rhs.True], rhs.Nopes, rhs.Numbers, rhs.Strings, rhs.Dates);
 
         //Dates
         target = lhs.DateYearMonth;

@@ -2263,29 +2263,25 @@ public class JsonSerializerTest : TestFixtureBase
         {
             Before = "Before!",
             After = "After!",
-            Coordinates = new[]
-            {
-                new[]
-                {
+            Coordinates =
+            [
+                [
                     1,
                     1
-                },
-                new[]
-                {
+                ],
+                [
                     1,
                     2
-                },
-                new[]
-                {
+                ],
+                [
                     2,
                     1
-                },
-                new[]
-                {
+                ],
+                [
                     2,
                     2
-                }
-            }
+                ]
+            ]
         };
 
         var json = JsonConvert.SerializeObject(aa);
@@ -2954,6 +2950,7 @@ public class JsonSerializerTest : TestFixtureBase
         var a = (JArray) setOnly.GetValue();
         Assert.Equal(5, a.Count);
         Assert.Equal(1, (int) a[0]);
+        // ReSharper disable once UseIndexFromEndExpression
         Assert.Equal(5, (int) a[a.Count - 1]);
     }
 
@@ -5713,7 +5710,7 @@ public class JsonSerializerTest : TestFixtureBase
             Name = "Apple",
             ExpiryDate = new(2012, 4, 1),
             Price = 3.99M,
-            Sizes = new[] {"Small", "Medium", "Large"}
+            Sizes = ["Small", "Medium", "Large"]
         };
 
         var json = JsonConvert.SerializeObject(product);

@@ -7,11 +7,11 @@ namespace Argon;
 public static class FSharpConverters
 {
     public static JsonConverter[] Instances { get; } =
-    {
+    [
         new FSharpListConverter(),
         new FSharpMapConverter(),
         new DiscriminatedUnionConverter()
-    };
+    ];
 
     public static void AddFSharpConverters(this JsonSerializerSettings settings) =>
         settings.Converters.AddRange(Instances);
