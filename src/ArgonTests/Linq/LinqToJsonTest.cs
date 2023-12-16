@@ -1069,13 +1069,13 @@ public class LinqToJsonTest : TestFixtureBase
 
         Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", (string) o["channel"]["item"][0]["title"]);
 
-        Assert.Equal(
-            new[]
-            {
-                "Json.NET 1.3 + New license + Now on CodePlex",
-                "LINQ to JSON beta"
-            },
-            o["channel"]["item"].Children().Values<string>("title").ToArray());
+        var expected = new[]
+        {
+            "Json.NET 1.3 + New license + Now on CodePlex",
+            "LINQ to JSON beta"
+        };
+        var actual = o["channel"]["item"].Children().Values<string>("title").ToArray();
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
@@ -1418,15 +1418,15 @@ public class LinqToJsonTest : TestFixtureBase
         var o = JArray.Parse(json);
 
         Assert.Equal(4, o.Children()["item"].Children()["title"].Count());
-        Assert.Equal(
-            new[]
-            {
-                "Json.NET 1.3 + New license + Now on CodePlex",
-                "LINQ to JSON beta",
-                "Json.NET 1.3 + New license + Now on CodePlex",
-                "LINQ to JSON beta"
-            },
-            o.Children()["item"].Children()["title"].Values<string>().ToArray());
+        var expected = new[]
+        {
+            "Json.NET 1.3 + New license + Now on CodePlex",
+            "LINQ to JSON beta",
+            "Json.NET 1.3 + New license + Now on CodePlex",
+            "LINQ to JSON beta"
+        };
+        var actual = o.Children()["item"].Children()["title"].Values<string>().ToArray();
+        Assert.Equal(expected, actual);
     }
 
     [Fact]
