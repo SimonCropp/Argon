@@ -4,6 +4,7 @@
 
 using System.Data;
 // ReSharper disable UnusedVariable
+// ReSharper disable RedundantAssignment
 
 public class DemoTests : TestFixtureBase
 {

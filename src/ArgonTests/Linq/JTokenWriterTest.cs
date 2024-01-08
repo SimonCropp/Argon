@@ -3,6 +3,7 @@
 // as found in the license.md file.
 
 
+// ReSharper disable UseIndexFromEndExpression
 public class JTokenWriterTest : TestFixtureBase
 {
     [Fact]

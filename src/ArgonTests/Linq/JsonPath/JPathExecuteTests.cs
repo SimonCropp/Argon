@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using TestCaseSource = Xunit.MemberDataAttribute;
 // ReSharper disable PossibleMultipleEnumeration
 // ReSharper disable UnusedVariable
+// ReSharper disable RedundantAssignment
 
 public class JPathExecuteTests : TestFixtureBase
 {

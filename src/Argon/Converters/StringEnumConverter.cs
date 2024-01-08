@@ -75,8 +75,7 @@ public class StringEnumConverter :
             return null;
         }
 
-        var isNullable = nullable;
-        var t = isNullable ? Nullable.GetUnderlyingType(type)! : type;
+        var t = nullable ? Nullable.GetUnderlyingType(type)! : type;
 
         try
         {
@@ -84,7 +83,7 @@ public class StringEnumConverter :
             {
                 var enumText = reader.Value?.ToString();
 
-                if (enumText.IsNullOrEmpty() && isNullable)
+                if (enumText.IsNullOrEmpty() && nullable)
                 {
                     return null;
                 }
