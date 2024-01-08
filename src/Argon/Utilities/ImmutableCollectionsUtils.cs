@@ -23,7 +23,7 @@ static class ImmutableCollectionsUtils
                 typeof(IImmutableList<>), new(typeof(ImmutableList<>), GetArrayCreateRange(typeof(ImmutableList)))
             },
             {
-                typeof(ImmutableList<>), new(typeof(ImmutableList<>),GetArrayCreateRange( typeof(ImmutableList)))
+                typeof(ImmutableList<>), new(typeof(ImmutableList<>), GetArrayCreateRange(typeof(ImmutableList)))
             },
             {
                 typeof(IImmutableQueue<>), new(typeof(IImmutableQueue<>), GetArrayCreateRange(typeof(ImmutableQueue)))
@@ -41,13 +41,13 @@ static class ImmutableCollectionsUtils
                 typeof(IImmutableSet<>), new(typeof(ImmutableHashSet<>), GetArrayCreateRange(typeof(ImmutableHashSet)))
             },
             {
-                typeof(ImmutableSortedSet<>), new(typeof(ImmutableSortedSet<>),GetArrayCreateRange(typeof(ImmutableSortedSet)))
+                typeof(ImmutableSortedSet<>), new(typeof(ImmutableSortedSet<>), GetArrayCreateRange(typeof(ImmutableSortedSet)))
             },
             {
                 typeof(ImmutableHashSet<>), new(typeof(ImmutableHashSet<>), GetArrayCreateRange(typeof(ImmutableHashSet)))
             },
             {
-                typeof(ImmutableArray<>), new(typeof(ImmutableArray<>),GetArrayCreateRange(typeof(ImmutableArray)))
+                typeof(ImmutableArray<>), new(typeof(ImmutableArray<>), GetArrayCreateRange(typeof(ImmutableArray)))
             }
         }
         .ToFrozenDictionary();
