@@ -99,10 +99,10 @@ struct JsonPosition(JsonContainerType type)
 
             if (!message.EndsWith('.'))
             {
-                message += ".";
+                message += '.';
             }
 
-            message += " ";
+            message += ' ';
         }
 
         message += $"Path '{path}'";
@@ -112,7 +112,7 @@ struct JsonPosition(JsonContainerType type)
             message += $", line {lineInfo.LineNumber}, position {lineInfo.LinePosition}";
         }
 
-        message += ".";
+        message += '.';
 
         return message;
     }
