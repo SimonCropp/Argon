@@ -17,54 +17,66 @@ static class ImmutableCollectionsUtils
         public MethodInfo CreateRange { get; } = createRange;
     }
 
-    static FrozenDictionary<Type, TypeInfo> arrayDefinitions = new Dictionary<Type, TypeInfo>
-        {
-            {
-                typeof(IImmutableList<>), new(typeof(ImmutableList<>), GetArrayCreateRange(typeof(ImmutableList)))
-            },
-            {
-                typeof(ImmutableList<>), new(typeof(ImmutableList<>), GetArrayCreateRange(typeof(ImmutableList)))
-            },
-            {
-                typeof(IImmutableQueue<>), new(typeof(IImmutableQueue<>), GetArrayCreateRange(typeof(ImmutableQueue)))
-            },
-            {
-                typeof(ImmutableQueue<>), new(typeof(ImmutableQueue<>), GetArrayCreateRange(typeof(ImmutableQueue)))
-            },
-            {
-                typeof(IImmutableStack<>), new(typeof(ImmutableStack<>), GetArrayCreateRange(typeof(ImmutableStack)))
-            },
-            {
-                typeof(ImmutableStack<>), new(typeof(ImmutableStack<>), GetArrayCreateRange(typeof(ImmutableStack)))
-            },
-            {
-                typeof(IImmutableSet<>), new(typeof(ImmutableHashSet<>), GetArrayCreateRange(typeof(ImmutableHashSet)))
-            },
-            {
-                typeof(ImmutableSortedSet<>), new(typeof(ImmutableSortedSet<>), GetArrayCreateRange(typeof(ImmutableSortedSet)))
-            },
-            {
-                typeof(ImmutableHashSet<>), new(typeof(ImmutableHashSet<>), GetArrayCreateRange(typeof(ImmutableHashSet)))
-            },
-            {
-                typeof(ImmutableArray<>), new(typeof(ImmutableArray<>), GetArrayCreateRange(typeof(ImmutableArray)))
-            }
-        }
-        .ToFrozenDictionary();
+    static FrozenDictionary<Type, TypeInfo> arrayDefinitions;
 
-    static FrozenDictionary<Type, TypeInfo> dictionaryDefinitions = new Dictionary<Type, TypeInfo>
-        {
+    static FrozenDictionary<Type, TypeInfo> dictionaryDefinitions;
+
+    static ImmutableCollectionsUtils()
+    {
+        var immutableDictionaryInfo = new TypeInfo(typeof(ImmutableDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableDictionary)));
+        dictionaryDefinitions = new Dictionary<Type, TypeInfo>
             {
-                typeof(IImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableDictionary)))
-            },
-            {
-                typeof(ImmutableSortedDictionary<,>), new(typeof(ImmutableSortedDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableSortedDictionary)))
-            },
-            {
-                typeof(ImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableDictionary)))
+                {
+                    typeof(IImmutableDictionary<,>), immutableDictionaryInfo
+                },
+                {
+                    typeof(ImmutableSortedDictionary<,>), new(typeof(ImmutableSortedDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableSortedDictionary)))
+                },
+                {
+                    typeof(ImmutableDictionary<,>), immutableDictionaryInfo
+                }
             }
-        }
-        .ToFrozenDictionary();
+            .ToFrozenDictionary();
+
+        var immutableListInfo = new TypeInfo(typeof(ImmutableList<>), GetArrayCreateRange(typeof(ImmutableList)));
+        var immutableStackInfo = new TypeInfo(typeof(ImmutableStack<>), GetArrayCreateRange(typeof(ImmutableStack)));
+        var immutableHashSetInfo = new TypeInfo(typeof(ImmutableHashSet<>), GetArrayCreateRange(typeof(ImmutableHashSet)));
+        var immutableQueueCreateRange = GetArrayCreateRange(typeof(ImmutableQueue));
+        arrayDefinitions = new Dictionary<Type, TypeInfo>
+            {
+                {
+                    typeof(IImmutableList<>), immutableListInfo
+                },
+                {
+                    typeof(ImmutableList<>), immutableListInfo
+                },
+                {
+                    typeof(IImmutableQueue<>), new(typeof(IImmutableQueue<>), immutableQueueCreateRange)
+                },
+                {
+                    typeof(ImmutableQueue<>), new(typeof(ImmutableQueue<>), immutableQueueCreateRange)
+                },
+                {
+                    typeof(IImmutableStack<>), immutableStackInfo
+                },
+                {
+                    typeof(ImmutableStack<>), immutableStackInfo
+                },
+                {
+                    typeof(IImmutableSet<>), immutableHashSetInfo
+                },
+                {
+                    typeof(ImmutableSortedSet<>), new(typeof(ImmutableSortedSet<>), GetArrayCreateRange(typeof(ImmutableSortedSet)))
+                },
+                {
+                    typeof(ImmutableHashSet<>), immutableHashSetInfo
+                },
+                {
+                    typeof(ImmutableArray<>), new(typeof(ImmutableArray<>), GetArrayCreateRange(typeof(ImmutableArray)))
+                }
+            }
+            .ToFrozenDictionary();
+    }
 
     internal static bool TryBuildImmutableForArrayContract(Type targetType, Type collectionItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {
