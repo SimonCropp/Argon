@@ -17,7 +17,7 @@
     <Using Include="NodaTime.Utility" />
     <Using Include="NodaTime.TimeZones" />
     <Using Include="NodaTime.Text" />
-    <PackageReference Include="NodaTime" Version="3.1.9" />
+    <PackageReference Include="NodaTime" Version="3.1.10" />
     <PackageReference Include="ProjectDefaults" Version="1.0.108" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
