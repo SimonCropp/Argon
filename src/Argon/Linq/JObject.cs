@@ -107,10 +107,6 @@ public partial class JObject :
         }
     }
 
-    static bool IsNull(JToken token) =>
-        token.Type == JTokenType.Null ||
-        token is JValue {Value: null};
-
     internal override JToken CloneToken() =>
         new JObject(this);
 

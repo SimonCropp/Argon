@@ -14,24 +14,4 @@ readonly struct StringReference(char[] chars, int startIndex, int length)
 
     public override string ToString() =>
         new(Chars, StartIndex, Length);
-
-    public bool StartsWith(string text)
-    {
-        if (text.Length > Length)
-        {
-            return false;
-        }
-
-        var chars = Chars;
-
-        for (var i = 0; i < text.Length; i++)
-        {
-            if (text[i] != chars[i + StartIndex])
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

@@ -1623,9 +1623,8 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         return newObject;
     }
 
-    class CreatorPropertyContext(string name)
+    class CreatorPropertyContext
     {
-        public readonly string Name = name;
         public JsonProperty? Property;
         public JsonProperty? ConstructorProperty;
         public PropertyPresence? Presence;
@@ -1648,11 +1647,12 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                 {
                     if (propertyContexts.All(_ => _.Property != property))
                     {
-                        propertyContexts.Add(new(property.PropertyName!)
-                        {
-                            Property = property,
-                            Presence = PropertyPresence.None
-                        });
+                        propertyContexts.Add(
+                            new()
+                            {
+                                Property = property,
+                                Presence = PropertyPresence.None
+                            });
                     }
                 }
             }
@@ -1859,7 +1859,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                 case JsonToken.PropertyName:
                     var memberName = (string) reader.GetValue();
 
-                    var creatorPropertyContext = new CreatorPropertyContext(memberName)
+                    var creatorPropertyContext = new CreatorPropertyContext
                     {
                         ConstructorProperty = contract.CreatorParameters.GetClosestMatchProperty(memberName),
                         Property = contract.Properties.GetClosestMatchProperty(memberName)

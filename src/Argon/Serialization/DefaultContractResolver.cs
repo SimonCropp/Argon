@@ -646,17 +646,6 @@ public class DefaultContractResolver : IContractResolver
                type.IsSubclassOf(typeof(Type));
     }
 
-    static string GetClrTypeFullName(Type type)
-    {
-        if (type.IsGenericTypeDefinition ||
-            !type.ContainsGenericParameters)
-        {
-            return type.FullName!;
-        }
-
-        return $"{type.Namespace}.{type.Name}";
-    }
-
     /// <summary>
     /// Creates properties for the given <see cref="JsonContract" />.
     /// </summary>
