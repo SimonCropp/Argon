@@ -121,8 +121,9 @@ static class ConvertUtils
     {
         var initialType = t.Item1;
         var targetType = t.Item2;
-        var castMethodInfo = targetType.GetMethod("op_Implicit", [initialType])
-                             ?? targetType.GetMethod("op_Explicit", [initialType]);
+        Type[] types = [initialType];
+        var castMethodInfo = targetType.GetMethod("op_Implicit", types)
+                             ?? targetType.GetMethod("op_Explicit", types);
 
         if (castMethodInfo == null)
         {
