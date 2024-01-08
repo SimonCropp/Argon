@@ -39,19 +39,43 @@ static class ImmutableCollectionsUtils
     const string ImmutableHashSetTypeName = "System.Collections.Immutable.ImmutableHashSet";
     const string ImmutableHashSetGenericTypeName = "System.Collections.Immutable.ImmutableHashSet`1";
 
-    static List<ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions =
-    [
-        new(ImmutableListGenericInterfaceTypeName, ImmutableListGenericTypeName, ImmutableListTypeName),
-        new(ImmutableListGenericTypeName, ImmutableListGenericTypeName, ImmutableListTypeName),
-        new(ImmutableQueueGenericInterfaceTypeName, ImmutableQueueGenericTypeName, ImmutableQueueTypeName),
-        new(ImmutableQueueGenericTypeName, ImmutableQueueGenericTypeName, ImmutableQueueTypeName),
-        new(ImmutableStackGenericInterfaceTypeName, ImmutableStackGenericTypeName, ImmutableStackTypeName),
-        new(ImmutableStackGenericTypeName, ImmutableStackGenericTypeName, ImmutableStackTypeName),
-        new(ImmutableSetGenericInterfaceTypeName, ImmutableHashSetGenericTypeName, ImmutableHashSetTypeName),
-        new(ImmutableSortedSetGenericTypeName, ImmutableSortedSetGenericTypeName, ImmutableSortedSetTypeName),
-        new(ImmutableHashSetGenericTypeName, ImmutableHashSetGenericTypeName, ImmutableHashSetTypeName),
-        new(ImmutableArrayGenericTypeName, ImmutableArrayGenericTypeName, ImmutableArrayTypeName)
-    ];
+    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
+            {
+                {
+                    ImmutableListGenericInterfaceTypeName, new(ImmutableListGenericInterfaceTypeName, ImmutableListGenericTypeName, ImmutableListTypeName)
+                },
+                {
+                    ImmutableListGenericTypeName, new(ImmutableListGenericTypeName, ImmutableListGenericTypeName, ImmutableListTypeName)
+                },
+                {
+                    ImmutableQueueGenericInterfaceTypeName, new(ImmutableQueueGenericInterfaceTypeName, ImmutableQueueGenericTypeName, ImmutableQueueTypeName)
+                },
+                {
+                    ImmutableQueueGenericTypeName, new(ImmutableQueueGenericTypeName, ImmutableQueueGenericTypeName, ImmutableQueueTypeName)
+                },
+                {
+                    ImmutableStackGenericInterfaceTypeName, new(ImmutableStackGenericInterfaceTypeName, ImmutableStackGenericTypeName, ImmutableStackTypeName)
+                },
+                {
+                    ImmutableStackGenericTypeName, new(ImmutableStackGenericTypeName, ImmutableStackGenericTypeName, ImmutableStackTypeName)
+                },
+                {
+                    ImmutableSetGenericInterfaceTypeName, new(ImmutableSetGenericInterfaceTypeName, ImmutableHashSetGenericTypeName, ImmutableHashSetTypeName)
+                },
+                {
+                    ImmutableSortedSetGenericTypeName, new(ImmutableSortedSetGenericTypeName, ImmutableSortedSetGenericTypeName, ImmutableSortedSetTypeName)
+                },
+                {
+                    ImmutableHashSetGenericTypeName, new(ImmutableHashSetGenericTypeName, ImmutableHashSetGenericTypeName, ImmutableHashSetTypeName)
+                },
+                {
+                    ImmutableArrayGenericTypeName, new(ImmutableArrayGenericTypeName, ImmutableArrayGenericTypeName, ImmutableArrayTypeName)
+                }
+            }
+#if NET8_0_OR_GREATER
+            .ToFrozenDictionary()
+#endif
+        ;
 
     const string ImmutableDictionaryGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableDictionary`2";
 
@@ -61,12 +85,22 @@ static class ImmutableCollectionsUtils
     const string ImmutableSortedDictionaryTypeName = "System.Collections.Immutable.ImmutableSortedDictionary";
     const string ImmutableSortedDictionaryGenericTypeName = "System.Collections.Immutable.ImmutableSortedDictionary`2";
 
-    static List<ImmutableCollectionTypeInfo> dictionaryContractImmutableCollectionDefinitions =
-    [
-        new(ImmutableDictionaryGenericInterfaceTypeName, ImmutableDictionaryGenericTypeName, ImmutableDictionaryTypeName),
-        new(ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryTypeName),
-        new(ImmutableDictionaryGenericTypeName, ImmutableDictionaryGenericTypeName, ImmutableDictionaryTypeName)
-    ];
+    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> dictionaryContractImmutableCollectionDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
+            {
+                {
+                    ImmutableDictionaryGenericInterfaceTypeName, new(ImmutableDictionaryGenericInterfaceTypeName, ImmutableDictionaryGenericTypeName, ImmutableDictionaryTypeName)
+                },
+                {
+                    ImmutableSortedDictionaryGenericTypeName, new(ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryTypeName)
+                },
+                {
+                    ImmutableDictionaryGenericTypeName, new(ImmutableDictionaryGenericTypeName, ImmutableDictionaryGenericTypeName, ImmutableDictionaryTypeName)
+                }
+            }
+#if NET8_0_OR_GREATER
+            .ToFrozenDictionary()
+#endif
+        ;
 
     internal static bool TryBuildImmutableForArrayContract(Type underlyingType, Type collectionItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {
@@ -81,8 +115,8 @@ static class ImmutableCollectionsUtils
         var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
         var name = underlyingTypeDefinition.FullName;
 
-        var definition = ArrayContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
-        if (definition == null)
+        if (name == null ||
+            !ArrayContractImmutableCollectionDefinitions.TryGetValue(name, out var definition))
         {
             return false;
         }
@@ -95,9 +129,11 @@ static class ImmutableCollectionsUtils
             return false;
         }
 
-        var mb = builderTypeDefinition.GetMethods()
+        var mb = builderTypeDefinition
+            .GetMethods()
             .FirstOrDefault(_ => _.Name == "CreateRange" &&
-                                 _.GetParameters().Length == 1);
+                                 _.GetParameters()
+                                     .Length == 1);
         if (mb == null)
         {
             return false;
@@ -116,8 +152,8 @@ static class ImmutableCollectionsUtils
             var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
             var name = underlyingTypeDefinition.FullName;
 
-            var definition = dictionaryContractImmutableCollectionDefinitions.FirstOrDefault(d => d.ContractTypeName == name);
-            if (definition != null)
+            if (name != null &&
+                dictionaryContractImmutableCollectionDefinitions.TryGetValue(name, out var definition))
             {
                 var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
                 var builderTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.BuilderTypeName);

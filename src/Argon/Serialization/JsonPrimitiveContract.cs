@@ -28,7 +28,7 @@ public class JsonPrimitiveContract : JsonContract
         }
     }
 
-    static readonly IDictionary<Type, ReadType> readTypeMap = new Dictionary<Type, ReadType>
+    static readonly IReadOnlyDictionary<Type, ReadType> readTypeMap = new Dictionary<Type, ReadType>
         {
             [typeof(byte[])] = ReadType.ReadAsBytes,
             [typeof(byte)] = ReadType.ReadAsInt32,
