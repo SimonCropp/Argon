@@ -11,10 +11,10 @@ using System.Collections.Immutable;
 /// </summary>
 static class ImmutableCollectionsUtils
 {
-    internal class ImmutableCollectionTypeInfo(string contractTypeName, string createdTypeName, Type builderType)
+    internal class ImmutableCollectionTypeInfo(string contractTypeName, Type createdType, Type builderType)
     {
         public string ContractTypeName { get; set; } = contractTypeName;
-        public string CreatedTypeName { get; set; } = createdTypeName;
+        public Type CreatedType { get; set; } = createdType;
         public Type BuilderType { get; set; } = builderType;
     }
 
@@ -32,34 +32,34 @@ static class ImmutableCollectionsUtils
     static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
         {
             {
-                ImmutableListGenericInterfaceTypeName, new(ImmutableListGenericInterfaceTypeName, ImmutableListGenericTypeName, typeof(ImmutableList))
+                ImmutableListGenericInterfaceTypeName, new(ImmutableListGenericInterfaceTypeName, typeof(ImmutableList<>), typeof(ImmutableList))
             },
             {
-                ImmutableListGenericTypeName, new(ImmutableListGenericTypeName, ImmutableListGenericTypeName, typeof(ImmutableList))
+                ImmutableListGenericTypeName, new(ImmutableListGenericTypeName, typeof(ImmutableList<>), typeof(ImmutableList))
             },
             {
-                ImmutableQueueGenericInterfaceTypeName, new(ImmutableQueueGenericInterfaceTypeName, ImmutableQueueGenericTypeName, typeof(ImmutableQueue))
+                ImmutableQueueGenericInterfaceTypeName, new(ImmutableQueueGenericInterfaceTypeName, typeof(IImmutableQueue<>), typeof(ImmutableQueue))
             },
             {
-                ImmutableQueueGenericTypeName, new(ImmutableQueueGenericTypeName, ImmutableQueueGenericTypeName, typeof(ImmutableQueue))
+                ImmutableQueueGenericTypeName, new(ImmutableQueueGenericTypeName, typeof(ImmutableQueue<>), typeof(ImmutableQueue))
             },
             {
-                ImmutableStackGenericInterfaceTypeName, new(ImmutableStackGenericInterfaceTypeName, ImmutableStackGenericTypeName, typeof(ImmutableStack))
+                ImmutableStackGenericInterfaceTypeName, new(ImmutableStackGenericInterfaceTypeName, typeof(ImmutableStack<>), typeof(ImmutableStack))
             },
             {
-                ImmutableStackGenericTypeName, new(ImmutableStackGenericTypeName, ImmutableStackGenericTypeName, typeof(ImmutableStack))
+                ImmutableStackGenericTypeName, new(ImmutableStackGenericTypeName, typeof(ImmutableStack<>), typeof(ImmutableStack))
             },
             {
-                ImmutableSetGenericInterfaceTypeName, new(ImmutableSetGenericInterfaceTypeName, ImmutableHashSetGenericTypeName, typeof(ImmutableHashSet))
+                ImmutableSetGenericInterfaceTypeName, new(ImmutableSetGenericInterfaceTypeName, typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
             },
             {
-                ImmutableSortedSetGenericTypeName, new(ImmutableSortedSetGenericTypeName, ImmutableSortedSetGenericTypeName, typeof(ImmutableSortedSet))
+                ImmutableSortedSetGenericTypeName, new(ImmutableSortedSetGenericTypeName, typeof(ImmutableSortedSet<>), typeof(ImmutableSortedSet))
             },
             {
-                ImmutableHashSetGenericTypeName, new(ImmutableHashSetGenericTypeName, ImmutableHashSetGenericTypeName, typeof(ImmutableHashSet))
+                ImmutableHashSetGenericTypeName, new(ImmutableHashSetGenericTypeName, typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
             },
             {
-                ImmutableArrayGenericTypeName, new(ImmutableArrayGenericTypeName, ImmutableArrayGenericTypeName, typeof(ImmutableArray))
+                ImmutableArrayGenericTypeName, new(ImmutableArrayGenericTypeName, typeof(ImmutableArray<>), typeof(ImmutableArray))
             }
         }
         .ToFrozenDictionary();
@@ -71,13 +71,13 @@ static class ImmutableCollectionsUtils
     static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> dictionaryContractImmutableCollectionDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
         {
             {
-                ImmutableDictionaryGenericInterfaceTypeName, new(ImmutableDictionaryGenericInterfaceTypeName, ImmutableDictionaryGenericTypeName, typeof(ImmutableDictionary))
+                ImmutableDictionaryGenericInterfaceTypeName, new(ImmutableDictionaryGenericInterfaceTypeName, typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
             },
             {
-                ImmutableSortedDictionaryGenericTypeName, new(ImmutableSortedDictionaryGenericTypeName, ImmutableSortedDictionaryGenericTypeName, typeof(ImmutableSortedDictionary))
+                ImmutableSortedDictionaryGenericTypeName, new(ImmutableSortedDictionaryGenericTypeName, typeof(ImmutableSortedDictionary<,>), typeof(ImmutableSortedDictionary))
             },
             {
-                ImmutableDictionaryGenericTypeName, new(ImmutableDictionaryGenericTypeName, ImmutableDictionaryGenericTypeName, typeof(ImmutableDictionary))
+                ImmutableDictionaryGenericTypeName, new(ImmutableDictionaryGenericTypeName, typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
             }
         }
         .ToFrozenDictionary();
@@ -101,13 +101,6 @@ static class ImmutableCollectionsUtils
             return false;
         }
 
-        var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
-
-        if (createdTypeDefinition == null)
-        {
-            return false;
-        }
-
         var mb = definition.BuilderType
             .GetMethods()
             .FirstOrDefault(_ => _.Name == "CreateRange" &&
@@ -118,7 +111,7 @@ static class ImmutableCollectionsUtils
             return false;
         }
 
-        createdType = createdTypeDefinition.MakeGenericType(collectionItemType);
+        createdType = definition.CreatedType.MakeGenericType(collectionItemType);
         var method = mb.MakeGenericMethod(collectionItemType);
         parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
         return true;
@@ -134,33 +127,29 @@ static class ImmutableCollectionsUtils
             if (name != null &&
                 dictionaryContractImmutableCollectionDefinitions.TryGetValue(name, out var definition))
             {
-                var createdTypeDefinition = underlyingTypeDefinition.Assembly.GetType(definition.CreatedTypeName);
-
-                if (createdTypeDefinition != null)
-                {
-                    var method = definition.BuilderType
-                        .GetMethods()
-                        .FirstOrDefault(_ =>
-                        {
-                            var parameters = _.GetParameters();
-
-                            if (_.Name != "CreateRange" ||
-                                parameters.Length != 1)
-                            {
-                                return false;
-                            }
-
-                            var parameterType = parameters[0].ParameterType;
-                            return parameterType.IsGenericType &&
-                                   parameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
-                        });
-                    if (method != null)
+                var method = definition
+                    .BuilderType
+                    .GetMethods()
+                    .FirstOrDefault(_ =>
                     {
-                        createdType = createdTypeDefinition.MakeGenericType(keyItemType, valueItemType);
-                        method = method.MakeGenericMethod(keyItemType, valueItemType);
-                        parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
-                        return true;
-                    }
+                        var parameters = _.GetParameters();
+
+                        if (_.Name != "CreateRange" ||
+                            parameters.Length != 1)
+                        {
+                            return false;
+                        }
+
+                        var parameterType = parameters[0].ParameterType;
+                        return parameterType.IsGenericType &&
+                               parameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+                    });
+                if (method != null)
+                {
+                    createdType = definition.CreatedType.MakeGenericType(keyItemType, valueItemType);
+                    method = method.MakeGenericMethod(keyItemType, valueItemType);
+                    parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
+                    return true;
                 }
             }
         }
