@@ -11,43 +11,43 @@ using System.Collections.Immutable;
 /// </summary>
 static class ImmutableCollectionsUtils
 {
-    class ImmutableCollectionTypeInfo(Type createdType, Type builderType)
+    class ImmutableCollectionTypeInfo(Type createdType, MethodInfo createRange)
     {
         public Type CreatedType { get; } = createdType;
-        public Type BuilderType { get; } = builderType;
+        public MethodInfo CreateRange { get; } = createRange;
     }
 
     static IReadOnlyDictionary<Type, ImmutableCollectionTypeInfo> arrayDefinitions = new Dictionary<Type, ImmutableCollectionTypeInfo>
         {
             {
-                typeof(IImmutableList<>), new(typeof(ImmutableList<>), typeof(ImmutableList))
+                typeof(IImmutableList<>), new(typeof(ImmutableList<>), GetArrayCreateRange(typeof(ImmutableList)))
             },
             {
-                typeof(ImmutableList<>), new(typeof(ImmutableList<>), typeof(ImmutableList))
+                typeof(ImmutableList<>), new(typeof(ImmutableList<>),GetArrayCreateRange( typeof(ImmutableList)))
             },
             {
-                typeof(IImmutableQueue<>), new(typeof(IImmutableQueue<>), typeof(ImmutableQueue))
+                typeof(IImmutableQueue<>), new(typeof(IImmutableQueue<>), GetArrayCreateRange(typeof(ImmutableQueue)))
             },
             {
-                typeof(ImmutableQueue<>), new(typeof(ImmutableQueue<>), typeof(ImmutableQueue))
+                typeof(ImmutableQueue<>), new(typeof(ImmutableQueue<>), GetArrayCreateRange(typeof(ImmutableQueue)))
             },
             {
-                typeof(IImmutableStack<>), new(typeof(ImmutableStack<>), typeof(ImmutableStack))
+                typeof(IImmutableStack<>), new(typeof(ImmutableStack<>), GetArrayCreateRange(typeof(ImmutableStack)))
             },
             {
-                typeof(ImmutableStack<>), new(typeof(ImmutableStack<>), typeof(ImmutableStack))
+                typeof(ImmutableStack<>), new(typeof(ImmutableStack<>), GetArrayCreateRange(typeof(ImmutableStack)))
             },
             {
-                typeof(IImmutableSet<>), new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
+                typeof(IImmutableSet<>), new(typeof(ImmutableHashSet<>), GetArrayCreateRange(typeof(ImmutableHashSet)))
             },
             {
-                typeof(ImmutableSortedSet<>), new(typeof(ImmutableSortedSet<>), typeof(ImmutableSortedSet))
+                typeof(ImmutableSortedSet<>), new(typeof(ImmutableSortedSet<>),GetArrayCreateRange(typeof(ImmutableSortedSet)))
             },
             {
-                typeof(ImmutableHashSet<>), new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
+                typeof(ImmutableHashSet<>), new(typeof(ImmutableHashSet<>), GetArrayCreateRange(typeof(ImmutableHashSet)))
             },
             {
-                typeof(ImmutableArray<>), new(typeof(ImmutableArray<>), typeof(ImmutableArray))
+                typeof(ImmutableArray<>), new(typeof(ImmutableArray<>),GetArrayCreateRange(typeof(ImmutableArray)))
             }
         }
         .ToFrozenDictionary();
@@ -55,13 +55,13 @@ static class ImmutableCollectionsUtils
     static IReadOnlyDictionary<Type, ImmutableCollectionTypeInfo> dictionaryDefinitions = new Dictionary<Type, ImmutableCollectionTypeInfo>
         {
             {
-                typeof(IImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
+                typeof(IImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableDictionary)))
             },
             {
-                typeof(ImmutableSortedDictionary<,>), new(typeof(ImmutableSortedDictionary<,>), typeof(ImmutableSortedDictionary))
+                typeof(ImmutableSortedDictionary<,>), new(typeof(ImmutableSortedDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableSortedDictionary)))
             },
             {
-                typeof(ImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
+                typeof(ImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableDictionary)))
             }
         }
         .ToFrozenDictionary();
@@ -71,19 +71,10 @@ static class ImmutableCollectionsUtils
         if (targetType.IsGenericType &&
             arrayDefinitions.TryGetValue(targetType.GetGenericTypeDefinition(), out var definition))
         {
-            var create = definition
-                .BuilderType
-                .GetMethods()
-                .FirstOrDefault(_ => _.Name == "CreateRange" &&
-                                     _.GetParameters()
-                                         .Length == 1);
-            if (create != null)
-            {
-                createdType = definition.CreatedType.MakeGenericType(collectionItemType);
-                var method = create.MakeGenericMethod(collectionItemType);
-                parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
-                return true;
-            }
+            createdType = definition.CreatedType.MakeGenericType(collectionItemType);
+            var method = definition.CreateRange.MakeGenericMethod(collectionItemType);
+            parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
+            return true;
         }
 
         createdType = null;
@@ -91,40 +82,45 @@ static class ImmutableCollectionsUtils
 
         return false;
     }
+
+    static MethodInfo GetArrayCreateRange(Type type) =>
+        type
+            .GetMethods()
+            .Single(_ => _.Name == "CreateRange" &&
+                         _.GetParameters()
+                             .Length == 1);
 
     internal static bool TryBuildImmutableForDictionaryContract(Type targetType, Type keyItemType, Type valueItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {
         if (targetType.IsGenericType &&
             dictionaryDefinitions.TryGetValue(targetType.GetGenericTypeDefinition(), out var definition))
         {
-            var create = definition
-                .BuilderType
-                .GetMethods()
-                .FirstOrDefault(_ =>
-                {
-                    var parameters = _.GetParameters();
-
-                    if (_.Name != "CreateRange" ||
-                        parameters.Length != 1)
-                    {
-                        return false;
-                    }
-
-                    var parameterType = parameters[0].ParameterType;
-                    return parameterType.IsGenericType &&
-                           parameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
-                });
-            if (create != null)
-            {
-                createdType = definition.CreatedType.MakeGenericType(keyItemType, valueItemType);
-                create = create.MakeGenericMethod(keyItemType, valueItemType);
-                parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(create);
-                return true;
-            }
+            createdType = definition.CreatedType.MakeGenericType(keyItemType, valueItemType);
+            var create = definition.CreateRange.MakeGenericMethod(keyItemType, valueItemType);
+            parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(create);
+            return true;
         }
 
         createdType = null;
         parameterizedCreator = null;
         return false;
     }
+
+    static MethodInfo GetDictionaryCreateRange(Type type) =>
+        type
+            .GetMethods()
+            .Single(_ =>
+            {
+                var parameters = _.GetParameters();
+
+                if (_.Name != "CreateRange" ||
+                    parameters.Length != 1)
+                {
+                    return false;
+                }
+
+                var parameterType = parameters[0].ParameterType;
+                return parameterType.IsGenericType &&
+                       parameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+            });
 }
