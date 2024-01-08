@@ -11,9 +11,8 @@ using System.Collections.Immutable;
 /// </summary>
 static class ImmutableCollectionsUtils
 {
-    internal class ImmutableCollectionTypeInfo(string contractTypeName, Type createdType, Type builderType)
+    internal class ImmutableCollectionTypeInfo(Type createdType, Type builderType)
     {
-        public string ContractTypeName { get; set; } = contractTypeName;
         public Type CreatedType { get; set; } = createdType;
         public Type BuilderType { get; set; } = builderType;
     }
@@ -29,37 +28,37 @@ static class ImmutableCollectionsUtils
     const string ImmutableSortedSetGenericTypeName = "System.Collections.Immutable.ImmutableSortedSet`1";
     const string ImmutableHashSetGenericTypeName = "System.Collections.Immutable.ImmutableHashSet`1";
 
-    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> ArrayContractImmutableCollectionDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
+    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> arrayDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
         {
             {
-                ImmutableListGenericInterfaceTypeName, new(ImmutableListGenericInterfaceTypeName, typeof(ImmutableList<>), typeof(ImmutableList))
+                ImmutableListGenericInterfaceTypeName, new(typeof(ImmutableList<>), typeof(ImmutableList))
             },
             {
-                ImmutableListGenericTypeName, new(ImmutableListGenericTypeName, typeof(ImmutableList<>), typeof(ImmutableList))
+                ImmutableListGenericTypeName, new(typeof(ImmutableList<>), typeof(ImmutableList))
             },
             {
-                ImmutableQueueGenericInterfaceTypeName, new(ImmutableQueueGenericInterfaceTypeName, typeof(IImmutableQueue<>), typeof(ImmutableQueue))
+                ImmutableQueueGenericInterfaceTypeName, new(typeof(IImmutableQueue<>), typeof(ImmutableQueue))
             },
             {
-                ImmutableQueueGenericTypeName, new(ImmutableQueueGenericTypeName, typeof(ImmutableQueue<>), typeof(ImmutableQueue))
+                ImmutableQueueGenericTypeName, new(typeof(ImmutableQueue<>), typeof(ImmutableQueue))
             },
             {
-                ImmutableStackGenericInterfaceTypeName, new(ImmutableStackGenericInterfaceTypeName, typeof(ImmutableStack<>), typeof(ImmutableStack))
+                ImmutableStackGenericInterfaceTypeName, new(typeof(ImmutableStack<>), typeof(ImmutableStack))
             },
             {
-                ImmutableStackGenericTypeName, new(ImmutableStackGenericTypeName, typeof(ImmutableStack<>), typeof(ImmutableStack))
+                ImmutableStackGenericTypeName, new(typeof(ImmutableStack<>), typeof(ImmutableStack))
             },
             {
-                ImmutableSetGenericInterfaceTypeName, new(ImmutableSetGenericInterfaceTypeName, typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
+                ImmutableSetGenericInterfaceTypeName, new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
             },
             {
-                ImmutableSortedSetGenericTypeName, new(ImmutableSortedSetGenericTypeName, typeof(ImmutableSortedSet<>), typeof(ImmutableSortedSet))
+                ImmutableSortedSetGenericTypeName, new(typeof(ImmutableSortedSet<>), typeof(ImmutableSortedSet))
             },
             {
-                ImmutableHashSetGenericTypeName, new(ImmutableHashSetGenericTypeName, typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
+                ImmutableHashSetGenericTypeName, new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
             },
             {
-                ImmutableArrayGenericTypeName, new(ImmutableArrayGenericTypeName, typeof(ImmutableArray<>), typeof(ImmutableArray))
+                ImmutableArrayGenericTypeName, new(typeof(ImmutableArray<>), typeof(ImmutableArray))
             }
         }
         .ToFrozenDictionary();
@@ -68,53 +67,50 @@ static class ImmutableCollectionsUtils
     const string ImmutableDictionaryGenericTypeName = "System.Collections.Immutable.ImmutableDictionary`2";
     const string ImmutableSortedDictionaryGenericTypeName = "System.Collections.Immutable.ImmutableSortedDictionary`2";
 
-    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> dictionaryContractImmutableCollectionDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
+    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> dictionaryDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
         {
             {
-                ImmutableDictionaryGenericInterfaceTypeName, new(ImmutableDictionaryGenericInterfaceTypeName, typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
+                ImmutableDictionaryGenericInterfaceTypeName, new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
             },
             {
-                ImmutableSortedDictionaryGenericTypeName, new(ImmutableSortedDictionaryGenericTypeName, typeof(ImmutableSortedDictionary<,>), typeof(ImmutableSortedDictionary))
+                ImmutableSortedDictionaryGenericTypeName, new(typeof(ImmutableSortedDictionary<,>), typeof(ImmutableSortedDictionary))
             },
             {
-                ImmutableDictionaryGenericTypeName, new(ImmutableDictionaryGenericTypeName, typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
+                ImmutableDictionaryGenericTypeName, new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
             }
         }
         .ToFrozenDictionary();
 
     internal static bool TryBuildImmutableForArrayContract(Type underlyingType, Type collectionItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {
+        if (underlyingType.IsGenericType)
+        {
+            var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
+            var name = underlyingTypeDefinition.FullName;
+
+            if (name != null &&
+                arrayDefinitions.TryGetValue(name, out var definition))
+            {
+                var mb = definition
+                    .BuilderType
+                    .GetMethods()
+                    .FirstOrDefault(_ => _.Name == "CreateRange" &&
+                                         _.GetParameters()
+                                             .Length == 1);
+                if (mb != null)
+                {
+                    createdType = definition.CreatedType.MakeGenericType(collectionItemType);
+                    var method = mb.MakeGenericMethod(collectionItemType);
+                    parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
+                    return true;
+                }
+            }
+        }
+
         createdType = null;
         parameterizedCreator = null;
 
-        if (!underlyingType.IsGenericType)
-        {
-            return false;
-        }
-
-        var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
-        var name = underlyingTypeDefinition.FullName;
-
-        if (name == null ||
-            !ArrayContractImmutableCollectionDefinitions.TryGetValue(name, out var definition))
-        {
-            return false;
-        }
-
-        var mb = definition.BuilderType
-            .GetMethods()
-            .FirstOrDefault(_ => _.Name == "CreateRange" &&
-                                 _.GetParameters()
-                                     .Length == 1);
-        if (mb == null)
-        {
-            return false;
-        }
-
-        createdType = definition.CreatedType.MakeGenericType(collectionItemType);
-        var method = mb.MakeGenericMethod(collectionItemType);
-        parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
-        return true;
+        return false;
     }
 
     internal static bool TryBuildImmutableForDictionaryContract(Type underlyingType, Type keyItemType, Type valueItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
@@ -125,7 +121,7 @@ static class ImmutableCollectionsUtils
             var name = underlyingTypeDefinition.FullName;
 
             if (name != null &&
-                dictionaryContractImmutableCollectionDefinitions.TryGetValue(name, out var definition))
+                dictionaryDefinitions.TryGetValue(name, out var definition))
             {
                 var method = definition
                     .BuilderType
