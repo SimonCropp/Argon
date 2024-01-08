@@ -11,11 +11,11 @@ class ReflectionMember
 class ReflectionObject
 {
     public ObjectConstructor? Creator { get; }
-    public IDictionary<string, ReflectionMember> Members { get; }
+    public IReadOnlyDictionary<string, ReflectionMember> Members { get; }
 
-    ReflectionObject(ObjectConstructor? creator)
+    ReflectionObject(ObjectConstructor? creator, IReadOnlyDictionary<string, ReflectionMember> members)
     {
-        Members = new Dictionary<string, ReflectionMember>();
+        Members = members;
         Creator = creator;
     }
 
@@ -45,11 +45,11 @@ class ReflectionObject
             creatorConstructor = DelegateFactory.CreateParameterizedConstructor(creator);
         }
 
-        var reflectionObject = new ReflectionObject(creatorConstructor);
+        var memberLookup = new Dictionary<string, ReflectionMember>();
 
         foreach (var memberName in memberNames)
         {
-            var members = type.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public);
+            var members = type.GetMember(memberName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty | BindingFlags.SetField);
             if (members.Length != 1)
             {
                 throw new ArgumentException($"Expected a single member with the name '{memberName}'.");
@@ -85,9 +85,12 @@ class ReflectionObject
 
             reflectionMember.MemberType = member.GetMemberUnderlyingType();
 
-            reflectionObject.Members[memberName] = reflectionMember;
+            memberLookup[memberName] = reflectionMember;
         }
-
-        return reflectionObject;
+#if NET8_0_OR_GREATER
+        return new(creatorConstructor, memberLookup.ToFrozenDictionary());
+#else
+        return new(creatorConstructor, memberLookup);
+#endif
     }
 }
