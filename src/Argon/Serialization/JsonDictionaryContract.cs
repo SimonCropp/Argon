@@ -2,6 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using System.Collections.Immutable;
 using System.Collections.Specialized;
 
 namespace Argon;
@@ -195,7 +196,7 @@ public class JsonDictionaryContract : JsonContainerContract
 
         var definition = type.GetGenericTypeDefinition();
         return definition == typeof(SortedDictionary<,>) ||
-               definition.Name == "ImmutableSortedDictionary`2";
+               definition == typeof(ImmutableSortedDictionary<,>);
     }
 
     internal IWrappedDictionary CreateWrapper(object dictionary)
