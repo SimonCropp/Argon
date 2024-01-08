@@ -197,6 +197,7 @@ public class JsonDictionaryContract : JsonContainerContract
         return definition == typeof(SortedDictionary<,>) ||
                definition.Name == "ImmutableSortedDictionary`2";
     }
+
     internal IWrappedDictionary CreateWrapper(object dictionary)
     {
         if (genericWrapperCreator == null)
