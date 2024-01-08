@@ -6,7 +6,6 @@ class ReflectionMember
 {
     public Type? MemberType { get; set; }
     public Func<object, object?>? Getter { get; set; }
-    public Action<object, object?>? Setter { get; set; }
 }
 
 class ReflectionObject
@@ -69,11 +68,6 @@ class ReflectionObject
                         reflectionMember.Getter = DelegateFactory.CreateGet<object>(member);
                     }
 
-                    if (member.CanSetMemberValue(false, false))
-                    {
-                        reflectionMember.Setter = DelegateFactory.CreateSet<object>(member);
-                    }
-
                     break;
                 case MemberTypes.Method:
                     var method = (MethodInfo) member;
@@ -82,11 +76,6 @@ class ReflectionObject
                     {
                         var call = DelegateFactory.CreateMethodCall<object>(method);
                         reflectionMember.Getter = target => call(target);
-                    }
-                    else if (parameters.Length == 1 && method.ReturnType == typeof(void))
-                    {
-                        var call = DelegateFactory.CreateMethodCall<object>(method);
-                        reflectionMember.Setter = (target, arg) => call(target, arg);
                     }
 
                     break;
