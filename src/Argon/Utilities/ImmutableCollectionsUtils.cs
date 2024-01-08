@@ -11,99 +11,78 @@ using System.Collections.Immutable;
 /// </summary>
 static class ImmutableCollectionsUtils
 {
-    internal class ImmutableCollectionTypeInfo(Type createdType, Type builderType)
+    class ImmutableCollectionTypeInfo(Type createdType, Type builderType)
     {
-        public Type CreatedType { get; set; } = createdType;
-        public Type BuilderType { get; set; } = builderType;
+        public Type CreatedType { get; } = createdType;
+        public Type BuilderType { get; } = builderType;
     }
 
-    const string ImmutableListGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableList`1";
-    const string ImmutableQueueGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableQueue`1";
-    const string ImmutableStackGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableStack`1";
-    const string ImmutableSetGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableSet`1";
-    const string ImmutableArrayGenericTypeName = "System.Collections.Immutable.ImmutableArray`1";
-    const string ImmutableListGenericTypeName = "System.Collections.Immutable.ImmutableList`1";
-    const string ImmutableQueueGenericTypeName = "System.Collections.Immutable.ImmutableQueue`1";
-    const string ImmutableStackGenericTypeName = "System.Collections.Immutable.ImmutableStack`1";
-    const string ImmutableSortedSetGenericTypeName = "System.Collections.Immutable.ImmutableSortedSet`1";
-    const string ImmutableHashSetGenericTypeName = "System.Collections.Immutable.ImmutableHashSet`1";
-
-    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> arrayDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
+    static IReadOnlyDictionary<Type, ImmutableCollectionTypeInfo> arrayDefinitions = new Dictionary<Type, ImmutableCollectionTypeInfo>
         {
             {
-                ImmutableListGenericInterfaceTypeName, new(typeof(ImmutableList<>), typeof(ImmutableList))
+                typeof(IImmutableList<>), new(typeof(ImmutableList<>), typeof(ImmutableList))
             },
             {
-                ImmutableListGenericTypeName, new(typeof(ImmutableList<>), typeof(ImmutableList))
+                typeof(ImmutableList<>), new(typeof(ImmutableList<>), typeof(ImmutableList))
             },
             {
-                ImmutableQueueGenericInterfaceTypeName, new(typeof(IImmutableQueue<>), typeof(ImmutableQueue))
+                typeof(IImmutableQueue<>), new(typeof(IImmutableQueue<>), typeof(ImmutableQueue))
             },
             {
-                ImmutableQueueGenericTypeName, new(typeof(ImmutableQueue<>), typeof(ImmutableQueue))
+                typeof(ImmutableQueue<>), new(typeof(ImmutableQueue<>), typeof(ImmutableQueue))
             },
             {
-                ImmutableStackGenericInterfaceTypeName, new(typeof(ImmutableStack<>), typeof(ImmutableStack))
+                typeof(IImmutableStack<>), new(typeof(ImmutableStack<>), typeof(ImmutableStack))
             },
             {
-                ImmutableStackGenericTypeName, new(typeof(ImmutableStack<>), typeof(ImmutableStack))
+                typeof(ImmutableStack<>), new(typeof(ImmutableStack<>), typeof(ImmutableStack))
             },
             {
-                ImmutableSetGenericInterfaceTypeName, new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
+                typeof(IImmutableSet<>), new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
             },
             {
-                ImmutableSortedSetGenericTypeName, new(typeof(ImmutableSortedSet<>), typeof(ImmutableSortedSet))
+                typeof(ImmutableSortedSet<>), new(typeof(ImmutableSortedSet<>), typeof(ImmutableSortedSet))
             },
             {
-                ImmutableHashSetGenericTypeName, new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
+                typeof(ImmutableHashSet<>), new(typeof(ImmutableHashSet<>), typeof(ImmutableHashSet))
             },
             {
-                ImmutableArrayGenericTypeName, new(typeof(ImmutableArray<>), typeof(ImmutableArray))
+                typeof(ImmutableArray<>), new(typeof(ImmutableArray<>), typeof(ImmutableArray))
             }
         }
         .ToFrozenDictionary();
 
-    const string ImmutableDictionaryGenericInterfaceTypeName = "System.Collections.Immutable.IImmutableDictionary`2";
-    const string ImmutableDictionaryGenericTypeName = "System.Collections.Immutable.ImmutableDictionary`2";
-    const string ImmutableSortedDictionaryGenericTypeName = "System.Collections.Immutable.ImmutableSortedDictionary`2";
-
-    static IReadOnlyDictionary<string, ImmutableCollectionTypeInfo> dictionaryDefinitions = new Dictionary<string, ImmutableCollectionTypeInfo>
+    static IReadOnlyDictionary<Type, ImmutableCollectionTypeInfo> dictionaryDefinitions = new Dictionary<Type, ImmutableCollectionTypeInfo>
         {
             {
-                ImmutableDictionaryGenericInterfaceTypeName, new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
+                typeof(IImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
             },
             {
-                ImmutableSortedDictionaryGenericTypeName, new(typeof(ImmutableSortedDictionary<,>), typeof(ImmutableSortedDictionary))
+                typeof(ImmutableSortedDictionary<,>), new(typeof(ImmutableSortedDictionary<,>), typeof(ImmutableSortedDictionary))
             },
             {
-                ImmutableDictionaryGenericTypeName, new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
+                typeof(ImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), typeof(ImmutableDictionary))
             }
         }
         .ToFrozenDictionary();
 
-    internal static bool TryBuildImmutableForArrayContract(Type underlyingType, Type collectionItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
+    internal static bool TryBuildImmutableForArrayContract(Type targetType, Type collectionItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {
-        if (underlyingType.IsGenericType)
+        if (targetType.IsGenericType &&
+            arrayDefinitions.TryGetValue(targetType.GetGenericTypeDefinition(), out var definition))
         {
-            var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
-            var name = underlyingTypeDefinition.FullName;
-
-            if (name != null &&
-                arrayDefinitions.TryGetValue(name, out var definition))
+            var create = definition
+                .BuilderType
+                .GetMethods()
+                .FirstOrDefault(_ => _.Name == "CreateRange" &&
+                                     _.GetParameters()
+                                         .Length == 1);
+            if (create != null)
             {
-                var mb = definition
-                    .BuilderType
-                    .GetMethods()
-                    .FirstOrDefault(_ => _.Name == "CreateRange" &&
-                                         _.GetParameters()
-                                             .Length == 1);
-                if (mb != null)
-                {
-                    createdType = definition.CreatedType.MakeGenericType(collectionItemType);
-                    var method = mb.MakeGenericMethod(collectionItemType);
-                    parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
-                    return true;
-                }
+                createdType = definition.CreatedType.MakeGenericType(collectionItemType);
+                var method = create.MakeGenericMethod(collectionItemType);
+                parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
+                return true;
             }
         }
 
@@ -113,40 +92,34 @@ static class ImmutableCollectionsUtils
         return false;
     }
 
-    internal static bool TryBuildImmutableForDictionaryContract(Type underlyingType, Type keyItemType, Type valueItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
+    internal static bool TryBuildImmutableForDictionaryContract(Type targetType, Type keyItemType, Type valueItemType, [NotNullWhen(true)] out Type? createdType, [NotNullWhen(true)] out ObjectConstructor? parameterizedCreator)
     {
-        if (underlyingType.IsGenericType)
+        if (targetType.IsGenericType &&
+            dictionaryDefinitions.TryGetValue(targetType.GetGenericTypeDefinition(), out var definition))
         {
-            var underlyingTypeDefinition = underlyingType.GetGenericTypeDefinition();
-            var name = underlyingTypeDefinition.FullName;
-
-            if (name != null &&
-                dictionaryDefinitions.TryGetValue(name, out var definition))
-            {
-                var method = definition
-                    .BuilderType
-                    .GetMethods()
-                    .FirstOrDefault(_ =>
-                    {
-                        var parameters = _.GetParameters();
-
-                        if (_.Name != "CreateRange" ||
-                            parameters.Length != 1)
-                        {
-                            return false;
-                        }
-
-                        var parameterType = parameters[0].ParameterType;
-                        return parameterType.IsGenericType &&
-                               parameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
-                    });
-                if (method != null)
+            var create = definition
+                .BuilderType
+                .GetMethods()
+                .FirstOrDefault(_ =>
                 {
-                    createdType = definition.CreatedType.MakeGenericType(keyItemType, valueItemType);
-                    method = method.MakeGenericMethod(keyItemType, valueItemType);
-                    parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(method);
-                    return true;
-                }
+                    var parameters = _.GetParameters();
+
+                    if (_.Name != "CreateRange" ||
+                        parameters.Length != 1)
+                    {
+                        return false;
+                    }
+
+                    var parameterType = parameters[0].ParameterType;
+                    return parameterType.IsGenericType &&
+                           parameterType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+                });
+            if (create != null)
+            {
+                createdType = definition.CreatedType.MakeGenericType(keyItemType, valueItemType);
+                create = create.MakeGenericMethod(keyItemType, valueItemType);
+                parameterizedCreator = DelegateFactory.CreateParameterizedConstructor(create);
+                return true;
             }
         }
 
