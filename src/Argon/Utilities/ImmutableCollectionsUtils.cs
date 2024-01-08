@@ -11,13 +11,13 @@ using System.Collections.Immutable;
 /// </summary>
 static class ImmutableCollectionsUtils
 {
-    class ImmutableCollectionTypeInfo(Type createdType, MethodInfo createRange)
+    class TypeInfo(Type createdType, MethodInfo createRange)
     {
         public Type CreatedType { get; } = createdType;
         public MethodInfo CreateRange { get; } = createRange;
     }
 
-    static IReadOnlyDictionary<Type, ImmutableCollectionTypeInfo> arrayDefinitions = new Dictionary<Type, ImmutableCollectionTypeInfo>
+    static FrozenDictionary<Type, TypeInfo> arrayDefinitions = new Dictionary<Type, TypeInfo>
         {
             {
                 typeof(IImmutableList<>), new(typeof(ImmutableList<>), GetArrayCreateRange(typeof(ImmutableList)))
@@ -52,7 +52,7 @@ static class ImmutableCollectionsUtils
         }
         .ToFrozenDictionary();
 
-    static IReadOnlyDictionary<Type, ImmutableCollectionTypeInfo> dictionaryDefinitions = new Dictionary<Type, ImmutableCollectionTypeInfo>
+    static FrozenDictionary<Type, TypeInfo> dictionaryDefinitions = new Dictionary<Type, TypeInfo>
         {
             {
                 typeof(IImmutableDictionary<,>), new(typeof(ImmutableDictionary<,>), GetDictionaryCreateRange(typeof(ImmutableDictionary)))
