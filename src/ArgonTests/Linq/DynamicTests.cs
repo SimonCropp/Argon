@@ -4,6 +4,7 @@
 
 using System.Dynamic;
 // ReSharper disable UnusedVariable
+// ReSharper disable RedundantAssignment
 
 public class LinqDynamicTests : TestFixtureBase
 {

@@ -19,6 +19,7 @@ using TestObjects;
 using Formatting = Argon.Formatting;
 using JsonConstructor = Argon.JsonConstructorAttribute;
 // ReSharper disable UnusedVariable
+// ReSharper disable RedundantAssignment
 
 public class JsonSerializerTest : TestFixtureBase
 {

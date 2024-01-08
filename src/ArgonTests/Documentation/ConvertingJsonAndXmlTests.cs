@@ -5,6 +5,7 @@
 using System.Xml;
 // ReSharper disable UnusedVariable
 // ReSharper disable NotAccessedVariable
+// ReSharper disable RedundantAssignment
 
 namespace Argon.Tests.Documentation;
 
