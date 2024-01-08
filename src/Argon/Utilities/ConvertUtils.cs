@@ -52,10 +52,7 @@ static class ConvertUtils
             {typeof(byte[]), PrimitiveTypeCode.Bytes},
             {typeof(DBNull), PrimitiveTypeCode.DBNull}
         }
-#if NET8_0_OR_GREATER
-        .ToFrozenDictionary()
-#endif
-        ;
+        .ToFrozenDictionary();
 
     static readonly TypeInformation[] PrimitiveTypeCodes =
     [

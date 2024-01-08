@@ -87,10 +87,6 @@ class ReflectionObject
 
             memberLookup[memberName] = reflectionMember;
         }
-#if NET8_0_OR_GREATER
         return new(creatorConstructor, memberLookup.ToFrozenDictionary());
-#else
-        return new(creatorConstructor, memberLookup);
-#endif
     }
 }

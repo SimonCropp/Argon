@@ -43,8 +43,5 @@ public class JsonPrimitiveContract : JsonContract
             [typeof(double)] = ReadType.ReadAsDouble,
             [typeof(long)] = ReadType.ReadAsInt64
         }
-#if NET8_0_OR_GREATER
-        .ToFrozenDictionary()
-#endif
-        ;
+        .ToFrozenDictionary();
 }
