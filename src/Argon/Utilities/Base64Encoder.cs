@@ -23,7 +23,7 @@ class Base64Encoder(TextWriter writer)
             }
 
             var num2 = Convert.ToBase64CharArray(leftOverBytes!, 0, 3, charsLine, 0);
-            WriteChars(charsLine, 0, num2);
+            WriteChars(charsLine, num2);
         }
 
         StoreLeftOverBytes(buffer, ref count);
@@ -38,7 +38,7 @@ class Base64Encoder(TextWriter writer)
             }
 
             var num6 = Convert.ToBase64CharArray(buffer, index, length, charsLine, 0);
-            WriteChars(charsLine, 0, num6);
+            WriteChars(charsLine, num6);
             index += length;
         }
     }
@@ -84,13 +84,13 @@ class Base64Encoder(TextWriter writer)
         if (leftOverBytesCount > 0)
         {
             var count = Convert.ToBase64CharArray(leftOverBytes!, 0, leftOverBytesCount, charsLine, 0);
-            WriteChars(charsLine, 0, count);
+            WriteChars(charsLine, count);
             leftOverBytesCount = 0;
         }
     }
 
-    void WriteChars(char[] chars, int index, int count) =>
-        writer.Write(chars, index, count);
+    void WriteChars(char[] chars, int count) =>
+        writer.Write(chars, 0, count);
 
     public async Task EncodeAsync(byte[] buffer, Cancel cancel)
     {
