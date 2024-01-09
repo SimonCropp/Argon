@@ -711,8 +711,7 @@ public abstract partial class JsonWriter : IDisposable
     /// <summary>
     /// Writes raw JSON without changing the writer's state.
     /// </summary>
-    public virtual void WriteRaw(string? json) =>
-        InternalWriteRaw();
+    public abstract void WriteRaw(string? json);
 
     /// <summary>
     /// Writes raw JSON where a value is expected and updates the writer's state.
@@ -1400,7 +1399,6 @@ public abstract partial class JsonWriter : IDisposable
                 InternalWriteComment();
                 break;
             case JsonToken.Raw:
-                InternalWriteRaw();
                 break;
             case JsonToken.Integer:
             case JsonToken.Float:
@@ -1430,10 +1428,6 @@ public abstract partial class JsonWriter : IDisposable
     {
         currentPosition.PropertyName = name;
         AutoComplete(JsonToken.PropertyName);
-    }
-
-    internal void InternalWriteRaw()
-    {
     }
 
     internal void InternalWriteStart(JsonToken token, JsonContainerType container)

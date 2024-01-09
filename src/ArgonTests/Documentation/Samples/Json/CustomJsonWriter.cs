@@ -33,6 +33,9 @@ public class XmlJsonWriter(XmlWriter writer) :
         writer.WriteEndElement();
     }
 
+    public override void WriteRaw(string json) =>
+        throw new NotImplementedException();
+
     public override void WriteValue(DateTime value)
     {
         base.WriteValue(value);

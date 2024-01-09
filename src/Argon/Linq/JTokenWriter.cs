@@ -196,11 +196,8 @@ public partial class JTokenWriter :
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
-    public override void WriteRaw(string? json)
-    {
-        base.WriteRaw(json);
+    public override void WriteRaw(string? json) =>
         AddJValue(new JRaw(json));
-    }
 
     /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
