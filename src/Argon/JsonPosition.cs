@@ -26,7 +26,7 @@ struct JsonPosition(JsonContainerType type)
             _ => throw new ArgumentOutOfRangeException(nameof(Type))
         };
 
-    void WriteTo(StringBuilder sb, ref StringWriter? writer, ref char[]? buffer)
+    void WriteTo(StringBuilder builder, ref StringWriter? writer, ref char[]? buffer)
     {
         switch (Type)
         {
@@ -34,29 +34,29 @@ struct JsonPosition(JsonContainerType type)
                 var propertyName = PropertyName!;
                 if (propertyName.IndexOfAny(specialCharacters) != -1)
                 {
-                    sb.Append("['");
+                    builder.Append("['");
 
-                    writer ??= new(sb);
+                    writer ??= new(builder);
 
                     JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
 
-                    sb.Append("']");
+                    builder.Append("']");
                 }
                 else
                 {
-                    if (sb.Length > 0)
+                    if (builder.Length > 0)
                     {
-                        sb.Append('.');
+                        builder.Append('.');
                     }
 
-                    sb.Append(propertyName);
+                    builder.Append(propertyName);
                 }
 
                 break;
             case JsonContainerType.Array:
-                sb.Append('[');
-                sb.Append(Position);
-                sb.Append(']');
+                builder.Append('[');
+                builder.Append(Position);
+                builder.Append(']');
                 break;
         }
     }
@@ -77,17 +77,17 @@ struct JsonPosition(JsonContainerType type)
             capacity += currentPosition.GetValueOrDefault().CalculateLength();
         }
 
-        var stringBuilder = new StringBuilder(capacity);
+        var builder = new StringBuilder(capacity);
         StringWriter? writer = null;
         char[]? buffer = null;
         foreach (var state in positions)
         {
-            state.WriteTo(stringBuilder, ref writer, ref buffer);
+            state.WriteTo(builder, ref writer, ref buffer);
         }
 
-        currentPosition?.WriteTo(stringBuilder, ref writer, ref buffer);
+        currentPosition?.WriteTo(builder, ref writer, ref buffer);
 
-        return stringBuilder.ToString();
+        return builder.ToString();
     }
 
     internal static string FormatMessage(IJsonLineInfo? lineInfo, string path, string message)
