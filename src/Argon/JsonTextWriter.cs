@@ -481,7 +481,7 @@ public partial class JsonTextWriter : JsonWriter
                 writer.Write(quoteChar);
             }
 
-            base64Encoder.Encode(value, 0, value.Length);
+            base64Encoder.Encode(value);
             base64Encoder.Flush();
             if (QuoteValue)
             {

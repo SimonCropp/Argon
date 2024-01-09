@@ -12,31 +12,12 @@ class Base64Encoder(TextWriter writer)
     byte[]? leftOverBytes;
     int leftOverBytesCount;
 
-    static void ValidateEncode(byte[] buffer, int index, int count)
+    public void Encode(byte[] buffer)
     {
-        if (index < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(index));
-        }
-
-        if (count < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(count));
-        }
-
-        if (count > buffer.Length - index)
-        {
-            throw new ArgumentOutOfRangeException(nameof(count));
-        }
-    }
-
-    public void Encode(byte[] buffer, int index, int count)
-    {
-        ValidateEncode(buffer, index, count);
-
+        var count = buffer.Length;
         if (leftOverBytesCount > 0)
         {
-            if (FulfillFromLeftover(buffer, index, ref count))
+            if (FulfillFromLeftover(buffer, ref count))
             {
                 return;
             }
@@ -45,15 +26,15 @@ class Base64Encoder(TextWriter writer)
             WriteChars(charsLine, 0, num2);
         }
 
-        StoreLeftOverBytes(buffer, index, ref count);
+        StoreLeftOverBytes(buffer, ref count);
 
-        var num4 = index + count;
+        var index = 0;
         var length = LineSizeInBytes;
-        while (index < num4)
+        while (index < count)
         {
-            if (index + length > num4)
+            if (index + length > count)
             {
-                length = num4 - index;
+                length = count - index;
             }
 
             var num6 = Convert.ToBase64CharArray(buffer, index, length, charsLine, 0);
@@ -62,7 +43,7 @@ class Base64Encoder(TextWriter writer)
         }
     }
 
-    void StoreLeftOverBytes(byte[] buffer, int index, ref int count)
+    void StoreLeftOverBytes(byte[] buffer, ref int count)
     {
         var leftOverBytesCount = count % 3;
         if (leftOverBytesCount > 0)
@@ -72,15 +53,16 @@ class Base64Encoder(TextWriter writer)
 
             for (var i = 0; i < leftOverBytesCount; i++)
             {
-                leftOverBytes[i] = buffer[index + count + i];
+                leftOverBytes[i] = buffer[count + i];
             }
         }
 
         this.leftOverBytesCount = leftOverBytesCount;
     }
 
-    bool FulfillFromLeftover(byte[] buffer, int index, ref int count)
+    bool FulfillFromLeftover(byte[] buffer, ref int count)
     {
+        var index = 0;
         var leftOverBytesCount = this.leftOverBytesCount;
         while (leftOverBytesCount < 3 && count > 0)
         {
@@ -110,13 +92,13 @@ class Base64Encoder(TextWriter writer)
     void WriteChars(char[] chars, int index, int count) =>
         writer.Write(chars, index, count);
 
-    public async Task EncodeAsync(byte[] buffer, int index, int count, Cancel cancel)
+    public async Task EncodeAsync(byte[] buffer, Cancel cancel)
     {
-        ValidateEncode(buffer, index, count);
-
+        var count = buffer.Length;
+        var index = 0;
         if (leftOverBytesCount > 0)
         {
-            if (FulfillFromLeftover(buffer, index, ref count))
+            if (FulfillFromLeftover(buffer, ref count))
             {
                 return;
             }
@@ -125,9 +107,9 @@ class Base64Encoder(TextWriter writer)
             await WriteCharsAsync(charsLine, 0, num2, cancel).ConfigureAwait(false);
         }
 
-        StoreLeftOverBytes(buffer, index, ref count);
+        StoreLeftOverBytes(buffer, ref count);
 
-        var num4 = index + count;
+        var num4 = buffer.Length;
         var length = LineSizeInBytes;
         while (index < num4)
         {
