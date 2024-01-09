@@ -2,8 +2,25 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+
 class Base64Encoder(TextWriter writer)
 {
+    public static void Encode2(TextWriter writer, ReadOnlySpan<byte> buffer)
+    {
+        var index = 0;
+        Span<char> target = stackalloc char[Base64LineSize];
+        do
+        {
+            var min = Math.Min(LineSizeInBytes, buffer.Length - index );
+#if NET8_0_OR_GREATER
+            var slice = buffer.Slice(index, min);
+            Convert.TryToBase64Chars(slice, target, out var charsWritten);
+            index += LineSizeInBytes;
+            writer.Write(target[..charsWritten]);
+#else
+#endif
+        } while (index < buffer.Length);
+    }
     const int Base64LineSize = 76;
     const int LineSizeInBytes = 57;
 
@@ -91,56 +108,4 @@ class Base64Encoder(TextWriter writer)
 
     void WriteChars(char[] chars, int count) =>
         writer.Write(chars, 0, count);
-
-    public async Task EncodeAsync(byte[] buffer, Cancel cancel)
-    {
-        var count = buffer.Length;
-        var index = 0;
-        if (leftOverBytesCount > 0)
-        {
-            if (FulfillFromLeftover(buffer, ref count))
-            {
-                return;
-            }
-
-            var num2 = Convert.ToBase64CharArray(leftOverBytes!, 0, 3, charsLine, 0);
-            await WriteCharsAsync(charsLine, 0, num2, cancel).ConfigureAwait(false);
-        }
-
-        StoreLeftOverBytes(buffer, ref count);
-
-        var num4 = buffer.Length;
-        var length = LineSizeInBytes;
-        while (index < num4)
-        {
-            if (index + length > num4)
-            {
-                length = num4 - index;
-            }
-
-            var num6 = Convert.ToBase64CharArray(buffer, index, length, charsLine, 0);
-            await WriteCharsAsync(charsLine, 0, num6, cancel).ConfigureAwait(false);
-            index += length;
-        }
-    }
-
-    Task WriteCharsAsync(char[] chars, int index, int count, Cancel cancel) =>
-        writer.WriteAsync(chars, index, count, cancel);
-
-    public Task FlushAsync(Cancel cancel)
-    {
-        if (cancel.IsCancellationRequested)
-        {
-            return cancel.FromCanceled();
-        }
-
-        if (leftOverBytesCount > 0)
-        {
-            var count = Convert.ToBase64CharArray(leftOverBytes!, 0, leftOverBytesCount, charsLine, 0);
-            leftOverBytesCount = 0;
-            return WriteCharsAsync(charsLine, 0, count, cancel);
-        }
-
-        return Task.CompletedTask;
-    }
 }
