@@ -10,11 +10,11 @@ static class Base64Encoder
     public static void WriteBase64(this TextWriter writer, ReadOnlySpan<byte> buffer)
     {
         var index = 0;
+        Span<char> target = stackalloc char[Base64LineSize];
         do
         {
-            var min = Math.Min(LineSizeInBytes, buffer.Length - index );
+            var min = Math.Min(LineSizeInBytes, buffer.Length - index);
             var slice = buffer.Slice(index, min);
-        Span<char> target = stackalloc char[Base64LineSize];
             Convert.TryToBase64Chars(slice, target, out var charsWritten);
             writer.Write(target[..charsWritten]);
             index += LineSizeInBytes;
