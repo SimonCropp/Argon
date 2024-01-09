@@ -71,24 +71,26 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
     void SerializePrimitive(JsonWriter writer, object value, JsonPrimitiveContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
-        if (contract.TypeCode == PrimitiveTypeCode.Bytes)
+        if (contract.TypeCode != PrimitiveTypeCode.Bytes)
         {
-            // if type name handling is enabled then wrap the base64 byte string in an object with the type name
-            var includeTypeDetails = ShouldWriteType(TypeNameHandling.Objects, contract, member, containerContract, containerProperty);
-            if (includeTypeDetails)
-            {
-                writer.WriteStartObject();
-                WriteTypeProperty(writer, contract.CreatedType);
-                writer.WritePropertyName(JsonTypeReflector.ValuePropertyName, false);
-
-                JsonWriter.WriteValue(writer, contract.TypeCode, value);
-
-                writer.WriteEndObject();
-                return;
-            }
+            JsonWriter.WriteValue(writer, contract.TypeCode, value);
+            return;
         }
 
-        JsonWriter.WriteValue(writer, contract.TypeCode, value);
+        var bytes = (byte[]) value;
+        // if type name handling is enabled then wrap the base64 byte string in an object with the type name
+        var includeTypeDetails = ShouldWriteType(TypeNameHandling.Objects, contract, member, containerContract, containerProperty);
+        if (!includeTypeDetails)
+        {
+            writer.WriteValue(bytes);
+            return;
+        }
+
+        writer.WriteStartObject();
+        WriteTypeProperty(writer, contract.CreatedType);
+        writer.WritePropertyName(JsonTypeReflector.ValuePropertyName, false);
+        writer.WriteValue(bytes);
+        writer.WriteEndObject();
     }
 
     void SerializeValue(JsonWriter writer, object? value, JsonContract? valueContract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
