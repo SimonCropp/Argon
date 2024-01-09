@@ -432,29 +432,21 @@ public class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.Date);
 
-        var length = WriteValueToBuffer(value);
-
-        writer.Write(writeBuffer!, 0, length);
-    }
-
-    int WriteValueToBuffer(DateTime value)
-    {
         EnsureBuffer();
         MiscellaneousUtils.Assert(writeBuffer != null);
 
-        var pos = 0;
         if (QuoteValue)
         {
-            writeBuffer[pos++] = quoteChar;
+            writer.Write(quoteChar);
         }
 
-        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value, null, value.Kind);
+        var length = DateTimeUtils.WriteDateTimeString(writeBuffer, 0, value, null, value.Kind);
+
+        writer.Write(writeBuffer!, 0, length);
         if (QuoteValue)
         {
-            writeBuffer[pos++] = quoteChar;
+            writer.Write(quoteChar);
         }
-
-        return pos;
     }
 
     /// <summary>
@@ -489,29 +481,22 @@ public class JsonTextWriter : JsonWriter
     {
         InternalWriteValue(JsonToken.Date);
 
-        var length = WriteValueToBuffer(value);
-
-        writer.Write(writeBuffer!, 0, length);
-    }
-
-    int WriteValueToBuffer(DateTimeOffset value)
-    {
         EnsureBuffer();
         MiscellaneousUtils.Assert(writeBuffer != null);
 
-        var pos = 0;
         if (QuoteValue)
         {
-            writeBuffer[pos++] = quoteChar;
+            writer.Write(quoteChar);
         }
 
-        pos = DateTimeUtils.WriteDateTimeString(writeBuffer, pos, value.DateTime, value.Offset, DateTimeKind.Local);
+        var length = DateTimeUtils.WriteDateTimeString(writeBuffer, 0, value.DateTime, value.Offset, DateTimeKind.Local);
+
+        writer.Write(writeBuffer!, 0, length);
         if (QuoteValue)
         {
-            writeBuffer[pos++] = quoteChar;
+            writer.Write(quoteChar);
         }
 
-        return pos;
     }
 
     /// <summary>
