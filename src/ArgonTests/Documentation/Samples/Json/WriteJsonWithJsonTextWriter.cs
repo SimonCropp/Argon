@@ -9,8 +9,7 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
     {
         #region WriteJsonWithJsonTextWriter
 
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
+        var stringWriter = new StringWriter();
 
         using (JsonWriter writer = new JsonTextWriter(stringWriter))
         {
@@ -31,7 +30,7 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
             writer.WriteEndObject();
         }
 
-        Console.WriteLine(stringBuilder.ToString());
+        Console.WriteLine(stringWriter.ToString());
         // {
         //   "CPU": "Intel",
         //   "PSU": "500W",
@@ -58,6 +57,6 @@ public class WriteJsonWithJsonTextWriter : TestFixtureBase
               ]
             }
             """,
-            stringBuilder.ToString());
+            stringWriter.ToString());
     }
 }

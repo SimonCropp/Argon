@@ -11,8 +11,7 @@ public class ReadingAndWritingJsonTests : TestFixtureBase
     {
         #region ReadingAndWritingJsonText
 
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
+        var stringWriter = new StringWriter();
 
         using var jsonWriter = new JsonTextWriter(stringWriter);
         jsonWriter.Formatting = Formatting.Indented;

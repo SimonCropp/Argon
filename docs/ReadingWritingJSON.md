@@ -12,8 +12,7 @@ To quickly work with JSON, either the serializer - [SerializingJSON] - or using 
 <!-- snippet: ReadingAndWritingJsonText -->
 <a id='snippet-readingandwritingjsontext'></a>
 ```cs
-var stringBuilder = new StringBuilder();
-var stringWriter = new StringWriter(stringBuilder);
+var stringWriter = new StringWriter();
 
 using var jsonWriter = new JsonTextWriter(stringWriter);
 jsonWriter.Formatting = Formatting.Indented;
@@ -43,7 +42,7 @@ jsonWriter.WriteEndObject();
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L12-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L12-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 JsonTextReader has settings on it for reading different date formats, time zones, and the cultures when reading text values.
@@ -91,7 +90,7 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L51-L93' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L50-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -113,7 +112,7 @@ var p = (Person) serializer.Deserialize(new JTokenReader(o), typeof(Person));
 Console.WriteLine(p.Name);
 // John Smith
 ```
-<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L99-L112' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L98-L111' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

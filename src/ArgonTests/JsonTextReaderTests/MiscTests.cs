@@ -373,8 +373,7 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void WriteReadWrite()
     {
-        var stringBuilder = new StringBuilder();
-        var stringWriter = new StringWriter(stringBuilder);
+        var stringWriter = new StringWriter();
 
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
@@ -413,14 +412,13 @@ public class MiscTests : TestFixtureBase
             jsonWriter.WriteEndArray();
         }
 
-        var json = stringBuilder.ToString();
+        var json = stringWriter.ToString();
 
         var serializer = new JsonSerializer();
 
         var jsonObject = serializer.Deserialize(new JsonTextReader(new StringReader(json)));
 
-        stringBuilder = new();
-        stringWriter = new(stringBuilder);
+        stringWriter = new();
 
         using (var jsonWriter = new JsonTextWriter(stringWriter)
                {
@@ -430,7 +428,7 @@ public class MiscTests : TestFixtureBase
             serializer.Serialize(jsonWriter, jsonObject);
         }
 
-        Assert.Equal(json, stringBuilder.ToString());
+        Assert.Equal(json, stringWriter.ToString());
     }
 
     [Fact]

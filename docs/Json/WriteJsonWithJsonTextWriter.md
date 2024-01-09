@@ -5,8 +5,7 @@ This sample writes JSON using the `Argon.JsonTextWriter`.
 <!-- snippet: WriteJsonWithJsonTextWriter -->
 <a id='snippet-writejsonwithjsontextwriter'></a>
 ```cs
-var stringBuilder = new StringBuilder();
-var stringWriter = new StringWriter(stringBuilder);
+var stringWriter = new StringWriter();
 
 using (JsonWriter writer = new JsonTextWriter(stringWriter))
 {
@@ -27,7 +26,7 @@ using (JsonWriter writer = new JsonTextWriter(stringWriter))
     writer.WriteEndObject();
 }
 
-Console.WriteLine(stringBuilder.ToString());
+Console.WriteLine(stringWriter.ToString());
 // {
 //   "CPU": "Intel",
 //   "PSU": "500W",
@@ -39,5 +38,5 @@ Console.WriteLine(stringBuilder.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L10-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-writejsonwithjsontextwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L10-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-writejsonwithjsontextwriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
