@@ -10,7 +10,7 @@ namespace Argon;
 /// <example>
 /// <code lang="cs" source="..\src\Tests\Documentation\LinqToJsonTests.cs" region="LinqToJsonCreateParseArray" title="Parsing a JSON Array from Text" />
 /// </example>
-public partial class JArray :
+public class JArray :
     JContainer,
     IList<JToken>
 {

@@ -9,7 +9,7 @@ namespace Argon;
 /// <summary>
 /// Represents a reader that provides fast, non-cached, forward-only access to serialized JSON data.
 /// </summary>
-public abstract partial class JsonReader : IDisposable
+public abstract class JsonReader : IDisposable
 {
     /// <summary>
     /// Specifies the state of the reader.

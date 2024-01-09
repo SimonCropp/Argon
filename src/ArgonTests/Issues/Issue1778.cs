@@ -15,16 +15,4 @@ public class Issue1778 : TestFixtureBase
             () => reader.ReadAsDateTime(),
             "Cannot read number value as type. Path 'enddate', line 1, position 13.");
     }
-
-    [Fact]
-    public async Task Test_Async()
-    {
-        var reader = new JsonTextReader(new StringReader("""{"enddate":-1}"""));
-        reader.Read();
-        reader.Read();
-
-        await XUnitAssert.ThrowsAsync<JsonReaderException>(
-            () => reader.ReadAsDateTimeAsync(),
-            "Cannot read number value as type. Path 'enddate', line 1, position 13.");
-    }
 }

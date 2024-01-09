@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents a token that can contain other tokens.
 /// </summary>
-public abstract partial class JContainer :
+public abstract class JContainer :
     JToken,
     IList<JToken>
 {
