@@ -251,12 +251,8 @@ public partial class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
-    public override void WriteRaw(string? json)
-    {
-        InternalWriteRaw();
-
+    public override void WriteRaw(string? json) =>
         writer.Write(json);
-    }
 
     /// <summary>
     /// Writes a <see cref="String" /> value.

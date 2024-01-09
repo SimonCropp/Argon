@@ -1586,6 +1586,9 @@ public class JsonTextWriterAsyncTests :
         public override void Flush()
         {
         }
+
+        public override void WriteRaw(string json) =>
+            throw new NotImplementedException();
     }
 
     [Fact]
