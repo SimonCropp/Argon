@@ -636,8 +636,7 @@ public partial class JsonTextWriter
         {
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
         }
-        base64Encoder.Encode(value);
-        base64Encoder.Flush();
+        writer.WriteBase64(value);
         if (QuoteValue)
         {
             await writer.WriteAsync(quoteChar).ConfigureAwait(false);
