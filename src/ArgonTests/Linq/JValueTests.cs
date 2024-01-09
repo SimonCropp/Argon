@@ -4,6 +4,7 @@
 
 using TestObjects;
 // ReSharper disable UnusedVariable
+// ReSharper disable RedundantAssignment
 
 public class JValueTests : TestFixtureBase
 {
