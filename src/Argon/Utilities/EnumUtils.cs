@@ -124,9 +124,6 @@ static class EnumUtils
         return stringBuilder.ToString(); // Return the string representation
     }
 
-    public static EnumInfo GetEnumValuesAndNames(Type enumType) =>
-        ValuesAndNamesPerEnum.Get(new(enumType, null));
-
     static ulong ToUInt64(object value)
     {
         var typeCode = ConvertUtils.GetTypeCode(value.GetType(), out _);
