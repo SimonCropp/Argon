@@ -18,6 +18,6 @@ public class Issue1574 : TestFixtureBase
     public class TestClass
     {
         [JsonIgnore]
-        public IEnumerable<ServerType> ServerTypes => Enum.GetValues<ServerType>();
+        public IEnumerable<ServerType> ServerTypes => Enum.GetValues(typeof(ServerType)).Cast<ServerType>();
     }
 }
