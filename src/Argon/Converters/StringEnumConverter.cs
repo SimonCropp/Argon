@@ -42,9 +42,7 @@ public class StringEnumConverter :
     /// </summary>
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        var e = (Enum)value;
-
-        if (EnumUtils.TryToString(e.GetType(), value, NamingStrategy, out var enumName))
+        if (EnumUtils.TryToString(value.GetType(), value, NamingStrategy, out var enumName))
         {
             writer.WriteValue(enumName);
             return;
@@ -56,7 +54,8 @@ public class StringEnumConverter :
             return;
         }
 
-        throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {e.ToString("D")} is not allowed.", null);
+        var enumValue = (Enum)value;
+        throw JsonSerializationException.Create(null, writer.ContainerPath, $"Integer value {enumValue.ToString("D")} is not allowed.", null);
     }
 
     /// <summary>
