@@ -14,6 +14,7 @@ public class Issue2529 : TestFixtureBase
 
     class Something
     {
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
         public JToken Foo { get; set; } = JValue.CreateNull();
     }
 }
