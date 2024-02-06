@@ -1159,46 +1159,10 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void BuildStateArray()
+    public Task BuildStateArray()
     {
         var stateArray = JsonWriter.BuildStateArray();
-
-        var valueStates = JsonWriter.StateArrayTemplate[6];
-
-        foreach (JsonToken valueToken in GetValues(typeof(JsonToken)))
-        {
-            switch (valueToken)
-            {
-                case JsonToken.Integer:
-                case JsonToken.Float:
-                case JsonToken.String:
-                case JsonToken.Boolean:
-                case JsonToken.Null:
-                case JsonToken.Undefined:
-                case JsonToken.Date:
-                case JsonToken.Bytes:
-                    Assert.Equal(valueStates, stateArray[(int) valueToken]);
-                    break;
-            }
-        }
-    }
-
-    static IList<object> GetValues(Type enumType)
-    {
-        if (!enumType.IsEnum)
-        {
-            throw new ArgumentException($"Type {enumType.Name} is not an enum.", nameof(enumType));
-        }
-
-        var values = new List<object>();
-
-        foreach (var field in enumType.GetFields(BindingFlags.Public | BindingFlags.Static))
-        {
-            var value = field.GetValue(enumType);
-            values.Add(value);
-        }
-
-        return values;
+        return Verify(stateArray);
     }
 
     [Fact]
