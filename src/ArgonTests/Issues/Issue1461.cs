@@ -60,6 +60,7 @@ public class Issue1461 : TestFixtureBase
 
     class Id : IEquatable<Id>
     {
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
         internal object Value { get; set; }
 
         // ReSharper disable once ConvertToPrimaryConstructor
