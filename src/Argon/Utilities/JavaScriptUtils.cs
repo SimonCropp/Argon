@@ -121,7 +121,7 @@ static class JavaScriptUtils
             }
 
             // write unchanged chars at start of text.
-            value.AsSpan(0, lastWritePosition).CopyTo(buffer.AsSpan(0, lastWritePosition));
+            value.AsSpan(0, lastWritePosition).CopyTo(buffer);
             writer.Write(buffer, 0, lastWritePosition);
         }
 
@@ -255,7 +255,7 @@ static class JavaScriptUtils
                 buffer = BufferUtils.EnsureBufferSize(length, buffer);
             }
 
-            value.CopyTo(lastWritePosition, buffer, 0, length);
+            value.AsSpan(lastWritePosition, length).CopyTo(buffer);
 
             // write remaining text
             writer.Write(buffer, 0, length);
