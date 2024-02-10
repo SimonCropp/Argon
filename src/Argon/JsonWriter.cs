@@ -325,6 +325,7 @@ public abstract class JsonWriter : IDisposable
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
     public virtual void WritePropertyName(string name, bool escape) =>
         WritePropertyName(name);
+
     /// <summary>
     /// Writes the property name of a name/value pair of a JSON object.
     /// </summary>
@@ -754,6 +755,26 @@ public abstract class JsonWriter : IDisposable
     /// </summary>
     public virtual void WriteValue(CharSpan value) =>
         InternalWriteValue(String);
+
+    /// <summary>
+    /// Writes a <see cref="StringBuilder" /> value.
+    /// </summary>
+    public virtual void WriteValue(StringBuilder? value)
+    {
+        if (value is null)
+        {
+            WriteNull();
+            return;
+        }
+#if NET6_0_OR_GREATER
+        foreach (var chunk in value.GetChunks())
+        {
+            WriteValue(chunk.Span);
+        }
+#else
+        WriteValue(value.ToString());
+#endif
+    }
 
     /// <summary>
     /// Writes a <see cref="String" /> value.

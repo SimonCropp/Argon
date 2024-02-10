@@ -213,6 +213,7 @@ public class JTokenWriter :
         base.WriteComment(text);
         AddJValue(JValue.CreateComment(text));
     }
+
     /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
