@@ -25,7 +25,7 @@ public class DateTimeUtilsTests : TestFixtureBase
         Assert.Equal(value, parsedDt);
     }
 
-#if NET7_0_OR_GREATER
+#if NET8_0_OR_GREATER
 
     [Fact]
     public void DatesShouldBeTheSameAsStj()

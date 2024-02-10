@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.
 /// </summary>
-public partial class JsonTextWriter : JsonWriter
+public class JsonTextWriter : JsonWriter
 {
     const int indentCharBufferSize = 12;
     TextWriter writer;
@@ -58,7 +58,6 @@ public partial class JsonTextWriter : JsonWriter
 
         UpdateCharEscapeFlags();
 
-        safeAsync = GetType() == typeof(JsonTextWriter);
         indentChars = (newLine + new string(indentChar, indentCharBufferSize)).ToCharArray();
     }
 
