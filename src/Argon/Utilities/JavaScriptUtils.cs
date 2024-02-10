@@ -173,16 +173,19 @@ static class JavaScriptUtils
                         break;
                     }
 
-                    if (c == '\'' && escapeHandling != EscapeHandling.EscapeHtml)
+                    if (escapeHandling != EscapeHandling.EscapeHtml)
                     {
-                        escapedValue = @"\'";
-                        break;
-                    }
+                        if (c == '\'')
+                        {
+                            escapedValue = @"\'";
+                            break;
+                        }
 
-                    if (c == '"' && escapeHandling != EscapeHandling.EscapeHtml)
-                    {
-                        escapedValue = "\\\"";
-                        break;
+                        if (c == '"')
+                        {
+                            escapedValue = "\\\"";
+                            break;
+                        }
                     }
 
                     if (buffer == null || buffer.Length < unicodeTextLength)
