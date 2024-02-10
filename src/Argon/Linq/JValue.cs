@@ -10,7 +10,7 @@ namespace Argon;
 /// <summary>
 /// Represents a value in JSON (string, integer, date, etc).
 /// </summary>
-public partial class JValue :
+public class JValue :
     JToken,
     IEquatable<JValue>,
     IFormattable,
