@@ -3,13 +3,8 @@
 class PathInfoConverter :
     JsonConverter
 {
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
-    {
-        if (value != null)
-        {
-            writer.WriteValue(value.ToString()!.Replace('\\', '/'));
-        }
-    }
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+        writer.WriteValue(value.ToString()!.Replace('\\', '/'));
 
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
     {

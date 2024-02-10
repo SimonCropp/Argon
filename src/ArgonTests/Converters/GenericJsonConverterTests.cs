@@ -46,19 +46,6 @@ public class GenericJsonConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void WriteJsonBadType()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-
-        var converter = new TestGenericConverter();
-
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => converter.WriteJson(jsonWriter, 123, null),
-            "Converter cannot write specified value to JSON. System.String is required.");
-    }
-
-    [Fact]
     public void ReadJsonGenericExistingValueNull()
     {
         var sr = new StringReader("'String!'");

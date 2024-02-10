@@ -2073,6 +2073,63 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
+    public void NullableConverter()
+    {
+        var target = new MyStruct("the value");
+        var converter = new MyStructConverter();
+        var json = JsonConvert.SerializeObject(target, converter);
+        var deserialize = JsonConvert.DeserializeObject<MyStruct>(json, converter);
+        Assert.Equal("the value", deserialize.Value);
+    }
+
+    [Fact]
+    public void NullableConverterWrapped()
+    {
+        var target = new TargetWithNullableStruct();
+        var converter = new MyStructConverter();
+        var json = JsonConvert.SerializeObject(target, converter);
+        var deserialize = JsonConvert.DeserializeObject<TargetWithNullableStruct>(json, converter);
+        Assert.Null(deserialize.Member);
+    }
+
+    [Fact]
+    public void NullableConverterWrappedWithValue()
+    {
+        var target = new TargetWithNullableStruct
+        {
+            Member = new MyStruct("the value")
+        };
+        var converter = new MyStructConverter();
+        var json = JsonConvert.SerializeObject(target, converter);
+        var deserialize = JsonConvert.DeserializeObject<TargetWithNullableStruct>(json, converter);
+        Assert.Equal("the value", deserialize.Member.Value.Value);
+    }
+
+    class MyStructConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var target = (MyStruct) value;
+
+            writer.WriteValue(target.Value);
+        }
+
+        public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer) =>
+            new MyStruct((string)reader.Value);
+
+        public override bool CanConvert(Type type) =>
+            type == typeof(MyStruct);
+    }
+
+    public class TargetWithNullableStruct
+    {
+        public MyStruct? Member { get; set; }
+    }
+    public struct MyStruct(string value)
+    {
+        public string Value { get; } = value;
+    }
+    [Fact]
     public void DeserializeJsonRaw()
     {
         var json = """{"first_name":"FirstNameValue","RawContent":[1,2,3,4,5],"last_name":"LastNameValue"}""";
