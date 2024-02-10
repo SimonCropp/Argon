@@ -1,4 +1,4 @@
-#if NET7_0
+#if NET8_0_OR_GREATER
 
 public class DocsTests
 {

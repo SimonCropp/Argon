@@ -2,7 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-#if NET7_0
+#if NET8_0_OR_GREATER
 public class Issue2694 : TestFixtureBase
 {
     [Fact]
