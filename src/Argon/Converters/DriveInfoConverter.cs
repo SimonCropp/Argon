@@ -4,13 +4,6 @@ class DriveInfoConverter :
     public override void WriteJson(JsonWriter writer, DriveInfo value, JsonSerializer serializer) =>
         writer.WriteValue(value.Name.Replace('\\', '/'));
 
-    public override DriveInfo? ReadJson(JsonReader reader, Type type, DriveInfo? existingValue, bool hasExisting, JsonSerializer serializer)
-    {
-        if (reader.Value is string value)
-        {
-            return new(value);
-        }
-
-        return null;
-    }
+    public override DriveInfo ReadJson(JsonReader reader, Type type, DriveInfo? existingValue, bool hasExisting, JsonSerializer serializer) =>
+        new(reader.StringValue);
 }

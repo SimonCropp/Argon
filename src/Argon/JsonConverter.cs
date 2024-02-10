@@ -65,13 +65,18 @@ public abstract class JsonConverter<T> : JsonConverter
             throw new JsonSerializationException($"Converter cannot read JSON with the specified existing value. {typeof(T)} is required.");
         }
 
+        if (reader.Value is null)
+        {
+            return null;
+        }
+
         return ReadJson(reader, type, existingIsNull ? default : (T?) existingValue, !existingIsNull, serializer);
     }
 
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    public abstract T? ReadJson(JsonReader reader, Type type, T? existingValue, bool hasExisting, JsonSerializer serializer);
+    public abstract T ReadJson(JsonReader reader, Type type, T? existingValue, bool hasExisting, JsonSerializer serializer);
 
     /// <summary>
     /// Determines whether this instance can convert the specified object type.
