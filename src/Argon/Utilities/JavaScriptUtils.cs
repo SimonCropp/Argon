@@ -121,7 +121,7 @@ static class JavaScriptUtils
             }
 
             // write unchanged chars at start of text.
-            value.CopyTo(0, buffer, 0, lastWritePosition);
+            value.AsSpan(0, lastWritePosition).CopyTo(buffer.AsSpan(0, lastWritePosition));
             writer.Write(buffer, 0, lastWritePosition);
         }
 
@@ -228,10 +228,11 @@ static class JavaScriptUtils
                     buffer = newBuffer;
                 }
 
-                value.CopyTo(lastWritePosition, buffer, start, length - start);
+                var count = length - start;
+                value.AsSpan(lastWritePosition,count).CopyTo(buffer.AsSpan(start: start, length: count));
 
                 // write unchanged chars before writing escaped text
-                writer.Write(buffer, start, length - start);
+                writer.Write(buffer, start, count);
             }
 
             lastWritePosition = i + 1;
