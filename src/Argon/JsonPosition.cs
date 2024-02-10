@@ -38,7 +38,7 @@ struct JsonPosition(JsonContainerType type)
 
                     writer ??= new(builder);
 
-                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
+                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName.AsSpan(), '\'', false, JavaScriptUtils.SingleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
 
                     builder.Append("']");
                 }
