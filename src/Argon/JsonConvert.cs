@@ -270,6 +270,25 @@ public static class JsonConvert
     /// Converts the <see cref="String" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
+    public static string ToString(string value) =>
+        ToString(value.AsSpan());
+
+    /// <param name="delimiter">The string delimiter character.</param>
+    /// <returns>A JSON string representation of the <see cref="String" />.</returns>
+    public static string ToString(string value, char delimiter) =>
+        ToString(value.AsSpan(), delimiter);
+
+    /// <summary>
+    /// Converts the <see cref="String" /> to its JSON string representation.
+    /// </summary>
+    /// <returns>A JSON string representation of the <see cref="String" />.</returns>
+    public static string ToString(string value, char delimiter, EscapeHandling escapeHandling) =>
+        ToString(value.AsSpan(), delimiter, escapeHandling);
+
+    /// <summary>
+    /// Converts the <see cref="String" /> to its JSON string representation.
+    /// </summary>
+    /// <returns>A JSON string representation of the <see cref="String" />.</returns>
     public static string ToString(CharSpan value) =>
         ToString(value, '"');
 
