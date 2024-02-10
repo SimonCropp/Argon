@@ -270,7 +270,7 @@ public class JsonTextWriter : JsonWriter
         }
     }
 
-    void WriteEscapedString(string value, bool quote)
+    void WriteEscapedString(CharSpan value, bool quote)
     {
         EnsureBuffer();
         JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, ref writeBuffer);
