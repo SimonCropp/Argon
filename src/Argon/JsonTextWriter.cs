@@ -254,6 +254,12 @@ public class JsonTextWriter : JsonWriter
         writer.Write(json);
 
     /// <summary>
+    /// Writes raw JSON.
+    /// </summary>
+    public override void WriteRaw(CharSpan json) =>
+        writer.Write(json);
+
+    /// <summary>
     /// Writes a <see cref="String" /> value.
     /// </summary>
     public override void WriteValue(string? value)
@@ -268,6 +274,16 @@ public class JsonTextWriter : JsonWriter
         {
             WriteEscapedString(value, QuoteValue);
         }
+    }
+
+    /// <summary>
+    /// Writes a <see cref="String" /> value.
+    /// </summary>
+    public override void WriteValue(CharSpan value)
+    {
+        InternalWriteValue(JsonToken.String);
+
+        WriteEscapedString(value, QuoteValue);
     }
 
     void WriteEscapedString(CharSpan value, bool quote)

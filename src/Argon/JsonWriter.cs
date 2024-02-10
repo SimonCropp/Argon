@@ -325,6 +325,18 @@ public abstract class JsonWriter : IDisposable
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
     public virtual void WritePropertyName(string name, bool escape) =>
         WritePropertyName(name);
+    /// <summary>
+    /// Writes the property name of a name/value pair of a JSON object.
+    /// </summary>
+    public virtual void WritePropertyName(CharSpan name) =>
+        InternalWritePropertyName(name);
+
+    /// <summary>
+    /// Writes the property name of a name/value pair of a JSON object.
+    /// </summary>
+    /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
+    public virtual void WritePropertyName(CharSpan name, bool escape) =>
+        WritePropertyName(name);
 
     /// <summary>
     /// Writes the end of the current JSON object or array.
@@ -711,6 +723,22 @@ public abstract class JsonWriter : IDisposable
     public abstract void WriteRaw(string? json);
 
     /// <summary>
+    /// Writes raw JSON without changing the writer's state.
+    /// </summary>
+    public abstract void WriteRaw(CharSpan json);
+
+    /// <summary>
+    /// Writes raw JSON where a value is expected and updates the writer's state.
+    /// </summary>
+    public virtual void WriteRawValue(CharSpan json)
+    {
+        // hack. want writer to change state as if a value had been written
+        UpdateScopeWithFinishedValue();
+        AutoComplete(Undefined);
+        WriteRaw(json);
+    }
+
+    /// <summary>
     /// Writes raw JSON where a value is expected and updates the writer's state.
     /// </summary>
     public virtual void WriteRawValue(string? json)
@@ -720,6 +748,12 @@ public abstract class JsonWriter : IDisposable
         AutoComplete(Undefined);
         WriteRaw(json);
     }
+
+    /// <summary>
+    /// Writes a <see cref="String" /> value.
+    /// </summary>
+    public virtual void WriteValue(CharSpan value) =>
+        InternalWriteValue(String);
 
     /// <summary>
     /// Writes a <see cref="String" /> value.
@@ -1146,9 +1180,21 @@ public abstract class JsonWriter : IDisposable
         InternalWriteComment();
 
     /// <summary>
+    /// Writes a comment <c>/*...*/</c> containing the specified text.
+    /// </summary>
+    public virtual void WriteComment(CharSpan text) =>
+        InternalWriteComment();
+
+    /// <summary>
     /// Writes the given white space.
     /// </summary>
     public virtual void WriteWhitespace(string ws) =>
+        InternalWriteWhitespace(ws);
+
+    /// <summary>
+    /// Writes the given white space.
+    /// </summary>
+    public virtual void WriteWhitespace(CharSpan ws) =>
         InternalWriteWhitespace(ws);
 
     void IDisposable.Dispose()
@@ -1427,6 +1473,9 @@ public abstract class JsonWriter : IDisposable
         AutoComplete(PropertyName);
     }
 
+    internal void InternalWritePropertyName(CharSpan name) =>
+        InternalWritePropertyName(name.ToString());
+
     internal void InternalWriteStart(JsonToken token, JsonContainerType container)
     {
         UpdateScopeWithFinishedValue();
@@ -1444,6 +1493,19 @@ public abstract class JsonWriter : IDisposable
     {
         if (!string.IsNullOrWhiteSpace(ws))
         {
+            throw JsonWriterException.Create(this, "Only white space characters should be used.");
+        }
+    }
+
+    internal void InternalWriteWhitespace(CharSpan ws)
+    {
+        foreach (var ch in ws)
+        {
+            if (char.IsWhiteSpace(ch))
+            {
+                continue;
+            }
+
             throw JsonWriterException.Create(this, "Only white space characters should be used.");
         }
     }
