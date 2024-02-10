@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents a raw JSON string.
 /// </summary>
-public partial class JRaw :
+public class JRaw :
     JValue
 {
     /// <summary>

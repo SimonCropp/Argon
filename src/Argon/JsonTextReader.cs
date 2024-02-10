@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents a reader that provides fast, non-cached, forward-only access to JSON text data.
 /// </summary>
-public partial class JsonTextReader : JsonReader, IJsonLineInfo
+public class JsonTextReader : JsonReader, IJsonLineInfo
 {
     const char unicodeReplacementChar = '\uFFFD';
     const int maximumJavascriptIntegerCharacterLength = 380;
@@ -34,8 +34,6 @@ public partial class JsonTextReader : JsonReader, IJsonLineInfo
     {
         this.reader = reader;
         lineNumber = 1;
-
-        safeAsync = GetType() == typeof(JsonTextReader);
 
         charBuffer = BufferUtils.RentBuffer(bufferSize);
         charBuffer[0] = '\0';

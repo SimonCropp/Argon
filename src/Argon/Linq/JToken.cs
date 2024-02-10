@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents an abstract JSON token.
 /// </summary>
-public abstract partial class JToken :
+public abstract class JToken :
     IJEnumerable<JToken>,
     IJsonLineInfo,
     ICloneable,

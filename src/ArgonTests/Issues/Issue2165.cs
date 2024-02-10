@@ -23,18 +23,4 @@ public class Issue2165
             () => writer.WriteToken(jsonReader),
             "Unexpected end when reading token. Path ''.");
     }
-
-    [Fact]
-    public async Task TestAsync()
-    {
-        var w = new StringWriter();
-        var writer = new JsonTextWriter(w);
-
-        var jsonReader = new JsonTextReader(new StringReader("{"));
-        await jsonReader.ReadAsync();
-
-        await XUnitAssert.ThrowsAsync<JsonWriterException>(
-            () => writer.WriteTokenAsync(jsonReader),
-            "Unexpected end when reading token. Path ''.");
-    }
 }
