@@ -10,7 +10,7 @@ using static JsonToken;
 /// <summary>
 /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.
 /// </summary>
-public abstract partial class JsonWriter : IDisposable
+public abstract class JsonWriter : IDisposable
 {
     internal enum State
     {

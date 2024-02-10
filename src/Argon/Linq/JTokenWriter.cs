@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.
 /// </summary>
-public partial class JTokenWriter :
+public class JTokenWriter :
     JsonWriter
 {
     JContainer? token;

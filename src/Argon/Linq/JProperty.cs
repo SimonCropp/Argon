@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents a JSON property.
 /// </summary>
-public partial class JProperty :
+public class JProperty :
     JContainer
 {
     #region JPropertyList
