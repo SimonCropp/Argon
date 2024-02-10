@@ -3,8 +3,8 @@ class TimeZoneInfoConverter :
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        var info = (TimeZoneInfo) value;
-        writer.WriteValue(info.Id);
+        var info = (TimeZoneInfo?) value;
+        writer.WriteValue(info?.Id);
     }
 
     public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
