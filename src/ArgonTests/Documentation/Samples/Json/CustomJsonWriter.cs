@@ -13,6 +13,12 @@ public class XmlJsonWriter(XmlWriter writer) :
 {
     string propertyName;
 
+    public override void WriteComment(CharSpan text)
+    {
+        base.WriteComment(text);
+        writer.WriteComment(text.ToString());
+    }
+
     public override void WriteComment(string text)
     {
         base.WriteComment(text);
@@ -34,6 +40,9 @@ public class XmlJsonWriter(XmlWriter writer) :
     }
 
     public override void WriteRaw(string json) =>
+        throw new NotImplementedException();
+
+    public override void WriteRaw(CharSpan json) =>
         throw new NotImplementedException();
 
     public override void WriteValue(DateTime value)
@@ -87,6 +96,15 @@ public class XmlJsonWriter(XmlWriter writer) :
 
         WriteValueElement(JTokenType.String);
         writer.WriteValue(value);
+        writer.WriteEndElement();
+    }
+
+    public override void WriteValue(CharSpan value)
+    {
+        base.WriteValue(value);
+
+        WriteValueElement(JTokenType.String);
+        writer.WriteValue(value.ToString());
         writer.WriteEndElement();
     }
 

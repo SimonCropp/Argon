@@ -351,35 +351,35 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void EscapeJavaScriptString()
     {
-        var result = JavaScriptUtils.ToEscapedJavaScriptString("How now brown cow?", '"', true, EscapeHandling.Default);
+        var result = JavaScriptUtils.ToEscapedJavaScriptString("How now brown cow?".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "How now brown cow?"
             """,
             result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("How now 'brown' cow?", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("How now 'brown' cow?".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "How now 'brown' cow?"
             """,
             result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("How now <brown> cow?", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("How now <brown> cow?".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "How now <brown> cow?"
             """,
             result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("How \r\nnow brown cow?", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("How \r\nnow brown cow?".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "How \r\nnow brown cow?"
             """,
             result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007"
@@ -387,7 +387,7 @@ public class JsonConvertTest : TestFixtureBase
             result);
 
         result =
-            JavaScriptUtils.ToEscapedJavaScriptString("\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013", '"', true, EscapeHandling.Default);
+            JavaScriptUtils.ToEscapedJavaScriptString("\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013"
@@ -396,7 +396,7 @@ public class JsonConvertTest : TestFixtureBase
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString(
-                "\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f ", '"', true, EscapeHandling.Default);
+                "\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f ".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f "
@@ -405,14 +405,14 @@ public class JsonConvertTest : TestFixtureBase
 
         result =
             JavaScriptUtils.ToEscapedJavaScriptString(
-                "!\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]", '"', true, EscapeHandling.Default);
+                "!\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]"
             """,
             result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("^_`abcdefghijklmnopqrstuvwxyz{|}~", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("^_`abcdefghijklmnopqrstuvwxyz{|}~".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "^_`abcdefghijklmnopqrstuvwxyz{|}~"
@@ -420,7 +420,7 @@ public class JsonConvertTest : TestFixtureBase
             result);
 
         var data =
-            "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+            "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&\u0027()*+,-./0123456789:;\u003c=\u003e?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~".AsSpan();
         var expected =
             """
             "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
@@ -429,13 +429,13 @@ public class JsonConvertTest : TestFixtureBase
         result = JavaScriptUtils.ToEscapedJavaScriptString(data, '"', true, EscapeHandling.Default);
         Assert.Equal(expected, result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("Fred's cat.", '\'', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("Fred's cat.".AsSpan(), '\'', true, EscapeHandling.Default);
         Assert.Equal(result, @"'Fred\'s cat.'");
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(
             """
             "How are you gentlemen?" said Cats.
-            """,
+            """.AsSpan(),
             '"', true, EscapeHandling.Default);
         Assert.Equal(
             result,
@@ -446,7 +446,7 @@ public class JsonConvertTest : TestFixtureBase
         result = JavaScriptUtils.ToEscapedJavaScriptString(
             """
             "How are' you gentlemen?" said Cats.
-            """,
+            """.AsSpan(),
             '"',
             true,
             EscapeHandling.Default);
@@ -456,10 +456,10 @@ public class JsonConvertTest : TestFixtureBase
             "\"How are' you gentlemen?\" said Cats."
             """);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("""Fred's "cat".""", '\'', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("""Fred's "cat".""".AsSpan(), '\'', true, EscapeHandling.Default);
         Assert.Equal(result, """'Fred\'s "cat".'""");
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("\u001farray\u003caddress", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("\u001farray\u003caddress".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             result,
             """
@@ -470,21 +470,21 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void EscapeJavaScriptString_UnicodeLinefeeds()
     {
-        var result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u0085' + "after", '"', true, EscapeHandling.Default);
+        var result = JavaScriptUtils.ToEscapedJavaScriptString("before\u0085after".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "before\u0085after"
             """,
             result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u2028' + "after", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("before\u2028after".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "before\u2028after"
             """,
             result);
 
-        result = JavaScriptUtils.ToEscapedJavaScriptString("before" + '\u2029' + "after", '"', true, EscapeHandling.Default);
+        result = JavaScriptUtils.ToEscapedJavaScriptString("before\u2029after".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
             """
             "before\u2029after"

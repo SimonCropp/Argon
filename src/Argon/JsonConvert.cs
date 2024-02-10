@@ -90,7 +90,7 @@ public static class JsonConvert
     /// Converts the <see cref="Char" /> to its JSON string representation.
     /// </summary>
     public static string ToString(char value) =>
-        ToString(char.ToString(value));
+        ToString(new[]{value}.AsSpan());
 
     /// <summary>
     /// Converts the <see cref="Enum" /> to its JSON string representation.
@@ -242,8 +242,12 @@ public static class JsonConvert
     /// Converts the <see cref="TimeSpan" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="TimeSpan" />.</returns>
-    public static string ToString(TimeSpan value) =>
-        ToString(value.ToString(), '"');
+    public static string ToString(TimeSpan value)
+    {
+        Span<char> destination = stackalloc char[26];
+        value.TryFormat(destination, out _, ['c']);
+        return ToString(destination, '"');
+    }
 
     /// <summary>
     /// Converts the <see cref="Uri" /> to its JSON string representation.
@@ -260,13 +264,32 @@ public static class JsonConvert
     }
 
     internal static string ToString(Uri value, char quoteChar) =>
-        ToString(value.OriginalString, quoteChar);
+        ToString(value.OriginalString.AsSpan(), quoteChar);
 
     /// <summary>
     /// Converts the <see cref="String" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
     public static string ToString(string value) =>
+        ToString(value.AsSpan());
+
+    /// <param name="delimiter">The string delimiter character.</param>
+    /// <returns>A JSON string representation of the <see cref="String" />.</returns>
+    public static string ToString(string value, char delimiter) =>
+        ToString(value.AsSpan(), delimiter);
+
+    /// <summary>
+    /// Converts the <see cref="String" /> to its JSON string representation.
+    /// </summary>
+    /// <returns>A JSON string representation of the <see cref="String" />.</returns>
+    public static string ToString(string value, char delimiter, EscapeHandling escapeHandling) =>
+        ToString(value.AsSpan(), delimiter, escapeHandling);
+
+    /// <summary>
+    /// Converts the <see cref="String" /> to its JSON string representation.
+    /// </summary>
+    /// <returns>A JSON string representation of the <see cref="String" />.</returns>
+    public static string ToString(CharSpan value) =>
         ToString(value, '"');
 
     /// <summary>
@@ -274,14 +297,14 @@ public static class JsonConvert
     /// </summary>
     /// <param name="delimiter">The string delimiter character.</param>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
-    public static string ToString(string value, char delimiter) =>
+    public static string ToString(CharSpan value, char delimiter) =>
         ToString(value, delimiter, EscapeHandling.Default);
 
     /// <summary>
     /// Converts the <see cref="String" /> to its JSON string representation.
     /// </summary>
     /// <returns>A JSON string representation of the <see cref="String" />.</returns>
-    public static string ToString(string value, char delimiter, EscapeHandling escapeHandling)
+    public static string ToString(CharSpan value, char delimiter, EscapeHandling escapeHandling)
     {
         if (delimiter != '"' &&
             delimiter != '\'')

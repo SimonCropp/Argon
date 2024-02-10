@@ -134,7 +134,13 @@ public class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
-    public override void WritePropertyName(string name)
+    public override void WritePropertyName(string name) =>
+        WritePropertyName(name.AsSpan());
+
+    /// <summary>
+    /// Writes the property name of a name/value pair on a JSON object.
+    /// </summary>
+    public override void WritePropertyName(CharSpan name)
     {
         InternalWritePropertyName(name);
 
@@ -147,7 +153,14 @@ public class JsonTextWriter : JsonWriter
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-    public override void WritePropertyName(string name, bool escape)
+    public override void WritePropertyName(string name, bool escape) =>
+        WritePropertyName(name.AsSpan(), escape);
+
+    /// <summary>
+    /// Writes the property name of a name/value pair on a JSON object.
+    /// </summary>
+    /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
+    public override void WritePropertyName(CharSpan name, bool escape)
     {
         InternalWritePropertyName(name);
 
@@ -254,6 +267,12 @@ public class JsonTextWriter : JsonWriter
         writer.Write(json);
 
     /// <summary>
+    /// Writes raw JSON.
+    /// </summary>
+    public override void WriteRaw(CharSpan json) =>
+        writer.Write(json);
+
+    /// <summary>
     /// Writes a <see cref="String" /> value.
     /// </summary>
     public override void WriteValue(string? value)
@@ -266,11 +285,21 @@ public class JsonTextWriter : JsonWriter
         }
         else
         {
-            WriteEscapedString(value, QuoteValue);
+            WriteEscapedString(value.AsSpan(), QuoteValue);
         }
     }
 
-    void WriteEscapedString(string value, bool quote)
+    /// <summary>
+    /// Writes a <see cref="String" /> value.
+    /// </summary>
+    public override void WriteValue(CharSpan value)
+    {
+        InternalWriteValue(JsonToken.String);
+
+        WriteEscapedString(value, QuoteValue);
+    }
+
+    void WriteEscapedString(CharSpan value, bool quote)
     {
         EnsureBuffer();
         JavaScriptUtils.WriteEscapedJavaScriptString(writer, value, quoteChar, quote, charEscapeFlags!, EscapeHandling, ref writeBuffer);
@@ -570,7 +599,7 @@ public class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.String);
-            WriteEscapedString(value.OriginalString, QuoteValue);
+            WriteEscapedString(value.OriginalString.AsSpan(), QuoteValue);
         }
     }
 

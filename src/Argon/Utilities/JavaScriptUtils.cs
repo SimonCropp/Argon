@@ -78,7 +78,7 @@ static class JavaScriptUtils
         return false;
     }
 
-    public static void WriteEscapedJavaScriptString(TextWriter writer, string value, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
+    public static void WriteEscapedJavaScriptString(TextWriter writer, CharSpan value, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
     {
         // leading delimiter
         if (appendDelimiters)
@@ -86,7 +86,7 @@ static class JavaScriptUtils
             writer.Write(delimiter);
         }
 
-        if (!value.IsNullOrEmpty())
+        if (value.Length > 0)
         {
             WriteEscapedJavaScriptNonNullString(writer, value, escapeFlags, escapeHandling, ref buffer);
         }
@@ -98,7 +98,7 @@ static class JavaScriptUtils
         }
     }
 
-    static void WriteEscapedJavaScriptNonNullString(TextWriter writer, string value, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
+    static void WriteEscapedJavaScriptNonNullString(TextWriter writer, CharSpan value, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
     {
         if (escapeHandling == EscapeHandling.None)
         {
@@ -121,7 +121,7 @@ static class JavaScriptUtils
             }
 
             // write unchanged chars at start of text.
-            value.CopyTo(0, buffer, 0, lastWritePosition);
+            value.Slice(0, lastWritePosition).CopyTo(buffer);
             writer.Write(buffer, 0, lastWritePosition);
         }
 
@@ -231,10 +231,11 @@ static class JavaScriptUtils
                     buffer = newBuffer;
                 }
 
-                value.CopyTo(lastWritePosition, buffer, start, length - start);
+                var count = length - start;
+                value.Slice(lastWritePosition, count).CopyTo(buffer.AsSpan(start: start, length: count));
 
                 // write unchanged chars before writing escaped text
-                writer.Write(buffer, start, length - start);
+                writer.Write(buffer, start, count);
             }
 
             lastWritePosition = i + 1;
@@ -257,14 +258,14 @@ static class JavaScriptUtils
                 buffer = BufferUtils.EnsureBufferSize(length, buffer);
             }
 
-            value.CopyTo(lastWritePosition, buffer, 0, length);
+            value.Slice(lastWritePosition, length).CopyTo(buffer);
 
             // write remaining text
             writer.Write(buffer, 0, length);
         }
     }
 
-    public static string ToEscapedJavaScriptString(string value, char delimiter, bool appendDelimiters, EscapeHandling escapeHandling)
+    public static string ToEscapedJavaScriptString(CharSpan value, char delimiter, bool appendDelimiters, EscapeHandling escapeHandling)
     {
         var escapeFlags = GetCharEscapeFlags(escapeHandling, delimiter);
 
@@ -274,7 +275,7 @@ static class JavaScriptUtils
         return w.ToString();
     }
 
-    static int FirstCharToEscape(string value, bool[] escapeFlags, EscapeHandling escapeHandling)
+    static int FirstCharToEscape(CharSpan value, bool[] escapeFlags, EscapeHandling escapeHandling)
     {
         for (var i = 0; i != value.Length; i++)
         {

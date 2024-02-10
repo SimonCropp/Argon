@@ -35,6 +35,6 @@ public class WriteEscapedJavaScriptString
 
         using var writer = StringUtils.CreateStringWriter(text.Length);
         char[] buffer = null;
-        JavaScriptUtils.WriteEscapedJavaScriptString(writer, text, '"', true, JavaScriptUtils.DoubleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
+        JavaScriptUtils.WriteEscapedJavaScriptString(writer, text.AsSpan(), '"', true, JavaScriptUtils.DoubleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
     }
 }
