@@ -134,7 +134,13 @@ public class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
-    public override void WritePropertyName(string name)
+    public override void WritePropertyName(string name) =>
+        WritePropertyName(name.AsSpan());
+
+    /// <summary>
+    /// Writes the property name of a name/value pair on a JSON object.
+    /// </summary>
+    public override void WritePropertyName(CharSpan name)
     {
         InternalWritePropertyName(name);
 
@@ -147,7 +153,14 @@ public class JsonTextWriter : JsonWriter
     /// Writes the property name of a name/value pair on a JSON object.
     /// </summary>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
-    public override void WritePropertyName(string name, bool escape)
+    public override void WritePropertyName(string name, bool escape) =>
+        WritePropertyName(name.AsSpan(), escape);
+
+    /// <summary>
+    /// Writes the property name of a name/value pair on a JSON object.
+    /// </summary>
+    /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
+    public override void WritePropertyName(CharSpan name, bool escape)
     {
         InternalWritePropertyName(name);
 
@@ -272,7 +285,7 @@ public class JsonTextWriter : JsonWriter
         }
         else
         {
-            WriteEscapedString(value, QuoteValue);
+            WriteEscapedString(value.AsSpan(), QuoteValue);
         }
     }
 
@@ -586,7 +599,7 @@ public class JsonTextWriter : JsonWriter
         else
         {
             InternalWriteValue(JsonToken.String);
-            WriteEscapedString(value.OriginalString, QuoteValue);
+            WriteEscapedString(value.OriginalString.AsSpan(), QuoteValue);
         }
     }
 
