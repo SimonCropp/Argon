@@ -595,27 +595,4 @@ public class DemoTests : TestFixtureBase
 
         Assert.Equal(1, packages.Count);
     }
-
-    [Fact]
-    public async Task AsyncDemo()
-    {
-        JArray largeJson;
-
-        // read asynchronously from a file
-        using (TextReader textReader = new StreamReader(
-                   new FileStream("large.json", FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true)))
-        {
-            largeJson = await JArray.LoadAsync(new JsonTextReader(textReader));
-        }
-
-        var user = largeJson.SelectToken("$[?(@.name == 'Woodard Caldwell')]");
-        user["isActive"] = false;
-
-        // write asynchronously to a file
-        using (TextWriter textWriter = new StreamWriter(
-                   new FileStream("large.json", FileMode.Open, FileAccess.Write, FileShare.Write, 4096, true)))
-        {
-            await largeJson.WriteToAsync(new JsonTextWriter(textWriter));
-        }
-    }
 }
