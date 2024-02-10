@@ -13,26 +13,6 @@ public class VersionConverter :
     public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer) =>
         writer.WriteValue(value.ToString());
 
-    public override Version? ReadJson(JsonReader reader, Type type, Version? existingValue, bool hasExisting, JsonSerializer serializer)
-    {
-        if (reader.TokenType == JsonToken.Null)
-        {
-            return null;
-        }
-
-        if (reader.TokenType == JsonToken.String)
-        {
-            var value = reader.StringValue;
-            try
-            {
-                return new(value);
-            }
-            catch (Exception exception)
-            {
-                throw JsonSerializationException.Create(reader, $"Error parsing version string: {value}", exception);
-            }
-        }
-
-        throw JsonSerializationException.Create(reader, $"Unexpected token or value when parsing version. Token: {reader.TokenType}, Value: {reader.Value}");
-    }
+    public override Version ReadJson(JsonReader reader, Type type, Version? existingValue, bool hasExisting, JsonSerializer serializer) =>
+        new(reader.StringValue);
 }
