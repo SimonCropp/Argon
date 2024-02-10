@@ -394,7 +394,7 @@ static class JavaScriptUtils
 
         if (lastWritePosition != 0)
         {
-            value.CopyTo(0, buffer, 0, lastWritePosition);
+            value.AsMemory(0, lastWritePosition).CopyTo(buffer);
 
             // write unchanged chars at start of text.
             await writer.WriteAsync(buffer, 0, lastWritePosition, cancel).ConfigureAwait(false);
@@ -484,10 +484,11 @@ static class JavaScriptUtils
                     buffer = client.EnsureBuffer(length, unicodeTextLength);
                 }
 
-                value.CopyTo(lastWritePosition, buffer, start, length - start);
+                var count = length - start;
+                value.AsMemory(lastWritePosition, count).CopyTo(buffer.AsMemory(start, count));
 
                 // write unchanged chars before writing escaped text
-                await writer.WriteAsync(buffer, start, length - start, cancel).ConfigureAwait(false);
+                await writer.WriteAsync(buffer, start, count, cancel).ConfigureAwait(false);
             }
 
             lastWritePosition = i + 1;
@@ -514,7 +515,7 @@ static class JavaScriptUtils
             buffer = client.EnsureBuffer(length, 0);
         }
 
-        value.CopyTo(lastWritePosition, buffer, 0, length);
+        value.AsMemory(lastWritePosition, length).CopyTo(buffer);
 
         // write remaining text
         await writer.WriteAsync(buffer, 0, length, cancel).ConfigureAwait(false);
