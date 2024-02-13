@@ -40,30 +40,21 @@ public class JsonReaderException : JsonException
         LinePosition = linePosition;
     }
 
-    internal static JsonReaderException Create(JsonReader reader, string message) =>
-        Create(reader, message, null);
-
-    internal static JsonReaderException Create(JsonReader reader, string message, Exception? exception) =>
+    internal static JsonReaderException Create(JsonReader reader, string message, Exception? exception = null) =>
         Create(reader as IJsonLineInfo, reader.Path, message, exception);
 
-    internal static JsonReaderException Create(IJsonLineInfo? lineInfo, string path, string message, Exception? exception)
+    internal static JsonReaderException Create(IJsonLineInfo? info, string path, string message, Exception? exception)
     {
-        message = JsonPosition.FormatMessage(lineInfo, path, message);
+        message = JsonPosition.FormatMessage(info, path, message);
 
-        int lineNumber;
-        int linePosition;
-        if (lineInfo != null &&
-            lineInfo.HasLineInfo())
+        if (info != null &&
+            info.HasLineInfo())
         {
-            lineNumber = lineInfo.LineNumber;
-            linePosition = lineInfo.LinePosition;
-        }
-        else
-        {
-            lineNumber = 0;
-            linePosition = 0;
+            var lineNumber = info.LineNumber;
+            var linePosition = info.LinePosition;
+            return new(message, path, lineNumber, linePosition, exception);
         }
 
-        return new(message, path, lineNumber, linePosition, exception);
+        return new(message, path, 0, 0, exception);
     }
 }

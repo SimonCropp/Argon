@@ -46,30 +46,13 @@ public abstract class JsonConverter<T> : JsonConverter
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public sealed override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        if (!IsValidType(value))
-        {
-            throw new JsonSerializationException($"Converter cannot write specified value to JSON. {typeof(T)} is required.");
-        }
-
-        WriteJson(writer, (T?) value, serializer);
-    }
-
-    static bool IsValidType(object? value)
-    {
-        if (value == null)
-        {
-            return typeof(T).IsNullable();
-        }
-
-        return value is T;
-    }
+    public sealed override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
+        WriteJson(writer, (T) value, serializer);
 
     /// <summary>
     /// Writes the JSON representation of the object.
     /// </summary>
-    public abstract void WriteJson(JsonWriter writer, T? value, JsonSerializer serializer);
+    public abstract void WriteJson(JsonWriter writer, T value, JsonSerializer serializer);
 
     /// <summary>
     /// Reads the JSON representation of the object.
@@ -82,13 +65,18 @@ public abstract class JsonConverter<T> : JsonConverter
             throw new JsonSerializationException($"Converter cannot read JSON with the specified existing value. {typeof(T)} is required.");
         }
 
+        if (reader.Value is null)
+        {
+            return null;
+        }
+
         return ReadJson(reader, type, existingIsNull ? default : (T?) existingValue, !existingIsNull, serializer);
     }
 
     /// <summary>
     /// Reads the JSON representation of the object.
     /// </summary>
-    public abstract T? ReadJson(JsonReader reader, Type type, T? existingValue, bool hasExisting, JsonSerializer serializer);
+    public abstract T ReadJson(JsonReader reader, Type type, T? existingValue, bool hasExisting, JsonSerializer serializer);
 
     /// <summary>
     /// Determines whether this instance can convert the specified object type.

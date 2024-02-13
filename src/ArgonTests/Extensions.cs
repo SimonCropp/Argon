@@ -9,7 +9,7 @@ public static class Extensions
         [CallerFilePath] string sourceFile = "")
     {
         var tokens = new List<ReaderState>();
-        while (await reader.ReadAsync())
+        while (reader.Read())
         {
             tokens.Add(
                 new(
@@ -27,7 +27,7 @@ public static class Extensions
         [CallerFilePath] string sourceFile = "")
     {
         var tokens = new List<TextReaderState>();
-        while (await reader.ReadAsync())
+        while (reader.Read())
         {
             tokens.Add(
                 new(

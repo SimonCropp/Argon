@@ -8,54 +8,11 @@ namespace Argon;
 /// Converts a <see cref="Version"/> to and from a string (e.g. <c>"1.2.3.4"</c>).
 /// </summary>
 public class VersionConverter :
-    JsonConverter
+    JsonConverter<Version>
 {
-    /// <summary>
-    /// Writes the JSON representation of the object.
-    /// </summary>
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        if (value is Version version)
-        {
-            writer.WriteValue(version.ToString());
-            return;
-        }
+    public override void WriteJson(JsonWriter writer, Version value, JsonSerializer serializer) =>
+        writer.WriteValue(value.ToString());
 
-        throw new JsonSerializationException("Expected Version object value");
-    }
-
-    /// <summary>
-    /// Reads the JSON representation of the object.
-    /// </summary>
-    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
-    {
-        if (reader.TokenType == JsonToken.Null)
-        {
-            return null;
-        }
-
-        if (reader.TokenType == JsonToken.String)
-        {
-            var value = reader.StringValue;
-            try
-            {
-                return new Version(value);
-            }
-            catch (Exception exception)
-            {
-                throw JsonSerializationException.Create(reader, $"Error parsing version string: {value}", exception);
-            }
-        }
-
-        throw JsonSerializationException.Create(reader, $"Unexpected token or value when parsing version. Token: {reader.TokenType}, Value: {reader.Value}");
-    }
-
-    /// <summary>
-    /// Determines whether this instance can convert the specified object type.
-    /// </summary>
-    /// <returns>
-    /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
-    /// </returns>
-    public override bool CanConvert(Type type) =>
-        type == typeof(Version);
+    public override Version ReadJson(JsonReader reader, Type type, Version? existingValue, bool hasExisting, JsonSerializer serializer) =>
+        new(reader.StringValue);
 }

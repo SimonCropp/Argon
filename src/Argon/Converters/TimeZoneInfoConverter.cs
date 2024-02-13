@@ -1,22 +1,9 @@
 class TimeZoneInfoConverter :
-    JsonConverter
+    JsonConverter<TimeZoneInfo>
 {
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        var info = (TimeZoneInfo) value;
-        writer.WriteValue(info.Id);
-    }
+    public override void WriteJson(JsonWriter writer, TimeZoneInfo value, JsonSerializer serializer) =>
+        writer.WriteValue(value.Id);
 
-    public override object? ReadJson(JsonReader reader, Type type, object? existingValue, JsonSerializer serializer)
-    {
-        if (reader.Value is string value)
-        {
-            return TimeZoneInfo.FindSystemTimeZoneById(value);
-        }
-
-        return null;
-    }
-
-    public override bool CanConvert(Type type) =>
-        type == typeof(TimeZoneInfo);
+    public override TimeZoneInfo ReadJson(JsonReader reader, Type type, TimeZoneInfo? existingValue, bool hasExisting, JsonSerializer serializer) =>
+        TimeZoneInfo.FindSystemTimeZoneById(reader.StringValue);
 }

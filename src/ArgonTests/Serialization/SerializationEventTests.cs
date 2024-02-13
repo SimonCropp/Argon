@@ -4,7 +4,6 @@
 
 using TestObjects;
 
-[UsesVerify]
 public class SerializationEventTests : TestFixtureBase
 {
     [Fact]

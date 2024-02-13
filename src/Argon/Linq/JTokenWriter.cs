@@ -7,7 +7,7 @@ namespace Argon;
 /// <summary>
 /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.
 /// </summary>
-public partial class JTokenWriter :
+public class JTokenWriter :
     JsonWriter
 {
     JContainer? token;
@@ -200,12 +200,27 @@ public partial class JTokenWriter :
         AddJValue(new JRaw(json));
 
     /// <summary>
+    /// Writes raw JSON.
+    /// </summary>
+    public override void WriteRaw(CharSpan json) =>
+        AddJValue(new JRaw(json.ToString()));
+
+    /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
     /// </summary>
     public override void WriteComment(string? text)
     {
         base.WriteComment(text);
         AddJValue(JValue.CreateComment(text));
+    }
+
+    /// <summary>
+    /// Writes a comment <c>/*...*/</c> containing the specified text.
+    /// </summary>
+    public override void WriteComment(CharSpan text)
+    {
+        base.WriteComment(text);
+        AddJValue(JValue.CreateComment(text.ToString()));
     }
 
     /// <summary>

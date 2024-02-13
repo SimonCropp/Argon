@@ -78,7 +78,7 @@ static class JavaScriptUtils
         return false;
     }
 
-    public static void WriteEscapedJavaScriptString(TextWriter writer, string value, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
+    public static void WriteEscapedJavaScriptString(TextWriter writer, CharSpan value, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
     {
         // leading delimiter
         if (appendDelimiters)
@@ -86,7 +86,7 @@ static class JavaScriptUtils
             writer.Write(delimiter);
         }
 
-        if (!value.IsNullOrEmpty())
+        if (value.Length > 0)
         {
             WriteEscapedJavaScriptNonNullString(writer, value, escapeFlags, escapeHandling, ref buffer);
         }
@@ -98,7 +98,7 @@ static class JavaScriptUtils
         }
     }
 
-    static void WriteEscapedJavaScriptNonNullString(TextWriter writer, string value, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
+    static void WriteEscapedJavaScriptNonNullString(TextWriter writer, CharSpan value, bool[] escapeFlags, EscapeHandling escapeHandling, ref char[]? buffer)
     {
         if (escapeHandling == EscapeHandling.None)
         {
@@ -121,7 +121,7 @@ static class JavaScriptUtils
             }
 
             // write unchanged chars at start of text.
-            value.CopyTo(0, buffer, 0, lastWritePosition);
+            value.Slice(0, lastWritePosition).CopyTo(buffer);
             writer.Write(buffer, 0, lastWritePosition);
         }
 
@@ -173,16 +173,19 @@ static class JavaScriptUtils
                         break;
                     }
 
-                    if (c == '\'' && escapeHandling != EscapeHandling.EscapeHtml)
+                    if (escapeHandling != EscapeHandling.EscapeHtml)
                     {
-                        escapedValue = @"\'";
-                        break;
-                    }
+                        if (c == '\'')
+                        {
+                            escapedValue = @"\'";
+                            break;
+                        }
 
-                    if (c == '"' && escapeHandling != EscapeHandling.EscapeHtml)
-                    {
-                        escapedValue = "\\\"";
-                        break;
+                        if (c == '"')
+                        {
+                            escapedValue = "\\\"";
+                            break;
+                        }
                     }
 
                     if (buffer == null || buffer.Length < unicodeTextLength)
@@ -228,10 +231,11 @@ static class JavaScriptUtils
                     buffer = newBuffer;
                 }
 
-                value.CopyTo(lastWritePosition, buffer, start, length - start);
+                var count = length - start;
+                value.Slice(lastWritePosition, count).CopyTo(buffer.AsSpan(start: start, length: count));
 
                 // write unchanged chars before writing escaped text
-                writer.Write(buffer, start, length - start);
+                writer.Write(buffer, start, count);
             }
 
             lastWritePosition = i + 1;
@@ -254,14 +258,14 @@ static class JavaScriptUtils
                 buffer = BufferUtils.EnsureBufferSize(length, buffer);
             }
 
-            value.CopyTo(lastWritePosition, buffer, 0, length);
+            value.Slice(lastWritePosition, length).CopyTo(buffer);
 
             // write remaining text
             writer.Write(buffer, 0, length);
         }
     }
 
-    public static string ToEscapedJavaScriptString(string value, char delimiter, bool appendDelimiters, EscapeHandling escapeHandling)
+    public static string ToEscapedJavaScriptString(CharSpan value, char delimiter, bool appendDelimiters, EscapeHandling escapeHandling)
     {
         var escapeFlags = GetCharEscapeFlags(escapeHandling, delimiter);
 
@@ -271,7 +275,7 @@ static class JavaScriptUtils
         return w.ToString();
     }
 
-    static int FirstCharToEscape(string value, bool[] escapeFlags, EscapeHandling escapeHandling)
+    static int FirstCharToEscape(CharSpan value, bool[] escapeFlags, EscapeHandling escapeHandling)
     {
         for (var i = 0; i != value.Length; i++)
         {
@@ -301,221 +305,5 @@ static class JavaScriptUtils
         }
 
         return -1;
-    }
-
-    public static Task WriteEscapedJavaScriptStringAsync(TextWriter writer, string value, char delimiter, bool appendDelimiters, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancel cancel = default)
-    {
-        if (cancel.IsCancellationRequested)
-        {
-            return cancel.FromCanceled();
-        }
-
-        if (appendDelimiters)
-        {
-            return WriteEscapedJavaScriptStringWithDelimitersAsync(writer, value, delimiter, escapeFlags, escapeHandling, client, buffer, cancel);
-        }
-
-        if (value.IsNullOrEmpty())
-        {
-            return cancel.CancelIfRequestedAsync() ?? Task.CompletedTask;
-        }
-
-        return WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, value, escapeFlags, escapeHandling, client, buffer, cancel);
-    }
-
-    static Task WriteEscapedJavaScriptStringWithDelimitersAsync(TextWriter writer, string value, char delimiter, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancel cancel)
-    {
-        var task = writer.WriteAsync(delimiter, cancel);
-        if (!task.IsCompletedSuccessfully())
-        {
-            return WriteEscapedJavaScriptStringWithDelimitersAsync(task, writer, value, delimiter, escapeFlags, escapeHandling, client, buffer, cancel);
-        }
-
-        if (!value.IsNullOrEmpty())
-        {
-            task = WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, value, escapeFlags, escapeHandling, client, buffer, cancel);
-            if (task.IsCompletedSuccessfully())
-            {
-                return writer.WriteAsync(delimiter, cancel);
-            }
-        }
-
-        return WriteCharAsync(task, writer, delimiter, cancel);
-    }
-
-    static async Task WriteEscapedJavaScriptStringWithDelimitersAsync(Task task, TextWriter writer, string value, char delimiter, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancel cancel)
-    {
-        await task.ConfigureAwait(false);
-
-        if (!value.IsNullOrEmpty())
-        {
-            await WriteEscapedJavaScriptStringWithoutDelimitersAsync(writer, value, escapeFlags, escapeHandling, client, buffer, cancel).ConfigureAwait(false);
-        }
-
-        await writer.WriteAsync(delimiter).ConfigureAwait(false);
-    }
-
-    public static async Task WriteCharAsync(Task task, TextWriter writer, char c, Cancel cancel)
-    {
-        await task.ConfigureAwait(false);
-        await writer.WriteAsync(c, cancel).ConfigureAwait(false);
-    }
-
-    static Task WriteEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string value, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[] buffer, Cancel cancel)
-    {
-        if (escapeHandling == EscapeHandling.None)
-        {
-            return writer.WriteAsync(value, cancel);
-        }
-
-        var i = FirstCharToEscape(value, escapeFlags, escapeHandling);
-        if (i == -1)
-        {
-            return writer.WriteAsync(value, cancel);
-        }
-
-        return WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(writer, value, i, escapeFlags, escapeHandling, client, buffer, cancel);
-    }
-
-    static async Task WriteDefinitelyEscapedJavaScriptStringWithoutDelimitersAsync(TextWriter writer, string value, int lastWritePosition, bool[] escapeFlags, EscapeHandling escapeHandling, JsonTextWriter client, char[]? buffer, Cancel cancel)
-    {
-        if (escapeHandling == EscapeHandling.None)
-        {
-            await writer.WriteAsync(value, cancel).ConfigureAwait(false);
-            return;
-        }
-
-        if (buffer == null ||
-            buffer.Length < lastWritePosition)
-        {
-            buffer = client.EnsureBuffer(lastWritePosition, unicodeTextLength);
-        }
-
-        if (lastWritePosition != 0)
-        {
-            value.CopyTo(0, buffer, 0, lastWritePosition);
-
-            // write unchanged chars at start of text.
-            await writer.WriteAsync(buffer, 0, lastWritePosition, cancel).ConfigureAwait(false);
-        }
-
-        int length;
-        var isEscapedUnicodeText = false;
-        string? escapedValue = null;
-
-        for (var i = lastWritePosition; i < value.Length; i++)
-        {
-            var c = value[i];
-
-            if (c < escapeFlags.Length && !escapeFlags[c])
-            {
-                continue;
-            }
-
-            switch (c)
-            {
-                case '\t':
-                    escapedValue = @"\t";
-                    break;
-                case '\n':
-                    escapedValue = @"\n";
-                    break;
-                case '\r':
-                    escapedValue = @"\r";
-                    break;
-                case '\f':
-                    escapedValue = @"\f";
-                    break;
-                case '\b':
-                    escapedValue = @"\b";
-                    break;
-                case '\\':
-                    escapedValue = @"\\";
-                    break;
-                case '\u0085': // Next Line
-                    escapedValue = @"\u0085";
-                    break;
-                case '\u2028': // Line Separator
-                    escapedValue = @"\u2028";
-                    break;
-                case '\u2029': // Paragraph Separator
-                    escapedValue = @"\u2029";
-                    break;
-                default:
-                    if (c >= escapeFlags.Length &&
-                        escapeHandling != EscapeHandling.EscapeNonAscii)
-                    {
-                        continue;
-                    }
-
-                    if (c == '\'' &&
-                        escapeHandling != EscapeHandling.EscapeHtml)
-                    {
-                        escapedValue = @"\'";
-                    }
-                    else if (c == '"' &&
-                             escapeHandling != EscapeHandling.EscapeHtml)
-                    {
-                        escapedValue = @"\""";
-                    }
-                    else
-                    {
-                        if (buffer.Length < unicodeTextLength)
-                        {
-                            buffer = client.EnsureBuffer(unicodeTextLength, 0);
-                        }
-
-                        StringUtils.ToCharAsUnicode(c, buffer);
-
-                        isEscapedUnicodeText = true;
-                    }
-
-                    break;
-            }
-
-            if (i > lastWritePosition)
-            {
-                length = i - lastWritePosition + (isEscapedUnicodeText ? unicodeTextLength : 0);
-                var start = isEscapedUnicodeText ? unicodeTextLength : 0;
-
-                if (buffer.Length < length)
-                {
-                    buffer = client.EnsureBuffer(length, unicodeTextLength);
-                }
-
-                value.CopyTo(lastWritePosition, buffer, start, length - start);
-
-                // write unchanged chars before writing escaped text
-                await writer.WriteAsync(buffer, start, length - start, cancel).ConfigureAwait(false);
-            }
-
-            lastWritePosition = i + 1;
-            if (isEscapedUnicodeText)
-            {
-                await writer.WriteAsync(buffer, 0, unicodeTextLength, cancel).ConfigureAwait(false);
-                isEscapedUnicodeText = false;
-            }
-            else
-            {
-                await writer.WriteAsync(escapedValue!, cancel).ConfigureAwait(false);
-            }
-        }
-
-        length = value.Length - lastWritePosition;
-
-        if (length == 0)
-        {
-            return;
-        }
-
-        if (buffer.Length < length)
-        {
-            buffer = client.EnsureBuffer(length, 0);
-        }
-
-        value.CopyTo(lastWritePosition, buffer, 0, length);
-
-        // write remaining text
-        await writer.WriteAsync(buffer, 0, length, cancel).ConfigureAwait(false);
     }
 }

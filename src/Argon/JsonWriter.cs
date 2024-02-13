@@ -4,10 +4,13 @@
 
 namespace Argon;
 
+using static JsonWriter.State;
+using static JsonToken;
+
 /// <summary>
 /// Represents a writer that provides a fast, non-cached, forward-only way of generating JSON data.
 /// </summary>
-public abstract partial class JsonWriter : IDisposable
+public abstract class JsonWriter : IDisposable
 {
     internal enum State
     {
@@ -24,42 +27,36 @@ public abstract partial class JsonWriter : IDisposable
     // array that gives a new state based on the current state an the token being written
     static readonly State[][] stateArray;
 
-    internal static readonly State[][] StateArrayTemplate =
-    [
-        //                                 Start               PropertyName       ObjectStart        Object          ArrayStart         Array              Closed       Error
-        //
-        /* None                   */[State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error, State.Error],
-        /* StartObject            */[State.ObjectStart, State.ObjectStart, State.Error, State.Error, State.ObjectStart, State.ObjectStart, State.Error, State.Error],
-        /* StartArray             */[State.ArrayStart, State.ArrayStart, State.Error, State.Error, State.ArrayStart, State.ArrayStart, State.Error, State.Error],
-        /* Property               */[State.Property, State.Error, State.Property, State.Property, State.Error, State.Error, State.Error, State.Error],
-        /* Comment                */[State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error],
-        /* Raw                    */[State.Start, State.Property, State.ObjectStart, State.Object, State.ArrayStart, State.Array, State.Error, State.Error],
-        /* Value (will be copied) */[State.Start, State.Object, State.Error, State.Error, State.Array, State.Array, State.Error, State.Error]
-    ];
-
     internal static State[][] BuildStateArray()
     {
-        var allStates = StateArrayTemplate.ToList();
-        var errorStates = StateArrayTemplate[0];
-        var valueStates = StateArrayTemplate[6];
+        List<State[]> allStates =
+        [
+            //                        Start, PropertyName, ObjectStart, Object, ArrayStart, Array, Closed, Error
+            /* None                   */[Error, Error, Error, Error, Error, Error, Error, Error],
+            /* StartObject            */[ObjectStart, ObjectStart, Error, Error, ObjectStart, ObjectStart, Error, Error],
+            /* StartArray             */[ArrayStart, ArrayStart, Error, Error, ArrayStart, ArrayStart, Error, Error],
+            /* Property               */[Property, Error, Property, Property, Error, Error, Error, Error],
+            /* Comment                */[Start, Property, ObjectStart, Object, ArrayStart, Array, Error, Error],
+            /* Raw                    */[Start, Property, ObjectStart, Object, ArrayStart, Array, Error, Error],
+            /* Value (will be copied) */[Start, Object, Error, Error, Array, Array, Error, Error]
+        ];
+        var errorStates = allStates[0];
+        var valueStates = allStates[6];
 
-        var enumValuesAndNames = EnumUtils.GetEnumValuesAndNames(typeof(JsonToken));
-
-        foreach (var valueToken in enumValuesAndNames.Values)
+        foreach (var token in EnumPolyfill.GetValues<JsonToken>())
         {
-            if (allStates.Count <= (int) valueToken)
+            if (allStates.Count <= (int) token)
             {
-                var token = (JsonToken) valueToken;
                 switch (token)
                 {
-                    case JsonToken.Integer:
-                    case JsonToken.Float:
-                    case JsonToken.String:
-                    case JsonToken.Boolean:
-                    case JsonToken.Null:
-                    case JsonToken.Undefined:
-                    case JsonToken.Date:
-                    case JsonToken.Bytes:
+                    case Integer:
+                    case Float:
+                    case String:
+                    case Boolean:
+                    case Null:
+                    case Undefined:
+                    case Date:
+                    case Bytes:
                         allStates.Add(valueStates);
                         break;
                     default:
@@ -115,19 +112,19 @@ public abstract partial class JsonWriter : IDisposable
         {
             switch (currentState)
             {
-                case State.Error:
+                case Error:
                     return WriteState.Error;
-                case State.Closed:
+                case Closed:
                     return WriteState.Closed;
-                case State.Object:
-                case State.ObjectStart:
+                case Object:
+                case ObjectStart:
                     return WriteState.Object;
-                case State.Array:
-                case State.ArrayStart:
+                case Array:
+                case ArrayStart:
                     return WriteState.Array;
-                case State.Property:
+                case Property:
                     return WriteState.Property;
-                case State.Start:
+                case Start:
                     return WriteState.Start;
                 default:
                     throw JsonWriterException.Create(this, $"Invalid state: {currentState}");
@@ -160,8 +157,8 @@ public abstract partial class JsonWriter : IDisposable
                 return string.Empty;
             }
 
-            var insideContainer = currentState != State.ArrayStart &&
-                                  currentState != State.ObjectStart;
+            var insideContainer = currentState != ArrayStart &&
+                                  currentState != ObjectStart;
 
             var current = insideContainer ? (JsonPosition?) currentPosition : null;
 
@@ -230,7 +227,7 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     protected JsonWriter()
     {
-        currentState = State.Start;
+        currentState = Start;
         Formatting = Formatting.None;
         CloseOutput = true;
         AutoCompleteOnClose = true;
@@ -296,7 +293,7 @@ public abstract partial class JsonWriter : IDisposable
     /// Writes the beginning of a JSON object.
     /// </summary>
     public virtual void WriteStartObject() =>
-        InternalWriteStart(JsonToken.StartObject, JsonContainerType.Object);
+        InternalWriteStart(StartObject, JsonContainerType.Object);
 
     /// <summary>
     /// Writes the end of a JSON object.
@@ -308,7 +305,7 @@ public abstract partial class JsonWriter : IDisposable
     /// Writes the beginning of a JSON array.
     /// </summary>
     public virtual void WriteStartArray() =>
-        InternalWriteStart(JsonToken.StartArray, JsonContainerType.Array);
+        InternalWriteStart(StartArray, JsonContainerType.Array);
 
     /// <summary>
     /// Writes the end of an array.
@@ -327,6 +324,19 @@ public abstract partial class JsonWriter : IDisposable
     /// </summary>
     /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
     public virtual void WritePropertyName(string name, bool escape) =>
+        WritePropertyName(name);
+
+    /// <summary>
+    /// Writes the property name of a name/value pair of a JSON object.
+    /// </summary>
+    public virtual void WritePropertyName(CharSpan name) =>
+        InternalWritePropertyName(name);
+
+    /// <summary>
+    /// Writes the property name of a name/value pair of a JSON object.
+    /// </summary>
+    /// <param name="escape">A flag to indicate whether the text should be escaped when it is written as a JSON property name.</param>
+    public virtual void WritePropertyName(CharSpan name, bool escape) =>
         WritePropertyName(name);
 
     /// <summary>
@@ -360,22 +370,22 @@ public abstract partial class JsonWriter : IDisposable
     {
         switch (token)
         {
-            case JsonToken.None:
+            case None:
                 // read to next
                 break;
-            case JsonToken.StartObject:
+            case StartObject:
                 WriteStartObject();
                 break;
-            case JsonToken.StartArray:
+            case StartArray:
                 WriteStartArray();
                 break;
-            case JsonToken.PropertyName:
+            case PropertyName:
                 WritePropertyName((string)value!);
                 break;
-            case JsonToken.Comment:
+            case Comment:
                 WriteComment((string)value!);
                 break;
-            case JsonToken.Integer:
+            case Integer:
                 if (value is BigInteger integer)
                 {
                     WriteValue(integer);
@@ -386,7 +396,7 @@ public abstract partial class JsonWriter : IDisposable
                 }
 
                 break;
-            case JsonToken.Float:
+            case Float:
                 if (value is decimal decimalValue)
                 {
                     WriteValue(decimalValue);
@@ -405,27 +415,27 @@ public abstract partial class JsonWriter : IDisposable
                 }
 
                 break;
-            case JsonToken.String:
+            case String:
                 // Allow for a null string. This matches JTokenReader behavior which can read
                 // a JsonToken.String with a null value.
                 WriteValue(value?.ToString());
                 break;
-            case JsonToken.Boolean:
+            case Boolean:
                 WriteValue(Convert.ToBoolean(value, InvariantCulture));
                 break;
-            case JsonToken.Null:
+            case Null:
                 WriteNull();
                 break;
-            case JsonToken.Undefined:
+            case Undefined:
                 WriteUndefined();
                 break;
-            case JsonToken.EndObject:
+            case EndObject:
                 WriteEndObject();
                 break;
-            case JsonToken.EndArray:
+            case EndArray:
                 WriteEndArray();
                 break;
-            case JsonToken.Date:
+            case Date:
                 if (value is DateTimeOffset dt)
                 {
                     WriteValue(dt);
@@ -436,10 +446,10 @@ public abstract partial class JsonWriter : IDisposable
                 }
 
                 break;
-            case JsonToken.Raw:
+            case Raw:
                 WriteRawValue(value?.ToString());
                 break;
-            case JsonToken.Bytes:
+            case Bytes:
                 if (value is Guid guid)
                 {
                     WriteValue(guid);
@@ -468,7 +478,7 @@ public abstract partial class JsonWriter : IDisposable
         var initialDepthOffset = initialDepth - 1;
         do
         {
-            if (writeComments || reader.TokenType != JsonToken.Comment)
+            if (writeComments || reader.TokenType != Comment)
             {
                 WriteToken(reader.TokenType, reader.Value);
             }
@@ -494,7 +504,7 @@ public abstract partial class JsonWriter : IDisposable
     static int CalculateWriteTokenInitialDepth(JsonReader reader)
     {
         var type = reader.TokenType;
-        if (type == JsonToken.None)
+        if (type == None)
         {
             return -1;
         }
@@ -510,7 +520,7 @@ public abstract partial class JsonWriter : IDisposable
     static int CalculateWriteTokenFinalDepth(JsonReader reader)
     {
         var type = reader.TokenType;
-        if (type == JsonToken.None)
+        if (type == None)
         {
             return -1;
         }
@@ -546,9 +556,9 @@ public abstract partial class JsonWriter : IDisposable
         switch (type)
         {
             case JsonContainerType.Object:
-                return JsonToken.EndObject;
+                return EndObject;
             case JsonContainerType.Array:
-                return JsonToken.EndArray;
+                return EndArray;
             default:
                 throw JsonWriterException.Create(this, $"No close token for type: {type}");
         }
@@ -562,14 +572,14 @@ public abstract partial class JsonWriter : IDisposable
         {
             var token = GetCloseTokenForType(Pop());
 
-            if (currentState == State.Property)
+            if (currentState == Property)
             {
                 WriteNull();
             }
 
             if (Formatting == Formatting.Indented)
             {
-                if (currentState != State.ObjectStart && currentState != State.ArrayStart)
+                if (currentState != ObjectStart && currentState != ArrayStart)
                 {
                     WriteIndent();
                 }
@@ -619,13 +629,13 @@ public abstract partial class JsonWriter : IDisposable
         switch (currentLevelType)
         {
             case JsonContainerType.Object:
-                currentState = State.Object;
+                currentState = Object;
                 break;
             case JsonContainerType.Array:
-                currentState = State.Array;
+                currentState = Array;
                 break;
             case JsonContainerType.None:
-                currentState = State.Start;
+                currentState = Start;
                 break;
             default:
                 throw JsonWriterException.Create(this, $"Unknown JsonType: {currentLevelType}");
@@ -665,27 +675,27 @@ public abstract partial class JsonWriter : IDisposable
         // gets new state based on the current state and what is being written
         var newState = stateArray[(int) tokenBeingWritten][(int) currentState];
 
-        if (newState == State.Error)
+        if (newState == Error)
         {
             throw JsonWriterException.Create(this, $"Token {tokenBeingWritten} in state {currentState} would result in an invalid JSON object.");
         }
 
-        if (currentState is State.Object or State.Array &&
-            tokenBeingWritten != JsonToken.Comment)
+        if (currentState is Object or Array &&
+            tokenBeingWritten != Comment)
         {
             WriteValueDelimiter();
         }
 
         if (Formatting == Formatting.Indented)
         {
-            if (currentState == State.Property)
+            if (currentState == Property)
             {
                 WriteIndentSpace();
             }
 
             // don't indent a property when it is the first token to be written (i.e. at the start)
-            if (currentState is State.Array or State.ArrayStart ||
-                (tokenBeingWritten == JsonToken.PropertyName && currentState != State.Start))
+            if (currentState is Array or ArrayStart ||
+                (tokenBeingWritten == PropertyName && currentState != Start))
             {
                 WriteIndent();
             }
@@ -700,18 +710,34 @@ public abstract partial class JsonWriter : IDisposable
     /// Writes a null value.
     /// </summary>
     public virtual void WriteNull() =>
-        InternalWriteValue(JsonToken.Null);
+        InternalWriteValue(Null);
 
     /// <summary>
     /// Writes an undefined value.
     /// </summary>
     public virtual void WriteUndefined() =>
-        InternalWriteValue(JsonToken.Undefined);
+        InternalWriteValue(Undefined);
 
     /// <summary>
     /// Writes raw JSON without changing the writer's state.
     /// </summary>
     public abstract void WriteRaw(string? json);
+
+    /// <summary>
+    /// Writes raw JSON without changing the writer's state.
+    /// </summary>
+    public abstract void WriteRaw(CharSpan json);
+
+    /// <summary>
+    /// Writes raw JSON where a value is expected and updates the writer's state.
+    /// </summary>
+    public virtual void WriteRawValue(CharSpan json)
+    {
+        // hack. want writer to change state as if a value had been written
+        UpdateScopeWithFinishedValue();
+        AutoComplete(Undefined);
+        WriteRaw(json);
+    }
 
     /// <summary>
     /// Writes raw JSON where a value is expected and updates the writer's state.
@@ -720,117 +746,143 @@ public abstract partial class JsonWriter : IDisposable
     {
         // hack. want writer to change state as if a value had been written
         UpdateScopeWithFinishedValue();
-        AutoComplete(JsonToken.Undefined);
+        AutoComplete(Undefined);
         WriteRaw(json);
     }
 
     /// <summary>
     /// Writes a <see cref="String" /> value.
     /// </summary>
+    public virtual void WriteValue(CharSpan value) =>
+        InternalWriteValue(String);
+
+    /// <summary>
+    /// Writes a <see cref="StringBuilder" /> value.
+    /// </summary>
+    public virtual void WriteValue(StringBuilder? value)
+    {
+        if (value is null)
+        {
+            WriteNull();
+            return;
+        }
+#if NET6_0_OR_GREATER
+        foreach (var chunk in value.GetChunks())
+        {
+            WriteValue(chunk.Span);
+        }
+#else
+        WriteValue(value.ToString());
+#endif
+    }
+
+    /// <summary>
+    /// Writes a <see cref="String" /> value.
+    /// </summary>
     public virtual void WriteValue(string? value) =>
-        InternalWriteValue(JsonToken.String);
+        InternalWriteValue(String);
 
     /// <summary>
     /// Writes a <see cref="Int32" /> value.
     /// </summary>
     public virtual void WriteValue(int value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="UInt32" /> value.
     /// </summary>
     public virtual void WriteValue(uint value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="Int64" /> value.
     /// </summary>
     public virtual void WriteValue(long value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="UInt64" /> value.
     /// </summary>
     public virtual void WriteValue(ulong value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="Single" /> value.
     /// </summary>
     public virtual void WriteValue(float value) =>
-        InternalWriteValue(JsonToken.Float);
+        InternalWriteValue(Float);
 
     /// <summary>
     /// Writes a <see cref="Double" /> value.
     /// </summary>
     public virtual void WriteValue(double value) =>
-        InternalWriteValue(JsonToken.Float);
+        InternalWriteValue(Float);
 
     /// <summary>
     /// Writes a <see cref="Boolean" /> value.
     /// </summary>
     public virtual void WriteValue(bool value) =>
-        InternalWriteValue(JsonToken.Boolean);
+        InternalWriteValue(Boolean);
 
     /// <summary>
     /// Writes a <see cref="Int16" /> value.
     /// </summary>
     public virtual void WriteValue(short value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="UInt16" /> value.
     /// </summary>
     public virtual void WriteValue(ushort value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="Char" /> value.
     /// </summary>
     public virtual void WriteValue(char value) =>
-        InternalWriteValue(JsonToken.String);
+        InternalWriteValue(String);
 
     /// <summary>
     /// Writes a <see cref="Byte" /> value.
     /// </summary>
     public virtual void WriteValue(byte value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="SByte" /> value.
     /// </summary>
     public virtual void WriteValue(sbyte value) =>
-        InternalWriteValue(JsonToken.Integer);
+        InternalWriteValue(Integer);
 
     /// <summary>
     /// Writes a <see cref="Decimal" /> value.
     /// </summary>
     public virtual void WriteValue(decimal value) =>
-        InternalWriteValue(JsonToken.Float);
+        InternalWriteValue(Float);
 
     /// <summary>
     /// Writes a <see cref="DateTime" /> value.
     /// </summary>
     public virtual void WriteValue(DateTime value) =>
-        InternalWriteValue(JsonToken.Date);
+        InternalWriteValue(Date);
 
     /// <summary>
     /// Writes a <see cref="DateTimeOffset" /> value.
     /// </summary>
     public virtual void WriteValue(DateTimeOffset value) =>
-        InternalWriteValue(JsonToken.Date);
+        InternalWriteValue(Date);
 
     /// <summary>
     /// Writes a <see cref="Guid" /> value.
     /// </summary>
     public virtual void WriteValue(Guid value) =>
-        InternalWriteValue(JsonToken.String);
+        InternalWriteValue(String);
 
     /// <summary>
     /// Writes a <see cref="TimeSpan" /> value.
     /// </summary>
     public virtual void WriteValue(TimeSpan value) =>
-        InternalWriteValue(JsonToken.String);
+        InternalWriteValue(String);
 
     /// <summary>
     /// Writes a <see cref="Nullable{T}" /> of <see cref="Int32" /> value.
@@ -1098,7 +1150,7 @@ public abstract partial class JsonWriter : IDisposable
         }
         else
         {
-            InternalWriteValue(JsonToken.Bytes);
+            InternalWriteValue(Bytes);
         }
     }
 
@@ -1113,7 +1165,7 @@ public abstract partial class JsonWriter : IDisposable
         }
         else
         {
-            InternalWriteValue(JsonToken.String);
+            InternalWriteValue(String);
         }
     }
 
@@ -1149,9 +1201,21 @@ public abstract partial class JsonWriter : IDisposable
         InternalWriteComment();
 
     /// <summary>
+    /// Writes a comment <c>/*...*/</c> containing the specified text.
+    /// </summary>
+    public virtual void WriteComment(CharSpan text) =>
+        InternalWriteComment();
+
+    /// <summary>
     /// Writes the given white space.
     /// </summary>
     public virtual void WriteWhitespace(string ws) =>
+        InternalWriteWhitespace(ws);
+
+    /// <summary>
+    /// Writes the given white space.
+    /// </summary>
+    public virtual void WriteWhitespace(CharSpan ws) =>
         InternalWriteWhitespace(ws);
 
     void IDisposable.Dispose()
@@ -1166,7 +1230,7 @@ public abstract partial class JsonWriter : IDisposable
     /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
     protected virtual void Dispose(bool disposing)
     {
-        if (currentState != State.Closed && disposing)
+        if (currentState != Closed && disposing)
         {
             Close();
         }
@@ -1381,13 +1445,13 @@ public abstract partial class JsonWriter : IDisposable
     {
         switch (token)
         {
-            case JsonToken.StartObject:
+            case StartObject:
                 InternalWriteStart(token, JsonContainerType.Object);
                 break;
-            case JsonToken.StartArray:
+            case StartArray:
                 InternalWriteStart(token, JsonContainerType.Array);
                 break;
-            case JsonToken.PropertyName:
+            case PropertyName:
                 if (value is not string s)
                 {
                     throw new ArgumentException("A name is required when setting property name state.", nameof(value));
@@ -1395,25 +1459,25 @@ public abstract partial class JsonWriter : IDisposable
 
                 InternalWritePropertyName(s);
                 break;
-            case JsonToken.Comment:
+            case Comment:
                 InternalWriteComment();
                 break;
-            case JsonToken.Raw:
+            case Raw:
                 break;
-            case JsonToken.Integer:
-            case JsonToken.Float:
-            case JsonToken.String:
-            case JsonToken.Boolean:
-            case JsonToken.Date:
-            case JsonToken.Bytes:
-            case JsonToken.Null:
-            case JsonToken.Undefined:
+            case Integer:
+            case Float:
+            case String:
+            case Boolean:
+            case Date:
+            case Bytes:
+            case Null:
+            case Undefined:
                 InternalWriteValue(token);
                 break;
-            case JsonToken.EndObject:
+            case EndObject:
                 InternalWriteEnd(JsonContainerType.Object);
                 break;
-            case JsonToken.EndArray:
+            case EndArray:
                 InternalWriteEnd(JsonContainerType.Array);
                 break;
             default:
@@ -1427,8 +1491,11 @@ public abstract partial class JsonWriter : IDisposable
     internal void InternalWritePropertyName(string name)
     {
         currentPosition.PropertyName = name;
-        AutoComplete(JsonToken.PropertyName);
+        AutoComplete(PropertyName);
     }
+
+    internal void InternalWritePropertyName(CharSpan name) =>
+        InternalWritePropertyName(name.ToString());
 
     internal void InternalWriteStart(JsonToken token, JsonContainerType container)
     {
@@ -1451,6 +1518,19 @@ public abstract partial class JsonWriter : IDisposable
         }
     }
 
+    internal void InternalWriteWhitespace(CharSpan ws)
+    {
+        foreach (var ch in ws)
+        {
+            if (char.IsWhiteSpace(ch))
+            {
+                continue;
+            }
+
+            throw JsonWriterException.Create(this, "Only white space characters should be used.");
+        }
+    }
+
     internal void InternalWriteComment() =>
-        AutoComplete(JsonToken.Comment);
+        AutoComplete(Comment);
 }

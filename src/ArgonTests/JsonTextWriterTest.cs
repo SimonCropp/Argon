@@ -191,86 +191,6 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public async Task EscapeHandlingNoneAsync()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            EscapeHandling = EscapeHandling.None
-        };
-
-        jsonWriter.WriteStartObject();
-
-        await jsonWriter.WritePropertyNameAsync("name\"€");
-        await jsonWriter.WriteValueAsync("\u5f20\"");
-
-        jsonWriter.WriteEndObject();
-        jsonWriter.Flush();
-
-        Assert.Equal("""{"name"€":"张""}""", stringWriter.ToString());
-    }
-
-    [Fact]
-    public async Task EscapeHandlingDefaultAsync()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            EscapeHandling = EscapeHandling.Default
-        };
-
-        jsonWriter.WriteStartObject();
-
-        await jsonWriter.WritePropertyNameAsync("name\"€");
-        await jsonWriter.WriteValueAsync("\"€");
-
-        jsonWriter.WriteEndObject();
-        jsonWriter.Flush();
-
-        Assert.Equal("""{"name\"€":"\"€"}""", stringWriter.ToString());
-    }
-
-    [Fact]
-    public async Task EscapeHandlingEscapeHtmlAsync()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            EscapeHandling = EscapeHandling.EscapeHtml
-        };
-
-        jsonWriter.WriteStartObject();
-
-        await jsonWriter.WritePropertyNameAsync("name\"€");
-        await jsonWriter.WriteValueAsync("\"€");
-
-        jsonWriter.WriteEndObject();
-        jsonWriter.Flush();
-
-        Assert.Equal("""{"name\u0022€":"\u0022€"}""", stringWriter.ToString());
-    }
-
-    [Fact]
-    public async Task EscapeHandlingEscapeNonAsciiAsync()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter)
-        {
-            EscapeHandling = EscapeHandling.EscapeNonAscii
-        };
-
-        jsonWriter.WriteStartObject();
-
-        await jsonWriter.WritePropertyNameAsync("name\"€");
-        await jsonWriter.WriteValueAsync("\"€");
-
-        jsonWriter.WriteEndObject();
-        jsonWriter.Flush();
-
-        Assert.Equal("""{"name\"\u20ac":"\"\u20ac"}""", stringWriter.ToString());
-    }
-
-    [Fact]
     public void CloseOutput()
     {
         var ms = new MemoryStream();
@@ -1159,46 +1079,10 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void BuildStateArray()
+    public Task BuildStateArray()
     {
         var stateArray = JsonWriter.BuildStateArray();
-
-        var valueStates = JsonWriter.StateArrayTemplate[6];
-
-        foreach (JsonToken valueToken in GetValues(typeof(JsonToken)))
-        {
-            switch (valueToken)
-            {
-                case JsonToken.Integer:
-                case JsonToken.Float:
-                case JsonToken.String:
-                case JsonToken.Boolean:
-                case JsonToken.Null:
-                case JsonToken.Undefined:
-                case JsonToken.Date:
-                case JsonToken.Bytes:
-                    Assert.Equal(valueStates, stateArray[(int) valueToken]);
-                    break;
-            }
-        }
-    }
-
-    static IList<object> GetValues(Type enumType)
-    {
-        if (!enumType.IsEnum)
-        {
-            throw new ArgumentException($"Type {enumType.Name} is not an enum.", nameof(enumType));
-        }
-
-        var values = new List<object>();
-
-        foreach (var field in enumType.GetFields(BindingFlags.Public | BindingFlags.Static))
-        {
-            var value = field.GetValue(enumType);
-            values.Add(value);
-        }
-
-        return values;
+        return Verify(stateArray);
     }
 
     [Fact]
@@ -1616,5 +1500,8 @@ public class UnmanagedResourceFakingJsonWriter : JsonWriter
         throw new NotImplementedException();
 
     public override void WriteRaw(string json) =>
+        throw new NotImplementedException();
+
+    public override void WriteRaw(CharSpan json) =>
         throw new NotImplementedException();
 }

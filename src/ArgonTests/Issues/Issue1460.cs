@@ -13,14 +13,4 @@ public class Issue1460 : TestFixtureBase
 
         Assert.Equal("null", stringWriter.ToString());
     }
-
-    [Fact]
-    public async Task TestAsync()
-    {
-        var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        await JsonWriter.WriteValueAsync(jsonWriter, PrimitiveTypeCode.Object, null, Cancel.None);
-
-        Assert.Equal("null", stringWriter.ToString());
-    }
 }
