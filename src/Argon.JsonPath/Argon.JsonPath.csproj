@@ -7,7 +7,7 @@
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ProjectDefaults" Version="1.0.109" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.110" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 </Project>
