@@ -6,6 +6,9 @@
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet8'">net8.0</TargetFrameworks>
     <PackageTags>nodatime;json;Argon</PackageTags>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+  </PropertyGroup>
 
   <ItemGroup>
     <Using Include="Microsoft.FSharp.Core" />
