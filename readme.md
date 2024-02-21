@@ -172,7 +172,6 @@ var json = jObject.ToString();
     * [MissingMemberHandling setting](/docs/Serializer/DeserializeMissingMemberHandling.md)
     * [Deserialize an Object](/docs/Serializer/DeserializeObject.md)
     * [ObjectCreationHandling setting](/docs/Serializer/DeserializeObjectCreationHandling.md)
-    * [Deserialize with dependency injection](/docs/Serializer/DeserializeWithDependencyInjection.md)
     * [Deserialize JSON from a file](/docs/Serializer/DeserializeWithJsonSerializerFromFile.md)
     * [ErrorHandlingAttribute](/docs/Serializer/ErrorHandlingAttribute.md)
     * [ErrorHandling setting](/docs/Serializer/ErrorHandlingEvent.md)
