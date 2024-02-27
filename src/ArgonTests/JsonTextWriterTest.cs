@@ -937,25 +937,22 @@ public class JsonTextWriterTest : TestFixtureBase
     public void TokenTypeOutOfRange()
     {
         using var jsonWriter = new JsonTextWriter(new StringWriter());
-        var ex = XUnitAssert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken) int.MinValue));
+        var ex = Assert.Throws<ArgumentOutOfRangeException>(() => jsonWriter.WriteToken((JsonToken) int.MinValue));
         Assert.Equal("token", ex.ParamName);
     }
 
     [Fact]
     public void BadWriteEndArray()
     {
-        var exception = Assert.Throws<JsonWriterException>(() =>
-        {
-            var stringWriter = new StringWriter();
+        var stringWriter = new StringWriter();
 
-            using var jsonWriter = new JsonTextWriter(stringWriter);
-            jsonWriter.WriteStartArray();
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteStartArray();
 
-            jsonWriter.WriteValue(0.0);
+        jsonWriter.WriteValue(0.0);
 
-            jsonWriter.WriteEndArray();
-            jsonWriter.WriteEndArray();
-        });
+        jsonWriter.WriteEndArray();
+        var exception = Assert.Throws<JsonWriterException>(() => jsonWriter.WriteEndArray());
         Assert.Equal("No token to close. Path ''.", exception.Message);
     }
 

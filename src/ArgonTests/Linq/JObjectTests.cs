@@ -355,10 +355,11 @@ public class JObjectTests : TestFixtureBase
     }
 
     [Fact]
-    public void GenericCollectionCopyToNegativeArrayIndexShouldThrow() =>
+    public void GenericCollectionCopyToNegativeArrayIndexShouldThrow()
+    {
+        var o = new JObject();
         XUnitAssert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                var o = new JObject();
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], -1);
             },
             """
@@ -366,6 +367,7 @@ public class JObjectTests : TestFixtureBase
             Parameter name: arrayIndex
             """,
             "arrayIndex is less than 0. (Parameter 'arrayIndex')");
+    }
 
     [Fact]
     public void GenericCollectionCopyToArrayIndexEqualGreaterToArrayLengthShouldThrow()

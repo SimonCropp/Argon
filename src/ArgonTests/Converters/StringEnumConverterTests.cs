@@ -170,15 +170,14 @@ public class StringEnumConverterTests : TestFixtureBase
     public void Deserialize_NotAllowIntegerValuesFromAttribute()
     {
         var converter = new StringEnumConverter(new CamelCaseNamingStrategy(), false);
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(
-                    """
-                    "9"
-                    """,
-                    converter);
-            });
+        Assert.Throws<JsonSerializationException>((Action) (() =>
+        {
+            JsonConvert.DeserializeObject<NotAllowIntegerValuesEnum>(
+                """
+                "9"
+                """,
+                converter);
+        }));
     }
 
     [Fact]
@@ -774,8 +773,7 @@ public class StringEnumConverterTests : TestFixtureBase
         {
             AllowIntegerValues = false
         };
-        var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<StoreColor>("\"1\"", converter));
+        var ex = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<StoreColor>("\"1\"", converter));
 
         Assert.Equal("Integer string '1' is not allowed.", ex.InnerException.Message);
     }
@@ -787,8 +785,7 @@ public class StringEnumConverterTests : TestFixtureBase
         {
             AllowIntegerValues = false
         };
-        var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<StoreColor>("\"-1\"", converter));
+        var ex = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<StoreColor>("\"-1\"", converter));
 
         Assert.Equal("Integer string '-1' is not allowed.", ex.InnerException.Message);
     }
@@ -800,8 +797,7 @@ public class StringEnumConverterTests : TestFixtureBase
         {
             AllowIntegerValues = false
         };
-        var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<StoreColor>("\"+1\"", converter));
+        var ex = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<StoreColor>("\"+1\"", converter));
 
         Assert.Equal("Integer string '+1' is not allowed.", ex.InnerException.Message);
     }
@@ -813,8 +809,7 @@ public class StringEnumConverterTests : TestFixtureBase
         {
             AllowIntegerValues = false
         };
-        var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<StoreColor>("\"-\"", converter));
+        var ex = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<StoreColor>("\"-\"", converter));
 
         Assert.Equal("Requested value '-' was not found.", ex.InnerException.Message);
     }

@@ -951,7 +951,8 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(BigInteger.Parse(new('9', 380)), (BigInteger) v.Value);
 
         var messages = $"JSON integer {new string('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.";
-        var exception = Assert.Throws<JsonReaderException>(() => JObject.Parse("""{"biginteger":""" + new string('9', 381) + "}"));
+        var json = """{"biginteger":""" + new string('9', 381) + "}";
+        var exception = Assert.Throws<JsonReaderException>(() => JObject.Parse(json));
         Assert.Equal(messages, exception.Message);
     }
 

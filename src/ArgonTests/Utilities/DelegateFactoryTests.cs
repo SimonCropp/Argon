@@ -114,20 +114,18 @@ public class DelegateFactoryTests : TestFixtureBase
     }
 
     [Fact]
-    public void CreateSetWithBadTarget() =>
-        XUnitAssert.Throws<InvalidCastException>(
-            () =>
-            {
-                object structTest = new StructTest();
+    public void CreateSetWithBadTarget()
+    {
+        object structTest = new StructTest();
 
-                var setter = DelegateFactory.CreateSet<object>(typeof(StructTest).GetProperty("StringProperty"));
+        var setter = DelegateFactory.CreateSet<object>(typeof(StructTest).GetProperty("StringProperty"));
 
-                setter(structTest, "Hi");
+        setter(structTest, "Hi");
 
-                Assert.Equal("Hi", ((StructTest) structTest).StringProperty);
+        Assert.Equal("Hi", ((StructTest) structTest).StringProperty);
 
-                setter(new TimeSpan(), "Hi");
-            });
+        Assert.Throws<InvalidCastException>(() => setter(new TimeSpan(), "Hi"));
+    }
 
     [Fact]
     public void CreateSetWithBadObjectValue()

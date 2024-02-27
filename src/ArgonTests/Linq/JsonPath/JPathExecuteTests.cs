@@ -44,12 +44,11 @@ public class JPathExecuteTests : TestFixtureBase
         {
             RegexMatchTimeout = TimeSpan.FromSeconds(0.01)
         };
-        XUnitAssert.Throws<RegexMatchTimeoutException>(
-            () => regexBacktrackingData
-                .SelectTokens(
-                    $"[?(@.b =~ /{RegexBacktrackingPattern}/)]",
-                    settings)
-                .ToArray());
+        Assert.Throws<RegexMatchTimeoutException>(() => regexBacktrackingData
+            .SelectTokens(
+                $"[?(@.b =~ /{RegexBacktrackingPattern}/)]",
+                settings)
+            .ToArray());
     }
 
     [Fact]

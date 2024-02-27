@@ -5493,7 +5493,7 @@ public class JsonSerializerTest : TestFixtureBase
                      "PreProperty":
                    """;
 
-        XUnitAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<MyClass>(json));
+        Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<MyClass>(json));
     }
 
     [Fact]

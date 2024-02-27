@@ -1679,7 +1679,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{"Before":"Before!","Coordinates":[/*hi*/[/*hi*/[1/*hi*/,/*hi*/1/*hi*/,1]/*hi*/,/*hi*/[1,1""";
 
-        XUnitAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<Array3D>(json));
+        Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Array3D>(json));
     }
 
     [Fact]
@@ -1687,7 +1687,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{"Before":"Before!","Coordinates":[/*hi*/[/*hi*/""";
 
-        XUnitAssert.Throws<JsonException>(() => JsonConvert.DeserializeObject<Array3D>(json));
+        Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Array3D>(json));
     }
 
     [Fact]

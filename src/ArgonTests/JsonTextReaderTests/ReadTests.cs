@@ -1336,7 +1336,7 @@ public class ReadTests : TestFixtureBase
         var settings = new JsonLoadSettings();
 
         var reader = new JsonTextReader(new StringReader(json));
-        XUnitAssert.Throws<JsonException>(() => JToken.ReadFrom(reader, settings));
+        Assert.Throws<JsonReaderException>(() => JToken.ReadFrom(reader, settings));
     }
 
     [Fact]
