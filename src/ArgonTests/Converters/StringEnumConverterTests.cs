@@ -193,18 +193,17 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void NamedEnumDuplicateTest() =>
-        XUnitAssert.Throws<Exception>(
-            () =>
-            {
-                var c = new EnumContainer<NamedEnumDuplicate>
-                {
-                    Enum = NamedEnumDuplicate.First
-                };
+    public void NamedEnumDuplicateTest()
+    {
+        var c = new EnumContainer<NamedEnumDuplicate>
+        {
+            Enum = NamedEnumDuplicate.First
+        };
 
-                JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter());
-            },
+        XUnitAssert.Throws<InvalidOperationException>(
+            () => JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter()),
             "Enum name 'Third' already exists on enum 'NamedEnumDuplicate'.");
+    }
 
     [Fact]
     public void SerializeNameEnumTest()

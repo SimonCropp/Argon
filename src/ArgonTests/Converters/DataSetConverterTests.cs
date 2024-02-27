@@ -14,13 +14,12 @@ public class DataSetConverterTests : TestFixtureBase
         var settings = new JsonSerializerSettings();
 
         settings.AddDataSetConverters();
-        var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<DataSet>("{\"pending_count\":23,\"completed_count\":45}", settings),
-            "Unexpected JSON token when reading DataTable. Expected StartArray, got Integer. Path 'pending_count', line 1, position 19.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<DataSet>("{\"pending_count\":23,\"completed_count\":45}", settings));
+        Assert.Equal("Unexpected JSON token when reading DataTable. Expected StartArray, got Integer. Path 'pending_count', line 1, position 19.", exception.Message);
 
-        Assert.Equal(1, ex.LineNumber);
-        Assert.Equal(19, ex.LinePosition);
-        Assert.Equal("pending_count", ex.Path);
+        Assert.Equal(1, exception.LineNumber);
+        Assert.Equal(19, exception.LinePosition);
+        Assert.Equal("pending_count", exception.Path);
     }
 
     [Fact]

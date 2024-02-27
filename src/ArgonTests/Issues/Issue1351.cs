@@ -71,13 +71,8 @@ public class Issue1351 : TestFixtureBase
 
         var json = JsonConvert.SerializeObject(t, settings);
 
-        var exception = XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                JsonConvert.DeserializeObject<List<TestClass>>(json, settings);
-            },
-            "Error reading object reference '4'. Path '[1].Color.A', line 16, position 10.");
-
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<List<TestClass>>(json, settings));
+        Assert.Equal("Error reading object reference '4'. Path '[1].Color.A', line 16, position 10.", exception.Message);
         Assert.Equal("A different Id has already been assigned for value 'Issue1351+Color'. This error may be caused by an object being reused multiple times during deserialization and can be fixed with the setting ObjectCreationHandling.Replace.", exception.InnerException.Message);
     }
 

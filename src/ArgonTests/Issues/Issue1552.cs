@@ -10,11 +10,9 @@ public class Issue1552 : TestFixtureBase
         var c = new RefAndRefReadonlyTestClass(123);
         c.SetRefField(456);
 
-        var ex = XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject(c),
-            "Error getting value from 'RefField' on 'RefAndRefReadonlyTestClass'.");
-
-        Assert.Equal("Could not create getter for Int32& RefField. ByRef return values are not supported.", ex.InnerException.Message);
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(c));
+        Assert.Equal("Error getting value from 'RefField' on 'RefAndRefReadonlyTestClass'.", exception.Message);
+        Assert.Equal("Could not create getter for Int32& RefField. ByRef return values are not supported.", exception.InnerException.Message);
     }
 
     [Fact]

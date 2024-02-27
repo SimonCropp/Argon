@@ -6225,7 +6225,7 @@ public class JsonSerializerTest : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.Read();
         reader.Read();
-        XUnitAssert.Throws<JsonException>(
+        XUnitAssert.Throws<JsonSerializationException>(
             () => serializer.Deserialize(reader, typeof(ItemConverterTestClass)),
             "Additional text found in JSON string after finishing deserializing object. Path '[1]', line 1, position 5.");
     }

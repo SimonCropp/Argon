@@ -1348,7 +1348,7 @@ public class JObjectTests : TestFixtureBase
 
     [Fact]
     public void ParseIncomplete() =>
-        XUnitAssert.Throws<Exception>(
+        XUnitAssert.Throws<JsonReaderException>(
             () => JObject.Parse("{ foo:"),
             "Unexpected end of content while loading JObject. Path 'foo', line 1, position 6.");
 

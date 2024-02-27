@@ -62,6 +62,13 @@
         }
     }
 
+    public static void Throws<TException>(Action action, string messages)
+        where TException : Exception
+    {
+        var exception = Assert.Throws<TException>(action);
+        Assert.Equal(messages, exception.Message);
+    }
+
     public static async Task<TException> ThrowsAsync<TException>(Func<Task> action, params string[] possibleMessages)
         where TException : Exception
     {

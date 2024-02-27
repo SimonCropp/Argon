@@ -35,14 +35,12 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var json = JObject.Parse("""{"IntList":[1, "two"]}""");
 
-        XUnitAssert.Throws<Exception>(
-            () =>
-            {
-                var serializer = new JsonSerializer();
-
-                serializer.Deserialize<TraceTestObject>(json.CreateReader());
-            },
-            "Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.");
+        var exception = Assert.Throws<JsonReaderException>(() =>
+        {
+            var serializer = new JsonSerializer();
+            serializer.Deserialize<TraceTestObject>(json.CreateReader());
+        });
+        Assert.Equal("Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.", exception.Message);
     }
 
     public class TraceTestObject
