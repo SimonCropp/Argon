@@ -317,14 +317,10 @@ public class JsonTextWriterTest : TestFixtureBase
     [Fact]
     public void WriteValueObjectWithUnsupportedValue()
     {
-        var exception = Assert.Throws<JsonWriterException>(() =>
-        {
-            var stringWriter = new StringWriter();
-            using var jsonWriter = new JsonTextWriter(stringWriter);
-            jsonWriter.WriteStartArray();
-            jsonWriter.WriteValue(new Version(1, 1, 1, 1));
-            jsonWriter.WriteEndArray();
-        });
+        var stringWriter = new StringWriter();
+        using var jsonWriter = new JsonTextWriter(stringWriter);
+        jsonWriter.WriteStartArray();
+        var exception = Assert.Throws<JsonWriterException>(() => jsonWriter.WriteValue(new Version(1, 1, 1, 1)));
         Assert.Equal("Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.", exception.Message);
     }
 

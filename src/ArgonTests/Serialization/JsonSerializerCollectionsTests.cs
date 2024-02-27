@@ -656,7 +656,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]"));
         Assert.Equal("Unable to find a constructor to use for type JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.", exception.Message);
 
-        var list = JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]",
+        var list = JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>(
+            "[1,2]",
             new JsonSerializerSettings
             {
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
@@ -2286,10 +2287,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         ]);
         var json = JsonConvert.SerializeObject(v);
 
-        var exception = Assert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json);
-        });
+        var exception = Assert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json));
         Assert.Equal("Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.", exception.Message);
     }
 

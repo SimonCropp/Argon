@@ -109,10 +109,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
         {
             MissingMemberHandling = MissingMemberHandling.Error
         };
-        var exception = Assert.Throws<JsonSerializationException>(() =>
-        {
-            JsonConvert.DeserializeObject<DoubleClass>(json, settings);
-        });
+        var exception = Assert.Throws<JsonSerializationException>(
+            () => JsonConvert.DeserializeObject<DoubleClass>(json, settings));
         Assert.Equal("Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.", exception.Message);
     }
 

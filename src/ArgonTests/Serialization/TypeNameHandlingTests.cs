@@ -418,15 +418,12 @@ public class TypeNameHandlingTests : TestFixtureBase
             stringBuilder.Append("""{"$value":""");
         }
 
-        var exception = Assert.Throws<JsonSerializationException>(() =>
+        var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
+        var serializer = new JsonSerializer
         {
-            var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
-            var serializer = new JsonSerializer
-            {
-                MetadataPropertyHandling = MetadataPropertyHandling.Default
-            };
-            serializer.Deserialize<sbyte>(reader);
-        });
+            MetadataPropertyHandling = MetadataPropertyHandling.Default
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => serializer.Deserialize<sbyte>(reader));
         Assert.Equal("Unexpected token when deserializing primitive value: StartObject. Path '$value', line 1, position 11.", exception.Message);
     }
 

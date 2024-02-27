@@ -114,20 +114,17 @@ public class DynamicTests : TestFixtureBase
     [Fact]
     public void NoPublicDefaultConstructor()
     {
-        var exception = Assert.Throws<JsonSerializationException>(() =>
+        var settings = new JsonSerializerSettings
         {
-            var settings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            };
-            var json = """
-                       {
-                         "contributors": null
-                       }
-                       """;
+            NullValueHandling = NullValueHandling.Ignore
+        };
+        var json = """
+                   {
+                     "contributors": null
+                   }
+                   """;
 
-            JsonConvert.DeserializeObject<DynamicObject>(json, settings);
-        });
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<DynamicObject>(json, settings));
         Assert.Equal("Unable to find a default constructor to use for type System.Dynamic.DynamicObject. Path 'contributors', line 2, position 17.", exception.Message);
     }
 

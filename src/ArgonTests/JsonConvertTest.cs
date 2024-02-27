@@ -596,17 +596,14 @@ public class JsonConvertTest : TestFixtureBase
     [Fact]
     public void TestInvalidStrings()
     {
-        var exception = Assert.Throws<JsonReaderException>(() =>
-        {
-            var orig = """this is a string "that has quotes" """;
+        var orig = """this is a string "that has quotes" """;
 
-            var serialized = JsonConvert.SerializeObject(orig);
+        var serialized = JsonConvert.SerializeObject(orig);
 
-            // *** Make string invalid by stripping \" \"
-            serialized = serialized.Replace(@"\""", "\"");
+        // *** Make string invalid by stripping \" \"
+        serialized = serialized.Replace(@"\""", "\"");
 
-            JsonConvert.DeserializeObject<string>(serialized);
-        });
+        var exception = Assert.Throws<JsonReaderException>(() => JsonConvert.DeserializeObject<string>(serialized));
         Assert.Equal("Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.", exception.Message);
     }
 

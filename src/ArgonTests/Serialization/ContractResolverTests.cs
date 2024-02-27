@@ -104,21 +104,18 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.DefaultCreator);
         Assert.Null(contract.OverrideCreator);
 
-        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractTestClass>("{Value:'Value!'}",
-            new JsonSerializerSettings
-            {
-                ContractResolver = resolver
-            }));
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = resolver
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractTestClass>("{Value:'Value!'}", settings));
         Assert.Equal("Could not create an instance of type TestObjects.AbstractTestClass. Type is an interface or abstract class and cannot be instantiated. Path 'Value', line 1, position 7.", exception.Message);
 
         contract.DefaultCreator = () => new AbstractImplementationTestClass();
 
         var o = JsonConvert.DeserializeObject<AbstractTestClass>(
             "{Value:'Value!'}",
-            new JsonSerializerSettings
-            {
-                ContractResolver = resolver
-            });
+            settings);
 
         Assert.Equal("Value!", o.Value);
     }
@@ -133,20 +130,17 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.DefaultCreator);
         Assert.False(contract.HasParameterizedCreatorInternal);
 
-        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractListTestClass<int>>("[1,2]",
-            new JsonSerializerSettings
-            {
-                ContractResolver = resolver
-            }));
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = resolver
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractListTestClass<int>>("[1,2]", settings));
         Assert.Equal("Could not create an instance of type TestObjects.AbstractListTestClass`1[System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path '', line 1, position 1.", exception.Message);
 
         contract.DefaultCreator = () => new AbstractImplementationListTestClass<int>();
 
         var l = JsonConvert.DeserializeObject<AbstractListTestClass<int>>("[1,2]",
-            new JsonSerializerSettings
-            {
-                ContractResolver = resolver
-            });
+            settings);
 
         Assert.Equal(2, l.Count);
         Assert.Equal(1, l[0]);
@@ -214,21 +208,16 @@ public class ContractResolverTests : TestFixtureBase
         Assert.Null(contract.DefaultCreator);
         Assert.False(contract.HasParameterizedCreatorInternal);
 
-        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>("{key1:1,key2:2}",
-            new JsonSerializerSettings
-            {
-                ContractResolver = resolver
-            }));
+        var settings = new JsonSerializerSettings
+        {
+            ContractResolver = resolver
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>("{key1:1,key2:2}", settings));
         Assert.Equal("Could not create an instance of type TestObjects.AbstractDictionaryTestClass`2[System.String,System.Int32]. Type is an interface or abstract class and cannot be instantiated. Path 'key1', line 1, position 6.", exception.Message);
 
         contract.DefaultCreator = () => new AbstractImplementationDictionaryTestClass<string, int>();
 
-        var d = JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>(
-            "{key1:1,key2:2}",
-            new JsonSerializerSettings
-            {
-                ContractResolver = resolver
-            });
+        var d = JsonConvert.DeserializeObject<AbstractDictionaryTestClass<string, int>>("{key1:1,key2:2}", settings);
 
         Assert.Equal(2, d.Count);
         Assert.Equal(1, d["key1"]);
