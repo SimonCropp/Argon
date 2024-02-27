@@ -35,11 +35,9 @@ public class JTokenReaderTest : TestFixtureBase
     {
         var json = JObject.Parse("""{"IntList":[1, "two"]}""");
 
-        var exception = Assert.Throws<JsonReaderException>(() =>
-        {
-            var serializer = new JsonSerializer();
-            serializer.Deserialize<TraceTestObject>(json.CreateReader());
-        });
+        var serializer = new JsonSerializer();
+        var reader = json.CreateReader();
+        var exception = Assert.Throws<JsonReaderException>(() => serializer.Deserialize<TraceTestObject>(reader));
         Assert.Equal("Could not convert string to integer: two. Path 'IntList[1]', line 1, position 20.", exception.Message);
     }
 
@@ -320,23 +318,20 @@ public class JTokenReaderTest : TestFixtureBase
     [Fact]
     public void ReadBytesFailure()
     {
-        var exception = Assert.Throws<JsonReaderException>(() =>
-        {
-            var o =
-                new JObject(
-                    new JProperty("Test1", 1)
-                );
+        var o =
+            new JObject(
+                new JProperty("Test1", 1)
+            );
 
-            using var jsonReader = new JTokenReader(o);
-            jsonReader.Read();
-            Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
+        using var jsonReader = new JTokenReader(o);
+        jsonReader.Read();
+        Assert.Equal(JsonToken.StartObject, jsonReader.TokenType);
 
-            jsonReader.Read();
-            Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
-            Assert.Equal("Test1", jsonReader.Value);
+        jsonReader.Read();
+        Assert.Equal(JsonToken.PropertyName, jsonReader.TokenType);
+        Assert.Equal("Test1", jsonReader.Value);
 
-            jsonReader.ReadAsBytes();
-        });
+        var exception = Assert.Throws<JsonReaderException>(() => jsonReader.ReadAsBytes());
         Assert.Equal("Error reading bytes. Unexpected token: Integer. Path 'Test1'.", exception.Message);
     }
 

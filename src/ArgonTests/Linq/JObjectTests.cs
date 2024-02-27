@@ -501,13 +501,13 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void Blog()
     {
-        var exception = Assert.Throws<JsonReaderException>(() => JObject.Parse(
-            """
-            {
-                "name": "James",
-                ]!#$THIS IS: BAD JSON![{}}}}]
-              }
-            """));
+        var json = """
+                   {
+                       "name": "James",
+                       ]!#$THIS IS: BAD JSON![{}}}}]
+                     }
+                   """;
+        var exception = Assert.Throws<JsonReaderException>(() => JObject.Parse(json));
         Assert.Equal("Invalid property identifier character: ]. Path 'name', line 3, position 4.", exception.Message);
     }
 
@@ -824,44 +824,35 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void IListAddBadToken()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            l.Add(new JValue("Bad!"));
-        });
+        var exception = Assert.Throws<ArgumentException>(() => l.Add(new JValue("Bad!")));
         Assert.Equal("Can not add Argon.JValue to Argon.JObject.", exception.Message);
     }
 
     [Fact]
     public void IListAddBadValue()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            l.Add("Bad!");
-        });
+        var exception = Assert.Throws<ArgumentException>(() => l.Add("Bad!"));
         Assert.Equal("Can not add Argon.JValue to Argon.JObject.", exception.Message);
     }
 
     [Fact]
     public void IListAddPropertyWithExistingName()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test2", "II");
+        var p3 = new JProperty("Test2", "II");
 
-            l.Add(p3);
-        });
+        var exception = Assert.Throws<ArgumentException>(() => l.Add(p3));
         Assert.Equal("Can not add property Test2 to Argon.JObject. Property with the same name already exists on object.", exception.Message);
     }
 
@@ -948,31 +939,25 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void IListSetItemAlreadyExists()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test3", "III");
+        var p3 = new JProperty("Test3", "III");
 
-            l[0] = p3;
-            l[1] = p3;
-        });
+        l[0] = p3;
+        var exception = Assert.Throws<ArgumentException>(() => l[1] = p3);
         Assert.Equal("Can not add property Test3 to Argon.JObject. Property with the same name already exists on object.", exception.Message);
     }
 
     [Fact]
     public void IListSetItemInvalid()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            l[0] = new JValue(true);
-        });
+        var exception = Assert.Throws<ArgumentException>(() => l[0] = new JValue(true));
         Assert.Equal("Can not add Argon.JValue to Argon.JObject.", exception.Message);
     }
 
@@ -1042,45 +1027,36 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void GenericListJTokenAddBadToken()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            l.Add(new JValue("Bad!"));
-        });
+        var exception = Assert.Throws<ArgumentException>(() => l.Add(new JValue("Bad!")));
         Assert.Equal("Can not add Argon.JValue to Argon.JObject.", exception.Message);
     }
 
     [Fact]
     public void GenericListJTokenAddBadValue()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            // string is implicitly converted to JValue
-            l.Add("Bad!");
-        });
+        // string is implicitly converted to JValue
+        var exception = Assert.Throws<ArgumentException>(() => l.Add("Bad!"));
         Assert.Equal("Can not add Argon.JValue to Argon.JObject.", exception.Message);
     }
 
     [Fact]
     public void GenericListJTokenAddPropertyWithExistingName()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test2", "II");
+        var p3 = new JProperty("Test2", "II");
 
-            l.Add(p3);
-        });
+        var exception = Assert.Throws<ArgumentException>(() => l.Add(p3));
         Assert.Equal("Can not add property Test2 to Argon.JObject. Property with the same name already exists on object.", exception.Message);
     }
 
@@ -1167,17 +1143,14 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void GenericListJTokenSetItemAlreadyExists()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
-        {
-            var p1 = new JProperty("Test1", 1);
-            var p2 = new JProperty("Test2", "Two");
-            IList<JToken> l = new JObject(p1, p2);
+        var p1 = new JProperty("Test1", 1);
+        var p2 = new JProperty("Test2", "Two");
+        IList<JToken> l = new JObject(p1, p2);
 
-            var p3 = new JProperty("Test3", "III");
+        var p3 = new JProperty("Test3", "III");
 
-            l[0] = p3;
-            l[1] = p3;
-        });
+        l[0] = p3;
+        var exception = Assert.Throws<ArgumentException>(() => l[1] = p3);
         Assert.Equal("Can not add property Test3 to Argon.JObject. Property with the same name already exists on object.", exception.Message);
     }
 
@@ -1318,18 +1291,18 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void InvalidValueCastExceptionMessage()
     {
+        var json = """
+                   {
+                     "responseData": {},
+                     "responseDetails": null,
+                     "responseStatus": 200
+                   }
+                   """;
+
+        var o = JObject.Parse(json);
+
         var exception = Assert.Throws<ArgumentException>(() =>
         {
-            var json = """
-                       {
-                         "responseData": {},
-                         "responseDetails": null,
-                         "responseStatus": 200
-                       }
-                       """;
-
-            var o = JObject.Parse(json);
-
             var name = (string) o["responseData"];
         });
         Assert.Equal("Can not convert Object to String.", exception.Message);
@@ -1338,18 +1311,17 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void InvalidPropertyValueCastExceptionMessage()
     {
+        var json = """
+                   {
+                     "responseData": {},
+                     "responseDetails": null,
+                     "responseStatus": 200
+                   }
+                   """;
+
+        var o = JObject.Parse(json);
         var exception = Assert.Throws<ArgumentException>(() =>
         {
-            var json = """
-                       {
-                         "responseData": {},
-                         "responseDetails": null,
-                         "responseStatus": 200
-                       }
-                       """;
-
-            var o = JObject.Parse(json);
-
             var name = (string) o.Property("responseData");
         });
         Assert.Equal("Can not convert Object to String.", exception.Message);
@@ -1400,26 +1372,23 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void LoadFromNestedObjectIncomplete()
     {
-        var exception = Assert.Throws<JsonReaderException>(() =>
-        {
-            var jsonText = """
+        var jsonText = """
+                       {
+                         "short":
+                         {
+                           "error":
                            {
-                             "short":
-                             {
-                               "error":
-                               {
-                                 "code":0
-                           """;
+                             "code":0
+                       """;
 
-            var reader = new JsonTextReader(new StringReader(jsonText));
-            reader.Read();
-            reader.Read();
-            reader.Read();
-            reader.Read();
-            reader.Read();
+        var reader = new JsonTextReader(new StringReader(jsonText));
+        reader.Read();
+        reader.Read();
+        reader.Read();
+        reader.Read();
+        reader.Read();
 
-            JToken.ReadFrom(reader);
-        });
+        var exception = Assert.Throws<JsonReaderException>(() => JToken.ReadFrom(reader));
         Assert.Equal("Unexpected end of content while loading JObject. Path 'short.error.code', line 6, position 14.", exception.Message);
     }
 
@@ -1460,21 +1429,21 @@ public class JObjectTests : TestFixtureBase
     [Fact]
     public void ParseAdditionalContent()
     {
+        var json = """
+                   {
+                       Name: 'Apple',
+                       Expiry: '2014-06-04T00:00:00Z',
+                       Price: 3.99,
+                       Sizes: [
+                           'Small',
+                           'Medium',
+                           'Large'
+                       ]
+                   }, 987987
+                   """;
+
         var exception = Assert.Throws<JsonReaderException>(() =>
         {
-            var json = """
-                       {
-                           Name: 'Apple',
-                           Expiry: '2014-06-04T00:00:00Z',
-                           Price: 3.99,
-                           Sizes: [
-                               'Small',
-                               'Medium',
-                               'Large'
-                           ]
-                       }, 987987
-                       """;
-
             var o = JObject.Parse(json);
         });
         Assert.Equal("Additional text encountered after finished reading JSON content: ,. Path '', line 10, position 1.", exception.Message);
