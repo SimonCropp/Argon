@@ -101,7 +101,7 @@ public class JObjectTests : TestFixtureBase
         var o = new JObject();
         var d = (IDictionary<string, JToken>) o;
 
-        Assert.Equal(0, d.Keys.Count);
+        Assert.Empty(d.Keys);
 
         o["value"] = true;
 
@@ -117,7 +117,7 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue", new JValue(1)
             }
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         XUnitAssert.False(o.TryGetValue("sdf", out var t));
         Assert.Null(t);
@@ -1404,7 +1404,7 @@ public class JObjectTests : TestFixtureBase
     public void ParseEmptyObjectWithComment()
     {
         var o = JObject.Parse("{ /* A Comment */ }");
-        Assert.Equal(0, o.Count);
+        Assert.Empty(o);
     }
 
     [Fact]

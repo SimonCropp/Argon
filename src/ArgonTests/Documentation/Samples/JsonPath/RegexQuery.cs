@@ -36,7 +36,7 @@ public class RegexQuery : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(1, packages.Count);
+        Assert.Single(packages);
         Assert.Equal("Argon", (string) packages[0]["PackageId"]);
     }
 }

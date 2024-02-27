@@ -99,7 +99,7 @@ public class PerformanceTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeString()
+    public async Task DeserializeString()
     {
         #region DeserializeString
 
@@ -107,14 +107,14 @@ public class PerformanceTests : TestFixtureBase
 
         // read the json into a string
         // string could potentially be very large and cause memory problems
-        var json = client.GetStringAsync("http://www.test.com/large.json").Result;
+        var json = await client.GetStringAsync("http://www.test.com/large.json");
 
         var p = JsonConvert.DeserializeObject<Person>(json);
 
         #endregion
     }
 
-    public void DeserializeStream(Stream stream)
+    void DeserializeStream(Stream stream)
     {
         #region DeserializeStream
 

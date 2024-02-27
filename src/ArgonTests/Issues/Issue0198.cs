@@ -54,9 +54,9 @@ public class Issue0198 : TestFixtureBase
 
         var o = a.First();
 
-        Assert.Equal(1, o.Prop1.Count);
-        Assert.Equal(1, o.Prop2.Count);
-        Assert.Equal(1, o.Prop3.Count);
+        Assert.Single(o.Prop1);
+        Assert.Single(o.Prop2);
+        Assert.Single(o.Prop3);
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class Issue0198 : TestFixtureBase
             TypeNameHandling = TypeNameHandling.All
         });
 
-        Assert.Equal(1, a.Prop1.Count);
+        Assert.Single(a.Prop1);
     }
 
     class TestClass1 : AbstractClass
