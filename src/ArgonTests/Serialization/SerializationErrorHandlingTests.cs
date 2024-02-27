@@ -112,8 +112,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             "[1] - Error message for member 1 = An item with the same key has already been added. Key: Jim" // netcore
         };
         var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
-        Assert.Single(c);
-        Assert.Single(c.Messages);
+#pragma warning disable xUnit2013
+        Assert.Equal(1, c.Count);
+        Assert.Equal(1, c.Messages.Count);
+#pragma warning restore xUnit2013
 
         Console.WriteLine(c.Messages[0]);
         Assert.True(possibleMsgs.Any(_ => _ == c.Messages[0]), $"Expected One of: {Environment.NewLine}{string.Join(Environment.NewLine, possibleMsgs)}{Environment.NewLine}Was: {Environment.NewLine}{c.Messages[0]}");
