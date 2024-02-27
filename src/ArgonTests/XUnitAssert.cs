@@ -3,30 +3,6 @@
     public static void AreEqual(double expected, double actual, double r) =>
         Assert.Equal(expected, actual, 5); // hack
 
-    public static void False(object actual)
-    {
-        Assert.IsType<bool>(actual);
-        Assert.NotNull(actual);
-        Assert.False((bool) actual);
-    }
-
-    public static void True(object actual)
-    {
-        Assert.IsType<bool>(actual);
-        Assert.NotNull(actual);
-        Assert.True((bool) actual);
-    }
-
-    public static void Fail(string message = null, params object[] args)
-    {
-        if (message != null)
-        {
-            message = string.Format(message, args);
-        }
-
-        Assert.Fail(message);
-    }
-
     public static void AreEqualNormalized(string expected, string actual)
     {
         expected = Normalize(expected);
@@ -55,7 +31,7 @@
         {
             action();
 
-            Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
+            Assert.Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
         catch (TException exception)
@@ -93,7 +69,7 @@
         {
             await action();
 
-            Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
+            Assert.Fail($"Exception of type {typeof(TException).Name} expected. No exception thrown.");
             return null;
         }
         catch (TException exception)

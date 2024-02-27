@@ -96,7 +96,7 @@ public class JsonSerializerTest : TestFixtureBase
                 ser.Deserialize<IList<ErroringClass>>(reader);
             }
 
-            XUnitAssert.Fail();
+            Assert.Fail();
         }
         catch (Exception)
         {
@@ -229,19 +229,19 @@ public class JsonSerializerTest : TestFixtureBase
             """);
 
         var i = 0;
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.False(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.False(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.False(l[i++]);
-        XUnitAssert.False(l[i++]);
+        Assert.True(l[i++]);
+        Assert.False( l[i++]);
+        Assert.True(l[i++]);
+        Assert.False( l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.False( l[i++]);
+        Assert.False( l[i++]);
     }
 
     [Fact]
@@ -269,19 +269,19 @@ public class JsonSerializerTest : TestFixtureBase
             """);
 
         var i = 0;
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.False(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.False(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.True(l[i++]);
-        XUnitAssert.False(l[i++]);
-        XUnitAssert.False(l[i++]);
+        Assert.True(l[i++]);
+        Assert.False(l[i++]);
+        Assert.True(l[i++]);
+        Assert.False(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.True(l[i++]);
+        Assert.False(l[i++]);
+        Assert.False(l[i++]);
         Assert.Null(l[i++]);
         Assert.Null(l[i++]);
     }
@@ -686,7 +686,7 @@ public class JsonSerializerTest : TestFixtureBase
             }));
 
         var childClass = JsonConvert.DeserializeObject<ChildClass>("""{"IsTransient":true}""");
-        XUnitAssert.True(childClass.IsTransient);
+        Assert.True(childClass.IsTransient);
     }
 
     [Fact]
@@ -701,7 +701,7 @@ public class JsonSerializerTest : TestFixtureBase
             }));
 
         var childClass = JsonConvert.DeserializeObject<ChildClassVirtual>("""{"IsTransient":true}""");
-        XUnitAssert.True(childClass.IsTransient);
+        Assert.True(childClass.IsTransient);
     }
 
     [Fact]
@@ -805,8 +805,8 @@ public class JsonSerializerTest : TestFixtureBase
                    """;
         var o = (JObject) JsonConvert.DeserializeObject(json);
         Assert.Equal(3, o.Count);
-        XUnitAssert.True((bool) o["A"]);
-        XUnitAssert.False((bool) o["B"]);
+        Assert.True((bool) o["A"]);
+        Assert.False( (bool) o["B"]);
         Assert.Single(o["C"]);
         Assert.Equal(1, (int) o["C"][0]);
 
@@ -820,7 +820,7 @@ public class JsonSerializerTest : TestFixtureBase
         json = """{"A": true/* Test */}""";
         o = (JObject) JsonConvert.DeserializeObject(json);
         Assert.Single(o);
-        XUnitAssert.True((bool) o["A"]);
+        Assert.True((bool) o["A"]);
         Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
     }
 
@@ -831,7 +831,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Null(o.A);
 
         o = JsonConvert.DeserializeObject<CommentTestObject>("""{"A": true/* Test */}""");
-        XUnitAssert.True(o.A);
+        Assert.True(o.A);
     }
 
     [Fact]
@@ -846,7 +846,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(customBinder, serializer.SerializationBinder);
 
         serializer.CheckAdditionalContent = true;
-        XUnitAssert.True(serializer.CheckAdditionalContent);
+        Assert.True(serializer.CheckAdditionalContent);
 
         serializer.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, serializer.ConstructorHandling);
@@ -920,7 +920,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(customBinder, settings.SerializationBinder);
 
         settings.CheckAdditionalContent = true;
-        XUnitAssert.True(settings.CheckAdditionalContent);
+        Assert.True(settings.CheckAdditionalContent);
 
         settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, settings.ConstructorHandling);
@@ -996,7 +996,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(customBinder, proxy.SerializationBinder);
 
         proxy.CheckAdditionalContent = true;
-        XUnitAssert.True(proxy.CheckAdditionalContent);
+        Assert.True(proxy.CheckAdditionalContent);
 
         proxy.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
         Assert.Equal(ConstructorHandling.AllowNonPublicDefaultConstructor, proxy.ConstructorHandling);
@@ -2167,7 +2167,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(5, userNullableDeserialized.RoleId);
         Assert.Equal(6, userNullableDeserialized.NullableRoleId);
         Assert.Null(userNullableDeserialized.NullRoleId);
-        XUnitAssert.True(userNullableDeserialized.Active);
+        Assert.True(userNullableDeserialized.Active);
     }
 
     [Fact]
@@ -2271,7 +2271,7 @@ public class JsonSerializerTest : TestFixtureBase
                        """;
 
             JsonConvert.DeserializeObject<RequiredMembersClass>(json);
-            XUnitAssert.Fail();
+            Assert.Fail();
         }
         catch (JsonSerializationException exception)
         {
@@ -2306,7 +2306,7 @@ public class JsonSerializerTest : TestFixtureBase
         try
         {
             JsonConvert.DeserializeObject<RequiredMembersClass>(json);
-            XUnitAssert.Fail();
+            Assert.Fail();
         }
         catch (JsonSerializationException exception)
         {
@@ -2565,7 +2565,7 @@ public class JsonSerializerTest : TestFixtureBase
             var json = "{ 'testProperty1': 'value' }";
             JsonConvert.DeserializeObject<ConstructorAndRequiredTestClass>(json);
 
-            XUnitAssert.Fail();
+            Assert.Fail();
         }
         catch (JsonSerializationException exception)
         {
@@ -3135,7 +3135,7 @@ public class JsonSerializerTest : TestFixtureBase
         try
         {
             JsonConvert.DeserializeObject<List<Person>>(json);
-            XUnitAssert.Fail();
+            Assert.Fail();
         }
         catch (JsonSerializationException exception)
         {
@@ -3698,7 +3698,7 @@ public class JsonSerializerTest : TestFixtureBase
                        """;
 
             JsonConvert.DeserializeObject<Dictionary<Person, int>>(json);
-            XUnitAssert.Fail();
+            Assert.Fail();
         }
         catch (JsonSerializationException exception)
         {
@@ -4943,7 +4943,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var commentTestClass = JsonConvert.DeserializeObject<CommentTestClass>(json);
 
-        XUnitAssert.True(commentTestClass.Indexed);
+        Assert.True(commentTestClass.Indexed);
         Assert.Equal(1939, commentTestClass.StartYear);
         Assert.Equal(63, commentTestClass.Values.Count);
     }
@@ -5398,7 +5398,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var b2 = JsonConvert.DeserializeObject<Bb>(json);
 
-        XUnitAssert.True(b2.no);
+        Assert.True(b2.no);
     }
 
     [Fact]
@@ -7258,14 +7258,14 @@ public class JsonSerializerTest : TestFixtureBase
 
         var settings = new JsonSerializerSettings();
         Assert.Equal(64, settings.MaxDepth);
-        XUnitAssert.False(settings.maxDepthSet);
+        Assert.False( settings.maxDepthSet);
 
         // Default should be the same
         Assert.Equal(reader.MaxDepth, settings.MaxDepth);
 
         settings.MaxDepth = 2;
         Assert.Equal(2, settings.MaxDepth);
-        XUnitAssert.True(settings.maxDepthSet);
+        Assert.True(settings.maxDepthSet);
 
         var serializer = JsonSerializer.Create(settings);
         Assert.Equal(2, serializer.MaxDepth);

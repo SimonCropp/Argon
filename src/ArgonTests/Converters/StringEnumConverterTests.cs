@@ -622,7 +622,7 @@ public class StringEnumConverterTests : TestFixtureBase
             return;
         }
 
-        XUnitAssert.Fail();
+        Assert.Fail();
     }
 
     [Fact]

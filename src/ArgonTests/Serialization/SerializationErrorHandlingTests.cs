@@ -420,7 +420,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Equal(new(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
         Assert.Equal(new(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
-        XUnitAssert.False(eventErrorHandlerCalled);
+        Assert.False( eventErrorHandlerCalled);
     }
 
     [Fact]
@@ -781,7 +781,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 },
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-        XUnitAssert.True(newDynamicObject.Explicit);
+        Assert.True(newDynamicObject.Explicit);
 
         dynamic d = newDynamicObject;
 

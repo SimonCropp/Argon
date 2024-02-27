@@ -86,7 +86,7 @@ public class JValueTests : TestFixtureBase
     public void ChangeValue()
     {
         var v = new JValue(true);
-        XUnitAssert.True(v.Value);
+        Assert.True((bool) v.Value);
         Assert.Equal(JTokenType.Boolean, v.Type);
 
         v.Value = "Pie";
@@ -415,11 +415,11 @@ public class JValueTests : TestFixtureBase
 
     [Fact]
     public void ConvertsToBoolean() =>
-        XUnitAssert.True(Convert.ToBoolean(new JValue(true)));
+        Assert.True(Convert.ToBoolean(new JValue(true)));
 
     [Fact]
     public void ConvertsToBoolean_String() =>
-        XUnitAssert.True(Convert.ToBoolean(new JValue("true")));
+        Assert.True(Convert.ToBoolean(new JValue("true")));
 
     [Fact]
     public void ConvertsToInt32() =>

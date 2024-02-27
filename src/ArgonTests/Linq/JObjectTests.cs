@@ -61,17 +61,17 @@ public class JObjectTests : TestFixtureBase
     public void JObjectWithComments()
     {
         var json = """
-            { /*comment2*/
-                    "Name": /*comment3*/ "Apple" /*comment4*/, /*comment5*/
-                    "ExpiryDate": "\/Date(1230422400000)\/",
-                    "Price": 3.99,
-                    "Sizes": /*comment6*/ [ /*comment7*/
-                      "Small", /*comment8*/
-                      "Medium" /*comment9*/,
-                      /*comment10*/ "Large"
-                    /*comment11*/ ] /*comment12*/
-                  } /*comment13*/
-            """;
+                   { /*comment2*/
+                           "Name": /*comment3*/ "Apple" /*comment4*/, /*comment5*/
+                           "ExpiryDate": "\/Date(1230422400000)\/",
+                           "Price": 3.99,
+                           "Sizes": /*comment6*/ [ /*comment7*/
+                             "Small", /*comment8*/
+                             "Medium" /*comment9*/,
+                             /*comment10*/ "Large"
+                           /*comment11*/ ] /*comment12*/
+                         } /*comment13*/
+                   """;
 
         var o = JToken.Parse(json);
 
@@ -119,11 +119,12 @@ public class JObjectTests : TestFixtureBase
         };
         Assert.Single(o.Children());
 
-        XUnitAssert.False(o.TryGetValue("sdf", out var t));
+        var actual = o.TryGetValue("sdf", out var t);
+        Assert.False(actual);
         Assert.Null(t);
 
-        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
-        XUnitAssert.True(JToken.DeepEquals(new JValue(1), t));
+        Assert.True(o.TryGetValue("PropertyNameValue", out t));
+        Assert.True(JToken.DeepEquals(new JValue(1), t));
     }
 
     [Fact]
@@ -135,20 +136,21 @@ public class JObjectTests : TestFixtureBase
         };
         Assert.Single(o.Children());
 
-        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out var t));
-        XUnitAssert.True(JToken.DeepEquals(new JValue(1), t));
+        var actual = o.TryGetValue("PropertyNameValue", out var t);
+        Assert.True(actual);
+        Assert.True(JToken.DeepEquals(new JValue(1), t));
 
         o["PropertyNameValue"] = new JValue(2);
         Assert.Single(o.Children());
 
-        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
-        XUnitAssert.True(JToken.DeepEquals(new JValue(2), t));
+        Assert.True(o.TryGetValue("PropertyNameValue", out t));
+        Assert.True(JToken.DeepEquals(new JValue(2), t));
 
         o["PropertyNameValue"] = null;
         Assert.Single(o.Children());
 
-        XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
-        XUnitAssert.True(JToken.DeepEquals(JValue.CreateNull(), t));
+        Assert.True(o.TryGetValue("PropertyNameValue", out t));
+        Assert.True(JToken.DeepEquals(JValue.CreateNull(), t));
     }
 
     [Fact]
@@ -162,8 +164,8 @@ public class JObjectTests : TestFixtureBase
         };
         Assert.Single(o.Children());
 
-        XUnitAssert.False(o.Remove("sdf"));
-        XUnitAssert.True(o.Remove("PropertyNameValue"));
+        Assert.False(o.Remove("sdf"));
+        Assert.True(o.Remove("PropertyNameValue"));
 
         Assert.Empty(o.Children());
     }
@@ -180,10 +182,10 @@ public class JObjectTests : TestFixtureBase
         };
         Assert.Single(o.Children());
 
-        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue1", new JValue(1))));
-        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(2))));
-        XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(1))));
-        XUnitAssert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", v)));
+        Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue1", new JValue(1))));
+        Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(2))));
+        Assert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(1))));
+        Assert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", v)));
 
         Assert.Empty(o.Children());
     }
@@ -220,7 +222,9 @@ public class JObjectTests : TestFixtureBase
         o.Add("PropertyNameValue1", null);
         Assert.Null(((JValue) o["PropertyNameValue1"]).Value);
 
-        Assert.Equal(2, o.Children().Count());
+        Assert.Equal(2, o
+            .Children()
+            .Count());
     }
 
     [Fact]
@@ -244,7 +248,9 @@ public class JObjectTests : TestFixtureBase
         };
         Assert.Single(o.Children());
 
-        var p = (JProperty) o.Children().ElementAt(0);
+        var p = (JProperty) o
+            .Children()
+            .ElementAt(0);
 
         ((ICollection<KeyValuePair<string, JToken>>) o).Clear();
         Assert.Empty(o.Children());
@@ -265,16 +271,16 @@ public class JObjectTests : TestFixtureBase
         Assert.Single(o.Children());
 
         var contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", new JValue(1)));
-        XUnitAssert.False(contains);
+        Assert.False(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", v));
-        XUnitAssert.True(contains);
+        Assert.True(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", new JValue(2)));
-        XUnitAssert.False(contains);
+        Assert.False(contains);
 
         contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue1", new JValue(1)));
-        XUnitAssert.False(contains);
+        Assert.False(contains);
     }
 
     [Fact]
@@ -289,10 +295,10 @@ public class JObjectTests : TestFixtureBase
         Assert.Single(o.Children());
 
         var contains = o.ContainsKey("PropertyNameValue");
-        XUnitAssert.True(contains);
+        Assert.True(contains);
 
         contains = o.ContainsKey("does not exist");
-        XUnitAssert.False(contains);
+        Assert.False(contains);
     }
 
     [Fact]
@@ -307,7 +313,7 @@ public class JObjectTests : TestFixtureBase
         Assert.Single(o.Children());
 
         var contains = ((IDictionary<string, JToken>) o).ContainsKey("PropertyNameValue");
-        XUnitAssert.True(contains);
+        Assert.True(contains);
     }
 
     [Fact]
@@ -325,7 +331,9 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue3", new JValue(3)
             }
         };
-        Assert.Equal(3, o.Children().Count());
+        Assert.Equal(3, o
+            .Children()
+            .Count());
 
         var a = new KeyValuePair<string, JToken>[5];
 
@@ -353,9 +361,9 @@ public class JObjectTests : TestFixtureBase
                 ((ICollection<KeyValuePair<string, JToken>>) o).CopyTo(new KeyValuePair<string, JToken>[1], -1);
             },
             """
-                arrayIndex is less than 0.
-                Parameter name: arrayIndex
-                """,
+            arrayIndex is less than 0.
+            Parameter name: arrayIndex
+            """,
             "arrayIndex is less than 0. (Parameter 'arrayIndex')");
 
     [Fact]
@@ -486,7 +494,7 @@ public class JObjectTests : TestFixtureBase
         var json = """{"foo":true}""";
         var o = (JObject) JsonConvert.DeserializeObject(json);
         var value = o.Value<bool?>("foo");
-        XUnitAssert.True(value);
+        Assert.True(value);
 
         json = """{"foo":null}""";
         o = (JObject) JsonConvert.DeserializeObject(json);
@@ -602,17 +610,17 @@ public class JObjectTests : TestFixtureBase
     public void Example()
     {
         var json = """
-            {
-                Name: 'Apple',
-                Expiry: '2014-06-04T00:00:00Z',
-                Price: 3.99,
-                Sizes: [
-                  'Small',
-                  'Medium',
-                  'Large'
-                ]
-            }
-            """;
+                   {
+                       Name: 'Apple',
+                       Expiry: '2014-06-04T00:00:00Z',
+                       Price: 3.99,
+                       Sizes: [
+                         'Small',
+                         'Medium',
+                         'Large'
+                       ]
+                   }
+                   """;
 
         var o = JObject.Parse(json);
 
@@ -632,19 +640,19 @@ public class JObjectTests : TestFixtureBase
     public void DeserializeClassManually()
     {
         var jsonText = """
-            {
-              "short":
-              {
-                "original":"http://www.foo.com/",
-                "short":"krehqk",
-                "error":
-                {
-                  "code":0,
-                  "msg":"No action taken"
-                }
-              }
-            }
-            """;
+                       {
+                         "short":
+                         {
+                           "original":"http://www.foo.com/",
+                           "short":"krehqk",
+                           "error":
+                           {
+                             "code":0,
+                             "msg":"No action taken"
+                           }
+                         }
+                       }
+                       """;
 
         var json = JObject.Parse(jsonText);
 
@@ -754,7 +762,9 @@ public class JObjectTests : TestFixtureBase
         Assert.Equal(p2, l[1]);
 
         Assert.Equal(2, l.Count);
-        Assert.Equal(2, o.Properties().Count());
+        Assert.Equal(2, o
+            .Properties()
+            .Count());
 
         var p4 = new JProperty("Test4", "IV");
 
@@ -1169,51 +1179,51 @@ public class JObjectTests : TestFixtureBase
     public void GetGeocodeAddress()
     {
         var json = """
-            {
-              "name": "Address: 435 North Mulford Road Rockford, IL 61107",
-              "Status": {
-                "code": 200,
-                "request": "geocode"
-              },
-              "Placemark": [ {
-                "id": "p1",
-                "address": "435 N Mulford Rd, Rockford, IL 61107, USA",
-                "AddressDetails": {
-               "Accuracy" : 8,
-               "Country" : {
-                  "AdministrativeArea" : {
-                     "AdministrativeAreaName" : "IL",
-                     "SubAdministrativeArea" : {
-                        "Locality" : {
-                           "LocalityName" : "Rockford",
-                           "PostalCode" : {
-                              "PostalCodeNumber" : "61107"
-                           },
-                           "Thoroughfare" : {
-                              "ThoroughfareName" : "435 N Mulford Rd"
-                           }
-                        },
-                        "SubAdministrativeAreaName" : "Winnebago"
-                     }
-                  },
-                  "CountryName" : "USA",
-                  "CountryNameCode" : "US"
-               }
-            },
-                "ExtendedData": {
-                  "LatLonBox": {
-                    "north": 42.2753076,
-                    "south": 42.2690124,
-                    "east": -88.9964645,
-                    "west": -89.0027597
-                  }
-                },
-                "Point": {
-                  "coordinates": [ -88.9995886, 42.2721596, 0 ]
-                }
-              } ]
-            }
-            """;
+                   {
+                     "name": "Address: 435 North Mulford Road Rockford, IL 61107",
+                     "Status": {
+                       "code": 200,
+                       "request": "geocode"
+                     },
+                     "Placemark": [ {
+                       "id": "p1",
+                       "address": "435 N Mulford Rd, Rockford, IL 61107, USA",
+                       "AddressDetails": {
+                      "Accuracy" : 8,
+                      "Country" : {
+                         "AdministrativeArea" : {
+                            "AdministrativeAreaName" : "IL",
+                            "SubAdministrativeArea" : {
+                               "Locality" : {
+                                  "LocalityName" : "Rockford",
+                                  "PostalCode" : {
+                                     "PostalCodeNumber" : "61107"
+                                  },
+                                  "Thoroughfare" : {
+                                     "ThoroughfareName" : "435 N Mulford Rd"
+                                  }
+                               },
+                               "SubAdministrativeAreaName" : "Winnebago"
+                            }
+                         },
+                         "CountryName" : "USA",
+                         "CountryNameCode" : "US"
+                      }
+                   },
+                       "ExtendedData": {
+                         "LatLonBox": {
+                           "north": 42.2753076,
+                           "south": 42.2690124,
+                           "east": -88.9964645,
+                           "west": -89.0027597
+                         }
+                       },
+                       "Point": {
+                         "coordinates": [ -88.9995886, 42.2721596, 0 ]
+                       }
+                     } ]
+                   }
+                   """;
 
         var o = JObject.Parse(json);
 
@@ -1250,26 +1260,28 @@ public class JObjectTests : TestFixtureBase
     public Task ParseMultipleProperties()
     {
         var json = """
-            {
-                Name: 'Name1',
-                Name: 'Name2'
-            }
-            """;
+                   {
+                       Name: 'Name1',
+                       Name: 'Name2'
+                   }
+                   """;
 
-        return Throws(() => JObject.Parse(json)).IgnoreStackTrace();
+        return Throws(() => JObject.Parse(json))
+            .IgnoreStackTrace();
     }
 
     [Fact]
     public Task ParseMultipleProperties_EmptySettings()
     {
         var json = """
-            {
-                Name: 'Name1',
-                Name: 'Name2'
-            }
-            """;
+                   {
+                       Name: 'Name1',
+                       Name: 'Name2'
+                   }
+                   """;
 
-        return Throws(() => JObject.Parse(json, new())).IgnoreStackTrace();
+        return Throws(() => JObject.Parse(json, new()))
+            .IgnoreStackTrace();
     }
 
     [Fact]
@@ -1302,12 +1314,12 @@ public class JObjectTests : TestFixtureBase
             () =>
             {
                 var json = """
-                    {
-                      "responseData": {},
-                      "responseDetails": null,
-                      "responseStatus": 200
-                    }
-                    """;
+                           {
+                             "responseData": {},
+                             "responseDetails": null,
+                             "responseStatus": 200
+                           }
+                           """;
 
                 var o = JObject.Parse(json);
 
@@ -1321,12 +1333,12 @@ public class JObjectTests : TestFixtureBase
             () =>
             {
                 var json = """
-                    {
-                      "responseData": {},
-                      "responseDetails": null,
-                      "responseStatus": 200
-                    }
-                    """;
+                           {
+                             "responseData": {},
+                             "responseDetails": null,
+                             "responseStatus": 200
+                           }
+                           """;
 
                 var o = JObject.Parse(json);
 
@@ -1344,17 +1356,17 @@ public class JObjectTests : TestFixtureBase
     public void LoadFromNestedObject()
     {
         var jsonText = """
-            {
-              "short":
-              {
-                "error":
-                {
-                  "code":0,
-                  "msg":"No action taken"
-                }
-              }
-            }
-            """;
+                       {
+                         "short":
+                         {
+                           "error":
+                           {
+                             "code":0,
+                             "msg":"No action taken"
+                           }
+                         }
+                       }
+                       """;
 
         var reader = new JsonTextReader(new StringReader(jsonText));
         reader.Read();
@@ -1381,13 +1393,13 @@ public class JObjectTests : TestFixtureBase
             () =>
             {
                 var jsonText = """
-                {
-                  "short":
-                  {
-                    "error":
-                    {
-                      "code":0
-                """;
+                               {
+                                 "short":
+                                 {
+                                   "error":
+                                   {
+                                     "code":0
+                               """;
 
                 var reader = new JsonTextReader(new StringReader(jsonText));
                 reader.Read();
@@ -1440,17 +1452,17 @@ public class JObjectTests : TestFixtureBase
             () =>
             {
                 var json = """
-                    {
-                        Name: 'Apple',
-                        Expiry: '2014-06-04T00:00:00Z',
-                        Price: 3.99,
-                        Sizes: [
-                            'Small',
-                            'Medium',
-                            'Large'
-                        ]
-                    }, 987987
-                    """;
+                           {
+                               Name: 'Apple',
+                               Expiry: '2014-06-04T00:00:00Z',
+                               Price: 3.99,
+                               Sizes: [
+                                   'Small',
+                                   'Medium',
+                                   'Large'
+                               ]
+                           }, 987987
+                           """;
 
                 var o = JObject.Parse(json);
             },
@@ -1656,7 +1668,8 @@ public class JObjectTests : TestFixtureBase
             CommentHandling = CommentHandling.Ignore
         });
 
-        Assert.Equal(3, o["prop"].Count());
+        Assert.Equal(3, o["prop"]
+            .Count());
         Assert.Equal(1, (int) o["prop"][0]);
         Assert.Equal(2, (int) o["prop"][1]);
         Assert.Equal(3, (int) o["prop"][2]);
@@ -1672,7 +1685,8 @@ public class JObjectTests : TestFixtureBase
 
         var o = JObject.Parse(json);
 
-        Assert.Equal(3, o["prop"].Count());
+        Assert.Equal(3, o["prop"]
+            .Count());
         Assert.Equal(1, (int) o["prop"][0]);
         Assert.Equal(2, (int) o["prop"][1]);
         Assert.Equal(3, (int) o["prop"][2]);
@@ -1706,8 +1720,10 @@ public class JObjectTests : TestFixtureBase
         Assert.Null(a.PropertyOrNull("TITLE"));
 
         // Return first match when ignoring case
-        Assert.Equal("Name", a.PropertyOrNull("NAME", StringComparison.OrdinalIgnoreCase).Name);
+        Assert.Equal("Name", a.PropertyOrNull("NAME", StringComparison.OrdinalIgnoreCase)
+            .Name);
         // Return exact match before ignoring case
-        Assert.Equal("name", a.PropertyOrNull("name", StringComparison.OrdinalIgnoreCase).Name);
+        Assert.Equal("name", a.PropertyOrNull("name", StringComparison.OrdinalIgnoreCase)
+            .Name);
     }
 }

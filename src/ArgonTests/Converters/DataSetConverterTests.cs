@@ -141,7 +141,7 @@ public class DataSetConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var ds = JsonConvert.DeserializeObject<DataSet>(json, settings);
 
-        XUnitAssert.True(ds.Tables.Contains("TableName"));
+        Assert.True(ds.Tables.Contains("TableName"));
     }
 
     [Fact]

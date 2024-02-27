@@ -31,7 +31,7 @@ public class LinqDynamicTests : TestFixtureBase
         var session = JsonConvert.DeserializeObject<dynamic>("{}");
         if (session.sessionInfo != null)
         {
-            XUnitAssert.Fail();
+            Assert.Fail();
         }
     }
 

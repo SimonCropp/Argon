@@ -411,7 +411,7 @@ public class SerializationTests :
 
         #endregion
 
-        XUnitAssert.True(equal);
+        Assert.True(equal);
     }
 
     #region PreservingObjectReferencesAttribute

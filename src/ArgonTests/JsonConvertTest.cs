@@ -621,7 +621,7 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(new(new(2013, 8, 14, 4, 38, 31, DateTimeKind.Utc)), d);
 
         var b = JsonConvert.DeserializeObject<bool>("true");
-        XUnitAssert.True(b);
+        Assert.True(b);
 
         var n = JsonConvert.TryDeserializeObject<object>("null");
         Assert.Null(n);

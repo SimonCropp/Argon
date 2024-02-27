@@ -107,43 +107,43 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal("", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[0]", reader.Path);
 
-        XUnitAssert.False(reader.ReadAsBoolean());
+        Assert.False(reader.ReadAsBoolean());
         Assert.Equal("[1]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[2]", reader.Path);
 
-        XUnitAssert.False(reader.ReadAsBoolean());
+        Assert.False(reader.ReadAsBoolean());
         Assert.Equal("[3]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[4]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[5]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[6]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[7]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[8]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[9]", reader.Path);
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Equal("[10]", reader.Path);
 
-        XUnitAssert.False(reader.ReadAsBoolean());
+        Assert.False(reader.ReadAsBoolean());
         Assert.Equal("[11]", reader.Path);
 
-        XUnitAssert.False(reader.ReadAsBoolean());
+        Assert.False(reader.ReadAsBoolean());
         Assert.Equal("[12]", reader.Path);
 
         Assert.Null(reader.ReadAsBoolean());
@@ -168,7 +168,7 @@ public class ReadTests : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
         Assert.Null(reader.ReadAsBoolean());
     }
 
@@ -802,19 +802,19 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
 
         Assert.True(reader.Read());
-        XUnitAssert.False(reader.Value);
+        Assert.False((bool) reader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        XUnitAssert.True(reader.Value);
+        Assert.True((bool) reader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        XUnitAssert.True(reader.Value);
+        Assert.True((bool) reader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.Boolean, reader.TokenType);
-        XUnitAssert.False(reader.Value);
+        Assert.False((bool) reader.Value);
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.String, reader.TokenType);

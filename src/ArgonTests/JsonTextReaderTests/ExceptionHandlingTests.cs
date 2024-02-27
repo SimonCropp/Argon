@@ -41,7 +41,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         Assert.True(reader.Read());
-        XUnitAssert.True(reader.ReadAsBoolean());
+        Assert.True(reader.ReadAsBoolean());
 
         XUnitAssert.Throws<JsonReaderException>(
             () => reader.ReadAsBoolean(),

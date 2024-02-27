@@ -30,7 +30,7 @@ public class EnumUtilsTests : TestFixtureBase
             return;
         }
 
-        XUnitAssert.Fail($"Expected {exceptionType.FullName} exception.");
+        Assert.Fail($"Expected {exceptionType.FullName} exception.");
     }
 
     [Theory]

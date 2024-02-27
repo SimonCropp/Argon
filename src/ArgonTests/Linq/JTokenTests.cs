@@ -22,7 +22,7 @@ public class JTokenTests : TestFixtureBase
     public void ReadFrom()
     {
         var o = (JObject) JToken.ReadFrom(new JsonTextReader(new StringReader("{'pie':true}")));
-        XUnitAssert.True((bool) o["pie"]);
+        Assert.True((bool) o["pie"]);
 
         var a = (JArray) JToken.ReadFrom(new JsonTextReader(new StringReader("[1,2,3]")));
         Assert.Equal(1, (int) a[0]);
@@ -35,7 +35,7 @@ public class JTokenTests : TestFixtureBase
 
         var p = (JProperty) JToken.ReadFrom(reader);
         Assert.Equal("pie", p.Name);
-        XUnitAssert.True((bool) p.Value);
+        Assert.True((bool) p.Value);
 
         var v = (JValue) JToken.ReadFrom(
             new JsonTextReader(
@@ -56,14 +56,14 @@ public class JTokenTests : TestFixtureBase
     public void Load()
     {
         var o = (JObject) JToken.Load(new JsonTextReader(new StringReader("{'pie':true}")));
-        XUnitAssert.True((bool) o["pie"]);
+        Assert.True((bool) o["pie"]);
     }
 
     [Fact]
     public void Parse()
     {
         var o = (JObject) JToken.Parse("{'pie':true}");
-        XUnitAssert.True((bool) o["pie"]);
+        Assert.True((bool) o["pie"]);
     }
 
     [Fact]
@@ -176,8 +176,8 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(new(2000, 12, 20, 23, 50, 10, TimeSpan.Zero), (DateTimeOffset) new JValue(new DateTimeOffset(2000, 12, 20, 23, 50, 10, TimeSpan.Zero)));
         Assert.Null((DateTimeOffset?) new JValue((DateTimeOffset?) null));
         Assert.Null((DateTimeOffset?) (JValue?) null);
-        XUnitAssert.True((bool) new JValue(true));
-        XUnitAssert.True((bool?) new JValue(true));
+        Assert.True((bool) new JValue(true));
+        Assert.True((bool?) new JValue(true));
         Assert.Null((bool?) (JValue?) null);
         Assert.Null((bool?) JValue.CreateNull());
         Assert.Equal(10, (long) new JValue(10));
@@ -231,12 +231,12 @@ public class JTokenTests : TestFixtureBase
         Assert.Null((string?) (JValue?) null);
         Assert.Equal("12/12/2000 12:12:12", (string?) new JValue(new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc)));
         Assert.Equal("12/12/2000 12:12:12 +00:00", (string?) new JValue(new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero)));
-        XUnitAssert.True((bool) new JValue(1));
-        XUnitAssert.True((bool) new JValue(1.0));
-        XUnitAssert.True((bool) new JValue("true"));
-        XUnitAssert.True((bool) new JValue(true));
-        XUnitAssert.True((bool) new JValue(2));
-        XUnitAssert.False((bool) new JValue(0));
+        Assert.True((bool) new JValue(1));
+        Assert.True((bool) new JValue(1.0));
+        Assert.True((bool) new JValue("true"));
+        Assert.True((bool) new JValue(true));
+        Assert.True((bool) new JValue(2));
+        Assert.False( (bool) new JValue(0));
         Assert.Equal(1, (int) new JValue(1));
         Assert.Equal(1, (int) new JValue(1.0));
         Assert.Equal(1, (int) new JValue("1"));
@@ -304,7 +304,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(BigInteger.Parse(bigIntegerText), new JValue(intData).ToObject<BigInteger>());
 
         Assert.Equal(4.0d, (double) new JValue(new BigInteger(4.5d)));
-        XUnitAssert.True((bool) new JValue(new BigInteger(1)));
+        Assert.True((bool) new JValue(new BigInteger(1)));
         Assert.Equal(long.MaxValue, (long) new JValue(new BigInteger(long.MaxValue)));
         Assert.Equal(long.MaxValue, (long) new JValue(new BigInteger([255, 255, 255, 255, 255, 255, 255, 127])));
         Assert.Equal("9223372036854775807", (string?) new JValue(new BigInteger(long.MaxValue)));
@@ -618,8 +618,8 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal((double) 1, new JValue(1.0).ToObject(typeof(double?)));
         Assert.Equal(1m, new JValue(1).ToObject(typeof(decimal)));
         Assert.Equal(1m, new JValue(1).ToObject(typeof(decimal?)));
-        XUnitAssert.True(new JValue(true).ToObject(typeof(bool)));
-        XUnitAssert.True(new JValue(true).ToObject(typeof(bool?)));
+        Assert.True((bool) new JValue(true).ToObject(typeof(bool)));
+        Assert.True((bool) new JValue(true).ToObject(typeof(bool?)));
         Assert.Equal('b', new JValue('b').ToObject(typeof(char)));
         Assert.Equal('b', new JValue('b').ToObject(typeof(char?)));
         Assert.Equal(TimeSpan.MaxValue, new JValue(TimeSpan.MaxValue).ToObject(typeof(TimeSpan)));

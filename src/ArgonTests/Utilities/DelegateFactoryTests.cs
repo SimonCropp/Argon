@@ -37,7 +37,7 @@ public class DelegateFactoryTests : TestFixtureBase
         var o = (InTestClass) creator(args);
         Assert.NotNull(o);
         Assert.Equal("Value", o.Value);
-        XUnitAssert.True(o.B1);
+        Assert.True(o.B1);
     }
 
     [Fact]
@@ -62,7 +62,7 @@ public class DelegateFactoryTests : TestFixtureBase
         var o = (OutAndRefTestClass) creator(["Input", false]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
-        XUnitAssert.True(o.B1);
+        Assert.True(o.B1);
     }
 
     [Fact]
@@ -75,8 +75,8 @@ public class DelegateFactoryTests : TestFixtureBase
         var o = (OutAndRefTestClass) creator(["Input", true, null]);
         Assert.NotNull(o);
         Assert.Equal("Input", o.Input);
-        XUnitAssert.True(o.B1);
-        XUnitAssert.False(o.B2);
+        Assert.True(o.B1);
+        Assert.False( o.B2);
     }
 
     [Fact]

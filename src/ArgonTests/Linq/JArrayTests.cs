@@ -53,10 +53,12 @@ public class JArrayTests : TestFixtureBase
 
         var a = new JArray {v};
 
-        XUnitAssert.False(a.Contains(new JValue(2)));
-        XUnitAssert.False(a.Contains(new JValue(1)));
-        XUnitAssert.False(a.Contains(null));
-        XUnitAssert.True(a.Contains(v));
+#pragma warning disable xUnit2017
+        Assert.False(a.Contains(new JValue(2)));
+        Assert.False(a.Contains(new JValue(1)));
+        Assert.False(a.Contains(null));
+#pragma warning restore xUnit2017
+        Assert.Contains(v, a);
     }
 
     [Fact]
@@ -132,10 +134,10 @@ public class JArrayTests : TestFixtureBase
 
         Assert.Single(j);
 
-        XUnitAssert.False(j.Remove(new JValue(1)));
-        XUnitAssert.False(j.Remove(null));
-        XUnitAssert.True(j.Remove(v));
-        XUnitAssert.False(j.Remove(v));
+        Assert.False( j.Remove(new JValue(1)));
+        Assert.False( j.Remove(null));
+        Assert.True(j.Remove(v));
+        Assert.False( j.Remove(v));
 
         Assert.Empty(j);
     }
@@ -180,13 +182,15 @@ public class JArrayTests : TestFixtureBase
             v3
         };
 
-        XUnitAssert.True(j.Contains(v1));
+        Assert.Contains(v1, j);
         j.RemoveAt(0);
-        XUnitAssert.False(j.Contains(v1));
+#pragma warning disable xUnit2017
+        Assert.False(j.Contains(new JValue(v1)));
 
-        XUnitAssert.True(j.Contains(v3));
+        Assert.Contains(v3, j);
         j.RemoveAt(1);
-        XUnitAssert.False(j.Contains(v3));
+        Assert.False(j.Contains(new JValue(v3)));
+#pragma warning restore xUnit2017
 
         Assert.Single(j);
     }
@@ -596,29 +600,29 @@ public class JArrayTests : TestFixtureBase
 
         var a = JArray.Parse(json, new());
 
-        XUnitAssert.True(((IJsonLineInfo) a).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo) a[0]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo) a[1]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo) a[2]).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a[0]).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a[1]).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new()
         {
             LineInfoHandling = LineInfoHandling.Ignore
         });
 
-        XUnitAssert.False(((IJsonLineInfo) a).HasLineInfo());
-        XUnitAssert.False(((IJsonLineInfo) a[0]).HasLineInfo());
-        XUnitAssert.False(((IJsonLineInfo) a[1]).HasLineInfo());
-        XUnitAssert.False(((IJsonLineInfo) a[2]).HasLineInfo());
+        Assert.False( ((IJsonLineInfo) a).HasLineInfo());
+        Assert.False( ((IJsonLineInfo) a[0]).HasLineInfo());
+        Assert.False( ((IJsonLineInfo) a[1]).HasLineInfo());
+        Assert.False( ((IJsonLineInfo) a[2]).HasLineInfo());
 
         a = JArray.Parse(json, new()
         {
             LineInfoHandling = LineInfoHandling.Load
         });
 
-        XUnitAssert.True(((IJsonLineInfo) a).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo) a[0]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo) a[1]).HasLineInfo());
-        XUnitAssert.True(((IJsonLineInfo) a[2]).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a[0]).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a[1]).HasLineInfo());
+        Assert.True(((IJsonLineInfo) a[2]).HasLineInfo());
     }
 }

@@ -95,7 +95,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         var c2 = JsonConvert.DeserializeObject<Container>(s, settings);
 
         Assert.Equal(c2.ListA[0], c2.ListB[0]);
-        XUnitAssert.True(c2.ListA[0].B.SomeValue);
+        Assert.True(c2.ListA[0].B.SomeValue);
     }
 
     public class Parent
@@ -877,7 +877,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         Assert.Equal("James", p2.Name);
 
         var equal = ReferenceEquals(p1, p2);
-        XUnitAssert.True(equal);
+        Assert.True(equal);
     }
 
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]

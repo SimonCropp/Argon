@@ -37,7 +37,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         Assert.Equal("""{"Case":"Rectangle","Fields":[20.0,10.0]}""", json);
 
         var c = JsonConvert.DeserializeObject<Shape>(json, new DoubleDoubleConverter(), unionConverter);
-        XUnitAssert.True(c.IsRectangle);
+        Assert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle) c;
 
@@ -130,7 +130,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
     public void DeserializeUnionWithFields()
     {
         var c = JsonConvert.DeserializeObject<Shape>("""{"Case":"Rectangle","Fields":[10.0,5.0]}""", unionConverter);
-        XUnitAssert.True(c.IsRectangle);
+        Assert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle) c;
 
@@ -261,7 +261,7 @@ public class DiscriminatedUnionConverterTests : TestFixtureBase
         Assert.Equal("""{"Case":"Rectangle","Fields":[10.0,5.0]}""", json);
 
         var c = JsonConvert.DeserializeObject<Shape>(json, unionConverter);
-        XUnitAssert.True(c.IsRectangle);
+        Assert.True(c.IsRectangle);
 
         var r = (Shape.Rectangle) c;
 
