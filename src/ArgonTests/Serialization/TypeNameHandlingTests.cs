@@ -195,12 +195,11 @@ public class TypeNameHandlingTests : TestFixtureBase
             }
             """;
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Objects
-            }),
-            "Error reading bytes. Unexpected token: PropertyName. Path 'EncryptedPassword.$value', line 6, position 13.");
+        var exception = Assert.Throws<JsonReaderException>(() => JsonConvert.DeserializeObject<HasByteArray>(json, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Objects
+        }));
+        Assert.Equal("Error reading bytes. Unexpected token: PropertyName. Path 'EncryptedPassword.$value', line 6, position 13.", exception.Message);
     }
 
     [Fact]
@@ -419,17 +418,16 @@ public class TypeNameHandlingTests : TestFixtureBase
             stringBuilder.Append("""{"$value":""");
         }
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
+        var exception = Assert.Throws<JsonSerializationException>(() =>
+        {
+            var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
+            var serializer = new JsonSerializer
             {
-                var reader = new JsonTextReader(new StringReader(stringBuilder.ToString()));
-                var serializer = new JsonSerializer
-                {
-                    MetadataPropertyHandling = MetadataPropertyHandling.Default
-                };
-                serializer.Deserialize<sbyte>(reader);
-            },
-            "Unexpected token when deserializing primitive value: StartObject. Path '$value', line 1, position 11.");
+                MetadataPropertyHandling = MetadataPropertyHandling.Default
+            };
+            serializer.Deserialize<sbyte>(reader);
+        });
+        Assert.Equal("Unexpected token when deserializing primitive value: StartObject. Path '$value', line 1, position 11.", exception.Message);
     }
 
     [Fact]
@@ -820,9 +818,8 @@ public class TypeNameHandlingTests : TestFixtureBase
         {
             TypeNameHandling = TypeNameHandling.Objects
         };
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject(json, null, settings),
-            "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject(json, null, settings));
+        Assert.Equal("Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.", exception.Message);
     }
 
     public interface ICorrelatedMessage

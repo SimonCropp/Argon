@@ -315,17 +315,18 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void WriteValueObjectWithUnsupportedValue() =>
-        XUnitAssert.Throws<JsonWriterException>(
-            () =>
-            {
-                var stringWriter = new StringWriter();
-                using var jsonWriter = new JsonTextWriter(stringWriter);
-                jsonWriter.WriteStartArray();
-                jsonWriter.WriteValue(new Version(1, 1, 1, 1));
-                jsonWriter.WriteEndArray();
-            },
-            "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.");
+    public void WriteValueObjectWithUnsupportedValue()
+    {
+        var exception = Assert.Throws<JsonWriterException>(() =>
+        {
+            var stringWriter = new StringWriter();
+            using var jsonWriter = new JsonTextWriter(stringWriter);
+            jsonWriter.WriteStartArray();
+            jsonWriter.WriteValue(new Version(1, 1, 1, 1));
+            jsonWriter.WriteEndArray();
+        });
+        Assert.Equal("Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation. Path ''.", exception.Message);
+    }
 
     [Fact]
     public void StringEscaping()
@@ -945,35 +946,37 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
-    public void BadWriteEndArray() =>
-        XUnitAssert.Throws<JsonWriterException>(
-            () =>
-            {
-                var stringWriter = new StringWriter();
+    public void BadWriteEndArray()
+    {
+        var exception = Assert.Throws<JsonWriterException>(() =>
+        {
+            var stringWriter = new StringWriter();
 
-                using var jsonWriter = new JsonTextWriter(stringWriter);
-                jsonWriter.WriteStartArray();
+            using var jsonWriter = new JsonTextWriter(stringWriter);
+            jsonWriter.WriteStartArray();
 
-                jsonWriter.WriteValue(0.0);
+            jsonWriter.WriteValue(0.0);
 
-                jsonWriter.WriteEndArray();
-                jsonWriter.WriteEndArray();
-            },
-            "No token to close. Path ''.");
+            jsonWriter.WriteEndArray();
+            jsonWriter.WriteEndArray();
+        });
+        Assert.Equal("No token to close. Path ''.", exception.Message);
+    }
 
     [Fact]
-    public void InvalidQuoteChar() =>
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var stringWriter = new StringWriter();
+    public void InvalidQuoteChar()
+    {
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            var stringWriter = new StringWriter();
 
-                using var jsonWriter = new JsonTextWriter(stringWriter)
-                {
-                    QuoteChar = '*'
-                };
-            },
-            @"Invalid JavaScript string quote character. Valid quote characters are ' and "".");
+            using var jsonWriter = new JsonTextWriter(stringWriter)
+            {
+                QuoteChar = '*'
+            };
+        });
+        Assert.Equal(@"Invalid JavaScript string quote character. Valid quote characters are ' and "".", exception.Message);
+    }
 
     [Fact]
     public void WriteSingleBytes()

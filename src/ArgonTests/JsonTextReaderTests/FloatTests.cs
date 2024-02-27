@@ -45,9 +45,8 @@ public class FloatTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsInt32(),
-            "Cannot read NaN value. Path 'float', line 1, position 11.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("Cannot read NaN value. Path 'float', line 1, position 11.", exception.Message);
     }
 
     [Fact]
@@ -189,9 +188,8 @@ public class FloatTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Cannot read NaN value. Path '', line 1, position 4.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Cannot read NaN value. Path '', line 1, position 4.", exception.Message);
     }
 
     [Fact]

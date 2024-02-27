@@ -164,21 +164,17 @@ public class LinqToJsonTest : TestFixtureBase
     [Fact]
     public void IncompleteContainers()
     {
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse("[1,"),
-            "Unexpected end of content while loading JArray. Path '[0]', line 1, position 3.");
+        var exception = Assert.Throws<JsonReaderException>(() => JArray.Parse("[1,"));
+        Assert.Equal("Unexpected end of content while loading JArray. Path '[0]', line 1, position 3.", exception.Message);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse("[1"),
-            "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
+        var exception1 = Assert.Throws<JsonReaderException>(() => JArray.Parse("[1"));
+        Assert.Equal("Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.", exception1.Message);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JObject.Parse("{'key':1,"),
-            "Unexpected end of content while loading JObject. Path 'key', line 1, position 9.");
+        var exception2 = Assert.Throws<JsonReaderException>(() => JObject.Parse("{'key':1,"));
+        Assert.Equal("Unexpected end of content while loading JObject. Path 'key', line 1, position 9.", exception2.Message);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JObject.Parse("{'key':1"),
-            "Unexpected end of content while loading JObject. Path 'key', line 1, position 8.");
+        var exception3 = Assert.Throws<JsonReaderException>(() => JObject.Parse("{'key':1"));
+        Assert.Equal("Unexpected end of content while loading JObject. Path 'key', line 1, position 8.", exception3.Message);
     }
 
     [Fact]
@@ -351,9 +347,8 @@ public class LinqToJsonTest : TestFixtureBase
         jsonReader.Read();
         jsonReader.Read();
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JToken.ReadFrom(jsonReader),
-            "Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.");
+        var exception = Assert.Throws<JsonReaderException>(() => JToken.ReadFrom(jsonReader));
+        Assert.Equal("Error reading JToken from JsonReader. Unexpected token: EndArray. Path '', line 1, position 2.", exception.Message);
     }
 
     [Fact]
@@ -1079,24 +1074,26 @@ public class LinqToJsonTest : TestFixtureBase
     }
 
     [Fact]
-    public void JObjectIntIndex() =>
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var o = new JObject();
-                Assert.Null(o[0]);
-            },
-            "Accessed JObject values with invalid key value: 0. Object property name expected.");
+    public void JObjectIntIndex()
+    {
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            var o = new JObject();
+            Assert.Null(o[0]);
+        });
+        Assert.Equal("Accessed JObject values with invalid key value: 0. Object property name expected.", exception.Message);
+    }
 
     [Fact]
-    public void JArrayStringIndex() =>
-        XUnitAssert.Throws<Exception>(
-            () =>
-            {
-                var a = new JArray();
-                Assert.Null(a["purple"]);
-            },
-            """Accessed JArray values with invalid key value: "purple". Int32 array index expected.""");
+    public void JArrayStringIndex()
+    {
+        var exception = Assert.Throws<Exception>(() =>
+        {
+            var a = new JArray();
+            Assert.Null(a["purple"]);
+        });
+        Assert.Equal("""Accessed JArray values with invalid key value: "purple". Int32 array index expected.""", exception.Message);
+    }
 
     [Fact]
     public void ToStringJsonConverter()
@@ -1512,14 +1509,13 @@ public class LinqToJsonTest : TestFixtureBase
         var users = new Dictionary<string, string>();
 
         // unfortunately there doesn't appear to be a way around this
-        XUnitAssert.Throws<RuntimeBinderException>(
-            () =>
-            {
-                users.Add("name2", name);
+        var exception = Assert.Throws<RuntimeBinderException>(() =>
+        {
+            users.Add("name2", name);
 
-                Assert.Equal("Matthew Doig", users["name2"]);
-            },
-            "The best overloaded method match for 'System.Collections.Generic.Dictionary<string,string>.Add(string, string)' has some invalid arguments");
+            Assert.Equal("Matthew Doig", users["name2"]);
+        });
+        Assert.Equal("The best overloaded method match for 'System.Collections.Generic.Dictionary<string,string>.Add(string, string)' has some invalid arguments", exception.Message);
     }
 
     [JsonConverter(typeof(StringEnumConverter))]

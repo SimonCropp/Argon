@@ -61,32 +61,27 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(int.MinValue, reader.ReadAsInt32());
 
         reader = new(new StringReader(long.MaxValue.ToString()));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsInt32(),
-            "JSON integer 9223372036854775807 is too large or small for an Int32. Path '', line 1, position 19.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("JSON integer 9223372036854775807 is too large or small for an Int32. Path '', line 1, position 19.", exception.Message);
 
         reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsInt32(),
-            "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
+        var exception1 = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("Unexpected character encountered while parsing number: s. Path '', line 1, position 77.", exception1.Message);
 
         reader = new(new StringReader("1E-06"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsInt32(),
-            "Input string '1E-06' is not a valid integer. Path '', line 1, position 5.");
+        var exception2 = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("Input string '1E-06' is not a valid integer. Path '', line 1, position 5.", exception2.Message);
 
         reader = new(new StringReader("1.1"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsInt32(),
-            "Input string '1.1' is not a valid integer. Path '', line 1, position 3.");
+        var exception3 = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("Input string '1.1' is not a valid integer. Path '', line 1, position 3.", exception3.Message);
 
         reader = new(new StringReader(""));
         Assert.Null(reader.ReadAsInt32());
 
         reader = new(new StringReader("-"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsInt32(),
-            "Input string '-' is not a valid integer. Path '', line 1, position 1.");
+        var exception4 = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("Input string '-' is not a valid integer. Path '', line 1, position 1.", exception4.Message);
     }
 
     [Fact]
@@ -105,15 +100,13 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(0, reader.ReadAsDecimal());
 
         reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDecimal(),
-            "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsDecimal());
+        Assert.Equal("Unexpected character encountered while parsing number: s. Path '', line 1, position 77.", exception.Message);
 
         reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
         reader.FloatParseHandling = FloatParseHandling.Decimal;
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
+        var exception1 = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Unexpected character encountered while parsing number: s. Path '', line 1, position 77.", exception1.Message);
 
         reader = new(new StringReader("1E-06"));
         Assert.Equal(0.000001m, reader.ReadAsDecimal());
@@ -122,9 +115,8 @@ public class ParseTests : TestFixtureBase
         Assert.Null(reader.ReadAsDecimal());
 
         reader = new(new StringReader("-"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDecimal(),
-            "Input string '-' is not a valid decimal. Path '', line 1, position 1.");
+        var exception2 = Assert.Throws<JsonReaderException>(() => reader.ReadAsDecimal());
+        Assert.Equal("Input string '-' is not a valid decimal. Path '', line 1, position 1.", exception2.Message);
     }
 
     [Fact]
@@ -151,9 +143,8 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(-0.0d, reader.Value);
 
         reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Unexpected character encountered while parsing number: s. Path '', line 1, position 77.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Unexpected character encountered while parsing number: s. Path '', line 1, position 77.", exception.Message);
 
         reader = new(new StringReader("1E-06"));
         Assert.True(reader.Read());
@@ -164,9 +155,8 @@ public class ParseTests : TestFixtureBase
         Assert.False(reader.Read());
 
         reader = new(new StringReader("-"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Input string '-' is not a valid number. Path '', line 1, position 1.");
+        var exception1 = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Input string '-' is not a valid number. Path '', line 1, position 1.", exception1.Message);
 
         reader = new(new StringReader("1.7976931348623157E+308"));
         Assert.True(reader.Read());
@@ -180,9 +170,8 @@ public class ParseTests : TestFixtureBase
 
         reader = new(new StringReader("1E+309"));
 #if !(NET6_0_OR_GREATER)
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Input string '1E+309' is not a valid number. Path '', line 1, position 6.");
+        var exception2 = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Input string '1E+309' is not a valid number. Path '', line 1, position 6.", exception2.Message);
 #else
         Assert.True(reader.Read());
         Assert.Equal(typeof(double), reader.ValueType);
@@ -191,9 +180,8 @@ public class ParseTests : TestFixtureBase
 
         reader = new(new StringReader("-1E+5000"));
 #if !(NET6_0_OR_GREATER)
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Input string '-1E+5000' is not a valid number. Path '', line 1, position 8.");
+        var exception3 = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Input string '-1E+5000' is not a valid number. Path '', line 1, position 8.", exception3.Message);
 #else
         Assert.True(reader.Read());
         Assert.Equal(typeof(double), reader.ValueType);
@@ -201,9 +189,8 @@ public class ParseTests : TestFixtureBase
 #endif
 
         reader = new(new StringReader("5.1231231E"));
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Input string '5.1231231E' is not a valid number. Path '', line 1, position 10.");
+        var exception4 = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Input string '5.1231231E' is not a valid number. Path '', line 1, position 10.", exception4.Message);
 
         reader = new(new StringReader("1E-23"));
         Assert.True(reader.Read());

@@ -151,9 +151,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings();
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject(parent, settings),
-            "Self referencing loop detected with type 'ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(parent, settings));
+        Assert.Equal("Self referencing loop detected with type 'ReferenceLoopHandlingTests+DictionaryDynamicObject'. Path 'child'.", exception.Message);
     }
 
     [Fact]
@@ -188,9 +187,8 @@ public class ReferenceLoopHandlingTests : TestFixtureBase
         };
         account.Manager = manager;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject(account),
-            "Self referencing loop detected for property 'Manager' with type 'ReferenceLoopHandlingTests+AccountWithEquals'. Path ''.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(account));
+        Assert.Equal("Self referencing loop detected for property 'Manager' with type 'ReferenceLoopHandlingTests+AccountWithEquals'. Path ''.", exception.Message);
 
         var json = JsonConvert.SerializeObject(account, new JsonSerializerSettings
         {

@@ -30,9 +30,8 @@ public class JPropertyTests : TestFixtureBase
     {
         var p = (IList<JToken>) new JProperty("TestProperty", null);
 
-        XUnitAssert.Throws<JsonException>(
-            () => p.Clear(),
-            "Cannot add or remove items from Argon.JProperty.");
+        var exception = Assert.Throws<JsonException>(() => p.Clear());
+        Assert.Equal("Cannot add or remove items from Argon.JProperty.", exception.Message);
     }
 
     [Fact]
@@ -40,9 +39,8 @@ public class JPropertyTests : TestFixtureBase
     {
         var p = (IList<JToken>) new JProperty("TestProperty", null);
 
-        XUnitAssert.Throws<JsonException>(
-            () => p.Add(null),
-            "Argon.JProperty cannot have multiple values.");
+        var exception = Assert.Throws<JsonException>(() => p.Add(null));
+        Assert.Equal("Argon.JProperty cannot have multiple values.", exception.Message);
     }
 
     [Fact]
@@ -50,9 +48,8 @@ public class JPropertyTests : TestFixtureBase
     {
         var p = (IList<JToken>) new JProperty("TestProperty", null);
 
-        XUnitAssert.Throws<JsonException>(
-            () => p.RemoveAt(0),
-            "Cannot add or remove items from Argon.JProperty.");
+        var exception = Assert.Throws<JsonException>(() => p.RemoveAt(0));
+        Assert.Equal("Cannot add or remove items from Argon.JProperty.", exception.Message);
     }
 
     [Fact]
@@ -136,9 +133,8 @@ public class JPropertyTests : TestFixtureBase
     {
         IList<JToken> t = new JProperty("error", new List<string> {"one", "two"});
 
-        XUnitAssert.Throws<JsonException>(
-            () => t.Add(1),
-            "Argon.JProperty cannot have multiple values.");
+        var exception = Assert.Throws<JsonException>(() => t.Add(1));
+        Assert.Equal("Argon.JProperty cannot have multiple values.", exception.Message);
     }
 
     [Fact]

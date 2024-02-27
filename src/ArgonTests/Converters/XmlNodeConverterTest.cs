@@ -798,9 +798,8 @@ public class XmlNodeConverterTest : TestFixtureBase
                 }
             }
             """;
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonXmlConvert.DeserializeXmlNode(json),
-            "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Email', line 3, position 13.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXmlNode(json));
+        Assert.Equal("JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Email', line 3, position 13.", exception.Message);
     }
 
     [Fact]
@@ -1225,9 +1224,8 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var json = "{'Row' : ";
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonXmlConvert.DeserializeXmlNode(json, "ROOT"),
-            "Unexpected end when reading JSON. Path 'Row', line 1, position 9.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXmlNode(json, "ROOT"));
+        Assert.Equal("Unexpected end when reading JSON. Path 'Row', line 1, position 9.", exception.Message);
     }
 
     [Fact]
@@ -1396,22 +1394,18 @@ public class XmlNodeConverterTest : TestFixtureBase
     }
 
     [Fact]
-    public void NoRootObject() =>
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                JsonXmlConvert.DeserializeXmlNode("[1]");
-            },
-            "XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.");
+    public void NoRootObject()
+    {
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXmlNode("[1]"));
+        Assert.Equal("XmlNodeConverter can only convert JSON that begins with an object. Path '', line 1, position 1.", exception.Message);
+    }
 
     [Fact]
-    public void RootObjectMultipleProperties() =>
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                JsonXmlConvert.DeserializeXmlNode("{Prop1:1,Prop2:2}");
-            },
-            "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Prop2', line 1, position 15.");
+    public void RootObjectMultipleProperties()
+    {
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXmlNode("{Prop1:1,Prop2:2}"));
+        Assert.Equal("JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'Prop2', line 1, position 15.", exception.Message);
+    }
 
 
     [Fact]
@@ -1543,9 +1537,8 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var json = """{"count": 773840,"photos": null}""";
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonXmlConvert.DeserializeXmlNode(json),
-            "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXmlNode(json));
+        Assert.Equal("JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.", exception.Message);
     }
 
     [Fact]
@@ -1553,9 +1546,8 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var json = """{"count": 773840,"photos": null}""";
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonXmlConvert.DeserializeXNode(json),
-            "JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXNode(json));
+        Assert.Equal("JSON root object has multiple properties. The root object must have a single property in order to create a valid XML document. Consider specifying a DeserializeRootElementName. Path 'photos', line 1, position 26.", exception.Message);
     }
 
     [Fact]
@@ -2142,9 +2134,8 @@ public class XmlNodeConverterTest : TestFixtureBase
             }
             """;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonXmlConvert.DeserializeXmlNode(json, "root"),
-            "Unexpected JsonToken: StartArray. Path '$id', line 2, position 10.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXmlNode(json, "root"));
+        Assert.Equal("Unexpected JsonToken: StartArray. Path '$id', line 2, position 10.", exception.Message);
     }
 
     [Fact]
@@ -2288,9 +2279,8 @@ public class XmlNodeConverterTest : TestFixtureBase
             }
             """;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => DeserializeXmlNode(json),
-            "XmlNodeConverter cannot convert JSON with an empty property name to XML. Path '8452309520V2.', line 3, position 9.");
+        var exception = Assert.Throws<JsonSerializationException>(() => DeserializeXmlNode(json));
+        Assert.Equal("XmlNodeConverter cannot convert JSON with an empty property name to XML. Path '8452309520V2.', line 3, position 9.", exception.Message);
     }
 
     [Fact]
@@ -3284,9 +3274,8 @@ public class XmlNodeConverterTest : TestFixtureBase
             }
             """;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonXmlConvert.DeserializeXmlNode(json),
-            "JSON root object has property '$id' that will be converted to an attribute. A root object cannot have any attribute properties. Consider specifying a DeserializeRootElementName. Path '$id', line 2, position 12.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonXmlConvert.DeserializeXmlNode(json));
+        Assert.Equal("JSON root object has property '$id' that will be converted to an attribute. A root object cannot have any attribute properties. Consider specifying a DeserializeRootElementName. Path '$id', line 2, position 12.", exception.Message);
     }
 
     [Fact]

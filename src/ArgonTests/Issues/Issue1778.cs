@@ -11,8 +11,7 @@ public class Issue1778 : TestFixtureBase
         reader.Read();
         reader.Read();
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDateTime(),
-            "Cannot read number value as type. Path 'enddate', line 1, position 13.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsDateTime());
+        Assert.Equal("Cannot read number value as type. Path 'enddate', line 1, position 13.", exception.Message);
     }
 }

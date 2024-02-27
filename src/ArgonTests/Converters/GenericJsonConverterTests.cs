@@ -93,8 +93,7 @@ public class GenericJsonConverterTests : TestFixtureBase
 
         var converter = new TestGenericConverter();
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => converter.ReadJson(jsonReader, typeof(string), 12345, null),
-            "Converter cannot read JSON with the specified existing value. System.String is required.");
+        var exception = Assert.Throws<JsonSerializationException>(() => converter.ReadJson(jsonReader, typeof(string), 12345, null));
+        Assert.Equal("Converter cannot read JSON with the specified existing value. System.String is required.", exception.Message);
     }
 }

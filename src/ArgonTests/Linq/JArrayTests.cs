@@ -106,9 +106,8 @@ public class JArrayTests : TestFixtureBase
     {
         var j = new JArray();
 
-        XUnitAssert.Throws<ArgumentException>(
-            () => ((ICollection<JToken>) j).CopyTo(new JToken[1], 1),
-            "arrayIndex is equal to or greater than the length of array.");
+        var exception = Assert.Throws<ArgumentException>(() => ((ICollection<JToken>) j).CopyTo(new JToken[1], 1));
+        Assert.Equal("arrayIndex is equal to or greater than the length of array.", exception.Message);
     }
 
     [Fact]
@@ -121,9 +120,8 @@ public class JArrayTests : TestFixtureBase
             new JValue(3)
         };
 
-        XUnitAssert.Throws<ArgumentException>(
-            () => ((ICollection<JToken>) j).CopyTo(new JToken[3], 1),
-            "The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.");
+        var exception = Assert.Throws<ArgumentException>(() => ((ICollection<JToken>) j).CopyTo(new JToken[3], 1));
+        Assert.Equal("The number of elements in the source JObject is greater than the available space from arrayIndex to the end of the destination array.", exception.Message);
     }
 
     [Fact]
@@ -351,9 +349,8 @@ public class JArrayTests : TestFixtureBase
     {
         var json = """{"prop":"value"}""";
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse(json),
-            "Error reading JArray from JsonReader. Current JsonReader item is not an array: StartObject. Path '', line 1, position 1.");
+        var exception = Assert.Throws<JsonReaderException>(() => JArray.Parse(json));
+        Assert.Equal("Error reading JArray from JsonReader. Current JsonReader item is not an array: StartObject. Path '', line 1, position 1.", exception.Message);
     }
 
     public class ListItemFields
@@ -441,16 +438,17 @@ public class JArrayTests : TestFixtureBase
     }
 
     [Fact]
-    public void SetValueWithInvalidIndex() =>
-        XUnitAssert.Throws<Exception>(
-            () =>
+    public void SetValueWithInvalidIndex()
+    {
+        var exception = Assert.Throws<Exception>(() =>
+        {
+            var a = new JArray
             {
-                var a = new JArray
-                {
-                    ["badvalue"] = new JValue(3)
-                };
-            },
-            """Set JArray values with invalid key value: "badvalue". Int32 array index expected.""");
+                ["badvalue"] = new JValue(3)
+            };
+        });
+        Assert.Equal("""Set JArray values with invalid key value: "badvalue". Int32 array index expected.""", exception.Message);
+    }
 
     [Fact]
     public void SetValue()
@@ -480,10 +478,11 @@ public class JArrayTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseIncomplete() =>
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse("[1"),
-            "Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.");
+    public void ParseIncomplete()
+    {
+        var exception = Assert.Throws<JsonReaderException>(() => JArray.Parse("[1"));
+        Assert.Equal("Unexpected end of content while loading JArray. Path '[0]', line 1, position 2.", exception.Message);
+    }
 
     [Fact]
     public void InsertAddEnd()
@@ -508,9 +507,8 @@ public class JArrayTests : TestFixtureBase
                    ], 987987
                    """;
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse(json),
-            "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
+        var exception = Assert.Throws<JsonReaderException>(() => JArray.Parse(json));
+        Assert.Equal("Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.", exception.Message);
     }
 
     [Fact]
@@ -588,9 +586,8 @@ public class JArrayTests : TestFixtureBase
                    []
                    """;
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JArray.Parse(json),
-            "Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.");
+        var exception = Assert.Throws<JsonReaderException>(() => JArray.Parse(json));
+        Assert.Equal("Additional text encountered after finished reading JSON content: [. Path '', line 3, position 0.", exception.Message);
     }
 
     [Fact]

@@ -20,10 +20,8 @@ public class ReadTests : TestFixtureBase
     {
         var token = new JValue(long.MaxValue);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => token.CreateReader().ReadAsInt32(),
-            "Could not convert to integer: 9223372036854775807. Path ''."
-        );
+        var exception = Assert.Throws<JsonReaderException>(() => token.CreateReader().ReadAsInt32());
+        Assert.Equal("Could not convert to integer: 9223372036854775807. Path ''.", exception.Message);
     }
 
     [Fact]
@@ -69,13 +67,12 @@ public class ReadTests : TestFixtureBase
     }
 
     [Fact]
-    public void ReadAsInt32WithUndefined() =>
-        XUnitAssert.Throws<JsonReaderException>(() =>
-            {
-                var reader = new JsonTextReader(new StringReader("undefined"));
-                reader.ReadAsInt32();
-            },
-            "Unexpected character encountered while parsing value: u. Path '', line 1, position 1.");
+    public void ReadAsInt32WithUndefined()
+    {
+        var reader = new JsonTextReader(new StringReader("undefined"));
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("Unexpected character encountered while parsing value: u. Path '', line 1, position 1.", exception.Message);
+    }
 
     [Fact]
     public void ReadAsBoolean()
@@ -381,9 +378,8 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDateTimeOffset(),
-            "Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsDateTimeOffset());
+        Assert.Equal("Could not convert string to DateTimeOffset: blablahbla. Path 'Offset', line 1, position 22.", exception.Message);
     }
 
     [Fact]
@@ -484,9 +480,8 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.PropertyName, reader.TokenType);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsInt32(),
-            "Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsInt32());
+        Assert.Equal("Input string '1.1' is not a valid integer. Path 'Name', line 1, position 12.", exception.Message);
     }
 
     [Fact]
@@ -597,9 +592,8 @@ public class ReadTests : TestFixtureBase
 
         Assert.True(reader.Read());
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsDouble(),
-            "Could not convert string to double: Trump. Path '[0]', line 1, position 8.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsDouble());
+        Assert.Equal("Could not convert string to double: Trump. Path '[0]', line 1, position 8.", exception.Message);
 
         Assert.Equal(1d, reader.ReadAsDouble());
         Assert.True(reader.Read());
@@ -628,9 +622,8 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            "Error parsing boolean value. Path 'Test1', line 1, position 14.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal("Error parsing boolean value. Path 'Test1', line 1, position 14.", exception.Message);
 
         Assert.True(reader.Read());
         Assert.True(reader.Read());
@@ -645,9 +638,8 @@ public class ReadTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.ReadAsString(),
-            "Unexpected character encountered while parsing value: 1. Path 'Test1', line 1, position 14.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsString());
+        Assert.Equal("Unexpected character encountered while parsing value: 1. Path 'Test1', line 1, position 14.", exception.Message);
 
         Assert.True(reader.Read());
         Assert.True(reader.Read());

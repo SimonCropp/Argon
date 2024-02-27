@@ -29,9 +29,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
         //  ]
         //}
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error}),
-            "Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject(output, typeof(ProductShort), new JsonSerializerSettings {MissingMemberHandling = MissingMemberHandling.Error}));
+        Assert.Equal("Could not find member 'Price' on object of type 'ProductShort'. Path 'Price', line 4, position 10.", exception.Message);
     }
 
     [Fact]
@@ -110,12 +109,11 @@ public class MissingMemberHandlingTests : TestFixtureBase
         {
             MissingMemberHandling = MissingMemberHandling.Error
         };
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                JsonConvert.DeserializeObject<DoubleClass>(json, settings);
-            },
-            "Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.");
+        var exception = Assert.Throws<JsonSerializationException>(() =>
+        {
+            JsonConvert.DeserializeObject<DoubleClass>(json, settings);
+        });
+        Assert.Equal("Could not find member 'Missing' on object of type 'DoubleClass'. Path 'Missing', line 1, position 11.", exception.Message);
     }
 
     [Fact]
@@ -138,9 +136,8 @@ public class MissingMemberHandlingTests : TestFixtureBase
         {
             MissingMemberHandling = MissingMemberHandling.Error
         };
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<NameWithMissingError>(json, settings),
-            "Could not find member 'Missing' on object of type 'NameWithMissingError'. Path 'Missing', line 1, position 11.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<NameWithMissingError>(json, settings));
+        Assert.Equal("Could not find member 'Missing' on object of type 'NameWithMissingError'. Path 'Missing', line 1, position 11.", exception.Message);
     }
 
     public class NameWithMissingError

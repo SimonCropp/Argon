@@ -124,12 +124,15 @@ public class RegexConverterTests : TestFixtureBase
             }
             """;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
+        {
+            Converters =
             {
-                Converters = {new RegexConverter()}
-            }),
-            "Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 18.");
+                new RegexConverter()
+            }
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<RegexTestClass>(json, settings));
+        Assert.Equal("Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 18.", exception.Message);
     }
 
     [Fact]
@@ -141,29 +144,35 @@ public class RegexConverterTests : TestFixtureBase
             }
             """;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
+        {
+            Converters =
             {
-                Converters = {new RegexConverter()}
-            }),
-            "Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 18.");
+                new RegexConverter()
+            }
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<RegexTestClass>(json, settings));
+        Assert.Equal("Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 18.", exception.Message);
     }
 
     [Fact]
     public void DeserializeStringRegex_NoStartAndEndSlashes_Error()
     {
         var json = """
-            {
-              "Regex": "abc"
-            }
-            """;
+                   {
+                     "Regex": "abc"
+                   }
+                   """;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<RegexTestClass>(json, new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
+        {
+            Converters =
             {
-                Converters = {new RegexConverter()}
-            }),
-            "Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 16.");
+                new RegexConverter()
+            }
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<RegexTestClass>(json, settings));
+        Assert.Equal("Regex pattern must be enclosed by slashes. Path 'Regex', line 2, position 16.", exception.Message);
     }
 
     [Fact]

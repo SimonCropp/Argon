@@ -231,10 +231,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void CollectionJsonConstructorMultipleParameters() =>
-        XUnitAssert.Throws<JsonException>(
-            () => JsonConvert.SerializeObject(new TestCollectionMultipleParameters(null, null)),
-            "Constructor for 'JsonSerializerCollectionsTests+TestCollectionMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
+    public void CollectionJsonConstructorMultipleParameters()
+    {
+        var exception = Assert.Throws<JsonException>(() => JsonConvert.SerializeObject(new TestCollectionMultipleParameters(null, null)));
+        Assert.Equal("Constructor for 'JsonSerializerCollectionsTests+TestCollectionMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.", exception.Message);
+    }
 
     public class TestCollectionBadIEnumerableParameter : List<int>
     {
@@ -245,10 +246,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void CollectionJsonConstructorBadIEnumerableParameter() =>
-        XUnitAssert.Throws<JsonException>(
-            () => JsonConvert.SerializeObject(new TestCollectionBadIEnumerableParameter(null)),
-            "Constructor for 'JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.");
+    public void CollectionJsonConstructorBadIEnumerableParameter()
+    {
+        var exception = Assert.Throws<JsonException>(() => JsonConvert.SerializeObject(new TestCollectionBadIEnumerableParameter(null)));
+        Assert.Equal("Constructor for 'JsonSerializerCollectionsTests+TestCollectionBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Int32]'.", exception.Message);
+    }
 
     [method: Argon.JsonConstructor]
     public class TestCollectionNonGeneric(IEnumerable l) :
@@ -339,10 +341,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void DictionaryJsonConstructorMultipleParameters() =>
-        XUnitAssert.Throws<JsonException>(
-            () => JsonConvert.SerializeObject(new TestDictionaryMultipleParameters(null, null)),
-            "Constructor for 'JsonSerializerCollectionsTests+TestDictionaryMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
+    public void DictionaryJsonConstructorMultipleParameters()
+    {
+        var exception = Assert.Throws<JsonException>(() => JsonConvert.SerializeObject(new TestDictionaryMultipleParameters(null, null)));
+        Assert.Equal("Constructor for 'JsonSerializerCollectionsTests+TestDictionaryMultipleParameters' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.", exception.Message);
+    }
 
     public class TestDictionaryBadIEnumerableParameter : Dictionary<string, int>
     {
@@ -353,10 +356,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void DictionaryJsonConstructorBadIEnumerableParameter() =>
-        XUnitAssert.Throws<JsonException>(
-            () => JsonConvert.SerializeObject(new TestDictionaryBadIEnumerableParameter(null)),
-            "Constructor for 'JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.");
+    public void DictionaryJsonConstructorBadIEnumerableParameter()
+    {
+        var exception = Assert.Throws<JsonException>(() => JsonConvert.SerializeObject(new TestDictionaryBadIEnumerableParameter(null)));
+        Assert.Equal("Constructor for 'JsonSerializerCollectionsTests+TestDictionaryBadIEnumerableParameter' must have no parameters or a single parameter that implements 'System.Collections.Generic.IEnumerable`1[System.Collections.Generic.KeyValuePair`2[System.String,System.Int32]]'.", exception.Message);
+    }
 
     [method: Argon.JsonConstructor]
     public class TestDictionaryNonGeneric(IDictionary d) :
@@ -380,10 +384,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeNameValueCollection() =>
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<NameValueCollectionTestClass>("{Collection:[]}"),
-            "Cannot create and populate list type System.Collections.Specialized.NameValueCollection. Path 'Collection', line 1, position 13.");
+    public void DeserializeNameValueCollection()
+    {
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<NameValueCollectionTestClass>("{Collection:[]}"));
+        Assert.Equal("Cannot create and populate list type System.Collections.Specialized.NameValueCollection. Path 'Collection', line 1, position 13.", exception.Message);
+    }
 
     public class SomeObject
     {
@@ -634,9 +639,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                    ]
                    """;
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<EnumerableClassFailure<string>>(json),
-            "Cannot create and populate list type JsonSerializerCollectionsTests+EnumerableClassFailure`1[System.String]. Path '', line 1, position 1.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<EnumerableClassFailure<string>>(json));
+        Assert.Equal("Cannot create and populate list type JsonSerializerCollectionsTests+EnumerableClassFailure`1[System.String]. Path '', line 1, position 1.", exception.Message);
     }
 
     public class PrivateDefaultCtorList<T> : List<T>
@@ -649,9 +653,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     [Fact]
     public void DeserializePrivateListCtor()
     {
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]"),
-            "Unable to find a constructor to use for type JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]"));
+        Assert.Equal("Unable to find a constructor to use for type JsonSerializerCollectionsTests+PrivateDefaultCtorList`1[System.Int32]. Path '', line 1, position 1.", exception.Message);
 
         var list = JsonConvert.DeserializeObject<PrivateDefaultCtorList<int>>("[1,2]",
             new JsonSerializerSettings
@@ -1105,9 +1108,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = "[ null ]";
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json),
-            "Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<IList<KeyValuePair<string, IList<string>>>>(json));
+        Assert.Equal("Cannot convert null value to KeyValuePair. Path '[0]', line 1, position 6.", exception.Message);
     }
 
     public class PopulateReadOnlyTestClass
@@ -1578,9 +1580,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{"Before":"Before!","Coordinates":[[1,1],[1,2,3],[2,1],[2,2]],"After":"After!"}""";
 
-        XUnitAssert.Throws<Exception>(
-            () => JsonConvert.DeserializeObject<Array2D>(json),
-            "Cannot deserialize non-cubical array as multidimensional array.");
+        var exception = Assert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array2D>(json));
+        Assert.Equal("Cannot deserialize non-cubical array as multidimensional array.", exception.Message);
     }
 
     [Fact]
@@ -1588,9 +1589,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{"Before":"Before!","Coordinates":[[1,1],[1],[2,1],[2,2]],"After":"After!"}""";
 
-        XUnitAssert.Throws<Exception>(
-            () => JsonConvert.DeserializeObject<Array2D>(json),
-            "Cannot deserialize non-cubical array as multidimensional array.");
+        var exception = Assert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array2D>(json));
+        Assert.Equal("Cannot deserialize non-cubical array as multidimensional array.", exception.Message);
     }
 
     [Fact]
@@ -1618,9 +1618,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{"Before":"Before!","Coordinates":[[[1,1,1],[1,1,2,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],"After":"After!"}""";
 
-        XUnitAssert.Throws<Exception>(
-            () => JsonConvert.DeserializeObject<Array3D>(json),
-            "Cannot deserialize non-cubical array as multidimensional array.");
+        var exception = Assert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array3D>(json));
+        Assert.Equal("Cannot deserialize non-cubical array as multidimensional array.", exception.Message);
     }
 
     [Fact]
@@ -1628,9 +1627,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{"Before":"Before!","Coordinates":[[[1,1,1],[1,1,2]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],{}]],"After":"After!"}""";
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<Array3D>(json),
-            "Unexpected token when deserializing multidimensional array: StartObject. Path 'Coordinates[3][1]', line 1, position 99.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Array3D>(json));
+        Assert.Equal("Unexpected token when deserializing multidimensional array: StartObject. Path 'Coordinates[3][1]', line 1, position 99.", exception.Message);
     }
 
     [Fact]
@@ -1638,9 +1636,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var json = """{"Before":"Before!","Coordinates":[[[1,1,1],[1,1]],[[1,2,1],[1,2,2]],[[2,1,1],[2,1,2]],[[2,2,1],[2,2,2]]],"After":"After!"}""";
 
-        XUnitAssert.Throws<Exception>(
-            () => JsonConvert.DeserializeObject<Array3D>(json),
-            "Cannot deserialize non-cubical array as multidimensional array.");
+        var exception = Assert.Throws<Exception>(() => JsonConvert.DeserializeObject<Array3D>(json));
+        Assert.Equal("Cannot deserialize non-cubical array as multidimensional array.", exception.Message);
     }
 
     [Fact]
@@ -2289,12 +2286,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         ]);
         var json = JsonConvert.SerializeObject(v);
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json);
-            },
-            "Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.");
+        var exception = Assert.Throws<JsonSerializationException>(() =>
+        {
+            JsonConvert.DeserializeObject<ReadOnlyCollectionWithArrayArgument<double>>(json);
+        });
+        Assert.Equal("Unable to find a constructor to use for type JsonSerializerCollectionsTests+ReadOnlyCollectionWithArrayArgument`1[System.Double]. Path '', line 1, position 1.", exception.Message);
     }
 
     [Fact]

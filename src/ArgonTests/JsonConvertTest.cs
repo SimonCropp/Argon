@@ -493,10 +493,11 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void ToStringInvalid() =>
-        XUnitAssert.Throws<ArgumentException>(
-            () => JsonConvert.ToString(new Version(1, 0)),
-            "Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.");
+    public void ToStringInvalid()
+    {
+        var exception = Assert.Throws<ArgumentException>(() => JsonConvert.ToString(new Version(1, 0)));
+        Assert.Equal("Unsupported type: System.Version. Use the JsonSerializer class to get the object's JSON representation.", exception.Message);
+    }
 
     [Fact]
     public void GuidToString()
@@ -593,20 +594,21 @@ public class JsonConvertTest : TestFixtureBase
     }
 
     [Fact]
-    public void TestInvalidStrings() =>
-        XUnitAssert.Throws<JsonReaderException>(
-            () =>
-            {
-                var orig = """this is a string "that has quotes" """;
+    public void TestInvalidStrings()
+    {
+        var exception = Assert.Throws<JsonReaderException>(() =>
+        {
+            var orig = """this is a string "that has quotes" """;
 
-                var serialized = JsonConvert.SerializeObject(orig);
+            var serialized = JsonConvert.SerializeObject(orig);
 
-                // *** Make string invalid by stripping \" \"
-                serialized = serialized.Replace(@"\""", "\"");
+            // *** Make string invalid by stripping \" \"
+            serialized = serialized.Replace(@"\""", "\"");
 
-                JsonConvert.DeserializeObject<string>(serialized);
-            },
-            "Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.");
+            JsonConvert.DeserializeObject<string>(serialized);
+        });
+        Assert.Equal("Additional text encountered after finished reading JSON content: t. Path '', line 1, position 19.", exception.Message);
+    }
 
     [Fact]
     public void DeserializeValueObjects()
@@ -951,9 +953,9 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(typeof(BigInteger), v.Value.GetType());
         Assert.Equal(BigInteger.Parse(new('9', 380)), (BigInteger) v.Value);
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => JObject.Parse("""{"biginteger":""" + new string('9', 381) + "}"),
-            $"JSON integer {new string('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.");
+        var messages = $"JSON integer {new string('9', 381)} is too large to parse. Path 'biginteger', line 1, position 395.";
+        var exception = Assert.Throws<JsonReaderException>(() => JObject.Parse("""{"biginteger":""" + new string('9', 381) + "}"));
+        Assert.Equal(messages, exception.Message);
     }
 
 #if false

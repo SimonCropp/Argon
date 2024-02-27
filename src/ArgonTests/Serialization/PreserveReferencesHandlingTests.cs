@@ -252,9 +252,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         circularList.Add([null]);
         circularList.Add([[circularList]]);
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject(circularList, Formatting.Indented),
-            $"Self referencing loop detected with type '{classRef}'. Path '[2][0]'.");
+        var messages = $"Self referencing loop detected with type '{classRef}'. Path '[2][0]'.";
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(circularList, Formatting.Indented));
+        Assert.Equal(messages, exception.Message);
     }
 
     [Fact]
@@ -400,9 +400,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             """;
 
         var settings = new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.All};
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<string[][]>(json, settings),
-            "Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<string[][]>(json, settings));
+        Assert.Equal("Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.", exception.Message);
     }
 
     public class CircularDictionary : Dictionary<string, CircularDictionary>;
@@ -416,9 +415,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
         circularDictionary.Add("other", new() {{"blah", null}});
         circularDictionary.Add("self", circularDictionary);
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject(circularDictionary, Formatting.Indented),
-            $"Self referencing loop detected with type '{classRef}'. Path ''.");
+        var messages = $"Self referencing loop detected with type '{classRef}'. Path ''.";
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject(circularDictionary, Formatting.Indented));
+        Assert.Equal(messages, exception.Message);
     }
 
     [Fact]
@@ -455,9 +454,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.All,
             MetadataPropertyHandling = MetadataPropertyHandling.Default
         };
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<string[][]>(json, settings),
-            "Unexpected end when reading JSON. Path '$id', line 2, position 8.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<string[][]>(json, settings));
+        Assert.Equal("Unexpected end when reading JSON. Path '$id', line 2, position 8.", exception.Message);
     }
 
     [Fact]
@@ -1235,9 +1233,8 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             MetadataPropertyHandling = MetadataPropertyHandling.Default
         };
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json, settings),
-            "Error reading object reference '1'. Path 'Data.Prop2.MyProperty', line 9, position 19.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<PropertyItemIsReferenceObject>(json, settings));
+        Assert.Equal("Error reading object reference '1'. Path 'Data.Prop2.MyProperty', line 9, position 19.", exception.Message);
     }
 }
 

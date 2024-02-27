@@ -168,20 +168,21 @@ public class LinqDynamicTests : TestFixtureBase
     }
 
     [Fact]
-    public void JObjectPropertyNameWithNonToken() =>
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                dynamic d = new JObject();
+    public void JObjectPropertyNameWithNonToken()
+    {
+        dynamic d = new JObject();
 
-                d.First = new[]
-                {
-                    "One",
-                    "II",
-                    "3"
-                };
-            },
-            "Could not determine JSON object type for type System.String[].");
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            d.First = new[]
+            {
+                "One",
+                "II",
+                "3"
+            };
+        });
+        Assert.Equal("Could not determine JSON object type for type System.String[].", exception.Message);
+    }
 
     [Fact]
     public void JObjectMethods()
@@ -918,12 +919,11 @@ public class LinqDynamicTests : TestFixtureBase
             uid = g
         });
 
-        XUnitAssert.Throws<InvalidOperationException>(
-            () =>
-            {
-                JObject token = json.uid;
-            },
-            "Can not convert from System.Guid to Argon.JObject.");
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+        {
+            JObject token = json.uid;
+        });
+        Assert.Equal("Can not convert from System.Guid to Argon.JObject.", exception.Message);
     }
 
     public class DynamicDictionary : DynamicObject

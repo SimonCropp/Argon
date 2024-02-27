@@ -207,12 +207,15 @@ public class JValueTests : TestFixtureBase
         Assert.True(new JValue(0) is IConvertible);
 
     [Fact]
-    public void Last() =>
-        XUnitAssert.Throws<InvalidOperationException>(() =>
+    public void Last()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
         {
             var v = new JValue(true);
             var last = v.Last;
-        }, "Cannot access child value on Argon.JValue.");
+        });
+        Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
+    }
 
     [Fact]
     public void Children()
@@ -223,44 +226,48 @@ public class JValueTests : TestFixtureBase
     }
 
     [Fact]
-    public void First() =>
-        XUnitAssert.Throws<InvalidOperationException>(
-            () =>
-            {
-                var v = new JValue(true);
-                var first = v.First;
-            },
-            "Cannot access child value on Argon.JValue.");
+    public void First()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+        {
+            var v = new JValue(true);
+            var first = v.First;
+        });
+        Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
+    }
 
     [Fact]
-    public void Item() =>
-        XUnitAssert.Throws<InvalidOperationException>(
-            () =>
-            {
-                var v = new JValue(true);
-                var first = v[0];
-            },
-            "Cannot access child value on Argon.JValue.");
+    public void Item()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+        {
+            var v = new JValue(true);
+            var first = v[0];
+        });
+        Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
+    }
 
     [Fact]
-    public void Values() =>
-        XUnitAssert.Throws<InvalidOperationException>(
-            () =>
-            {
-                var v = new JValue(true);
-                v.Values<int>();
-            },
-            "Cannot access child value on Argon.JValue.");
+    public void Values()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+        {
+            var v = new JValue(true);
+            v.Values<int>();
+        });
+        Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
+    }
 
     [Fact]
-    public void RemoveParentNull() =>
-        XUnitAssert.Throws<InvalidOperationException>(
-            () =>
-            {
-                var v = new JValue(true);
-                v.Remove();
-            },
-            "The parent is missing.");
+    public void RemoveParentNull()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+        {
+            var v = new JValue(true);
+            v.Remove();
+        });
+        Assert.Equal("The parent is missing.", exception.Message);
+    }
 
     [Fact]
     public void Root()
@@ -297,24 +304,26 @@ public class JValueTests : TestFixtureBase
         Assert.False(new JValue(5L).HasValues);
 
     [Fact]
-    public void SetValue() =>
-        XUnitAssert.Throws<InvalidOperationException>(
-            () =>
-            {
-                JToken t = new JValue(5L);
-                t[0] = new JValue(3);
-            },
-            "Cannot set child value on Argon.JValue.");
+    public void SetValue()
+    {
+        var exception = Assert.Throws<InvalidOperationException>(() =>
+        {
+            JToken t = new JValue(5L);
+            t[0] = new JValue(3);
+        });
+        Assert.Equal("Cannot set child value on Argon.JValue.", exception.Message);
+    }
 
     [Fact]
-    public void CastNullValueToNonNullable() =>
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var v = JValue.CreateNull();
-                var i = (int) v;
-            },
-            "Can not convert Null to Int32.");
+    public void CastNullValueToNonNullable()
+    {
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            var v = JValue.CreateNull();
+            var i = (int) v;
+        });
+        Assert.Equal("Can not convert Null to Int32.", exception.Message);
+    }
 
     [Fact]
     public void ConvertValueToCompatibleType()
@@ -681,14 +690,13 @@ public class JValueTests : TestFixtureBase
         Assert.Equal(StringComparison.OrdinalIgnoreCase, e6);
 
         // does not support EnumMember. breaking change to add
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                d = new JValue("value_a");
-                var e7 = (TestObjects.EnumA) d;
-                Assert.Equal(TestObjects.EnumA.ValueA, e7);
-            },
-            "Requested value 'value_a' was not found.");
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            d = new JValue("value_a");
+            var e7 = (TestObjects.EnumA) d;
+            Assert.Equal(TestObjects.EnumA.ValueA, e7);
+        });
+        Assert.Equal("Requested value 'value_a' was not found.", exception.Message);
     }
 
     public enum EnumA

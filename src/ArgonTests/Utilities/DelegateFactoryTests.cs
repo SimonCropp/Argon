@@ -88,30 +88,30 @@ public class DelegateFactoryTests : TestFixtureBase
         };
         var setter = DelegateFactory.CreateGet<object>(typeof(Movie).GetProperty("Name"));
 
-        XUnitAssert.Throws<InvalidCastException>(
-            () => setter(p),
-            "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
+        var exception = Assert.Throws<InvalidCastException>(() => setter(p));
+        Assert.Equal("Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.", exception.Message);
     }
 
     [Fact]
-    public void CreateSetWithBadObjectTarget() =>
-        XUnitAssert.Throws<InvalidCastException>(
-            () =>
-            {
-                var p = new Person();
-                var m = new Movie();
+    public void CreateSetWithBadObjectTarget()
+    {
+        var exception = Assert.Throws<InvalidCastException>(() =>
+        {
+            var p = new Person();
+            var m = new Movie();
 
-                var setter = DelegateFactory.CreateSet<object>(typeof(Movie).GetProperty("Name"));
+            var setter = DelegateFactory.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
-                setter(m, "Hi");
+            setter(m, "Hi");
 
-                Assert.Equal("Hi", m.Name);
+            Assert.Equal("Hi", m.Name);
 
-                setter(p, "Hi");
+            setter(p, "Hi");
 
-                Assert.Equal("Hi", p.Name);
-            },
-            "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
+            Assert.Equal("Hi", p.Name);
+        });
+        Assert.Equal("Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.", exception.Message);
+    }
 
     [Fact]
     public void CreateSetWithBadTarget() =>
@@ -130,17 +130,18 @@ public class DelegateFactoryTests : TestFixtureBase
             });
 
     [Fact]
-    public void CreateSetWithBadObjectValue() =>
-        XUnitAssert.Throws<InvalidCastException>(
-            () =>
-            {
-                var m = new Movie();
+    public void CreateSetWithBadObjectValue()
+    {
+        var exception = Assert.Throws<InvalidCastException>(() =>
+        {
+            var m = new Movie();
 
-                var setter = DelegateFactory.CreateSet<object>(typeof(Movie).GetProperty("Name"));
+            var setter = DelegateFactory.CreateSet<object>(typeof(Movie).GetProperty("Name"));
 
-                setter(m, new Version("1.1.1.1"));
-            },
-            "Unable to cast object of type 'System.Version' to type 'System.String'.");
+            setter(m, new Version("1.1.1.1"));
+        });
+        Assert.Equal("Unable to cast object of type 'System.Version' to type 'System.String'.", exception.Message);
+    }
 
     [Fact]
     public void CreateStaticMethodCall()

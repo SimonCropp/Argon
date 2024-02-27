@@ -5,10 +5,11 @@
 public class Issue2165
 {
     [Fact]
-    public void Test_Deserializer() =>
-        XUnitAssert.Throws<JsonWriterException>(
-            () => JsonConvert.DeserializeObject<JObject>("{"),
-            "Unexpected end when reading token. Path ''.");
+    public void Test_Deserializer()
+    {
+        var exception = Assert.Throws<JsonWriterException>(() => JsonConvert.DeserializeObject<JObject>("{"));
+        Assert.Equal("Unexpected end when reading token. Path ''.", exception.Message);
+    }
 
     [Fact]
     public void Test()
@@ -19,8 +20,7 @@ public class Issue2165
         var jsonReader = new JsonTextReader(new StringReader("{"));
         jsonReader.Read();
 
-        XUnitAssert.Throws<JsonWriterException>(
-            () => writer.WriteToken(jsonReader),
-            "Unexpected end when reading token. Path ''.");
+        var exception = Assert.Throws<JsonWriterException>(() => writer.WriteToken(jsonReader));
+        Assert.Equal("Unexpected end when reading token. Path ''.", exception.Message);
     }
 }

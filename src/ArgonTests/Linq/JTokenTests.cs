@@ -317,276 +317,233 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void FailedCasting()
     {
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) new JValue(true);
-            },
-            "Can not convert Boolean to DateTime.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) new JValue(1);
-            },
-            "Can not convert Integer to DateTime.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) new JValue(1.1);
-            },
-            "Can not convert Float to DateTime.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) new JValue(1.1m);
-            },
-            "Can not convert Float to DateTime.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) new JValue(TimeSpan.Zero);
-            },
-            "Can not convert TimeSpan to DateTime.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) new JValue(new Uri("http://www.google.com"));
-            },
-            "Can not convert Uri to DateTime.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) JValue.CreateNull();
-            },
-            "Can not convert Null to DateTime.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTime) new JValue(Guid.NewGuid());
-            },
-            "Can not convert Guid to DateTime.");
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) new JValue(true);
+        });
+        Assert.Equal("Can not convert Boolean to DateTime.", exception.Message);
+        var exception1 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) new JValue(1);
+        });
+        Assert.Equal("Can not convert Integer to DateTime.", exception1.Message);
+        var exception2 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) new JValue(1.1);
+        });
+        Assert.Equal("Can not convert Float to DateTime.", exception2.Message);
+        var exception3 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) new JValue(1.1m);
+        });
+        Assert.Equal("Can not convert Float to DateTime.", exception3.Message);
+        var exception4 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) new JValue(TimeSpan.Zero);
+        });
+        Assert.Equal("Can not convert TimeSpan to DateTime.", exception4.Message);
+        var exception5 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) new JValue(new Uri("http://www.google.com"));
+        });
+        Assert.Equal("Can not convert Uri to DateTime.", exception5.Message);
+        var exception6 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) JValue.CreateNull();
+        });
+        Assert.Equal("Can not convert Null to DateTime.", exception6.Message);
+        var exception7 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTime) new JValue(Guid.NewGuid());
+        });
+        Assert.Equal("Can not convert Guid to DateTime.", exception7.Message);
 
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(true);
-            },
-            "Can not convert Boolean to Uri.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(1);
-            },
-            "Can not convert Integer to Uri.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(1.1);
-            },
-            "Can not convert Float to Uri.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(1.1m);
-            },
-            "Can not convert Float to Uri.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(TimeSpan.Zero);
-            },
-            "Can not convert TimeSpan to Uri.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(Guid.NewGuid());
-            },
-            "Can not convert Guid to Uri.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(DateTime.Now);
-            },
-            "Can not convert Date to Uri.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(DateTimeOffset.Now);
-            },
-            "Can not convert Date to Uri.");
+        var exception8 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(true);
+        });
+        Assert.Equal("Can not convert Boolean to Uri.", exception8.Message);
+        var exception9 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(1);
+        });
+        Assert.Equal("Can not convert Integer to Uri.", exception9.Message);
+        var exception10 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(1.1);
+        });
+        Assert.Equal("Can not convert Float to Uri.", exception10.Message);
+        var exception11 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(1.1m);
+        });
+        Assert.Equal("Can not convert Float to Uri.", exception11.Message);
+        var exception12 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(TimeSpan.Zero);
+        });
+        Assert.Equal("Can not convert TimeSpan to Uri.", exception12.Message);
+        var exception13 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(Guid.NewGuid());
+        });
+        Assert.Equal("Can not convert Guid to Uri.", exception13.Message);
+        var exception14 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(DateTime.Now);
+        });
+        Assert.Equal("Can not convert Date to Uri.", exception14.Message);
+        var exception15 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(DateTimeOffset.Now);
+        });
+        Assert.Equal("Can not convert Date to Uri.", exception15.Message);
 
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(true);
-            },
-            "Can not convert Boolean to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(1);
-            },
-            "Can not convert Integer to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(1.1);
-            },
-            "Can not convert Float to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(1.1m);
-            },
-            "Can not convert Float to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) JValue.CreateNull();
-            },
-            "Can not convert Null to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(Guid.NewGuid());
-            },
-            "Can not convert Guid to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(DateTime.Now);
-            },
-            "Can not convert Date to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(DateTimeOffset.Now);
-            },
-            "Can not convert Date to TimeSpan.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (TimeSpan) new JValue(new Uri("http://www.google.com"));
-            },
-            "Can not convert Uri to TimeSpan.");
+        var exception16 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(true);
+        });
+        Assert.Equal("Can not convert Boolean to TimeSpan.", exception16.Message);
+        var exception17 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(1);
+        });
+        Assert.Equal("Can not convert Integer to TimeSpan.", exception17.Message);
+        var exception18 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(1.1);
+        });
+        Assert.Equal("Can not convert Float to TimeSpan.", exception18.Message);
+        var exception19 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(1.1m);
+        });
+        Assert.Equal("Can not convert Float to TimeSpan.", exception19.Message);
+        var exception20 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) JValue.CreateNull();
+        });
+        Assert.Equal("Can not convert Null to TimeSpan.", exception20.Message);
+        var exception21 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(Guid.NewGuid());
+        });
+        Assert.Equal("Can not convert Guid to TimeSpan.", exception21.Message);
+        var exception22 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(DateTime.Now);
+        });
+        Assert.Equal("Can not convert Date to TimeSpan.", exception22.Message);
+        var exception23 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(DateTimeOffset.Now);
+        });
+        Assert.Equal("Can not convert Date to TimeSpan.", exception23.Message);
+        var exception24 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (TimeSpan) new JValue(new Uri("http://www.google.com"));
+        });
+        Assert.Equal("Can not convert Uri to TimeSpan.", exception24.Message);
 
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(true);
-            },
-            "Can not convert Boolean to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(1);
-            },
-            "Can not convert Integer to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(1.1);
-            },
-            "Can not convert Float to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(1.1m);
-            },
-            "Can not convert Float to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) JValue.CreateNull();
-            }, "Can not convert Null to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(DateTime.Now);
-            },
-            "Can not convert Date to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(DateTimeOffset.Now);
-            },
-            "Can not convert Date to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(TimeSpan.FromMinutes(1));
-            },
-            "Can not convert TimeSpan to Guid.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Guid) new JValue(new Uri("http://www.google.com"));
-            },
-            "Can not convert Uri to Guid.");
+        var exception25 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(true);
+        });
+        Assert.Equal("Can not convert Boolean to Guid.", exception25.Message);
+        var exception26 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(1);
+        });
+        Assert.Equal("Can not convert Integer to Guid.", exception26.Message);
+        var exception27 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(1.1);
+        });
+        Assert.Equal("Can not convert Float to Guid.", exception27.Message);
+        var exception28 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(1.1m);
+        });
+        Assert.Equal("Can not convert Float to Guid.", exception28.Message);
+        var exception29 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) JValue.CreateNull();
+        });
+        Assert.Equal("Can not convert Null to Guid.", exception29.Message);
+        var exception30 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(DateTime.Now);
+        });
+        Assert.Equal("Can not convert Date to Guid.", exception30.Message);
+        var exception31 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(DateTimeOffset.Now);
+        });
+        Assert.Equal("Can not convert Date to Guid.", exception31.Message);
+        var exception32 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(TimeSpan.FromMinutes(1));
+        });
+        Assert.Equal("Can not convert TimeSpan to Guid.", exception32.Message);
+        var exception33 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Guid) new JValue(new Uri("http://www.google.com"));
+        });
+        Assert.Equal("Can not convert Uri to Guid.", exception33.Message);
 
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (DateTimeOffset) new JValue(true);
-            },
-            "Can not convert Boolean to DateTimeOffset.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (Uri) new JValue(true);
-            },
-            "Can not convert Boolean to Uri.");
+        var exception34 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (DateTimeOffset) new JValue(true);
+        });
+        Assert.Equal("Can not convert Boolean to DateTimeOffset.", exception34.Message);
+        var exception35 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (Uri) new JValue(true);
+        });
+        Assert.Equal("Can not convert Boolean to Uri.", exception35.Message);
 
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = new JValue(new Uri("http://www.google.com")).ToObject<BigInteger>();
-            },
-            "Can not convert Uri to BigInteger.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = JValue.CreateNull().ToObject<BigInteger>();
-            },
-            "Can not convert Null to BigInteger.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = new JValue(Guid.NewGuid()).ToObject<BigInteger>();
-            },
-            "Can not convert Guid to BigInteger.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = new JValue(Guid.NewGuid()).ToObject<BigInteger?>();
-            },
-            "Can not convert Guid to BigInteger.");
+        var exception36 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = new JValue(new Uri("http://www.google.com")).ToObject<BigInteger>();
+        });
+        Assert.Equal("Can not convert Uri to BigInteger.", exception36.Message);
+        var exception37 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = JValue.CreateNull().ToObject<BigInteger>();
+        });
+        Assert.Equal("Can not convert Null to BigInteger.", exception37.Message);
+        var exception38 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = new JValue(Guid.NewGuid()).ToObject<BigInteger>();
+        });
+        Assert.Equal("Can not convert Guid to BigInteger.", exception38.Message);
+        var exception39 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = new JValue(Guid.NewGuid()).ToObject<BigInteger?>();
+        });
+        Assert.Equal("Can not convert Guid to BigInteger.", exception39.Message);
 
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (sbyte?) new JValue(DateTime.Now);
-            },
-            "Can not convert Date to SByte.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = (sbyte) new JValue(DateTime.Now);
-            },
-            "Can not convert Date to SByte.");
+        var exception40 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (sbyte?) new JValue(DateTime.Now);
+        });
+        Assert.Equal("Can not convert Date to SByte.", exception40.Message);
+        var exception41 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = (sbyte) new JValue(DateTime.Now);
+        });
+        Assert.Equal("Can not convert Date to SByte.", exception41.Message);
 
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = new JValue("Ordinal1").ToObject<StringComparison>();
-            },
-            "Could not convert 'Ordinal1' to StringComparison.");
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var i = new JValue("Ordinal1").ToObject<StringComparison?>();
-            },
-            "Could not convert 'Ordinal1' to StringComparison.");
+        var exception42 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = new JValue("Ordinal1").ToObject<StringComparison>();
+        });
+        Assert.Equal("Could not convert 'Ordinal1' to StringComparison.", exception42.Message);
+        var exception43 = Assert.Throws<ArgumentException>(() =>
+        {
+            var i = new JValue("Ordinal1").ToObject<StringComparison?>();
+        });
+        Assert.Equal("Could not convert 'Ordinal1' to StringComparison.", exception43.Message);
     }
 
     [Fact]
@@ -1082,22 +1039,24 @@ public class JTokenTests : TestFixtureBase
     }
 
     [Fact]
-    public void AddPropertyToArray() =>
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var a = new JArray {new JProperty("PropertyName")};
-            },
-            "Can not add Argon.JProperty to Argon.JArray.");
+    public void AddPropertyToArray()
+    {
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            var a = new JArray {new JProperty("PropertyName")};
+        });
+        Assert.Equal("Can not add Argon.JProperty to Argon.JArray.", exception.Message);
+    }
 
     [Fact]
-    public void AddValueToObject() =>
-        XUnitAssert.Throws<ArgumentException>(
-            () =>
-            {
-                var o = new JObject {5};
-            },
-            "Can not add Argon.JValue to Argon.JObject.");
+    public void AddValueToObject()
+    {
+        var exception = Assert.Throws<ArgumentException>(() =>
+        {
+            var o = new JObject {5};
+        });
+        Assert.Equal("Can not add Argon.JValue to Argon.JObject.", exception.Message);
+    }
 
     [Fact]
     public void Replace()
@@ -1316,21 +1275,22 @@ public class JTokenTests : TestFixtureBase
     }
 
     [Fact]
-    public void ParseAdditionalContent() =>
-        XUnitAssert.Throws<JsonReaderException>(
-            () =>
-            {
-                var json = """
-                    [
-                        "Small",
-                        "Medium",
-                        "Large"
-                    ],
-                    """;
+    public void ParseAdditionalContent()
+    {
+        var exception = Assert.Throws<JsonReaderException>(() =>
+        {
+            var json = """
+                       [
+                           "Small",
+                           "Medium",
+                           "Large"
+                       ],
+                       """;
 
-                JToken.Parse(json);
-            },
-            "Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.");
+            JToken.Parse(json);
+        });
+        Assert.Equal("Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.", exception.Message);
+    }
 
     [Fact]
     public void Path()
@@ -1404,8 +1364,8 @@ public class JTokenTests : TestFixtureBase
                    {}
                    """;
 
-        XUnitAssert.Throws<JsonReaderException>(() => JToken.Parse(json),
-            "Additional text encountered after finished reading JSON content: {. Path '', line 3, position 0.");
+        var exception = Assert.Throws<JsonReaderException>(() => JToken.Parse(json));
+        Assert.Equal("Additional text encountered after finished reading JSON content: {. Path '', line 3, position 0.", exception.Message);
     }
 
     [Theory]

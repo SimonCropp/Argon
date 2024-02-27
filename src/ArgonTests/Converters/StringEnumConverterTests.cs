@@ -200,9 +200,9 @@ public class StringEnumConverterTests : TestFixtureBase
             Enum = NamedEnumDuplicate.First
         };
 
-        XUnitAssert.Throws<InvalidOperationException>(
-            () => JsonConvert.SerializeObject(c, Formatting.Indented, new StringEnumConverter()),
-            "Enum name 'Third' already exists on enum 'NamedEnumDuplicate'.");
+        var converter = new StringEnumConverter();
+        var exception = Assert.Throws<InvalidOperationException>(() => JsonConvert.SerializeObject(c, Formatting.Indented, converter));
+        Assert.Equal("Enum name 'Third' already exists on enum 'NamedEnumDuplicate'.", exception.Message);
     }
 
     [Fact]
@@ -581,14 +581,11 @@ public class StringEnumConverterTests : TestFixtureBase
     {
         var json = "{ \"Value\" : \"Three\" }";
 
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                var serializer = new JsonSerializer();
-                serializer.Converters.Add(new StringEnumConverter());
-                serializer.Deserialize<Bucket>(new JsonTextReader(new StringReader(json)));
-            },
-            """Error converting value "Three" to type 'StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.""");
+        var serializer = new JsonSerializer();
+        serializer.Converters.Add(new StringEnumConverter());
+        var reader = new JsonTextReader(new StringReader(json));
+        var exception = Assert.Throws<JsonSerializationException>(() => serializer.Deserialize<Bucket>(reader));
+        Assert.Equal("""Error converting value "Three" to type 'StringEnumConverterTests+MyEnum'. Path 'Value', line 1, position 19.""", exception.Message);
     }
 
     public class Bucket
@@ -684,10 +681,12 @@ public class StringEnumConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DuplicateNameEnumTest() =>
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<DuplicateNameEnum>("'foo_bar'", new StringEnumConverter()),
-            """Error converting value "foo_bar" to type 'DuplicateNameEnum'. Path '', line 1, position 9.""");
+    public void DuplicateNameEnumTest()
+    {
+        var converters = new StringEnumConverter();
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<DuplicateNameEnum>("'foo_bar'", converters));
+        Assert.Equal("""Error converting value "foo_bar" to type 'DuplicateNameEnum'. Path '', line 1, position 9.""", exception.Message);
+    }
 
     // Define other methods and classes here
     [Flags]
@@ -712,31 +711,16 @@ public class StringEnumConverterTests : TestFixtureBase
     [Fact]
     public void DataContractSerializerDuplicateNameEnumTest()
     {
-        var ms = new MemoryStream();
-        var s = new DataContractSerializer(typeof(DuplicateEnumNameTestClass));
+        var stream = new MemoryStream();
+        var serializer = new DataContractSerializer(typeof(DuplicateEnumNameTestClass));
 
-        XUnitAssert.Throws<InvalidDataContractException>(
-            () =>
-            {
-                s.WriteObject(ms, new DuplicateEnumNameTestClass
-                {
-                    Value = DuplicateNameEnum.foo_bar,
-                    Value2 = DuplicateNameEnum2.foo_bar_NOT_USED
-                });
-
-                var xml = """
-                          <DuplicateEnumNameTestClass xmlns="http://schemas.datacontract.org/2004/07/Converters" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
-                              <Value>foo_bar</Value>
-                              <Value2>foo_bar</Value2>
-                          </DuplicateEnumNameTestClass>
-                          """;
-
-                var o = (DuplicateEnumNameTestClass) s.ReadObject(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
-
-                Assert.Equal(DuplicateNameEnum.foo_bar, o.Value);
-                Assert.Equal(DuplicateNameEnum2.FooBar, o.Value2);
-            },
-            "Type 'DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.");
+        var target = new DuplicateEnumNameTestClass
+        {
+            Value = DuplicateNameEnum.foo_bar,
+            Value2 = DuplicateNameEnum2.foo_bar_NOT_USED
+        };
+        var exception = Assert.Throws<InvalidDataContractException>(() => serializer.WriteObject(stream, target));
+        Assert.Equal("Type 'DuplicateNameEnum' contains two members 'foo_bar' 'and 'FooBar' with the same name 'foo_bar'. Multiple members with the same name in one type are not supported. Consider changing one of the member names using EnumMemberAttribute attribute.", exception.Message);
     }
 
     [Fact]
@@ -839,9 +823,8 @@ public class StringEnumConverterTests : TestFixtureBase
     public void AllowIntegerValueAndNonNamedValue()
     {
         var converter = new StringEnumConverter {AllowIntegerValues = false};
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.SerializeObject((StoreColor) 999, converter),
-            "Integer value 999 is not allowed. Path ''.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.SerializeObject((StoreColor) 999, converter));
+        Assert.Equal("Integer value 999 is not allowed. Path ''.", exception.Message);
     }
 
     public enum EnumWithDifferentCases

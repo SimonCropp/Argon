@@ -70,9 +70,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             PreserveReferencesHandling = PreserveReferencesHandling.All,
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject<string[][]>(json, settings),
-            "Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<string[][]>(json, settings));
+        Assert.Equal("Cannot preserve reference to array or readonly list, or list created from a non-default constructor: System.String[][]. Path '$values', line 3, position 14.", exception.Message);
     }
 
     [Fact]
@@ -208,9 +207,8 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
             TypeNameHandling = TypeNameHandling.Objects,
             MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
         };
-        XUnitAssert.Throws<JsonSerializationException>(
-            () => JsonConvert.DeserializeObject(json, null, settings),
-            "Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.");
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject(json, null, settings));
+        Assert.Equal("Type specified in JSON 'TestObjects.Employee' was not resolved. Path '$type', line 3, position 33.", exception.Message);
     }
 
     [Fact]

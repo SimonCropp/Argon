@@ -731,8 +731,7 @@ public class MiscTests : TestFixtureBase
         Assert.True(reader.Read());
         Assert.True(reader.Read());
 
-        XUnitAssert.Throws<JsonReaderException>(
-            () => reader.Read(),
-            @"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.");
+        var exception = Assert.Throws<JsonReaderException>(() => reader.Read());
+        Assert.Equal(@"Invalid Unicode escape sequence: \u123!. Path 'prop', line 1, position 11.", exception.Message);
     }
 }

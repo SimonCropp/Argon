@@ -176,18 +176,16 @@ public class IsoDateTimeConverterTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeNullToNonNullable() =>
-        XUnitAssert.Throws<JsonSerializationException>(
-            () =>
-            {
-                var c2 = JsonConvert.DeserializeObject<DateTimeTestClass>(
-                    """{"PreField":"Pre","DateTimeField":null,"DateTimeOffsetField":null,"PostField":"Post"}""",
-                    new IsoDateTimeConverter
-                    {
-                        DateTimeStyles = DateTimeStyles.AssumeUniversal
-                    });
-            },
-            "Cannot convert null value to System.DateTime. Path 'DateTimeField', line 1, position 38.");
+    public void DeserializeNullToNonNullable()
+    {
+        var value = """{"PreField":"Pre","DateTimeField":null,"DateTimeOffsetField":null,"PostField":"Post"}""";
+        var converters = new IsoDateTimeConverter
+        {
+            DateTimeStyles = DateTimeStyles.AssumeUniversal
+        };
+        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<DateTimeTestClass>(value, converters));
+        Assert.Equal("Cannot convert null value to System.DateTime. Path 'DateTimeField', line 1, position 38.", exception.Message);
+    }
 
     [Fact]
     public void SerializeShouldChangeNonUTCDates()
