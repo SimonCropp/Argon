@@ -186,7 +186,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         var tokens = new JEnumerable<JToken>();
 
-        Assert.Equal(0, tokens.Count());
+        Assert.Empty(tokens);
     }
 
     [Fact]
@@ -1062,7 +1062,7 @@ public class LinqToJsonTest : TestFixtureBase
         Assert.Null(o["purple"]);
         Assert.Null(o.Value<string>("purple"));
 
-        Assert.IsType(typeof(JArray), o["channel"]["item"]);
+        Assert.IsType<JArray>(o["channel"]["item"]);
 
         Assert.Equal(2, o["channel"]["item"].Children()["title"].Count());
         Assert.Equal(0, o["channel"]["item"].Children()["monkey"].Count());

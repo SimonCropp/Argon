@@ -430,7 +430,7 @@ public class JsonConvertTest : TestFixtureBase
         Assert.Equal(expected, result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("Fred's cat.".AsSpan(), '\'', true, EscapeHandling.Default);
-        Assert.Equal(result, @"'Fred\'s cat.'");
+        Assert.Equal(@"'Fred\'s cat.'", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(
             """
@@ -438,10 +438,10 @@ public class JsonConvertTest : TestFixtureBase
             """.AsSpan(),
             '"', true, EscapeHandling.Default);
         Assert.Equal(
-            result,
             """
             "\"How are you gentlemen?\" said Cats."
-            """);
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString(
             """
@@ -451,20 +451,20 @@ public class JsonConvertTest : TestFixtureBase
             true,
             EscapeHandling.Default);
         Assert.Equal(
-            result,
             """
             "\"How are' you gentlemen?\" said Cats."
-            """);
+            """,
+            result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("""Fred's "cat".""".AsSpan(), '\'', true, EscapeHandling.Default);
-        Assert.Equal(result, """'Fred\'s "cat".'""");
+        Assert.Equal("""'Fred\'s "cat".'""", result);
 
         result = JavaScriptUtils.ToEscapedJavaScriptString("\u001farray\u003caddress".AsSpan(), '"', true, EscapeHandling.Default);
         Assert.Equal(
-            result,
             """
             "\u001farray<address"
-            """);
+            """,
+            result);
     }
 
     [Fact]
@@ -1184,7 +1184,7 @@ public class JsonConvertTest : TestFixtureBase
         var value = JsonConvert.DeserializeObject<ItemsRequiredObjectWithIgnoredProperty>(json);
         Assert.NotNull(value);
         Assert.Equal(value.Expiration, new(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-        Assert.Equal(value.Active, true);
+        Assert.True(value.Active);
     }
 
     [JsonObject(ItemRequired = Required.Always)]

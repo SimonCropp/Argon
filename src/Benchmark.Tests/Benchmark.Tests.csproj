@@ -7,7 +7,7 @@
     <Configurations>Debug;Release;DebugNet8</Configurations>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ProjectDefaults" Version="1.0.110" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.111" PrivateAssets="all" />
     <None Remove="BenchmarkDotNet.Artifacts\**" />
     <ProjectReference Include="..\ArgonTests\ArgonTests.csproj" />
   </ItemGroup>

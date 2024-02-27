@@ -18,7 +18,7 @@ public class Issue1512 : TestFixtureBase
                    """;
         var result = JsonConvert.DeserializeObject<ImmutableArray<Outer>>(json);
 
-        Assert.Equal(1, result.Length);
+        Assert.Single(result);
         Assert.Equal(2, result[0].Inners.Value.Length);
         Assert.Equal("hi", result[0].Inners.Value[0]);
         Assert.Equal("bye", result[0].Inners.Value[1]);
@@ -36,7 +36,7 @@ public class Issue1512 : TestFixtureBase
                    """;
         var result = JsonConvert.DeserializeObject<ImmutableArray<OuterProperty>>(json);
 
-        Assert.Equal(1, result.Length);
+        Assert.Single(result);
         Assert.Equal(2, result[0].Inners.Value.Length);
         Assert.Equal("hi", result[0].Inners.Value[0]);
         Assert.Equal("bye", result[0].Inners.Value[1]);

@@ -9,7 +9,7 @@ public class Issue1796 : TestFixtureBase
     {
         var json = "[{}]";
         var c = JsonConvert.DeserializeObject<TestStack>(json);
-        Assert.Equal(1, c.Count);
+        Assert.Single(c);
     }
 
     [Fact]
@@ -17,7 +17,7 @@ public class Issue1796 : TestFixtureBase
     {
         var json = "['hi']";
         var c = JsonConvert.DeserializeObject<TestStack<string>>(json);
-        Assert.Equal(1, c.Count);
+        Assert.Single(c);
     }
 
     public class TestStack : SortedSet<object>;

@@ -8,7 +8,7 @@ public class JPathParseTests : TestFixtureBase
     public void BooleanQuery_TwoValues()
     {
         var path = new JPath("[?(1 > 2)]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         var booleanExpression = (BooleanQueryExpression) ((QueryFilter) path.Filters[0]).Expression;
         Assert.Equal(1, (int) (JValue) booleanExpression.Left);
         Assert.Equal(2, (int) (JValue) booleanExpression.Right);
@@ -19,7 +19,7 @@ public class JPathParseTests : TestFixtureBase
     public void BooleanQuery_TwoPaths()
     {
         var path = new JPath("[?(@.price > @.max_price)]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         var booleanExpression = (BooleanQueryExpression) ((QueryFilter) path.Filters[0]).Expression;
         var leftPaths = (List<PathFilter>) booleanExpression.Left;
         var rightPaths = (List<PathFilter>) booleanExpression.Right;
@@ -33,7 +33,7 @@ public class JPathParseTests : TestFixtureBase
     public void SingleProperty()
     {
         var path = new JPath("Blah");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("Blah", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -41,7 +41,7 @@ public class JPathParseTests : TestFixtureBase
     public void SingleQuotedProperty()
     {
         var path = new JPath("['Blah']");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("Blah", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -81,7 +81,7 @@ public class JPathParseTests : TestFixtureBase
     public void SinglePropertyWithRootWithStartAndEndWhitespace()
     {
         var path = new JPath(" $.Blah ");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("Blah", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -115,7 +115,7 @@ public class JPathParseTests : TestFixtureBase
     public void WildcardArrayWithRoot()
     {
         var path = new JPath("$.[*]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Null(((ArrayIndexFilter) path.Filters[0]).Index);
     }
 
@@ -148,7 +148,7 @@ public class JPathParseTests : TestFixtureBase
     public void QuotedWildcardPropertyWithRoot()
     {
         var path = new JPath("$.['*']");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("*", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -612,7 +612,7 @@ public class JPathParseTests : TestFixtureBase
     public void MultipleQuotedIndexes()
     {
         var path = new JPath("['111119990','3']");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(2, ((FieldMultipleFilter) path.Filters[0]).Names.Count);
         Assert.Equal("111119990", ((FieldMultipleFilter) path.Filters[0]).Names[0]);
         Assert.Equal("3", ((FieldMultipleFilter) path.Filters[0]).Names[1]);
@@ -622,7 +622,7 @@ public class JPathParseTests : TestFixtureBase
     public void MultipleQuotedIndexesWithWhitespace()
     {
         var path = new JPath("[ '111119990' , '3' ]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(2, ((FieldMultipleFilter) path.Filters[0]).Names.Count);
         Assert.Equal("111119990", ((FieldMultipleFilter) path.Filters[0]).Names[0]);
         Assert.Equal("3", ((FieldMultipleFilter) path.Filters[0]).Names[1]);
@@ -632,7 +632,7 @@ public class JPathParseTests : TestFixtureBase
     public void SlicingIndexAll()
     {
         var path = new JPath("[111119990:3:2]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(111119990, ((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Equal(3, ((ArraySliceFilter) path.Filters[0]).End);
         Assert.Equal(2, ((ArraySliceFilter) path.Filters[0]).Step);

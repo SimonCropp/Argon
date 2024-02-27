@@ -267,9 +267,9 @@ public class ImmutableCollectionsTests : TestFixtureBase
 
         var a = JArray.Parse(json);
         Assert.Equal(3, a.Count);
-        Assert.True(a.Any(t => t.DeepEquals("One")));
-        Assert.True(a.Any(t => t.DeepEquals("II")));
-        Assert.True(a.Any(t => t.DeepEquals("3")));
+        Assert.Contains(a, t => t.DeepEquals("One"));
+        Assert.Contains(a, t => t.DeepEquals("II"));
+        Assert.Contains(a, t => t.DeepEquals("3"));
     }
 
     [Fact]
@@ -286,7 +286,7 @@ public class ImmutableCollectionsTests : TestFixtureBase
         var l = JsonConvert.DeserializeObject<ImmutableHashSet<string>>(json);
 
         Assert.Equal(3, l.Count);
-        Assert.True(l.Contains("3"));
+        Assert.Contains("3", l);
         Assert.True(l.Contains("II"));
         Assert.True(l.Contains("One"));
     }

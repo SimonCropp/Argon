@@ -458,7 +458,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             """,
             result);
 
-        Assert.True(result.Contains("WagePerson"));
+        Assert.Contains("WagePerson", result);
         using var rd = new JsonTextReader(new StringReader(result));
         var person = serializer.Deserialize<Person>(rd);
 
@@ -568,8 +568,8 @@ public class TypeNameHandlingTests : TestFixtureBase
             json);
 
         var w2 = JsonConvert.DeserializeObject<Wrapper>(json);
-        Assert.IsType(typeof(List<EmployeeReference>), w2.Array);
-        Assert.IsType(typeof(Dictionary<string, EmployeeReference>), w2.Dictionary);
+        Assert.IsType<List<EmployeeReference>>(w2.Array);
+        Assert.IsType<Dictionary<string, EmployeeReference>>(w2.Dictionary);
     }
 
     [Fact]

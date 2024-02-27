@@ -25,7 +25,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             });
 
         Assert.NotNull(a2);
-        Assert.Equal(1, errors.Count);
+        Assert.Single(errors);
         Assert.Equal("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path 'MyTest.$type', line 1, position 61.", errors[0].Message);
     }
 
@@ -47,7 +47,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             });
 
         Assert.Null(a2);
-        Assert.Equal(1, errors.Count);
+        Assert.Single(errors);
         Assert.Equal("Error resolving type specified in JSON '<Namespace>.JsonTest+MyTest2, <Assembly>'. Path '$type', line 1, position 51.", errors[0].Message);
     }
 
@@ -83,7 +83,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         });
 
-        Assert.Equal(1, errors.Count);
+        Assert.Single(errors);
         Assert.Equal("JSON integer 3554860000 is too large or small for an Int32. Path 'myint', line 1, position 19.", errors[0]);
     }
 
@@ -112,8 +112,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             "[1] - Error message for member 1 = An item with the same key has already been added. Key: Jim" // netcore
         };
         var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
-        Assert.Equal(1, c.Count);
-        Assert.Equal(1, c.Messages.Count);
+        Assert.Single(c);
+        Assert.Single(c.Messages);
 
         Console.WriteLine(c.Messages[0]);
         Assert.True(possibleMsgs.Any(_ => _ == c.Messages[0]), $"Expected One of: {Environment.NewLine}{string.Join(Environment.NewLine, possibleMsgs)}{Environment.NewLine}Was: {Environment.NewLine}{c.Messages[0]}");
@@ -502,8 +502,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
 
         Assert.Equal(2, errors.Count);
-        Assert.True(errors[0].StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2."));
-        Assert.True(errors[1].StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2."));
+        Assert.StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2.", errors[0]);
+        Assert.StartsWith(" - Required2 - Required property 'Required2' not found in JSON. Path '', line 1, position 2.", errors[1]);
     }
 
     [Fact]
@@ -569,7 +569,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             MaxDepth = 3
         });
 
-        Assert.Equal(1, errors.Count);
+        Assert.Single(errors);
         Assert.Equal("A.A.A", errors[0]);
     }
 
@@ -620,7 +620,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         Assert.NotNull(o);
 
-        Assert.Equal(1, errors.Count);
+        Assert.Single(errors);
         Assert.Equal("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
 
         Assert.Equal(1, ((int[]) o).Length);
@@ -646,10 +646,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         Assert.NotNull(o);
 
-        Assert.Equal(1, errors.Count);
+        Assert.Single(errors);
         Assert.Equal("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
 
-        Assert.Equal(1, ((int[]) o).Length);
+        Assert.Single(((int[]) o));
         Assert.Equal(0, ((int[]) o)[0]);
     }
 

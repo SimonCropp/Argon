@@ -150,7 +150,7 @@ public class JTokenTests : TestFixtureBase
         var o = new JObject();
 
         var result = o.BeforeSelf().ToList();
-        Assert.Equal(0, result.Count);
+        Assert.Empty(result);
     }
 
     [Fact]
@@ -161,7 +161,7 @@ public class JTokenTests : TestFixtureBase
         a.Add(o);
 
         var result = o.BeforeSelf().ToList();
-        Assert.Equal(0, result.Count);
+        Assert.Empty(result);
     }
 
 #nullable enable

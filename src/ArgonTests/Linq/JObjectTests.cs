@@ -105,7 +105,7 @@ public class JObjectTests : TestFixtureBase
 
         o["value"] = true;
 
-        Assert.Equal(1, d.Keys.Count);
+        Assert.Single(d.Keys);
     }
 
     [Fact]
@@ -133,19 +133,19 @@ public class JObjectTests : TestFixtureBase
         {
             ["PropertyNameValue"] = new JValue(1)
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         XUnitAssert.True(o.TryGetValue("PropertyNameValue", out var t));
         XUnitAssert.True(JToken.DeepEquals(new JValue(1), t));
 
         o["PropertyNameValue"] = new JValue(2);
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
         XUnitAssert.True(JToken.DeepEquals(new JValue(2), t));
 
         o["PropertyNameValue"] = null;
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         XUnitAssert.True(o.TryGetValue("PropertyNameValue", out t));
         XUnitAssert.True(JToken.DeepEquals(JValue.CreateNull(), t));
@@ -160,12 +160,12 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue", new JValue(1)
             }
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         XUnitAssert.False(o.Remove("sdf"));
         XUnitAssert.True(o.Remove("PropertyNameValue"));
 
-        Assert.Equal(0, o.Children().Count());
+        Assert.Empty(o.Children());
     }
 
     [Fact]
@@ -178,14 +178,14 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue", v
             }
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue1", new JValue(1))));
         XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(2))));
         XUnitAssert.False(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", new JValue(1))));
         XUnitAssert.True(((ICollection<KeyValuePair<string, JToken>>) o).Remove(new("PropertyNameValue", v)));
 
-        Assert.Equal(0, o.Children().Count());
+        Assert.Empty(o.Children());
     }
 
     [Fact]
@@ -242,7 +242,7 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue", new JValue(1)
             }
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         var p = (JProperty) o.Children().ElementAt(0);
 
@@ -304,7 +304,7 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue", new JValue(1)
             }
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         var contains = ((IDictionary<string, JToken>) o).ContainsKey("PropertyNameValue");
         XUnitAssert.True(contains);
@@ -1511,7 +1511,7 @@ public class JObjectTests : TestFixtureBase
     {
         var o = JObject.Parse("{}");
         var l1 = o.ToList<JToken>();
-        Assert.Equal(0, l1.Count);
+        Assert.Empty(l1);
 
         var l2 = o.ToList<KeyValuePair<string, JToken>>();
         Assert.Equal(0, l2.Count);

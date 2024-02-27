@@ -236,7 +236,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             });
 
         Assert.Equal(2, circularDictionary.Count);
-        Assert.Equal(1, circularDictionary["other"].Count);
+        Assert.Single(circularDictionary["other"]);
         Assert.True(ReferenceEquals(circularDictionary, circularDictionary["self"]));
     }
 
@@ -362,9 +362,9 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
 
         Assert.Equal(3, circularList.Count);
         Assert.Null(circularList[0]);
-        Assert.Equal(1, circularList[1].Count);
-        Assert.Equal(1, circularList[2].Count);
-        Assert.Equal(1, circularList[2][0].Count);
+        Assert.Single(circularList[1]);
+        Assert.Single(circularList[2]);
+        Assert.Single(circularList[2][0]);
         Assert.True(ReferenceEquals(circularList, circularList[2][0][0]));
     }
 
@@ -579,7 +579,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
             """;
 
         var value = JsonConvert.DeserializeObject<ClassWithConditions>(json);
-        Assert.Equal(value.Condition1.Value, 1);
+        Assert.Equal(1, value.Condition1.Value);
         Assert.Equal(value.Condition1, value.Condition2);
     }
 
