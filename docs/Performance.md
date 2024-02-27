@@ -51,7 +51,7 @@ var client = new HttpClient();
 
 // read the json into a string
 // string could potentially be very large and cause memory problems
-var json = client.GetStringAsync("http://www.test.com/large.json").Result;
+var json = await client.GetStringAsync("http://www.test.com/large.json");
 
 var p = JsonConvert.DeserializeObject<Person>(json);
 ```
