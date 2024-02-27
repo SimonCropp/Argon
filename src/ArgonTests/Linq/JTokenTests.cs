@@ -534,14 +534,15 @@ public class JTokenTests : TestFixtureBase
         });
         Assert.Equal("Can not convert Date to SByte.", exception41.Message);
 
+        var jValue = new JValue("Ordinal1");
         var exception42 = Assert.Throws<ArgumentException>(() =>
         {
-            var i = new JValue("Ordinal1").ToObject<StringComparison>();
+            var i = jValue.ToObject<StringComparison>();
         });
         Assert.Equal("Could not convert 'Ordinal1' to StringComparison.", exception42.Message);
         var exception43 = Assert.Throws<ArgumentException>(() =>
         {
-            var i = new JValue("Ordinal1").ToObject<StringComparison?>();
+            var i = jValue.ToObject<StringComparison?>();
         });
         Assert.Equal("Could not convert 'Ordinal1' to StringComparison.", exception43.Message);
     }
@@ -1041,9 +1042,13 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void AddPropertyToArray()
     {
+        var property = new JProperty("PropertyName");
         var exception = Assert.Throws<ArgumentException>(() =>
         {
-            var a = new JArray {new JProperty("PropertyName")};
+            var a = new JArray
+            {
+                property
+            };
         });
         Assert.Equal("Can not add Argon.JProperty to Argon.JArray.", exception.Message);
     }
@@ -1277,18 +1282,15 @@ public class JTokenTests : TestFixtureBase
     [Fact]
     public void ParseAdditionalContent()
     {
-        var exception = Assert.Throws<JsonReaderException>(() =>
-        {
-            var json = """
-                       [
-                           "Small",
-                           "Medium",
-                           "Large"
-                       ],
-                       """;
+        var json = """
+                   [
+                       "Small",
+                       "Medium",
+                       "Large"
+                   ],
+                   """;
 
-            JToken.Parse(json);
-        });
+        var exception = Assert.Throws<JsonReaderException>(() => JToken.Parse(json));
         Assert.Equal("Additional text encountered after finished reading JSON content: ,. Path '', line 5, position 1.", exception.Message);
     }
 

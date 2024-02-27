@@ -32,14 +32,12 @@ public class ConstructorHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void FailWithPrivateConstructorPlusParameterizedAndDefault() =>
+    public void FailWithPrivateConstructorPlusParameterizedAndDefault()
+    {
+        var json = """{Name:"Name!"}""";
         XUnitAssert.Throws<Exception>(
-            () =>
-            {
-                var json = """{Name:"Name!"}""";
-
-                JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json);
-            });
+            () => JsonConvert.DeserializeObject<PrivateConstructorWithPublicParameterizedConstructorTestClass>(json));
+    }
 
     [Fact]
     public void SuccessWithPrivateConstructorPlusParameterizedAndAllowNonPublic()

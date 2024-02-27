@@ -209,9 +209,9 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void Last()
     {
+        var v = new JValue(true);
         var exception = Assert.Throws<InvalidOperationException>(() =>
         {
-            var v = new JValue(true);
             var last = v.Last;
         });
         Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
@@ -228,9 +228,9 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void First()
     {
+        var v = new JValue(true);
         var exception = Assert.Throws<InvalidOperationException>(() =>
         {
-            var v = new JValue(true);
             var first = v.First;
         });
         Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
@@ -239,9 +239,9 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void Item()
     {
+        var v = new JValue(true);
         var exception = Assert.Throws<InvalidOperationException>(() =>
         {
-            var v = new JValue(true);
             var first = v[0];
         });
         Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
@@ -250,22 +250,16 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void Values()
     {
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-        {
-            var v = new JValue(true);
-            v.Values<int>();
-        });
+        var v = new JValue(true);
+        var exception = Assert.Throws<InvalidOperationException>(() => v.Values<int>());
         Assert.Equal("Cannot access child value on Argon.JValue.", exception.Message);
     }
 
     [Fact]
     public void RemoveParentNull()
     {
-        var exception = Assert.Throws<InvalidOperationException>(() =>
-        {
-            var v = new JValue(true);
-            v.Remove();
-        });
+        var v = new JValue(true);
+        var exception = Assert.Throws<InvalidOperationException>(() => v.Remove());
         Assert.Equal("The parent is missing.", exception.Message);
     }
 
@@ -306,9 +300,9 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void SetValue()
     {
+        JToken t = new JValue(5L);
         var exception = Assert.Throws<InvalidOperationException>(() =>
         {
-            JToken t = new JValue(5L);
             t[0] = new JValue(3);
         });
         Assert.Equal("Cannot set child value on Argon.JValue.", exception.Message);
@@ -317,9 +311,9 @@ public class JValueTests : TestFixtureBase
     [Fact]
     public void CastNullValueToNonNullable()
     {
+        var v = JValue.CreateNull();
         var exception = Assert.Throws<ArgumentException>(() =>
         {
-            var v = JValue.CreateNull();
             var i = (int) v;
         });
         Assert.Equal("Can not convert Null to Int32.", exception.Message);
