@@ -24,7 +24,7 @@
             message = string.Format(message, args);
         }
 
-        Assert.True(false, message);
+        Assert.Fail(message);
     }
 
     public static void AreEqualNormalized(string expected, string actual)

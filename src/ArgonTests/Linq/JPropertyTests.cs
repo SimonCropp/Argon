@@ -22,7 +22,7 @@ public class JPropertyTests : TestFixtureBase
     public void IListCount()
     {
         var p = new JProperty("TestProperty", null);
-        Assert.Equal(1, p.Count);
+        Assert.Single(p);
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class JPropertyTests : TestFixtureBase
     {
         var p = new JProperty("TestProperty", null);
         var result = p.ToList();
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class JPropertyTests : TestFixtureBase
         var p = new JProperty("error", new List<string> {"one", "two"});
         var a = (JArray) p.Value;
 
-        Assert.Equal(a.Count, 2);
+        Assert.Equal(2, a.Count);
         Assert.Equal("one", (string) a[0]);
         Assert.Equal("two", (string) a[1]);
     }
@@ -161,6 +161,6 @@ public class JPropertyTests : TestFixtureBase
         property.Remove();
         obj.Add(new JProperty("prop2", value));
 
-        Assert.Equal(((JProperty) value.Parent).Name, "prop2");
+        Assert.Equal("prop2", ((JProperty) value.Parent).Name);
     }
 }

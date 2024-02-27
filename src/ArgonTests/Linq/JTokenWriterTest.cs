@@ -33,7 +33,7 @@ public class JTokenWriterTest : TestFixtureBase
             root = jsonWriter.Token;
         }
 
-        Assert.IsType(typeof(JArray), root);
+        Assert.IsType<JArray>(root);
         Assert.Equal(13, root.Children().Count());
         Assert.Equal("@", (string) root[0]);
         Assert.Equal("\r\n\t\f\b?{\\r\\n\"\'", (string) root[1]);

@@ -15,8 +15,8 @@ public class Issue1576 : TestFixtureBase
         var result = JsonConvert.DeserializeObject<TestClass>("{ 'Items': '11' }", settings);
 
         Assert.NotNull(result);
-        Assert.Equal(result.Items.Count, 1);
-        Assert.Equal(result.Items[0], 11);
+        Assert.Single(result.Items);
+        Assert.Equal(11, result.Items[0]);
     }
 
     [Fact]
@@ -25,8 +25,8 @@ public class Issue1576 : TestFixtureBase
         var result = JsonConvert.DeserializeObject<TestClassWithJsonConverter>("{ 'Items': '11' }");
 
         Assert.NotNull(result);
-        Assert.Equal(result.Items.Count, 1);
-        Assert.Equal(result.Items[0], 11);
+        Assert.Single(result.Items);
+        Assert.Equal(11, result.Items[0]);
     }
 
     public class TestClass

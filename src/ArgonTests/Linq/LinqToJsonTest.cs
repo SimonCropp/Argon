@@ -194,7 +194,7 @@ public class LinqToJsonTest : TestFixtureBase
     {
         IEnumerable tokens = new JEnumerable<JToken>();
 
-        Assert.Equal(0, tokens.Cast<JToken>().Count());
+        Assert.Empty(tokens.Cast<JToken>());
     }
 
     [Fact]
@@ -516,7 +516,7 @@ public class LinqToJsonTest : TestFixtureBase
                 where p.Value is JValue
                 select ((JValue) p.Value).Value).ToList();
 
-        Assert.Equal(1, parameterValues.Count);
+        Assert.Single(parameterValues);
         Assert.Equal("Intel", parameterValues[0]);
     }
 
@@ -938,7 +938,7 @@ public class LinqToJsonTest : TestFixtureBase
 
         Assert.NotNull(serializerBasics);
         Assert.Equal(2, since2012.Count);
-        Assert.Equal(1, linqToJson.Count);
+        Assert.Single(linqToJson);
     }
 
     [Fact]
@@ -1065,7 +1065,7 @@ public class LinqToJsonTest : TestFixtureBase
         Assert.IsType<JArray>(o["channel"]["item"]);
 
         Assert.Equal(2, o["channel"]["item"].Children()["title"].Count());
-        Assert.Equal(0, o["channel"]["item"].Children()["monkey"].Count());
+        Assert.Empty(o["channel"]["item"].Children()["monkey"]);
 
         Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", (string) o["channel"]["item"][0]["title"]);
 
@@ -1208,8 +1208,8 @@ public class LinqToJsonTest : TestFixtureBase
             """,
             o.ToString());
 
-        Assert.IsType(typeof(JObject), o);
-        Assert.IsType(typeof(JObject), o["channel"]);
+        Assert.IsType<JObject>(o);
+        Assert.IsType<JObject>(o["channel"]);
         Assert.Equal("James Newton-King", (string) o["channel"]["title"]);
         Assert.Equal(2, o["channel"]["item"].Children().Count());
 
@@ -1221,7 +1221,7 @@ public class LinqToJsonTest : TestFixtureBase
             3,
             4
         });
-        Assert.IsType(typeof(JArray), a);
+        Assert.IsType<JArray>(a);
         Assert.Equal(5, a.Count);
     }
 
@@ -1289,8 +1289,8 @@ public class LinqToJsonTest : TestFixtureBase
             """,
             o.ToString());
 
-        Assert.IsType(typeof(JObject), o);
-        Assert.IsType(typeof(JObject), o["channel"]);
+        Assert.IsType<JObject>(o);
+        Assert.IsType<JObject>(o["channel"]);
         Assert.Equal("James Newton-King", (string) o["channel"]["title"]);
         Assert.Equal(2, o["channel"]["item"].Children().Count());
 
@@ -1302,7 +1302,7 @@ public class LinqToJsonTest : TestFixtureBase
             3,
             4
         });
-        Assert.IsType(typeof(JArray), a);
+        Assert.IsType<JArray>(a);
         Assert.Equal(5, a.Count);
     }
 
@@ -1517,7 +1517,7 @@ public class LinqToJsonTest : TestFixtureBase
             {
                 users.Add("name2", name);
 
-                Assert.Equal(users["name2"], "Matthew Doig");
+                Assert.Equal("Matthew Doig", users["name2"]);
             },
             "The best overloaded method match for 'System.Collections.Generic.Dictionary<string,string>.Add(string, string)' has some invalid arguments");
     }

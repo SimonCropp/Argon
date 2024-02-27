@@ -15,7 +15,7 @@ public class Issue1752 : TestFixtureBase
         Assert.NotNull(t1.Obj);
 
         var data = (byte[])t1.Obj;
-        Assert.Equal(0, data.Length);
+        Assert.Empty(data);
     }
 
     [Fact]

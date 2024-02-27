@@ -34,6 +34,6 @@ public class StrictEqualsQuery : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(1, strictResults.Count);
+        Assert.Single(strictResults);
     }
 }

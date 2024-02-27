@@ -102,8 +102,8 @@ public class ExpandoObjectConverterTests : TestFixtureBase
 
         var o = JsonConvert.DeserializeObject<ExpandoContainer>(json);
 
-        Assert.Equal(o.Before, "Before!");
-        Assert.Equal(o.After, "After!");
+        Assert.Equal("Before!", o.Before);
+        Assert.Equal("After!", o.After);
         Assert.NotNull(o.Expando);
 
         dynamic d = o.Expando;

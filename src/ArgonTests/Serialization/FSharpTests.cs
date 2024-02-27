@@ -91,7 +91,7 @@ public class FSharpTests : TestFixtureBase
     }
 
     // ReSharper disable once UnusedMember.Global
-    public void Converters(object target)
+    void Converters(object target)
     {
         #region FSharpConvertersInstances
 

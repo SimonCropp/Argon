@@ -366,7 +366,7 @@ public class ContractResolverTests : TestFixtureBase
         var resolver = new DefaultContractResolver();
         var contract = (JsonObjectContract) resolver.ResolveContract(typeof(NumberFormatInfo));
 
-        Assert.False(contract.Properties.Any(_ => _.PropertyName == "InvariantInfo"));
+        Assert.DoesNotContain(contract.Properties, _ => _.PropertyName == "InvariantInfo");
     }
 
     [Fact]
@@ -377,7 +377,7 @@ public class ContractResolverTests : TestFixtureBase
 
         Assert.Null(contract.DefaultCreator);
         Assert.NotNull(contract.ParameterizedCreator);
-        Assert.Equal(1, contract.CreatorParameters.Count);
+        Assert.Single(contract.CreatorParameters);
         Assert.Equal("name", contract.CreatorParameters[0].PropertyName);
 
         contract.ParameterizedCreator = null;
@@ -612,6 +612,6 @@ public class ContractResolverTests : TestFixtureBase
 
         var contract = resolver.ResolveContract(typeof(Regex));
 
-        Assert.IsType(typeof(RegexConverter), contract.InternalConverter);
+        Assert.IsType<RegexConverter>(contract.InternalConverter);
     }
 }

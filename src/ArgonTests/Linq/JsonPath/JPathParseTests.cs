@@ -49,7 +49,7 @@ public class JPathParseTests : TestFixtureBase
     public void SingleQuotedPropertyWithWhitespace()
     {
         var path = new JPath("[  'Blah'  ]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("Blah", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -57,7 +57,7 @@ public class JPathParseTests : TestFixtureBase
     public void SingleQuotedPropertyWithDots()
     {
         var path = new JPath("['Blah.Ha']");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("Blah.Ha", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -65,7 +65,7 @@ public class JPathParseTests : TestFixtureBase
     public void SingleQuotedPropertyWithBrackets()
     {
         var path = new JPath("['[*]']");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("[*]", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -73,7 +73,7 @@ public class JPathParseTests : TestFixtureBase
     public void SinglePropertyWithRoot()
     {
         var path = new JPath("$.Blah");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("Blah", ((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -107,7 +107,7 @@ public class JPathParseTests : TestFixtureBase
     public void WildcardPropertyWithRoot()
     {
         var path = new JPath("$.*");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Null(((FieldFilter) path.Filters[0]).Name);
     }
 
@@ -123,7 +123,7 @@ public class JPathParseTests : TestFixtureBase
     public void RootArrayNoDot()
     {
         var path = new JPath("$[1]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(1, ((ArrayIndexFilter) path.Filters[0]).Index);
     }
 
@@ -131,7 +131,7 @@ public class JPathParseTests : TestFixtureBase
     public void WildcardArray()
     {
         var path = new JPath("[*]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Null(((ArrayIndexFilter) path.Filters[0]).Index);
     }
 
@@ -156,7 +156,7 @@ public class JPathParseTests : TestFixtureBase
     public void SingleScanWithRoot()
     {
         var path = new JPath("$..Blah");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal("Blah", ((ScanFilter) path.Filters[0]).Name);
     }
 
@@ -181,14 +181,14 @@ public class JPathParseTests : TestFixtureBase
         var paths = (List<PathFilter>) expression.Left;
 
         object o = paths[0];
-        Assert.IsType(typeof(FieldFilter), o);
+        Assert.IsType<FieldFilter>(o);
     }
 
     [Fact]
     public void WildcardScanWithRoot()
     {
         var path = new JPath("$..*");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Null(((ScanFilter) path.Filters[0]).Name);
     }
 
@@ -196,7 +196,7 @@ public class JPathParseTests : TestFixtureBase
     public void WildcardScanWithRootWithWhitespace()
     {
         var path = new JPath("$..* ");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Null(((ScanFilter) path.Filters[0]).Name);
     }
 
@@ -236,7 +236,7 @@ public class JPathParseTests : TestFixtureBase
         var expressions = (BooleanQueryExpression) ((QueryFilter) path.Filters[1]).Expression;
         Assert.Equal(QueryOperator.Exists, expressions.Operator);
         var paths = (List<PathFilter>) expressions.Left;
-        Assert.Equal(1, paths.Count);
+        Assert.Single(paths);
         Assert.Equal("name", ((ScanFilter) paths[0]).Name);
     }
 
@@ -486,9 +486,9 @@ public class JPathParseTests : TestFixtureBase
         var paths = (List<PathFilter>) expressions.Left;
         Assert.Equal(2, paths.Count);
         object o = paths[0];
-        Assert.IsType(typeof(RootFilter), o);
+        Assert.IsType<RootFilter>(o);
         object o1 = paths[1];
-        Assert.IsType(typeof(FieldFilter), o1);
+        Assert.IsType<FieldFilter>(o1);
     }
 
     [Fact]
@@ -576,7 +576,7 @@ public class JPathParseTests : TestFixtureBase
     public void IndexerOnly()
     {
         var path = new JPath("[111119990]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(111119990, ((ArrayIndexFilter) path.Filters[0]).Index);
     }
 
@@ -584,7 +584,7 @@ public class JPathParseTests : TestFixtureBase
     public void IndexerOnlyWithWhitespace()
     {
         var path = new JPath("[  10  ]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(10, ((ArrayIndexFilter) path.Filters[0]).Index);
     }
 
@@ -592,7 +592,7 @@ public class JPathParseTests : TestFixtureBase
     public void MultipleIndexes()
     {
         var path = new JPath("[111119990,3]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(2, ((ArrayMultipleIndexFilter) path.Filters[0]).Indexes.Count);
         Assert.Equal(111119990, ((ArrayMultipleIndexFilter) path.Filters[0]).Indexes[0]);
         Assert.Equal(3, ((ArrayMultipleIndexFilter) path.Filters[0]).Indexes[1]);
@@ -602,7 +602,7 @@ public class JPathParseTests : TestFixtureBase
     public void MultipleIndexesWithWhitespace()
     {
         var path = new JPath("[   111119990  ,   3   ]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(2, ((ArrayMultipleIndexFilter) path.Filters[0]).Indexes.Count);
         Assert.Equal(111119990, ((ArrayMultipleIndexFilter) path.Filters[0]).Indexes[0]);
         Assert.Equal(3, ((ArrayMultipleIndexFilter) path.Filters[0]).Indexes[1]);
@@ -642,7 +642,7 @@ public class JPathParseTests : TestFixtureBase
     public void SlicingIndex()
     {
         var path = new JPath("[111119990:3]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(111119990, ((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Equal(3, ((ArraySliceFilter) path.Filters[0]).End);
         Assert.Null(((ArraySliceFilter) path.Filters[0]).Step);
@@ -652,7 +652,7 @@ public class JPathParseTests : TestFixtureBase
     public void SlicingIndexNegative()
     {
         var path = new JPath("[-111119990:-3:-2]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(-111119990, ((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Equal(-3, ((ArraySliceFilter) path.Filters[0]).End);
         Assert.Equal(-2, ((ArraySliceFilter) path.Filters[0]).Step);
@@ -662,7 +662,7 @@ public class JPathParseTests : TestFixtureBase
     public void SlicingIndexEmptyStop()
     {
         var path = new JPath("[  -3  :  ]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(-3, ((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Null(((ArraySliceFilter) path.Filters[0]).End);
         Assert.Null(((ArraySliceFilter) path.Filters[0]).Step);
@@ -672,7 +672,7 @@ public class JPathParseTests : TestFixtureBase
     public void SlicingIndexEmptyStart()
     {
         var path = new JPath("[ : 1 : ]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Null(((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Equal(1, ((ArraySliceFilter) path.Filters[0]).End);
         Assert.Null(((ArraySliceFilter) path.Filters[0]).Step);
@@ -682,7 +682,7 @@ public class JPathParseTests : TestFixtureBase
     public void SlicingIndexWhitespace()
     {
         var path = new JPath("[  -111119990  :  -3  :  -2  ]");
-        Assert.Equal(1, path.Filters.Count);
+        Assert.Single(path.Filters);
         Assert.Equal(-111119990, ((ArraySliceFilter) path.Filters[0]).Start);
         Assert.Equal(-3, ((ArraySliceFilter) path.Filters[0]).End);
         Assert.Equal(-2, ((ArraySliceFilter) path.Filters[0]).Step);

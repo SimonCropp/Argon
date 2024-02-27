@@ -211,7 +211,7 @@ public class TimeTests : TestFixtureBase
             ]
             """);
 
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
         Assert.Equal(new(23, 59, 59), l[0]);
     }
 

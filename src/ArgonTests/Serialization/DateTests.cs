@@ -177,7 +177,7 @@ public class DateTests : TestFixtureBase
             ]
             """);
 
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
         Assert.Equal(new(2000, 12, 29), l[0]);
     }
 

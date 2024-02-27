@@ -22,7 +22,7 @@ public class JRawTests : TestFixtureBase
         var r1 = new JRaw("raw1");
         var r2 = r1.CloneToken();
 
-        Assert.IsType(typeof(JRaw), r2);
+        Assert.IsType<JRaw>(r2);
     }
 
     [Fact]

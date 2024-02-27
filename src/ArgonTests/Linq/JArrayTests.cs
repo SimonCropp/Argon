@@ -31,10 +31,10 @@ public class JArrayTests : TestFixtureBase
     public void Clear()
     {
         var a = new JArray {1};
-        Assert.Equal(1, a.Count);
+        Assert.Single(a);
 
         a.Clear();
-        Assert.Equal(0, a.Count);
+        Assert.Empty(a);
     }
 
     [Fact]
@@ -130,14 +130,14 @@ public class JArrayTests : TestFixtureBase
         var v = new JValue(1);
         var j = new JArray {v};
 
-        Assert.Equal(1, j.Count);
+        Assert.Single(j);
 
         XUnitAssert.False(j.Remove(new JValue(1)));
         XUnitAssert.False(j.Remove(null));
         XUnitAssert.True(j.Remove(v));
         XUnitAssert.False(j.Remove(v));
 
-        Assert.Equal(0, j.Count);
+        Assert.Empty(j);
     }
 
     [Fact]
@@ -188,7 +188,7 @@ public class JArrayTests : TestFixtureBase
         j.RemoveAt(1);
         XUnitAssert.False(j.Contains(v3));
 
-        Assert.Equal(1, j.Count);
+        Assert.Single(j);
     }
 
     [Fact]
@@ -471,7 +471,7 @@ public class JArrayTests : TestFixtureBase
         Assert.Equal(3, (int) a[2]);
 
         a.ReplaceAll(1);
-        Assert.Equal(1, a.Count);
+        Assert.Single(a);
         Assert.Equal(1, (int) a[0]);
     }
 
@@ -516,13 +516,13 @@ public class JArrayTests : TestFixtureBase
 
         var decks = (JArray) JObject.Parse(json)["decks"];
         var l = decks.ToList();
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
 
         json = """{"decks":[1]}""";
 
         decks = (JArray) JObject.Parse(json)["decks"];
         l = decks.ToList();
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
     }
 
     [Fact]

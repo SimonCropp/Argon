@@ -670,7 +670,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeBoolAsStringInDictionary()
     {
         var d = JsonConvert.DeserializeObject<Dictionary<string, string>>("{\"Test1\":false}");
-        Assert.Equal(1, d.Count);
+        Assert.Single(d);
         Assert.Equal("false", d["Test1"]);
     }
 
@@ -807,19 +807,19 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(3, o.Count);
         XUnitAssert.True((bool) o["A"]);
         XUnitAssert.False((bool) o["B"]);
-        Assert.Equal(1, o["C"].Count());
+        Assert.Single(o["C"]);
         Assert.Equal(1, (int) o["C"][0]);
 
         Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
 
         json = "{/* Test */}";
         o = (JObject) JsonConvert.DeserializeObject(json);
-        Assert.Equal(0, o.Count);
+        Assert.Empty(o);
         Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
 
         json = """{"A": true/* Test */}""";
         o = (JObject) JsonConvert.DeserializeObject(json);
-        Assert.Equal(1, o.Count);
+        Assert.Single(o);
         XUnitAssert.True((bool) o["A"]);
         Assert.True(JToken.DeepEquals(o, JObject.Parse(json)));
     }
@@ -856,7 +856,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(resolver, serializer.ContractResolver);
 
         serializer.Converters.Add(new StringEnumConverter());
-        Assert.Equal(1, serializer.Converters.Count);
+        Assert.Single(serializer.Converters);
 
         serializer.EqualityComparer = EqualityComparer<object>.Default;
         Assert.Equal(EqualityComparer<object>.Default, serializer.EqualityComparer);
@@ -930,7 +930,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(resolver, settings.ContractResolver);
 
         settings.Converters.Add(new StringEnumConverter());
-        Assert.Equal(1, settings.Converters.Count);
+        Assert.Single(settings.Converters);
 
         settings.EqualityComparer = EqualityComparer<object>.Default;
         Assert.Equal(EqualityComparer<object>.Default, settings.EqualityComparer);
@@ -1006,7 +1006,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(resolver, proxy.ContractResolver);
 
         proxy.Converters.Add(new StringEnumConverter());
-        Assert.Equal(1, proxy.Converters.Count);
+        Assert.Single(proxy.Converters);
 
         proxy.EqualityComparer = EqualityComparer<object>.Default;
         Assert.Equal(EqualityComparer<object>.Default, proxy.EqualityComparer);
@@ -1063,7 +1063,7 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var o = JsonConvert.DeserializeObject("100000000000000000000000000000000000000.0");
 
-        Assert.IsType(typeof(double), o);
+        Assert.IsType<double>(o);
 
         Assert.True(MathUtils.ApproxEquals(1E+38, (double) o));
     }
@@ -1344,10 +1344,10 @@ public class JsonSerializerTest : TestFixtureBase
         var executorObject2 = (MethodExecutorObject)JsonConvert.DeserializeObject(output, typeof(MethodExecutorObject));
 
         Assert.NotSame(executorObject, executorObject2);
-        Assert.Equal(executorObject2.serverClassName, "BanSubs");
-        Assert.Equal(executorObject2.serverMethodParams.Length, 4);
+        Assert.Equal("BanSubs", executorObject2.serverClassName);
+        Assert.Equal(4, executorObject2.serverMethodParams.Length);
         Assert.Contains("101", executorObject2.serverMethodParams);
-        Assert.Equal(executorObject2.clientGetResultFunction, "ClientBanSubsCB");
+        Assert.Equal("ClientBanSubsCB", executorObject2.clientGetResultFunction);
     }
 
     [Fact]
@@ -1384,8 +1384,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<GetOnlyPropertyClass>(value);
 
-        Assert.Equal(c.Field, "Field");
-        Assert.Equal(c.GetOnlyProperty, "GetOnlyProperty");
+        Assert.Equal("Field", c.Field);
+        Assert.Equal("GetOnlyProperty", c.GetOnlyProperty);
     }
 
     [Fact]
@@ -1395,7 +1395,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var c = JsonConvert.DeserializeObject<SetOnlyPropertyClass>(value);
 
-        Assert.Equal(c.Field, "Field");
+        Assert.Equal("Field", c.Field);
     }
 
     [Fact]
@@ -1433,7 +1433,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var torrentsArray = o["torrents"];
         var nestedTorrentsArray = torrentsArray[0];
-        Assert.Equal(nestedTorrentsArray.Children().Count(), 19);
+        Assert.Equal(19, nestedTorrentsArray.Children().Count());
     }
 
     [Fact]
@@ -1481,7 +1481,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var jsonNetResult = JsonConvert.DeserializeObject<List<string>>(json);
 
-        Assert.Equal(1, jsonNetResult.Count);
+        Assert.Single(jsonNetResult);
         Assert.Equal(dataContractResult[0], jsonNetResult[0]);
     }
 
@@ -1500,7 +1500,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var jsonNetResult = JsonConvert.DeserializeObject<List<string>>(json);
 
-        Assert.Equal(1, jsonNetResult.Count);
+        Assert.Single(jsonNetResult);
         Assert.Equal(dataContractResult[0], jsonNetResult[0]);
 #if !NET6_0_OR_GREATER
         Assert.Equal(javaScriptSerializerResult[0], jsonNetResult[0]);
@@ -1686,7 +1686,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.Equal("hello", wibble.Foo);
 
-        Assert.Equal(1, wibble.Bar.Count);
+        Assert.Single(wibble.Bar);
     }
 
     [Fact]
@@ -2275,7 +2275,7 @@ public class JsonSerializerTest : TestFixtureBase
         }
         catch (JsonSerializationException exception)
         {
-            Assert.True(exception.Message.StartsWith("Required property 'FirstName' expects a value but got null. Path ''"));
+            Assert.StartsWith("Required property 'FirstName' expects a value but got null. Path ''", exception.Message);
         }
     }
 
@@ -2310,7 +2310,7 @@ public class JsonSerializerTest : TestFixtureBase
         }
         catch (JsonSerializationException exception)
         {
-            Assert.True(exception.Message.StartsWith("Required property 'LastName' not found in JSON. Path ''"));
+            Assert.StartsWith("Required property 'LastName' not found in JSON. Path ''", exception.Message);
         }
     }
 
@@ -2569,7 +2569,7 @@ public class JsonSerializerTest : TestFixtureBase
         }
         catch (JsonSerializationException exception)
         {
-            Assert.True(exception.Message.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''"));
+            Assert.StartsWith("Required property 'TestProperty2' not found in JSON. Path ''", exception.Message);
         }
     }
 
@@ -2764,7 +2764,7 @@ public class JsonSerializerTest : TestFixtureBase
             });
 
         Assert.Equal("Name!", c.Name);
-        Assert.Equal(1, c.Dictionary.Count);
+        Assert.Single(c.Dictionary);
         Assert.Equal(11, c.Dictionary["Item"]);
     }
 
@@ -2858,9 +2858,9 @@ public class JsonSerializerTest : TestFixtureBase
         var s = JsonConvert.DeserializeObject<Shortie>(o["short"].ToString());
         Assert.NotNull(s);
 
-        Assert.Equal(s.Original, "http://www.contrast.ie/blog/online&#45;marketing&#45;2009/");
-        Assert.Equal(s.Short, "m2sqc6");
-        Assert.Equal(s.Shortened, "http://short.ie/m2sqc6");
+        Assert.Equal("http://www.contrast.ie/blog/online&#45;marketing&#45;2009/", s.Original);
+        Assert.Equal("m2sqc6", s.Short);
+        Assert.Equal("http://short.ie/m2sqc6", s.Shortened);
     }
 
     [Fact]
@@ -3139,8 +3139,7 @@ public class JsonSerializerTest : TestFixtureBase
         }
         catch (JsonSerializationException exception)
         {
-            Assert.True(exception.Message.StartsWith(
-                $$"""Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'System.Collections.Generic.List`1[TestObjects.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{{Environment.NewLine}}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{{Environment.NewLine}}Path ''"""));
+            Assert.StartsWith($$"""Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'System.Collections.Generic.List`1[TestObjects.Person]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.{{Environment.NewLine}}To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.{{Environment.NewLine}}Path ''""", exception.Message);
         }
     }
 
@@ -3703,7 +3702,7 @@ public class JsonSerializerTest : TestFixtureBase
         }
         catch (JsonSerializationException exception)
         {
-            Assert.True(exception.Message.StartsWith("Could not convert string 'TestObjects.Person' to dictionary key type 'TestObjects.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['TestObjects.Person']'"));
+            Assert.StartsWith("Could not convert string 'TestObjects.Person' to dictionary key type 'TestObjects.Person'. Create a TypeConverter to convert from the string to the key type object. Path '['TestObjects.Person']'", exception.Message);
         }
     }
 
@@ -3832,7 +3831,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(2, d.Dictionary.Count);
         Assert.Equal("new", d.Dictionary["existing"]);
         Assert.Equal("appended", d.Dictionary["appended"]);
-        Assert.Equal(1, d.List.Count);
+        Assert.Single(d.List);
         Assert.Equal("existing", d.List[0]);
     }
 
@@ -4045,7 +4044,7 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal("""{"key":"value"}""", json);
 
         var newModelStateDictionary = JsonConvert.DeserializeObject<ModelStateDictionary<string>>(json);
-        Assert.Equal(1, newModelStateDictionary.Count);
+        Assert.Single(newModelStateDictionary);
         Assert.Equal("value", newModelStateDictionary["key"]);
     }
 
@@ -4298,7 +4297,7 @@ public class JsonSerializerTest : TestFixtureBase
         var result = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
         Assert.Equal(3, result.Count);
-        Assert.Equal(1, ((JObject) result["Father"]).Count);
+        Assert.Single((JObject) result["Father"]);
         Assert.Equal("blah!", (string) ((JObject) result["Father"])["blah"]);
     }
 
@@ -4448,9 +4447,9 @@ public class JsonSerializerTest : TestFixtureBase
         var d = JsonConvert.DeserializeObject<HashSet<string>>(jsonText);
 
         Assert.Equal(3, d.Count);
-        Assert.True(d.Contains("One"));
-        Assert.True(d.Contains("2"));
-        Assert.True(d.Contains("III"));
+        Assert.Contains("One", d);
+        Assert.Contains("2", d);
+        Assert.Contains("III", d);
     }
 
     [Fact]
@@ -4466,8 +4465,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var z = (ByteArrayTestClass[]) serializer1.Deserialize(reader, typeof(ByteArrayTestClass[]));
         Assert.Equal(2, z.Length);
-        Assert.Equal(0, z[0].Prop1.Length);
-        Assert.Equal(0, z[1].Prop1.Length);
+        Assert.Empty(z[0].Prop1);
+        Assert.Empty(z[1].Prop1);
     }
 
     [Fact]
@@ -4600,19 +4599,19 @@ public class JsonSerializerTest : TestFixtureBase
 
         IDictionary<string, object> newExpando = JsonConvert.DeserializeObject<ExpandoObject>(json);
 
-        Assert.IsType(typeof(long), newExpando["Int"]);
+        Assert.IsType<long>(newExpando["Int"]);
         Assert.Equal((long) expando.Int, newExpando["Int"]);
 
-        Assert.IsType(typeof(double), newExpando["Decimal"]);
+        Assert.IsType<double>(newExpando["Decimal"]);
         Assert.Equal(expando.Decimal, newExpando["Decimal"]);
 
-        Assert.IsType(typeof(ExpandoObject), newExpando["Complex"]);
+        Assert.IsType<ExpandoObject>(newExpando["Complex"]);
         IDictionary<string, object> o = (ExpandoObject) newExpando["Complex"];
 
-        Assert.IsType(typeof(string), o["String"]);
+        Assert.IsType<string>(o["String"]);
         Assert.Equal(expando.Complex.String, o["String"]);
 
-        Assert.IsType(typeof(string), o["DateTime"]);
+        Assert.IsType<string>(o["DateTime"]);
         Assert.Equal("2000-12-20T18:55:00Z", o["DateTime"]);
     }
 
@@ -4776,8 +4775,8 @@ public class JsonSerializerTest : TestFixtureBase
 
         var meh = JsonConvert.DeserializeObject<PrivateSetterBase>(json, settings);
 
-        Assert.Equal(((PrivateSetterDerived) meh).IDoWork, "woo");
-        Assert.Equal(meh.IDontWork, "meh");
+        Assert.Equal("woo", ((PrivateSetterDerived) meh).IDoWork);
+        Assert.Equal("meh", meh.IDontWork);
     }
 
     [Fact]
@@ -5873,10 +5872,10 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.NotNull(o);
         Assert.Equal(4, errors.Count);
-        Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' not found in JSON. Path ''"));
-        Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' not found in JSON. Path ''"));
-        Assert.True(errors[2].StartsWith("Required property 'AllowNullProperty' not found in JSON. Path ''"));
-        Assert.True(errors[3].StartsWith("Required property 'AlwaysProperty' not found in JSON. Path ''"));
+        Assert.StartsWith("Required property 'NonAttributeProperty' not found in JSON. Path ''", errors[0]);
+        Assert.StartsWith("Required property 'UnsetProperty' not found in JSON. Path ''", errors[1]);
+        Assert.StartsWith("Required property 'AllowNullProperty' not found in JSON. Path ''", errors[2]);
+        Assert.StartsWith("Required property 'AlwaysProperty' not found in JSON. Path ''", errors[3]);
     }
 
     [Fact]
@@ -5896,9 +5895,9 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.NotNull(o);
         Assert.Equal(3, errors.Count);
-        Assert.True(errors[0].StartsWith("Required property 'NonAttributeProperty' expects a value but got null. Path ''"));
-        Assert.True(errors[1].StartsWith("Required property 'UnsetProperty' expects a value but got null. Path ''"));
-        Assert.True(errors[2].StartsWith("Required property 'AlwaysProperty' expects a value but got null. Path ''"));
+        Assert.StartsWith("Required property 'NonAttributeProperty' expects a value but got null. Path ''", errors[0]);
+        Assert.StartsWith("Required property 'UnsetProperty' expects a value but got null. Path ''", errors[1]);
+        Assert.StartsWith("Required property 'AlwaysProperty' expects a value but got null. Path ''", errors[2]);
     }
 
     [Fact]
@@ -6241,7 +6240,7 @@ public class JsonSerializerTest : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         var mt = (ItemConverterTestClass) serializer.Deserialize(reader, typeof(ItemConverterTestClass));
-        Assert.Equal(1, mt.MyProperty.Count);
+        Assert.Single(mt.MyProperty);
     }
 
     [Fact]
@@ -6258,7 +6257,7 @@ public class JsonSerializerTest : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         var mt = (ItemConverterTestClass) serializer.Deserialize(reader, typeof(ItemConverterTestClass));
-        Assert.Equal(1, mt.MyProperty.Count);
+        Assert.Single(mt.MyProperty);
     }
 
     [Fact]
@@ -6287,7 +6286,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeRelativeUri()
     {
         var uris = JsonConvert.DeserializeObject<IList<Uri>>("""["http://localhost/path?query#hash"]""");
-        Assert.Equal(1, uris.Count);
+        Assert.Single(uris);
         Assert.Equal(new("http://localhost/path?query#hash"), uris[0]);
 
         var uri = JsonConvert.DeserializeObject<Uri>(
@@ -7181,7 +7180,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void ChildClassWithProtectedOverridePlusJsonProperty_Serialize()
     {
         var c = (JsonObjectContract) DefaultContractResolver.Instance.ResolveContract(typeof(ChildClassWithProtectedOverridePlusJsonProperty));
-        Assert.Equal(1, c.Properties.Count);
+        Assert.Single(c.Properties);
 
         var propertyValue = "test";
         var testJson = $"{{ 'MyProperty' : '{propertyValue}' }}";
@@ -7446,6 +7445,6 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(settings.FloatPrecision, clone.FloatPrecision);
         Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.FloatPrecision)));
 
-        Assert.Equal(0, propertyNames.Count);
+        Assert.Empty(propertyNames);
     }
 }

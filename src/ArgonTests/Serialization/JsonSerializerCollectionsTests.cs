@@ -16,9 +16,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var a = JsonConvert.DeserializeObject<ConstructorCollectionContainer>("{'a':1,'b':['aaa'],'c':['aaa']}");
 
         Assert.Equal(1, a.A);
-        Assert.Equal(1, a.B.Count());
+        Assert.Single(a.B);
         Assert.Equal("aaa", a.B.ElementAt(0));
-        Assert.Equal(0, a.C.Count());
+        Assert.Empty(a.C);
     }
 
     public class ConstructorCollectionContainer(int a)
@@ -689,7 +689,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     {
         var d = JsonConvert.DeserializeObject<Dictionary<DateTime, string>>("""{"04/28/2013 00:00:00":"test"}""");
 
-        Assert.Equal(1, d.Count);
+        Assert.Single(d);
 
         var key = DateTime.Parse("04/28/2013 00:00:00", InvariantCulture);
         Assert.Equal("test", d[key]);
@@ -701,7 +701,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var l = JsonConvert.DeserializeObject<IList>("['string!']");
 
         Assert.Equal(typeof(List<object>), l.GetType());
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
         Assert.Equal("string!", l[0]);
     }
 
@@ -750,7 +750,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal(1, dic["one"]);
         Assert.Equal(2, dic["two"]);
 
-        Assert.IsType(typeof(ReadOnlyDictionary<string, int>), dic);
+        Assert.IsType<ReadOnlyDictionary<string, int>>(dic);
     }
 
     [Fact]
@@ -980,7 +980,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void DeserializeIDictionary()
     {
         var dictionary = JsonConvert.DeserializeObject<IDictionary>("{'name':'value!'}");
-        Assert.Equal(1, dictionary.Count);
+        Assert.Single(dictionary);
         Assert.Equal("value!", dictionary["name"]);
     }
 
@@ -1058,7 +1058,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var newObject = JsonConvert.DeserializeObject<GameObject>(originalJson);
 
-        Assert.Equal(1, newObject.Components.Count);
+        Assert.Single(newObject.Components);
         Assert.Equal("Id!", newObject.Id);
         Assert.Equal("Name!", newObject.Name);
     }
@@ -1252,14 +1252,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         var c2 = JsonConvert.DeserializeObject<PopulateReadOnlyTestClass>(json);
 
-        Assert.Equal(1, c2.NonReadOnlyDictionary.Count);
+        Assert.Single(c2.NonReadOnlyDictionary);
         Assert.Equal(12, c2.NonReadOnlyDictionary["first"]);
 
         Assert.Equal(2, c2.NonReadOnlyList.Count);
         Assert.Equal(1, c2.NonReadOnlyList[0]);
         Assert.Equal(11, c2.NonReadOnlyList[1]);
 
-        Assert.Equal(1, c2.Array.Count);
+        Assert.Single(c2.Array);
         Assert.Equal(13, c2.Array[0]);
     }
 
@@ -1933,10 +1933,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal("Navigate", o.Method);
         Assert.Equal(3, o.Data.Length);
         Assert.Equal("dashboard", o.Data[0]);
-        Assert.IsType(typeof(JArray), o.Data[1]);
+        Assert.IsType<JArray>(o.Data[1]);
         Assert.Equal(4, ((JArray) o.Data[1]).Count);
-        Assert.IsType(typeof(JObject), o.Data[2]);
-        Assert.Equal(1, ((JObject) o.Data[2]).Count);
+        Assert.IsType<JObject>(o.Data[2]);
+        Assert.Single((JObject) o.Data[2]);
         Assert.Equal(1, (int) ((JObject) o.Data[2])["one"]);
     }
 
@@ -1948,7 +1948,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         Assert.Equal(4, o.Count);
         Assert.Equal(3, ((JArray) o[2]).Count);
-        Assert.Equal(0, ((JObject) o[3]).Count);
+        Assert.Empty((JObject) o[3]);
     }
 
     [Fact]
@@ -2332,14 +2332,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
     public void DeserializeEmptyEnumerable_NoItems()
     {
         var c = JsonConvert.DeserializeObject<ValuesClass>("""{"Values":[]}""");
-        Assert.Equal(0, c.Values.Count());
+        Assert.Empty(c.Values);
     }
 
     [Fact]
     public void DeserializeEmptyEnumerable_HasItems()
     {
         var c = JsonConvert.DeserializeObject<ValuesClass>("""{"Values":["hello"]}""");
-        Assert.Equal(1, c.Values.Count());
+        Assert.Single(c.Values);
         Assert.Equal("hello", c.Values.ElementAt(0));
     }
 

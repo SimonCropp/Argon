@@ -209,22 +209,22 @@ public class FloatTests : TestFixtureBase
 
         using var jsonReader = new JsonTextReader(sr);
         jsonReader.Read();
-        Assert.Equal(jsonReader.TokenType, JsonToken.StartArray);
+        Assert.Equal(JsonToken.StartArray, jsonReader.TokenType);
 
         jsonReader.Read();
-        Assert.Equal(jsonReader.TokenType, JsonToken.Float);
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
         Assert.Equal(jsonReader.Value, double.NaN);
 
         jsonReader.Read();
-        Assert.Equal(jsonReader.TokenType, JsonToken.Float);
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
         Assert.Equal(jsonReader.Value, double.PositiveInfinity);
 
         jsonReader.Read();
-        Assert.Equal(jsonReader.TokenType, JsonToken.Float);
+        Assert.Equal(JsonToken.Float, jsonReader.TokenType);
         Assert.Equal(jsonReader.Value, double.NegativeInfinity);
 
         jsonReader.Read();
-        Assert.Equal(jsonReader.TokenType, JsonToken.EndArray);
+        Assert.Equal(JsonToken.EndArray, jsonReader.TokenType);
     }
 
     [Fact]

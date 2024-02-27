@@ -748,7 +748,7 @@ public class JTokenTests : TestFixtureBase
 
         token = a[0];
         token.Remove();
-        Assert.Equal(0, a.Count);
+        Assert.Empty(a);
 
         Assert.Null(token.Next);
         Assert.Null(token.Previous);
@@ -1075,7 +1075,7 @@ public class JTokenTests : TestFixtureBase
         Assert.Equal(5, (int) first);
 
         a.RemoveAll();
-        Assert.Equal(0, a.Count);
+        Assert.Empty(a);
 
         Assert.Null(first.Parent);
         Assert.Null(first.Next);
@@ -1174,7 +1174,7 @@ public class JTokenTests : TestFixtureBase
         a[1].AddAfterSelf("pie");
 
         Assert.Equal(5, (int) a[0]);
-        Assert.Equal(1, a[1].Count());
+        Assert.Single(a[1]);
         Assert.Equal("pie", (string) a[2]);
         Assert.Equal(5, a.Count);
 

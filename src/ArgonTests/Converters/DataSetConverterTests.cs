@@ -74,7 +74,7 @@ public class DataSetConverterTests : TestFixtureBase
         var deserializedDataSet = JsonConvert.DeserializeObject<DataSet>(json, settings);
         Assert.NotNull(deserializedDataSet);
 
-        Assert.Equal(1, deserializedDataSet.Tables.Count);
+        Assert.Single(deserializedDataSet.Tables);
 
         var dt = deserializedDataSet.Tables[0];
 

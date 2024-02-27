@@ -19,14 +19,14 @@ public class DataTableConverterTests : TestFixtureBase
         settings.AddDataSetConverters();
         var dt = JsonConvert.DeserializeObject<DataTable>(jsonString2, settings);
 
-        Assert.Equal(1, dt.Columns.Count);
+        Assert.Single(dt.Columns);
         Assert.Equal(typeof(string[]), dt.Columns["col1"].DataType);
 
         Assert.Equal(1, dt.Rows.Count);
         Assert.NotNull(dt.Rows[0]["col1"]);
 
         var value = (object[]) dt.Rows[0]["col1"];
-        Assert.Equal(0, value.Length);
+        Assert.Empty(value);
     }
 
     [Fact]
@@ -442,7 +442,7 @@ public class DataTableConverterTests : TestFixtureBase
         Assert.Equal("shoes", table.Rows[2]["item"]);
         XUnitAssert.AreEqual(49.99, (double) table.Rows[0]["price"], 0.01);
         XUnitAssert.AreEqual(54.99, (double) table.Rows[1]["price"], 0.01);
-        Assert.IsType(typeof(DBNull), table.Rows[2]["price"]);
+        Assert.IsType<DBNull>(table.Rows[2]["price"]);
     }
 
     [Fact]

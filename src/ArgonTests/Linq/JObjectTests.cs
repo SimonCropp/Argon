@@ -230,7 +230,7 @@ public class JObjectTests : TestFixtureBase
         ((ICollection<KeyValuePair<string, JToken>>) o).Add(new("PropertyNameValue", new JValue(1)));
 
         Assert.Equal(1, (int) o["PropertyNameValue"]);
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
     }
 
     [Fact]
@@ -247,7 +247,7 @@ public class JObjectTests : TestFixtureBase
         var p = (JProperty) o.Children().ElementAt(0);
 
         ((ICollection<KeyValuePair<string, JToken>>) o).Clear();
-        Assert.Equal(0, o.Children().Count());
+        Assert.Empty(o.Children());
 
         Assert.Null(p.Parent);
     }
@@ -262,7 +262,7 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue", v
             }
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         var contains = ((ICollection<KeyValuePair<string, JToken>>) o).Contains(new("PropertyNameValue", new JValue(1)));
         XUnitAssert.False(contains);
@@ -286,7 +286,7 @@ public class JObjectTests : TestFixtureBase
                 "PropertyNameValue", new JValue(1)
             }
         };
-        Assert.Equal(1, o.Children().Count());
+        Assert.Single(o.Children());
 
         var contains = o.ContainsKey("PropertyNameValue");
         XUnitAssert.True(contains);
@@ -792,11 +792,11 @@ public class JObjectTests : TestFixtureBase
         var p = new JProperty("Test", 1);
         IList<JToken> l = new JObject(p);
 
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
 
         l.Clear();
 
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
     }
 
     [Fact]
@@ -869,12 +869,12 @@ public class JObjectTests : TestFixtureBase
         Assert.Equal(2, l.Count);
 
         l.Remove(p1);
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
         Assert.False(l.Contains(p1));
         Assert.True(l.Contains(p2));
 
         l.Remove(p2);
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
         Assert.False(l.Contains(p2));
         Assert.Null(p2.Parent);
     }
@@ -890,10 +890,10 @@ public class JObjectTests : TestFixtureBase
         l.RemoveAt(0);
 
         l.Remove(p1);
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
 
         l.Remove(p2);
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
     }
 
     [Fact]
@@ -990,11 +990,11 @@ public class JObjectTests : TestFixtureBase
         var p = new JProperty("Test", 1);
         IList<JToken> l = new JObject(p);
 
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
 
         l.Clear();
 
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
     }
 
     [Fact]
@@ -1083,12 +1083,12 @@ public class JObjectTests : TestFixtureBase
         Assert.Equal(2, l.Count);
 
         Assert.True(l.Remove(p1));
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
         Assert.False(l.Contains(p1));
         Assert.True(l.Contains(p2));
 
         Assert.True(l.Remove(p2));
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
         Assert.False(l.Contains(p2));
         Assert.Null(p2.Parent);
     }
@@ -1104,10 +1104,10 @@ public class JObjectTests : TestFixtureBase
         l.RemoveAt(0);
 
         l.Remove(p1);
-        Assert.Equal(1, l.Count);
+        Assert.Single(l);
 
         l.Remove(p2);
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
     }
 
     [Fact]
@@ -1514,15 +1514,15 @@ public class JObjectTests : TestFixtureBase
         Assert.Empty(l1);
 
         var l2 = o.ToList<KeyValuePair<string, JToken>>();
-        Assert.Equal(0, l2.Count);
+        Assert.Empty(l2);
 
         o = JObject.Parse("{'hi':null}");
 
         l1 = o.ToList<JToken>();
-        Assert.Equal(1, l1.Count);
+        Assert.Single(l1);
 
         l2 = o.ToList<KeyValuePair<string, JToken>>();
-        Assert.Equal(1, l2.Count);
+        Assert.Single(l2);
     }
 
     [Fact]

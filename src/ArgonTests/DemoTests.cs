@@ -593,6 +593,6 @@ public class DemoTests : TestFixtureBase
         Console.WriteLine(packages.Count);
         // 1
 
-        Assert.Equal(1, packages.Count);
+        Assert.Single(packages);
     }
 }

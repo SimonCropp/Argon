@@ -623,7 +623,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Single(errors);
         Assert.Equal("Unexpected character encountered while parsing value: x. Path '[0]', line 1, position 4.", errors[0]);
 
-        Assert.Equal(1, ((int[]) o).Length);
+        Assert.Single((int[]) o);
         Assert.Equal(0, ((int[]) o)[0]);
     }
 
@@ -649,7 +649,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Assert.Single(errors);
         Assert.Equal("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
 
-        Assert.Single(((int[]) o));
+        Assert.Single((int[]) o);
         Assert.Equal(0, ((int[]) o)[0]);
     }
 
@@ -709,7 +709,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             var logMessage = serializer.Deserialize<LogMessage>(jsonTextReader);
 
             Assert.NotNull(logMessage.Events);
-            Assert.Equal(1, logMessage.Events.Count);
+            Assert.Single(logMessage.Events);
             Assert.Equal("64411", logMessage.Events[0].Code);
         }
 
@@ -1049,7 +1049,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                    """;
         var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
 
-        Assert.Equal(1, dictionary.Count);
+        Assert.Single(dictionary);
         Assert.True(dictionary.ContainsKey("model2"));
         Assert.Equal("s2", dictionary["model2"].String1);
         Assert.Equal(2, dictionary["model2"].Int1);

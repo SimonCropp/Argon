@@ -105,11 +105,11 @@ public class DelegateFactoryTests : TestFixtureBase
 
                 setter(m, "Hi");
 
-                Assert.Equal(m.Name, "Hi");
+                Assert.Equal("Hi", m.Name);
 
                 setter(p, "Hi");
 
-                Assert.Equal(p.Name, "Hi");
+                Assert.Equal("Hi", p.Name);
             },
             "Unable to cast object of type 'TestObjects.Person' to type 'TestObjects.Movie'.");
 

@@ -31,7 +31,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         var u = (User) o;
 
-        Assert.Equal(u.Name, "James");
+        Assert.Equal("James", u.Name);
     }
 
     [Fact]
@@ -185,9 +185,9 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
 
         Assert.Equal(3, circularList.Count);
         Assert.Null(circularList[0]);
-        Assert.Equal(1, circularList[1].Count);
-        Assert.Equal(1, circularList[2].Count);
-        Assert.Equal(1, circularList[2][0].Count);
+        Assert.Single(circularList[1]);
+        Assert.Single(circularList[2]);
+        Assert.Single(circularList[2][0]);
         Assert.True(ReferenceEquals(circularList, circularList[2][0][0]));
     }
 
@@ -252,7 +252,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
         });
 
         Assert.Equal(3, result.Count);
-        Assert.Equal(1, ((JObject) result["Father"]).Count);
+        Assert.Single((JObject) result["Father"]);
         Assert.Equal("blah!", (string) ((JObject) result["Father"])["blah"]);
     }
 
@@ -417,7 +417,7 @@ public class MetadataPropertyHandlingTests : TestFixtureBase
                 MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
             });
         Assert.Equal("Name!", deserialized.Name);
-        Assert.IsType(typeof(List<int>), deserialized.Value);
+        Assert.IsType<List<int>>(deserialized.Value);
 
         var nested = (List<int>) deserialized.Value;
         Assert.Equal(5, nested.Count);

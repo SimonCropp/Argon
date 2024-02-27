@@ -71,7 +71,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.persons[?(@.age > 3)]").ToList();
 
-        Assert.Equal(1, results.Count);
+        Assert.Single(results);
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.persons[?(@.age > '3')]").ToList();
 
-        Assert.Equal(1, results.Count);
+        Assert.Single(results);
     }
 
     [Fact]
@@ -175,7 +175,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = models.SelectTokens("$.elements..[?(@.id=='AAA')]").ToList();
 
-        Assert.Equal(1, results.Count);
+        Assert.Single(results);
         Assert.Equal(models["elements"][0]["children"][0]["children"][0], results[0]);
     }
 
@@ -402,7 +402,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var results = o.SelectTokens("$..test").ToList();
 
-        Assert.Equal(1, results.Count);
+        Assert.Single(results);
         Assert.Equal("no one will find me", (string) results[0]);
     }
 
@@ -718,18 +718,18 @@ public class JPathExecuteTests : TestFixtureBase
         Assert.Equal(9, (int) tokens[2]);
 
         tokens = a.SelectTokens("[-1:-2:-1]").ToList();
-        Assert.Equal(1, tokens.Count);
+        Assert.Single(tokens);
         Assert.Equal(9, (int) tokens[0]);
 
         tokens = a.SelectTokens("[-2:-1]").ToList();
-        Assert.Equal(1, tokens.Count);
+        Assert.Single(tokens);
         Assert.Equal(8, (int) tokens[0]);
 
         tokens = a.SelectTokens("[1:1]").ToList();
-        Assert.Equal(0, tokens.Count);
+        Assert.Empty(tokens);
 
         tokens = a.SelectTokens("[1:2]").ToList();
-        Assert.Equal(1, tokens.Count);
+        Assert.Single(tokens);
         Assert.Equal(2, (int) tokens[0]);
 
         tokens = a.SelectTokens("[::-1]").ToList();
@@ -882,7 +882,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var tokens = a.SelectTokens("[ ?( @.hi ) ]").ToList();
         Assert.NotNull(tokens);
-        Assert.Equal(1, tokens.Count);
+        Assert.Single(tokens);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ho")), tokens[0]));
     }
 
@@ -895,7 +895,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var tokens = a.SelectTokens("[ ?( @.['hi'] == 'ha' ) ]").ToList();
         Assert.NotNull(tokens);
-        Assert.Equal(1, tokens.Count);
+        Assert.Single(tokens);
         Assert.True(JToken.DeepEquals(new JObject(new JProperty("hi", "ha")), tokens[0]));
     }
 
@@ -908,7 +908,7 @@ public class JPathExecuteTests : TestFixtureBase
 
         var tokens = a.SelectTokens("[ ?( @..hi <> 'ha' ) ]").ToList();
         Assert.NotNull(tokens);
-        Assert.Equal(1, tokens.Count);
+        Assert.Single(tokens);
         Assert.True(JToken.DeepEquals(new JArray(new JObject(new JProperty("hi", "ho"))), tokens[0]));
     }
 
@@ -934,7 +934,7 @@ public class JPathExecuteTests : TestFixtureBase
         // int has no children to query
         var tokens = a.SelectTokens("[?(@ <> 1)][?(@ <> 4)][?(@ < 7)]").ToList();
         Assert.NotNull(tokens);
-        Assert.Equal(0, tokens.Count);
+        Assert.Empty(tokens);
     }
 
     [Fact]
@@ -1047,7 +1047,7 @@ public class JPathExecuteTests : TestFixtureBase
             """);
 
         var results = a.SelectTokens("[?(@.price > @.max_price)]").ToList();
-        Assert.Equal(1, results.Count);
+        Assert.Single(results);
         Assert.Equal(a[2], results[0]);
     }
 
@@ -1369,10 +1369,10 @@ public class JPathExecuteTests : TestFixtureBase
         var a = JArray.Parse(json);
 
         var result = a.SelectTokens("$.[?($.[0].store.bicycle.price < 20)]").ToList();
-        Assert.Equal(1, result.Count);
+        Assert.Single(result);
 
         result = a.SelectTokens("$.[?($.[0].store.bicycle.price < 10)]").ToList();
-        Assert.Equal(0, result.Count);
+        Assert.Empty(result);
     }
 
     [Fact]
@@ -1505,7 +1505,7 @@ public class JPathExecuteTests : TestFixtureBase
             """);
 
         var tokens = token.SelectTokens("$..[?(@.['@Type'] == 'FindMe')]").ToList();
-        Assert.Equal(1, tokens.Count);
+        Assert.Single(tokens);
     }
 
     [Fact]
