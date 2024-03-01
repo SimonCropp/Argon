@@ -3026,16 +3026,11 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void CannotDeserializeArrayIntoObject()
+    public Task CannotDeserializeArrayIntoObject()
     {
         var json = "[]";
 
-        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Person>(json));
-        Assert.Equal("""
-                     Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'TestObjects.Person' because the type requires a JSON object (e.g. {"name":"value"}) to deserialize correctly.
-                     To fix this error either change the JSON to a JSON object (e.g. {"name":"value"}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
-                     Path '', line 1, position 1.
-                     """, exception.Message);
+        return Throws(() => JsonConvert.DeserializeObject<Person>(json));
     }
 
     [Fact]
