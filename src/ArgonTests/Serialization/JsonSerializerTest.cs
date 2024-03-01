@@ -3039,29 +3039,19 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void CannotDeserializeArrayIntoDictionary()
+    public Task CannotDeserializeArrayIntoDictionary()
     {
         var json = "[]";
 
-        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Dictionary<string, string>>(json));
-        Assert.Equal("""
-                     Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'System.Collections.Generic.Dictionary`2[System.String,System.String]' because the type requires a JSON object (e.g. {"name":"value"}) to deserialize correctly.
-                     To fix this error either change the JSON to a JSON object (e.g. {"name":"value"}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
-                     Path '', line 1, position 1.
-                     """, exception.Message);
+        return Throws(() => JsonConvert.DeserializeObject<Dictionary<string, string>>(json));
     }
 
     [Fact]
-    public void CannotDeserializeArrayIntoSerializable()
+    public Task CannotDeserializeArrayIntoSerializable()
     {
         var json = "[]";
 
-        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<Exception>(json));
-        Assert.Equal("""
-                     Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'System.Exception' because the type requires a JSON object (e.g. {"name":"value"}) to deserialize correctly.
-                     To fix this error either change the JSON to a JSON object (e.g. {"name":"value"}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
-                     Path '', line 1, position 1.
-                     """, exception.Message);
+        return Throws(() => JsonConvert.DeserializeObject<Exception>(json));
     }
 
     [Fact]
@@ -3074,16 +3064,11 @@ public class JsonSerializerTest : TestFixtureBase
     }
 
     [Fact]
-    public void CannotDeserializeArrayIntoDynamic()
+    Task CannotDeserializeArrayIntoDynamic()
     {
         var json = "[]";
 
-        var exception = Assert.Throws<JsonSerializationException>(() => JsonConvert.DeserializeObject<DynamicDictionary>(json));
-        Assert.Equal("""
-                     Cannot deserialize the current JSON array (e.g. [1,2,3]) into type 'JsonSerializerTest+DynamicDictionary' because the type requires a JSON object (e.g. {"name":"value"}) to deserialize correctly.
-                     To fix this error either change the JSON to a JSON object (e.g. {"name":"value"}) or change the deserialized type to an array or a type that implements a collection interface (e.g. ICollection, IList) like List<T> that can be deserialized from a JSON array. JsonArrayAttribute can also be added to the type to force it to deserialize from a JSON array.
-                     Path '', line 1, position 1.
-                     """, exception.Message);
+        return Throws(() => JsonConvert.DeserializeObject<DynamicDictionary>(json));
     }
 
     public class DynamicDictionary : DynamicObject

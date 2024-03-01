@@ -13,19 +13,12 @@ public sealed class JsonArrayAttribute : JsonContainerAttribute
     /// <summary>
     /// Gets or sets a value indicating whether null items are allowed in the collection.
     /// </summary>
-    public bool AllowNullItems { get; set; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonArrayAttribute" /> class.
-    /// </summary>
-    public JsonArrayAttribute()
-    {
-    }
+    public bool AllowNullItems { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonObjectAttribute" /> class with a flag indicating whether the array can contain null items.
     /// </summary>
     /// <param name="allowNullItems">A flag indicating whether the array can contain null items.</param>
-    public JsonArrayAttribute(bool allowNullItems) =>
+    public JsonArrayAttribute(bool allowNullItems = false) =>
         AllowNullItems = allowNullItems;
 }
