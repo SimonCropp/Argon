@@ -55,11 +55,19 @@ public class QueryJsonLinq : TestFixtureBase
         //Json.NET 1.3 + New license + Now on CodePlex
 
         var categories =
-            from c in rss["channel"]["item"].Children()["category"].Values<string>()
-            group c by c
-            into g
-            orderby g.Count() descending
-            select new {Category = g.Key, Count = g.Count()};
+            (
+                from c in rss["channel"]["item"]
+                    .Children()["category"]
+                    .Values<string>()
+                group c by c
+                into g
+                orderby g.Count() descending
+                select new
+                {
+                    Category = g.Key,
+                    Count = g.Count()
+                })
+            .ToList();
 
         foreach (var c in categories)
         {
@@ -72,6 +80,6 @@ public class QueryJsonLinq : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(3, categories.Count());
+        Assert.Equal(3, categories.Count);
     }
 }
