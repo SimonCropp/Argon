@@ -1004,15 +1004,18 @@ public class LinqToJsonTest : TestFixtureBase
         Assert.Equal("LINQ to JSON beta", postTitles.ElementAt(1));
 
         var categories =
-            from c in rss["channel"]["item"].Children()["category"].Values<string>()
-            group c by c
-            into g
-            orderby g.Count() descending
-            select new
-            {
-                Category = g.Key,
-                Count = g.Count()
-            };
+            (
+                from c in rss["channel"]["item"].Children()["category"].Values<string>()
+                group c by c
+                into g
+                orderby g.Count() descending
+                select new
+                {
+                    Category = g.Key,
+                    Count = g.Count()
+                }
+            )
+            .ToList();
 
         Assert.Equal("Json.NET", categories.ElementAt(0).Category);
         Assert.Equal(2, categories.ElementAt(0).Count);
