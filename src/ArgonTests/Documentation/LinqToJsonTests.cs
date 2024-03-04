@@ -30,7 +30,9 @@ public class LinqToJsonTests : TestFixtureBase
         var firstDrive = (string) o["Drives"][0];
         // DVD read/writer
 
-        var allDrives = o["Drives"].Select(t => (string) t).ToList();
+        var allDrives = o["Drives"]
+            .Select(t => (string) t)
+            .ToList();
         // DVD read/writer
         // 500 gigabyte hard drive
 
@@ -164,14 +166,14 @@ public class LinqToJsonTests : TestFixtureBase
         #region LinqToJsonCreateParse
 
         var json = """
-            {
-              CPU: 'Intel',
-              Drives: [
-                'DVD read/writer',
-                '500 gigabyte hard drive'
-              ]
-            }
-            """;
+                   {
+                     CPU: 'Intel',
+                     Drives: [
+                       'DVD read/writer',
+                       '500 gigabyte hard drive'
+                     ]
+                   }
+                   """;
 
         var o = JObject.Parse(json);
 
@@ -220,34 +222,34 @@ public class LinqToJsonTests : TestFixtureBase
         #region LinqToJsonSimpleQuerying
 
         var json = """
-            {
-              'channel': {
-                'title': 'James Newton-King',
-                'link': 'http://james.newtonking.com',
-                'description': 'James Newton-King\'s blog.',
-                'item': [
-                  {
-                    'title': 'Json.NET 1.3 + New license + Now on CodePlex',
-                    'description': 'Announcing the release of Json.NET 1.3, the MIT license and the source on CodePlex',
-                    'link': 'http://james.newtonking.com/projects/json-net.aspx',
-                    'categories': [
-                      'Json.NET',
-                      'CodePlex'
-                    ]
-                  },
-                  {
-                    'title': 'LINQ to JSON beta',
-                    'description': 'Announcing LINQ to JSON',
-                    'link': 'http://james.newtonking.com/projects/json-net.aspx',
-                    'categories': [
-                      'Json.NET',
-                      'LINQ'
-                    ]
-                  }
-                ]
-              }
-            }
-            """;
+                   {
+                     'channel': {
+                       'title': 'James Newton-King',
+                       'link': 'http://james.newtonking.com',
+                       'description': 'James Newton-King\'s blog.',
+                       'item': [
+                         {
+                           'title': 'Json.NET 1.3 + New license + Now on CodePlex',
+                           'description': 'Announcing the release of Json.NET 1.3, the MIT license and the source on CodePlex',
+                           'link': 'http://james.newtonking.com/projects/json-net.aspx',
+                           'categories': [
+                             'Json.NET',
+                             'CodePlex'
+                           ]
+                         },
+                         {
+                           'title': 'LINQ to JSON beta',
+                           'description': 'Announcing LINQ to JSON',
+                           'link': 'http://james.newtonking.com/projects/json-net.aspx',
+                           'categories': [
+                             'Json.NET',
+                             'LINQ'
+                           ]
+                         }
+                       ]
+                     }
+                   }
+                   """;
 
         var rss = JObject.Parse(json);
 
@@ -260,7 +262,9 @@ public class LinqToJsonTests : TestFixtureBase
         var categories = (JArray) rss["channel"]["item"][0]["categories"];
         // ["Json.NET", "CodePlex"]
 
-        var categoriesText = categories.Select(c => (string) c).ToList();
+        var categoriesText = categories
+            .Select(c => (string) c)
+            .ToList();
         // Json.NET
         // CodePlex
 
@@ -304,8 +308,11 @@ public class LinqToJsonTests : TestFixtureBase
         #region LinqToJsonQuerying
 
         var postTitles =
-            from p in rss["channel"]["item"]
-            select (string) p["title"];
+            (
+                from p in rss["channel"]["item"]
+                select (string) p["title"]
+            )
+            .ToList();
 
         foreach (var item in postTitles)
         {
@@ -316,11 +323,17 @@ public class LinqToJsonTests : TestFixtureBase
         //Json.NET 1.3 + New license + Now on CodePlex
 
         var categories =
-            from c in rss["channel"]["item"].SelectMany(_ => _["categories"]).Values<string>()
+            from c in rss["channel"]["item"]
+                .SelectMany(_ => _["categories"])
+                .Values<string>()
             group c by c
             into g
             orderby g.Count() descending
-            select new {Category = g.Key, Count = g.Count()};
+            select new
+            {
+                Category = g.Key,
+                Count = g.Count()
+            };
 
         foreach (var c in categories)
         {
@@ -361,17 +374,17 @@ public class LinqToJsonTests : TestFixtureBase
         #region LinqToJsonDeserializeExample
 
         var jsonText = """
-            {
-              'short': {
-                'original': 'http://www.foo.com/',
-                'short': 'krehqk',
-                'error': {
-                  'code': 0,
-                  'msg': 'No action taken'
-                }
-              }
-            }
-            """;
+                       {
+                         'short': {
+                           'original': 'http://www.foo.com/',
+                           'short': 'krehqk',
+                           'error': {
+                             'code': 0,
+                             'msg': 'No action taken'
+                           }
+                         }
+                       }
+                       """;
 
         var json = JObject.Parse(jsonText);
 
@@ -538,15 +551,21 @@ public class LinqToJsonTests : TestFixtureBase
 
         #region SelectTokenLinq
 
-        var storeNames = o.SelectToken("Stores").Select(s => (string) s).ToList();
+        var storeNames = o
+            .SelectToken("Stores")
+            .Select(s => (string) s)
+            .ToList();
         // Lambton Quay
         // Willis Street
 
-        var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("Products[1].Name")).ToList();
+        var firstProductNames = o["Manufacturers"]
+            .Select(m => (string) m.SelectToken("Products[1].Name"))
+            .ToList();
         // null
         // Headlight Fluid
 
-        var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
+        var totalPrice = o["Manufacturers"]
+            .Sum(m => (decimal) m.SelectToken("Products[0].Price"));
         // 149.95
 
         #endregion
