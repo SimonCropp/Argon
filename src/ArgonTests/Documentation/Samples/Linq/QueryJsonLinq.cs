@@ -12,34 +12,34 @@ public class QueryJsonLinq : TestFixtureBase
         #region QueryJsonLinq
 
         var json = """
-            {
-              'channel': {
-                'title': 'James Newton-King',
-                'link': 'http://james.newtonking.com',
-                'description': 'James Newton-King\'s blog.',
-                'item': [
-                  {
-                    'title': 'Json.NET 1.3 + New license + Now on CodePlex',
-                    'description': 'Announcing the release of Json.NET 1.3, the MIT license and the source on CodePlex',
-                    'link': 'http://james.newtonking.com/projects/json-net.aspx',
-                    'category': [
-                      'Json.NET',
-                      'CodePlex'
-                    ]
-                  },
-                  {
-                    'title': 'LINQ to JSON beta',
-                    'description': 'Announcing LINQ to JSON',
-                    'link': 'http://james.newtonking.com/projects/json-net.aspx',
-                    'category': [
-                      'Json.NET',
-                      'LINQ'
-                    ]
-                  }
-                ]
-              }
-            }
-            """;
+                   {
+                     'channel': {
+                       'title': 'James Newton-King',
+                       'link': 'http://james.newtonking.com',
+                       'description': 'James Newton-King\'s blog.',
+                       'item': [
+                         {
+                           'title': 'Json.NET 1.3 + New license + Now on CodePlex',
+                           'description': 'Announcing the release of Json.NET 1.3, the MIT license and the source on CodePlex',
+                           'link': 'http://james.newtonking.com/projects/json-net.aspx',
+                           'category': [
+                             'Json.NET',
+                             'CodePlex'
+                           ]
+                         },
+                         {
+                           'title': 'LINQ to JSON beta',
+                           'description': 'Announcing LINQ to JSON',
+                           'link': 'http://james.newtonking.com/projects/json-net.aspx',
+                           'category': [
+                             'Json.NET',
+                             'LINQ'
+                           ]
+                         }
+                       ]
+                     }
+                   }
+                   """;
 
         var rss = JObject.Parse(json);
 
