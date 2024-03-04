@@ -2570,13 +2570,14 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                     {
                         foreach (var xPersonValue in eduPers.Elements())
                         {
-                            if (eduPerson.ContainsKey(xPersonValue.Name.LocalName))
+                            var localName = xPersonValue.Name.LocalName;
+                            if (eduPerson.TryGetValue(localName, out var value))
                             {
-                                eduPerson[xPersonValue.Name.LocalName] = $"{eduPerson[xPersonValue.Name.LocalName]};{xPersonValue.Value}";
+                                eduPerson[localName] = $"{value};{xPersonValue.Value}";
                             }
                             else
                             {
-                                eduPerson.Add(xPersonValue.Name.LocalName, xPersonValue.Value);
+                                eduPerson.Add(localName, xPersonValue.Value);
                             }
                         }
                     }
