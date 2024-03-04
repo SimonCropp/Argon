@@ -666,7 +666,7 @@ public class JPathExecuteTests : TestFixtureBase
     }
 
     [Fact]
-    public void EvaluateOutOfBoundsIndxer()
+    public void EvaluateOutOfBoundsIndex()
     {
         var a = new JArray(1, 2, 3, 4, 5);
 
