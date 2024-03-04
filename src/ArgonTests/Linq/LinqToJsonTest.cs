@@ -994,8 +994,11 @@ public class LinqToJsonTest : TestFixtureBase
             rss.ToString());
 
         var postTitles =
-            from p in rss["channel"]["item"]
-            select p.Value<string>("title");
+            (
+                from p in rss["channel"]["item"]
+                select p.Value<string>("title")
+            )
+            .ToList();
 
         Assert.Equal("Json.NET 1.3 + New license + Now on CodePlex", postTitles.ElementAt(0));
         Assert.Equal("LINQ to JSON beta", postTitles.ElementAt(1));
