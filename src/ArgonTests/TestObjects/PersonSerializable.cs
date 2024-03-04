@@ -9,5 +9,5 @@ public class PersonSerializable
     public string Name { get; set; } = "";
 
     [field: NonSerialized]
-    public int Age { get; set; } = 0;
+    public int Age { get; set; }
 }

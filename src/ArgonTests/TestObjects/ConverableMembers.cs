@@ -20,5 +20,5 @@ public class ConverableMembers
     public float Float = float.MaxValue;
     public DBNull DBNull = DBNull.Value;
     public bool Bool = true;
-    public char Char = '\0';
+    public char Char;
 }

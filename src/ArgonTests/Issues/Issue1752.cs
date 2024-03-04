@@ -9,7 +9,7 @@ public class Issue1752 : TestFixtureBase
     {
         var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
-        var s1 = JsonConvert.SerializeObject(new TestObject { Obj = new byte[] { } }, settings);
+        var s1 = JsonConvert.SerializeObject(new TestObject { Obj = Array.Empty<byte>() }, settings);
 
         var t1 = JsonConvert.DeserializeObject<TestObject>(s1, settings);
         Assert.NotNull(t1.Obj);
