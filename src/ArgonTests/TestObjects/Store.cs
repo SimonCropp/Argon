@@ -11,7 +11,7 @@ public class Store
     public double Width = 1.1;
     public int Employees = 999;
     public int[] RoomsPerFloor = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    public bool Open = false;
+    public bool Open;
     public char Symbol = '@';
 
     [JsonProperty(ObjectCreationHandling = ObjectCreationHandling.Replace)]
