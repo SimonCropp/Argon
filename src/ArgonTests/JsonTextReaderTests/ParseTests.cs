@@ -309,5 +309,5 @@ public class ParseTests : TestFixtureBase
         Assert.Equal(JsonToken.EndArray, reader.TokenType);
     }
 
-    internal static readonly long InitialJavaScriptDateTicks = 621355968000000000;
+    internal const long InitialJavaScriptDateTicks = 621355968000000000;
 }
