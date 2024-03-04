@@ -323,17 +323,20 @@ public class LinqToJsonTests : TestFixtureBase
         //Json.NET 1.3 + New license + Now on CodePlex
 
         var categories =
-            from c in rss["channel"]["item"]
-                .SelectMany(_ => _["categories"])
-                .Values<string>()
-            group c by c
-            into g
-            orderby g.Count() descending
-            select new
-            {
-                Category = g.Key,
-                Count = g.Count()
-            };
+            (
+                from c in rss["channel"]["item"]
+                    .SelectMany(_ => _["categories"])
+                    .Values<string>()
+                group c by c
+                into g
+                orderby g.Count() descending
+                select new
+                {
+                    Category = g.Key,
+                    Count = g.Count()
+                }
+            )
+            .ToList();
 
         foreach (var c in categories)
         {
@@ -346,8 +349,8 @@ public class LinqToJsonTests : TestFixtureBase
 
         #endregion
 
-        Assert.Equal(2, postTitles.Count());
-        Assert.Equal(3, categories.Count());
+        Assert.Equal(2, postTitles.Count);
+        Assert.Equal(3, categories.Count);
     }
 
     #region LinqToJsonDeserializeObject
