@@ -46,7 +46,8 @@ Console.WriteLine(acme);
 // { "Name": "Acme Co", Products: [{ "Name": "Anvil", "Price": 50 }] }
 
 // name of all products priced 50 and above
-var priceyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
+var priceyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name")
+    .ToList();
 
 foreach (var item in priceyProducts)
 {
@@ -56,5 +57,5 @@ foreach (var item in priceyProducts)
 // Anvil
 // Elbow Grease
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

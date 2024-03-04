@@ -11,34 +11,34 @@ The simplest way to get a value from LINQ to JSON is to use the `Argon.JToken.It
 <a id='snippet-linqtojsonsimplequerying'></a>
 ```cs
 var json = """
-    {
-      'channel': {
-        'title': 'James Newton-King',
-        'link': 'http://james.newtonking.com',
-        'description': 'James Newton-King\'s blog.',
-        'item': [
-          {
-            'title': 'Json.NET 1.3 + New license + Now on CodePlex',
-            'description': 'Announcing the release of Json.NET 1.3, the MIT license and the source on CodePlex',
-            'link': 'http://james.newtonking.com/projects/json-net.aspx',
-            'categories': [
-              'Json.NET',
-              'CodePlex'
-            ]
-          },
-          {
-            'title': 'LINQ to JSON beta',
-            'description': 'Announcing LINQ to JSON',
-            'link': 'http://james.newtonking.com/projects/json-net.aspx',
-            'categories': [
-              'Json.NET',
-              'LINQ'
-            ]
-          }
-        ]
-      }
-    }
-    """;
+           {
+             'channel': {
+               'title': 'James Newton-King',
+               'link': 'http://james.newtonking.com',
+               'description': 'James Newton-King\'s blog.',
+               'item': [
+                 {
+                   'title': 'Json.NET 1.3 + New license + Now on CodePlex',
+                   'description': 'Announcing the release of Json.NET 1.3, the MIT license and the source on CodePlex',
+                   'link': 'http://james.newtonking.com/projects/json-net.aspx',
+                   'categories': [
+                     'Json.NET',
+                     'CodePlex'
+                   ]
+                 },
+                 {
+                   'title': 'LINQ to JSON beta',
+                   'description': 'Announcing LINQ to JSON',
+                   'link': 'http://james.newtonking.com/projects/json-net.aspx',
+                   'categories': [
+                     'Json.NET',
+                     'LINQ'
+                   ]
+                 }
+               ]
+             }
+           }
+           """;
 
 var rss = JObject.Parse(json);
 
@@ -51,11 +51,13 @@ var itemTitle = (string) rss["channel"]["item"][0]["title"];
 var categories = (JArray) rss["channel"]["item"][0]["categories"];
 // ["Json.NET", "CodePlex"]
 
-var categoriesText = categories.Select(c => (string) c).ToList();
+var categoriesText = categories
+    .Select(c => (string) c)
+    .ToList();
 // Json.NET
 // CodePlex
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L220-L267' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L222-L271' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -69,8 +71,11 @@ JObject/JArray can also be queried using LINQ. `Argon.JToken.Children` returns t
 <a id='snippet-linqtojsonquerying'></a>
 ```cs
 var postTitles =
-    from p in rss["channel"]["item"]
-    select (string) p["title"];
+    (
+        from p in rss["channel"]["item"]
+        select (string) p["title"]
+    )
+    .ToList();
 
 foreach (var item in postTitles)
 {
@@ -81,11 +86,20 @@ foreach (var item in postTitles)
 //Json.NET 1.3 + New license + Now on CodePlex
 
 var categories =
-    from c in rss["channel"]["item"].SelectMany(_ => _["categories"]).Values<string>()
-    group c by c
-    into g
-    orderby g.Count() descending
-    select new {Category = g.Key, Count = g.Count()};
+    (
+        from c in rss["channel"]["item"]
+            .SelectMany(_ => _["categories"])
+            .Values<string>()
+        group c by c
+        into g
+        orderby g.Count() descending
+        select new
+        {
+            Category = g.Key,
+            Count = g.Count()
+        }
+    )
+    .ToList();
 
 foreach (var c in categories)
 {
@@ -96,7 +110,7 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L304-L334' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L308-L350' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 LINQ to JSON can also be used to manually convert JSON to a .NET object.
@@ -118,7 +132,7 @@ public class ShortieException
     public string ErrorMessage { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L340-L356' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L356-L372' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Manually serializing and deserializing between .NET objects is useful when working with JSON that doesn't closely match the .NET objects.
@@ -127,17 +141,17 @@ Manually serializing and deserializing between .NET objects is useful when worki
 <a id='snippet-linqtojsondeserializeexample'></a>
 ```cs
 var jsonText = """
-    {
-      'short': {
-        'original': 'http://www.foo.com/',
-        'short': 'krehqk',
-        'error': {
-          'code': 0,
-          'msg': 'No action taken'
-        }
-      }
-    }
-    """;
+               {
+                 'short': {
+                   'original': 'http://www.foo.com/',
+                   'short': 'krehqk',
+                   'error': {
+                     'code': 0,
+                     'msg': 'No action taken'
+                   }
+                 }
+               }
+               """;
 
 var json = JObject.Parse(jsonText);
 
@@ -158,7 +172,7 @@ Console.WriteLine(shortie.Original);
 Console.WriteLine(shortie.Error.ErrorMessage);
 // No action taken
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L361-L395' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L377-L411' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

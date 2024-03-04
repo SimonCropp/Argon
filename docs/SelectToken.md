@@ -55,7 +55,7 @@ var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price")
 var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 // Elbow Grease
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L450-L495' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L466-L511' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -107,7 +107,8 @@ Console.WriteLine(acme);
 // { "Name": "Acme Co", Products: [{ "Name": "Anvil", "Price": 50 }] }
 
 // name of all products priced 50 and above
-var priceyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name");
+var priceyProducts = o.SelectTokens("$..Products[?(@.Price >= 50)].Name")
+    .ToList();
 
 foreach (var item in priceyProducts)
 {
@@ -117,7 +118,7 @@ foreach (var item in priceyProducts)
 // Anvil
 // Elbow Grease
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L64' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -128,18 +129,24 @@ SelectToken can be used in combination with standard LINQ methods.
 <!-- snippet: SelectTokenLinq -->
 <a id='snippet-selecttokenlinq'></a>
 ```cs
-var storeNames = o.SelectToken("Stores").Select(s => (string) s).ToList();
+var storeNames = o
+    .SelectToken("Stores")
+    .Select(s => (string) s)
+    .ToList();
 // Lambton Quay
 // Willis Street
 
-var firstProductNames = o["Manufacturers"].Select(m => (string) m.SelectToken("Products[1].Name")).ToList();
+var firstProductNames = o["Manufacturers"]
+    .Select(m => (string) m.SelectToken("Products[1].Name"))
+    .ToList();
 // null
 // Headlight Fluid
 
-var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0].Price"));
+var totalPrice = o["Manufacturers"]
+    .Sum(m => (decimal) m.SelectToken("Products[0].Price"));
 // 149.95
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L539-L552' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L555-L574' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

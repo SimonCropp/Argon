@@ -22,11 +22,13 @@ var cpu = (string) o["CPU"];
 var firstDrive = (string) o["Drives"][0];
 // DVD read/writer
 
-var allDrives = o["Drives"].Select(t => (string) t).ToList();
+var allDrives = o["Drives"]
+    .Select(t => (string) t)
+    .ToList();
 // DVD read/writer
 // 500 gigabyte hard drive
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L14-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L14-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
