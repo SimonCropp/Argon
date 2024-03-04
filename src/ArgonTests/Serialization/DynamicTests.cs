@@ -26,7 +26,7 @@ public class DynamicTests : TestFixtureBase
 
         foreach (var memberName in dynamicObject.GetDynamicMemberNames())
         {
-            dynamicContract.TryGetMember(dynamicObject, memberName, out var value);
+            JsonDynamicContract.TryGetMember(dynamicObject, memberName, out var value);
 
             values.Add(memberName, value);
         }

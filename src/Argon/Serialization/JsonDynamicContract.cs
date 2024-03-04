@@ -50,7 +50,7 @@ public class JsonDynamicContract : JsonContainerContract
         Properties = new(UnderlyingType);
     }
 
-    internal bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)
+    internal static bool TryGetMember(IDynamicMetaObjectProvider dynamicProvider, string name, out object? value)
     {
         var callSite = callSiteGetters.Get(name);
 
@@ -66,7 +66,7 @@ public class JsonDynamicContract : JsonContainerContract
         return true;
     }
 
-    internal bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)
+    internal static bool TrySetMember(IDynamicMetaObjectProvider dynamicProvider, string name, object? value)
     {
         var callSite = callSiteSetters.Get(name);
 

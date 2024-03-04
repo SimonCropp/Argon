@@ -778,7 +778,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         foreach (var memberName in value.GetDynamicMemberNames())
         {
-            if (contract.TryGetMember(value, memberName, out var memberValue))
+            if (JsonDynamicContract.TryGetMember(value, memberName, out var memberValue))
             {
                 try
                 {

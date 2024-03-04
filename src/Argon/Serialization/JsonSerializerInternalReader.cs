@@ -1589,7 +1589,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                                 value = CreateValueInternal(reader, t, dynamicMemberContract, null, null, member, null);
                             }
 
-                            contract.TrySetMember(newObject, memberName, value);
+                            JsonDynamicContract.TrySetMember(newObject, memberName, value);
                         }
                     }
                     catch (Exception exception)
