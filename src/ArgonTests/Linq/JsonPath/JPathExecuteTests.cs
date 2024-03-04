@@ -760,9 +760,8 @@ public class JPathExecuteTests : TestFixtureBase
     {
         var a = new JArray(1, 2, 3, 4);
 
-        var tokens = a.SelectTokens("[1,2,0]");
-        Assert.NotNull(tokens);
-        Assert.Equal(3, tokens.Count());
+        var tokens = a.SelectTokens("[1,2,0]").ToList();
+        Assert.Equal(3, tokens.Count);
         Assert.Equal(2, (int) tokens.ElementAt(0));
         Assert.Equal(3, (int) tokens.ElementAt(1));
         Assert.Equal(1, (int) tokens.ElementAt(2));
