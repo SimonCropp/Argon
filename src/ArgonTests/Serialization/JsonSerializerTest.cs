@@ -4424,7 +4424,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        var z = (ByteArrayTestClass[]) serializer1.Deserialize(reader, typeof(ByteArrayTestClass[]));
+        var z = serializer1.Deserialize<ByteArrayTestClass[]>(reader);
         Assert.Equal(2, z.Length);
         Assert.Empty(z[0].Prop1);
         Assert.Empty(z[1].Prop1);
@@ -6182,7 +6182,7 @@ public class JsonSerializerTest : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
         reader.Read();
         reader.Read();
-        var exception = Assert.Throws<JsonSerializationException>(() => serializer.Deserialize(reader, typeof(ItemConverterTestClass)));
+        var exception = Assert.Throws<JsonSerializationException>(() => serializer.Deserialize<ItemConverterTestClass>(reader));
         Assert.Equal("Additional text found in JSON string after finishing deserializing object. Path '[1]', line 1, position 5.", exception.Message);
     }
 
@@ -6195,7 +6195,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        var mt = (ItemConverterTestClass) serializer.Deserialize(reader, typeof(ItemConverterTestClass));
+        var mt = serializer.Deserialize<ItemConverterTestClass>(reader);
         Assert.Single(mt.MyProperty);
     }
 
@@ -6212,7 +6212,7 @@ public class JsonSerializerTest : TestFixtureBase
 
         var reader = new JsonTextReader(new StringReader(json));
 
-        var mt = (ItemConverterTestClass) serializer.Deserialize(reader, typeof(ItemConverterTestClass));
+        var mt = serializer.Deserialize<ItemConverterTestClass>(reader);
         Assert.Single(mt.MyProperty);
     }
 
@@ -6233,7 +6233,7 @@ public class JsonSerializerTest : TestFixtureBase
         reader.Read();
         reader.Read();
 
-        var exception = Assert.Throws<JsonSerializationException>(() => serializer.Deserialize(reader, typeof(ItemConverterTestClass)));
+        var exception = Assert.Throws<JsonSerializationException>(() => serializer.Deserialize<ItemConverterTestClass>(reader));
         Assert.Equal("Additional text found in JSON string after finishing deserializing object. Path '[1]', line 3, position 2.", exception.Message);
     }
 

@@ -2058,7 +2058,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         Assert.Equal("""[{"Name":"Test1","ExpiryDate":"2000-01-01T00:00:00Z","Price":0.0,"Sizes":null},{"Name":"Test2","ExpiryDate":"2000-01-01T00:00:00Z","Price":0.0,"Sizes":null},{"Name":"Test3","ExpiryDate":"2000-01-01T00:00:00Z","Price":0.0,"Sizes":null}]""",
             stringWriter.GetStringBuilder().ToString());
 
-        var collectionNew = (ProductCollection) serializer.Deserialize(new JsonTextReader(new StringReader(stringWriter.GetStringBuilder().ToString())), typeof(ProductCollection));
+        var collectionNew = serializer.Deserialize<ProductCollection>(new JsonTextReader(new StringReader(stringWriter.GetStringBuilder().ToString())));
 
         Assert.Equal(collection, collectionNew);
     }

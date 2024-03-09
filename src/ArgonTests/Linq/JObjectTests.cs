@@ -471,7 +471,7 @@ public class JObjectTests : TestFixtureBase
 
         JsonReader reader = new JTokenReader(o);
         var serializer = new JsonSerializer();
-        raw = (PersonRaw) serializer.Deserialize(reader, typeof(PersonRaw));
+        raw = serializer.Deserialize<PersonRaw>(reader);
 
         Assert.Equal("FirstNameValue", raw.FirstName);
         Assert.Equal("LastNameValue", raw.LastName);

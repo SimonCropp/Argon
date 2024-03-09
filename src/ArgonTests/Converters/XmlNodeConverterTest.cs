@@ -2514,9 +2514,19 @@ public class XmlNodeConverterTest : TestFixtureBase
     {
         var dict = new Dictionary<string, object> {{"Int16", (short) 1}, {"Float", 2f}, {"Int32", 3}};
         var obj = JObject.FromObject(dict);
-        var serializer = JsonSerializer.Create(new() {Converters = {new XmlNodeConverter {DeserializeRootElementName = "root"}}});
+        var serializer = JsonSerializer.Create(
+            new()
+            {
+                Converters =
+                {
+                    new XmlNodeConverter
+                    {
+                        DeserializeRootElementName = "root"
+                    }
+                }
+            });
         using var reader = obj.CreateReader();
-        var value = (XmlDocument) serializer.Deserialize(reader, typeof(XmlDocument));
+        var value = serializer.Deserialize<XmlDocument>(reader);
 
         Assert.Equal("<root><Int16>1</Int16><Float>2</Float><Int32>3</Int32></root>", value.InnerXml);
     }
@@ -2571,7 +2581,7 @@ public class XmlNodeConverterTest : TestFixtureBase
             Converters = {new XmlNodeConverter()}
         });
 
-        var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
+        var document = serializer.Deserialize<XmlDocument>(jsonReader);
 
         XUnitAssert.AreEqualNormalized(
             """<root uri="http://localhost/" time_span="00:01:00" bytes="SGVsbG8gd29ybGQ=" />""",
@@ -2597,7 +2607,7 @@ public class XmlNodeConverterTest : TestFixtureBase
             Converters = {new XmlNodeConverter()}
         });
 
-        var document = (XmlDocument) serializer.Deserialize(jsonReader, typeof(XmlDocument));
+        var document = serializer.Deserialize<XmlDocument>(jsonReader);
 
         XUnitAssert.AreEqualNormalized("<root><uri>http://localhost/</uri><time_span>00:01:00</time_span><bytes>SGVsbG8gd29ybGQ=</bytes></root>", document.OuterXml);
     }
@@ -2608,7 +2618,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         settings.Converters.Add(new XmlNodeConverter());
         var serializer = JsonSerializer.Create(settings);
         using var reader = new JsonTextReader(new StreamReader(json));
-        var doc = (XmlDocument) serializer.Deserialize(reader, typeof(XmlDocument));
+        var doc = serializer.Deserialize<XmlDocument>(reader);
         if (reader.Read() && reader.TokenType != JsonToken.Comment)
         {
             throw new JsonSerializationException("Additional text found in JSON string after finishing deserializing object.");
@@ -3449,7 +3459,7 @@ public class XmlNodeConverterTest : TestFixtureBase
         using (var stringReader = new StringReader(json.ToString()))
         using (var jsonReader = new JsonTextReader(stringReader))
         {
-            var document = (XDocument) serializer.Deserialize(jsonReader, typeof(XDocument));
+            var document = serializer.Deserialize<XDocument>(jsonReader);
 
             XUnitAssert.AreEqualNormalized(
                 """

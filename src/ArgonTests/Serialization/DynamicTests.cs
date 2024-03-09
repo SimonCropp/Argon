@@ -23,6 +23,7 @@ public class DynamicTests : TestFixtureBase
 
         var c = DefaultContractResolver.Instance;
         var dynamicContract = (JsonDynamicContract) c.ResolveContract(dynamicObject.GetType());
+        Assert.NotNull(dynamicContract);
 
         foreach (var memberName in dynamicObject.GetDynamicMemberNames())
         {

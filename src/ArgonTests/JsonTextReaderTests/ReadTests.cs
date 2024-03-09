@@ -716,7 +716,7 @@ public class ReadTests : TestFixtureBase
         Assert.Equal(1.1m, reader.ReadAsDecimal());
         Assert.Equal(JsonToken.Float, reader.TokenType);
 
-        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
+        Assert.Empty(reader.ReadAsBytes()!);
         Assert.Equal(JsonToken.Bytes, reader.TokenType);
 
         Assert.True(reader.Read());

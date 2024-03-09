@@ -711,7 +711,7 @@ public class ExceptionHandlingTests : TestFixtureBase
         var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsBytes());
         Assert.Equal("Unexpected character encountered while parsing value: ,. Path '[0]', line 1, position 2.", exception.Message);
 
-        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
+        Assert.Empty(reader.ReadAsBytes()!);
         Assert.True(reader.Read());
     }
 
@@ -729,12 +729,12 @@ public class ExceptionHandlingTests : TestFixtureBase
     {
         var reader = new JsonTextReader(new StringReader("['',,'']"));
         reader.Read();
-        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
+        Assert.Empty(reader.ReadAsBytes());
 
         var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsBytes());
         Assert.Equal("Unexpected character encountered while parsing value: ,. Path '[1]', line 1, position 5.", exception.Message);
 
-        Assert.Equal(Array.Empty<byte>(), reader.ReadAsBytes());
+        Assert.Empty(reader.ReadAsBytes()!);
         Assert.True(reader.Read());
     }
 

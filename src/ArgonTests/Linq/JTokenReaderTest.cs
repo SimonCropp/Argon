@@ -355,15 +355,15 @@ public class JTokenReaderTest : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(bytes);
 
-        TextReader textReader = new StringReader(json);
+        var textReader = new StringReader(json);
         JsonReader jsonReader = new JsonTextReader(textReader);
 
         var jToken = JToken.ReadFrom(jsonReader);
 
         jsonReader = new JTokenReader(jToken);
 
-        var result2 = (HasBytes) JsonSerializer.Create(null)
-            .Deserialize(jsonReader, typeof(HasBytes));
+        var result2 = JsonSerializer.Create(null)
+            .Deserialize<HasBytes>(jsonReader);
 
         Assert.Equal(
         [
@@ -384,17 +384,17 @@ public class JTokenReaderTest : TestFixtureBase
         };
         var json = JsonConvert.SerializeObject(bytes);
 
-        TextReader textReader = new StringReader(json);
+        var textReader = new StringReader(json);
         JsonReader jsonReader = new JsonTextReader(textReader);
 
         var jToken = JToken.ReadFrom(jsonReader);
 
         jsonReader = new JTokenReader(jToken);
 
-        var result2 = (HasBytes) JsonSerializer.Create(null)
-            .Deserialize(jsonReader, typeof(HasBytes));
+        var result2 = JsonSerializer.Create(null)
+            .Deserialize<HasBytes>(jsonReader);
 
-        Assert.Equal(Array.Empty<byte>(), result2.Bytes);
+        Assert.Empty(result2.Bytes);
     }
 
     public class ReadAsBytesTestObject

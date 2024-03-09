@@ -107,7 +107,7 @@ var o = new JObject(
 );
 
 var serializer = new JsonSerializer();
-var p = (Person) serializer.Deserialize(new JTokenReader(o), typeof(Person));
+var p = serializer.Deserialize<Person>(new JTokenReader(o));
 
 Console.WriteLine(p.Name);
 // John Smith

@@ -501,7 +501,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 markAsHandled();
             }
         };
-        serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(MyTypeWithRequiredMembers));
+        serializer.Deserialize<MyTypeWithRequiredMembers>(new JsonTextReader(new StringReader(json)));
 
         Assert.Equal(2, errors.Count);
         Assert.StartsWith(" - Required1 - Required property 'Required1' not found in JSON. Path '', line 1, position 2.", errors[0]);
@@ -524,7 +524,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         };
 
-        serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[]));
+        serializer.Deserialize<int[]>(new JsonTextReader(new StringReader(json)));
 
         Assert.Equal(2, errors.Count);
         Assert.Equal("[0] - 0 - Could not convert string to integer: a. Path '[0]', line 1, position 4.", errors[0]);
@@ -547,7 +547,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         };
 
-        serializer.Deserialize(new JsonTextReader(new StringReader(json)), typeof(int[,]));
+        serializer.Deserialize<int[,]>(new JsonTextReader(new StringReader(json)));
 
         Assert.Equal(2, errors.Count);
         Assert.Equal("[0][0] - 0 - Could not convert string to integer: a. Path '[0][0]', line 1, position 5.", errors[0]);
@@ -644,15 +644,15 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 markAsHanded();
             }
         });
-        var o = serializer.Deserialize(reader, typeof(int[]));
+        var o = serializer.Deserialize<int[]>(reader);
 
         Assert.NotNull(o);
 
         Assert.Single(errors);
         Assert.Equal("Error reading integer. Unexpected token: Boolean. Path '[1]'.", errors[0]);
 
-        Assert.Single((int[]) o);
-        Assert.Equal(0, ((int[]) o)[0]);
+        Assert.Single(o);
+        Assert.Equal(0, o[0]);
     }
 
     [Fact]
@@ -926,7 +926,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 {
                     // Do own stuff.
                     // Then call deserialise for inner object.
-                    var innerObject = serializer.Deserialize(reader, typeof(SomethingElse));
+                    var innerObject = serializer.Deserialize<SomethingElse>(reader);
 
                     return null;
                 }

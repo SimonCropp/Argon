@@ -476,7 +476,7 @@ public class LinqToJsonTest : TestFixtureBase
         );
 
         var serializer = new JsonSerializer();
-        var p = (Person) serializer.Deserialize(new JTokenReader(o), typeof(Person));
+        var p = serializer.Deserialize<Person>(new JTokenReader(o));
 
         Assert.Equal("John Smith", p.Name);
     }

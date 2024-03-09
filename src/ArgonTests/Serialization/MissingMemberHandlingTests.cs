@@ -65,7 +65,7 @@ public class MissingMemberHandlingTests : TestFixtureBase
 
         using (JsonReader reader = new JsonTextReader(new StringReader(output)))
         {
-            deserializedValue = serializer.Deserialize(reader, typeof(ProductShort));
+            deserializedValue = serializer.Deserialize<ProductShort>(reader);
         }
 
         var deserializedProductShort = (ProductShort) deserializedValue;
