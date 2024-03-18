@@ -13,7 +13,7 @@
     <PackageReference Include="NodaTime" Version="3.1.11" />
     <PackageReference Include="ProjectDefaults" Version="1.0.125" PrivateAssets="all" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="FSharp.Core" Version="8.0.202" />
+    <PackageReference Include="FSharp.Core" Version="8.0.200" />
     <PackageReference Include="Verify.Xunit" Version="23.5.0" />
     <PackageReference Include="Xunit" Version="2.7.0" />
     <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
