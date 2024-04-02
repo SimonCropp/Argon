@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net472;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net472;net48;net6.0;net7.0;net8.0</TargetFrameworks>
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet8'">net8.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ProjectDefaults" Version="1.0.125" PrivateAssets="all" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.126" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
 </Project>
