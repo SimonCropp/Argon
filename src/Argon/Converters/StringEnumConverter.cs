@@ -66,12 +66,12 @@ public class StringEnumConverter :
         var nullable = type.IsNullableType();
         if (reader.TokenType == JsonToken.Null)
         {
-            if (!nullable)
+            if (nullable)
             {
-                throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
+                return null;
             }
 
-            return null;
+            throw JsonSerializationException.Create(reader, $"Cannot convert null value to {type}.");
         }
 
         var t = nullable ? Nullable.GetUnderlyingType(type)! : type;
@@ -92,12 +92,12 @@ public class StringEnumConverter :
 
             if (reader.TokenType == JsonToken.Integer)
             {
-                if (!AllowIntegerValues)
+                if (AllowIntegerValues)
                 {
-                    throw JsonSerializationException.Create(reader, $"Integer value {reader.Value} is not allowed.");
+                    return ConvertUtils.ConvertOrCast(reader.Value, t);
                 }
 
-                return ConvertUtils.ConvertOrCast(reader.Value, t);
+                throw JsonSerializationException.Create(reader, $"Integer value {reader.Value} is not allowed.");
             }
         }
         catch (Exception exception)
