@@ -2,12 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-class ReflectionMember
-{
-    public Type? MemberType { get; set; }
-    public Func<object, object?>? Getter { get; set; }
-}
-
 class ReflectionObject
 {
     public ObjectConstructor? Creator { get; }
@@ -30,20 +24,7 @@ class ReflectionObject
 
     public static ReflectionObject Create(Type type, MethodBase? creator, params string[] memberNames)
     {
-        ObjectConstructor? creatorConstructor = null;
-        if (creator == null)
-        {
-            if (type.HasDefaultConstructor())
-            {
-                var ctor = DelegateFactory.CreateDefaultConstructor<object>(type);
-
-                creatorConstructor = _ => ctor();
-            }
-        }
-        else
-        {
-            creatorConstructor = DelegateFactory.CreateParameterizedConstructor(creator);
-        }
+        var creatorConstructor = CreatorConstructor(type, creator);
 
         var memberLookup = new Dictionary<string, ReflectionMember>();
 
@@ -72,7 +53,8 @@ class ReflectionObject
                 case MemberTypes.Method:
                     var method = (MethodInfo) member;
                     var parameters = method.GetParameters();
-                    if (parameters.Length == 0 && method.ReturnType != typeof(void))
+                    if (parameters.Length == 0 &&
+                        method.ReturnType != typeof(void))
                     {
                         var call = DelegateFactory.CreateMethodCall<object>(method);
                         reflectionMember.Getter = target => call(target);
@@ -87,6 +69,26 @@ class ReflectionObject
 
             memberLookup[memberName] = reflectionMember;
         }
+
         return new(creatorConstructor, memberLookup.ToFrozenDictionary());
+    }
+
+    static ObjectConstructor? CreatorConstructor(Type type, MethodBase? creator)
+    {
+        if (creator == null)
+        {
+            if (type.HasDefaultConstructor())
+            {
+                var ctor = DelegateFactory.CreateDefaultConstructor<object>(type);
+
+                return  _ => ctor();
+            }
+        }
+        else
+        {
+            return DelegateFactory.CreateParameterizedConstructor(creator);
+        }
+
+        return null;
     }
 }
