@@ -627,15 +627,23 @@ static class ReflectionUtils
         }
     }
 
-    public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method) =>
-        currentType
-            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-            .Any(_ =>
-                _.Name == method &&
+    public static bool IsMethodOverridden(Type currentType, Type methodDeclaringType, string method)
+    {
+        foreach (var inner in currentType
+                     .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+        {
+            if (inner.Name == method &&
                 // check that the method overrides the original on DynamicObjectProxy
-                _.DeclaringType != methodDeclaringType &&
-                _.GetBaseDefinition().DeclaringType == methodDeclaringType
-            );
+                inner.DeclaringType != methodDeclaringType &&
+                inner.GetBaseDefinition()
+                    .DeclaringType == methodDeclaringType)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static object? GetDefaultValue(Type type)
     {
