@@ -6,7 +6,7 @@
 To serialize a collection - a generic list, array, dictionary, or your own custom collection - simply call the serializer with the object you want to get JSON for. Json.NET will serialize the collection and all of the values it contains.
 
 <!-- snippet: SerializingCollectionsSerializing -->
-<a id='snippet-serializingcollectionsserializing'></a>
+<a id='snippet-SerializingCollectionsSerializing'></a>
 ```cs
 var p1 = new Product
 {
@@ -43,7 +43,7 @@ var json = JsonConvert.SerializeObject(products, Formatting.Indented);
 //  }
 //]
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L480-L517' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsserializing' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L480-L517' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsSerializing' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -52,7 +52,7 @@ var json = JsonConvert.SerializeObject(products, Formatting.Indented);
 To deserialize JSON into a .NET collection, just specify the collection type you want to deserialize to. Json.NET supports a wide range of collection types.
 
 <!-- snippet: SerializingCollectionsDeserializing -->
-<a id='snippet-serializingcollectionsdeserializing'></a>
+<a id='snippet-SerializingCollectionsDeserializing'></a>
 ```cs
 var json = """
            [
@@ -81,7 +81,7 @@ var p1 = products[0];
 Console.WriteLine(p1.Name);
 // Product 1
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L542-L571' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializing' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L542-L571' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsDeserializing' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -90,7 +90,7 @@ Console.WriteLine(p1.Name);
 Using Json.NET you can also deserialize a JSON object into a .NET generic dictionary. The JSON object's property names and values will be added to the dictionary.
 
 <!-- snippet: SerializingCollectionsDeserializingDictionaries -->
-<a id='snippet-serializingcollectionsdeserializingdictionaries'></a>
+<a id='snippet-SerializingCollectionsDeserializingDictionaries'></a>
 ```cs
 var json = """{"key1":"value1","key2":"value2"}""";
 
@@ -102,7 +102,7 @@ Console.WriteLine(values.Count);
 Console.WriteLine(values["key1"]);
 // value1
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L579-L591' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingcollectionsdeserializingdictionaries' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L579-L591' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsDeserializingDictionaries' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -3,7 +3,7 @@
 This sample creates a custom `Argon.JsonConverter` that overrides serialization to add a keys property.
 
 <!-- snippet: CustomJsonConverterTypes -->
-<a id='snippet-customjsonconvertertypes'></a>
+<a id='snippet-CustomJsonConverterTypes'></a>
 ```cs
 public class KeysJsonConverter(params Type[] types) : JsonConverter
 {
@@ -42,11 +42,11 @@ public class Employee
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L7-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L7-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-CustomJsonConverterTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonConverterUsage -->
-<a id='snippet-customjsonconverterusage'></a>
+<a id='snippet-CustomJsonConverterUsage'></a>
 ```cs
 var employee = new Employee
 {
@@ -79,5 +79,5 @@ var newEmployee = JsonConvert.DeserializeObject<Employee>(json, new KeysJsonConv
 Console.WriteLine(newEmployee.FirstName);
 // James
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L51-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconverterusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverter.cs#L51-L84' title='Snippet source file'>snippet source</a> | <a href='#snippet-CustomJsonConverterUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample creates a `Argon.JObject` from an anonymous type.
 
 <!-- snippet: CreateJsonAnonymousObjectTypes -->
-<a id='snippet-createjsonanonymousobjecttypes'></a>
+<a id='snippet-CreateJsonAnonymousObjectTypes'></a>
 ```cs
 public class Post
 {
@@ -13,11 +13,11 @@ public class Post
     public IList<string> Categories { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonanonymousobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonAnonymousObjectTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CreateJsonAnonymousObjectUsage -->
-<a id='snippet-createjsonanonymousobjectusage'></a>
+<a id='snippet-CreateJsonAnonymousObjectUsage'></a>
 ```cs
 var posts = new List<Post>
 {
@@ -74,5 +74,5 @@ Console.WriteLine(o.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L22-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonanonymousobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonAnonymousObject.cs#L22-L79' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonAnonymousObjectUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

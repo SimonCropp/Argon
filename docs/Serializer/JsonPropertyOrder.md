@@ -3,7 +3,7 @@
 This sample uses `Argon.JsonPropertyAttribute` to order of properties when they are serialized to JSON.
 
 <!-- snippet: JsonPropertyOrderTypes -->
-<a id='snippet-jsonpropertyordertypes'></a>
+<a id='snippet-JsonPropertyOrderTypes'></a>
 ```cs
 public class Account
 {
@@ -21,11 +21,11 @@ public class Account
     [JsonProperty(Order = -2)] public string FullName { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L7-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyordertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L7-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyOrderTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyOrderUsage -->
-<a id='snippet-jsonpropertyorderusage'></a>
+<a id='snippet-JsonPropertyOrderUsage'></a>
 ```cs
 var account = new Account
 {
@@ -49,5 +49,5 @@ Console.WriteLine(json);
 //   "DeletedDate": "2013-01-25T00:00:00"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L30-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyorderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyOrder.cs#L30-L54' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyOrderUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

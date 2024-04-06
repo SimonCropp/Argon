@@ -3,7 +3,7 @@
 This sample converts XML to JSON.
 
 <!-- snippet: ConvertXmlToJson -->
-<a id='snippet-convertxmltojson'></a>
+<a id='snippet-ConvertXmlToJson'></a>
 ```cs
 var xml = """
           <?xml version='1.0' standalone='no'?>
@@ -46,5 +46,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertXmlToJson.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertXmlToJson.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-ConvertXmlToJson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

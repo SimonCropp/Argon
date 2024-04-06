@@ -3,7 +3,7 @@
 This sample attempts to deserialize JSON with `Argon.MissingMemberHandling` set to error and a JSON property that doesn't match to a member, causing an exception.
 
 <!-- snippet: DeserializeMissingMemberHandlingTypes -->
-<a id='snippet-deserializemissingmemberhandlingtypes'></a>
+<a id='snippet-DeserializeMissingMemberHandlingTypes'></a>
 ```cs
 public class Account
 {
@@ -11,11 +11,11 @@ public class Account
     public bool Deleted { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeMissingMemberHandlingTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeMissingMemberHandlingUsage -->
-<a id='snippet-deserializemissingmemberhandlingusage'></a>
+<a id='snippet-DeserializeMissingMemberHandlingUsage'></a>
 ```cs
 var json = """
     {
@@ -38,5 +38,5 @@ catch (JsonSerializationException exception)
     // Could not find member 'DeletedDate' on object of type 'Account'. Path 'DeletedDate', line 4, position 23.
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L20-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemissingmemberhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeMissingMemberHandling.cs#L20-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeMissingMemberHandlingUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

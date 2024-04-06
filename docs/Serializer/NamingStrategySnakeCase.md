@@ -3,7 +3,7 @@
 This sample uses a `Argon.SnakeCaseNamingStrategy` specified using a contract resolver to snake case serialized property names.
 
 <!-- snippet: NamingStrategySnakeCaseTypes -->
-<a id='snippet-namingstrategysnakecasetypes'></a>
+<a id='snippet-NamingStrategySnakeCaseTypes'></a>
 ```cs
 public class User
 {
@@ -11,11 +11,11 @@ public class User
     public bool Enabled { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySnakeCase.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategysnakecasetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySnakeCase.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-NamingStrategySnakeCaseTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategySnakeCaseUsage -->
-<a id='snippet-namingstrategysnakecaseusage'></a>
+<a id='snippet-NamingStrategySnakeCaseUsage'></a>
 ```cs
 var user1 = new User
 {
@@ -40,5 +40,5 @@ Console.WriteLine(json);
 //   "enabled": true
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySnakeCase.cs#L20-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategysnakecaseusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySnakeCase.cs#L20-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-NamingStrategySnakeCaseUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample compares `Argon.JToken` instances using `Argon.JToken.DeepEquals(Argon.Linq.JToken,Argon.Linq.JToken)`, comparing the token and all child tokens.
 
 <!-- snippet: DeepEquals -->
-<a id='snippet-deepequals'></a>
+<a id='snippet-DeepEquals'></a>
 ```cs
 var s1 = new JValue("A string");
 var s2 = new JValue("A string");
@@ -35,5 +35,5 @@ Console.WriteLine(JToken.DeepEquals(o1, o2));
 Console.WriteLine(JToken.DeepEquals(s1, o1["String"]));
 // true
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeepEquals.cs#L10-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-deepequals' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeepEquals.cs#L10-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeepEquals' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

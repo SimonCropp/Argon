@@ -3,7 +3,7 @@
 This sample casts `Argon.JValue` instances to .NET values.
 
 <!-- snippet: JValueCast -->
-<a id='snippet-jvaluecast'></a>
+<a id='snippet-JValueCast'></a>
 ```cs
 var v1 = new JValue("1");
 var i = (int) v1;
@@ -46,5 +46,5 @@ var dt = (DateTime?) v6;
 Console.WriteLine(dt == null ? "{null}" : dt.ToString());
 // {null}
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/JValueCast.cs#L10-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluecast' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/JValueCast.cs#L10-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-JValueCast' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample serializes an object to JSON without any formatting or indentation whitespace.
 
 <!-- snippet: SerializeUnindentedJsonTypes -->
-<a id='snippet-serializeunindentedjsontypes'></a>
+<a id='snippet-SerializeUnindentedJsonTypes'></a>
 ```cs
 public class Account
 {
@@ -13,11 +13,11 @@ public class Account
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeunindentedjsontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeUnindentedJsonTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeUnindentedJsonUsage -->
-<a id='snippet-serializeunindentedjsonusage'></a>
+<a id='snippet-SerializeUnindentedJsonUsage'></a>
 ```cs
 var account = new Account
 {
@@ -36,5 +36,5 @@ var json = JsonConvert.SerializeObject(account);
 
 Console.WriteLine(json);
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L22-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeunindentedjsonusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeUnindentedJson.cs#L22-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeUnindentedJsonUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

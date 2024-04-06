@@ -3,7 +3,7 @@
 This sample converts .NET values to LINQ to JSON using `Argon.JToken.FromObject(System.Object)`.
 
 <!-- snippet: FromObjectTypes -->
-<a id='snippet-fromobjecttypes'></a>
+<a id='snippet-FromObjectTypes'></a>
 ```cs
 public class Computer
 {
@@ -12,11 +12,11 @@ public class Computer
     public IList<string> Drives { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/FromObject.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/FromObject.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-FromObjectTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: FromObjectUsage -->
-<a id='snippet-fromobjectusage'></a>
+<a id='snippet-FromObjectUsage'></a>
 ```cs
 var i = (JValue) JToken.FromObject(12345);
 
@@ -63,5 +63,5 @@ Console.WriteLine(a.ToString());
 //   "SSD"
 // ]
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/FromObject.cs#L21-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-fromobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/FromObject.cs#L21-L68' title='Snippet source file'>snippet source</a> | <a href='#snippet-FromObjectUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

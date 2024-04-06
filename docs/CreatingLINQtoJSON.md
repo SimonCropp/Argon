@@ -8,7 +8,7 @@ As well as parsing JSON from existing JSON strings, LINQ to JSON objects can be 
 Setting values and creating objects and arrays one at a time gives total control, but it is more verbose than other options.
 
 <!-- snippet: LinqToJsonCreateNormal -->
-<a id='snippet-linqtojsoncreatenormal'></a>
+<a id='snippet-LinqToJsonCreateNormal'></a>
 ```cs
 var array = new JArray();
 var text = new JValue("Manual text");
@@ -23,7 +23,7 @@ var json = array.ToString();
 //   "2000-05-23T00:00:00"
 // ]
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L45-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatenormal' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L45-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonCreateNormal' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -32,7 +32,7 @@ var json = array.ToString();
 Declaratively creating JSON objects using LINQ is a fast way to create JSON from collections of values.
 
 <!-- snippet: LinqToJsonCreateDeclaratively -->
-<a id='snippet-linqtojsoncreatedeclaratively'></a>
+<a id='snippet-LinqToJsonCreateDeclaratively'></a>
 ```cs
 var posts = GetPosts();
 
@@ -86,7 +86,7 @@ Console.WriteLine(rss.ToString());
 //  }
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L76-L130' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatedeclaratively' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L76-L130' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonCreateDeclaratively' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -97,7 +97,7 @@ The last option is to create a JSON object from a non-JSON type using the `Argon
 The example below shows creating a JSON object from an anonymous object, but any .NET type can be used with FromObject to create JSON.
 
 <!-- snippet: LinqToJsonCreateFromObject -->
-<a id='snippet-linqtojsoncreatefromobject'></a>
+<a id='snippet-LinqToJsonCreateFromObject'></a>
 ```cs
 var o = JObject.FromObject(new
 {
@@ -119,7 +119,7 @@ var o = JObject.FromObject(new
     }
 });
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L138-L160' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsoncreatefromobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L138-L160' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonCreateFromObject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

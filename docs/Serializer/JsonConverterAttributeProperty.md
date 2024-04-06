@@ -3,7 +3,7 @@
 This sample uses the `Argon.JsonConverterAttribute` to specify that a `Argon.JsonConverter` should be used when serializing and deserializing a property.
 
 <!-- snippet: JsonConverterAttributePropertyTypes -->
-<a id='snippet-jsonconverterattributepropertytypes'></a>
+<a id='snippet-JsonConverterAttributePropertyTypes'></a>
 ```cs
 public enum UserStatus
 {
@@ -20,11 +20,11 @@ public class User
     public UserStatus Status { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L7-L24' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L7-L24' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConverterAttributePropertyTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConverterAttributePropertyUsage -->
-<a id='snippet-jsonconverterattributepropertyusage'></a>
+<a id='snippet-JsonConverterAttributePropertyUsage'></a>
 ```cs
 var user = new User
 {
@@ -40,5 +40,5 @@ Console.WriteLine(json);
 //   "Status": "Deleted"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L29-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L29-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConverterAttributePropertyUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

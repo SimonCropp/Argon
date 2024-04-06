@@ -10,7 +10,7 @@ To quickly work with JSON, either the serializer - [SerializingJSON] - or using 
 `Argon.JsonTextReader` and `Argon.JsonTextWriter` are used to read and write JSON text. The JsonTextWriter has settings on it to control how JSON is formatted when it is written. These options include formatting, indentation character, indent count, and quote character.
 
 <!-- snippet: ReadingAndWritingJsonText -->
-<a id='snippet-readingandwritingjsontext'></a>
+<a id='snippet-ReadingAndWritingJsonText'></a>
 ```cs
 var stringWriter = new StringWriter();
 
@@ -42,13 +42,13 @@ jsonWriter.WriteEndObject();
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L12-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L12-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReadingAndWritingJsonText' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 JsonTextReader has settings on it for reading different date formats, time zones, and the cultures when reading text values.
 
 <!-- snippet: ReadingJsonText -->
-<a id='snippet-readingjsontext'></a>
+<a id='snippet-ReadingJsonText'></a>
 ```cs
 var json = """
     {
@@ -90,7 +90,7 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L50-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingjsontext' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L50-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReadingJsonText' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -99,7 +99,7 @@ while (reader.Read())
 `Argon.JTokenReader` and `Argon.JTokenWriter` read and write LINQ to JSON objects. These objects support the use LINQ to JSON objects with objects that read and write JSON, such as the JsonSerializer. For example to deserialize from a LINQ to JSON object into a regular .NET object and vice versa.
 
 <!-- snippet: ReadingAndWritingJsonLinq -->
-<a id='snippet-readingandwritingjsonlinq'></a>
+<a id='snippet-ReadingAndWritingJsonLinq'></a>
 ```cs
 var o = new JObject(
     new JProperty("Name", "John Smith"),
@@ -112,7 +112,7 @@ var p = serializer.Deserialize<Person>(new JTokenReader(o));
 Console.WriteLine(p.Name);
 // John Smith
 ```
-<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L98-L111' title='Snippet source file'>snippet source</a> | <a href='#snippet-readingandwritingjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ReadingAndWritingJsonTests.cs#L98-L111' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReadingAndWritingJsonLinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

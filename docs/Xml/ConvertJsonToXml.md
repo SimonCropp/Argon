@@ -3,7 +3,7 @@
 This sample converts JSON to XML.
 
 <!-- snippet: ConvertJsonToXml -->
-<a id='snippet-convertjsontoxml'></a>
+<a id='snippet-ConvertJsonToXml'></a>
 ```cs
 var json = """
     {
@@ -38,5 +38,5 @@ Console.WriteLine(node.ToString());
 //   </Team>
 // </Root>
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertJsonToXml.cs#L12-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertjsontoxml' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertJsonToXml.cs#L12-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-ConvertJsonToXml' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

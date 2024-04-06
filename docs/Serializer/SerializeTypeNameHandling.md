@@ -3,7 +3,7 @@
 This sample uses the `Argon.TypeNameHandling` setting to include type information when serializing JSON and read type information so that the correct types are created when deserializing JSON.
 
 <!-- snippet: SerializeTypeNameHandlingTypes -->
-<a id='snippet-serializetypenamehandlingtypes'></a>
+<a id='snippet-SerializeTypeNameHandlingTypes'></a>
 ```cs
 public abstract class Business
 {
@@ -21,11 +21,11 @@ public class Stockholder
     public IList<Business> Businesses { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L7-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializetypenamehandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L7-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeTypeNameHandlingTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeTypeNameHandlingUsage -->
-<a id='snippet-serializetypenamehandlingusage'></a>
+<a id='snippet-SerializeTypeNameHandlingUsage'></a>
 ```cs
 var stockholder = new Stockholder
 {
@@ -87,5 +87,5 @@ var newStockholder = JsonConvert.DeserializeObject<Stockholder>(jsonTypeNameAuto
 Console.WriteLine(newStockholder.Businesses[0].GetType().Name);
 // Hotel
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L30-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializetypenamehandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeTypeNameHandling.cs#L30-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeTypeNameHandlingUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

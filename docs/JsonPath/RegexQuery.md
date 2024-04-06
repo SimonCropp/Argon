@@ -3,7 +3,7 @@
 This sample loads JSON and then queries values from it using `Argon.JToken.SelectToken(System.String)` with a regex JSON Path.
 
 <!-- snippet: RegexQuery -->
-<a id='snippet-regexquery'></a>
+<a id='snippet-RegexQuery'></a>
 ```cs
 var array = JArray.Parse("""
                          [
@@ -30,5 +30,5 @@ foreach (var item in packages)
 
 // Argon
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/RegexQuery.cs#L10-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-regexquery' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/RegexQuery.cs#L10-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-RegexQuery' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

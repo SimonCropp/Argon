@@ -3,7 +3,7 @@
 This sample uses the `Argon.JsonIgnoreAttribute` to exclude a property from serialization.
 
 <!-- snippet: PropertyJsonIgnoreTypes -->
-<a id='snippet-propertyjsonignoretypes'></a>
+<a id='snippet-PropertyJsonIgnoreTypes'></a>
 ```cs
 public class Account
 {
@@ -13,11 +13,11 @@ public class Account
     [JsonIgnore] public string PasswordHash { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-PropertyJsonIgnoreTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: PropertyJsonIgnoreUsage -->
-<a id='snippet-propertyjsonignoreusage'></a>
+<a id='snippet-PropertyJsonIgnoreUsage'></a>
 ```cs
 var account = new Account
 {
@@ -31,5 +31,5 @@ var json = JsonConvert.SerializeObject(account);
 Console.WriteLine(json);
 // {"FullName":"Joe User","EmailAddress":"joe@example.com"}
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L22-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-propertyjsonignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PropertyJsonIgnore.cs#L22-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-PropertyJsonIgnoreUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

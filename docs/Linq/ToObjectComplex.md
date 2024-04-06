@@ -3,7 +3,7 @@
 This sample converts LINQ to JSON objects to .NET types using `Argon.JToken.ToObject<T>`.
 
 <!-- snippet: ToObjectComplex -->
-<a id='snippet-toobjectcomplex'></a>
+<a id='snippet-ToObjectComplex'></a>
 ```cs
 var json = """
     {
@@ -30,5 +30,5 @@ Console.WriteLine(person[0].Name);
 Console.WriteLine(person[1].Name);
 // Mike Smith
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ToObjectComplex.cs#L19-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectcomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ToObjectComplex.cs#L19-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-ToObjectComplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

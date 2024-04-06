@@ -5,7 +5,7 @@ Often when working with large JSON documents you're only interested in a small f
 With Json.NET it is easy to get around this problem. Using LINQ to JSON you can extract the pieces of JSON you want to deserialize before passing them to the Json.NET serializer.
 
 <!-- snippet: SerializingPartialJsonFragmentsObject -->
-<a id='snippet-serializingpartialjsonfragmentsobject'></a>
+<a id='snippet-SerializingPartialJsonFragmentsObject'></a>
 ```cs
 public class SearchResult
 {
@@ -14,11 +14,11 @@ public class SearchResult
     public string Url { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L884-L893' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L884-L893' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingPartialJsonFragmentsObject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializingPartialJsonFragmentsExample -->
-<a id='snippet-serializingpartialjsonfragmentsexample'></a>
+<a id='snippet-SerializingPartialJsonFragmentsExample'></a>
 ```cs
 var googleSearchText = """
     {
@@ -96,7 +96,7 @@ foreach (var result in results)
 // Content = Self: Zoolander. Socialite <b>Paris Hilton</b>...
 // Url = http://www.imdb.com/name/nm0385296/
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L898-L976' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializingpartialjsonfragmentsexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L898-L976' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingPartialJsonFragmentsExample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -3,7 +3,7 @@
 This sample creates `Argon.JObject` and `Argon.JArray` instances using a `Argon.JTokenWriter`.
 
 <!-- snippet: CreateJsonJTokenWriter -->
-<a id='snippet-createjsonjtokenwriter'></a>
+<a id='snippet-CreateJsonJTokenWriter'></a>
 ```cs
 var writer = new JTokenWriter();
 writer.WriteStartObject();
@@ -27,5 +27,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonJTokenWriter.cs#L10-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonjtokenwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonJTokenWriter.cs#L10-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonJTokenWriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

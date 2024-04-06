@@ -7,7 +7,7 @@ The `Argon.IContractResolver` resolves .NET types to contracts that are used dur
 To avoid the overhead of recreating contracts every time a JsonSerializer is used create the contract resolver once and reuse it. Note that if not using a contract resolver then a shared internal instance is automatically used when serializing and deserializing.
 
 <!-- snippet: ReuseContractResolver -->
-<a id='snippet-reusecontractresolver'></a>
+<a id='snippet-ReuseContractResolver'></a>
 ```cs
 // BAD - a new contract resolver is created each time, forcing slow reflection to be used
 JsonConvert.SerializeObject(person, new JsonSerializerSettings
@@ -32,7 +32,7 @@ JsonConvert.SerializeObject(person, new JsonSerializerSettings
     Formatting = Formatting.Indented
 });
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L53-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-reusecontractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L53-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReuseContractResolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -45,7 +45,7 @@ Allocating too many objects or allocating very large objects can slow down or ev
 To minimize memory usage and the number of objects allocated, Json.NET supports serializing and deserializing directly to a stream. Reading or writing JSON a piece at a time, instead of having the entire JSON string loaded into memory, is especially important when working with JSON documents greater than 85kb in size to avoid the JSON string ending up in the [large object heap](http://msdn.microsoft.com/en-us/magazine/cc534993.aspx)
 
 <!-- snippet: DeserializeString -->
-<a id='snippet-deserializestring'></a>
+<a id='snippet-DeserializeString'></a>
 ```cs
 var client = new HttpClient();
 
@@ -55,11 +55,11 @@ var json = await client.GetStringAsync("http://www.test.com/large.json");
 
 var p = JsonConvert.DeserializeObject<Person>(json);
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L104-L114' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestring' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L104-L114' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeString' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeStream -->
-<a id='snippet-deserializestream'></a>
+<a id='snippet-DeserializeStream'></a>
 ```cs
 using var streamReader = new StreamReader(stream);
 using var reader = new JsonTextReader(streamReader);
@@ -69,7 +69,7 @@ var serializer = new JsonSerializer();
 // json size doesn't matter because only a small piece is read at a time from the stream
 var p = serializer.Deserialize<Person>(reader);
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L119-L129' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializestream' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L119-L129' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeStream' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -80,7 +80,7 @@ Passing a `Argon.JsonConverter` to SerializeObject or DeserializeObject provides
 There are a couple of ways to continue to use JsonConverters without any overhead. The simplest way is to specify the JsonConverter using the `Argon.JsonConverterAttribute`. This attribute tells the serializer to always use that converter when serializing and deserializing the type, without the check.
 
 <!-- snippet: JsonConverterAttribute -->
-<a id='snippet-jsonconverterattribute'></a>
+<a id='snippet-JsonConverterAttribute'></a>
 ```cs
 [JsonConverter(typeof(PersonConverter))]
 public class Person
@@ -89,7 +89,7 @@ public class Person
     public IList<string> Likes { get; } = [];
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L8-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConverterAttribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If the class to convert isn't owned and is it nor possible to use an attribute, a JsonConverter can still be used by creating a `Argon.IContractResolver`.
@@ -123,7 +123,7 @@ The IContractResolver in the example above will set all DateTimes to use the Jav
 The absolute fastest way to read and write JSON is to use JsonTextReader/JsonTextWriter directly to manually serialize types. Using a reader or writer directly skips any of the overhead from a serializer, such as reflection.
 
 <!-- snippet: ReaderWriter -->
-<a id='snippet-readerwriter'></a>
+<a id='snippet-ReaderWriter'></a>
 ```cs
 public static string ToJson(this Person p)
 {
@@ -153,7 +153,7 @@ public static string ToJson(this Person p)
     return stringWriter.ToString();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L135-L165' title='Snippet source file'>snippet source</a> | <a href='#snippet-readerwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/PerformanceTests.cs#L135-L165' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReaderWriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If performance is important, then this is the best choice. More about using JsonReader/JsonWriter here: [ReadingWritingJSON]

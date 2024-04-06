@@ -3,7 +3,7 @@
 This sample loads JSON and then queries values from it using LINQ operators.
 
 <!-- snippet: QueryJsonLinq -->
-<a id='snippet-queryjsonlinq'></a>
+<a id='snippet-QueryJsonLinq'></a>
 ```cs
 var json = """
            {
@@ -72,5 +72,5 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/QueryJsonLinq.cs#L12-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-QueryJsonLinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

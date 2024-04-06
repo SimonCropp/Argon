@@ -3,7 +3,7 @@
 This sample uses a `Argon.CamelCaseNamingStrategy` specified using a contract resolver to camel case serialized property names.
 
 <!-- snippet: NamingStrategyCamelCaseTypes -->
-<a id='snippet-namingstrategycamelcasetypes'></a>
+<a id='snippet-NamingStrategyCamelCaseTypes'></a>
 ```cs
 public class User
 {
@@ -11,11 +11,11 @@ public class User
     public bool Enabled { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategycamelcasetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-NamingStrategyCamelCaseTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategyCamelCaseUsage -->
-<a id='snippet-namingstrategycamelcaseusage'></a>
+<a id='snippet-NamingStrategyCamelCaseUsage'></a>
 ```cs
 var user1 = new User
 {
@@ -40,5 +40,5 @@ Console.WriteLine(json);
 //   "enabled": true
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L20-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategycamelcaseusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategyCamelCase.cs#L20-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-NamingStrategyCamelCaseUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample serializes an object to JSON with `Argon.NullValueHandling` set to Ignore so that properties with a default value of null aren't included in the JSON result.
 
 <!-- snippet: NullValueHandlingIgnoreTypes -->
-<a id='snippet-nullvaluehandlingignoretypes'></a>
+<a id='snippet-NullValueHandlingIgnoreTypes'></a>
 ```cs
 public class Person
 {
@@ -13,11 +13,11 @@ public class Person
     public decimal? Salary { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullvaluehandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-NullValueHandlingIgnoreTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NullValueHandlingIgnoreUsage -->
-<a id='snippet-nullvaluehandlingignoreusage'></a>
+<a id='snippet-NullValueHandlingIgnoreUsage'></a>
 ```cs
 var person = new Person
 {
@@ -46,5 +46,5 @@ Console.WriteLine(jsonIgnoreNullValues);
 //   "Age": 1
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L22-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullvaluehandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NullValueHandlingIgnore.cs#L22-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-NullValueHandlingIgnoreUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

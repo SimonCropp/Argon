@@ -18,7 +18,7 @@ As well as using the built-in Json.NET attributes, Json.NET also looks for the `
 Json.NET attributes take precedence over standard .NET serialization attributes (e.g. if both JsonPropertyAttribute and DataMemberAttribute are present on a property and both customize the name, the name from JsonPropertyAttribute will be used).
 
 <!-- snippet: SerializationAttributes -->
-<a id='snippet-serializationattributes'></a>
+<a id='snippet-SerializationAttributes'></a>
 ```cs
 [JsonObject(MemberSerialization.OptIn)]
 public class Person
@@ -36,7 +36,7 @@ public class Person
     public string Department { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L74-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationattributes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L74-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationAttributes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -91,7 +91,7 @@ The attribute can be placed on a class or a member. When placed on a class, the 
 The priority of which JsonConverter is used is member attribute, then class attribute, and finally any converters passed to the JsonSerializer.
 
 <!-- snippet: JsonConverterAttributePropertyTypes -->
-<a id='snippet-jsonconverterattributepropertytypes'></a>
+<a id='snippet-JsonConverterAttributePropertyTypes'></a>
 ```cs
 public enum UserStatus
 {
@@ -108,7 +108,7 @@ public class User
     public UserStatus Status { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L7-L24' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributepropertytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeProperty.cs#L7-L24' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConverterAttributePropertyTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 This example shows the JsonConverterAttribute being applied to a property.
@@ -121,7 +121,7 @@ To apply a JsonConverter to the items in a collection, use either `Argon.JsonArr
 The `Argon.JsonConstructorAttribute` instructs the `Argon.JsonSerializer` to use a specific constructor when deserializing a class. It can be used to create a class using a parameterized constructor instead of the default constructor, or to pick which specific parameterized constructor to use if there are multiple.
 
 <!-- snippet: JsonConstructorAttributeTypes -->
-<a id='snippet-jsonconstructorattributetypes'></a>
+<a id='snippet-JsonConstructorAttributeTypes'></a>
 ```cs
 public class User
 {
@@ -140,11 +140,11 @@ public class User
     }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConstructorAttributeTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConstructorAttributeUsage -->
-<a id='snippet-jsonconstructorattributeusage'></a>
+<a id='snippet-JsonConstructorAttributeUsage'></a>
 ```cs
 var json = """
     {
@@ -158,7 +158,7 @@ var user = JsonConvert.DeserializeObject<User>(json);
 Console.WriteLine(user.UserName);
 // domain\username
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConstructorAttributeUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

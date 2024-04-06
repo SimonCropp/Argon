@@ -3,7 +3,7 @@
 This sample uses a `Argon.JsonConverter` to customize how JSON is serialized.
 
 <!-- snippet: SerializeWithJsonConvertersUsage -->
-<a id='snippet-serializewithjsonconvertersusage'></a>
+<a id='snippet-SerializeWithJsonConvertersUsage'></a>
 ```cs
 var stringComparisons = new List<StringComparison>
 {
@@ -28,5 +28,5 @@ var newStringComparsons = JsonConvert.DeserializeObject<List<StringComparison>>(
 Console.WriteLine(string.Join(", ", newStringComparsons.Select(_ => _.ToString()).ToArray()));
 // CurrentCulture, Ordinal
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeWithJsonConverters.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonconvertersusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeWithJsonConverters.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeWithJsonConvertersUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

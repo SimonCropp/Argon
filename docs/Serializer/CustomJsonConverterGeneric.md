@@ -3,7 +3,7 @@
 This sample creates a custom converter from `<c>JsonConverter<T>` that overrides serialization for the `Version` class with a custom display string.
 
 <!-- snippet: CustomJsonConverterGenericTypes -->
-<a id='snippet-customjsonconvertergenerictypes'></a>
+<a id='snippet-CustomJsonConverterGenericTypes'></a>
 ```cs
 public class VersionConverter : JsonConverter<Version>
 {
@@ -29,11 +29,11 @@ public class NuGetPackage
     public Version Version { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L7-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenerictypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L7-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-CustomJsonConverterGenericTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonConverterGenericUsage -->
-<a id='snippet-customjsonconvertergenericusage'></a>
+<a id='snippet-CustomJsonConverterGenericUsage'></a>
 ```cs
 var p1 = new NuGetPackage
 {
@@ -54,5 +54,5 @@ var p2 = JsonConvert.DeserializeObject<NuGetPackage>(json, new VersionConverter(
 Console.WriteLine(p2.Version.ToString());
 // 10.0.4
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L38-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonconvertergenericusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomJsonConverterGeneric.cs#L38-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-CustomJsonConverterGenericUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

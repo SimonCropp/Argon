@@ -3,7 +3,7 @@
 This sample loads JSON and then queries values from it using `Argon.JToken.SelectToken(System.String)` with a [JSONPath](http://stackoverflow.com/tags/jsonpath) query.
 
 <!-- snippet: QueryJsonSelectTokenJsonPath -->
-<a id='snippet-queryjsonselecttokenjsonpath'></a>
+<a id='snippet-QueryJsonSelectTokenJsonPath'></a>
 ```cs
 var o = JObject.Parse(
     """
@@ -57,5 +57,5 @@ foreach (var item in priceyProducts)
 // Anvil
 // Elbow Grease
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-QueryJsonSelectTokenJsonPath' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample serializes an object to JSON.
 
 <!-- snippet: SerializeObjectTypes -->
-<a id='snippet-serializeobjecttypes'></a>
+<a id='snippet-SerializeObjectTypes'></a>
 ```cs
 public class Account
 {
@@ -13,11 +13,11 @@ public class Account
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeObject.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeObject.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeObjectTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeObjectUsage -->
-<a id='snippet-serializeobjectusage'></a>
+<a id='snippet-SerializeObjectUsage'></a>
 ```cs
 var account = new Account
 {
@@ -44,5 +44,5 @@ var json = JsonConvert.SerializeObject(account, Formatting.Indented);
 
 Console.WriteLine(json);
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeObject.cs#L22-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeObject.cs#L22-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeObjectUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

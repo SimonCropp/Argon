@@ -3,7 +3,7 @@
 This sample creates a custom `Argon.IContractResolver` that only serializes a type's properties that begin with a specified character.
 
 <!-- snippet: CustomContractResolverUsage -->
-<a id='snippet-customcontractresolverusage'></a>
+<a id='snippet-CustomContractResolverUsage'></a>
 ```cs
 var person = new Person
 {
@@ -28,5 +28,5 @@ Console.WriteLine(startingWithL);
 //   "LastName": "Deepwater-Diver"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomContractResolver.cs#L36-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-customcontractresolverusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/CustomContractResolver.cs#L36-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-CustomContractResolverUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

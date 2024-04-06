@@ -8,7 +8,7 @@ LINQ to JSON provides methods for getting data from its objects. The index metho
 The simplest way to get a value from LINQ to JSON is to use the `Argon.JToken.Item(System.Object)` index on JObject/JArray and then cast the returned `Argon.JValue` to the type required.
 
 <!-- snippet: LinqToJsonSimpleQuerying -->
-<a id='snippet-linqtojsonsimplequerying'></a>
+<a id='snippet-LinqToJsonSimpleQuerying'></a>
 ```cs
 var json = """
            {
@@ -57,7 +57,7 @@ var categoriesText = categories
 // Json.NET
 // CodePlex
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L222-L271' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonsimplequerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L222-L271' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonSimpleQuerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -68,7 +68,7 @@ JObject/JArray can also be queried using LINQ. `Argon.JToken.Children` returns t
 `Argon.JToken.Children` returns all the children of a token. If it is a JObject it will return a collection of properties to work with, and if it is a JArray a collection of the array's values will be returned.
 
 <!-- snippet: LinqToJsonQuerying -->
-<a id='snippet-linqtojsonquerying'></a>
+<a id='snippet-LinqToJsonQuerying'></a>
 ```cs
 var postTitles =
     (
@@ -110,13 +110,13 @@ foreach (var c in categories)
 //LINQ - Count: 1
 //CodePlex - Count: 1
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L308-L350' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonquerying' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L308-L350' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonQuerying' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 LINQ to JSON can also be used to manually convert JSON to a .NET object.
 
 <!-- snippet: LinqToJsonDeserializeObject -->
-<a id='snippet-linqtojsondeserializeobject'></a>
+<a id='snippet-LinqToJsonDeserializeObject'></a>
 ```cs
 public class Shortie
 {
@@ -132,13 +132,13 @@ public class ShortieException
     public string ErrorMessage { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L356-L372' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L356-L372' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonDeserializeObject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Manually serializing and deserializing between .NET objects is useful when working with JSON that doesn't closely match the .NET objects.
 
 <!-- snippet: LinqToJsonDeserializeExample -->
-<a id='snippet-linqtojsondeserializeexample'></a>
+<a id='snippet-LinqToJsonDeserializeExample'></a>
 ```cs
 var jsonText = """
                {
@@ -172,7 +172,7 @@ Console.WriteLine(shortie.Original);
 Console.WriteLine(shortie.Error.ErrorMessage);
 // No action taken
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L377-L411' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsondeserializeexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L377-L411' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonDeserializeExample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

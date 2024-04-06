@@ -3,7 +3,7 @@
 This sample reads the `json:Array='true'` attribute in the XML and places its value in an array when converting the XML to JSON.
 
 <!-- snippet: ConvertXmlToJsonForceArray -->
-<a id='snippet-convertxmltojsonforcearray'></a>
+<a id='snippet-ConvertXmlToJsonForceArray'></a>
 ```cs
 var xml = """
           <person id='1'>
@@ -53,5 +53,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L12-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-convertxmltojsonforcearray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Xml/ConvertXmlToJsonForceArray.cs#L12-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-ConvertXmlToJsonForceArray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

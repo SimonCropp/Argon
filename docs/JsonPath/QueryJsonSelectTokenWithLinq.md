@@ -3,7 +3,7 @@
 This sample loads JSON and then queries values from it using a combination of `Argon.JToken.SelectToken(System.String)` and LINQ operators.
 
 <!-- snippet: QueryJsonSelectTokenWithLinq -->
-<a id='snippet-queryjsonselecttokenwithlinq'></a>
+<a id='snippet-QueryJsonSelectTokenWithLinq'></a>
 ```cs
 var o = JObject.Parse(
     """
@@ -55,5 +55,5 @@ var totalPrice = o["Manufacturers"].Sum(m => (decimal) m.SelectToken("Products[0
 Console.WriteLine(totalPrice);
 // 149.95
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenWithLinq.cs#L10-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenwithlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenWithLinq.cs#L10-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-QueryJsonSelectTokenWithLinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

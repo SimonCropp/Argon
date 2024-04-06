@@ -3,7 +3,7 @@
 This sample writes JSON using the `Argon.JsonTextWriter`.
 
 <!-- snippet: WriteJsonWithJsonTextWriter -->
-<a id='snippet-writejsonwithjsontextwriter'></a>
+<a id='snippet-WriteJsonWithJsonTextWriter'></a>
 ```cs
 var stringWriter = new StringWriter();
 
@@ -38,5 +38,5 @@ Console.WriteLine(stringWriter.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L10-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-writejsonwithjsontextwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/WriteJsonWithJsonTextWriter.cs#L10-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-WriteJsonWithJsonTextWriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

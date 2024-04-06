@@ -3,7 +3,7 @@
 This sample creates `Argon.JObject` and `Argon.JArray` instances using the C# collection initializer syntax.
 
 <!-- snippet: CreateJsonCollectionInitializer -->
-<a id='snippet-createjsoncollectioninitializer'></a>
+<a id='snippet-CreateJsonCollectionInitializer'></a>
 ```cs
 var o = new JObject
 {
@@ -28,5 +28,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonCollectionInitializer.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsoncollectioninitializer' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonCollectionInitializer.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonCollectionInitializer' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

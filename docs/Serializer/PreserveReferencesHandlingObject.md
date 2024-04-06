@@ -3,7 +3,7 @@
 This sample shows how the `Argon.PreserveReferencesHandling` setting can be used to serialize values by reference instead of by value.
 
 <!-- snippet: PreserveReferencesHandlingObjectTypes -->
-<a id='snippet-preservereferenceshandlingobjecttypes'></a>
+<a id='snippet-PreserveReferencesHandlingObjectTypes'></a>
 ```cs
 public class Directory
 {
@@ -18,11 +18,11 @@ public class File
     public Directory Parent { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-PreserveReferencesHandlingObjectTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: PreserveReferencesHandlingObjectUsage -->
-<a id='snippet-preservereferenceshandlingobjectusage'></a>
+<a id='snippet-PreserveReferencesHandlingObjectUsage'></a>
 ```cs
 var root = new Directory {Name = "Root"};
 var documents = new Directory {Name = "My Documents", Parent = root};
@@ -100,5 +100,5 @@ Console.WriteLine(preserveReferenacesObjects);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L27-L105' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservereferenceshandlingobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/PreserveReferencesHandlingObject.cs#L27-L105' title='Snippet source file'>snippet source</a> | <a href='#snippet-PreserveReferencesHandlingObjectUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

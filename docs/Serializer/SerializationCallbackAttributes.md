@@ -3,7 +3,7 @@
 This sample uses serialization callback attributes (`OnSerializingAttribute`, `OnSerializedAttribute`, `OnDeserializingAttribute`, `OnDeserializedAttribute`) to manipulate an object before and after its serialization and deserialization.
 
 <!-- snippet: SerializationCallbackAttributesTypes -->
-<a id='snippet-serializationcallbackattributestypes'></a>
+<a id='snippet-SerializationCallbackAttributesTypes'></a>
 ```cs
 public class SerializationEventTestObject :
     IJsonOnSerializing,
@@ -40,11 +40,11 @@ public class SerializationEventTestObject :
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributestypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbackAttributesTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializationCallbackAttributesUsage -->
-<a id='snippet-serializationcallbackattributesusage'></a>
+<a id='snippet-SerializationCallbackAttributesUsage'></a>
 ```cs
 var obj = new SerializationEventTestObject();
 
@@ -84,5 +84,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L49-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbackattributesusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L49-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbackAttributesUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

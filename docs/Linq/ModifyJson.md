@@ -3,7 +3,7 @@
 This sample loads JSON, modifies `Argon.JObject` and `Argon.JArray` instances and then writes the JSON back out again.
 
 <!-- snippet: ModifyJson -->
-<a id='snippet-modifyjson'></a>
+<a id='snippet-ModifyJson'></a>
 ```cs
 var json = """
     {
@@ -46,5 +46,5 @@ Console.WriteLine(rss.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ModifyJson.cs#L10-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-modifyjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ModifyJson.cs#L10-L53' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModifyJson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample loads JSON with properties that need to be escaped when queried with `Argon.JToken.SelectToken(System.String)`.
 
 <!-- snippet: QueryJsonSelectTokenEscaped -->
-<a id='snippet-queryjsonselecttokenescaped'></a>
+<a id='snippet-QueryJsonSelectTokenEscaped'></a>
 ```cs
 var o = JObject.Parse(
     """
@@ -27,5 +27,5 @@ var yarsRevenge = (string) o.SelectToken("['Yar\\'s Revenge']");
 var governmentIntelligence = (string) o.SelectToken("['Government \"Intelligence\"']");
 // Make-Believe
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L10-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenescaped' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenEscaped.cs#L10-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-QueryJsonSelectTokenEscaped' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

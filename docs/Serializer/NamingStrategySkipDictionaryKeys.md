@@ -3,7 +3,7 @@
 This sample configures a `Argon.CamelCaseNamingStrategy` to not camel case dictionary keys.
 
 <!-- snippet: NamingStrategySkipDictionaryKeysTypes -->
-<a id='snippet-namingstrategyskipdictionarykeystypes'></a>
+<a id='snippet-NamingStrategySkipDictionaryKeysTypes'></a>
 ```cs
 public class DailyHighScores
 {
@@ -12,11 +12,11 @@ public class DailyHighScores
     public Dictionary<string, int> UserPoints { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeystypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L7-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-NamingStrategySkipDictionaryKeysTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: NamingStrategySkipDictionaryKeysUsage -->
-<a id='snippet-namingstrategyskipdictionarykeysusage'></a>
+<a id='snippet-NamingStrategySkipDictionaryKeysUsage'></a>
 ```cs
 var dailyHighScores = new DailyHighScores
 {
@@ -55,5 +55,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L21-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-namingstrategyskipdictionarykeysusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/NamingStrategySkipDictionaryKeys.cs#L21-L60' title='Snippet source file'>snippet source</a> | <a href='#snippet-NamingStrategySkipDictionaryKeysUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

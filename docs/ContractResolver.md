@@ -17,7 +17,7 @@ The `Argon.DefaultContractResolver` is the default resolver used by the serializ
 `Argon.CamelCasePropertyNamesContractResolver` inherits from DefaultContractResolver and overrides the JSON property name to be written in [camelcase](http://en.wikipedia.org/wiki/CamelCase).
 
 <!-- snippet: ContractResolver -->
-<a id='snippet-contractresolver'></a>
+<a id='snippet-ContractResolver'></a>
 ```cs
 var product = new Product
 {
@@ -45,7 +45,7 @@ var json =
 //  ]
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L431-L459' title='Snippet source file'>snippet source</a> | <a href='#snippet-contractresolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L431-L459' title='Snippet source file'>snippet source</a> | <a href='#snippet-ContractResolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -3,7 +3,7 @@
 This sample converts LINQ to JSON objects to .NET types using `Argon.JToken.ToObject<T>`.
 
 <!-- snippet: ToObjectGeneric -->
-<a id='snippet-toobjectgeneric'></a>
+<a id='snippet-ToObjectGeneric'></a>
 ```cs
 var v1 = new JValue(true);
 
@@ -22,5 +22,5 @@ var s = v1.ToObject<string>();
 Console.WriteLine(s);
 // "True"
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ToObjectGeneric.cs#L10-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-toobjectgeneric' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ToObjectGeneric.cs#L10-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-ToObjectGeneric' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample creates `Argon.JObject` and `Argon.JArray` instances one at a time programatically.
 
 <!-- snippet: CreateJsonManually -->
-<a id='snippet-createjsonmanually'></a>
+<a id='snippet-CreateJsonManually'></a>
 ```cs
 var array = new JArray
 {
@@ -24,5 +24,5 @@ var json = o.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonManually.cs#L11-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsonmanually' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonManually.cs#L11-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonManually' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

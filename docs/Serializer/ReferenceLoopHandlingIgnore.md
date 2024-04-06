@@ -3,7 +3,7 @@
 This sample sets `Argon.ReferenceLoopHandling` to Ignore so that looping values are excluded from serialization instead of throwing an exception.
 
 <!-- snippet: ReferenceLoopHandlingIgnoreTypes -->
-<a id='snippet-referenceloophandlingignoretypes'></a>
+<a id='snippet-ReferenceLoopHandlingIgnoreTypes'></a>
 ```cs
 public class Employee
 {
@@ -11,11 +11,11 @@ public class Employee
     public Employee Manager { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReferenceLoopHandlingIgnoreTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ReferenceLoopHandlingIgnoreUsage -->
-<a id='snippet-referenceloophandlingignoreusage'></a>
+<a id='snippet-ReferenceLoopHandlingIgnoreUsage'></a>
 ```cs
 var joe = new Employee {Name = "Joe User"};
 var mike = new Employee {Name = "Mike Manager"};
@@ -35,5 +35,5 @@ Console.WriteLine(json);
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L20-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-referenceloophandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ReferenceLoopHandlingIgnore.cs#L20-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReferenceLoopHandlingIgnoreUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

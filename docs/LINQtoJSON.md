@@ -3,7 +3,7 @@
 LINQ to JSON is an API for working with JSON objects. It has been designed with LINQ in mind to enable quick querying and creation of JSON objects.
 
 <!-- snippet: LinqToJsonBasic -->
-<a id='snippet-linqtojsonbasic'></a>
+<a id='snippet-LinqToJsonBasic'></a>
 ```cs
 var o = JObject.Parse(
     """
@@ -28,7 +28,7 @@ var allDrives = o["Drives"]
 // DVD read/writer
 // 500 gigabyte hard drive
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L14-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojsonbasic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L14-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJsonBasic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

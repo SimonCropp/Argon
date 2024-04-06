@@ -15,7 +15,7 @@ Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https
 ## Serialize JSON
 
 <!-- snippet: SerializeJson -->
-<a id='snippet-serializejson'></a>
+<a id='snippet-SerializeJson'></a>
 ```cs
 var product = new Product
 {
@@ -33,14 +33,14 @@ var json = JsonConvert.SerializeObject(product);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L38-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L38-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeJson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
 ## Deserialize JSON
 
 <!-- snippet: DeserializeJson -->
-<a id='snippet-deserializejson'></a>
+<a id='snippet-DeserializeJson'></a>
 ```cs
 var json = """
     {
@@ -58,13 +58,13 @@ var movie = JsonConvert.DeserializeObject<Movie>(json);
 var name = movie.Name;
 // Bad Boys
 ```
-<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L69-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializejson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L69-L87' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeJson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
 ## LINQ to JSON
 <!-- snippet: LinqToJson -->
-<a id='snippet-linqtojson'></a>
+<a id='snippet-LinqToJson'></a>
 ```cs
 var jArray = new JArray
 {
@@ -85,7 +85,7 @@ var json = jObject.ToString();
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L11-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-linqtojson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Snippets.cs#L11-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-LinqToJson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
   * [Argon is JSON framework for .NET](/docs/readme.md)<!-- include: index. path: /docs/index.include.md -->

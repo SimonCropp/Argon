@@ -3,7 +3,7 @@
 This sample uses the `Argon.JsonSerializerSettings.Error` event to ignore the exceptions thrown from the invalid date strings.
 
 <!-- snippet: ErrorHandlingEventUsage -->
-<a id='snippet-errorhandlingeventusage'></a>
+<a id='snippet-ErrorHandlingEventUsage'></a>
 ```cs
 var errors = new List<string>();
 
@@ -38,5 +38,5 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(
 // Unexpected token parsing date. Expected String, got StartArray.
 // Cannot convert null value to System.DateTime.
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L12-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingeventusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingEvent.cs#L12-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-ErrorHandlingEventUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

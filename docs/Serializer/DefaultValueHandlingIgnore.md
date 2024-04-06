@@ -3,7 +3,7 @@
 This sample uses the `Argon.DefaultValueHandling` setting to not serialize properties with a default value.
 
 <!-- snippet: DefaultValueHandlingIgnoreTypes -->
-<a id='snippet-defaultvaluehandlingignoretypes'></a>
+<a id='snippet-DefaultValueHandlingIgnoreTypes'></a>
 ```cs
 public class Person
 {
@@ -13,11 +13,11 @@ public class Person
     public decimal? Salary { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvaluehandlingignoretypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-DefaultValueHandlingIgnoreTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DefaultValueHandlingIgnoreUsage -->
-<a id='snippet-defaultvaluehandlingignoreusage'></a>
+<a id='snippet-DefaultValueHandlingIgnoreUsage'></a>
 ```cs
 var person = new Person();
 
@@ -39,5 +39,5 @@ var jsonIgnoreDefaultValues = JsonConvert.SerializeObject(person, Formatting.Ind
 Console.WriteLine(jsonIgnoreDefaultValues);
 // {}
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L22-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultvaluehandlingignoreusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultValueHandlingIgnore.cs#L22-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-DefaultValueHandlingIgnoreUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

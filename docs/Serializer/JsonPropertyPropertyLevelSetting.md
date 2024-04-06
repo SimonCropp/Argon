@@ -3,7 +3,7 @@
 This sample uses `Argon.JsonPropertyAttribute` to change how the property value is serialized.
 
 <!-- snippet: JsonPropertyPropertyLevelSettingTypes -->
-<a id='snippet-jsonpropertypropertylevelsettingtypes'></a>
+<a id='snippet-JsonPropertyPropertyLevelSettingTypes'></a>
 ```cs
 public class Vessel
 {
@@ -14,11 +14,11 @@ public class Vessel
     public DateTime? LaunchDate { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L7-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L7-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyPropertyLevelSettingTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyPropertyLevelSettingUsage -->
-<a id='snippet-jsonpropertypropertylevelsettingusage'></a>
+<a id='snippet-JsonPropertyPropertyLevelSettingUsage'></a>
 ```cs
 var vessel = new Vessel
 {
@@ -34,5 +34,5 @@ Console.WriteLine(json);
 //   "Class": "Typhoon"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L23-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertypropertylevelsettingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyPropertyLevelSetting.cs#L23-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyPropertyLevelSettingUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

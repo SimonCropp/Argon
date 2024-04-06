@@ -3,7 +3,7 @@
 This sample loads JSON and then queries values from it using `Argon.JToken.SelectToken`. An error is thrown when part of the JSON path is not found.
 
 <!-- snippet: ErrorWhenNoMatchQuery -->
-<a id='snippet-errorwhennomatchquery'></a>
+<a id='snippet-ErrorWhenNoMatchQuery'></a>
 ```cs
 var items = JArray.Parse(
     """
@@ -28,5 +28,5 @@ catch (JsonException)
     result = "Unable to find result in JSON.";
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/ErrorWhenNoMatchQuery.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorwhennomatchquery' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/ErrorWhenNoMatchQuery.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-ErrorWhenNoMatchQuery' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

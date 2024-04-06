@@ -3,7 +3,7 @@
 This sample serializes a dictionary to JSON.
 
 <!-- snippet: SerializeDictionary -->
-<a id='snippet-serializedictionary'></a>
+<a id='snippet-SerializeDictionary'></a>
 ```cs
 var points = new Dictionary<string, int>
 {
@@ -21,5 +21,5 @@ Console.WriteLine(json);
 //   "Jess": 11926
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeDictionary.cs#L10-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedictionary' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeDictionary.cs#L10-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeDictionary' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample uses the `Argon.JsonConverterAttribute` to specify that a `Argon.JsonConverter` should be used when serializing and deserializing a class.
 
 <!-- snippet: JsonConverterAttributeClassTypes -->
-<a id='snippet-jsonconverterattributeclasstypes'></a>
+<a id='snippet-JsonConverterAttributeClassTypes'></a>
 ```cs
 public class UserConverter : JsonConverter
 {
@@ -34,11 +34,11 @@ public class User
     public string UserName { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L7-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclasstypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L7-L38' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConverterAttributeClassTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConverterAttributeClassUsage -->
-<a id='snippet-jsonconverterattributeclassusage'></a>
+<a id='snippet-JsonConverterAttributeClassUsage'></a>
 ```cs
 var user = new User
 {
@@ -50,5 +50,5 @@ var json = JsonConvert.SerializeObject(user, Formatting.Indented);
 Console.WriteLine(json);
 // "domain\\username"
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L43-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconverterattributeclassusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConverterAttributeClass.cs#L43-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConverterAttributeClassUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

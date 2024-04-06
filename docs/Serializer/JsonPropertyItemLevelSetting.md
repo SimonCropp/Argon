@@ -3,7 +3,7 @@
 This sample uses `Argon.JsonPropertyAttribute` to change how the property value's items are serialized, e.g. setting ItemIsReference to true on a property with a collection will serialize all the collection's items with reference tracking enabled.
 
 <!-- snippet: JsonPropertyItemLevelSettingTypes -->
-<a id='snippet-jsonpropertyitemlevelsettingtypes'></a>
+<a id='snippet-JsonPropertyItemLevelSettingTypes'></a>
 ```cs
 public class Business
 {
@@ -19,11 +19,11 @@ public class Employee
     [JsonProperty(IsReference = true)] public Employee Manager { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L7-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L7-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyItemLevelSettingTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyItemLevelSettingUsage -->
-<a id='snippet-jsonpropertyitemlevelsettingusage'></a>
+<a id='snippet-JsonPropertyItemLevelSettingUsage'></a>
 ```cs
 var manager = new Employee
 {
@@ -62,5 +62,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L28-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyitemlevelsettingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyItemLevelSetting.cs#L28-L67' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyItemLevelSettingUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

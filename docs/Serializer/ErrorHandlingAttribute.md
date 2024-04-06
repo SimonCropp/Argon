@@ -4,7 +4,7 @@ This sample uses `Argon.OnErrorAttribute` to ignore the exception thrown setting
 
 
 <!-- snippet: ErrorHandlingAttributeTypes -->
-<a id='snippet-errorhandlingattributetypes'></a>
+<a id='snippet-ErrorHandlingAttributeTypes'></a>
 ```cs
 public class Employee :
     IJsonOnError
@@ -34,11 +34,11 @@ public class Employee :
         markAsHandled();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L7-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L7-L37' title='Snippet source file'>snippet source</a> | <a href='#snippet-ErrorHandlingAttributeTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: ErrorHandlingAttributeUsage -->
-<a id='snippet-errorhandlingattributeusage'></a>
+<a id='snippet-ErrorHandlingAttributeUsage'></a>
 ```cs
 var person = new Employee
 {
@@ -57,5 +57,5 @@ Console.WriteLine(json);
 //   "Title": "Mister Manager"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L42-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-errorhandlingattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L42-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-ErrorHandlingAttributeUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

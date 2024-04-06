@@ -3,7 +3,7 @@
 This sample creates a `Argon.JTokenWriter` from a `Argon.JToken`.
 
 <!-- snippet: CreateWriter -->
-<a id='snippet-createwriter'></a>
+<a id='snippet-CreateWriter'></a>
 ```cs
 var o = new JObject
 {
@@ -28,5 +28,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateWriter.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-createwriter' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateWriter.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateWriter' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

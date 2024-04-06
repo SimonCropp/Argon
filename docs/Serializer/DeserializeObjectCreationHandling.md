@@ -3,7 +3,7 @@
 This sample deserializes JSON with `Argon.ObjectCreationHandling` set to Replace so that collection values aren't duplicated.
 
 <!-- snippet: DeserializeObjectCreationHandlingTypes -->
-<a id='snippet-deserializeobjectcreationhandlingtypes'></a>
+<a id='snippet-DeserializeObjectCreationHandlingTypes'></a>
 ```cs
 public class UserViewModel
 {
@@ -16,11 +16,11 @@ public class UserViewModel
     };
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L7-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L7-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeObjectCreationHandlingTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeObjectCreationHandlingUsage -->
-<a id='snippet-deserializeobjectcreationhandlingusage'></a>
+<a id='snippet-DeserializeObjectCreationHandlingUsage'></a>
 ```cs
 var json = """
     {
@@ -60,5 +60,5 @@ foreach (var office in model2.Offices)
 // Wellington
 // Christchurch
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L25-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectcreationhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObjectCreationHandling.cs#L25-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeObjectCreationHandlingUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

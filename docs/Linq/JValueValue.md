@@ -3,7 +3,7 @@
 This sample gets `Argon.JValue` internal values using `Argon.JValue.Value`.
 
 <!-- snippet: JValueValue -->
-<a id='snippet-jvaluevalue'></a>
+<a id='snippet-JValueValue'></a>
 ```cs
 var s = new JValue("A string value");
 
@@ -19,5 +19,5 @@ Console.WriteLine(u.Value.GetType().Name);
 Console.WriteLine(u.Value);
 // http://www.google.com/
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/JValueValue.cs#L10-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-jvaluevalue' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/JValueValue.cs#L10-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-JValueValue' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

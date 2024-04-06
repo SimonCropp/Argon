@@ -3,7 +3,7 @@
 This sample creates a custom `Argon.JsonReader`.
 
 <!-- snippet: CustomJsonReaderTypes -->
-<a id='snippet-customjsonreadertypes'></a>
+<a id='snippet-CustomJsonReaderTypes'></a>
 ```cs
 public class XmlJsonReader(XmlReader reader) : JsonReader
 {
@@ -210,11 +210,11 @@ public class XmlJsonReader(XmlReader reader) : JsonReader
     }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L8-L215' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreadertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L8-L215' title='Snippet source file'>snippet source</a> | <a href='#snippet-CustomJsonReaderTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CustomJsonReaderUsage -->
-<a id='snippet-customjsonreaderusage'></a>
+<a id='snippet-CustomJsonReaderUsage'></a>
 ```cs
 var xml = """
           <Root type="Object">
@@ -271,5 +271,5 @@ using (var reader = new XmlJsonReader(xmlReader))
     //}
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L222-L279' title='Snippet source file'>snippet source</a> | <a href='#snippet-customjsonreaderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/CustomJsonReader.cs#L222-L279' title='Snippet source file'>snippet source</a> | <a href='#snippet-CustomJsonReaderUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

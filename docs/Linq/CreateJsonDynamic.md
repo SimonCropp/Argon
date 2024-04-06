@@ -3,7 +3,7 @@
 This sample creates `Argon.JObject` and `Argon.JArray` instances using the C# dynamic functionality.
 
 <!-- snippet: CreateJsonDynamic -->
-<a id='snippet-createjsondynamic'></a>
+<a id='snippet-CreateJsonDynamic'></a>
 ```cs
 dynamic product = new JObject();
 product.ProductName = "Elbow Grease";
@@ -26,5 +26,5 @@ Console.WriteLine(product.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDynamic.cs#L13-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondynamic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDynamic.cs#L13-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonDynamic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

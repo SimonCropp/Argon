@@ -3,7 +3,7 @@
 This sample creates `Argon.JObject` and `Argon.JArray` instances declaratively  using LINQ.
 
 <!-- snippet: CreateJsonDeclarativelyTypes -->
-<a id='snippet-createjsondeclarativelytypes'></a>
+<a id='snippet-CreateJsonDeclarativelyTypes'></a>
 ```cs
 public class Post
 {
@@ -13,11 +13,11 @@ public class Post
     public IList<string> Categories { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelytypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonDeclarativelyTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: CreateJsonDeclarativelyUsage -->
-<a id='snippet-createjsondeclarativelyusage'></a>
+<a id='snippet-CreateJsonDeclarativelyUsage'></a>
 ```cs
 var posts = GetPosts();
 
@@ -71,5 +71,5 @@ Console.WriteLine(rss.ToString());
 //   }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L36-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-createjsondeclarativelyusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateJsonDeclaratively.cs#L36-L90' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateJsonDeclarativelyUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample deserializes JSON into a dictionary.
 
 <!-- snippet: DeserializeDictionary -->
-<a id='snippet-deserializedictionary'></a>
+<a id='snippet-DeserializeDictionary'></a>
 ```cs
 var json = """
     {
@@ -20,5 +20,5 @@ Console.WriteLine(htmlAttributes["href"]);
 Console.WriteLine(htmlAttributes["target"]);
 // _blank
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeDictionary.cs#L10-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedictionary' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeDictionary.cs#L10-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeDictionary' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

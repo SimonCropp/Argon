@@ -3,7 +3,7 @@
 This sample deserializes JSON to an object.
 
 <!-- snippet: DeserializeObjectTypes -->
-<a id='snippet-deserializeobjecttypes'></a>
+<a id='snippet-DeserializeObjectTypes'></a>
 ```cs
 public class Account
 {
@@ -13,11 +13,11 @@ public class Account
     public IList<string> Roles { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObject.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjecttypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObject.cs#L7-L17' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeObjectTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeObjectUsage -->
-<a id='snippet-deserializeobjectusage'></a>
+<a id='snippet-DeserializeObjectUsage'></a>
 ```cs
 var json = """
     {
@@ -36,5 +36,5 @@ var account = JsonConvert.DeserializeObject<Account>(json);
 Console.WriteLine(account.Email);
 // james@example.com
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObject.cs#L22-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeobjectusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeObject.cs#L22-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeObjectUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

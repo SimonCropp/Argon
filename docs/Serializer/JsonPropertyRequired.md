@@ -3,7 +3,7 @@
 This sample uses `Argon.JsonPropertyAttribute` to set `Argon.Required` which is used during deserialization to validate the presence of required JSON properties.
 
 <!-- snippet: JsonPropertyRequiredTypes -->
-<a id='snippet-jsonpropertyrequiredtypes'></a>
+<a id='snippet-JsonPropertyRequiredTypes'></a>
 ```cs
 public class Videogame
 {
@@ -14,11 +14,11 @@ public class Videogame
     public DateTime? ReleaseDate { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L7-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L7-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyRequiredTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonPropertyRequiredUsage -->
-<a id='snippet-jsonpropertyrequiredusage'></a>
+<a id='snippet-JsonPropertyRequiredUsage'></a>
 ```cs
 var json = """
     {
@@ -35,5 +35,5 @@ Console.WriteLine(starcraft.Name);
 Console.WriteLine(starcraft.ReleaseDate);
 // null
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L23-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonpropertyrequiredusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonPropertyRequired.cs#L23-L40' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonPropertyRequiredUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

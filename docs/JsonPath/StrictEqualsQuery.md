@@ -3,7 +3,7 @@
 This sample loads JSON and then queries values from it using `Argon.JToken.SelectToken(System.String)` with a strict equals JSON Path.
 
 <!-- snippet: StrictEqualsQueryUsage -->
-<a id='snippet-strictequalsqueryusage'></a>
+<a id='snippet-StrictEqualsQueryUsage'></a>
 ```cs
 var items = JArray.Parse("""
                          [
@@ -28,5 +28,5 @@ foreach (var item in strictResults)
 
 // Valid JSON
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-strictequalsqueryusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/StrictEqualsQuery.cs#L10-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-StrictEqualsQueryUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

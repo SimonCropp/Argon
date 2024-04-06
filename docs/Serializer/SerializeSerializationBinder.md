@@ -3,7 +3,7 @@
 This sample creates a custom `System.Runtime.Serialization.SerializationBinder` that writes only the type name when including type data in JSON.
 
 <!-- snippet: SerializeSerializationBinderTypes -->
-<a id='snippet-serializeserializationbindertypes'></a>
+<a id='snippet-SerializeSerializationBinderTypes'></a>
 ```cs
 public class KnownTypesBinder : ISerializationBinder
 {
@@ -25,11 +25,11 @@ public class Car
     public string Model { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L7-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbindertypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L7-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeSerializationBinderTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeSerializationBinderUsage -->
-<a id='snippet-serializeserializationbinderusage'></a>
+<a id='snippet-SerializeSerializationBinderUsage'></a>
 ```cs
 var knownTypesBinder = new KnownTypesBinder
 {
@@ -64,5 +64,5 @@ var newValue = JsonConvert.DeserializeObject(json, new JsonSerializerSettings
 Console.WriteLine(newValue.GetType().Name);
 // Car
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L34-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializeserializationbinderusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeSerializationBinder.cs#L34-L69' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeSerializationBinderUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 By default Json.NET will serialize all objects it encounters by value. If a list contains two Person references and both references point to the same object, then the JsonSerializer will write out all the names and values for each reference.
 
 <!-- snippet: PreservingObjectReferencesOff -->
-<a id='snippet-preservingobjectreferencesoff'></a>
+<a id='snippet-PreservingObjectReferencesOff'></a>
 ```cs
 var p = new Person
 {
@@ -32,7 +32,7 @@ var json = JsonConvert.SerializeObject(people, Formatting.Indented);
 //  }
 //]
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L316-L345' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesoff' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L316-L345' title='Snippet source file'>snippet source</a> | <a href='#snippet-PreservingObjectReferencesOff' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In most cases this is the desired result, but in certain scenarios writing the second item in the list as a reference to the first is a better solution. If the above JSON was deserialized now, then the returned list would contain two completely separate Person objects with the same values. Writing references by value will also cause problems on objects where a circular reference occurs.
@@ -43,7 +43,7 @@ In most cases this is the desired result, but in certain scenarios writing the s
 Setting `Argon.PreserveReferencesHandling` will track object references when serializing and deserializing JSON.
 
 <!-- snippet: PreservingObjectReferencesOn -->
-<a id='snippet-preservingobjectreferenceson'></a>
+<a id='snippet-PreservingObjectReferencesOn'></a>
 ```cs
 var json = JsonConvert.SerializeObject(people, Formatting.Indented,
     new JsonSerializerSettings {PreserveReferencesHandling = PreserveReferencesHandling.Objects});
@@ -77,7 +77,7 @@ Console.WriteLine(p2.Name);
 var equal = ReferenceEquals(p1, p2);
 // true
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L378-L412' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferenceson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L378-L412' title='Snippet source file'>snippet source</a> | <a href='#snippet-PreservingObjectReferencesOn' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The first Person in the list is serialized with the addition of an object ID. The second Person in JSON is now only a reference to the first.
@@ -96,7 +96,7 @@ The PreserveReferencesHandling setting on the JsonSerializer will change how all
 Setting IsReference on JsonObjectAttribute or JsonArrayAttribute to true will mean the JsonSerializer will always serialize the type the attribute is against as a reference. Setting IsReference on the JsonPropertyAttribute to true will serialize only that property as a reference.
 
 <!-- snippet: PreservingObjectReferencesAttribute -->
-<a id='snippet-preservingobjectreferencesattribute'></a>
+<a id='snippet-PreservingObjectReferencesAttribute'></a>
 ```cs
 [JsonObject(IsReference = true)]
 public class EmployeeReference
@@ -105,7 +105,7 @@ public class EmployeeReference
     public EmployeeReference Manager { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L417-L426' title='Snippet source file'>snippet source</a> | <a href='#snippet-preservingobjectreferencesattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L417-L426' title='Snippet source file'>snippet source</a> | <a href='#snippet-PreservingObjectReferencesAttribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -3,7 +3,7 @@
 This sample deserializes JSON to a `System.Data.DataSet`.
 
 <!-- snippet: DeserializeDataSet -->
-<a id='snippet-deserializedataset'></a>
+<a id='snippet-DeserializeDataSet'></a>
 ```cs
 var json = """
     {
@@ -38,5 +38,5 @@ foreach (DataRow row in dataTable.Rows)
 // 0 - item 0
 // 1 - item 1
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeDataSet.cs#L12-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializedataset' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeDataSet.cs#L12-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeDataSet' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

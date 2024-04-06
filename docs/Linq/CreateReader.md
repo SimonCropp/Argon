@@ -3,7 +3,7 @@
 This sample creates a `Argon.JTokenReader` from a `Argon.JToken`.
 
 <!-- snippet: CreateReader -->
-<a id='snippet-createreader'></a>
+<a id='snippet-CreateReader'></a>
 ```cs
 var o = new JObject
 {
@@ -42,5 +42,5 @@ while (reader.Read())
 // EndArray
 // EndObject
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateReader.cs#L10-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-createreader' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/CreateReader.cs#L10-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-CreateReader' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

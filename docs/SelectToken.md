@@ -10,7 +10,7 @@ SelectToken is a method on JToken and takes a string path to a child token. Sele
 The path is made up of property names and array indexes separated by periods, e.g. `Manufacturers[0].Name`.
 
 <!-- snippet: SelectTokenComplex -->
-<a id='snippet-selecttokencomplex'></a>
+<a id='snippet-SelectTokenComplex'></a>
 ```cs
 var o = JObject.Parse(
     """
@@ -55,7 +55,7 @@ var productPrice = (decimal) o.SelectToken("Manufacturers[0].Products[0].Price")
 var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 // Elbow Grease
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L466-L511' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokencomplex' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L466-L511' title='Snippet source file'>snippet source</a> | <a href='#snippet-SelectTokenComplex' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -64,7 +64,7 @@ var productName = (string) o.SelectToken("Manufacturers[1].Products[0].Name");
 SelectToken supports JSONPath queries. See: https://goessner.net/articles/JsonPath/
 
 <!-- snippet: QueryJsonSelectTokenJsonPath -->
-<a id='snippet-queryjsonselecttokenjsonpath'></a>
+<a id='snippet-QueryJsonSelectTokenJsonPath'></a>
 ```cs
 var o = JObject.Parse(
     """
@@ -118,7 +118,7 @@ foreach (var item in priceyProducts)
 // Anvil
 // Elbow Grease
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsonselecttokenjsonpath' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/JsonPath/QueryJsonSelectTokenJsonPath.cs#L11-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-QueryJsonSelectTokenJsonPath' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -127,7 +127,7 @@ foreach (var item in priceyProducts)
 SelectToken can be used in combination with standard LINQ methods.
 
 <!-- snippet: SelectTokenLinq -->
-<a id='snippet-selecttokenlinq'></a>
+<a id='snippet-SelectTokenLinq'></a>
 ```cs
 var storeNames = o
     .SelectToken("Stores")
@@ -146,7 +146,7 @@ var totalPrice = o["Manufacturers"]
     .Sum(m => (decimal) m.SelectToken("Products[0].Price"));
 // 149.95
 ```
-<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L555-L574' title='Snippet source file'>snippet source</a> | <a href='#snippet-selecttokenlinq' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/LinqToJsonTests.cs#L555-L574' title='Snippet source file'>snippet source</a> | <a href='#snippet-SelectTokenLinq' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

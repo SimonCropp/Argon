@@ -3,7 +3,7 @@
 This sample uses the `Argon.JsonConstructorAttribute` to specify that a constructor should be used to create a class during deserialization.
 
 <!-- snippet: JsonConstructorAttributeTypes -->
-<a id='snippet-jsonconstructorattributetypes'></a>
+<a id='snippet-JsonConstructorAttributeTypes'></a>
 ```cs
 public class User
 {
@@ -22,11 +22,11 @@ public class User
     }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributetypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L9-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConstructorAttributeTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonConstructorAttributeUsage -->
-<a id='snippet-jsonconstructorattributeusage'></a>
+<a id='snippet-JsonConstructorAttributeUsage'></a>
 ```cs
 var json = """
     {
@@ -40,5 +40,5 @@ var user = JsonConvert.DeserializeObject<User>(json);
 Console.WriteLine(user.UserName);
 // domain\username
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonconstructorattributeusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonConstructorAttribute.cs#L33-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonConstructorAttributeUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -15,7 +15,7 @@ To tell the serializer which methods should be called during the object's serial
 Example object with serialization callback methods:</para>
 
 <!-- snippet: SerializationCallbacksObject -->
-<a id='snippet-serializationcallbacksobject'></a>
+<a id='snippet-SerializationCallbacksObject'></a>
 ```cs
 public class SerializationEventTestObject :
     IJsonOnSerializing,
@@ -52,13 +52,13 @@ public class SerializationEventTestObject :
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L94-L131' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L94-L131' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbacksObject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The example object being serialized and deserialized by Json.NET:</para>
 
 <!-- snippet: SerializationCallbacksExample -->
-<a id='snippet-serializationcallbacksexample'></a>
+<a id='snippet-SerializationCallbacksExample'></a>
 ```cs
 var obj = new SerializationEventTestObject();
 
@@ -98,5 +98,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L136-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializationcallbacksexample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L136-L176' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbacksExample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

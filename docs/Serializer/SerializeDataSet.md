@@ -3,7 +3,7 @@
 This sample serializes a `System.Data.DataSet` to JSON.
 
 <!-- snippet: SerializeDataSet -->
-<a id='snippet-serializedataset'></a>
+<a id='snippet-SerializeDataSet'></a>
 ```cs
 var dataSet = new DataSet("dataSet");
 dataSet.Namespace = "NetFrameWork";
@@ -46,5 +46,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeDataSet.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializedataset' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeDataSet.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeDataSet' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

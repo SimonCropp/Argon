@@ -26,7 +26,7 @@ The version of Json.NET being used in the application will change what XML conve
 The JsonConvert has two helper methods for converting between JSON and XML. The first is `Argon.JsonConvert.SerializeXmlNode`. This method takes an XmlNode and serializes it to JSON text.
 
 <!-- snippet: SerializeXmlNode -->
-<a id='snippet-serializexmlnode'></a>
+<a id='snippet-SerializeXmlNode'></a>
 ```cs
 var xml = """
           <?xml version='1.0' standalone='no'?>
@@ -67,7 +67,7 @@ var jsonText = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L17-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L17-L58' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeXmlNode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Because multiple nodes with the same name at the same level are grouped together into an array, the conversion process can produce different JSON depending on the number of nodes. For example, if some XML for a user has a single `<Role>` node, then that role will be text against a JSON `"Role"` property, but if the user has multiple `<Role>` nodes, then the role values will be placed in a JSON array.
@@ -75,7 +75,7 @@ Because multiple nodes with the same name at the same level are grouped together
 To fix this situation a custom XML attribute can be added to force a JSON array to be created.
 
 <!-- snippet: ForceJsonArray -->
-<a id='snippet-forcejsonarray'></a>
+<a id='snippet-ForceJsonArray'></a>
 ```cs
 var xml = """
           <person id='1'>
@@ -121,7 +121,7 @@ json = JsonXmlConvert.SerializeXmlNode(doc);
 //  }
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L108-L154' title='Snippet source file'>snippet source</a> | <a href='#snippet-forcejsonarray' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L108-L154' title='Snippet source file'>snippet source</a> | <a href='#snippet-ForceJsonArray' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -132,7 +132,7 @@ The second helper method on JsonConvert is `Argon.JsonConvert.DeserializeXmlNode
 Because valid XML must have one root element, the JSON passed to DeserializeXmlNode should have one property in the root JSON object. If the root JSON object has multiple properties, then the overload that also takes an element name should be used. A root element with that name will be inserted into the deserialized XmlNode.
 
 <!-- snippet: DeserializeXmlNode -->
-<a id='snippet-deserializexmlnode'></a>
+<a id='snippet-DeserializeXmlNode'></a>
 ```cs
 var json = """
     {
@@ -170,5 +170,5 @@ var doc = JsonXmlConvert.DeserializeXmlNode(json);
 //   </person>
 // </root>
 ```
-<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L64-L102' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializexmlnode' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/ConvertingJsonAndXmlTests.cs#L64-L102' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeXmlNode' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

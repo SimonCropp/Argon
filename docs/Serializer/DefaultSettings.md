@@ -3,7 +3,7 @@
 This sample serializes and deserializes JSON using `Argon.JsonConvert.DefaultSettings`.
 
 <!-- snippet: DefaultSettingsUsage -->
-<a id='snippet-defaultsettingsusage'></a>
+<a id='snippet-DefaultSettingsUsage'></a>
 ```cs
 // settings will automatically be used by JsonConvert.SerializeObject/DeserializeObject
 JsonConvert.DefaultSettings = () => new()
@@ -30,5 +30,5 @@ json = JsonConvert.SerializeObject(s);
 //   "jobTitle": "Web Dude"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultSettings.cs#L16-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-defaultsettingsusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DefaultSettings.cs#L16-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-DefaultSettingsUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

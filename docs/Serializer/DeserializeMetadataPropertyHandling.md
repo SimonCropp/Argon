@@ -3,7 +3,7 @@
 This sample deserializes JSON with `Argon.MetadataPropertyHandling` set to ReadAhead so that metadata properties do not need to be at the start of an object.
 
 <!-- snippet: DeserializeMetadataPropertyHandling -->
-<a id='snippet-deserializemetadatapropertyhandling'></a>
+<a id='snippet-DeserializeMetadataPropertyHandling'></a>
 ```cs
 var json = """
     {
@@ -25,5 +25,5 @@ var u = (User) o;
 Console.WriteLine(u.Name);
 // James
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializemetadatapropertyhandling' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeMetadataPropertyHandling.cs#L17-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeMetadataPropertyHandling' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

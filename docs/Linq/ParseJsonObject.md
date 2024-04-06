@@ -3,7 +3,7 @@
 This sample parses a JSON object using `Argon.JObject.Parse(System.String)`.
 
 <!-- snippet: ParseJsonObject -->
-<a id='snippet-parsejsonobject'></a>
+<a id='snippet-ParseJsonObject'></a>
 ```cs
 var json = """
     {
@@ -26,5 +26,5 @@ Console.WriteLine(o.ToString());
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ParseJsonObject.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-parsejsonobject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/ParseJsonObject.cs#L10-L33' title='Snippet source file'>snippet source</a> | <a href='#snippet-ParseJsonObject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

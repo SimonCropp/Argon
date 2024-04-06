@@ -3,7 +3,7 @@
 This sample serializes JSON to a file.
 
 <!-- snippet: SerializeWithJsonSerializerToFileTypes -->
-<a id='snippet-serializewithjsonserializertofiletypes'></a>
+<a id='snippet-SerializeWithJsonSerializerToFileTypes'></a>
 ```cs
 public class Movie
 {
@@ -11,11 +11,11 @@ public class Movie
     public int Year { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofiletypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeWithJsonSerializerToFileTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeWithJsonSerializerToFileUsage -->
-<a id='snippet-serializewithjsonserializertofileusage'></a>
+<a id='snippet-SerializeWithJsonSerializerToFileUsage'></a>
 ```cs
 var movie = new Movie
 {
@@ -31,5 +31,5 @@ using var file = File.CreateText(@"c:\movie.json");
 var serializer = new JsonSerializer();
 serializer.Serialize(file, movie);
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L20-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializewithjsonserializertofileusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeWithJsonSerializerToFile.cs#L20-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeWithJsonSerializerToFileUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

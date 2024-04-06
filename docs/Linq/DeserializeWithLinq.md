@@ -3,7 +3,7 @@
 This sample uses LINQ to JSON to manually convert JSON to a .NET type.
 
 <!-- snippet: DeserializeWithLinqTypes -->
-<a id='snippet-deserializewithlinqtypes'></a>
+<a id='snippet-DeserializeWithLinqTypes'></a>
 ```cs
 public class BlogPost
 {
@@ -14,11 +14,11 @@ public class BlogPost
     public DateTime PostedDate { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L9-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L9-L20' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeWithLinqTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeWithLinqUsage -->
-<a id='snippet-deserializewithlinqusage'></a>
+<a id='snippet-DeserializeWithLinqUsage'></a>
 ```cs
 var json = """
            [
@@ -50,5 +50,5 @@ Console.WriteLine(blogPosts[0].Body);
 // <h3>Title!</h3>
 // <p>Content!</p>
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L25-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializewithlinqusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/DeserializeWithLinq.cs#L25-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeWithLinqUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -3,7 +3,7 @@
 This sample uses `Argon.JRaw` properties to serialize JSON with raw content.
 
 <!-- snippet: SerializeRawJsonTypes -->
-<a id='snippet-serializerawjsontypes'></a>
+<a id='snippet-SerializeRawJsonTypes'></a>
 ```cs
 public class JavaScriptSettings
 {
@@ -11,11 +11,11 @@ public class JavaScriptSettings
     public JRaw OnUnloadFunction { get; set; }
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeRawJson.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsontypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeRawJson.cs#L7-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeRawJsonTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: SerializeRawJsonUsage -->
-<a id='snippet-serializerawjsonusage'></a>
+<a id='snippet-SerializeRawJsonUsage'></a>
 ```cs
 var settings = new JavaScriptSettings
 {
@@ -31,5 +31,5 @@ Console.WriteLine(json);
 //   "OnUnloadFunction": function(e) { alert(e); }
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeRawJson.cs#L20-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-serializerawjsonusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeRawJson.cs#L20-L36' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeRawJsonUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

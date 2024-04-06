@@ -3,7 +3,7 @@
 This sample reads JSON using the `Argon.JsonTextReader`.
 
 <!-- snippet: ReadJsonWithJsonTextReader -->
-<a id='snippet-readjsonwithjsontextreader'></a>
+<a id='snippet-ReadJsonWithJsonTextReader'></a>
 ```cs
 var json = """
     {
@@ -45,5 +45,5 @@ while (reader.Read())
 // Token: EndArray
 // Token: EndObject
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/ReadJsonWithJsonTextReader.cs#L10-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-readjsonwithjsontextreader' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/ReadJsonWithJsonTextReader.cs#L10-L52' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReadJsonWithJsonTextReader' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

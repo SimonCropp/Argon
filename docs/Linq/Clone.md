@@ -3,7 +3,7 @@
 This sample recursively clones a `Argon.JToken`  and all its children using `Argon.JToken.DeepClone`.
 
 <!-- snippet: Clone -->
-<a id='snippet-clone'></a>
+<a id='snippet-Clone'></a>
 ```cs
 var o1 = new JObject
 {
@@ -37,5 +37,5 @@ Console.WriteLine(JToken.DeepEquals(o1, o2));
 Console.WriteLine(ReferenceEquals(o1, o2));
 // false
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/Clone.cs#L10-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-clone' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/Clone.cs#L10-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-Clone' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

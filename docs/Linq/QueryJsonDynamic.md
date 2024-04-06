@@ -3,7 +3,7 @@
 This sample loads JSON and then queries values from it using C# dynamic functionality.
 
 <!-- snippet: QueryJsonDynamic -->
-<a id='snippet-queryjsondynamic'></a>
+<a id='snippet-QueryJsonDynamic'></a>
 ```cs
 var json = """
            [
@@ -39,5 +39,5 @@ DateTime postDate = blogPost.Date;
 Console.WriteLine(postDate);
 // 23/01/2013 7:30:00 p.m.
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/QueryJsonDynamic.cs#L12-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-queryjsondynamic' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Linq/QueryJsonDynamic.cs#L12-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-QueryJsonDynamic' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

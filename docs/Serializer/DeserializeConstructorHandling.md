@@ -3,7 +3,7 @@
 This sample uses the `Argon.ConstructorHandling` setting to successfully deserialize the class using its non-public constructor.
 
 <!-- snippet: DeserializeConstructorHandlingTypes -->
-<a id='snippet-deserializeconstructorhandlingtypes'></a>
+<a id='snippet-DeserializeConstructorHandlingTypes'></a>
 ```cs
 public class Website
 {
@@ -18,11 +18,11 @@ public class Website
         Url = website.Url;
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingtypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeConstructorHandlingTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: DeserializeConstructorHandlingUsage -->
-<a id='snippet-deserializeconstructorhandlingusage'></a>
+<a id='snippet-DeserializeConstructorHandlingUsage'></a>
 ```cs
 var json = "{'Url':'http://www.google.com'}";
 
@@ -45,5 +45,5 @@ var website = JsonConvert.DeserializeObject<Website>(json, new JsonSerializerSet
 Console.WriteLine(website.Url);
 // http://www.google.com
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L27-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-deserializeconstructorhandlingusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/DeserializeConstructorHandling.cs#L27-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-DeserializeConstructorHandlingUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

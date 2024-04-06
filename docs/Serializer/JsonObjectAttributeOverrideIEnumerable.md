@@ -3,7 +3,7 @@
 This sample uses `Argon.JsonObjectAttribute` to serialize a class that implements `System.Collections.Generic.IEnumerable<T>` as a JSON object instead of a JSON array.
 
 <!-- snippet: JsonObjectAttributeOverrideIEnumerableTypes -->
-<a id='snippet-jsonobjectattributeoverrideienumerabletypes'></a>
+<a id='snippet-JsonObjectAttributeOverrideIEnumerableTypes'></a>
 ```cs
 [JsonObject]
 public class Directory : IEnumerable<string>
@@ -18,11 +18,11 @@ public class Directory : IEnumerable<string>
         GetEnumerator();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerabletypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L7-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonObjectAttributeOverrideIEnumerableTypes' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 <!-- snippet: JsonObjectAttributeOverrideIEnumerableUsage -->
-<a id='snippet-jsonobjectattributeoverrideienumerableusage'></a>
+<a id='snippet-JsonObjectAttributeOverrideIEnumerableUsage'></a>
 ```cs
 var directory = new Directory
 {
@@ -45,5 +45,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L27-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-jsonobjectattributeoverrideienumerableusage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/JsonObjectAttributeOverrideIEnumerable.cs#L27-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-JsonObjectAttributeOverrideIEnumerableUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
