@@ -107,8 +107,7 @@ class NoThrowGetBinderMember(GetMemberBinder innerBinder) :
         var noThrowVisitor = new NoThrowExpressionVisitor();
         var resultExpression = noThrowVisitor.Visit(retMetaObject.Expression);
 
-        var finalMetaObject = new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
-        return finalMetaObject;
+        return new DynamicMetaObject(resultExpression, retMetaObject.Restrictions);
     }
 }
 
