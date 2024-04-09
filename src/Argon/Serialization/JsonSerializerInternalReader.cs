@@ -637,7 +637,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
             Type specifiedType;
             try
             {
-                specifiedType = binder.BindToType(typeNameKey.Item1, typeNameKey.Item2);
+                specifiedType = binder.BindToType(typeNameKey.Assembly, typeNameKey.Type);
             }
             catch (Exception exception)
             {

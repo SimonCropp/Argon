@@ -12,12 +12,12 @@ public class DefaultSerializationBinder :
 {
     internal static readonly DefaultSerializationBinder Instance = new();
 
-    static ThreadSafeStore<Tuple<string?, string>, Type> typeCache = new(GetTypeFromTypeNameKey);
+    static ThreadSafeStore<TypeNameKey, Type> typeCache = new(GetTypeFromTypeNameKey);
 
-    static Type GetTypeFromTypeNameKey(Tuple<string?, string> typeNameKey)
+    static Type GetTypeFromTypeNameKey(TypeNameKey key)
     {
-        var assemblyName = typeNameKey.Item1;
-        var typeName = typeNameKey.Item2;
+        var assemblyName = key.Assembly;
+        var typeName = key.Type;
 
         if (assemblyName == null)
         {
@@ -128,7 +128,7 @@ public class DefaultSerializationBinder :
         return genericTypeDef.MakeGenericType(genericTypeArguments.ToArray());
     }
 
-    static Type GetTypeByName(Tuple<string?, string> typeNameKey) =>
+    static Type GetTypeByName(TypeNameKey typeNameKey) =>
         typeCache.Get(typeNameKey);
 
     /// <summary>

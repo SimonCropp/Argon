@@ -429,7 +429,7 @@ static class ReflectionUtils
         ..GetProperties(type, bindingFlags)
         ];
 
-    public static Tuple<string?, string> SplitFullyQualifiedTypeName(string fullTypeName)
+    public static TypeNameKey SplitFullyQualifiedTypeName(string fullTypeName)
     {
         var assemblyDelimiterIndex = GetAssemblyDelimiterIndex(fullTypeName);
 
@@ -439,9 +439,9 @@ static class ReflectionUtils
         }
 
         var delimiterIndex = assemblyDelimiterIndex.Value;
-        var typeName = fullTypeName.Trim(0, delimiterIndex);
-        var assemblyName = fullTypeName.Trim(delimiterIndex + 1, fullTypeName.Length - delimiterIndex - 1);
-        return new(assemblyName, typeName);
+        var type = fullTypeName.Trim(0, delimiterIndex);
+        var assembly = fullTypeName.Trim(delimiterIndex + 1, fullTypeName.Length - delimiterIndex - 1);
+        return new(assembly, type);
     }
 
     static int? GetAssemblyDelimiterIndex(string fullyQualifiedTypeName)
