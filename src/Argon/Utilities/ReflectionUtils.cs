@@ -273,7 +273,7 @@ static class ReflectionUtils
             return genericListType.GetGenericArguments()[0];
         }
 
-        if (typeof(IEnumerable).IsAssignableFrom(type))
+        if (type.IsAssignableTo<IEnumerable>())
         {
             return null;
         }
@@ -297,7 +297,7 @@ static class ReflectionUtils
             return;
         }
 
-        if (typeof(IDictionary).IsAssignableFrom(dictionaryType))
+        if (dictionaryType.IsAssignableTo<IDictionary>())
         {
             keyType = null;
             valueType = null;
