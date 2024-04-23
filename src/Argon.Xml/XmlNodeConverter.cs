@@ -544,7 +544,7 @@ public class XmlNodeConverter :
         IXmlDocument? document = null;
         IXmlNode? rootNode = null;
 
-        if (typeof(XObject).IsAssignableFrom(type))
+        if (type.IsAssignableTo<XObject>())
         {
             if (type != typeof(XContainer)
                 && type != typeof(XDocument)
@@ -560,7 +560,7 @@ public class XmlNodeConverter :
             rootNode = document;
         }
 
-        if (typeof(XmlNode).IsAssignableFrom(type))
+        if (type.IsAssignableTo<XmlNode>())
         {
             if (type != typeof(XmlDocument)
                 && type != typeof(XmlElement)
@@ -1217,6 +1217,6 @@ public class XmlNodeConverter :
     /// <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type valueType) =>
-        typeof(XObject).IsAssignableFrom(valueType) ||
-        typeof(XmlNode).IsAssignableFrom(valueType);
+        valueType.IsAssignableTo<XObject>() ||
+        valueType.IsAssignableTo<XmlNode>();
 }
