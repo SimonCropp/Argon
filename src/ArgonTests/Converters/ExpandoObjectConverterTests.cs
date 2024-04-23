@@ -107,32 +107,32 @@ public class ExpandoObjectConverterTests : TestFixtureBase
         Assert.NotNull(o.Expando);
 
         dynamic d = o.Expando;
-        Assert.IsType(typeof(ExpandoObject), d);
+        Assert.IsType<ExpandoObject>(d);
 
         Assert.Equal("String!", d.String);
-        Assert.IsType(typeof(string), d.String);
+        Assert.IsType<string>(d.String);
 
         Assert.Equal(234, d.Integer);
-        Assert.IsType(typeof(long), d.Integer);
+        Assert.IsType<long>(d.Integer);
 
         Assert.Equal(1.23, d.Float);
-        Assert.IsType(typeof(double), d.Float);
+        Assert.IsType<double>(d.Float);
 
         Assert.NotNull(d.List);
         Assert.Equal(3, d.List.Count);
-        Assert.IsType(typeof(List<object>), d.List);
+        Assert.IsType<List<object>>(d.List);
 
         Assert.Equal("First", d.List[0]);
-        Assert.IsType(typeof(string), d.List[0]);
+        Assert.IsType<string>(d.List[0]);
 
         Assert.Equal("Second", d.List[1]);
         Assert.Equal("Third", d.List[2]);
 
         Assert.NotNull(d.Object);
-        Assert.IsType(typeof(ExpandoObject), d.Object);
+        Assert.IsType<ExpandoObject>(d.Object);
 
         Assert.Equal(1, d.Object.First);
-        Assert.IsType(typeof(long), d.Object.First);
+        Assert.IsType<long>(d.Object.First);
     }
 
     [Fact]

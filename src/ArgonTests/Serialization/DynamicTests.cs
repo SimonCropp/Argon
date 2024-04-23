@@ -103,11 +103,11 @@ public class DynamicTests : TestFixtureBase
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full
         });
 
-        Assert.IsType(typeof(ExpandoObject), n);
+        Assert.IsType<ExpandoObject>(n);
         Assert.Equal("Text!", n.Text);
         Assert.Equal(int.MaxValue, n.Integer);
 
-        Assert.IsType(typeof(DynamicChildObject), n.DynamicChildObject);
+        Assert.IsType<DynamicChildObject>(n.DynamicChildObject);
         Assert.Equal("Child text!", n.DynamicChildObject.Text);
         Assert.Equal(int.MinValue, n.DynamicChildObject.Integer);
     }
