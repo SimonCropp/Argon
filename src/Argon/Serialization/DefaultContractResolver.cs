@@ -116,7 +116,7 @@ public class DefaultContractResolver : IContractResolver
 
         // don't include TargetSite on non-serializable exceptions
         // MemberBase is problematic to serialize. Large, self referencing instances, etc
-        if (typeof(Exception).IsAssignableFrom(type))
+        if (type.IsAssignableTo<Exception>())
         {
             return serializableMembers.Where(_ => !string.Equals(_.Name, "TargetSite", StringComparison.Ordinal));
         }
@@ -586,7 +586,7 @@ public class DefaultContractResolver : IContractResolver
             return CreateDictionaryContract(type);
         }
 
-        if (typeof(IEnumerable).IsAssignableFrom(t))
+        if (t.IsAssignableTo<IEnumerable>())
         {
             return CreateArrayContract(type);
         }
@@ -596,7 +596,7 @@ public class DefaultContractResolver : IContractResolver
             return CreateStringContract(type);
         }
 
-        if (typeof(IDynamicMetaObjectProvider).IsAssignableFrom(t))
+        if (t.IsAssignableTo<IDynamicMetaObjectProvider>())
         {
             return CreateDynamicContract(type);
         }
@@ -620,10 +620,10 @@ public class DefaultContractResolver : IContractResolver
 
     static bool IsIConvertible(Type t)
     {
-        if (typeof(IConvertible).IsAssignableFrom(t)
-            || (t.IsNullableType() && typeof(IConvertible).IsAssignableFrom(Nullable.GetUnderlyingType(t))))
+        if (t.IsAssignableTo<IConvertible>()
+            || (t.IsNullableType() && Nullable.GetUnderlyingType(t).IsAssignableTo<IConvertible>()))
         {
-            return !typeof(JToken).IsAssignableFrom(t);
+            return !t.IsAssignableTo<JToken>();
         }
 
         return false;
