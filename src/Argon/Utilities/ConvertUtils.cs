@@ -111,7 +111,7 @@ static class ConvertUtils
         PrimitiveTypeCodes[(int) convertible.GetTypeCode()];
 
     public static bool IsConvertible(this Type type) =>
-        typeof(IConvertible).IsAssignableFrom(type);
+        type.IsAssignableTo<IConvertible>();
 
     public static TimeSpan ParseTimeSpan(string input) =>
         TimeSpan.Parse(input, InvariantCulture);
@@ -363,7 +363,7 @@ static class ConvertUtils
                 return ConvertResult.NoValidConversion;
             }
 
-            if (typeof(Type).IsAssignableFrom(targetType))
+            if (targetType.IsAssignableTo<Type>())
             {
                 value = Type.GetType(s, true);
                 return ConvertResult.Success;

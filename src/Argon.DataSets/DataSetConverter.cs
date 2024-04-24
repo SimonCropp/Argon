@@ -86,5 +86,5 @@ public class DataSetConverter : JsonConverter
     /// <c>true</c> if this instance can convert the specified value type; otherwise, <c>false</c>.
     /// </returns>
     public override bool CanConvert(Type valueType) =>
-        typeof(DataSet).IsAssignableFrom(valueType);
+        valueType.IsAssignableTo<DataSet>();
 }

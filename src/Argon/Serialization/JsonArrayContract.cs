@@ -100,7 +100,7 @@ public class JsonArrayContract : JsonContainerContract
             CanDeserialize = true;
             IsMultidimensionalArray = CreatedType.IsArray && UnderlyingType.GetArrayRank() > 1;
         }
-        else if (typeof(IList).IsAssignableFrom(NonNullableUnderlyingType))
+        else if (NonNullableUnderlyingType.IsAssignableTo<IList>())
         {
             if (NonNullableUnderlyingType.ImplementsGeneric(typeof(ICollection<>), out genericCollectionDefinition))
             {

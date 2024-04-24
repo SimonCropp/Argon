@@ -144,7 +144,7 @@ public class JsonDictionaryContract : JsonContainerContract
                 typeof(IDictionary<,>).MakeGenericType(keyType, valueType));
         }
 
-        if (!typeof(IDictionary).IsAssignableFrom(CreatedType))
+        if (!CreatedType.IsAssignableTo<IDictionary>())
         {
             ShouldCreateWrapper = true;
         }
@@ -159,7 +159,7 @@ public class JsonDictionaryContract : JsonContainerContract
             {
                 IsSortable = true;
             }
-            else if (typeof(IComparable).IsAssignableFrom(keyType))
+            else if (keyType.IsAssignableTo<IComparable>())
             {
                 IsSortable = true;
             }
@@ -184,7 +184,7 @@ public class JsonDictionaryContract : JsonContainerContract
 
     static bool IsSortedDictionary(Type type)
     {
-        if (typeof(OrderedDictionary).IsAssignableFrom(type))
+        if (type.IsAssignableTo<OrderedDictionary>())
         {
             return true;
         }

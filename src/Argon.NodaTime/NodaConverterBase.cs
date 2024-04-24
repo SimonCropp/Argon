@@ -41,7 +41,7 @@ public abstract class NodaConverterBase<T> :
     public override bool CanConvert(Type objectType) =>
         objectType == typeof(T) ||
         objectType == NullableT ||
-        (CheckAssignableFrom && typeof(T).IsAssignableFrom(objectType.GetTypeInfo()));
+        (CheckAssignableFrom && objectType.GetTypeInfo().IsAssignableTo<T>());
 
     /// <summary>
     /// Converts the JSON stored in a reader into the relevant Noda Time type.
