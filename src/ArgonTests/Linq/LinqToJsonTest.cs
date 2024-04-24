@@ -1514,14 +1514,9 @@ public class LinqToJsonTest : TestFixtureBase
 
         var users = new Dictionary<string, string>();
 
-        // unfortunately there doesn't appear to be a way around this
-        var exception = Assert.Throws<RuntimeBinderException>(() =>
-        {
-            users.Add("name2", name);
+        users.Add("name2", name);
 
-            Assert.Equal("Matthew Doig", users["name2"]);
-        });
-        Assert.Equal("The best overloaded method match for 'System.Collections.Generic.Dictionary<string,string>.Add(string, string)' has some invalid arguments", exception.Message);
+        Assert.Equal("Matthew Doig", users["name2"]);
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
