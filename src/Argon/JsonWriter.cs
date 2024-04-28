@@ -766,14 +766,11 @@ public abstract class JsonWriter : IDisposable
             WriteNull();
             return;
         }
-#if NET6_0_OR_GREATER
+
         foreach (var chunk in value.GetChunks())
         {
             WriteValue(chunk.Span);
         }
-#else
-        WriteValue(value.ToString());
-#endif
     }
 
     /// <summary>
