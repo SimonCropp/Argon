@@ -2,6 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+using Microsoft.CSharp.RuntimeBinder;
 using TestObjects;
 // ReSharper disable UnusedVariable
 // ReSharper disable PossibleMultipleEnumeration
@@ -1511,9 +1512,15 @@ public class LinqToJsonTest : TestFixtureBase
     {
         dynamic name = new JValue("Matthew Doig");
 
-        var users = new Dictionary<string, string> {{"name2", name}};
+        var users = new Dictionary<string, string>();
 
-        Assert.Equal("Matthew Doig", users["name2"]);
+        // unfortunately there doesn't appear to be a way around this
+        var exception = Assert.Throws<RuntimeBinderException>(() =>
+        {
+            users.Add("name2", name);
+            Assert.Equal("Matthew Doig", users["name2"]);
+        });
+        Assert.Equal("The best overloaded method match for 'System.Collections.Generic.Dictionary<string,string>.Add(string, string)' has some invalid arguments", exception.Message);
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
