@@ -2,8 +2,6 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-using System.Collections.Immutable;
-
 public class ImmutableCollectionsTests : TestFixtureBase
 {
     #region List
@@ -11,12 +9,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeList()
     {
-        var l = ImmutableList.CreateRange(new List<string>
-        {
+        var l = ImmutableList.CreateRange(
+        [
             "One",
             "II",
             "3"
-        });
+        ]);
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
@@ -54,10 +52,10 @@ public class ImmutableCollectionsTests : TestFixtureBase
     {
         var json = """
                    [
-                           'Volibear',
-                           'Teemo',
-                           'Katarina'
-                         ]
+                     'Volibear',
+                     'Teemo',
+                     'Katarina'
+                   ]
                    """;
 
         // what sorcery is this?!
@@ -76,12 +74,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeArray()
     {
-        var l = ImmutableArray.CreateRange(new List<string>
-        {
+        var l = ImmutableArray.CreateRange(
+        [
             "One",
             "II",
             "3"
-        });
+        ]);
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
@@ -130,12 +128,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeQueue()
     {
-        var l = ImmutableQueue.CreateRange(new List<string>
-        {
+        var l = ImmutableQueue.CreateRange(
+        [
             "One",
             "II",
             "3"
-        });
+        ]);
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
@@ -194,12 +192,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeStack()
     {
-        var l = ImmutableStack.CreateRange(new List<string>
-        {
+        var l = ImmutableStack.CreateRange(
+        [
             "One",
             "II",
             "3"
-        });
+        ]);
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
@@ -258,12 +256,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeHashSet()
     {
-        var l = ImmutableHashSet.CreateRange(new List<string>
-        {
+        var l = ImmutableHashSet.CreateRange(
+        [
             "One",
             "II",
             "3"
-        });
+        ]);
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
 
@@ -321,12 +319,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeSortedSet()
     {
-        var l = ImmutableSortedSet.CreateRange(new List<string>
-        {
+        var l = ImmutableSortedSet.CreateRange(
+        [
             "One",
             "II",
             "3"
-        });
+        ]);
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
@@ -366,12 +364,19 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeDictionary()
     {
-        var l = ImmutableDictionary.CreateRange(new Dictionary<int, string>
-        {
-            {1, "One"},
-            {2, "II"},
-            {3, "3"}
-        });
+        var l = ImmutableDictionary.CreateRange(
+            new Dictionary<int, string>
+            {
+                {
+                    1, "One"
+                },
+                {
+                    2, "II"
+                },
+                {
+                    3, "3"
+                }
+            });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         var a = JObject.Parse(json);
@@ -385,12 +390,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     public void DeserializeDictionary()
     {
         var json = """
-            {
-              "1": "One",
-              "2": "II",
-              "3": "3"
-            }
-            """;
+                   {
+                     "1": "One",
+                     "2": "II",
+                     "3": "3"
+                   }
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableDictionary<int, string>>(json);
 
@@ -404,12 +409,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     public void DeserializeDictionaryInterface()
     {
         var json = """
-            {
-              "1": "One",
-              "2": "II",
-              "3": "3"
-            }
-            """;
+                   {
+                     "1": "One",
+                     "2": "II",
+                     "3": "3"
+                   }
+                   """;
 
         var l = JsonConvert.DeserializeObject<IImmutableDictionary<int, string>>(json);
 
@@ -428,12 +433,19 @@ public class ImmutableCollectionsTests : TestFixtureBase
     [Fact]
     public void SerializeSortedDictionary()
     {
-        var l = ImmutableSortedDictionary.CreateRange(new SortedDictionary<int, string>
-        {
-            {1, "One"},
-            {2, "II"},
-            {3, "3"}
-        });
+        var l = ImmutableSortedDictionary.CreateRange(
+            new SortedDictionary<int, string>
+            {
+                {
+                    1, "One"
+                },
+                {
+                    2, "II"
+                },
+                {
+                    3, "3"
+                }
+            });
 
         var json = JsonConvert.SerializeObject(l, Formatting.Indented);
         XUnitAssert.AreEqualNormalized(
@@ -451,12 +463,12 @@ public class ImmutableCollectionsTests : TestFixtureBase
     public void DeserializeSortedDictionary()
     {
         var json = """
-            {
-              "1": "One",
-              "2": "II",
-              "3": "3"
-            }
-            """;
+                   {
+                     "1": "One",
+                     "2": "II",
+                     "3": "3"
+                   }
+                   """;
 
         var l = JsonConvert.DeserializeObject<ImmutableSortedDictionary<int, string>>(json);
 
