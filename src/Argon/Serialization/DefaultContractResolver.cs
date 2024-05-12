@@ -475,14 +475,15 @@ public class DefaultContractResolver : IContractResolver
     static bool HasParameterizedCreator(ConstructorInfo overrideConstructor, JsonArrayContract contract)
     {
         var parameters = overrideConstructor.GetParameters();
-        var expectedParameterType = contract.CollectionItemType == null
-            ? typeof(IEnumerable)
-            : typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType);
 
         if (parameters.Length == 0)
         {
             return false;
         }
+
+        var expectedParameterType = contract.CollectionItemType == null
+            ? typeof(IEnumerable)
+            : typeof(IEnumerable<>).MakeGenericType(contract.CollectionItemType);
 
         if (parameters.Length == 1 &&
             expectedParameterType.IsAssignableFrom(parameters[0].ParameterType))
