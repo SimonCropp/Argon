@@ -16,7 +16,7 @@ public readonly struct JEnumerable<T> :
     /// <summary>
     /// An empty collection of <see cref="JToken" /> objects.
     /// </summary>
-    public static readonly JEnumerable<T> Empty = new(Enumerable.Empty<T>());
+    public static readonly JEnumerable<T> Empty = new([]);
 
     readonly IEnumerable<T> enumerable;
 

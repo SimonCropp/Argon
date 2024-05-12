@@ -2340,7 +2340,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public class ValuesClass
     {
-        public IEnumerable<string> Values { get; set; } = Enumerable.Empty<string>();
+        public IEnumerable<string> Values { get; set; } = [];
     }
 
     [Fact]
