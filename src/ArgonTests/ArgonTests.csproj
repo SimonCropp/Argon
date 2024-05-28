@@ -9,17 +9,17 @@
   <ItemGroup>
     <ProjectReference Include="..\Argon.NodaTime\Argon.NodaTime.csproj" />
     <Using Include="Xunit" />
-    <PackageReference Include="MarkdownSnippets.MsBuild" Version="27.0.2" PrivateAssets="all" />
-    <PackageReference Include="NodaTime" Version="3.1.11" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.127" PrivateAssets="all" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="FSharp.Core" Version="8.0.300" />
-    <PackageReference Include="Verify.Xunit" Version="24.2.0" />
-    <PackageReference Include="xunit" Version="2.8.0" />
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="MarkdownSnippets.MsBuild" PrivateAssets="all" />
+    <PackageReference Include="NodaTime" />
+    <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
+    <PackageReference Include="System.ValueTuple" />
+    <PackageReference Include="FSharp.Core" />
+    <PackageReference Include="Verify.Xunit" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Newtonsoft.Json" />
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
     <None Include="large.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
