@@ -10,9 +10,9 @@
   <ItemGroup>
     <Compile Include="FSharpListConverterTests.fs" />
     <Compile Include="Program.fs" />
-    <PackageReference Include="Xunit" Version="2.8.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="Xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <ProjectReference Include="..\Argon.FSharp\Argon.FSharp.csproj" />
     <ProjectReference Include="..\ArgonTests\ArgonTests.csproj" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
