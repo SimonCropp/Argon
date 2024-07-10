@@ -11,8 +11,6 @@ enum JsonContainerType
 
 struct JsonPosition(JsonContainerType type)
 {
-    static readonly char[] specialCharacters = ['.', ' ', '\'', '/', '"', '[', ']', '(', ')', '\t', '\n', '\r', '\f', '\b', '\\', '\u0085', '\u2028', '\u2029'];
-
     internal JsonContainerType Type = type;
     internal int Position = -1;
     internal string? PropertyName = null;
@@ -26,19 +24,24 @@ struct JsonPosition(JsonContainerType type)
             _ => throw new ArgumentOutOfRangeException(nameof(Type))
         };
 
+    #if NET8_0_OR_GREATER
+    static readonly SearchValues<char> specialCharacters = SearchValues.Create(". '/\"[]()\t\n\r\f\b\\\u0085\u2028\u2029");
+    #else
+    static readonly char[] specialCharacters = ['.', ' ', '\'', '/', '"', '[', ']', '(', ')', '\t', '\n', '\r', '\f', '\b', '\\', '\u0085', '\u2028', '\u2029'];
+    #endif
     void WriteTo(StringBuilder builder, ref StringWriter? writer, ref char[]? buffer)
     {
         switch (Type)
         {
             case JsonContainerType.Object:
-                var propertyName = PropertyName!;
+                var propertyName = PropertyName!.AsSpan();
                 if (propertyName.IndexOfAny(specialCharacters) != -1)
                 {
                     builder.Append("['");
 
                     writer ??= new(builder);
 
-                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName.AsSpan(), '\'', false, JavaScriptUtils.SingleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
+                    JavaScriptUtils.WriteEscapedJavaScriptString(writer, propertyName, '\'', false, JavaScriptUtils.SingleQuoteEscapeFlags, EscapeHandling.Default, ref buffer);
 
                     builder.Append("']");
                 }
