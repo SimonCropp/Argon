@@ -7,7 +7,7 @@
     <PackageTags>Json</PackageTags>
     <Description>Json serialization library. Hard fork of Json.net.</Description>
     <NoWarn>CS1591;CS1573</NoWarn>
-    <Configurations>Debug;Release;DebugNet8</Configurations>
+    <Configurations>Debug;Release;DebugNet9</Configurations>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <ResolveAssemblyReferencesSilent>true</ResolveAssemblyReferencesSilent>
