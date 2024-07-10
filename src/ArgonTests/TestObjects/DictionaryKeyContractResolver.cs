@@ -9,12 +9,10 @@ public class DictionaryKeyContractResolver : DefaultContractResolver
     protected override string ResolveDictionaryKey(string name, object original) =>
         name;
 
-    protected override string ResolvePropertyName(string propertyName)
-    {
+    protected override string ResolvePropertyName(string name) =>
 #if NET6_0_OR_GREATER
-        return propertyName.ToUpperInvariant();
+        name.ToUpperInvariant();
 #else
-        return propertyName.ToUpper(InvariantCulture);
+        name.ToUpper(InvariantCulture);
 #endif
-    }
 }

@@ -8,11 +8,9 @@ public class NameContainerConverter : JsonConverter
 {
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        var nameContainer = value as NameContainer;
-
-        if (nameContainer != null)
+        if (value is NameContainer container)
         {
-            writer.WriteValue(nameContainer.Value);
+            writer.WriteValue(container.Value);
         }
         else
         {
