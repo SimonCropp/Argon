@@ -60,8 +60,7 @@ public class SerializationEventTests : TestFixtureBase
             expectedError = $"Error message for member Member6 = Error setting value to 'Member6' on '{obj.GetType()}'.";
             Assert.Equal(expectedError, obj.Member5);
 
-            var derivedObj = obj as DerivedSerializationEventTestObject;
-            if (derivedObj != null)
+            if (obj is DerivedSerializationEventTestObject derivedObj)
             {
                 Assert.Equal("This value was set after deserialization.", derivedObj.Member7);
             }

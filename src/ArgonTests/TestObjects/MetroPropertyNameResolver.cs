@@ -6,12 +6,10 @@ namespace TestObjects;
 
 public class MetroPropertyNameResolver : DefaultContractResolver
 {
-    protected override string ResolvePropertyName(string propertyName)
-    {
+    protected override string ResolvePropertyName(string name) =>
 #if NET6_0_OR_GREATER
-        return $":::{propertyName.ToUpper()}:::";
+        $":::{name.ToUpper()}:::";
 #else
-        return $":::{propertyName.ToUpper(InvariantCulture)}:::";
+        $":::{name.ToUpper(InvariantCulture)}:::";
 #endif
-    }
 }

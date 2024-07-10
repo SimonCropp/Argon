@@ -6,14 +6,12 @@ namespace TestObjects;
 
 public class MetroStringConverter : JsonConverter
 {
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) =>
 #if NET6_0_OR_GREATER
         writer.WriteValue($":::{value.ToString().ToUpper()}:::");
 #else
         writer.WriteValue($":::{value.ToString().ToUpper(InvariantCulture)}:::");
 #endif
-    }
 
     public override object ReadJson(JsonReader reader, Type type, object existingValue, JsonSerializer serializer)
     {
