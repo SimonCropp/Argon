@@ -12,7 +12,7 @@ public class Issue1576 : TestFixtureBase
             ContractResolver = new CustomContractResolver()
         };
 
-        var result = JsonConvert.DeserializeObject<TestClass>("{ 'Items': '11' }", settings);
+        var result = JsonConvert.DeserializeObject<TestClass>("""{ "Items": "11" }""", settings);
 
         Assert.NotNull(result);
         Assert.Single(result.Items);
