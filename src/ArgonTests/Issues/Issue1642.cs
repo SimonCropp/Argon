@@ -35,6 +35,5 @@ public class Issue1642 : TestFixtureBase
             """,
             json);
     }
-
 }
 #endif
