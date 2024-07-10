@@ -17,17 +17,26 @@ public class DataSetConverter : JsonConverter
     public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
         var dataSet = (DataSet) value;
-        var resolver = serializer.ContractResolver as DefaultContractResolver;
 
         var converter = new DataTableConverter();
 
         writer.WriteStartObject();
 
-        foreach (DataTable table in dataSet.Tables)
+        if (serializer.ContractResolver is DefaultContractResolver resolver)
         {
-            writer.WritePropertyName(resolver == null ? table.TableName : resolver.GetResolvedPropertyName(table.TableName));
-
-            converter.WriteJson(writer, table, serializer);
+            foreach (DataTable table in dataSet.Tables)
+            {
+                writer.WritePropertyName(resolver.GetResolvedPropertyName(table.TableName));
+                converter.WriteJson(writer, table, serializer);
+            }
+        }
+        else
+        {
+            foreach (DataTable table in dataSet.Tables)
+            {
+                writer.WritePropertyName(table.TableName);
+                converter.WriteJson(writer, table, serializer);
+            }
         }
 
         writer.WriteEndObject();
