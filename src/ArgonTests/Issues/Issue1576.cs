@@ -22,7 +22,7 @@ public class Issue1576 : TestFixtureBase
     [Fact]
     public void Test_WithJsonConverterAttribute()
     {
-        var result = JsonConvert.DeserializeObject<TestClassWithJsonConverter>("{ 'Items': '11' }");
+        var result = JsonConvert.DeserializeObject<TestClassWithJsonConverter>("""{ "Items": "11" }""");
 
         Assert.NotNull(result);
         Assert.Single(result.Items);
@@ -73,9 +73,8 @@ public class Issue1576 : TestFixtureBase
             var array = new JArray {token};
 
             var list = array.ToObject(type, serializer) as IEnumerable;
-            var existing = existingValue as IList;
 
-            if (list != null && existing != null)
+            if (list != null && existingValue is IList existing)
             {
                 foreach (var item in list)
                 {
@@ -89,5 +88,4 @@ public class Issue1576 : TestFixtureBase
         public override bool CanConvert(Type type) =>
             typeof(ICollection).IsAssignableFrom(type);
     }
-
 }
