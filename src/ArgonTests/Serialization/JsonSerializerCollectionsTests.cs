@@ -1129,10 +1129,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
             };
 
-        public IList<int> Array { get; set; } = new[]
-        {
-            3
-        };
+        public IList<int> Array { get; set; } = [3];
 
         public IList<int> List { get; set; } = new ReadOnlyCollection<int>([4]);
 
