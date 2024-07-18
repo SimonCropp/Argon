@@ -47,7 +47,7 @@ public class Person
 
 The MemberSerialization flag on this attribute specifies whether member serialization is opt-in (a member must have the JsonProperty or DataMember attribute to be serialized), opt-out (everything is serialized by default but can be ignored with the JsonIgnoreAttribute, Json.NET's default behavior) or fields (all public and private fields are serialized and properties are ignored).
 
-Placing the the `System.Runtime.Serialization.DataContractAttribute` on a type is another way to default member serialization to opt-in.
+Placing the `System.Runtime.Serialization.DataContractAttribute` on a type is another way to default member serialization to opt-in.
 
 The NamingStrategy setting on this attributes can be set to a `Argon.NamingStrategy` type that specifies how property names are serialized.
 
