@@ -1129,7 +1129,8 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                 }
             };
 
-        public IList<int> Array { get; set; } = [3];
+        // ReSharper disable once UseCollectionExpression
+        public IList<int> Array { get; set; } = new[]{3};
 
         public IList<int> List { get; set; } = new ReadOnlyCollection<int>([4]);
 
@@ -1165,6 +1166,11 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
                     "first", 10
                 }
             });
+    }
+
+    public class PopulateCollectionExpressionClass
+    {
+        public IList<int> List { get; set; } = [3];
     }
 
     [Fact]
@@ -1261,6 +1267,24 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
         Assert.Single(c2.Array);
         Assert.Equal(13, c2.Array[0]);
+    }
+
+    [Fact]
+    public void PopulateCollectionExpression()
+    {
+        var json = """
+                   {
+                     "List": [
+                       13
+                     ],
+                   }
+                   """;
+
+        var c2 = JsonConvert.DeserializeObject<PopulateCollectionExpressionClass>(json);
+        // list will be a span. which can grow to add a new item
+        Assert.Equal(2, c2.List.Count);
+        Assert.Equal(3, c2.List[0]);
+        Assert.Equal(13, c2.List[1]);
     }
 
     [Fact]
