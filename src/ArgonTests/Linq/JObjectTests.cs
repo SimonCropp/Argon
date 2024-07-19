@@ -37,8 +37,10 @@ public class JObjectTests : TestFixtureBase
 
         IList<JObject> roles = new List<JObject>();
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.SupportMultipleContent = true;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            SupportMultipleContent = true
+        };
 
         while (true)
         {

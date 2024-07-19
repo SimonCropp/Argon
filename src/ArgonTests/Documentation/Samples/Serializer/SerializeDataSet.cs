@@ -11,11 +11,15 @@ public class SerializeDataSet : TestFixtureBase
     {
         #region SerializeDataSet
 
-        var dataSet = new DataSet("dataSet");
-        dataSet.Namespace = "NetFrameWork";
+        var dataSet = new DataSet("dataSet")
+        {
+            Namespace = "NetFrameWork"
+        };
         var table = new DataTable();
-        var idColumn = new DataColumn("id", typeof(int));
-        idColumn.AutoIncrement = true;
+        var idColumn = new DataColumn("id", typeof(int))
+        {
+            AutoIncrement = true
+        };
 
         var itemColumn = new DataColumn("item");
         table.Columns.Add(idColumn);

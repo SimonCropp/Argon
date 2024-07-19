@@ -187,11 +187,13 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeDictionarysWithPreserveObjectReferences()
+    public void SerializeDictionaryWithPreserveObjectReferences()
     {
         // ReSharper disable once UseObjectOrCollectionInitializer
-        var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new() {{"blah", null}});
+        var circularDictionary = new CircularDictionary
+        {
+            { "other", new() { { "blah", null } } }
+        };
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,
@@ -214,7 +216,7 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void DeserializeDictionarysWithPreserveObjectReferences()
+    public void DeserializeDictionaryWithPreserveObjectReferences()
     {
         var json = """
             {
@@ -247,9 +249,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     {
         var classRef = typeof(CircularList).FullName;
 
-        var circularList = new CircularList();
-        circularList.Add(null);
-        circularList.Add([null]);
+        var circularList = new CircularList
+        {
+            null,
+            ([null])
+        };
         circularList.Add([[circularList]]);
 
         var messages = $"Self referencing loop detected with type '{classRef}'. Path '[2][0]'.";
@@ -260,9 +264,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeCircularListsIgnore()
     {
-        var circularList = new CircularList();
-        circularList.Add(null);
-        circularList.Add([null]);
+        var circularList = new CircularList
+        {
+            null,
+            ([null])
+        };
         circularList.Add([[circularList]]);
 
         var json = JsonConvert.SerializeObject(circularList,
@@ -287,9 +293,11 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     [Fact]
     public void SerializeListsWithPreserveObjectReferences()
     {
-        var circularList = new CircularList();
-        circularList.Add(null);
-        circularList.Add([null]);
+        var circularList = new CircularList
+        {
+            null,
+            ([null])
+        };
         circularList.Add([[circularList]]);
 
         var json = JsonConvert.SerializeObject(circularList, Formatting.Indented,
@@ -407,12 +415,14 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     public class CircularDictionary : Dictionary<string, CircularDictionary>;
 
     [Fact]
-    public void SerializeCircularDictionarysError()
+    public void SerializeCircularDictionaryError()
     {
         var classRef = typeof(CircularDictionary).FullName;
 
-        var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new() {{"blah", null}});
+        var circularDictionary = new CircularDictionary
+        {
+            { "other", new() { { "blah", null } } }
+        };
         circularDictionary.Add("self", circularDictionary);
 
         var messages = $"Self referencing loop detected with type '{classRef}'. Path ''.";
@@ -421,10 +431,12 @@ public class PreserveReferencesHandlingTests : TestFixtureBase
     }
 
     [Fact]
-    public void SerializeCircularDictionarysIgnore()
+    public void SerializeCircularDictionaryIgnore()
     {
-        var circularDictionary = new CircularDictionary();
-        circularDictionary.Add("other", new() {{"blah", null}});
+        var circularDictionary = new CircularDictionary
+        {
+            { "other", new() { { "blah", null } } }
+        };
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,

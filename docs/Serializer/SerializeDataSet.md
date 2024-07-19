@@ -5,11 +5,15 @@ This sample serializes a `System.Data.DataSet` to JSON.
 <!-- snippet: SerializeDataSet -->
 <a id='snippet-SerializeDataSet'></a>
 ```cs
-var dataSet = new DataSet("dataSet");
-dataSet.Namespace = "NetFrameWork";
+var dataSet = new DataSet("dataSet")
+{
+    Namespace = "NetFrameWork"
+};
 var table = new DataTable();
-var idColumn = new DataColumn("id", typeof(int));
-idColumn.AutoIncrement = true;
+var idColumn = new DataColumn("id", typeof(int))
+{
+    AutoIncrement = true
+};
 
 var itemColumn = new DataColumn("item");
 table.Columns.Add(idColumn);
@@ -46,5 +50,5 @@ Console.WriteLine(json);
 //   ]
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeDataSet.cs#L12-L55' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeDataSet' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializeDataSet.cs#L12-L59' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializeDataSet' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

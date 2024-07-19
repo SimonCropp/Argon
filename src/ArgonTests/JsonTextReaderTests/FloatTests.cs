@@ -116,8 +116,10 @@ public class FloatTests : TestFixtureBase
     {
         var json = "[9223372036854775807, 1.7976931348623157E+308, 792281625142643375935439503.35, 792281625142643375935555555555555555555555555555555555555555555555555439503.35]";
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            FloatParseHandling = Argon.FloatParseHandling.Decimal
+        };
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);
@@ -147,8 +149,10 @@ public class FloatTests : TestFixtureBase
     {
         var json = "[1.0,1,9.9,1E-06]";
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            FloatParseHandling = Argon.FloatParseHandling.Decimal
+        };
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);
@@ -182,8 +186,10 @@ public class FloatTests : TestFixtureBase
     {
         var json = "[NaN]";
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.FloatParseHandling = Argon.FloatParseHandling.Decimal;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            FloatParseHandling = Argon.FloatParseHandling.Decimal
+        };
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartArray, reader.TokenType);

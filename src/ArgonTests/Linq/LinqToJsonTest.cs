@@ -1113,8 +1113,10 @@ public class LinqToJsonTest : TestFixtureBase
 
         var serializer = new JsonSerializer();
         var stringWriter = new StringWriter();
-        JsonWriter jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.Formatting = Formatting.Indented;
+        JsonWriter jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented
+        };
         serializer.Serialize(jsonWriter, o);
 
         var json = stringWriter.ToString();

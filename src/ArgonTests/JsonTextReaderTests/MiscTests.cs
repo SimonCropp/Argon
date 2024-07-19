@@ -9,8 +9,10 @@ public class MiscTests : TestFixtureBase
     {
         var json = "{ 'name': 'Admin' },{ 'name': 'Publisher' },1,null,[],,'string'";
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.SupportMultipleContent = true;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            SupportMultipleContent = true
+        };
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);
@@ -477,8 +479,10 @@ public class MiscTests : TestFixtureBase
     [Fact]
     public void SupportMultipleContent()
     {
-        var reader = new JsonTextReader(new StringReader("""{'prop1':[1]} 1 2 "name" [][]null {}{} 1.1"""));
-        reader.SupportMultipleContent = true;
+        var reader = new JsonTextReader(new StringReader("""{'prop1':[1]} 1 2 "name" [][]null {}{} 1.1"""))
+        {
+            SupportMultipleContent = true
+        };
 
         Assert.True(reader.Read());
         Assert.Equal(JsonToken.StartObject, reader.TokenType);

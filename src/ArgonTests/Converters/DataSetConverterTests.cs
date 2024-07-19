@@ -25,11 +25,15 @@ public class DataSetConverterTests : TestFixtureBase
     [Fact]
     public void SerializeAndDeserialize()
     {
-        var dataSet = new DataSet("dataSet");
-        dataSet.Namespace = "NetFrameWork";
+        var dataSet = new DataSet("dataSet")
+        {
+            Namespace = "NetFrameWork"
+        };
         var table = new DataTable();
-        var idColumn = new DataColumn("id", typeof(int));
-        idColumn.AutoIncrement = true;
+        var idColumn = new DataColumn("id", typeof(int))
+        {
+            AutoIncrement = true
+        };
 
         var itemColumn = new DataColumn("item");
         table.Columns.Add(idColumn);
@@ -292,29 +296,41 @@ public class DataSetConverterTests : TestFixtureBase
         var myTable = new DataTable(dataTableName);
 
         // create DataColumn objects of data types.
-        var colString = new DataColumn("StringCol");
-        colString.DataType = typeof(string);
+        var colString = new DataColumn("StringCol")
+        {
+            DataType = typeof(string)
+        };
         myTable.Columns.Add(colString);
 
-        var colInt32 = new DataColumn("Int32Col");
-        colInt32.DataType = typeof(int);
+        var colInt32 = new DataColumn("Int32Col")
+        {
+            DataType = typeof(int)
+        };
         myTable.Columns.Add(colInt32);
 
-        var colBoolean = new DataColumn("BooleanCol");
-        colBoolean.DataType = typeof(bool);
+        var colBoolean = new DataColumn("BooleanCol")
+        {
+            DataType = typeof(bool)
+        };
         myTable.Columns.Add(colBoolean);
 
-        var colTimeSpan = new DataColumn("TimeSpanCol");
-        colTimeSpan.DataType = typeof(TimeSpan);
+        var colTimeSpan = new DataColumn("TimeSpanCol")
+        {
+            DataType = typeof(TimeSpan)
+        };
         myTable.Columns.Add(colTimeSpan);
 
-        var colDateTime = new DataColumn("DateTimeCol");
-        colDateTime.DataType = typeof(DateTime);
-        colDateTime.DateTimeMode = DataSetDateTime.Utc;
+        var colDateTime = new DataColumn("DateTimeCol")
+        {
+            DataType = typeof(DateTime),
+            DateTimeMode = DataSetDateTime.Utc
+        };
         myTable.Columns.Add(colDateTime);
 
-        var colDecimal = new DataColumn("DecimalCol");
-        colDecimal.DataType = typeof(decimal);
+        var colDecimal = new DataColumn("DecimalCol")
+        {
+            DataType = typeof(decimal)
+        };
         myTable.Columns.Add(colDecimal);
 
         for (var i = 1; i <= rows; i++)

@@ -4669,8 +4669,10 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeDecimalPropertyExact()
     {
         var json = "{Amount:123456789876543.21}";
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.FloatParseHandling = FloatParseHandling.Decimal;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            FloatParseHandling = FloatParseHandling.Decimal
+        };
 
         var serializer = new JsonSerializer();
 
@@ -4690,8 +4692,10 @@ public class JsonSerializerTest : TestFixtureBase
     public void DeserializeDecimalDictionaryExact()
     {
         var json = "{'Value':123456789876543.21}";
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.FloatParseHandling = FloatParseHandling.Decimal;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            FloatParseHandling = FloatParseHandling.Decimal
+        };
 
         var serializer = new JsonSerializer();
 
@@ -5793,8 +5797,10 @@ public class JsonSerializerTest : TestFixtureBase
     {
         var values = new List<MultipleItemsClass>();
 
-        var reader = new JsonTextReader(new StringReader("""{ "name": "bar" }{ "name": "baz" }"""));
-        reader.SupportMultipleContent = true;
+        var reader = new JsonTextReader(new StringReader("""{ "name": "bar" }{ "name": "baz" }"""))
+        {
+            SupportMultipleContent = true
+        };
 
         while (true)
         {

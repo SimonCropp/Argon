@@ -1948,8 +1948,10 @@ public class XmlNodeConverterTest : TestFixtureBase
     [Fact]
     public void SerializeDeserializeMetadataProperties()
     {
-        var circularDictionary = new PreserveReferencesHandlingTests.CircularDictionary();
-        circularDictionary.Add("other", new() {{"blah", null}});
+        var circularDictionary = new PreserveReferencesHandlingTests.CircularDictionary
+        {
+            { "other", new() { { "blah", null } } }
+        };
         circularDictionary.Add("self", circularDictionary);
 
         var json = JsonConvert.SerializeObject(circularDictionary, Formatting.Indented,

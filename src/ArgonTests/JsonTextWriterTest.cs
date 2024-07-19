@@ -1399,8 +1399,10 @@ public class JsonTextWriterTest : TestFixtureBase
         var reader = new JsonTextReader(new StringReader(json));
 
         var stringWriter = new StringWriter();
-        var jsonWriter = new JsonTextWriter(stringWriter);
-        jsonWriter.Formatting = Formatting.Indented;
+        var jsonWriter = new JsonTextWriter(stringWriter)
+        {
+            Formatting = Formatting.Indented
+        };
 
         jsonWriter.WriteToken(reader, true);
 

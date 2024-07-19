@@ -1344,8 +1344,10 @@ public class ReadTests : TestFixtureBase
     {
         var json = NestedJson.Build(150);
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.MaxDepth = 150;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            MaxDepth = 150
+        };
 
         while (reader.Read())
         {
@@ -1357,8 +1359,10 @@ public class ReadTests : TestFixtureBase
     {
         var json = NestedJson.Build(150);
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.MaxDepth = null;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            MaxDepth = null
+        };
 
         while (reader.Read())
         {
@@ -1370,8 +1374,10 @@ public class ReadTests : TestFixtureBase
     {
         var json = NestedJson.Build(150);
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.MaxDepth = int.MaxValue;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            MaxDepth = int.MaxValue
+        };
 
         while (reader.Read())
         {

@@ -103,8 +103,10 @@ public class ParseTests : TestFixtureBase
         var exception = Assert.Throws<JsonReaderException>(() => reader.ReadAsDecimal());
         Assert.Equal("Unexpected character encountered while parsing number: s. Path '', line 1, position 77.", exception.Message);
 
-        reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"));
-        reader.FloatParseHandling = FloatParseHandling.Decimal;
+        reader = new(new StringReader("9999999999999999999999999999999999999999999999999999999999999999999999999999asdasdasd"))
+        {
+            FloatParseHandling = FloatParseHandling.Decimal
+        };
         var exception1 = Assert.Throws<JsonReaderException>(() => reader.Read());
         Assert.Equal("Unexpected character encountered while parsing number: s. Path '', line 1, position 77.", exception1.Message);
 

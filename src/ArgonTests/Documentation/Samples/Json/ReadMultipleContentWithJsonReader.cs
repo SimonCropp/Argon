@@ -22,8 +22,10 @@ public class ReadMultipleContentWithJsonReader : TestFixtureBase
 
         var roles = new List<Role>();
 
-        var reader = new JsonTextReader(new StringReader(json));
-        reader.SupportMultipleContent = true;
+        var reader = new JsonTextReader(new StringReader(json))
+        {
+            SupportMultipleContent = true
+        };
 
         while (true)
         {

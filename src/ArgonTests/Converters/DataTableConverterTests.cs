@@ -254,41 +254,59 @@ public class DataTableConverterTests : TestFixtureBase
         var myTable = new DataTable("blah");
 
         // create DataColumn objects of data types.
-        var colString = new DataColumn("StringCol");
-        colString.DataType = typeof(string);
+        var colString = new DataColumn("StringCol")
+        {
+            DataType = typeof(string)
+        };
         myTable.Columns.Add(colString);
 
-        var colInt32 = new DataColumn("Int32Col");
-        colInt32.DataType = typeof(int);
+        var colInt32 = new DataColumn("Int32Col")
+        {
+            DataType = typeof(int)
+        };
         myTable.Columns.Add(colInt32);
 
-        var colBoolean = new DataColumn("BooleanCol");
-        colBoolean.DataType = typeof(bool);
+        var colBoolean = new DataColumn("BooleanCol")
+        {
+            DataType = typeof(bool)
+        };
         myTable.Columns.Add(colBoolean);
 
-        var colTimeSpan = new DataColumn("TimeSpanCol");
-        colTimeSpan.DataType = typeof(TimeSpan);
+        var colTimeSpan = new DataColumn("TimeSpanCol")
+        {
+            DataType = typeof(TimeSpan)
+        };
         myTable.Columns.Add(colTimeSpan);
 
-        var colDateTime = new DataColumn("DateTimeCol");
-        colDateTime.DataType = typeof(DateTime);
-        colDateTime.DateTimeMode = DataSetDateTime.Utc;
+        var colDateTime = new DataColumn("DateTimeCol")
+        {
+            DataType = typeof(DateTime),
+            DateTimeMode = DataSetDateTime.Utc
+        };
         myTable.Columns.Add(colDateTime);
 
-        var colDecimal = new DataColumn("DecimalCol");
-        colDecimal.DataType = typeof(decimal);
+        var colDecimal = new DataColumn("DecimalCol")
+        {
+            DataType = typeof(decimal)
+        };
         myTable.Columns.Add(colDecimal);
 
-        var colDataTable = new DataColumn("DataTableCol");
-        colDataTable.DataType = typeof(DataTable);
+        var colDataTable = new DataColumn("DataTableCol")
+        {
+            DataType = typeof(DataTable)
+        };
         myTable.Columns.Add(colDataTable);
 
-        var colArray = new DataColumn("ArrayCol");
-        colArray.DataType = typeof(int[]);
+        var colArray = new DataColumn("ArrayCol")
+        {
+            DataType = typeof(int[])
+        };
         myTable.Columns.Add(colArray);
 
-        var colBytes = new DataColumn("BytesCol");
-        colBytes.DataType = typeof(byte[]);
+        var colBytes = new DataColumn("BytesCol")
+        {
+            DataType = typeof(byte[])
+        };
         myTable.Columns.Add(colBytes);
 
         // populate one row with values.
@@ -304,8 +322,10 @@ public class DataTableConverterTests : TestFixtureBase
         myNewRow["BytesCol"] = "Hello world"u8.ToArray();
 
         var nestedTable = new DataTable("Nested");
-        var nestedColString = new DataColumn("NestedStringCol");
-        nestedColString.DataType = typeof(string);
+        var nestedColString = new DataColumn("NestedStringCol")
+        {
+            DataType = typeof(string)
+        };
         nestedTable.Columns.Add(nestedColString);
         var myNewNestedRow = nestedTable.NewRow();
         myNewNestedRow["NestedStringCol"] = "Nested!";
@@ -468,8 +488,10 @@ public class DataTableConverterTests : TestFixtureBase
     public void SerializeKeyValuePairWithDataTableKey()
     {
         var table = new DataTable();
-        var idColumn = new DataColumn("id", typeof(int));
-        idColumn.AutoIncrement = true;
+        var idColumn = new DataColumn("id", typeof(int))
+        {
+            AutoIncrement = true
+        };
 
         var itemColumn = new DataColumn("item");
         table.Columns.Add(idColumn);

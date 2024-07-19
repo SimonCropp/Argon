@@ -20,8 +20,10 @@ var json = "{ 'name': 'Admin' }{ 'name': 'Publisher' }";
 
 var roles = new List<Role>();
 
-var reader = new JsonTextReader(new StringReader(json));
-reader.SupportMultipleContent = true;
+var reader = new JsonTextReader(new StringReader(json))
+{
+    SupportMultipleContent = true
+};
 
 while (true)
 {
@@ -44,5 +46,5 @@ foreach (var role in roles)
 // Admin
 // Publisher
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Json/ReadMultipleContentWithJsonReader.cs#L19-L49' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReadMultipleContentWithJsonReaderUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Json/ReadMultipleContentWithJsonReader.cs#L19-L51' title='Snippet source file'>snippet source</a> | <a href='#snippet-ReadMultipleContentWithJsonReaderUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
