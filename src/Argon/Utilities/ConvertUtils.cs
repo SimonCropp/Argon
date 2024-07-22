@@ -8,7 +8,7 @@
 
 static class ConvertUtils
 {
-    static readonly IReadOnlyDictionary<Type, PrimitiveTypeCode> TypeCodeMap =
+    static readonly FrozenDictionary<Type, PrimitiveTypeCode> TypeCodeMap =
         new Dictionary<Type, PrimitiveTypeCode>
         {
             {typeof(char), PrimitiveTypeCode.Char},
