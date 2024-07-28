@@ -107,6 +107,10 @@ public class JsonSerializerSettings
     /// Gets or sets the error handler called during serialization and deserialization.
     /// </summary>
     public OnError? Error { get; set; }
+    public OnSerialized? Serialized { get; set; }
+    public OnSerializing? Serializing { get; set; }
+    public OnDeserialized? Deserialized { get; set; }
+    public OnDeserializing? Deserializing { get; set; }
 
     const int DefaultMaxDepth = 64;
 
@@ -188,6 +192,10 @@ public class JsonSerializerSettings
         maxDepth = original.maxDepth;
         maxDepthSet = original.maxDepthSet;
         Error = original.Error;
+        Serialized = original.Serialized;
+        Serializing = original.Serializing;
+        Deserialized = original.Deserialized;
+        Deserializing = original.Deserializing;
         EscapeHandling = original.EscapeHandling;
         SerializationBinder = original.SerializationBinder;
         ReferenceResolverProvider = original.ReferenceResolverProvider;

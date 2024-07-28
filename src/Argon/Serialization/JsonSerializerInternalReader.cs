@@ -1118,16 +1118,18 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
-    static void OnDeserializing(object value)
+    void OnDeserializing(object value)
     {
+        Serializer.Deserializing?.Invoke(value);
         if (value is IJsonOnDeserializing deserializing)
         {
             deserializing.OnDeserializing();
         }
     }
 
-    static void OnDeserialized(object value)
+    void OnDeserialized(object value)
     {
+        Serializer.Deserialized?.Invoke(value);
         if (value is IJsonOnDeserialized deserialized)
         {
             deserialized.OnDeserialized();

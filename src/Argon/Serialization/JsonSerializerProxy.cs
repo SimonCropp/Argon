@@ -13,6 +13,26 @@ class JsonSerializerProxy : JsonSerializer
         get => serializer.Error;
         set => serializer.Error = value;
     }
+    public override OnSerialized? Serialized
+    {
+        get => serializer.Serialized;
+        set => serializer.Serialized = value;
+    }
+    public override OnSerializing? Serializing
+    {
+        get => serializer.Serializing;
+        set => serializer.Serializing = value;
+    }
+    public override OnDeserialized? Deserialized
+    {
+        get => serializer.Deserialized;
+        set => serializer.Deserialized = value;
+    }
+    public override OnDeserializing? Deserializing
+    {
+        get => serializer.Deserializing;
+        set => serializer.Deserializing = value;
+    }
 
     public override IReferenceResolver? ReferenceResolver
     {

@@ -20,6 +20,11 @@ public class JsonSerializer
     /// </summary>
     public virtual OnError? Error { get; set; }
 
+    public virtual OnSerialized? Serialized { get; set; }
+    public virtual OnSerializing? Serializing { get; set; }
+    public virtual OnDeserialized? Deserialized { get; set; }
+    public virtual OnDeserializing? Deserializing { get; set; }
+
     /// <summary>
     /// Gets or sets the <see cref="IReferenceResolver" /> used by the serializer when resolving references.
     /// </summary>
@@ -336,6 +341,22 @@ public class JsonSerializer
         if (settings.Error != null)
         {
             serializer.Error = settings.Error;
+        }
+        if (settings.Serialized != null)
+        {
+            serializer.Serialized = settings.Serialized;
+        }
+        if (settings.Serializing != null)
+        {
+            serializer.Serializing = settings.Serializing;
+        }
+        if (settings.Deserialized != null)
+        {
+            serializer.Deserialized = settings.Deserialized;
+        }
+        if (settings.Deserializing != null)
+        {
+            serializer.Deserializing = settings.Deserializing;
         }
 
         if (settings.ContractResolver != null)

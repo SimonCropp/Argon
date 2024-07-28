@@ -349,7 +349,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         return false;
     }
 
-    static void SerializeString(JsonWriter writer, object value, JsonStringContract contract)
+    void SerializeString(JsonWriter writer, object value, JsonStringContract contract)
     {
         OnSerializing(value);
 
@@ -359,16 +359,18 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         OnSerialized(value);
     }
 
-    static void OnSerializing(object value)
+    void OnSerializing(object value)
     {
+        Serializer.Serializing?.Invoke(value);
         if (value is IJsonOnSerializing serializing)
         {
             serializing.OnSerializing();
         }
     }
 
-    static void OnSerialized(object value)
+    void OnSerialized(object value)
     {
+        Serializer.Serialized?.Invoke(value);
         if (value is IJsonOnSerialized serialized)
         {
             serialized.OnSerialized();
