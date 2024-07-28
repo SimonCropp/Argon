@@ -7340,7 +7340,6 @@ public class JsonSerializerTest : TestFixtureBase
 
         var clone = new JsonSerializerSettings(settings);
 
-
         Assert.Equal(settings.ReferenceLoopHandling, clone.ReferenceLoopHandling);
         Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.ReferenceLoopHandling)));
 
@@ -7388,6 +7387,18 @@ public class JsonSerializerTest : TestFixtureBase
 
         Assert.Equal(settings.Error, clone.Error);
         Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.Error)));
+
+        Assert.Equal(settings.Serialized, clone.Serialized);
+        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.Serialized)));
+
+        Assert.Equal(settings.Serializing, clone.Serializing);
+        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.Serializing)));
+
+        Assert.Equal(settings.Deserialized, clone.Deserialized);
+        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.Deserialized)));
+
+        Assert.Equal(settings.Deserializing, clone.Deserializing);
+        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.Deserializing)));
 
         Assert.Equal(settings.MaxDepth, clone.MaxDepth);
         Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.MaxDepth)));
