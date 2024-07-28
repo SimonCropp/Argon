@@ -16,13 +16,13 @@ public class SerializationCallbacks : TestFixtureBase
 
         var settings = new JsonSerializerSettings();
         var serializeCalled = false;
-        settings.Serialized += _ => serializeCalled = true;
+        settings.Serialized += (_, _) => serializeCalled = true;
         var serializingCalled = false;
-        settings.Serializing += _ => serializingCalled = true;
+        settings.Serializing += (_, _) => serializingCalled = true;
         var deserializedCalled = false;
-        settings.Deserialized += _ => deserializedCalled = true;
+        settings.Deserialized += (_, _) => deserializedCalled = true;
         var deserializingCalled = false;
-        settings.Deserializing += _ => deserializingCalled = true;
+        settings.Deserializing += (_, _) => deserializingCalled = true;
         var json = JsonConvert.SerializeObject(obj, settings);
         JsonConvert.DeserializeObject<SerializationEventTestObject>(json, settings);
 

@@ -1,3 +1,3 @@
 ﻿namespace Argon;
 
-public delegate void OnDeserializing(object target);
+public delegate void OnDeserializing(JsonReader reader, object target);

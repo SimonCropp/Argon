@@ -4,36 +4,29 @@
 
 namespace TestObjects;
 
-public class SerializationEventTestObjectWithConstructor :
+public class SerializationEventTestObjectWithConstructor(
+    int member1,
+    string member2,
+    string member4) :
     IJsonOnSerializing,
     IJsonOnSerialized,
     IJsonOnDeserializing,
     IJsonOnDeserialized
 {
     // This member is serialized and deserialized with no change.
-    public int Member1 { get; }
+    public int Member1 { get; } = member1;
 
     // The value of this field is set and reset during and
     // after serialization.
-    public string Member2 { get; private set; }
+    public string Member2 { get; private set; } = member2;
 
     // This field is not serialized. The OnDeserializedAttribute
     // is used to set the member value after serialization.
     [JsonIgnore]
-    public string Member3 { get; private set; }
+    public string Member3 { get; private set; } = "This is a nonserialized value";
 
     // This field is set to null, but populated after deserialization.
-    public string Member4 { get; private set; }
-
-    public SerializationEventTestObjectWithConstructor(int member1,
-        string member2,
-        string member4)
-    {
-        Member1 = member1;
-        Member2 = member2;
-        Member3 = "This is a nonserialized value";
-        Member4 = member4;
-    }
+    public string Member4 { get; private set; } = member4;
 
     public void OnSerializing() =>
         Member2 = "This value went into the data file during serialization.";

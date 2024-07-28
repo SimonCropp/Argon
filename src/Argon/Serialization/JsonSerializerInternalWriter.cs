@@ -351,26 +351,26 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
     void SerializeString(JsonWriter writer, object value, JsonStringContract contract)
     {
-        OnSerializing(value);
+        OnSerializing(writer, value);
 
         TryConvertToString(value, contract.UnderlyingType, out var s);
         writer.WriteValue(s);
 
-        OnSerialized(value);
+        OnSerialized(writer, value);
     }
 
-    void OnSerializing(object value)
+    void OnSerializing(JsonWriter writer, object value)
     {
-        Serializer.Serializing?.Invoke(value);
+        Serializer.Serializing?.Invoke(writer, value);
         if (value is IJsonOnSerializing serializing)
         {
             serializing.OnSerializing();
         }
     }
 
-    void OnSerialized(object value)
+    void OnSerialized(JsonWriter writer, object value)
     {
-        Serializer.Serialized?.Invoke(value);
+        Serializer.Serialized?.Invoke(writer, value);
         if (value is IJsonOnSerialized serialized)
         {
             serialized.OnSerialized();
@@ -379,7 +379,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
     void SerializeObject(JsonWriter writer, object value, JsonObjectContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        OnSerializing(value);
+        OnSerializing(writer, value);
 
         serializeStack.Add(value);
 
@@ -416,7 +416,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(value);
+        OnSerialized(writer, value);
     }
 
     bool CalculatePropertyValues(JsonWriter writer, object value, JsonContainerContract contract, JsonProperty? member, JsonProperty property, [NotNullWhen(true)] out JsonContract? memberContract, out object? memberValue)
@@ -553,7 +553,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
     {
         var underlyingList = values is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : values;
 
-        OnSerializing(underlyingList);
+        OnSerializing(writer, underlyingList);
 
         serializeStack.Add(underlyingList);
 
@@ -579,7 +579,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(underlyingList);
+        OnSerialized(writer, underlyingList);
     }
 
     private void SerializeArrayItem(JsonWriter writer, JsonArrayContract contract, JsonProperty? member, object? value, object underlyingList, int initialDepth, ref int index)
@@ -634,7 +634,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
     void SerializeMultidimensionalArray(JsonWriter writer, Array values, JsonArrayContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        OnSerializing(values);
+        OnSerializing(writer, values);
 
         serializeStack.Add(values);
 
@@ -649,7 +649,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(values);
+        OnSerialized(writer, values);
     }
 
     void SerializeMultidimensionalArray(JsonWriter writer, Array values, JsonArrayContract contract, JsonProperty? member, int initialDepth, int[] indices)
@@ -742,7 +742,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
     void SerializeDynamic(JsonWriter writer, IDynamicMetaObjectProvider value, JsonDynamicContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
-        OnSerializing(value);
+        OnSerializing(writer, value);
         serializeStack.Add(value);
 
         WriteObjectStart(writer, value, contract, member, collectionContract, containerProperty);
@@ -818,7 +818,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         writer.WriteEndObject();
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
-        OnSerialized(value);
+        OnSerialized(writer, value);
     }
 
     bool ShouldWriteDynamicProperty(object? memberValue)
@@ -882,7 +882,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 #pragma warning disable CS8600, CS8602, CS8604
         var underlyingDictionary = values is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : values;
 
-        OnSerializing(underlyingDictionary);
+        OnSerializing(writer, underlyingDictionary);
         serializeStack.Add(underlyingDictionary);
 
         WriteObjectStart(writer, underlyingDictionary, contract, member, collectionContract, containerProperty);
@@ -928,7 +928,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(underlyingDictionary);
+        OnSerialized(writer, underlyingDictionary);
 #pragma warning restore CS8600, CS8602, CS8604
     }
 
