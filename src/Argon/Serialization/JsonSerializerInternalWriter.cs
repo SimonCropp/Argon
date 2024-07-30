@@ -148,7 +148,10 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 SerializeDynamic(writer, (IDynamicMetaObjectProvider) value, (JsonDynamicContract) valueContract, member, containerContract, containerProperty);
                 break;
             case JsonContractType.Linq:
-                ((JToken) value).WriteTo(writer, Serializer.Converters.ToArray());
+                var token = (JToken) value;
+                OnSerializing(writer, token);
+                token.WriteTo(writer, Serializer.Converters.ToArray());
+                OnSerialized(writer, token);
                 break;
         }
     }
