@@ -29,7 +29,7 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(
     """,
     new JsonSerializerSettings
     {
-        Error = (currentObject, originalObject, location, exception, markAsHandled) =>
+        DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
         {
             errors.Add(exception.Message);
             markAsHandled();
@@ -61,17 +61,25 @@ var errors = new List<string>();
 
 var serializer = new JsonSerializer
 {
-    Error = (currentObject, originalObject, location, exception, markAsHandled) =>
+    SerializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
     {
         // only log an error once
         if (currentObject == originalObject)
         {
             errors.Add(exception.Message);
         }
-    }
+    },
+    DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
+    {
+        // only log an error once
+        if (currentObject == originalObject)
+        {
+            errors.Add(exception.Message);
+        }
+    },
 };
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L227-L243' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingWithParent' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L227-L251' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingWithParent' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 If you aren't immediately handling an error and only want to perform an action against it once, then you can check to see whether the `Argon.ErrorEventArgs`'s CurrentObject is equal to the OriginalObject. OriginalObject is the object that threw the error and CurrentObject is the object that the event is being raised against. They will only equal the first time the event is raised against the OriginalObject.
@@ -111,7 +119,7 @@ public class PersonError :
         markAsHandled();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L246-L276' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeObject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L254-L284' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeObject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In this example accessing the Roles property will throw an exception when no roles have been set. The HandleError method will set the error when serializing Roles as handled and allow the continued serializing the class.
@@ -136,7 +144,7 @@ Console.WriteLine(json);
 //  "Title": "Mister Manager"
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L281-L300' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeExample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L289-L308' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeExample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

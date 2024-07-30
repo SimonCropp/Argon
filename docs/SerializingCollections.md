@@ -43,7 +43,7 @@ var json = JsonConvert.SerializeObject(products, Formatting.Indented);
 //  }
 //]
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L480-L517' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsSerializing' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L488-L525' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsSerializing' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -81,7 +81,7 @@ var p1 = products[0];
 Console.WriteLine(p1.Name);
 // Product 1
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L542-L571' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsDeserializing' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L550-L579' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsDeserializing' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -102,7 +102,7 @@ Console.WriteLine(values.Count);
 Console.WriteLine(values["key1"]);
 // value1
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L579-L591' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsDeserializingDictionaries' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L587-L599' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializingCollectionsDeserializingDictionaries' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

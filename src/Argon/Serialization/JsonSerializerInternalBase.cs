@@ -14,7 +14,8 @@ abstract class JsonSerializerInternalBase(JsonSerializer serializer)
             RuntimeHelpers.GetHashCode(obj);
     }
 
-    ErrorContext? currentErrorContext;
+    ErrorContext? currentSerializeErrorContext;
+    ErrorContext? currentDeserializeErrorContext;
     BidirectionalDictionary<string, object>? mappings;
 
     internal readonly JsonSerializer Serializer = serializer;
@@ -45,40 +46,75 @@ abstract class JsonSerializerInternalBase(JsonSerializer serializer)
         Serializer.NullValueHandling ??
         default;
 
-    protected void ClearErrorContext()
+    protected void ClearSerializeErrorContext()
     {
-        if (currentErrorContext == null)
+        if (currentSerializeErrorContext == null)
         {
             throw new InvalidOperationException("Could not clear error context. Error context is already null.");
         }
 
-        currentErrorContext = null;
+        currentSerializeErrorContext = null;
+    }
+    protected void ClearDeserializeErrorContext()
+    {
+        if (currentDeserializeErrorContext == null)
+        {
+            throw new InvalidOperationException("Could not clear error context. Error context is already null.");
+        }
+
+        currentDeserializeErrorContext = null;
     }
 
-    protected bool IsErrorHandled(object? currentObject, object? member, string path, Exception exception)
+    protected bool IsDeserializeErrorHandled(object? currentObject, object? member, string path, Exception exception)
     {
-        if (currentErrorContext == null)
+        if (currentDeserializeErrorContext == null)
         {
-            currentErrorContext = new(currentObject, exception);
+            currentDeserializeErrorContext = new(currentObject, exception);
         }
-        else if (currentErrorContext.Exception != exception)
+        else if (currentDeserializeErrorContext.Exception != exception)
         {
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
         void MarkAsHandled() =>
-            currentErrorContext.Handled = true;
+            currentDeserializeErrorContext.Handled = true;
 
         if (currentObject is IJsonOnError onError)
         {
-            onError.OnError(currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+            onError.OnError(currentDeserializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
         }
 
-        if (!currentErrorContext.Handled)
+        if (!currentDeserializeErrorContext.Handled)
         {
-            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+            Serializer.DeserializeError?.Invoke(currentObject, currentDeserializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
         }
 
-        return currentErrorContext.Handled;
+        return currentDeserializeErrorContext.Handled;
+    }
+    protected bool IsSerializeErrorHandled(object? currentObject, object? member, string path, Exception exception)
+    {
+        if (currentSerializeErrorContext == null)
+        {
+            currentSerializeErrorContext = new(currentObject, exception);
+        }
+        else if (currentSerializeErrorContext.Exception != exception)
+        {
+            throw new InvalidOperationException("Current error context error is different to requested error.");
+        }
+
+        void MarkAsHandled() =>
+            currentSerializeErrorContext.Handled = true;
+
+        if (currentObject is IJsonOnError onError)
+        {
+            onError.OnError(currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+        }
+
+        if (!currentSerializeErrorContext.Handled)
+        {
+            Serializer.SerializeError?.Invoke(currentObject, currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+        }
+
+        return currentSerializeErrorContext.Handled;
     }
 }

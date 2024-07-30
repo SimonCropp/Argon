@@ -200,7 +200,7 @@ public class SerializationTests :
             """,
             new JsonSerializerSettings
             {
-                Error = (currentObject, originalObject, location, exception, markAsHandled) =>
+                DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();
@@ -230,14 +230,22 @@ public class SerializationTests :
 
         var serializer = new JsonSerializer
         {
-            Error = (currentObject, originalObject, location, exception, markAsHandled) =>
+            SerializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
             {
                 // only log an error once
                 if (currentObject == originalObject)
                 {
                     errors.Add(exception.Message);
                 }
-            }
+            },
+            DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
+            {
+                // only log an error once
+                if (currentObject == originalObject)
+                {
+                    errors.Add(exception.Message);
+                }
+            },
         };
 
         #endregion

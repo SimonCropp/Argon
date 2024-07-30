@@ -628,10 +628,12 @@ public class JsonSerializerTest : TestFixtureBase
                    }
                    """;
 
-        var l = JsonConvert.DeserializeObject<Link>(json, new JsonSerializerSettings
-        {
-            Error = (_, _, _, _, markAsHandled) => markAsHandled()
-        });
+        var l = JsonConvert.DeserializeObject<Link>(
+            json,
+            new JsonSerializerSettings
+            {
+                DeserializeError = (_, _, _, _, markAsHandled) => markAsHandled()
+            });
 
         Assert.Equal(0, l.ChildId);
     }
@@ -5826,14 +5828,16 @@ public class JsonSerializerTest : TestFixtureBase
         var json = "{}";
         var errors = new List<string>();
 
-        var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
-        {
-            Error = (_, _, _, exception, markAsHandled) =>
+        var o = JsonConvert.DeserializeObject<RequiredObject>(
+            json,
+            new JsonSerializerSettings
             {
-                errors.Add(exception.Message);
-                markAsHandled();
-            }
-        });
+                DeserializeError = (_, _, _, exception, markAsHandled) =>
+                {
+                    errors.Add(exception.Message);
+                    markAsHandled();
+                }
+            });
 
         Assert.NotNull(o);
         Assert.Equal(4, errors.Count);
@@ -5849,14 +5853,16 @@ public class JsonSerializerTest : TestFixtureBase
         var json = "{'NonAttributeProperty':null,'UnsetProperty':null,'AllowNullProperty':null,'AlwaysProperty':null}";
         var errors = new List<string>();
 
-        var o = JsonConvert.DeserializeObject<RequiredObject>(json, new JsonSerializerSettings
-        {
-            Error = (_, _, _, exception, markAsHandled) =>
+        var o = JsonConvert.DeserializeObject<RequiredObject>(
+            json,
+            new JsonSerializerSettings
             {
-                errors.Add(exception.Message);
-                markAsHandled();
-            }
-        });
+                DeserializeError = (_, _, _, exception, markAsHandled) =>
+                {
+                    errors.Add(exception.Message);
+                    markAsHandled();
+                }
+            });
 
         Assert.NotNull(o);
         Assert.Equal(3, errors.Count);
@@ -5874,7 +5880,7 @@ public class JsonSerializerTest : TestFixtureBase
             new RequiredObject(),
             new JsonSerializerSettings
             {
-                Error = (_, _, _, exception, markAsHandled) =>
+                SerializeError = (_, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();
@@ -7385,8 +7391,10 @@ public class JsonSerializerTest : TestFixtureBase
         Assert.Equal(settings.SerializationBinder, clone.SerializationBinder);
         Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.SerializationBinder)));
 
-        Assert.Equal(settings.Error, clone.Error);
-        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.Error)));
+        Assert.Equal(settings.SerializeError, clone.SerializeError);
+        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.SerializeError)));
+        Assert.Equal(settings.DeserializeError, clone.DeserializeError);
+        Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.DeserializeError)));
 
         Assert.Equal(settings.Serialized, clone.Serialized);
         Assert.True(propertyNames.Remove(nameof(JsonSerializerSettings.Serialized)));

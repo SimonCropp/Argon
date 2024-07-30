@@ -8,11 +8,18 @@ class JsonSerializerProxy : JsonSerializer
     readonly JsonSerializerInternalWriter? serializerWriter;
     internal readonly JsonSerializer serializer;
 
-    public override OnError? Error
+    public override OnSerializeError? SerializeError
     {
-        get => serializer.Error;
-        set => serializer.Error = value;
+        get => serializer.SerializeError;
+        set => serializer.SerializeError = value;
     }
+
+    public override OnDeserializeError? DeserializeError
+    {
+        get => serializer.DeserializeError;
+        set => serializer.DeserializeError = value;
+    }
+
     public override OnSerialized? Serialized
     {
         get => serializer.Serialized;

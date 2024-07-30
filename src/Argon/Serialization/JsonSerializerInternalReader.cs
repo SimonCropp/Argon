@@ -68,7 +68,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, null, reader.Path, exception))
+            if (IsDeserializeErrorHandled(null, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
                 return null;
@@ -77,7 +77,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
             // clear context in case serializer is being used inside a converter
             // if the converter wraps the error then not clearing the context will cause this error:
             // "Current error context error is different to requested error."
-            ClearErrorContext();
+            ClearDeserializeErrorContext();
             throw;
         }
     }
@@ -1240,7 +1240,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(underlyingDictionary, keyValue, reader.Path, exception))
+                        if (IsDeserializeErrorHandled(underlyingDictionary, keyValue, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -1334,7 +1334,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                 {
                     var errorPosition = reader.GetPosition(initialDepth);
 
-                    if (IsErrorHandled(list, errorPosition.Position, reader.Path, exception))
+                    if (IsDeserializeErrorHandled(list, errorPosition.Position, reader.Path, exception))
                     {
                         HandleError(reader, true, initialDepth + 1);
 
@@ -1408,7 +1408,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(currentObject, null, reader.Path, exception))
+            if (IsDeserializeErrorHandled(currentObject, null, reader.Path, exception))
             {
                 HandleError(reader, false, 0);
             }
@@ -1485,7 +1485,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
             {
                 var errorPosition = reader.GetPosition(initialDepth);
 
-                if (IsErrorHandled(underlyingList, errorPosition.Position, reader.Path, exception))
+                if (IsDeserializeErrorHandled(underlyingList, errorPosition.Position, reader.Path, exception))
                 {
                     HandleError(reader, true, initialDepth + 1);
 
@@ -1596,7 +1596,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, memberName, reader.Path, exception))
+                        if (IsDeserializeErrorHandled(newObject, memberName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2062,7 +2062,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                     }
                     catch (Exception exception)
                     {
-                        if (IsErrorHandled(newObject, propertyName, reader.Path, exception))
+                        if (IsDeserializeErrorHandled(newObject, propertyName, reader.Path, exception))
                         {
                             HandleError(reader, true, initialDepth);
                         }
@@ -2168,7 +2168,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(newObject, property.PropertyName, reader.Path, exception))
+            if (IsDeserializeErrorHandled(newObject, property.PropertyName, reader.Path, exception))
             {
                 HandleError(reader, true, initialDepth);
             }
@@ -2214,7 +2214,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
 
     void HandleError(JsonReader reader, bool readPastError, int initialDepth)
     {
-        ClearErrorContext();
+        ClearDeserializeErrorContext();
 
         if (!readPastError)
         {
