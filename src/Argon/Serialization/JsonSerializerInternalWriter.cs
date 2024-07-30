@@ -1077,4 +1077,43 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             writer.WriteEnd();
         }
     }
+
+    ErrorContext? currentSerializeErrorContext;
+
+    protected void ClearSerializeErrorContext()
+    {
+        if (currentSerializeErrorContext == null)
+        {
+            throw new InvalidOperationException("Could not clear error context. Error context is already null.");
+        }
+
+        currentSerializeErrorContext = null;
+    }
+
+    protected bool IsSerializeErrorHandled(object? currentObject, object? member, string path, Exception exception)
+    {
+        if (currentSerializeErrorContext == null)
+        {
+            currentSerializeErrorContext = new(currentObject, exception);
+        }
+        else if (currentSerializeErrorContext.Exception != exception)
+        {
+            throw new InvalidOperationException("Current error context error is different to requested error.");
+        }
+
+        void MarkAsHandled() =>
+            currentSerializeErrorContext.Handled = true;
+
+        if (currentObject is IJsonOnError onError)
+        {
+            onError.OnError(currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+        }
+
+        if (!currentSerializeErrorContext.Handled)
+        {
+            Serializer.SerializeError?.Invoke(currentObject, currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+        }
+
+        return currentSerializeErrorContext.Handled;
+    }
 }
