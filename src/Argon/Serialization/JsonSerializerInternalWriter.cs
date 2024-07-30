@@ -32,7 +32,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(null, null, jsonWriter.Path, exception))
+            if (IsSerializeErrorHandled(null, null, jsonWriter.Path, exception))
             {
                 HandleError(jsonWriter, 0);
             }
@@ -41,7 +41,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 // clear context in case serializer is being used inside a converter
                 // if the converter wraps the error then not clearing the context will cause this error:
                 // "Current error context error is different to requested error."
-                ClearErrorContext();
+                ClearSerializeErrorContext();
                 throw;
             }
         }
@@ -401,7 +401,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             }
             catch (Exception exception)
             {
-                if (IsErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
+                if (IsSerializeErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
                 {
                     HandleError(writer, initialDepth);
                 }
@@ -617,7 +617,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(underlyingList, index, writer.ContainerPath, exception))
+            if (IsSerializeErrorHandled(underlyingList, index, writer.ContainerPath, exception))
             {
                 HandleError(writer, initialDepth);
             }
@@ -690,7 +690,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(values, i, writer.ContainerPath, exception))
+                    if (IsSerializeErrorHandled(values, i, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth + 1);
                     }
@@ -766,7 +766,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
+                    if (IsSerializeErrorHandled(value, property.PropertyName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -803,7 +803,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 }
                 catch (Exception exception)
                 {
-                    if (IsErrorHandled(value, memberName, writer.ContainerPath, exception))
+                    if (IsSerializeErrorHandled(value, memberName, writer.ContainerPath, exception))
                     {
                         HandleError(writer, initialDepth);
                     }
@@ -975,7 +975,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         }
         catch (Exception exception)
         {
-            if (IsErrorHandled(underlyingDictionary, propertyName, writer.ContainerPath, exception))
+            if (IsSerializeErrorHandled(underlyingDictionary, propertyName, writer.ContainerPath, exception))
             {
                 HandleError(writer, initialDepth);
             }
@@ -1065,7 +1065,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
     void HandleError(JsonWriter writer, int initialDepth)
     {
-        ClearErrorContext();
+        ClearSerializeErrorContext();
 
         if (writer.WriteState == WriteState.Property)
         {
@@ -1076,5 +1076,44 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         {
             writer.WriteEnd();
         }
+    }
+
+    ErrorContext? currentSerializeErrorContext;
+
+    protected void ClearSerializeErrorContext()
+    {
+        if (currentSerializeErrorContext == null)
+        {
+            throw new InvalidOperationException("Could not clear error context. Error context is already null.");
+        }
+
+        currentSerializeErrorContext = null;
+    }
+
+    protected bool IsSerializeErrorHandled(object? currentObject, object? member, string path, Exception exception)
+    {
+        if (currentSerializeErrorContext == null)
+        {
+            currentSerializeErrorContext = new(currentObject, exception);
+        }
+        else if (currentSerializeErrorContext.Exception != exception)
+        {
+            throw new InvalidOperationException("Current error context error is different to requested error.");
+        }
+
+        void MarkAsHandled() =>
+            currentSerializeErrorContext.Handled = true;
+
+        if (currentObject is IJsonOnError onError)
+        {
+            onError.OnError(currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+        }
+
+        if (!currentSerializeErrorContext.Handled)
+        {
+            Serializer.SerializeError?.Invoke(currentObject, currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+        }
+
+        return currentSerializeErrorContext.Handled;
     }
 }

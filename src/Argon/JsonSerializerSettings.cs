@@ -104,9 +104,13 @@ public class JsonSerializerSettings
     public ISerializationBinder? SerializationBinder { get; set; }
 
     /// <summary>
-    /// Gets or sets the error handler called during serialization and deserialization.
+    /// Gets or sets the error handler called during deserialization.
     /// </summary>
-    public OnError? Error { get; set; }
+    public OnDeserializeError? DeserializeError { get; set; }
+    /// <summary>
+    /// Gets or sets the error handler called during serialization.
+    /// </summary>
+    public OnSerializeError? SerializeError { get; set; }
     public OnSerialized? Serialized { get; set; }
     public OnSerializing? Serializing { get; set; }
     public OnDeserialized? Deserialized { get; set; }
@@ -191,7 +195,8 @@ public class JsonSerializerSettings
         Formatting = original.Formatting;
         maxDepth = original.maxDepth;
         maxDepthSet = original.maxDepthSet;
-        Error = original.Error;
+        SerializeError = original.SerializeError;
+        DeserializeError = original.DeserializeError;
         Serialized = original.Serialized;
         Serializing = original.Serializing;
         Deserialized = original.Deserialized;

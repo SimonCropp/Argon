@@ -710,15 +710,15 @@ public class DataTableConverterTests : TestFixtureBase
         {
             existingValue ??= CreateTable();
 
-            var previousError = serializer.Error;
-            serializer.Error = (_, _, _, _, markAsHandled) => markAsHandled();
+            var previousError = serializer.DeserializeError;
+            serializer.DeserializeError = (_, _, _, _, markAsHandled) => markAsHandled();
             try
             {
                 return base.ReadJson(reader, type, existingValue, serializer);
             }
             finally
             {
-                serializer.Error = previousError;
+                serializer.DeserializeError = previousError;
             }
         }
 

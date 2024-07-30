@@ -14,7 +14,6 @@ abstract class JsonSerializerInternalBase(JsonSerializer serializer)
             RuntimeHelpers.GetHashCode(obj);
     }
 
-    ErrorContext? currentErrorContext;
     BidirectionalDictionary<string, object>? mappings;
 
     internal readonly JsonSerializer Serializer = serializer;
@@ -44,41 +43,4 @@ abstract class JsonSerializerInternalBase(JsonSerializer serializer)
         containerContract?.ItemNullValueHandling ??
         Serializer.NullValueHandling ??
         default;
-
-    protected void ClearErrorContext()
-    {
-        if (currentErrorContext == null)
-        {
-            throw new InvalidOperationException("Could not clear error context. Error context is already null.");
-        }
-
-        currentErrorContext = null;
-    }
-
-    protected bool IsErrorHandled(object? currentObject, object? member, string path, Exception exception)
-    {
-        if (currentErrorContext == null)
-        {
-            currentErrorContext = new(currentObject, exception);
-        }
-        else if (currentErrorContext.Exception != exception)
-        {
-            throw new InvalidOperationException("Current error context error is different to requested error.");
-        }
-
-        void MarkAsHandled() =>
-            currentErrorContext.Handled = true;
-
-        if (currentObject is IJsonOnError onError)
-        {
-            onError.OnError(currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
-        }
-
-        if (!currentErrorContext.Handled)
-        {
-            Serializer.Error?.Invoke(currentObject, currentErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
-        }
-
-        return currentErrorContext.Handled;
-    }
 }

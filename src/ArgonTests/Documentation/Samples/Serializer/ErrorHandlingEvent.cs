@@ -28,7 +28,7 @@ public class ErrorHandlingEvent : TestFixtureBase
             """,
             new JsonSerializerSettings
             {
-                Error = (currentObject, originalObject, location, exception, markAsHandled) =>
+                DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();

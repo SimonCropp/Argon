@@ -16,9 +16,14 @@ public class JsonSerializer
     bool maxDepthSet;
 
     /// <summary>
-    /// Occurs when the <see cref="JsonSerializer" /> errors during serialization and deserialization.
+    /// Occurs when the <see cref="JsonSerializer" /> errors during deserialization.
     /// </summary>
-    public virtual OnError? Error { get; set; }
+    public virtual OnDeserializeError? DeserializeError { get; set; }
+
+    /// <summary>
+    /// Occurs when the <see cref="JsonSerializer" /> errors during serialization.
+    /// </summary>
+    public virtual OnSerializeError? SerializeError { get; set; }
 
     public virtual OnSerialized? Serialized { get; set; }
     public virtual OnSerializing? Serializing { get; set; }
@@ -338,9 +343,13 @@ public class JsonSerializer
             serializer.CheckAdditionalContent = settings.CheckAdditionalContent;
         }
 
-        if (settings.Error != null)
+        if (settings.SerializeError != null)
         {
-            serializer.Error = settings.Error;
+            serializer.SerializeError = settings.SerializeError;
+        }
+        if (settings.DeserializeError != null)
+        {
+            serializer.DeserializeError = settings.DeserializeError;
         }
         if (settings.Serialized != null)
         {
