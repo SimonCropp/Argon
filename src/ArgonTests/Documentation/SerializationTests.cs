@@ -222,6 +222,24 @@ public class SerializationTests :
     }
 
     [Fact]
+    public void SerializeJToken()
+    {
+        var json = """{"Name": "one", "Value": "val", "A": "the","B":"yes","C":"p"}""";
+        var token = JToken.Parse(json);
+        var serializingCalled = false;
+        var serializedCalled = false;
+        var c = JsonConvert.SerializeObject(
+            token,
+            new JsonSerializerSettings
+            {
+                Serializing = (writer, target) => serializingCalled = true,
+                Serialized = (writer, target) => serializedCalled = true
+            });
+        Assert.True(serializingCalled);
+        Assert.True(serializedCalled);
+    }
+
+    [Fact]
     public void SerializationErrorHandlingWithParent()
     {
         #region SerializationErrorHandlingWithParent
