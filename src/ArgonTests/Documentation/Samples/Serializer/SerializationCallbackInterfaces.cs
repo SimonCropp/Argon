@@ -2,9 +2,9 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-public class SerializationCallbackAttributes : TestFixtureBase
+public class SerializationCallbackInterfaces : TestFixtureBase
 {
-    #region SerializationCallbackAttributesTypes
+    #region SerializationCallbackInterfaces
 
     public class SerializationEventTestObject :
         IJsonOnSerializing,
@@ -46,7 +46,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region SerializationCallbackAttributesUsage
+        #region SerializationCallbackInterfacesUsage
 
         var settings = new JsonSerializerSettings();
         settings.AddInterfaceCallbacks();
