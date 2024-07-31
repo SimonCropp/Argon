@@ -1092,9 +1092,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
-        void MarkAsHandled() =>
-            currentSerializeErrorContext.Handled = true;
-
         if (!currentSerializeErrorContext.Handled)
         {
             Serializer.SerializeError?
@@ -1103,7 +1100,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                     currentSerializeErrorContext.OriginalObject,
                     new(path, member),
                     exception,
-                    MarkAsHandled);
+                    () => currentSerializeErrorContext.Handled = true);
         }
 
         return currentSerializeErrorContext.Handled;
