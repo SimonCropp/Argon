@@ -6,6 +6,7 @@
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.Xml.svg?label=Argon.Xml)](https://www.nuget.org/packages/Argon.Xml/)
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.JsonPath.svg?label=Argon.JsonPath)](https://www.nuget.org/packages/Argon.JsonPath/)
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.FSharp.svg?label=Argon.FSharp)](https://www.nuget.org/packages/Argon.FSharp/)
+[![NuGet Status](https://img.shields.io/nuget/v/Argon.InterfaceCallbacks.svg?label=Argon.InterfaceCallbacks)](https://www.nuget.org/packages/Argon.InterfaceCallbacks/)
 
 Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
 
@@ -195,7 +196,7 @@ var json = jObject.ToString();
     * [PreserveReferencesHandling setting](/docs/Serializer/PreserveReferencesHandlingObject.md)
     * [JsonIgnoreAttribute](/docs/Serializer/PropertyJsonIgnore.md)
     * [ReferenceLoopHandling setting](/docs/Serializer/ReferenceLoopHandlingIgnore.md)
-    * [Serialization Callback Attributes](/docs/Serializer/SerializationCallbackAttributes.md)
+    * [Serialization Callback Attributes](/docs/Serializer/SerializationCallbackInterfaces.md)
     * [Serializing Collections](/docs/Serializer/SerializeCollection.md)
     * [Custom IContractResolver](/docs/Serializer/SerializeContractResolver.md)
     * [Serialize a DataSet](/docs/Serializer/SerializeDataSet.md)

@@ -1,9 +1,11 @@
-# Serialization Callback Attributes
+# Serialization Callback Interfaces
 
-This sample uses serialization callback attributes (`OnSerializingAttribute`, `OnSerializedAttribute`, `OnDeserializingAttribute`, `OnDeserializedAttribute`) to manipulate an object before and after its serialization and deserialization.
+Exist in the [Argon.InterfaceCallbacks](https://www.nuget.org/packages/Argon.InterfaceCallbacks/) nuget.
 
-<!-- snippet: SerializationCallbackAttributesTypes -->
-<a id='snippet-SerializationCallbackAttributesTypes'></a>
+This sample uses serialization callback interfaces (`IJsonOnSerializing`, `IJsonOnSerialized`, `IJsonOnDeserializing`, `IJsonOnDeserialized`) to manipulate an object before and after its serialization and deserialization.
+
+<!-- snippet: SerializationCallbackInterfaces -->
+<a id='snippet-SerializationCallbackInterfaces'></a>
 ```cs
 public class SerializationEventTestObject :
     IJsonOnSerializing,
@@ -40,12 +42,15 @@ public class SerializationEventTestObject :
         Member4 = "This value was set after deserialization.";
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L7-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbackAttributesTypes' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackInterfaces.cs#L7-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbackInterfaces' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
-<!-- snippet: SerializationCallbackAttributesUsage -->
-<a id='snippet-SerializationCallbackAttributesUsage'></a>
+<!-- snippet: SerializationCallbackInterfacesUsage -->
+<a id='snippet-SerializationCallbackInterfacesUsage'></a>
 ```cs
+var settings = new JsonSerializerSettings();
+settings.AddInterfaceCallbacks();
+
 var obj = new SerializationEventTestObject();
 
 Console.WriteLine(obj.Member1);
@@ -57,7 +62,7 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // null
 
-var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
 // {
 //   "Member1": 11,
 //   "Member2": "This value went into the data file during serialization.",
@@ -73,7 +78,7 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // null
 
-obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
+obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json, settings);
 
 Console.WriteLine(obj.Member1);
 // 11
@@ -84,5 +89,5 @@ Console.WriteLine(obj.Member3);
 Console.WriteLine(obj.Member4);
 // This value was set after deserialization.
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackAttributes.cs#L49-L89' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbackAttributesUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/SerializationCallbackInterfaces.cs#L49-L92' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationCallbackInterfacesUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

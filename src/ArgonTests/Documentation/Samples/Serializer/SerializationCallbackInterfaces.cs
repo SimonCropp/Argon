@@ -2,9 +2,9 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
-public class SerializationCallbackAttributes : TestFixtureBase
+public class SerializationCallbackInterfaces : TestFixtureBase
 {
-    #region SerializationCallbackAttributesTypes
+    #region SerializationCallbackInterfaces
 
     public class SerializationEventTestObject :
         IJsonOnSerializing,
@@ -46,7 +46,10 @@ public class SerializationCallbackAttributes : TestFixtureBase
     [Fact]
     public void Example()
     {
-        #region SerializationCallbackAttributesUsage
+        #region SerializationCallbackInterfacesUsage
+
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
 
         var obj = new SerializationEventTestObject();
 
@@ -59,7 +62,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
         Console.WriteLine(obj.Member4);
         // null
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         // {
         //   "Member1": 11,
         //   "Member2": "This value went into the data file during serialization.",
@@ -75,7 +78,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
         Console.WriteLine(obj.Member4);
         // null
 
-        obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
+        obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json, settings);
 
         Console.WriteLine(obj.Member1);
         // 11

@@ -1118,23 +1118,11 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
         throw JsonSerializationException.Create(reader, $"Could not create an instance of type {contract.UnderlyingType}. Type is an interface or abstract class and cannot be instantiated.");
     }
 
-    void OnDeserializing(JsonReader reader, object value)
-    {
+    void OnDeserializing(JsonReader reader, object value) =>
         Serializer.Deserializing?.Invoke(reader, value);
-        if (value is IJsonOnDeserializing deserializing)
-        {
-            deserializing.OnDeserializing();
-        }
-    }
 
-    void OnDeserialized(JsonReader reader, object value)
-    {
+    void OnDeserialized(JsonReader reader, object value) =>
         Serializer.Deserialized?.Invoke(reader, value);
-        if (value is IJsonOnDeserialized deserialized)
-        {
-            deserialized.OnDeserialized();
-        }
-    }
 
     object PopulateDictionary(IDictionary dictionary, JsonReader reader, JsonDictionaryContract contract, JsonProperty? containerProperty, string? id)
     {
@@ -2255,17 +2243,15 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
-        void MarkAsHandled() =>
-            currentDeserializeErrorContext.Handled = true;
-
-        if (currentObject is IJsonOnError onError)
-        {
-            onError.OnError(currentDeserializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
-        }
-
         if (!currentDeserializeErrorContext.Handled)
         {
-            Serializer.DeserializeError?.Invoke(currentObject, currentDeserializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+            Serializer.DeserializeError?
+                .Invoke(
+                    currentObject,
+                    currentDeserializeErrorContext.OriginalObject,
+                    new(path, member),
+                    exception,
+                    () => currentDeserializeErrorContext.Handled = true);
         }
 
         return currentDeserializeErrorContext.Handled;

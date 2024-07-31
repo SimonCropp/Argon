@@ -48,7 +48,9 @@ var person = new Employee
     Title = "Mister Manager"
 };
 
-var json = JsonConvert.SerializeObject(person, Formatting.Indented);
+var settings = new JsonSerializerSettings();
+settings.AddInterfaceCallbacks();
+var json = JsonConvert.SerializeObject(person, Formatting.Indented, settings);
 
 Console.WriteLine(json);
 // {
@@ -57,5 +59,5 @@ Console.WriteLine(json);
 //   "Title": "Mister Manager"
 // }
 ```
-<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L42-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-ErrorHandlingAttributeUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/Samples/Serializer/ErrorHandlingAttribute.cs#L42-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-ErrorHandlingAttributeUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

@@ -49,7 +49,9 @@ public class ErrorHandlingAttribute : TestFixtureBase
             Title = "Mister Manager"
         };
 
-        var json = JsonConvert.SerializeObject(person, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var json = JsonConvert.SerializeObject(person, Formatting.Indented, settings);
 
         Console.WriteLine(json);
         // {
