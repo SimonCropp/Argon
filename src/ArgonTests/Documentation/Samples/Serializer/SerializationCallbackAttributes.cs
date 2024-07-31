@@ -48,6 +48,9 @@ public class SerializationCallbackAttributes : TestFixtureBase
     {
         #region SerializationCallbackAttributesUsage
 
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+
         var obj = new SerializationEventTestObject();
 
         Console.WriteLine(obj.Member1);
@@ -59,7 +62,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
         Console.WriteLine(obj.Member4);
         // null
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         // {
         //   "Member1": 11,
         //   "Member2": "This value went into the data file during serialization.",
@@ -75,7 +78,7 @@ public class SerializationCallbackAttributes : TestFixtureBase
         Console.WriteLine(obj.Member4);
         // null
 
-        obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
+        obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json, settings);
 
         Console.WriteLine(obj.Member1);
         // 11

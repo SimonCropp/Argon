@@ -114,19 +114,26 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             "[1] - Error message for member 1 = An element with the same key already exists in the dictionary.", // mono
             "[1] - Error message for member 1 = An item with the same key has already been added. Key: Jim" // netcore
         };
-        var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json);
+
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var c = JsonConvert.DeserializeObject<VersionKeyedCollection>(json, settings);
 #pragma warning disable xUnit2013
         Assert.Equal(1, c.Count);
         Assert.Equal(1, c.Messages.Count);
 #pragma warning restore xUnit2013
 
         Console.WriteLine(c.Messages[0]);
-        Assert.True(possibleMsgs.Any(_ => _ == c.Messages[0]), $"Expected One of: {Environment.NewLine}{string.Join(Environment.NewLine, possibleMsgs)}{Environment.NewLine}Was: {Environment.NewLine}{c.Messages[0]}");
+        Assert.True(
+            possibleMsgs.Any(_ => _ == c.Messages[0]),
+            $"Expected One of: {Environment.NewLine}{string.Join(Environment.NewLine, possibleMsgs)}{Environment.NewLine}Was: {Environment.NewLine}{c.Messages[0]}");
     }
 
     [Fact]
     public void DeserializingErrorInChildObject()
     {
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
         var c = JsonConvert.DeserializeObject<ListErrorObjectCollection>(
             """
             [
@@ -151,7 +158,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 "Member": "Value3"
               }
             ]
-            """);
+            """,
+            settings);
 
         Assert.Equal(3, c.Count);
         Assert.Equal("Value1", c[0].Member);
@@ -284,7 +292,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             }
         };
 
-        var json = JsonConvert.SerializeObject(c, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var json = JsonConvert.SerializeObject(c, Formatting.Indented, settings);
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -310,6 +320,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void DeserializingErrorInDateTimeCollection()
     {
+        var settings = new JsonSerializerSettings();
+        settings.Converters.Add(new IsoDateTimeConverter());
+        settings.AddInterfaceCallbacks();
         var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
             """
             [
@@ -322,7 +335,8 @@ public class SerializationErrorHandlingTests : TestFixtureBase
               null,
               "2000-12-01T00:00:00Z"
             ]
-            """, new IsoDateTimeConverter());
+            """,
+            settings);
 
         Assert.Equal(3, c.Count);
         Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
@@ -401,6 +415,18 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var eventErrorHandlerCalled = false;
 
+        var settings = new JsonSerializerSettings
+        {
+            DeserializeError = (_, _, _, _, handled) =>
+            {
+                eventErrorHandlerCalled = true;
+                handled();
+            },
+            Converters =
+            {
+                new IsoDateTimeConverter()
+            }
+        };
         var c = JsonConvert.DeserializeObject<DateTimeErrorObjectCollection>(
             """
             [
@@ -414,21 +440,14 @@ public class SerializationErrorHandlingTests : TestFixtureBase
               "2000-12-01T00:00:00Z"
             ]
             """,
-            new JsonSerializerSettings
-            {
-                DeserializeError = (_, _, _, _, _) => eventErrorHandlerCalled = true,
-                Converters =
-                {
-                    new IsoDateTimeConverter()
-                }
-            });
+            settings);
 
         Assert.Equal(3, c.Count);
         Assert.Equal(new(2009, 9, 9, 0, 0, 0, DateTimeKind.Utc), c[0]);
         Assert.Equal(new(1977, 2, 20, 0, 0, 0, DateTimeKind.Utc), c[1]);
         Assert.Equal(new(2000, 12, 1, 0, 0, 0, DateTimeKind.Utc), c[2]);
 
-        Assert.False(eventErrorHandlerCalled);
+        Assert.True(eventErrorHandlerCalled);
     }
 
     [Fact]
@@ -442,7 +461,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             Title = "Mister Manager"
         };
 
-        var json = JsonConvert.SerializeObject(person, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var json = JsonConvert.SerializeObject(person, Formatting.Indented, settings);
 
         XUnitAssert.AreEqualNormalized(
             """
@@ -1049,13 +1070,15 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     [Fact]
     public void HandleErrorInDictionaryObject()
     {
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
         var json = """
                    {
                        model1: { String1: 's1', Int1: 'x' },
                        model2: { String1: 's2', Int1: 2 }
                    }
                    """;
-        var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json);
+        var dictionary = JsonConvert.DeserializeObject<TolerantDictionary<string, DataModel>>(json, settings);
 
         Assert.Single(dictionary);
         Assert.True(dictionary.ContainsKey("model2"));

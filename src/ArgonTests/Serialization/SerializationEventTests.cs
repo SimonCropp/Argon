@@ -21,7 +21,9 @@ public class SerializationEventTests : TestFixtureBase
             Assert.Null(obj.Member4);
             Assert.Null(obj.Member5);
 
-            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var settings = new JsonSerializerSettings();
+            settings.AddInterfaceCallbacks();
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
             XUnitAssert.AreEqualNormalized(
                 """
                 {
@@ -50,7 +52,7 @@ public class SerializationEventTests : TestFixtureBase
                 """);
             o["Member6"] = "Dummy text for error";
 
-            obj = (SerializationEventTestObject) JsonConvert.DeserializeObject(o.ToString(), obj.GetType());
+            obj = (SerializationEventTestObject) JsonConvert.DeserializeObject(o.ToString(), obj.GetType(), settings);
 
             Assert.Equal(11, obj.Member1);
             Assert.Equal("This value went into the data file during serialization.", obj.Member2);
@@ -77,7 +79,9 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal("This is a nonserialized value", obj.Member3);
         Assert.Null(obj.Member4);
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         XUnitAssert.AreEqualNormalized(
             """
             {
@@ -93,7 +97,7 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal("This is a nonserialized value", obj.Member3);
         Assert.Null(obj.Member4);
 
-        obj = JsonConvert.DeserializeObject<SerializationEventTestObjectWithConstructor>(json);
+        obj = JsonConvert.DeserializeObject<SerializationEventTestObjectWithConstructor>(json, settings);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value went into the data file during serialization.", obj.Member2);
@@ -117,7 +121,10 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal("This is a nonserialized value", obj.Member3);
         Assert.Null(obj.Member4);
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+
+        var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         XUnitAssert.AreEqualNormalized(
             """
             [
@@ -135,7 +142,7 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal("This is a nonserialized value", obj.Member3);
         Assert.Null(obj.Member4);
 
-        obj = JsonConvert.DeserializeObject<SerializationEventTestList>(json);
+        obj = JsonConvert.DeserializeObject<SerializationEventTestList>(json, settings);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("Hello World!", obj.Member2);
@@ -159,7 +166,9 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal("This is a nonserialized value", obj.Member3);
         Assert.Null(obj.Member4);
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         XUnitAssert.AreEqualNormalized(
             """
             {
@@ -177,7 +186,7 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Equal("This is a nonserialized value", obj.Member3);
         Assert.Null(obj.Member4);
 
-        obj = JsonConvert.DeserializeObject<SerializationEventTestDictionary>(json);
+        obj = JsonConvert.DeserializeObject<SerializationEventTestDictionary>(json, settings);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("Hello World!", obj.Member2);
@@ -196,7 +205,9 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Null(obj.Member4);
         Assert.Null(obj.Member5);
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         XUnitAssert.AreEqualNormalized(
             """
             {
@@ -213,7 +224,7 @@ public class SerializationEventTests : TestFixtureBase
         Assert.Null(obj.Member4);
         Assert.Equal("Error message for member Member6 = Error getting value from 'Member6' on 'TestObjects.SerializationEventTestObject'.", obj.Member5);
 
-        obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json);
+        obj = JsonConvert.DeserializeObject<SerializationEventTestObject>(json, settings);
 
         Assert.Equal(11, obj.Member1);
         Assert.Equal("This value went into the data file during serialization.", obj.Member2);
@@ -238,7 +249,9 @@ public class SerializationEventTests : TestFixtureBase
     {
         var obj = new SerializationEventContextSubClassTestObject();
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var json = JsonConvert.SerializeObject(obj, Formatting.Indented, settings);
         XUnitAssert.AreEqualNormalized(
             """
             {
@@ -251,15 +264,19 @@ public class SerializationEventTests : TestFixtureBase
     [Fact]
     public void WhenSerializationErrorDetectedBySerializer_ThenCallbackIsCalled()
     {
-        var serializer = JsonSerializer.Create(new()
+        var settings = new JsonSerializerSettings
         {
             // If I don't specify Error here, the callback isn't called
             // either, but no exception is thrown.
             MissingMemberHandling = MissingMemberHandling.Error
-        });
+        };
+        settings.AddInterfaceCallbacks();
+        var serializer = JsonSerializer.Create(settings);
 
         // This throws with missing member exception, rather than calling my callback.
-        var foo = serializer.Deserialize<FooEvent>(new JsonTextReader(new StringReader("{ Id: 25 }")));
+        var foo = serializer.Deserialize<FooEvent>(
+            new JsonTextReader(
+                new StringReader("{ Id: 25 }")));
 
         // When fixed, this would pass.
         Assert.Equal(25, foo.Identifier);
@@ -284,9 +301,12 @@ public class SerializationEventTests : TestFixtureBase
     [Fact]
     public void DerivedSerializationEvents()
     {
-        var c = JsonConvert.DeserializeObject<DerivedSerializationEventOrderTestObject>("{}");
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
 
-        JsonConvert.SerializeObject(c, Formatting.Indented);
+        var c = JsonConvert.DeserializeObject<DerivedSerializationEventOrderTestObject>("{}", settings);
+
+        JsonConvert.SerializeObject(c, Formatting.Indented, settings);
 
         var e = c.GetEvents();
 
@@ -307,9 +327,12 @@ public class SerializationEventTests : TestFixtureBase
     [Fact]
     public Task DerivedDerivedSerializationEvents()
     {
-        var c = JsonConvert.DeserializeObject<DerivedDerivedSerializationEventOrderTestObject>("{}");
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
 
-        JsonConvert.SerializeObject(c, Formatting.Indented);
+        var c = JsonConvert.DeserializeObject<DerivedDerivedSerializationEventOrderTestObject>("{}", settings);
+
+        JsonConvert.SerializeObject(c, Formatting.Indented, settings);
 
         var e = c.GetEvents();
 

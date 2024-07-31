@@ -435,7 +435,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             """,
             json);
 
-        var d2 = JsonConvert.DeserializeObject<CustomConcurrentDictionary>(json);
+        var settings = new JsonSerializerSettings();
+        settings.AddInterfaceCallbacks();
+        var d2 = JsonConvert.DeserializeObject<CustomConcurrentDictionary>(json, settings);
 
         Assert.Equal(2, d2.Count);
         Assert.Equal("value1", d2["key"][0].Text1);
