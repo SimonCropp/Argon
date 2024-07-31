@@ -30,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Argon.FSharp", "Argon.FShar
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Argon.FSharp.Tests", "Argon.FSharp.Tests\Argon.FSharp.Tests.fsproj", "{48D5E2FB-0F62-41D9-A3F6-79E31A13F1D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argon.InterfaceCallbacks", "Argon.InterfaceCallbacks\Argon.InterfaceCallbacks.csproj", "{985B2560-4C7C-4BFA-97AC-26EE4C84BABA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,12 @@ Global
 		{48D5E2FB-0F62-41D9-A3F6-79E31A13F1D7}.DebugNet9|Any CPU.Build.0 = DebugNet9|Any CPU
 		{48D5E2FB-0F62-41D9-A3F6-79E31A13F1D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48D5E2FB-0F62-41D9-A3F6-79E31A13F1D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{985B2560-4C7C-4BFA-97AC-26EE4C84BABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{985B2560-4C7C-4BFA-97AC-26EE4C84BABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{985B2560-4C7C-4BFA-97AC-26EE4C84BABA}.DebugNet9|Any CPU.ActiveCfg = DebugNet9|Any CPU
+		{985B2560-4C7C-4BFA-97AC-26EE4C84BABA}.DebugNet9|Any CPU.Build.0 = DebugNet9|Any CPU
+		{985B2560-4C7C-4BFA-97AC-26EE4C84BABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{985B2560-4C7C-4BFA-97AC-26EE4C84BABA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

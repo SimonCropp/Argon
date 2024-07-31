@@ -362,23 +362,11 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         OnSerialized(writer, value);
     }
 
-    void OnSerializing(JsonWriter writer, object value)
-    {
+    void OnSerializing(JsonWriter writer, object value) =>
         Serializer.Serializing?.Invoke(writer, value);
-        if (value is IJsonOnSerializing serializing)
-        {
-            serializing.OnSerializing();
-        }
-    }
 
-    void OnSerialized(JsonWriter writer, object value)
-    {
+    void OnSerialized(JsonWriter writer, object value) =>
         Serializer.Serialized?.Invoke(writer, value);
-        if (value is IJsonOnSerialized serialized)
-        {
-            serialized.OnSerialized();
-        }
-    }
 
     void SerializeObject(JsonWriter writer, object value, JsonObjectContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
@@ -1106,11 +1094,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         void MarkAsHandled() =>
             currentSerializeErrorContext.Handled = true;
-
-        if (currentObject is IJsonOnError onError)
-        {
-            onError.OnError(currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
-        }
 
         if (!currentSerializeErrorContext.Handled)
         {
