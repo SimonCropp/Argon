@@ -2243,12 +2243,15 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
             throw new InvalidOperationException("Current error context error is different to requested error.");
         }
 
-        void MarkAsHandled() =>
-            currentDeserializeErrorContext.Handled = true;
-
         if (!currentDeserializeErrorContext.Handled)
         {
-            Serializer.DeserializeError?.Invoke(currentObject, currentDeserializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+            Serializer.DeserializeError?
+                .Invoke(
+                    currentObject,
+                    currentDeserializeErrorContext.OriginalObject,
+                    new(path, member),
+                    exception,
+                    () => currentDeserializeErrorContext.Handled = true);
         }
 
         return currentDeserializeErrorContext.Handled;

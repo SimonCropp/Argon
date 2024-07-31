@@ -1097,7 +1097,13 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         if (!currentSerializeErrorContext.Handled)
         {
-            Serializer.SerializeError?.Invoke(currentObject, currentSerializeErrorContext.OriginalObject, new(path, member), exception, MarkAsHandled);
+            Serializer.SerializeError?
+                .Invoke(
+                    currentObject,
+                    currentSerializeErrorContext.OriginalObject,
+                    new(path, member),
+                    exception,
+                    MarkAsHandled);
         }
 
         return currentSerializeErrorContext.Handled;
