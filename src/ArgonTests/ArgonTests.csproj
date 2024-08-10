@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Argon.InterfaceCallbacks\Argon.InterfaceCallbacks.csproj" />
     <ProjectReference Include="..\Argon.NodaTime\Argon.NodaTime.csproj" />
-    <Using Include="Xunit" />
     <PackageReference Include="MarkdownSnippets.MsBuild" PrivateAssets="all" />
     <PackageReference Include="NodaTime" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />

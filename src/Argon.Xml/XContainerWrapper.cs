@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-class XContainerWrapper(XContainer container) :
+﻿class XContainerWrapper(XContainer container) :
     XObjectWrapper(container)
 {
     List<IXmlNode>? childNodes;

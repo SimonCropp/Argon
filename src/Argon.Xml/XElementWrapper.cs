@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-class XElementWrapper(XElement element) :
+﻿class XElementWrapper(XElement element) :
     XContainerWrapper(element),
     IXmlElement
 {

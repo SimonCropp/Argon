@@ -1,5 +1,4 @@
 ﻿using System.Xml;
-using System.Xml.Linq;
 
 class XDeclarationWrapper(XDeclaration declaration) :
     XObjectWrapper(null),

@@ -3,7 +3,6 @@
 // as found in the license.md file.
 
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Argon;
 

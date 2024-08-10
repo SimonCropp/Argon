@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-class XAttributeWrapper(XAttribute attribute) :
+﻿class XAttributeWrapper(XAttribute attribute) :
     XObjectWrapper(attribute)
 {
     XAttribute Attribute => (XAttribute) WrappedNode!;

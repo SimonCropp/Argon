@@ -1,6 +1,4 @@
-﻿using Argon.DataSets;
-
-namespace Argon;
+﻿namespace Argon;
 
 public static class DataSetSettingsExtensions
 {

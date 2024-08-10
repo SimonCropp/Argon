@@ -8,11 +8,6 @@
   </PropertyGroup>
   <ItemGroup>
     <SupportedPlatform Include="browser" />
-    <Using Include="NodaTime" />
-    <Using Include="Argon.NodaTime" />
-    <Using Include="NodaTime.Utility" />
-    <Using Include="NodaTime.TimeZones" />
-    <Using Include="NodaTime.Text" />
     <PackageReference Include="NodaTime" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <ProjectReference Include="..\Argon\Argon.csproj" />

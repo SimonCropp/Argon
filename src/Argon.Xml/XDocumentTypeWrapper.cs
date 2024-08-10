@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-class XDocumentTypeWrapper(XDocumentType type) :
+﻿class XDocumentTypeWrapper(XDocumentType type) :
     XObjectWrapper(type),
     IXmlDocumentType
 {

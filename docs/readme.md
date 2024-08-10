@@ -107,7 +107,7 @@
     * [PreserveReferencesHandling setting](/docs/Serializer/PreserveReferencesHandlingObject.md)
     * [JsonIgnoreAttribute](/docs/Serializer/PropertyJsonIgnore.md)
     * [ReferenceLoopHandling setting](/docs/Serializer/ReferenceLoopHandlingIgnore.md)
-    * [Serialization Callback Attributes](/docs/Serializer/SerializationCallbackInterfaces.md)
+    * [Serialization Callback Interfaces](/docs/Serializer/SerializationCallbackInterfaces.md)
     * [Serializing Collections](/docs/Serializer/SerializeCollection.md)
     * [Custom IContractResolver](/docs/Serializer/SerializeContractResolver.md)
     * [Serialize a DataSet](/docs/Serializer/SerializeDataSet.md)

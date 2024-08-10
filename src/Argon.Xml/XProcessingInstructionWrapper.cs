@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-class XProcessingInstructionWrapper(XProcessingInstruction processingInstruction) :
+﻿class XProcessingInstructionWrapper(XProcessingInstruction processingInstruction) :
     XObjectWrapper(processingInstruction)
 {
     XProcessingInstruction ProcessingInstruction => (XProcessingInstruction) WrappedNode!;
