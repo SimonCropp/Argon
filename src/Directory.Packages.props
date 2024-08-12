@@ -4,6 +4,7 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Backport.System.Threading.Lock" Version="1.0.1" />
     <PackageVersion Include="BenchmarkDotNet" Version="0.13.12" />
     <PackageVersion Include="FSharp.Core" Version="8.0.301" />
     <PackageVersion Include="MarkdownSnippets.MsBuild" Version="27.0.2" />

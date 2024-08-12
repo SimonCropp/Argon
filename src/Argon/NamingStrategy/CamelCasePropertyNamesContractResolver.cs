@@ -10,7 +10,7 @@ namespace Argon;
 public class CamelCasePropertyNamesContractResolver :
     DefaultContractResolver
 {
-    static readonly object typeContractCacheLock = new();
+    static readonly Lock typeContractCacheLock = new();
     static readonly DefaultJsonNameTable NameTable = new();
     static Dictionary<Tuple<Type, Type>, JsonContract>? contractCache;
 
