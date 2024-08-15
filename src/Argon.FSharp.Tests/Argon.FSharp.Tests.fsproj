@@ -10,7 +10,7 @@
   <ItemGroup>
     <Compile Include="FSharpListConverterTests.fs" />
     <Compile Include="Program.fs" />
-    <PackageReference Include="Xunit" />
+    <PackageReference Include="xunit.v3" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <ProjectReference Include="..\Argon.FSharp\Argon.FSharp.csproj" />
