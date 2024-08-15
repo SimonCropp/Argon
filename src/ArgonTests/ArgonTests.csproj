@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net48</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);net8.0;net9.0</TargetFrameworks>
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet9'">net9.0</TargetFrameworks>
@@ -14,8 +15,8 @@
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="System.ValueTuple" />
     <PackageReference Include="FSharp.Core" />
-    <PackageReference Include="Verify.Xunit" />
-    <PackageReference Include="xunit" />
+    <PackageReference Include="Verify.XunitV3" />
+    <PackageReference Include="xunit.v3" />
     <PackageReference Include="BenchmarkDotNet" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
