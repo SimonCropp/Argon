@@ -11,7 +11,7 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NodaTime" Version="3.1.11" />
     <PackageVersion Include="Polyfill" Version="6.3.0" />
-    <PackageVersion Include="ProjectDefaults" Version="1.0.134" />
+    <PackageVersion Include="ProjectDefaults" Version="1.0.135" />
     <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="Verify.XunitV3" Version="26.2.0-beta.1" />
