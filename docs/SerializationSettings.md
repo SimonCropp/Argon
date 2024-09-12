@@ -6,7 +6,7 @@ JsonSerializer has a number of properties on it to customize how it serializes J
 ## DateFormatHandling
 
 `Argon.DateFormatHandling` controls how dates are serialized.
- 
+
 <table>
   <tableHeader>
     <row>
@@ -28,7 +28,7 @@ JsonSerializer has a number of properties on it to customize how it serializes J
 ## MissingMemberHandling
 
 `Argon.MissingMemberHandling` controls how missing members, e.g. JSON contains a property that isn't a member on the object, are handled during deserialization.
- 
+
 <table>
   <tableHeader>
     <row>
@@ -104,7 +104,7 @@ NullValueHandling can also be customized on individual properties with JsonPrope
 ## DefaultValueHandling
 
 `Argon.DefaultValueHandling` controls how Json.NET uses default values set using the .NET `System.ComponentModel.DefaultValueAttribute` when serializing and deserializing.
- 
+
 <table>
   <tableHeader>
     <row>

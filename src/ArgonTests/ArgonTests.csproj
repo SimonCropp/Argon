@@ -37,7 +37,7 @@
     <ProjectReference Include="..\Argon.FSharp\Argon.FSharp.csproj" />
     <ProjectReference Include="..\Argon\Argon.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="$(TargetFramework)=='net48'">
     <Reference Include="System.Web" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
