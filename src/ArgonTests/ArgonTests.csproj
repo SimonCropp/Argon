@@ -15,8 +15,8 @@
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="System.ValueTuple" />
     <PackageReference Include="FSharp.Core" />
-    <PackageReference Include="Verify.XunitV3" />
-    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Verify.XunitV3" PrivateAssets="all" />
+    <PackageReference Include="xunit.v3" PrivateAssets="all" />
     <PackageReference Include="BenchmarkDotNet" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
