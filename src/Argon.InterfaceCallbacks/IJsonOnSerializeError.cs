@@ -8,5 +8,5 @@ public interface IJsonOnSerializeError
     /// <summary>
     /// The method that is called on serialization error.
     /// </summary>
-    void OnSerializeError(object? originalObject, ErrorLocation location, Exception exception, Action markAsHanded);
+    void OnSerializeError(object? originalObject, string path, object? member, Exception exception, Action markAsHanded);
 }

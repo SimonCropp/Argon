@@ -22,7 +22,7 @@ var c = JsonConvert.DeserializeObject<List<DateTime>>(
     """,
     new JsonSerializerSettings
     {
-        DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
+        DeserializeError = (currentObject, originalObject, path, member, exception, markAsHandled) =>
         {
             errors.Add(exception.Message);
             markAsHandled();

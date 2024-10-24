@@ -632,7 +632,7 @@ public class JsonSerializerTest : TestFixtureBase
             json,
             new JsonSerializerSettings
             {
-                DeserializeError = (_, _, _, _, markAsHandled) => markAsHandled()
+                DeserializeError = (_, _, _, _, _, markAsHandled) => markAsHandled()
             });
 
         Assert.Equal(0, l.ChildId);
@@ -5832,7 +5832,7 @@ public class JsonSerializerTest : TestFixtureBase
             json,
             new JsonSerializerSettings
             {
-                DeserializeError = (_, _, _, exception, markAsHandled) =>
+                DeserializeError = (_, _, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();
@@ -5857,7 +5857,7 @@ public class JsonSerializerTest : TestFixtureBase
             json,
             new JsonSerializerSettings
             {
-                DeserializeError = (_, _, _, exception, markAsHandled) =>
+                DeserializeError = (_, _, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();
@@ -5880,7 +5880,7 @@ public class JsonSerializerTest : TestFixtureBase
             new RequiredObject(),
             new JsonSerializerSettings
             {
-                SerializeError = (_, _, _, exception, markAsHandled) =>
+                SerializeError = (_, _, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();

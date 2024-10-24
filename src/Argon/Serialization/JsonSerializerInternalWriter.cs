@@ -1098,7 +1098,8 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 .Invoke(
                     currentObject,
                     currentSerializeErrorContext.OriginalObject,
-                    new(path, member),
+                    path,
+                    member,
                     exception,
                     () => currentSerializeErrorContext.Handled = true);
         }
