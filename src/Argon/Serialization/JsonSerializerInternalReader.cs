@@ -2249,7 +2249,8 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                 .Invoke(
                     currentObject,
                     currentDeserializeErrorContext.OriginalObject,
-                    new(path, member),
+                    path,
+                    member,
                     exception,
                     () => currentDeserializeErrorContext.Handled = true);
         }

@@ -10,6 +10,6 @@ public class DateTimeErrorObjectCollection :
     Collection<DateTime>,
     IJsonOnDeserializeError
 {
-    public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+    public void OnDeserializeError(object originalObject, string path, object member, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }

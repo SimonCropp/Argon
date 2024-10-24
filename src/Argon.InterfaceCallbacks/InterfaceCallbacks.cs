@@ -4,18 +4,18 @@ public static class InterfaceCallbacks
 {
     public static void AddInterfaceCallbacks(this JsonSerializerSettings settings)
     {
-        settings.SerializeError += (currentObject, originalObject, location, exception, handled) =>
+        settings.SerializeError += (currentObject, originalObject, path, member, exception, handled) =>
         {
             if (currentObject is IJsonOnSerializeError onError)
             {
-                onError.OnSerializeError(originalObject, location, exception, handled);
+                onError.OnSerializeError(originalObject, path, member, exception, handled);
             }
         };
-        settings.DeserializeError += (currentObject, originalObject, location, exception, handled) =>
+        settings.DeserializeError += (currentObject, originalObject, path, member, exception, handled) =>
         {
             if (currentObject is IJsonOnDeserializeError onError)
             {
-                onError.OnDeserializeError(originalObject, location, exception, handled);
+                onError.OnDeserializeError(originalObject, path, member, exception, handled);
             }
         };
         settings.Serializing += (_, target) =>

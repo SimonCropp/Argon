@@ -18,7 +18,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                DeserializeError = (_, _, _, exception, markAsHandled) =>
+                DeserializeError = (_, _, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception);
                     markAsHandled();
@@ -40,7 +40,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
-                DeserializeError = (_, _, _, exception, markAsHandled) =>
+                DeserializeError = (_, _, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception);
                     markAsHandled();
@@ -79,7 +79,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             json,
             new JsonSerializerSettings
             {
-                DeserializeError = (_, _, _, exception, markAsHandled) =>
+                DeserializeError = (_, _, _, _, exception, markAsHandled) =>
                 {
                     errors.Add(exception.Message);
                     markAsHandled();
@@ -220,7 +220,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                SerializeError = (currentObject, _, _, _, markAsHandled) =>
+                SerializeError = (currentObject, _, _, _, _, markAsHandled) =>
                 {
                     if (currentObject.GetType().IsArray)
                     {
@@ -352,9 +352,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var serializer = JsonSerializer.Create(
             new()
         {
-            DeserializeError = (_, _, location, exception, markAsHanded) =>
+            DeserializeError = (_, _, path, member, exception, markAsHanded) =>
             {
-                errors.Add($"{location} - {exception.Message}");
+                errors.Add($"{path} - {member} - {exception.Message}");
                 markAsHanded();
             },
             Converters =
@@ -417,7 +417,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var settings = new JsonSerializerSettings
         {
-            DeserializeError = (_, _, _, _, handled) =>
+            DeserializeError = (_, _, _, _, _, handled) =>
             {
                 eventErrorHandlerCalled = true;
                 handled();
@@ -488,12 +488,12 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         {
             var serializer = new JsonSerializer
             {
-                DeserializeError = (currentObject, originalObject, location, exception, _) =>
+                DeserializeError = (currentObject, originalObject, path, member, exception, _) =>
                 {
                     // only log an error once
                     if (currentObject == originalObject)
                     {
-                        errors.Add($"{location} - {exception.Message}");
+                        errors.Add($"{path} - {member} - {exception.Message}");
                     }
                 }
             };
@@ -522,9 +522,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var serializer = new JsonSerializer
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Default,
-            DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
+            DeserializeError = (currentObject, originalObject, path, member, exception, markAsHandled) =>
             {
-                errors.Add($"{location} - {exception.Message}");
+                errors.Add($"{path} - {member} - {exception.Message}");
                 markAsHandled();
             }
         };
@@ -544,9 +544,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var serializer = new JsonSerializer
         {
-            DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
+            DeserializeError = (currentObject, originalObject, path, member, exception, markAsHandled) =>
             {
-                errors.Add($"{location} - {exception.Message}");
+                errors.Add($"{path} - {member} - {exception.Message}");
                 markAsHandled();
             }
         };
@@ -567,9 +567,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var serializer = new JsonSerializer
         {
-            DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
+            DeserializeError = (currentObject, originalObject, path, member, exception, markAsHandled) =>
             {
-                errors.Add($"{location} - {exception.Message}");
+                errors.Add($"{path} - {member} - {exception.Message}");
                 markAsHandled();
             }
         };
@@ -587,10 +587,10 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var json = "{'A':{'A':{'A':{'A':{'A':{}}}}}}";
         var serializer = new JsonSerializer();
         var errors = new List<string>();
-        serializer.DeserializeError = (currentObject, originalObject, location, exception, markAsHandled) =>
+        serializer.DeserializeError = (currentObject, originalObject, path, member, exception, markAsHandled) =>
         {
             markAsHandled();
-            errors.Add(location.Path);
+            errors.Add(path);
         };
 
         serializer.Deserialize<Nest>(new JsonTextReader(new StringReader(json))
@@ -614,7 +614,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var serializer = new JsonSerializer
         {
-            DeserializeError = (_, _, _, exception, markAsHandled) =>
+            DeserializeError = (_, _, _, _, exception, markAsHandled) =>
             {
                 errors.Add(exception.Message);
                 markAsHandled();
@@ -640,7 +640,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             typeof(int[]),
             new JsonSerializerSettings
             {
-                DeserializeError = (_, _, _, exception, markAsHanded) =>
+                DeserializeError = (_, _, _, _, exception, markAsHanded) =>
                 {
                     errors.Add(exception.Message);
                     markAsHanded();
@@ -665,7 +665,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
         var serializer = JsonSerializer.Create(new()
         {
-            DeserializeError = (_, _, _, exception, markAsHanded) =>
+            DeserializeError = (_, _, _, _, exception, markAsHanded) =>
             {
                 errors.Add(exception.Message);
                 markAsHanded();
@@ -692,7 +692,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             new JsonSerializerSettings
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Default,
-                DeserializeError = (_, _, _, exception, markAsHanded) =>
+                DeserializeError = (_, _, _, _, exception, markAsHanded) =>
                 {
                     errors.Add(exception.Message);
                     markAsHanded();
@@ -729,7 +729,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-            serializer.DeserializeError = (_, _, _, exception, markAsHandled) =>
+            serializer.DeserializeError = (_, _, _, _, exception, markAsHandled) =>
             {
                 errors.Add(exception.Message);
                 markAsHandled();
@@ -766,7 +766,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
                 MaxDepth = maxDepth,
                 MetadataPropertyHandling = MetadataPropertyHandling.Default
             });
-            serializer.DeserializeError = (_, _, _, exception, markAsHandled) =>
+            serializer.DeserializeError = (_, _, _, _, exception, markAsHandled) =>
             {
                 errors.Add(exception.Message);
                 markAsHandled();
@@ -803,7 +803,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             json,
             new JsonSerializerSettings
             {
-                DeserializeError = (_, _, _, exception, markAsHanded) =>
+                DeserializeError = (_, _, _, _, exception, markAsHanded) =>
                 {
                     errors.Add(exception.Message);
                     markAsHanded();
@@ -827,7 +827,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public void WriteEndOnPropertyState()
     {
         var settings = new JsonSerializerSettings();
-        settings.SerializeError += (_, _, _, _, markAsHanded) => markAsHanded();
+        settings.SerializeError += (_, _, _, _, _, markAsHanded) => markAsHanded();
 
         var data = new List<ErrorPerson2>
         {
@@ -859,7 +859,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     {
         var settings = new JsonSerializerSettings
         {
-            SerializeError = (_, _, _, _, markAsHanded) => markAsHanded()
+            SerializeError = (_, _, _, _, _, markAsHanded) => markAsHanded()
         };
 
         var data = new List<ErrorPerson2>
@@ -903,7 +903,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var jReader = new JsonTextReader(new StreamReader(stream));
         var s = new JsonSerializer
         {
-            DeserializeError = (_, _, _, _, markAsHandled) =>
+            DeserializeError = (_, _, _, _, _, markAsHandled) =>
             {
                 markAsHandled();
             }
@@ -1045,7 +1045,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         var result = JsonConvert.TryDeserializeObject<SomethingElse>("{}",
             new JsonSerializerSettings
             {
-                DeserializeError = (_, _, _, _, markAsHanded) =>
+                DeserializeError = (_, _, _, _, _, markAsHanded) =>
                 {
                     markAsHanded();
                 }
@@ -1061,7 +1061,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
             new SomethingElse(),
             new JsonSerializerSettings
         {
-            SerializeError = (_, _, _, _, markAsHanded) => markAsHanded()
+            SerializeError = (_, _, _, _, _, markAsHanded) => markAsHanded()
         });
 
         Assert.Equal(string.Empty, result);
@@ -1184,7 +1184,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     public class ErrorTestObject :
         IJsonOnDeserializeError
     {
-        public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHanded)
+        public void OnDeserializeError(object originalObject, string path, object member, Exception exception, Action markAsHanded)
         {
         }
     }
@@ -1196,7 +1196,7 @@ public class SerializationErrorHandlingTests : TestFixtureBase
         Dictionary<TKey, TValue>,
         IJsonOnDeserializeError
     {
-        public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+        public void OnDeserializeError(object originalObject, string path, object member, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 }

@@ -287,7 +287,7 @@ public class SerializationEventTests : TestFixtureBase
     {
         public int Identifier { get; set; }
 
-        public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
+        public void OnDeserializeError(object originalObject, string path, object member, Exception exception, Action markAsHandled)
         {
             Identifier = 25;
 

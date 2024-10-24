@@ -5,5 +5,5 @@ namespace Argon;
 /// </summary>
 public interface IJsonOnDeserializeError
 {
-    void OnDeserializeError(object? originalObject, ErrorLocation location, Exception exception, Action markAsHanded);
+    void OnDeserializeError(object? originalObject, string path, object? member, Exception exception, Action markAsHanded);
 }

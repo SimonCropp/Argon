@@ -30,7 +30,7 @@ public class Employee :
 
     public string Title { get; set; }
 
-    public void OnSerializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+    public void OnSerializeError(object originalObject, string path, object member, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }
 ```
