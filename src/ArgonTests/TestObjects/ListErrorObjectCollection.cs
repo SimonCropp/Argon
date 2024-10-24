@@ -8,8 +8,12 @@ namespace TestObjects;
 
 public class ListErrorObjectCollection :
     Collection<ListErrorObject>,
-    IJsonOnError
+    IJsonOnSerializeError,
+    IJsonOnDeserializeError
 {
-    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+    public void OnSerializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+        markAsHandled();
+
+    public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }

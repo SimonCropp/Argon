@@ -5,7 +5,7 @@
 namespace TestObjects;
 
 public class PersonError :
-    IJsonOnError
+    IJsonOnSerializeError
 {
     List<string> _roles;
 
@@ -28,6 +28,6 @@ public class PersonError :
 
     public string Title { get; set; }
 
-    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+    public void OnSerializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }

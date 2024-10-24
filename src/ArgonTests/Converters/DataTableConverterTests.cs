@@ -697,7 +697,7 @@ public class DataTableConverterTests : TestFixtureBase
 
     public class DataTableConverterTest :
         DataTableConverter,
-        IJsonOnError
+        IJsonOnDeserializeError
     {
         protected DataTable CreateTable()
         {
@@ -722,7 +722,7 @@ public class DataTableConverterTests : TestFixtureBase
             }
         }
 
-        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+        public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 }

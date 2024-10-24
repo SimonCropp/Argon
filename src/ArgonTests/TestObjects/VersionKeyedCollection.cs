@@ -9,14 +9,14 @@ namespace TestObjects;
 public class VersionKeyedCollection :
     KeyedCollection<string, Person>,
     IEnumerable<Person>,
-    IJsonOnError
+    IJsonOnDeserializeError
 {
     public List<string> Messages { get; set; } = new();
 
     protected override string GetKeyForItem(Person item) =>
         item.Name;
 
-    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
+    public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
     {
         Messages.Add($"{location.Path} - Error message for member {location.Member} = {exception.Message}");
         markAsHandled();

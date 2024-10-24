@@ -1182,9 +1182,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
 
 
     public class ErrorTestObject :
-        IJsonOnError
+        IJsonOnDeserializeError
     {
-        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHanded)
+        public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHanded)
         {
         }
     }
@@ -1194,9 +1194,9 @@ public class SerializationErrorHandlingTests : TestFixtureBase
     /// </summary>
     public class TolerantDictionary<TKey, TValue> :
         Dictionary<TKey, TValue>,
-        IJsonOnError
+        IJsonOnDeserializeError
     {
-        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+        public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 }

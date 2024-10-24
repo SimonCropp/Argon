@@ -6,16 +6,16 @@ public static class InterfaceCallbacks
     {
         settings.SerializeError += (currentObject, originalObject, location, exception, handled) =>
         {
-            if (currentObject is IJsonOnError onError)
+            if (currentObject is IJsonOnSerializeError onError)
             {
-                onError.OnError(originalObject, location, exception, handled);
+                onError.OnSerializeError(originalObject, location, exception, handled);
             }
         };
         settings.DeserializeError += (currentObject, originalObject, location, exception, handled) =>
         {
-            if (currentObject is IJsonOnError onError)
+            if (currentObject is IJsonOnDeserializeError onError)
             {
-                onError.OnError(originalObject, location, exception, handled);
+                onError.OnDeserializeError(originalObject, location, exception, handled);
             }
         };
         settings.Serializing += (_, target) =>
