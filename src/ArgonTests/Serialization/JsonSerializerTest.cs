@@ -6757,7 +6757,7 @@ public class JsonSerializerTest : TestFixtureBase
     public void SerializeDictionaryWithStructKey()
     {
         var json = JsonConvert.SerializeObject(
-            new Dictionary<Size, Size> {{new Size(1, 2), new Size(3, 4)}}
+            new Dictionary<Size, Size> {{new(1, 2), new(3, 4)}}
         );
 
         Assert.Equal("""{"1, 2":"3, 4"}""", json);
