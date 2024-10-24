@@ -3624,14 +3624,14 @@ public class JsonSerializerTest : TestFixtureBase
         var dictionary = new Dictionary<Person, int>
         {
             {
-                new Person
+                new()
                 {
                     Name = "p1"
                 },
                 1
             },
             {
-                new Person
+                new()
                 {
                     Name = "p2"
                 },
@@ -4311,14 +4311,14 @@ public class JsonSerializerTest : TestFixtureBase
         var dictionary = new Dictionary<DictionaryKey, string>
         {
             {
-                new DictionaryKey
+                new()
                 {
                     Value = "First!"
                 },
                 "First"
             },
             {
-                new DictionaryKey
+                new()
                 {
                     Value = "Second!"
                 },
@@ -5948,10 +5948,10 @@ public class JsonSerializerTest : TestFixtureBase
         var dic1 = new Dictionary<DateTimeOffset, int>
         {
             {
-                new DateTimeOffset(2000, 12, 12, 12, 12, 12, TimeSpan.Zero), 1
+                new(2000, 12, 12, 12, 12, 12, TimeSpan.Zero), 1
             },
             {
-                new DateTimeOffset(2013, 12, 12, 12, 12, 12, TimeSpan.Zero), 2
+                new(2013, 12, 12, 12, 12, 12, TimeSpan.Zero), 2
             }
         };
 
@@ -5979,10 +5979,10 @@ public class JsonSerializerTest : TestFixtureBase
         var dic1 = new Dictionary<DateTime, int>
         {
             {
-                new DateTime(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1
+                new(2000, 12, 12, 12, 12, 12, DateTimeKind.Utc), 1
             },
             {
-                new DateTime(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2
+                new(2013, 12, 12, 12, 12, 12, DateTimeKind.Utc), 2
             }
         };
 
@@ -6776,7 +6776,7 @@ public class JsonSerializerTest : TestFixtureBase
             new Dictionary<TypeConverterSize, TypeConverterSize>
             {
                 {
-                    new TypeConverterSize(1, 2), new TypeConverterSize(3, 4)
+                    new(1, 2), new(3, 4)
                 }
             }
         );
