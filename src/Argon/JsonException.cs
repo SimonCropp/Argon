@@ -27,11 +27,4 @@ public class JsonException : Exception
         : base(message, innerException)
     {
     }
-
-    internal static JsonException Create(IJsonLineInfo lineInfo, string path, string message)
-    {
-        message = JsonPosition.FormatMessage(lineInfo, path, message);
-
-        return new(message);
-    }
 }
