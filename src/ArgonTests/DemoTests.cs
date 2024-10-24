@@ -425,9 +425,6 @@ public class DemoTests : TestFixtureBase
         var mike = (Manager) e;
         var susan = (Manager) mike.Reportees[1];
 
-        ReferenceEquals(mike.Reportees[0], susan.Reportees[0]);
-        // true
-
         Assert.True(ReferenceEquals(mike.Reportees[0], susan.Reportees[0]));
     }
 
