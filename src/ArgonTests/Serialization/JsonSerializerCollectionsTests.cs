@@ -1038,7 +1038,7 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         var components = new Dictionary<string, Component>
         {
             {
-                "Key!", new Component()
+                "Key!", new()
             }
         };
         var go = new GameObject

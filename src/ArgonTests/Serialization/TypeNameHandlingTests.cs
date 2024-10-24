@@ -531,7 +531,7 @@ public class TypeNameHandlingTests : TestFixtureBase
             Dictionary = new Dictionary<string, EmployeeReference>
             {
                 {
-                    "First", new EmployeeReference()
+                    "First", new()
                 }
             }
         };
