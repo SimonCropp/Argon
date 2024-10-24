@@ -9,7 +9,8 @@ public class SerializationEventTestObject :
     IJsonOnSerialized,
     IJsonOnDeserializing,
     IJsonOnDeserialized,
-    IJsonOnError
+    IJsonOnDeserializeError,
+    IJsonOnSerializeError
 {
     // This member is serialized and deserialized with no change.
     public int Member1 { get; set; }
@@ -57,7 +58,13 @@ public class SerializationEventTestObject :
     public virtual void OnDeserialized() =>
         Member4 = "This value was set after deserialization.";
 
-    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
+    public void OnSerializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
+    {
+        Member5 = $"Error message for member {location.Member} = {exception.Message}";
+        markAsHandled();
+    }
+
+    public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled)
     {
         Member5 = $"Error message for member {location.Member} = {exception.Message}";
         markAsHandled();

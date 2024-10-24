@@ -8,8 +8,8 @@ namespace TestObjects;
 
 public class DateTimeErrorObjectCollection :
     Collection<DateTime>,
-    IJsonOnError
+    IJsonOnDeserializeError
 {
-    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+    public void OnDeserializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }

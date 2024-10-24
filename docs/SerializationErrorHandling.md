@@ -92,7 +92,7 @@ The `Argon.OnErrorAttribute` works much like the other [NET serialization attrib
 <a id='snippet-SerializationErrorHandlingAttributeObject'></a>
 ```cs
 public class PersonError :
-    IJsonOnError
+    IJsonOnSerializeError
 {
     List<string> roles;
 
@@ -115,7 +115,7 @@ public class PersonError :
 
     public string Title { get; set; }
 
-    public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+    public void OnSerializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
         markAsHandled();
 }
 ```

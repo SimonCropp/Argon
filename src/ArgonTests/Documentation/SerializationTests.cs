@@ -272,7 +272,7 @@ public class SerializationTests :
     #region SerializationErrorHandlingAttributeObject
 
     public class PersonError :
-        IJsonOnError
+        IJsonOnSerializeError
     {
         List<string> roles;
 
@@ -295,7 +295,7 @@ public class SerializationTests :
 
         public string Title { get; set; }
 
-        public void OnError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
+        public void OnSerializeError(object originalObject, ErrorLocation location, Exception exception, Action markAsHandled) =>
             markAsHandled();
     }
 
