@@ -453,10 +453,9 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
         {
             onebasedArray.SetValue(
                 i.ToString(InvariantCulture),
-                new[]
-                {
+                [
                     i
-                });
+                ]);
         }
 
         var output = JsonConvert.SerializeObject(onebasedArray, Formatting.Indented);
@@ -493,11 +492,10 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
             for (var j = onebasedArray.GetLowerBound(1); j <= onebasedArray.GetUpperBound(1); j++)
             {
                 onebasedArray.SetValue(
-                    $"{i}_{j}", new[]
-                    {
+                    $"{i}_{j}", [
                         i,
                         j
-                    });
+                    ]);
             }
         }
 
