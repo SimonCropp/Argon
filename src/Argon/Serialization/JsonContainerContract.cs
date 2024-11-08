@@ -9,28 +9,8 @@ namespace Argon;
 /// </summary>
 public class JsonContainerContract : JsonContract
 {
-    JsonContract? itemContract;
-
     // will be null for containers that don't have an item type (e.g. IList) or for complex objects
-    internal JsonContract? ItemContract
-    {
-        get => itemContract;
-        set
-        {
-            itemContract = value;
-            if (itemContract == null)
-            {
-                FinalItemContract = null;
-            }
-            else
-            {
-                FinalItemContract = itemContract.UnderlyingType.IsSealed ? itemContract : null;
-            }
-        }
-    }
-
-    // the final (i.e. can't be inherited from like a sealed class or valuetype) item contract
-    internal JsonContract? FinalItemContract { get; private set; }
+    internal JsonContract? ItemContract { get; set; }
 
     /// <summary>
     /// Gets or sets the default collection items <see cref="JsonConverter" />.

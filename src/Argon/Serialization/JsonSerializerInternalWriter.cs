@@ -583,16 +583,12 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 return;
             }
 
-            JsonContract? valueContract;
             if (interceptResult.ShouldReplace)
             {
                 value = interceptResult.Replacement;
-                valueContract = GetContractSafe(value);
             }
-            else
-            {
-                valueContract = contract.FinalItemContract ?? GetContractSafe(value);
-            }
+
+            var valueContract = GetContractSafe(value);
 
             if (ShouldWriteReference(value, null, valueContract, contract, member))
             {
@@ -665,7 +661,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
                 try
                 {
-                    var valueContract = contract.FinalItemContract ?? GetContractSafe(value);
+                    var valueContract = GetContractSafe(value);
 
                     if (ShouldWriteReference(value, null, valueContract, contract, member))
                     {
@@ -936,16 +932,12 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         try
         {
-            JsonContract? valueContract;
             if (interceptResult.ShouldReplace)
             {
                 value = interceptResult.Replacement;
-                valueContract = GetContractSafe(value);
             }
-            else
-            {
-                valueContract = contract.FinalItemContract ?? GetContractSafe(value);
-            }
+
+            var valueContract = GetContractSafe(value);
 
             if (ShouldWriteReference(value, null, valueContract, contract, member))
             {
