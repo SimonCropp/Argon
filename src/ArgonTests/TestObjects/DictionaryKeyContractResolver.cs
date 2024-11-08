@@ -6,13 +6,9 @@ namespace TestObjects;
 
 public class DictionaryKeyContractResolver : DefaultContractResolver
 {
-    protected override string ResolveDictionaryKey(string name, object original) =>
+    protected override string ResolveDictionaryKey(JsonWriter writer, string name, object original) =>
         name;
 
     protected override string ResolvePropertyName(string name) =>
-#if NET6_0_OR_GREATER
         name.ToUpperInvariant();
-#else
-        name.ToUpper(InvariantCulture);
-#endif
 }
