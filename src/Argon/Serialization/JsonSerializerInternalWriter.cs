@@ -867,12 +867,12 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
     void SerializeDictionary(JsonWriter writer, IDictionary values, JsonDictionaryContract contract, JsonProperty? member, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
 #pragma warning disable CS8600, CS8602, CS8604
-        var underlyingDictionary = values is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : values;
+        var underlying = values is IWrappedDictionary wrappedDictionary ? wrappedDictionary.UnderlyingDictionary : values;
 
-        OnSerializing(writer, underlyingDictionary);
-        serializeStack.Add(underlyingDictionary);
+        OnSerializing(writer, underlying);
+        serializeStack.Add(underlying);
 
-        WriteObjectStart(writer, underlyingDictionary, contract, member, collectionContract, containerProperty);
+        WriteObjectStart(writer, underlying, contract, member, collectionContract, containerProperty);
 
         contract.ItemContract ??= Serializer.ContractResolver.ResolveContract(contract.DictionaryValueType ?? typeof(object));
 
@@ -892,14 +892,14 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             {
                 foreach (var entry in Items(values).OrderBy(_ => ((string) _.Key, StringComparer.OrdinalIgnoreCase)))
                 {
-                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary);
+                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlying);
                 }
             }
             else
             {
                 foreach (var entry in Items(values).OrderBy(_ => _.Key))
                 {
-                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary);
+                    SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlying);
                 }
             }
         }
@@ -907,7 +907,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         {
             foreach (DictionaryEntry entry in values)
             {
-                SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlyingDictionary);
+                SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlying);
             }
         }
 
@@ -915,7 +915,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         serializeStack.RemoveAt(serializeStack.Count - 1);
 
-        OnSerialized(writer, underlyingDictionary);
+        OnSerialized(writer, underlying);
 #pragma warning restore CS8600, CS8602, CS8604
     }
 
