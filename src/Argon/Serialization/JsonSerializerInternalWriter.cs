@@ -928,7 +928,12 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             return;
         }
 
-        var propertyName = GetDictionaryPropertyName(writer, key, keyContract, contract.DictionaryKeyResolver, out var escape);
+        var propertyName = GetDictionaryPropertyName(key, keyContract, out var escape);
+
+        if (contract.DictionaryKeyResolver != null)
+        {
+            propertyName = contract.DictionaryKeyResolver(writer, propertyName, key);
+        }
 
         try
         {
@@ -967,18 +972,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 throw;
             }
         }
-    }
-
-    static string GetDictionaryPropertyName(JsonWriter writer,object key, JsonContract keyContract, DictionaryKeyResolver? keyResolver, out bool escape)
-    {
-        var propertyName = GetDictionaryPropertyName(key, keyContract, out escape);
-
-        if (keyResolver == null)
-        {
-            return propertyName;
-        }
-
-        return keyResolver(writer, propertyName, key);
     }
 
     static string GetDictionaryPropertyName(object key, JsonContract contract, out bool escape)
