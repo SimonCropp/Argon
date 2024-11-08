@@ -948,18 +948,17 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             {
                 writer.WritePropertyName(propertyName, escape);
                 WriteReference(writer, value);
+                return;
             }
-            else
+
+            if (!CheckForCircularReference(writer, value, null, valueContract, contract, member))
             {
-                if (!CheckForCircularReference(writer, value, null, valueContract, contract, member))
-                {
-                    return;
-                }
-
-                writer.WritePropertyName(propertyName, escape);
-
-                SerializeValue(writer, value, valueContract, null, contract, member);
+                return;
             }
+
+            writer.WritePropertyName(propertyName, escape);
+
+            SerializeValue(writer, value, valueContract, null, contract, member);
         }
         catch (Exception exception)
         {
