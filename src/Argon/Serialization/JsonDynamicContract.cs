@@ -17,7 +17,7 @@ public class JsonDynamicContract : JsonContainerContract
     /// <summary>
     /// Gets or sets the property name resolver.
     /// </summary>
-    public Func<string, string>? PropertyNameResolver { get; set; }
+    public Func<JsonWriter, string, string>? PropertyNameResolver { get; set; }
 
     static ThreadSafeStore<string, CallSite<Func<CallSite, object, object>>> callSiteGetters =
         new(CreateCallSiteGetter);

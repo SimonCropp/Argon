@@ -786,7 +786,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                     {
                         var resolvedPropertyName = contract.PropertyNameResolver == null
                             ? memberName
-                            : contract.PropertyNameResolver(memberName);
+                            : contract.PropertyNameResolver(writer, memberName);
 
                         writer.WritePropertyName(resolvedPropertyName);
                         SerializeValue(writer, memberValue, valueContract, null, contract, member);
@@ -926,13 +926,13 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
     void SerializeDictionaryItem(JsonWriter writer, JsonDictionaryContract contract, JsonProperty? member, object key, object? value, JsonContract keyContract, object underlyingDictionary)
     {
         var initialDepth = writer.Top;
-        var interceptResult = contract.InterceptSerializeItem(key, value);
+        var interceptResult = contract.InterceptSerializeItem(writer, key, value);
         if (interceptResult.ShouldIgnore)
         {
             return;
         }
 
-        var propertyName = GetDictionaryPropertyName(key, keyContract, contract.DictionaryKeyResolver, out var escape);
+        var propertyName = GetDictionaryPropertyName(writer, key, keyContract, contract.DictionaryKeyResolver, out var escape);
 
         try
         {
@@ -977,7 +977,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         }
     }
 
-    static string GetDictionaryPropertyName(object key, JsonContract keyContract, DictionaryKeyResolver? keyResolver, out bool escape)
+    static string GetDictionaryPropertyName(JsonWriter writer,object key, JsonContract keyContract, DictionaryKeyResolver? keyResolver, out bool escape)
     {
         var propertyName = GetDictionaryPropertyName(key, keyContract, out escape);
 
@@ -986,7 +986,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             return propertyName;
         }
 
-        return keyResolver(propertyName, key);
+        return keyResolver(writer, propertyName, key);
     }
 
     static string GetDictionaryPropertyName(object key, JsonContract contract, out bool escape)

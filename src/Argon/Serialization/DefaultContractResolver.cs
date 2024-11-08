@@ -527,7 +527,7 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonDynamicContract(type);
         InitializeContract(contract);
 
-        contract.PropertyNameResolver = name => ResolveDictionaryKey(name, name);
+        contract.PropertyNameResolver = (writer, name) => ResolveDictionaryKey(writer, name, name);
 
         contract.Properties.AddRange(CreateProperties(type, MemberSerialization.OptOut));
 
@@ -869,7 +869,7 @@ public class DefaultContractResolver : IContractResolver
     /// </summary>
     /// <param name="name">Key of the dictionary.</param>
     /// <returns>Resolved key of the dictionary.</returns>
-    protected virtual string ResolveDictionaryKey(string name, object original)
+    protected virtual string ResolveDictionaryKey(JsonWriter writer, string name, object original)
     {
         if (NamingStrategy == null)
         {

@@ -3318,7 +3318,7 @@ public class JsonSerializerTest : TestFixtureBase
         protected override JsonDictionaryContract CreateDictionaryContract(Type type)
         {
             var contract = base.CreateDictionaryContract(type);
-            contract.InterceptSerializeItem = (key, _) =>
+            contract.InterceptSerializeItem = (_, key, _) =>
             {
                 if (key is string itemAsString)
                 {
@@ -3363,14 +3363,11 @@ public class JsonSerializerTest : TestFixtureBase
         protected override JsonDictionaryContract CreateDictionaryContract(Type type)
         {
             var contract = base.CreateDictionaryContract(type);
-            contract.InterceptSerializeItem = (key, _) =>
+            contract.InterceptSerializeItem = (_, key, _) =>
             {
-                if (key is string itemAsString)
+                if (key is "toReplace")
                 {
-                    if (itemAsString == "toReplace")
-                    {
-                        return InterceptResult.Replace(10);
-                    }
+                    return InterceptResult.Replace(10);
                 }
 
                 return InterceptResult.Default;
