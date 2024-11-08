@@ -981,7 +981,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             switch (primitiveContract.TypeCode)
             {
                 case PrimitiveTypeCode.DateTime:
-                case PrimitiveTypeCode.DateTimeNullable:
                 {
                     var dt = (DateTime) key;
 
@@ -991,7 +990,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.DateTimeOffset:
-                case PrimitiveTypeCode.DateTimeOffsetNullable:
                 {
                     escape = false;
                     var stringWriter = new StringWriter(InvariantCulture);
@@ -999,7 +997,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                     return stringWriter.ToString();
                 }
                 case PrimitiveTypeCode.Double:
-                case PrimitiveTypeCode.DoubleNullable:
                 {
                     var d = (double) key;
 
@@ -1007,7 +1004,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                     return d.ToString("R", InvariantCulture);
                 }
                 case PrimitiveTypeCode.Single:
-                case PrimitiveTypeCode.SingleNullable:
                 {
                     var f = (float) key;
 
@@ -1018,7 +1014,8 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                 {
                     escape = true;
 
-                    if (primitiveContract.IsEnum && EnumUtils.TryToString(primitiveContract.NonNullableUnderlyingType, key, null, out var enumName))
+                    if (primitiveContract.IsEnum &&
+                        EnumUtils.TryToString(primitiveContract.NonNullableUnderlyingType, key, null, out var enumName))
                     {
                         return enumName;
                     }
