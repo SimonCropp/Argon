@@ -423,18 +423,18 @@ public class DefaultContractResolver : IContractResolver
 
         contract.DictionaryKeyResolver = ResolveDictionaryKey;
 
-        if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
+        if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var constructor))
         {
-            contract.HasParameterizedCreator = GetHasParameterizedCreator(overrideConstructor, contract);
-            contract.OverrideCreator = DelegateFactory.CreateParameterizedConstructor(overrideConstructor);
+            contract.HasParameterizedCreator = GetHasParameterizedCreator(constructor, contract);
+            contract.OverrideCreator = DelegateFactory.CreateParameterizedConstructor(constructor);
         }
 
         return contract;
     }
 
-    static bool GetHasParameterizedCreator(ConstructorInfo overrideConstructor, JsonDictionaryContract contract)
+    static bool GetHasParameterizedCreator(ConstructorInfo constructor, JsonDictionaryContract contract)
     {
-        var parameters = overrideConstructor.GetParameters();
+        var parameters = constructor.GetParameters();
 
         if (parameters.Length == 0)
         {
@@ -463,18 +463,18 @@ public class DefaultContractResolver : IContractResolver
         var contract = new JsonArrayContract(type);
         InitializeContract(contract);
 
-        if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var overrideConstructor))
+        if (TryGetAttributeConstructor(contract.NonNullableUnderlyingType, out var constructor))
         {
-            contract.HasParameterizedCreator = HasParameterizedCreator(overrideConstructor, contract);
-            contract.OverrideCreator = DelegateFactory.CreateParameterizedConstructor(overrideConstructor);
+            contract.HasParameterizedCreator = HasParameterizedCreator(constructor, contract);
+            contract.OverrideCreator = DelegateFactory.CreateParameterizedConstructor(constructor);
         }
 
         return contract;
     }
 
-    static bool HasParameterizedCreator(ConstructorInfo overrideConstructor, JsonArrayContract contract)
+    static bool HasParameterizedCreator(ConstructorInfo constructor, JsonArrayContract contract)
     {
-        var parameters = overrideConstructor.GetParameters();
+        var parameters = constructor.GetParameters();
 
         if (parameters.Length == 0)
         {
