@@ -3265,7 +3265,7 @@ public class JsonSerializerTest : TestFixtureBase
             ContractResolver = new ReplaceItemContractResolver()
         };
         var json = JsonConvert.SerializeObject(strings, settings);
-        Assert.Equal("""["str_1",10,"str_3"]""", json);
+        Assert.Equal("""["str_1","10","str_3"]""", json);
     }
 
     class ReplaceItemContractResolver : DefaultContractResolver
@@ -3275,16 +3275,14 @@ public class JsonSerializerTest : TestFixtureBase
             var contract = base.CreateArrayContract(type);
             contract.InterceptSerializeItem = item =>
             {
-                if (item is string itemAsString)
+                if (item is "toReplace")
                 {
-                    if (itemAsString == "toReplace")
-                    {
-                        return InterceptResult.Replace(10);
-                    }
+                    return InterceptResult.Replace("10");
                 }
 
                 return InterceptResult.Default;
             };
+
             return contract;
         }
     }
@@ -3355,7 +3353,7 @@ public class JsonSerializerTest : TestFixtureBase
             ContractResolver = new ReplaceDictionaryContractResolver()
         };
         var json = JsonConvert.SerializeObject(strings, settings);
-        Assert.Equal("""{"key1":"value","toReplace":10,"key2":"value"}""", json);
+        Assert.Equal("""{"key1":"value","toReplace":"10","key2":"value"}""", json);
     }
 
     class ReplaceDictionaryContractResolver : DefaultContractResolver
@@ -3367,11 +3365,12 @@ public class JsonSerializerTest : TestFixtureBase
             {
                 if (key is "toReplace")
                 {
-                    return InterceptResult.Replace(10);
+                    return InterceptResult.Replace("10");
                 }
 
                 return InterceptResult.Default;
             };
+
             return contract;
         }
     }

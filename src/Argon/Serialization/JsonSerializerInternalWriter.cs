@@ -586,6 +586,8 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             if (interceptResult.ShouldReplace)
             {
                 value = interceptResult.Replacement;
+                writer.WriteValue(value);
+                return;
             }
 
             var valueContract = GetContractSafe(value);
