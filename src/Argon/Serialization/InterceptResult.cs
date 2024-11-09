@@ -8,17 +8,17 @@ public struct InterceptResult
     public static InterceptResult Ignore =>
         new(true, false, null);
 
-    public static InterceptResult Replace(object? replacement) =>
+    public static InterceptResult Replace(string? replacement) =>
         new(false, true, replacement);
 
-    private InterceptResult(bool ignore, bool replace, object? replacement)
+    private InterceptResult(bool ignore, bool replace, string? replacement)
     {
         ShouldIgnore = ignore;
         ShouldReplace = replace;
         Replacement = replacement;
     }
 
-    public object? Replacement { get; }
+    public string? Replacement { get; }
 
     public bool ShouldReplace { get; }
 
