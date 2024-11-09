@@ -585,8 +585,7 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
             if (interceptResult.ShouldReplace)
             {
-                value = interceptResult.Replacement;
-                writer.WriteValue(value);
+                writer.WriteValue(interceptResult.Replacement);
                 return;
             }
 
@@ -941,7 +940,9 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         {
             if (interceptResult.ShouldReplace)
             {
-                value = interceptResult.Replacement;
+                writer.WritePropertyName(propertyName, escape);
+                writer.WriteValue(interceptResult.Replacement);
+                return;
             }
 
             var valueContract = GetContractSafe(value);
