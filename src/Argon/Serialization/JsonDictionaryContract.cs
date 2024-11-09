@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 
 namespace Argon;
 
-public delegate InterceptResult InterceptSerializeDictionaryItem(JsonWriter writer, object key, object? value);
+public delegate KeyValueInterceptResult InterceptSerializeDictionaryItem(JsonWriter writer, object key, object? value);
 //TODO: should defer execution of name
 public delegate string DictionaryKeyResolver(JsonWriter writer, string name, object original);
 
@@ -21,7 +21,7 @@ public class JsonDictionaryContract : JsonContainerContract
     /// </summary>
     public DictionaryKeyResolver? DictionaryKeyResolver { get; set; }
 
-    public InterceptSerializeDictionaryItem InterceptSerializeItem { get; set; } = (_, _, _) => InterceptResult.Default;
+    public InterceptSerializeDictionaryItem InterceptSerializeItem { get; set; } = (_, _, _) => KeyValueInterceptResult.Default;
 
     /// <summary>
     /// Gets the <see cref="System.Type" /> of the dictionary keys.

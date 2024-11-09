@@ -1,17 +1,17 @@
 namespace Argon;
 
-public struct InterceptResult
+public struct ItemInterceptResult
 {
-    public static InterceptResult Default =>
+    public static ItemInterceptResult Default =>
         new(false, false, null);
 
-    public static InterceptResult Ignore =>
+    public static ItemInterceptResult Ignore =>
         new(true, false, null);
 
-    public static InterceptResult Replace(string? replacement) =>
+    public static ItemInterceptResult Replace(string? replacement) =>
         new(false, true, replacement);
 
-    private InterceptResult(bool ignore, bool replace, string? replacement)
+    private ItemInterceptResult(bool ignore, bool replace, string? replacement)
     {
         ShouldIgnore = ignore;
         ShouldReplace = replace;

@@ -3209,11 +3209,11 @@ public class JsonSerializerTest : TestFixtureBase
                 {
                     if (itemAsString == "ignore")
                     {
-                        return InterceptResult.Ignore;
+                        return ItemInterceptResult.Ignore;
                     }
                 }
 
-                return InterceptResult.Default;
+                return ItemInterceptResult.Default;
             };
             return contract;
         }
@@ -3277,10 +3277,10 @@ public class JsonSerializerTest : TestFixtureBase
             {
                 if (item is "toReplace")
                 {
-                    return InterceptResult.Replace("10");
+                    return ItemInterceptResult.Replace("10");
                 }
 
-                return InterceptResult.Default;
+                return ItemInterceptResult.Default;
             };
 
             return contract;
@@ -3322,11 +3322,11 @@ public class JsonSerializerTest : TestFixtureBase
                 {
                     if (itemAsString == "ignore")
                     {
-                        return InterceptResult.Ignore;
+                        return KeyValueInterceptResult.Ignore;
                     }
                 }
 
-                return InterceptResult.Default;
+                return KeyValueInterceptResult.Default;
             };
             return contract;
         }
@@ -3365,10 +3365,10 @@ public class JsonSerializerTest : TestFixtureBase
             {
                 if (key is "toReplace")
                 {
-                    return InterceptResult.Replace("10");
+                    return KeyValueInterceptResult.ReplaceValue("10");
                 }
 
-                return InterceptResult.Default;
+                return KeyValueInterceptResult.Default;
             };
 
             return contract;

@@ -4,7 +4,7 @@
 
 namespace Argon;
 
-public delegate InterceptResult InterceptSerializeArrayItem(object? value);
+public delegate ItemInterceptResult InterceptSerializeArrayItem(object? value);
 public delegate IEnumerable InterceptSerializeArrayItems(IEnumerable value);
 
 /// <summary>
@@ -75,7 +75,7 @@ public class JsonArrayContract : JsonContainerContract
                                                      parameterizedCreator != null ||
                                                      parameterizedConstructor != null;
 
-    public InterceptSerializeArrayItem InterceptSerializeItem { get; set; } = _ => InterceptResult.Default;
+    public InterceptSerializeArrayItem InterceptSerializeItem { get; set; } = _ => ItemInterceptResult.Default;
     public InterceptSerializeArrayItems InterceptSerializeItems { get; set; } = value => value;
 
     /// <summary>

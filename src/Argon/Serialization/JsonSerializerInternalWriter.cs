@@ -929,21 +929,38 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             return;
         }
 
-        var propertyName = GetDictionaryPropertyName(key, keyContract, out var escape);
-
-        if (contract.DictionaryKeyResolver != null)
+        if (interceptResult.ShouldReplaceAndValue)
         {
-            propertyName = contract.DictionaryKeyResolver(writer, propertyName, key);
+            writer.WritePropertyName(interceptResult.ReplacementKey);
+            writer.WriteValue(interceptResult.ReplacementValue);
+            return;
+        }
+
+        string propertyName;
+        var escape = false;
+        if (interceptResult.ShouldReplaceKey)
+        {
+            propertyName = interceptResult.ReplacementKey;
+        }
+        else
+        {
+            propertyName = GetDictionaryPropertyName(key, keyContract, out escape);
+
+            if (contract.DictionaryKeyResolver != null)
+            {
+                propertyName = contract.DictionaryKeyResolver(writer, propertyName, key);
+            }
+        }
+
+        if (interceptResult.ShouldReplaceValue)
+        {
+            writer.WritePropertyName(propertyName, escape);
+            writer.WriteValue(interceptResult.ReplacementValue);
+            return;
         }
 
         try
         {
-            if (interceptResult.ShouldReplace)
-            {
-                writer.WritePropertyName(propertyName, escape);
-                writer.WriteValue(interceptResult.Replacement);
-                return;
-            }
 
             var valueContract = GetContractSafe(value);
 
