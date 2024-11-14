@@ -35,7 +35,6 @@ public class JsonArrayContract : JsonContainerContract
     readonly ConstructorInfo? parameterizedConstructor;
 
     ObjectConstructor? parameterizedCreator;
-    ObjectConstructor? overrideCreator;
 
     internal ObjectConstructor? ParameterizedCreator
     {
@@ -56,10 +55,10 @@ public class JsonArrayContract : JsonContainerContract
     /// </summary>
     public ObjectConstructor? OverrideCreator
     {
-        get => overrideCreator;
+        get;
         set
         {
-            overrideCreator = value;
+            field = value;
             // hacky
             CanDeserialize = true;
         }

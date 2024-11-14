@@ -196,20 +196,19 @@ public abstract class JsonWriter : IDisposable
     /// </summary>
     public FloatFormatHandling FloatFormatHandling { get; set; }
 
-    byte? floatPrecision;
-
     /// <summary>
     /// Gets or sets how many decimal points to use when serializing floats and doubles.
     /// </summary>
     public byte? FloatPrecision
     {
-        get => floatPrecision;
+        get;
         set
         {
-            floatPrecision = value;
-            if (floatPrecision.HasValue)
+            field = value;
+            if (field.HasValue)
             {
-                FloatFormat = $"0.{new string('#', floatPrecision.Value)}";
+                var fieldValue = field.Value;
+                FloatFormat = $"0.{new string('#', fieldValue)}";
             }
             else
             {
