@@ -94,8 +94,6 @@ The `Argon.OnErrorAttribute` works much like the other [NET serialization attrib
 public class PersonError :
     IJsonOnSerializeError
 {
-    List<string> roles;
-
     public string Name { get; set; }
     public int Age { get; set; }
 
@@ -103,14 +101,14 @@ public class PersonError :
     {
         get
         {
-            if (roles == null)
+            if (field == null)
             {
                 throw new("Roles not loaded!");
             }
 
-            return roles;
+            return field;
         }
-        set => roles = value;
+        set;
     }
 
     public string Title { get; set; }
@@ -119,7 +117,7 @@ public class PersonError :
         markAsHandled();
 }
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L272-L302' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeObject' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L272-L300' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeObject' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 In this example accessing the Roles property will throw an exception when no roles have been set. The HandleError method will set the error when serializing Roles as handled and allow the continued serializing the class.
@@ -149,7 +147,7 @@ Console.WriteLine(json);
 //  "Title": "Mister Manager"
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L307-L331' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeExample' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L305-L329' title='Snippet source file'>snippet source</a> | <a href='#snippet-SerializationErrorHandlingAttributeExample' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

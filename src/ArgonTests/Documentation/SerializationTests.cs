@@ -274,8 +274,6 @@ public class SerializationTests :
     public class PersonError :
         IJsonOnSerializeError
     {
-        List<string> roles;
-
         public string Name { get; set; }
         public int Age { get; set; }
 
@@ -283,14 +281,14 @@ public class SerializationTests :
         {
             get
             {
-                if (roles == null)
+                if (field == null)
                 {
                     throw new("Roles not loaded!");
                 }
 
-                return roles;
+                return field;
             }
-            set => roles = value;
+            set;
         }
 
         public string Title { get; set; }

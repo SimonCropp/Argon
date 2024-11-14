@@ -14,8 +14,6 @@ abstract class JsonSerializerInternalBase(JsonSerializer serializer)
             RuntimeHelpers.GetHashCode(obj);
     }
 
-    BidirectionalDictionary<string, object>? mappings;
-
     internal readonly JsonSerializer Serializer = serializer;
     protected JsonSerializerProxy? InternalSerializer;
 
@@ -29,10 +27,11 @@ abstract class JsonSerializerInternalBase(JsonSerializer serializer)
         return (value & flag) == flag;
     }
 
+    [field: AllowNull, MaybeNull]
     internal BidirectionalDictionary<string, object> DefaultReferenceMappings =>
         // override equality comparer for object key dictionary
         // object will be modified as it deserializes and might have mutable hashcode
-        mappings ??= new(
+        field ??= new(
             EqualityComparer<string>.Default,
             new ReferenceEqualsEqualityComparer(),
             "A different value already has the Id '{0}'.",

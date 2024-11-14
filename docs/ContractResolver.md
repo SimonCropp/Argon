@@ -45,7 +45,7 @@ var json =
 //  ]
 //}
 ```
-<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L462-L490' title='Snippet source file'>snippet source</a> | <a href='#snippet-ContractResolver' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ArgonTests/Documentation/SerializationTests.cs#L460-L488' title='Snippet source file'>snippet source</a> | <a href='#snippet-ContractResolver' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
