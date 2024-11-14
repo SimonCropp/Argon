@@ -15,7 +15,6 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     readonly IDictionary dictionary;
     readonly IDictionary<TKey, TValue> genericDictionary;
     readonly IReadOnlyDictionary<TKey, TValue> readOnlyDictionary;
-    object syncRoot;
 
     // ReSharper disable once UnusedMember.Global
     public DictionaryWrapper(IDictionary dictionary) =>
@@ -538,12 +537,12 @@ class DictionaryWrapper<TKey, TValue> : IDictionary<TKey, TValue>, IWrappedDicti
     {
         get
         {
-            if (syncRoot == null)
+            if (field == null)
             {
-                Interlocked.CompareExchange(ref syncRoot, new(), null);
+                Interlocked.CompareExchange(ref field, new(), null);
             }
 
-            return syncRoot;
+            return field;
         }
     }
 
