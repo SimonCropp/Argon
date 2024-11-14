@@ -166,8 +166,6 @@ public abstract class JsonWriter : IDisposable
         }
     }
 
-    EscapeHandling escapeHandling;
-
     /// <summary>
     /// Gets or sets a value indicating how JSON text output should be formatted.
     /// </summary>
@@ -178,10 +176,10 @@ public abstract class JsonWriter : IDisposable
     /// </summary>
     public EscapeHandling EscapeHandling
     {
-        get => escapeHandling;
+        get;
         set
         {
-            escapeHandling = value;
+            field = value;
             OnEscapeHandlingChanged();
         }
     }
