@@ -2,8 +2,6 @@
 
 public struct KeyValueInterceptResult
 {
-    readonly string? replacementKey;
-
     public static KeyValueInterceptResult Default =>
         new(false, false, null, false, null);
 
@@ -24,17 +22,18 @@ public struct KeyValueInterceptResult
         ShouldIgnore = ignore;
         ShouldReplaceKey = replaceKey;
         ShouldReplaceValue = replaceValue;
-        this.replacementKey = replacementKey;
+        ReplacementKey = replacementKey!;
         ReplacementValue = replacementValue;
     }
 
+    [field: AllowNull, MaybeNull]
     public readonly string ReplacementKey
     {
         get
         {
             if (ShouldReplaceKey)
             {
-                return replacementKey!;
+                return field!;
             }
 
             throw new("ReplacementKey not defined");

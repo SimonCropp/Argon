@@ -2,6 +2,7 @@
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
+// ReSharper disable ReplaceWithFieldKeyword
 public class Issue1552 : TestFixtureBase
 {
     [Fact]
@@ -46,19 +47,19 @@ public class RefAndRefReadonlyTestClass
 
 public class RefAndRefReadonlyIgnoredTestClass
 {
-    int _refField;
-    readonly int _refReadonlyField;
+    int refField;
+    readonly int refReadonlyField;
 
     // ReSharper disable once ConvertToPrimaryConstructor
     public RefAndRefReadonlyIgnoredTestClass(int refReadonlyField) =>
-        _refReadonlyField = refReadonlyField;
+        this.refReadonlyField = refReadonlyField;
 
     [JsonIgnore]
-    public ref int RefField => ref _refField;
+    public ref int RefField => ref refField;
 
     [JsonIgnore]
-    public ref readonly int RefReadonlyField => ref _refReadonlyField;
+    public ref readonly int RefReadonlyField => ref refReadonlyField;
 
     public void SetRefField(int value) =>
-        _refField = value;
+        refField = value;
 }

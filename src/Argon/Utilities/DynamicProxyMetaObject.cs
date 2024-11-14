@@ -7,6 +7,7 @@ sealed class DynamicProxyMetaObject<T> : DynamicMetaObject
     readonly DynamicProxy<T> proxy;
 
     internal DynamicProxyMetaObject(Expression expression, T value, DynamicProxy<T> proxy)
+        // ReSharper disable once RedundantSuppressNullableWarningExpression
         : base(expression, BindingRestrictions.Empty, value!) =>
         this.proxy = proxy;
 

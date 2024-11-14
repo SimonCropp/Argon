@@ -44,15 +44,13 @@ public class DefaultValueHandlingTests : TestFixtureBase
     {
         [JsonIgnore] public MyEnum Status { get; set; }
 
-        string _data;
-
         public string Data
         {
-            get => _data;
+            get;
             set
             {
-                _data = value;
-                if (_data != null && _data.StartsWith("Other"))
+                field = value;
+                if (field != null && field.StartsWith("Other"))
                 {
                     Status = MyEnum.Other;
                 }

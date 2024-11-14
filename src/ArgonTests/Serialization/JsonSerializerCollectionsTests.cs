@@ -2377,14 +2377,12 @@ public class JsonSerializerCollectionsTests : TestFixtureBase
 
     public sealed class AccountInfo(string endpoint, string name)
     {
-        KeyValuePair<string, string>[] metricDimensions;
-
         public string Endpoint { get; } = endpoint;
 
         public string Name { get; } = name;
 
         public KeyValuePair<string, string>[] Dimensions =>
-            metricDimensions ??=
+            field ??=
             [
                 new("Endpoint", Endpoint),
                 new("Name", Name)

@@ -28,7 +28,10 @@ abstract class JsonSerializerInternalBase(JsonSerializer serializer)
     }
 
     [field: AllowNull, MaybeNull]
+    //since compiler thinks the new field keyword is not instance
+#pragma warning disable CA1822
     internal BidirectionalDictionary<string, object> DefaultReferenceMappings =>
+#pragma warning restore CA1822
         // override equality comparer for object key dictionary
         // object will be modified as it deserializes and might have mutable hashcode
         field ??= new(
