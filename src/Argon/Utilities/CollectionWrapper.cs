@@ -8,7 +8,6 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
 {
     readonly IList list;
     readonly ICollection<T> genericCollection;
-    object syncRoot;
 
     public CollectionWrapper(IList list)
     {
@@ -222,12 +221,12 @@ class CollectionWrapper<T> : ICollection<T>, IWrappedCollection
     {
         get
         {
-            if (syncRoot == null)
+            if (field == null)
             {
-                Interlocked.CompareExchange(ref syncRoot, new(), null);
+                Interlocked.CompareExchange(ref field, new(), null);
             }
 
-            return syncRoot;
+            return field;
         }
     }
 
