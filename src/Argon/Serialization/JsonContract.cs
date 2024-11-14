@@ -19,8 +19,6 @@ public abstract class JsonContract
     internal bool IsSealed;
     internal bool IsInstantiable;
 
-    Type createdType;
-
     /// <summary>
     /// Gets the underlying type for the contract.
     /// </summary>
@@ -31,13 +29,13 @@ public abstract class JsonContract
     /// </summary>
     public Type CreatedType
     {
-        get => createdType;
+        get;
         set
         {
-            createdType = value;
+            field = value;
 
-            IsSealed = createdType.IsSealed;
-            IsInstantiable = !(createdType.IsInterface || createdType.IsAbstract);
+            IsSealed = field.IsSealed;
+            IsInstantiable = !(field.IsInterface || field.IsAbstract);
         }
     }
 
@@ -87,7 +85,7 @@ public abstract class JsonContract
             NonNullableUnderlyingType = underlyingType;
         }
 
-        createdType = CreatedType = NonNullableUnderlyingType;
+        CreatedType = CreatedType = NonNullableUnderlyingType;
 
         IsConvertible = NonNullableUnderlyingType.IsConvertible();
         IsEnum = NonNullableUnderlyingType.IsEnum;
