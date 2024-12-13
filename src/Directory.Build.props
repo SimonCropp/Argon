@@ -6,7 +6,7 @@
     <Copyright>Copyright © James Newton-King 2008, Copyright © Simon Cropp 2022</Copyright>
     <PackageTags>Json</PackageTags>
     <Description>Json serialization library. Hard fork of Json.net.</Description>
-    <NoWarn>CS1591;CS1573</NoWarn>
+    <NoWarn>CS1591;CS1573;NU1605</NoWarn>
     <Configurations>Debug;Release;DebugNet9</Configurations>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>

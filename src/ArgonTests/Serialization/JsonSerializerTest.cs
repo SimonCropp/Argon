@@ -3205,12 +3205,9 @@ public class JsonSerializerTest : TestFixtureBase
             var contract = base.CreateArrayContract(type);
             contract.InterceptSerializeItem = item =>
             {
-                if (item is string itemAsString)
+                if (item is "ignore")
                 {
-                    if (itemAsString == "ignore")
-                    {
-                        return ItemInterceptResult.Ignore;
-                    }
+                    return ItemInterceptResult.Ignore;
                 }
 
                 return ItemInterceptResult.Default;
@@ -3318,12 +3315,9 @@ public class JsonSerializerTest : TestFixtureBase
             var contract = base.CreateDictionaryContract(type);
             contract.InterceptSerializeItem = (_, key, _) =>
             {
-                if (key is string itemAsString)
+                if (key is "ignore")
                 {
-                    if (itemAsString == "ignore")
-                    {
-                        return KeyValueInterceptResult.Ignore;
-                    }
+                    return KeyValueInterceptResult.Ignore;
                 }
 
                 return KeyValueInterceptResult.Default;
