@@ -824,10 +824,10 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
     bool ShouldWriteType(TypeNameHandling typeNameHandlingFlag, JsonContract contract, JsonProperty? member, JsonContainerContract? containerContract, JsonProperty? containerProperty)
     {
         var resolvedTypeNameHandling =
-            member?.TypeNameHandling
-            ?? containerProperty?.ItemTypeNameHandling
-            ?? containerContract?.ItemTypeNameHandling
-            ?? Serializer.TypeNameHandling;
+            member?.TypeNameHandling ??
+            containerProperty?.ItemTypeNameHandling ??
+            containerContract?.ItemTypeNameHandling ??
+            Serializer.TypeNameHandling;
 
         if (HasFlag(resolvedTypeNameHandling, typeNameHandlingFlag))
         {
