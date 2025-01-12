@@ -500,25 +500,13 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
         writer.WriteValue(typeName);
     }
 
-    static bool HasFlag(PreserveReferencesHandling? value, PreserveReferencesHandling flag)
-    {
-        if (value == null)
-        {
-            return false;
-        }
+    static bool HasFlag(PreserveReferencesHandling? value, PreserveReferencesHandling flag) =>
+        value != null &&
+        (value & flag) == flag;
 
-        return (value & flag) == flag;
-    }
-
-    static bool HasFlag(TypeNameHandling? value, TypeNameHandling flag)
-    {
-        if (value == null)
-        {
-            return false;
-        }
-
-        return (value & flag) == flag;
-    }
+    static bool HasFlag(TypeNameHandling? value, TypeNameHandling flag) =>
+        value != null &&
+        (value & flag) == flag;
 
     void SerializeConvertible(JsonWriter writer, JsonConverter converter, object value, JsonContract contract, JsonContainerContract? collectionContract, JsonProperty? containerProperty)
     {
