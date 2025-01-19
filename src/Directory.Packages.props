@@ -14,7 +14,7 @@
     <PackageVersion Include="ProjectDefaults" Version="1.0.147" />
     <PackageVersion Include="System.Collections.Immutable" Version="9.0.1" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
-    <PackageVersion Include="Verify.XunitV3" Version="29.0.0" />
+    <PackageVersion Include="Verify.XunitV3" Version="28.9.0" />
     <PackageVersion Include="xunit.v3" Version="1.0.1" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.1" />
   </ItemGroup>
