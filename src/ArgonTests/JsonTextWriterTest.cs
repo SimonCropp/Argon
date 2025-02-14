@@ -1435,7 +1435,9 @@ public class CustomJsonTextWriter(TextWriter textWriter) : JsonTextWriter(textWr
             writer.Write(QuoteChar);
         }
 
-        writer.Write(new string(name.ToCharArray().Reverse().ToArray()));
+        var array = name.ToCharArray();
+        array.Reverse();
+        writer.Write(new string(array));
 
         if (QuoteName)
         {

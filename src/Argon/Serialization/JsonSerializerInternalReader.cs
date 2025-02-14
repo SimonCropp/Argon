@@ -1933,7 +1933,7 @@ class JsonSerializerInternalReader(JsonSerializer serializer) :
                 return CreateObjectUsingCreatorWithParameters(reader, objectContract, containerMember, objectContract.OverrideCreator, id);
             }
 
-            newObject = objectContract.OverrideCreator([]);
+            newObject = objectContract.OverrideCreator();
         }
         else if (objectContract.DefaultCreator != null &&
                  (!objectContract.DefaultCreatorNonPublic ||

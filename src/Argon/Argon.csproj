@@ -9,7 +9,7 @@
     <PackageReference Include="System.ValueTuple" Condition="'$(TargetFramework)' == 'net472'" />
     <PackageReference Include="System.Collections.Immutable" Condition="'$(TargetFramework)' != 'net8.0' AND '$(TargetFramework)' != 'net9.0' " />
   </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework)=='net472'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
     <PackageReference Include="System.Buffers" />
     <PackageReference Include="System.Memory" />
   </ItemGroup>
