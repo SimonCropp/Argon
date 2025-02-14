@@ -886,7 +886,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
             }
             else
             {
-                contract.InterceptSerializeItem(values)
                 foreach (var entry in Items(values).OrderBy(_ => _.Key))
                 {
                     SerializeDictionaryItem(writer, contract, member, entry.Key, entry.Value, keyContract, underlying);
