@@ -10,12 +10,12 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NodaTime" Version="3.2.1" />
-    <PackageVersion Include="Polyfill" Version="7.17.0" />
+    <PackageVersion Include="Polyfill" Version="7.19.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.147" />
     <!-- keep at 8.0.0 for netstandard2.0 -->
     <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
-    <PackageVersion Include="Verify.XunitV3" Version="28.12.1" />
+    <PackageVersion Include="Verify.XunitV3" Version="28.13.0" />
     <PackageVersion Include="xunit.v3" Version="1.1.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
   </ItemGroup>
