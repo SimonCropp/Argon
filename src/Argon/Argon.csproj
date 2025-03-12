@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net472;net48;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net462;net472;net48;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <TargetFrameworks Condition="$(Configuration) == 'DebugNet9'">net9.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="Polyfill" PrivateAssets="all" />
-    <PackageReference Include="System.ValueTuple" Condition="'$(TargetFramework)' == 'net472'" />
+    <PackageReference Include="System.ValueTuple" Condition="'$(TargetFramework)' == 'net462'" />
     <PackageReference Include="System.Collections.Immutable" Condition="'$(TargetFramework)' != 'net8.0' AND '$(TargetFramework)' != 'net9.0' " />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462' OR '$(TargetFramework)' == 'net472'">
     <PackageReference Include="System.Buffers" />
     <PackageReference Include="System.Memory" />
   </ItemGroup>
