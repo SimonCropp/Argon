@@ -10,7 +10,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NodaTime" Version="3.2.1" />
-    <PackageVersion Include="Polyfill" Version="7.21.0" />
+    <PackageVersion Include="Polyfill" Version="7.22.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.149" />
     <!-- keep at 8.0.0 for netstandard2.0 -->
     <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />
