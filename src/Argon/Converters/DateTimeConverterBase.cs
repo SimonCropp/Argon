@@ -16,15 +16,9 @@ public abstract class DateTimeConverterBase :
     /// <returns>
     /// <c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
     /// </returns>
-    public override bool CanConvert(Type type)
-    {
-        if (type == typeof(DateTime) ||
-            type == typeof(DateTime?))
-        {
-            return true;
-        }
-
-        return type == typeof(DateTimeOffset) ||
-               type == typeof(DateTimeOffset?);
-    }
+    public override bool CanConvert(Type type) =>
+        type == typeof(DateTime) ||
+        type == typeof(DateTime?) ||
+        type == typeof(DateTimeOffset) ||
+        type == typeof(DateTimeOffset?);
 }
