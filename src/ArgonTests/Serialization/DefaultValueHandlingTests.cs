@@ -74,6 +74,34 @@ public class DefaultValueHandlingTests : TestFixtureBase
         Assert.Equal(MyEnum.Other, result.Status);
     }
 
+    public class WithEnumDefault
+    {
+        public EnumWithZero WithZero { get; set; }
+        public enum EnumWithZero
+        {
+            Default = 0,
+            Other
+        }
+        public EnumWithNegative WithNegative { get; set; }
+
+        public enum EnumWithNegative
+        {
+            Other = -1,
+            Default
+        }
+    }
+
+    [Fact]
+    public void EnumDefault()
+    {
+        var json = "{\"WithZero\":0,\"WithNegative\":0}";
+
+        var target = new WithEnumDefault();
+        var result = JsonConvert.SerializeObject(target);
+
+        Assert.Equal(json, result);
+    }
+
     [Fact]
     public void Include()
     {
