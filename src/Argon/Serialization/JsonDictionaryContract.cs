@@ -155,11 +155,8 @@ public class JsonDictionaryContract : JsonContainerContract
         if (keyType != null &&
             !IsSortedDictionary(underlyingType))
         {
-            if (keyType == typeof(string))
-            {
-                IsSortable = true;
-            }
-            else if (keyType.IsAssignableTo<IComparable>())
+            if (keyType == typeof(string) ||
+                keyType.IsAssignableTo<IComparable>())
             {
                 IsSortable = true;
             }
