@@ -949,7 +949,6 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
 
         try
         {
-
             var valueContract = GetContractSafe(value);
 
             if (ShouldWriteReference(value, null, valueContract, contract, member))
