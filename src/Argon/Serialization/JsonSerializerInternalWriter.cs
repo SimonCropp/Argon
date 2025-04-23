@@ -993,16 +993,16 @@ class JsonSerializerInternalWriter(JsonSerializer serializer) :
                     var dt = (DateTime) key;
 
                     escape = false;
-                    var stringWriter = new StringWriter(InvariantCulture);
-                    DateTimeUtils.WriteDateTimeString(stringWriter, dt);
-                    return stringWriter.ToString();
+                    var writer = new StringWriter(InvariantCulture);
+                    DateTimeUtils.WriteDateTimeString(writer, dt);
+                    return writer.ToString();
                 }
                 case PrimitiveTypeCode.DateTimeOffset:
                 {
                     escape = false;
-                    var stringWriter = new StringWriter(InvariantCulture);
-                    DateTimeUtils.WriteDateTimeOffsetString(stringWriter, (DateTimeOffset) key);
-                    return stringWriter.ToString();
+                    var writer = new StringWriter(InvariantCulture);
+                    DateTimeUtils.WriteDateTimeOffsetString(writer, (DateTimeOffset) key);
+                    return writer.ToString();
                 }
                 case PrimitiveTypeCode.Double:
                 {
