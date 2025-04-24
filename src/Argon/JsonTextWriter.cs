@@ -58,7 +58,9 @@ public class JsonTextWriter : JsonWriter
 
         UpdateCharEscapeFlags();
 
-        indentChars = (newLine + new string(indentChar, indentCharBufferSize)).ToCharArray();
+        indentChars = new char[newLine.Length + indentCharBufferSize];
+        new Span<char>(indentChars).Fill(indentChar);
+        newLine.CopyTo(0, indentChars, 0, newLine.Length);
     }
 
     /// <summary>
