@@ -1,8 +1,5 @@
 ﻿public class XUnitAssert
 {
-    public static void AreEqual(double expected, double actual, double r) =>
-        Assert.Equal(expected, actual, 5); // hack
-
     public static void AreEqualNormalized(string expected, string actual)
     {
         expected = Normalize(expected);
@@ -20,9 +17,7 @@
     }
 
     public static string Normalize(string s) =>
-        s
-            .Replace("\r\n", "\n")
-            .Replace("\r", "\n");
+        s.ReplaceLineEndings("\n");
 
     public static TException Throws<TException>(Action action, params string[] possibleMessages)
         where TException : Exception
