@@ -4,13 +4,6 @@
 
 public abstract class TestFixtureBase
 {
-    protected TestFixtureBase()
-    {
-#if NET6_0_OR_GREATER
-        // suppress writing to console with dotnet test to keep build log size small
-        Console.SetOut(new StringWriter());
-#endif
-
+    protected TestFixtureBase() =>
         JsonConvert.DefaultSettings = null;
-    }
 }
