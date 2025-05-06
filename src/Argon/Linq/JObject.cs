@@ -14,7 +14,7 @@ public class JObject :
     JContainer,
     IDictionary<string, JToken?>
 {
-    readonly JPropertyKeyedCollection properties = new();
+    readonly JPropertyKeyedCollection properties = [];
 
     /// <summary>
     /// Gets the container's children tokens.
@@ -101,7 +101,7 @@ public class JObject :
             }
         }
 
-        if (properties.TryGetValue(newProperty.Name, out existing))
+        if (properties.Contains(newProperty.Name))
         {
             throw new ArgumentException($"Can not add property {newProperty.Name} to {GetType()}. Property with the same name already exists on object.");
         }
