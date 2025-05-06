@@ -46,7 +46,7 @@ public class CamelCasePropertyNamesContractResolver :
                 Dictionary<Tuple<Type, Type>, JsonContract> updatedCache;
                 if (cache == null)
                 {
-                    updatedCache = new();
+                    updatedCache = [];
                 }
                 else
                 {
