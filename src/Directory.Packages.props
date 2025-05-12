@@ -10,7 +10,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageVersion Include="NodaTime" Version="3.2.2" />
-    <PackageVersion Include="Polyfill" Version="7.30.0" />
+    <PackageVersion Include="Polyfill" Version="7.31.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.152" />
     <PackageVersion Include="System.ValueTuple" Version="4.5.0" />
     <PackageVersion Include="Verify.XunitV3" Version="30.0.0" />
