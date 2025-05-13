@@ -775,6 +775,31 @@ public class JsonTextWriterTest : TestFixtureBase
     }
 
     [Fact]
+    public void WriteRawStringBuilderInObject()
+    {
+        var stringWriter = new StringWriter();
+
+        using (var jsonWriter = new JsonTextWriter(stringWriter)
+               {
+                   Formatting = Formatting.Indented
+               })
+        {
+            jsonWriter.WriteStartObject();
+            jsonWriter.WriteRaw(
+                new StringBuilder(
+                    """
+                    "PropertyName":[1,2,3,4,5]
+                    """));
+            jsonWriter.WriteEnd();
+        }
+
+        var expected = """{"PropertyName":[1,2,3,4,5]}""";
+        var result = stringWriter.ToString();
+
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
     public void WriteToken()
     {
         var reader = new JsonTextReader(new StringReader("[1,2,3,4,5]"));
@@ -1500,6 +1525,9 @@ public class UnmanagedResourceFakingJsonWriter : JsonWriter
         throw new NotImplementedException();
 
     public override void WriteRaw(string json) =>
+        throw new NotImplementedException();
+
+    public override void WriteRaw(StringBuilder json) =>
         throw new NotImplementedException();
 
     public override void WriteRaw(CharSpan json) =>

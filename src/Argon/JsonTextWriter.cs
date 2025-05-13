@@ -271,6 +271,26 @@ public class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
+    public override void WriteRaw(StringBuilder? json)
+    {
+        if (json == null)
+        {
+            return;
+        }
+
+#if NETCOREAPP3_0_OR_GREATER
+        foreach (var chunk in json.GetChunks())
+        {
+            writer.Write(chunk.Span);
+        }
+#else
+        writer.Write(json.ToString());
+#endif
+    }
+
+    /// <summary>
+    /// Writes raw JSON.
+    /// </summary>
     public override void WriteRaw(CharSpan json) =>
         writer.Write(json);
 

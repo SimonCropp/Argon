@@ -202,8 +202,14 @@ public class JTokenWriter :
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
+    public override void WriteRaw(StringBuilder? json) =>
+        WriteRaw(json?.ToString());
+
+    /// <summary>
+    /// Writes raw JSON.
+    /// </summary>
     public override void WriteRaw(CharSpan json) =>
-        AddJValue(new JRaw(json.ToString()));
+        WriteRaw(json.ToString());
 
     /// <summary>
     /// Writes a comment <c>/*...*/</c> containing the specified text.
