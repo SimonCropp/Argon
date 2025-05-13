@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2007 James Newton-King. All rights reserved.
+// Copyright (c) 2007 James Newton-King. All rights reserved.
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
@@ -196,16 +196,10 @@ public abstract class JContainer :
         item.Parent = this;
 
         item.Previous = previous;
-        if (previous != null)
-        {
-            previous.Next = item;
-        }
+        previous?.Next = item;
 
         item.Next = next;
-        if (next != null)
-        {
-            next.Previous = item;
-        }
+        next?.Previous = item;
 
         children.Insert(index, item);
 
@@ -230,15 +224,9 @@ public abstract class JContainer :
         var previous = index == 0 ? null : children[index - 1];
         var next = index == children.Count - 1 ? null : children[index + 1];
 
-        if (previous != null)
-        {
-            previous.Next = next;
-        }
+        previous?.Next = next;
 
-        if (next != null)
-        {
-            next.Previous = previous;
-        }
+        next?.Previous = previous;
 
         item.Parent = null;
         item.Previous = null;
@@ -296,16 +284,10 @@ public abstract class JContainer :
         item.Parent = this;
 
         item.Previous = previous;
-        if (previous != null)
-        {
-            previous.Next = item;
-        }
+        previous?.Next = item;
 
         item.Next = next;
-        if (next != null)
-        {
-            next.Previous = item;
-        }
+        next?.Previous = item;
 
         children[index] = item;
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2007 James Newton-King. All rights reserved.
+// Copyright (c) 2007 James Newton-King. All rights reserved.
 // Use of this source code is governed by The MIT License,
 // as found in the license.md file.
 
@@ -71,10 +71,7 @@ class JPropertyKeyedCollection() :
 
         if (comparer.Equals(keyAtIndex, keyForItem))
         {
-            if (dictionary != null)
-            {
-                dictionary[keyForItem] = item;
-            }
+            dictionary?[keyForItem] = item;
         }
         else
         {
