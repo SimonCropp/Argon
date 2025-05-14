@@ -731,6 +731,11 @@ public abstract class JsonWriter : IDisposable
     public abstract void WriteRaw(CharSpan json);
 
     /// <summary>
+    /// Writes raw JSON without changing the writer's state.
+    /// </summary>
+    public abstract void WriteRaw(char? json);
+
+    /// <summary>
     /// Writes raw JSON where a value is expected and updates the writer's state.
     /// </summary>
     public virtual void WriteRawValue(StringBuilder json)
@@ -756,6 +761,17 @@ public abstract class JsonWriter : IDisposable
     /// Writes raw JSON where a value is expected and updates the writer's state.
     /// </summary>
     public virtual void WriteRawValue(string? json)
+    {
+        // hack. want writer to change state as if a value had been written
+        UpdateScopeWithFinishedValue();
+        AutoComplete(Undefined);
+        WriteRaw(json);
+    }
+
+    /// <summary>
+    /// Writes raw JSON where a value is expected and updates the writer's state.
+    /// </summary>
+    public virtual void WriteRawValue(char? json)
     {
         // hack. want writer to change state as if a value had been written
         UpdateScopeWithFinishedValue();

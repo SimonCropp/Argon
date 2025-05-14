@@ -265,6 +265,19 @@ public class JsonTextWriter : JsonWriter
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
+    public override void WriteRaw(char? json)
+    {
+        if (json == null)
+        {
+            return;
+        }
+
+        writer.Write(json.Value);
+    }
+
+    /// <summary>
+    /// Writes raw JSON.
+    /// </summary>
     public override void WriteRaw(string? json) =>
         writer.Write(json);
 

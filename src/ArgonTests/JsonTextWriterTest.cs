@@ -1524,6 +1524,9 @@ public class UnmanagedResourceFakingJsonWriter : JsonWriter
     public override void Flush() =>
         throw new NotImplementedException();
 
+    public override void WriteRaw(char? json) =>
+        throw new NotImplementedException();
+
     public override void WriteRaw(string json) =>
         throw new NotImplementedException();
 

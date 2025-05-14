@@ -196,6 +196,12 @@ public class JTokenWriter :
     /// <summary>
     /// Writes raw JSON.
     /// </summary>
+    public override void WriteRaw(char? json) =>
+        AddJValue(new JRaw(json));
+
+    /// <summary>
+    /// Writes raw JSON.
+    /// </summary>
     public override void WriteRaw(string? json) =>
         AddJValue(new JRaw(json));
 

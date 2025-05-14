@@ -42,6 +42,9 @@ public class XmlJsonWriter(XmlWriter writer) :
     public override void WriteRaw(string json) =>
         throw new NotImplementedException();
 
+    public override void WriteRaw(char? json) =>
+        throw new NotImplementedException();
+
     public override void WriteRaw(StringBuilder json) =>
         throw new NotImplementedException();
 
