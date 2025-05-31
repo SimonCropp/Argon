@@ -20,6 +20,6 @@
     <PackageVersion Include="System.Buffers" Version="4.6.1" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
     <!-- keep at 8.0.0 for netstandard2.0 -->
-    <PackageVersion Include="System.Collections.Immutable" Version="9.0.5" />
+    <PackageVersion Include="System.Collections.Immutable" Version="8.0.0" />
   </ItemGroup>
 </Project>
