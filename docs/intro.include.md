@@ -1,0 +1,1 @@
+Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).

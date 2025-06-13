@@ -8,14 +8,18 @@
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.FSharp.svg?label=Argon.FSharp)](https://www.nuget.org/packages/Argon.FSharp/)
 [![NuGet Status](https://img.shields.io/nuget/v/Argon.InterfaceCallbacks.svg?label=Argon.InterfaceCallbacks)](https://www.nuget.org/packages/Argon.InterfaceCallbacks/)
 
-Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).
+Argon is a JSON framework for .NET. It is a hard fork of [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json).<!-- singleLineInclude: intro. path: /docs/intro.include.md -->
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
 
 
 ## Sponsors
 
-include: zzz
+### Entity Framework Extensions<!-- include: zzz. path: /docs/zzz.include.md -->
+
+[Entity Framework Extensions](https://entityframework-extensions.net/?utm_source=simoncropp&utm_medium=Argon) is a major sponsor and is proud to contribute to the development this project.
+
+[![Entity Framework Extensions](https://raw.githubusercontent.com/VerifyTests/Argon/refs/heads/main/docs/zzz.png)](https://entityframework-extensions.net/?utm_source=simoncropp&utm_medium=Argon)<!-- endInclude -->
 
 
 ### JetBrains
