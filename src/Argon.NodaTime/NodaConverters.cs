@@ -16,6 +16,12 @@ public static class NodaConverters
     /// </summary>
     public static JsonConverter InstantConverter { get; }
         = new NodaPatternConverter<Instant>(InstantPattern.ExtendedIso);
+    /// <summary>
+    /// Converter for instants, using the ISO-8601 date/time pattern, extended as required to accommodate nanoseconds, and
+    /// specifying 'Z' at the end to show it's effectively in UTC.
+    /// </summary>
+    public static JsonConverter YearMonthConverter { get; }
+        = new NodaYearMonthConverter();
 
     /// <summary>
     /// Converter for local dates, using the ISO-8601 date pattern.

@@ -4,6 +4,7 @@
 
 using Argon.NodaTime;
 using NodaTime;
+using NodaTime.Calendars;
 using static TestHelper;
 
 public class NodaIntervalConverterTest
@@ -27,6 +28,14 @@ public class NodaIntervalConverterTest
         var endInstant = Instant.FromUtc(2013, 6, 7, 8, 9, 10) + Duration.FromNanoseconds(123456789);
         var interval = new Interval(startInstant, endInstant);
         AssertConversions(interval, "{\"Start\":\"2012-01-02T03:04:05.67Z\",\"End\":\"2013-06-07T08:09:10.123456789Z\"}", settings);
+    }
+
+    [Fact]
+    public void RoundTrip_YearMonth()
+    {
+        AssertConversions(new YearMonth(10, 1), "{\"Start\":\"2012-01-02T03:04:05.67Z\",\"End\":\"2013-06-07T08:09:10.123456789Z\"}", settings);
+        AssertConversions(new YearMonth(10, 1, CalendarSystem.Badi), "{\"Start\":\"2012-01-02T03:04:05.67Z\",\"End\":\"2013-06-07T08:09:10.123456789Z\"}", settings);
+        AssertConversions(new YearMonth(Era.AnnoHegirae, 10, 1, CalendarSystem.Badi), "{\"Start\":\"2012-01-02T03:04:05.67Z\",\"End\":\"2013-06-07T08:09:10.123456789Z\"}", settings);
     }
 
     [Fact]
