@@ -43,7 +43,7 @@ public abstract class JsonWriter : IDisposable
         var errorStates = allStates[0];
         var valueStates = allStates[6];
 
-        foreach (var token in EnumPolyfill.GetValues<JsonToken>())
+        foreach (var token in Enum.GetValues<JsonToken>())
         {
             if (allStates.Count <= (int) token)
             {
